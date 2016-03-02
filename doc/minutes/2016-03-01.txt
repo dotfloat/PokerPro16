@@ -1,15 +1,16 @@
-Group members:
+Group members, past experience:
 -Åsmund
 -Petter
--Zohar. C++, Ruby, gfx
+-Zohar. C++ Ruby gfx
 -Mikal, c#
--Cem, C#, ActionScript, Python
+-Cem, C# ActionScript Python
 -Andreas
 -Svein
 -Daniel
 -Runar, swing gui
--Håkon, node.js, spring
+-Håkon K, node.js spring
 -Kjetil, sql etc.
+-Håkon T
 
 IDE:
 Because of the use of ANT we won't decide on an IDE.
@@ -25,3 +26,13 @@ We will use draw.io for creating diagrams. Draw.io saves as .html and makes it e
 
 GUI:
 Swing. Simple java based GUIs.
+
+Assigned tasks until next meeting:
+- SSD: Zohar
+- Use case text: Åsmund
+- Dictionary: Daniel
+- Domain Model: Svein
+- Use Case Diagram: Runar
+- User requirements: Petter
+
+At the next meeting we will discuss the diagrams.
