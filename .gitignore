@@ -7,3 +7,10 @@
 /*.iml
 /*.ipr
 /*.iws
+
+# Eclipse
+/bin/
+/obj/
+/.classpath
+/.project
+/.settings/
