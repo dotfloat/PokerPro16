@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply from: file('gradle/javafx-plugin.gradle')
 
 project.sourceCompatibility = 1.8
-project.mainClassName = 'org.uib112g2.MainClass'
+project.mainClassName = 'org.gruppe2.Main'
 
 run {
     main = mainClassName
