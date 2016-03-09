@@ -6,12 +6,15 @@ import java.util.Random;
 
 public class TestSimulator {
 	
+	GUI gui;
 	Random random = new Random();
 	ArrayList<Card> listOfCards= new ArrayList<Card>();
 	ArrayList<Player> listOfPlayers = new ArrayList<Player>();
+	int smallBlind;
+	int bigBlind;
 
-	public TestSimulator() {
-		
+	public TestSimulator(GUI gui) {
+		this.gui = gui;
 
 	}
 
@@ -47,6 +50,7 @@ public class TestSimulator {
 
 	public void restart(int xMax, int yMax, int xMin, int yMin) {
 		
+		
 	}
 
 	
@@ -57,8 +61,8 @@ public class TestSimulator {
 	}
 	
 	private void testStart() {
-		
-		
+		InitializeGame.setStartValues(this);
+		InitializeGame.setPlayersToTable(this, gui);
 	}
 
 	public void startOfflineGame() {

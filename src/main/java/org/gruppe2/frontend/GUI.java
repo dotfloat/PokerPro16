@@ -52,7 +52,7 @@ public class GUI extends Application {
 
 		setWindowSize(800, 600);
 		
-		simulator = new TestSimulator();
+		simulator = new TestSimulator(this);
 		setStep(0);
 	}
 	/**
@@ -68,7 +68,7 @@ public class GUI extends Application {
 		// Canvas creation
 		Canvas canvas = new Canvas(x_max, y_max);
 		
-		GraphicsContext gc = canvas.getGraphicsContext2D();
+		GraphicsContext gc = canvas.getGraphicsContext2D();	
 
 		// Create nodes
 		setMainFrame(new Painter(simulator, this));
