@@ -11,14 +11,22 @@ public class Player implements PlayerAction{
     private boolean fold = false;
     private boolean isSmallBlind;
     private boolean isBigBlind;
+    private PokerTable table;
 
-    public Player(String name, int startChips) {
+    /**
+     *
+     * @param name Player name
+     * @param startChips How many starting chips the player starts with
+     * @param table What table the player play on
+     */
+    public Player(String name, int startChips, PokerTable table) {
         this.name = name;
         this.chips = startChips;
+        this.table = table;
     }
 
     /**
-     * Creates a player with no name and 0 chips
+     * Creates a player with no name, 0 chips and no table
      */
     public Player() {
         chips = 0;
@@ -28,6 +36,8 @@ public class Player implements PlayerAction{
      * Sets the player to be small blind
      */
     public void setSmallBlind() {
+        if (isBigBlind)
+            isBigBlind = false;
         isSmallBlind = true;
     }
 
@@ -35,6 +45,8 @@ public class Player implements PlayerAction{
      * Sets the player to be big blind
      */
     public void setBigBlind() {
+        if (isSmallBlind)
+            isSmallBlind = false;
         isBigBlind = true;
     }
 
