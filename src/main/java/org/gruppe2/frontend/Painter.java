@@ -3,7 +3,7 @@ package org.gruppe2.frontend;
 import java.util.ArrayList;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -47,6 +47,20 @@ public class Painter extends Pane {
 
 	public Image getBackGround() {
 		return backGround;
+	}
+	
+	public void showCardsOnHand(ArrayList<Player> listOfPlayers){
+		for(Player player : listOfPlayers){
+			Label card1 = new Label(player.card1.toString());
+			Label card2 = new Label(player.card2.toString());
+			
+			card1.setLayoutX(150);
+			card1.setLayoutY(360);
+			card2.setLayoutX(150);
+			card2.setLayoutY(330);
+			
+			this.getChildren().addAll(card1,card2);
+		}
 	}
 
 	/**

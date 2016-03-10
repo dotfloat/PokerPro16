@@ -31,12 +31,11 @@ public class InitializeGame {
 		// Show the dialog and wait until the user closes it
 		dialogStage.showAndWait();
 		System.out.println("hei");
-		
-		
 
 	}
 
-	private static void createGrid(GridPane grid, Group root, Stage dialogStage, TestSimulator simulator) {
+	private static void createGrid(GridPane grid, Group root,
+			Stage dialogStage, TestSimulator simulator) {
 
 		Label nameLabel = new Label("Name:");
 		TextField nameField = new TextField();
@@ -74,25 +73,29 @@ public class InitializeGame {
 
 	private static void setButtonAction(Button ok, Button cancel,
 			TextField nameField, TextField smallBlindField,
-			TextField bigBlindField, TextField startMoneyField, TestSimulator simulator, Stage dialogStage) {
-		
+			TextField bigBlindField, TextField startMoneyField,
+			TestSimulator simulator, Stage dialogStage) {
+
 		ok.setOnAction(e -> {
-			if(!nameField.getText().equals(null)){
-				if(!startMoneyField.getText().equals(null)){
+			if (!nameField.getText().equals(null)) {
+				if (moneyFieldsAreValid(startMoneyField, bigBlindField,
+						smallBlindField)) {
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
-					
+
 					simulator.listOfPlayers.add(new Player(name, startValue));
-					
+
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
-					
+
 					simulator.smallBlind = smallBlind;
 					simulator.bigBlind = bigBlind;
-					
+
 					dialogStage.close();
 				}
 			}
+			else
+				System.out.println("No name");
 		});
 		cancel.setOnAction(e -> {
 			dialogStage.close();
@@ -102,9 +105,10 @@ public class InitializeGame {
 
 	public static void setPlayersToTable(TestSimulator simulator, GUI gui) {
 		int playerNumber = 0;
-		for(Player player : simulator.listOfPlayers){
-			Label playerPosition = new Label(player.name+" "+player.currentChips);
-			if(playerNumber == 0){
+		for (Player player : simulator.listOfPlayers) {
+			Label playerPosition = new Label(player.name + " "
+					+ player.currentChips);
+			if (playerNumber == 0) {
 				playerPosition.setLayoutX(15);
 				playerPosition.setLayoutY(300);
 			}
@@ -113,7 +117,23 @@ public class InitializeGame {
 			gui.getMainFrame().getChildren().add(playerPosition);
 			playerNumber++;
 		}
+
+	}
+
+	private static boolean moneyFieldsAreValid(TextField startMoneyField,
+			TextField bigBlindField, TextField smallBlindField) {
 		
+		boolean nonIsNull = !startMoneyField.getText().equals(null)
+				&& !smallBlindField.getText().equals(null)
+				&& !bigBlindField.getText().equals(null);
+		
+		if(nonIsNull){
+			boolean allAreInt =  startMoneyField.getText().matches("\\d+") && smallBlindField.getText().matches("\\d+") && bigBlindField.getText().matches("\\d+");
+			
+			return allAreInt;
+		}
+
+		return false;
 	}
 
 }
