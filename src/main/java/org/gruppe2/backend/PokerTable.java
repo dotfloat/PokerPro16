@@ -10,11 +10,13 @@ public class PokerTable {
     Deck deck;
     public ArrayList<Player> players = new ArrayList<>();
     public ArrayList<Card> communityCards = new ArrayList<>(5);
+    public int pot;
 
 
-    public PokerTable(Deck deck, ArrayList<Player> players) {
+    public PokerTable(Deck deck, ArrayList<Player> players, int pot) {
         this.deck = deck;
         this.players = players;
+        this.pot = pot;
     }
 
     public void drawCommunityCards() {
@@ -27,6 +29,14 @@ public class PokerTable {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public void addToPot(int p) {
+        pot = pot + p;
+    }
+
+    public int returnPot() {
+        return pot;
     }
 
 }
