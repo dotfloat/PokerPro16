@@ -17,9 +17,16 @@ public class PokerTable {
         this.players = players;
     }
 
-    public ArrayList<Card> getCardOnTable() {
+    public void drawCommunityCards() {
         communityCards = deck.drawCards(5);
+    }
+
+    public ArrayList<Card> getCardOnTable() {
         return communityCards;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
 }
