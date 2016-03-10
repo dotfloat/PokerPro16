@@ -26,17 +26,18 @@ public class TestSimulator {
 	 */
 	public void playRound() {
 		
-		while(isRoundNotFinished()){
+		if(isRoundNotFinished()){
 			for(Player player : listOfPlayers){
-				if(player.isNotFolded)
+				if(!player.hasFolded())
 					playerRound(player);
+				
 			}
 		}
 	}
 	
 	private boolean isRoundNotFinished() {
 		for(Player player : listOfPlayers){
-			if(player.isNotFolded){
+			if(!player.hasFolded()){
 				return true;
 			}
 		}
@@ -52,20 +53,20 @@ public class TestSimulator {
 	
 	
 	private void endOfRound(Player player) {
-		System.out.println("finished");
+//		System.out.println("finished");
 		
 	}
 
 	private void round(Player player) {
-		System.out.println("middle");
+//		System.out.println("middle");
 		
 	}
 
 	private void startOfRound(Player player) {
-		if(player.isSmallBlind){
+		if(player.isSmallBlind()){
 			
 		}
-		else if(player.isBigBlind){
+		else if(player.isBigBlind()){
 			
 		}
 		
@@ -79,19 +80,25 @@ public class TestSimulator {
 	
 
 	public ArrayList<Card> getList() {
-		// TODO Auto-generated method stub
 		return listOfCards;
 	}
 	
 	private void testStart() {
+		//Pre definition stage
 		InitializeGame.setStartValues(this);
+		
+		//Set rest of players
+		createBots(5);
 		InitializeGame.setPlayersToTable(this, gui);
+		//Initialize cards
 		giveCardsToPlayers();
 		gui.getMainFrame().showCardsOnHand(listOfPlayers);
 		
 	}
 
 	
+	
+
 	public void startOfflineGame() {
 		testStart();
 	}
@@ -105,9 +112,16 @@ public class TestSimulator {
 	
 	private void giveCardsToPlayers() {
 		for(Player player : listOfPlayers){
-			player.card1 = deck.drawCard();
-			player.card2 = deck.drawCard();
+			player.giveCards(deck.drawCard(), deck.drawCard());
 		}
+		
+	}
+	private void createBots(int i) {
+		listOfPlayers.add(new Player("Dåsa",listOfPlayers.get(0).getChips(),true));
+		listOfPlayers.add(new Player("Kåre",listOfPlayers.get(0).getChips(),true));
+		listOfPlayers.add(new Player("Dangle",listOfPlayers.get(0).getChips(),true));
+		listOfPlayers.add(new Player("MaqGruber",listOfPlayers.get(0).getChips(),true));
+		listOfPlayers.add(new Player("SheMaleLion",listOfPlayers.get(0).getChips(),true));
 		
 	}
 }

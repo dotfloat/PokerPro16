@@ -102,15 +102,36 @@ public class InitializeGame {
 		});
 
 	}
-
+	
 	public static void setPlayersToTable(TestSimulator simulator, GUI gui) {
 		int playerNumber = 0;
 		for (Player player : simulator.listOfPlayers) {
-			Label playerPosition = new Label(player.name + " "
-					+ player.currentChips);
+			Label playerPosition = new Label(player.getName()+ " "
+					+ player.getChips());
 			if (playerNumber == 0) {
 				playerPosition.setLayoutX(15);
 				playerPosition.setLayoutY(300);
+				
+			}
+			if (playerNumber == 1) {
+				playerPosition.setLayoutX(250);
+				playerPosition.setLayoutY(40);
+			}
+			if (playerNumber == 2) {
+				playerPosition.setLayoutX(430);
+				playerPosition.setLayoutY(40);
+			}
+			if (playerNumber == 3) {
+				playerPosition.setLayoutX(700);
+				playerPosition.setLayoutY(300);
+			}
+			if (playerNumber == 4) {
+				playerPosition.setLayoutX(430);
+				playerPosition.setLayoutY(500);
+			}
+			if (playerNumber == 5) {
+				playerPosition.setLayoutX(250);
+				playerPosition.setLayoutY(500);
 			}
 			playerPosition.setTextFill(Color.HOTPINK);
 			playerPosition.setFont(new Font(15));
@@ -129,7 +150,6 @@ public class InitializeGame {
 		
 		if(nonIsNull){
 			boolean allAreInt =  startMoneyField.getText().matches("\\d+") && smallBlindField.getText().matches("\\d+") && bigBlindField.getText().matches("\\d+");
-			
 			return allAreInt;
 		}
 

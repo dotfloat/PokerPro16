@@ -50,16 +50,49 @@ public class Painter extends Pane {
 	}
 	
 	public void showCardsOnHand(ArrayList<Player> listOfPlayers){
+		int playerNumber = 0;
 		for(Player player : listOfPlayers){
-			Label card1 = new Label(player.card1.toString());
-			Label card2 = new Label(player.card2.toString());
+			Label card1 = new Label(player.getCard1().toString());
+			Label card2 = new Label(player.getCard2().toString());
 			
-			card1.setLayoutX(150);
-			card1.setLayoutY(360);
-			card2.setLayoutX(150);
-			card2.setLayoutY(330);
-			
+			if(playerNumber == 0){
+				card1.setLayoutX(150);
+				card1.setLayoutY(290);
+				card2.setLayoutX(150);
+				card2.setLayoutY(320);
+			}
+			else if(playerNumber == 1){
+				card1.setLayoutX(250);
+				card1.setLayoutY(130);
+				card2.setLayoutX(250);
+				card2.setLayoutY(160);
+			}
+			else if(playerNumber == 2){
+				card1.setLayoutX(430);
+				card1.setLayoutY(130);
+				card2.setLayoutX(430);
+				card2.setLayoutY(160);	
+			}
+			else if(playerNumber == 3){
+				card1.setLayoutX(560);
+				card1.setLayoutY(290);
+				card2.setLayoutX(560);
+				card2.setLayoutY(320);
+			}
+			else if(playerNumber == 4){
+				card1.setLayoutX(430);
+				card1.setLayoutY(380);
+				card2.setLayoutX(430);
+				card2.setLayoutY(410);
+			}
+			else if(playerNumber == 5){
+				card1.setLayoutX(250);
+				card1.setLayoutY(380);
+				card2.setLayoutX(250);
+				card2.setLayoutY(410);
+			}
 			this.getChildren().addAll(card1,card2);
+			playerNumber++;
 		}
 	}
 

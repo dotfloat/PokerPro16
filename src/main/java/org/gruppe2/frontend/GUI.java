@@ -96,6 +96,7 @@ public class GUI extends Application {
 			@Override
 			public void handle(long arg0) {
 				
+				
 				simulator.playRound();
 				
 				getMainFrame().paint();
