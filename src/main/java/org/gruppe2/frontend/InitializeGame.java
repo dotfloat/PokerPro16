@@ -11,6 +11,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * All GUI related methods for initializing the chosen game
+ * @author htj063
+ *
+ */
 public class InitializeGame {
 
 	public static void setStartValues(TestSimulator simulator) {

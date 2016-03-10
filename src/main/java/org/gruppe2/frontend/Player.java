@@ -151,4 +151,8 @@ public class Player{
     public void doAction() {
 
     }
+	public void pay(int amount) {
+		chips = chips - amount;
+		
+	}
 }

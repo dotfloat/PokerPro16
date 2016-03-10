@@ -199,6 +199,4 @@ public class GUI extends Application {
 	public static void setScale(int scale) {
 		GUI.scale = scale;
 	}
-	
-
 }

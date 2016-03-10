@@ -64,9 +64,12 @@ public class TestSimulator {
 
 	private void startOfRound(Player player) {
 		if(player.isSmallBlind()){
-			
+			player.pay(smallBlind);
 		}
 		else if(player.isBigBlind()){
+			player.pay(bigBlind);
+		}
+		else{
 			
 		}
 		
