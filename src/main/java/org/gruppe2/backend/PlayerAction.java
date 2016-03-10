@@ -8,5 +8,5 @@ public interface PlayerAction {
     /**
      * Asks for an action from AI or the user (GUI)
      */
-    public void doAction();
+    void doAction();
 }
