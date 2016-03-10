@@ -11,39 +11,40 @@ public class Player{
     private boolean fold = false;
     private boolean isSmallBlind;
     private boolean isBigBlind;
+    private PokerTable table;
     private boolean isBot;
-//    private PokerTable table;
+    private Action choice;
 
     /**
-     *
+     * Makes a player which is a user player
      * @param name Player name
      * @param startChips How many starting chips the player starts with
-     * @param table What table the player play on
+     * @param table The table the player plays on
      */
-    public Player(String name, int startChips) {
+    public Player(String name, int startChips, PokerTable table) {
         this.name = name;
         this.chips = startChips;
-//        this.table = table;
-        isBot = false;
+        this.table = table;
+        this.isBot = false;
     }
-    /**
-    *
-    * @param name Player name
-    * @param startChips How many starting chips the player starts with
-    * @param table What table the player play on
-    */
-   public Player(String name, int startChips, boolean isBot) {
-       this.name = name;
-       this.chips = startChips;
-//       this.table = table;
-       isBot = true;
-   }
 
     /**
-     * Creates a player with no name, 0 chips and no table
+     * Makes a player controlled by a AI
+     * @param startChips How many chips a player starts with
+     * @param table The table the AI plays on
      */
-    public Player() {
-        chips = 0;
+    public Player(String name, int startChips, PokerTable table,boolean isbot) {
+    	this.name = name;
+    	this.chips = startChips;
+        this.table = table;
+        this.isBot = true;
+    }
+
+    /**
+     * @return True if this player is controlled by an AI
+     */
+    public boolean isBot() {
+        return isBot;
     }
 
     /**
@@ -149,10 +150,25 @@ public class Player{
 
     
     public void doAction() {
-
+        choice = null;
     }
-	public void pay(int amount) {
+
+    /**
+     * @return The last play choice
+     */
+    public Action getChoice() {
+        return choice;
+    }
+
+    /**
+     * Makes the player interact with the table
+     * @param action The action to be preformed by the player
+     */
+    public void play (Action action){
+        choice = action;
+    }
+    public void pay(int amount) {
 		chips = chips - amount;
-		
+		table.addToPot(amount);
 	}
 }

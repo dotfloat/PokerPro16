@@ -30,7 +30,7 @@ public class GUI extends Application {
 	// Scene objects
 	private Painter mainFrame;
 	Pane creations, statusBar;
-	TestSimulator simulator;
+	PokerGame pokerGame;
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
 	
@@ -52,7 +52,7 @@ public class GUI extends Application {
 
 		setWindowSize(800, 600);
 		
-		simulator = new TestSimulator(this);
+		pokerGame = new PokerGame(this);
 		setStep(0);
 	}
 	/**
@@ -71,7 +71,7 @@ public class GUI extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 
 		// Create nodes
-		setMainFrame(new Painter(simulator, this));
+		setMainFrame(new Painter(pokerGame, this));
 		
 		creations = new Pane();
 		statusBar = new Pane();
@@ -79,7 +79,7 @@ public class GUI extends Application {
 
 		// Create node buttons
 		MakeButtons buttons = new MakeButtons();
-		buttons.makeButton(border, simulator, this, root);
+		buttons.makeButton(border, this, root);
 
 		setInitialChildrenToRoot(border, canvas, root);
 
@@ -97,7 +97,7 @@ public class GUI extends Application {
 			public void handle(long arg0) {
 				
 				
-				simulator.playRound();
+				pokerGame.playRound();
 				
 				getMainFrame().paint();
 				
@@ -165,7 +165,7 @@ public class GUI extends Application {
 	}
 
 	public void restart() {
-		simulator.restart(x_max, y_max, x_min, y_min);
+	
 	}
 
 	public AnimationTimer getTimer() {

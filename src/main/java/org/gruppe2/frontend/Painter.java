@@ -14,16 +14,16 @@ import javafx.scene.layout.Pane;
  */
 public class Painter extends Pane {
 
-	TestSimulator simulator;
+	PokerGame game;
 	//Used to make sure the drawing are correct size compared to screen. 
 	//ig. 120 vdw = 12 vdw on screen if scale = 10
 	private int scale = 10;
 	GUI gui;
 	Image backGround;
 	Canvas canvas;
-	public Painter(TestSimulator simulator, GUI gui) {
+	public Painter(PokerGame game, GUI gui) {
 		super();
-		this.simulator = simulator;
+		this.game = game;
 		this.gui = gui;
 		setBackGround("tableAndBackGround.png");
 	}
@@ -33,7 +33,7 @@ public class Painter extends Pane {
 	 */
 	public void paint() {
 		
-		doTasks(simulator.getList());
+//		doTasks(game.getTable());
 		
 	}
 

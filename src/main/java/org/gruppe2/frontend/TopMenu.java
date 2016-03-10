@@ -34,13 +34,13 @@ public class TopMenu {
 				
 				menuNewOfflineGame.selectedProperty().addListener(new ChangeListener<Boolean>() {
 					public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-						gui.simulator.startOfflineGame();
+						gui.pokerGame.startOfflineGame();
 					}
 				});
 				CheckMenuItem menuNewOnlineGame = new CheckMenuItem("new online game");
 				menuNewOnlineGame.selectedProperty().addListener(new ChangeListener<Boolean>() {
 					public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-						gui.simulator.startOnlineGame();
+						gui.pokerGame.startOnlineGame();
 					}
 				});
 

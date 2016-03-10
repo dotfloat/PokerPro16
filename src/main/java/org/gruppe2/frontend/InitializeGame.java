@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  */
 public class InitializeGame {
 
-	public static void setStartValues(TestSimulator simulator) {
+	public static void setStartValues(PokerGame pokerGame) {
 		Group root = new Group();
 		Stage dialogStage = new Stage();
 		dialogStage.setTitle("Edit Person");
@@ -27,7 +27,7 @@ public class InitializeGame {
 		dialogStage.setScene(scene);
 
 		GridPane grid = new GridPane();
-		createGrid(grid, root, dialogStage, simulator);
+		createGrid(grid, root, dialogStage, pokerGame);
 		// Set the person into the controller
 		// PersonEditDialogController controller = loader.getController();
 		// controller.setDialogStage(dialogStage);
@@ -40,7 +40,7 @@ public class InitializeGame {
 	}
 
 	private static void createGrid(GridPane grid, Group root,
-			Stage dialogStage, TestSimulator simulator) {
+			Stage dialogStage, PokerGame pokerGame) {
 
 		Label nameLabel = new Label("Name:");
 		TextField nameField = new TextField();
@@ -57,7 +57,7 @@ public class InitializeGame {
 		Button ok = new Button("ok");
 		Button cancel = new Button("cancel");
 		setButtonAction(ok, cancel, nameField, smallBlindField, bigBlindField,
-				startMoneyField, simulator, dialogStage);
+				startMoneyField, pokerGame, dialogStage);
 
 		grid.add(nameLabel, 1, 1);
 		grid.add(nameField, 2, 1);
@@ -79,7 +79,7 @@ public class InitializeGame {
 	private static void setButtonAction(Button ok, Button cancel,
 			TextField nameField, TextField smallBlindField,
 			TextField bigBlindField, TextField startMoneyField,
-			TestSimulator simulator, Stage dialogStage) {
+			PokerGame pokerGame, Stage dialogStage) {
 
 		ok.setOnAction(e -> {
 			if (!nameField.getText().equals(null)) {
@@ -88,13 +88,13 @@ public class InitializeGame {
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
 
-					simulator.listOfPlayers.add(new Player(name, startValue));
+					pokerGame.getPlayers().add(new Player(name, startValue,pokerGame.getTable()));
 
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
 
-					simulator.smallBlind = smallBlind;
-					simulator.bigBlind = bigBlind;
+					pokerGame.smallBlind = smallBlind;
+					pokerGame.bigBlind = bigBlind;
 
 					dialogStage.close();
 				}
@@ -104,13 +104,15 @@ public class InitializeGame {
 		});
 		cancel.setOnAction(e -> {
 			dialogStage.close();
+			System.out.println("cancel pressed");
+			System.exit(0);
 		});
 
 	}
 	
-	public static void setPlayersToTable(TestSimulator simulator, GUI gui) {
+	public static void setPlayersToTable(PokerGame pokerGame, GUI gui) {
 		int playerNumber = 0;
-		for (Player player : simulator.listOfPlayers) {
+		for (Player player : pokerGame.getPlayers()) {
 			Label playerPosition = new Label(player.getName()+ " "
 					+ player.getChips());
 			if (playerNumber == 0) {
