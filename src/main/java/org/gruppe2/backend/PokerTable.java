@@ -13,14 +13,17 @@ public class PokerTable {
     public int pot;
 
 
-    public PokerTable(Deck deck, ArrayList<Player> players, int pot) {
+    public PokerTable(Deck deck, int pot) {
         this.deck = deck;
-        this.players = players;
         this.pot = pot;
     }
 
     public void drawCommunityCards() {
         communityCards = deck.drawCards(5);
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 
     public ArrayList<Card> getCardOnTable() {

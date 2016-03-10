@@ -10,53 +10,38 @@ import java.util.ArrayList;
 public class PokerGame{
 
     GUI gui;
+    int startChips;
     int smallBlind;
     int bigBlind;
 
     private ArrayList<Player> players;
-    
-    // Skal ikke stå slik, er bare for foreløpig oversikt
-    public ArrayList<Player> getPlayers() {
-		return players;
-	}
-    //need pokerTable CEM PLS 
+    private PokerTable table;
+
     
     
     
-    public PokerGame(GUI gui, ArrayList<Player> players/*, PokerTable table*/){
+    public PokerGame(GUI gui, int startChips, int smallBlind, int bigBlind){ //parameterene startchips, smallBlind, og bigBLind er input i GUIen som brukeren skriver inn.
         this.gui = gui;
-        this.players = players;
+        this.smallBlind = smallBlind;
+        this.bigBlind = bigBlind;
+        this.startChips = startChips;
 
-        //need poker table and be able give players to board, and board to players
+        // table = new PokerTable(new Deck());
     }
 
-    //and many more methods
+    public void addPlayer(String name){
+        Player newPlayer = new Player(name, startChips, table);
+        players.add(newPlayer);
+      //table.addPlayer(newPlayer);
+    }
+
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
 
     
 
-	public static void main(String[] args) {
-    	
-        System.out.println("dette blir det beste spillet");
-        
-        GUI playerGUI = new GUI();
-        
-        ArrayList<Player> currentPlayers = new ArrayList<Player>();
-        currentPlayers.add(new Player("First", 500));
-        currentPlayers.add(new Player("Second", 500));
-        
-        PokerGame currentHand = new PokerGame(playerGUI, currentPlayers/*, playingTable*/);
-        
-        boolean gameDone = false;
-        while (!gameDone) {
-			
-        	for (Player player : currentHand.getPlayers()) {
-				player.doAction();				
-			}
-        	
-        	System.out.println("The Ride never ends.");
-        	
-		}
-        
-    }
+
 }
