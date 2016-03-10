@@ -46,18 +46,18 @@ public class DeckTest {
     }
 
     @Test
-    public void deckShouldNotBeSortedAfterShuffleTest() {
+    public void deckShouldNotHaveSameCardLocationsAfterShuffleTest() {
         ArrayList<Card> temp = new ArrayList<Card>(deck.getCards());
         deck.shuffle();
-        boolean isSorted = true;
+        boolean isSame = true;
         for(int i = 0; i < temp.size(); i++) {
             if(!temp.get(i).equals(deck.getCards().get(i))) {
-                isSorted = false;
+                isSame = false;
                 break;
             }
         }
 
-        assertFalse(isSorted);
+        assertFalse(isSame);
     }
 
 
