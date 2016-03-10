@@ -10,26 +10,32 @@ import java.util.ArrayList;
 public class PokerGame{
 
     GUI gui;
+    int startChips;
     int smallBlind;
     int bigBlind;
 
     private ArrayList<Player> players;
     private PokerTable table;
 
-
-    //need pokerTable CEM PLS 
     
     
     
-    public PokerGame(GUI gui){
+    public PokerGame(GUI gui, int startChips, int smallBlind, int bigBlind){ //parameterene startchips, smallBlind, og bigBLind er input i GUIen som brukeren skriver inn.
         this.gui = gui;
-        // PokerTable = new PokerTable(new Deck());
-        //need poker table and be able give players to board, and board to players
+        this.smallBlind = smallBlind;
+        this.bigBlind = bigBlind;
+        this.startChips = startChips;
+
+        // table = new PokerTable(new Deck());
     }
 
-    
+    public void addPlayer(String name){
+        Player newPlayer = new Player(name, startChips, table);
+        players.add(newPlayer);
+      //table.addPlayer(newPlayer);
+    }
 
-    // Skal ikke stå slik, er bare for foreløpig oversikt
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
