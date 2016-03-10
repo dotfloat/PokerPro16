@@ -1,6 +1,7 @@
 package org.gruppe2;
 
 import org.gruppe2.backend.Player;
+import org.gruppe2.backend.PokerTable;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -15,7 +16,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() throws Exception {
-        player = new Player(NAME, START_CHIPS);
+        player = new Player(NAME, START_CHIPS, null);
     }
 
     @Test
