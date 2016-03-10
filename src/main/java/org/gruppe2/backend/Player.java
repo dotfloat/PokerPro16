@@ -13,6 +13,7 @@ public class Player implements PlayerAction{
     private boolean isBigBlind;
     private PokerTable table;
     private boolean isBot;
+    private Action choice;
 
     /**
      * Makes a player which is a user player
@@ -148,6 +149,21 @@ public class Player implements PlayerAction{
 
     @Override
     public void doAction() {
+        choice = null;
+    }
 
+    /**
+     * @return The last play choice
+     */
+    public Action getChoice() {
+        return choice;
+    }
+
+    /**
+     * Makes the player interact with the table
+     * @param action The action to be preformed by the player
+     */
+    public void play (Action action){
+        choice = action;
     }
 }
