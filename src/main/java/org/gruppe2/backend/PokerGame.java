@@ -1,6 +1,7 @@
 package org.gruppe2.backend;
 
 import org.gruppe2.frontend.GUI;
+import org.gruppe2.frontend.InitializeGame;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,19 @@ public class PokerGame{
       //table.addPlayer(newPlayer);
     }
 
+  /*  public void startGame(){
+        InitializeGame.setStartValues(this);
+        InitializeGame.setPlayersToTable(this, gui);
+        dealCardsToAll();
+        gui.getMainFrame().showCardsOnHand(players);
+    }
+*/
+
+    public void dealCardsToAll(){
+        for(Player guy: players){
+            guy.giveCards(table.deck.drawCard(), table.deck.drawCard());
+        }
+    }
 
     public ArrayList<Player> getPlayers() {
         return players;
