@@ -12,19 +12,37 @@ public class TestSimulator {
 	ArrayList<Player> listOfPlayers = new ArrayList<Player>();
 	int smallBlind;
 	int bigBlind;
+	int currentPot;
+	Deck deck;
 
 	public TestSimulator(GUI gui) {
 		this.gui = gui;
-
+		deck = new Deck();
+		deck.shuffle();
 	}
 
-
+	/**
+	 * 1 round, that is until there is only 1 player left.
+	 */
 	public void playRound() {
-		for(Player player : listOfPlayers){
-			playerRound(player);
+		
+		while(isRoundNotFinished()){
+			for(Player player : listOfPlayers){
+				if(player.isNotFolded)
+					playerRound(player);
+			}
 		}
 	}
 	
+	private boolean isRoundNotFinished() {
+		for(Player player : listOfPlayers){
+			if(player.isNotFolded){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void playerRound(Player player){
 		startOfRound(player);
 		round(player);
@@ -34,7 +52,7 @@ public class TestSimulator {
 	
 	
 	private void endOfRound(Player player) {
-		System.out.println("start");
+		System.out.println("finished");
 		
 	}
 
@@ -44,7 +62,12 @@ public class TestSimulator {
 	}
 
 	private void startOfRound(Player player) {
-		System.out.println("finished");
+		if(player.isSmallBlind){
+			
+		}
+		else if(player.isBigBlind){
+			
+		}
 		
 	}
 
@@ -63,8 +86,12 @@ public class TestSimulator {
 	private void testStart() {
 		InitializeGame.setStartValues(this);
 		InitializeGame.setPlayersToTable(this, gui);
+		giveCardsToPlayers();
+		gui.getMainFrame().showCardsOnHand(listOfPlayers);
+		
 	}
 
+	
 	public void startOfflineGame() {
 		testStart();
 	}
@@ -73,6 +100,14 @@ public class TestSimulator {
 
 	public void startOnlineGame() {
 		System.out.println("not yet implemented");
+		
+	}
+	
+	private void giveCardsToPlayers() {
+		for(Player player : listOfPlayers){
+			player.card1 = deck.drawCard();
+			player.card2 = deck.drawCard();
+		}
 		
 	}
 }

@@ -1,17 +1,31 @@
 package org.gruppe2.frontend;
 
 public class Card {
-    private int face = 0;
+    public enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES}
 
-    public int getFace() {
-        return face;
+    private Suit suit;
+    private int faceValue;
+
+    public Card(int faceValue, Suit suit) {
+        if(faceValue < 2 || faceValue > 14) {
+            throw new IllegalArgumentException("faceValue can't be less than 2 or bigger than 13");
+        }
+        else {
+            this.faceValue = faceValue;
+            this.suit = suit;
+        }
     }
 
-    public void setFace(int face) {
-        if (face < 0 || face >= 52) {
-            throw new IllegalArgumentException();
-        }
+    public Suit getSuit() {
+        return suit;
+    }
 
-        this.face = face;
+    public int getFaceValue() {
+        return faceValue;
+    }
+
+    @Override
+    public String toString() {
+        return getFaceValue() + " of " + getSuit();
     }
 }
