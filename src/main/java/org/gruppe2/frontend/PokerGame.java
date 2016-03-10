@@ -28,11 +28,7 @@ public class PokerGame{
         table = new PokerTable(new Deck(),0);
     }
 
-    public void addPlayer(String name){
-        Player newPlayer = new Player(name, startChips, table);
-        players.add(newPlayer);
-      //table.addPlayer(newPlayer);
-    }
+    
 
     public void startOfflineGame(){
     	setUpGame();
@@ -58,7 +54,7 @@ public class PokerGame{
 	 */
 	public void playRound() {
 		
-		if(readyToPlay && isRoundNotFinished()){
+		if(readyToPlay && isGameNotFinished()){
 			for(Player player : players){
 				if(!player.hasFolded())
 					playerRound(player);
@@ -67,7 +63,7 @@ public class PokerGame{
 		}
 	}
 	
-	private boolean isRoundNotFinished() {
+	private boolean isGameNotFinished() {
 		for(Player player : players){
 			if(!player.hasFolded()){
 				return true;
@@ -77,6 +73,7 @@ public class PokerGame{
 	}
 
 	public void playerRound(Player player){
+		System.out.println("players turn: "+player.toString());
 		startOfRound(player);
 		round(player);
 		endOfRound(player);
@@ -99,7 +96,12 @@ public class PokerGame{
 			player.pay(bigBlind);
 		}
 		else{
-			
+			if(!player.isBot()){
+//				ChoicePopup.showChoices(this, player);
+			}
+			else{
+				//DO BOT AI -->
+			}
 		}
 		
 	}
@@ -126,6 +128,12 @@ public class PokerGame{
 		players.add(new Player("SheMaleLion",players.get(0).getChips(),table,true));
 		
 	}
+    
+    public void addPlayer(String name){
+        Player newPlayer = new Player(name, startChips, table);
+        players.add(newPlayer);
+      //table.addPlayer(newPlayer);
+    }
     
 
 

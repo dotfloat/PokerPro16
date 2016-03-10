@@ -5,4 +5,6 @@ package org.gruppe2.frontend;
  */
 public enum Action {
     RAISE, CALL, FOLD, CHECK
+    
+   
 }

@@ -149,8 +149,19 @@ public class Player{
     }
 
     
-    public void doAction() {
-        choice = null;
+    public void doAction(Action choice) {
+        this.choice = choice;
+    	switch (choice)
+        {
+        	case CALL:
+        		
+        	case CHECK:	
+        		
+        	case FOLD:
+        		
+        	default: //Raise
+        		
+        }
     }
 
     /**

@@ -35,7 +35,6 @@ public class InitializeGame {
 
 		// Show the dialog and wait until the user closes it
 		dialogStage.showAndWait();
-		System.out.println("hei");
 
 	}
 
