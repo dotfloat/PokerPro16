@@ -1,20 +1,38 @@
 package org.gruppe2.backend;
 
+import org.gruppe2.frontend.GUI;
+
 import java.util.ArrayList;
 
 /**
- * Created by Åsmund on 09/03/2016.
+ * class to play a pokergame
  */
-public class PokerGame {
+public class PokerGame{
 
-    //Need field-variables for players, board, deck? and so on
+    GUI gui;
+    int smallBlind;
+    int bigBlind;
 
-    //todo
-    public static void createPlayer(){
+    private ArrayList<Player> players;
+
+    //need pokerTable
+
+    public PokerGame(GUI gui, ArrayList<Player> players, int smallBlind, int bigBlind){
+        this.gui = gui;
+        this.players = players;
+        this.smallBlind = smallBlind;
+        this.bigBlind = bigBlind;
+
+        //need poker table and be able give players to board, and board to players
     }
 
     //todo
-    public static void createPokerTable(){
+    public void addPlayer(Player player){
+        players.add(player);
+    }
+
+    //todo
+    public void createPokerTable(){
     }
 
     //and many more methods
