@@ -5,6 +5,7 @@ import org.gruppe2.backend.Deck;
 import org.junit.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 
@@ -46,9 +47,17 @@ public class DeckTest {
 
     @Test
     public void deckShouldNotBeSortedAfterShuffleTest() {
-        ArrayList<Card> temp = deck.getCards();
+        ArrayList<Card> temp = new ArrayList<Card>(deck.getCards());
         deck.shuffle();
-        assertFalse(temp.equals(deck.getCards()));
+        boolean isSorted = true;
+        for(int i = 0; i < temp.size(); i++) {
+            if(!temp.get(i).equals(deck.getCards().get(i))) {
+                isSorted = false;
+                break;
+            }
+        }
+
+        assertFalse(isSorted);
     }
 
 
