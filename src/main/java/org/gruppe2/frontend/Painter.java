@@ -45,7 +45,7 @@ public class Painter extends Pane {
 		super();
 		this.game = game;
 		this.gui = gui;
-		setBackGround("tableAndBackGround.png");
+		setBackGround("/tableAndBackGround.png");
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class Painter extends Pane {
 	}
 	
 	public ImageView createCardImage(Card card){
-		String name = "Pictures/"+card.toStringGUI()+".png";
+		String name = "/"+card.toStringGUI()+".png";
 		
 		Image image = new Image(getClass().getResourceAsStream(name),30,80,true,true);
 		
