@@ -25,7 +25,7 @@ public class Painter extends Pane {
 		super();
 		this.game = game;
 		this.gui = gui;
-		setBackGround("tableAndBackGround.png");
+		//setBackGround("tableAndBackGround.png");
 	}
 
 	/**
