@@ -2,11 +2,14 @@ package org.gruppe2.frontend;
 
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 /**
  * Class that paints the objects.
  * @author htj063
@@ -21,6 +24,15 @@ public class Painter extends Pane {
 	GUI gui;
 	Image backGround;
 	Canvas canvas;
+	
+	//Player positions
+	Label playerPosition0;
+	Label playerPosition1;
+	Label playerPosition2;
+	Label playerPosition3;
+	Label playerPosition4;
+	Label playerPosition5;
+	
 	public Painter(PokerGame game, GUI gui) {
 		super();
 		this.game = game;
@@ -95,15 +107,75 @@ public class Painter extends Pane {
 			playerNumber++;
 		}
 	}
-
-	/**
-	 * Single threaded version
-	 * 
-	 * @param currentAtoms
-	 */
-	public void doTasks(ArrayList<Card> listOfCards) {
-		// Update painting
-//		getChildren().clear();	
+	
+	public void reDraw(){
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+				System.out.println("true,false: "+getChildren().remove(playerPosition0));
+				System.out.println("true,false: "+getChildren().remove(playerPosition1));
+				System.out.println("true,false: "+getChildren().remove(playerPosition2));
+				System.out.println("true,false: "+getChildren().remove(playerPosition3));
+				System.out.println("true,false: "+getChildren().remove(playerPosition4));
+				System.out.println("true,false: "+getChildren().remove(playerPosition5));
+//				getChildren().remove(playerPosition0);
+//				getChildren().remove(playerPosition1);
+//				getChildren().remove(playerPosition2);
+//				getChildren().remove(playerPosition3);
+//				getChildren().remove(playerPosition4);
+//				getChildren().remove(playerPosition5);
+				
+				setPlayersToTable(gui.pokerGame, gui);
+		    }
+		});
+	}
+	public void setPlayersToTable(PokerGame pokerGame, GUI gui) {
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+		
+		int playerNumber = 0;
+		for (Player player : pokerGame.getPlayers()) {
+			Label playerPosition = new Label(player.getName()+ " "
+					+ player.getChips());
+			if (playerNumber == 0) {
+				playerPosition.setLayoutX(15);
+				playerPosition.setLayoutY(300);
+				playerPosition0 = playerPosition;
+				
+			}
+			if (playerNumber == 1) {
+				playerPosition.setLayoutX(250);
+				playerPosition.setLayoutY(40);
+				playerPosition1 = playerPosition;
+			}
+			if (playerNumber == 2) {
+				playerPosition.setLayoutX(430);
+				playerPosition.setLayoutY(40);
+				playerPosition2 = playerPosition;
+			}
+			if (playerNumber == 3) {
+				playerPosition.setLayoutX(700);
+				playerPosition.setLayoutY(300);
+				playerPosition3 = playerPosition;
+			}
+			if (playerNumber == 4) {
+				playerPosition.setLayoutX(430);
+				playerPosition.setLayoutY(500);
+				playerPosition4 = playerPosition;
+			}
+			if (playerNumber == 5) {
+				playerPosition.setLayoutX(250);
+				playerPosition.setLayoutY(500);
+				playerPosition5 = playerPosition;
+			}
+			playerPosition.setTextFill(Color.HOTPINK);
+			playerPosition.setFont(new Font(15));
+			getChildren().add(playerPosition);
+			playerNumber++;
+			}
+		}
+		});
 
 	}
 	

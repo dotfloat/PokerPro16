@@ -44,7 +44,7 @@ public class PokerGame implements Runnable{
     private void setUpGame() {
     	InitializeGame.setStartValues(this);
         createBots(5);
-        InitializeGame.setPlayersToTable(this, gui);
+        gui.getMainFrame().setPlayersToTable(this, gui);
         dealCardsToAll();
         gui.getMainFrame().showCardsOnHand(players);
         readyToPlay = true;
@@ -56,11 +56,10 @@ public class PokerGame implements Runnable{
 	 * 1 round, that is until there is only 1 player left.
 	 */
 	public void playRound() {
-		Player previousPlayer = players.get(5);
+		Player previousPlayer = players.get(players.size() -1);
 		previousPlayer.doAction(Action.FINISHED);
 		if(readyToPlay && isGameNotFinished()){
 			for(Player player : players){
-				System.out.println("yes!");
 				if(!player.hasFolded()){
 					
 					while(previousPlayer.getChoice() == Action.WAITING){sleepWait();} //Wait
@@ -92,7 +91,8 @@ public class PokerGame implements Runnable{
 	public void playerRound(Player player){
 		System.out.println("players turn: "+player.toString());
 		startOfRound(player);
-		InitializeGame.setPlayersToTable(this, gui);
+		gui.getMainFrame().reDraw();
+		sleepWait();
 		round(player);
 		endOfRound(player);
 	}
@@ -190,7 +190,7 @@ public class PokerGame implements Runnable{
 	
 	public void sleepWait(){
 		try {
-			Thread.sleep(10);
+			Thread.sleep(30);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
