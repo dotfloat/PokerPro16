@@ -110,49 +110,7 @@ public class InitializeGame {
 
 	}
 	
-	public static void setPlayersToTable(PokerGame pokerGame, GUI gui) {
-		Platform.runLater(new Runnable(){
-		    @Override
-		    public void run() {
-		
-		int playerNumber = 0;
-		for (Player player : pokerGame.getPlayers()) {
-			Label playerPosition = new Label(player.getName()+ " "
-					+ player.getChips());
-			if (playerNumber == 0) {
-				playerPosition.setLayoutX(15);
-				playerPosition.setLayoutY(300);
-				
-			}
-			if (playerNumber == 1) {
-				playerPosition.setLayoutX(250);
-				playerPosition.setLayoutY(40);
-			}
-			if (playerNumber == 2) {
-				playerPosition.setLayoutX(430);
-				playerPosition.setLayoutY(40);
-			}
-			if (playerNumber == 3) {
-				playerPosition.setLayoutX(700);
-				playerPosition.setLayoutY(300);
-			}
-			if (playerNumber == 4) {
-				playerPosition.setLayoutX(430);
-				playerPosition.setLayoutY(500);
-			}
-			if (playerNumber == 5) {
-				playerPosition.setLayoutX(250);
-				playerPosition.setLayoutY(500);
-			}
-			playerPosition.setTextFill(Color.HOTPINK);
-			playerPosition.setFont(new Font(15));
-			gui.getMainFrame().getChildren().add(playerPosition);
-			playerNumber++;
-			}
-		}
-		});
-
-	}
+	
 
 	private static boolean moneyFieldsAreValid(TextField startMoneyField,
 			TextField bigBlindField, TextField smallBlindField) {

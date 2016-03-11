@@ -1,11 +1,7 @@
 package org.gruppe2.frontend;
 
-import org.gruppe2.frontend.GUI;
-import org.gruppe2.frontend.InitializeGame;
-
 import java.util.ArrayList;
 
-import javafx.application.Application;
 
 /**
  * class to play a pokergame
@@ -16,7 +12,7 @@ public class PokerGame implements Runnable{
     int startChips;
     int smallBlind;
     int bigBlind;
-    
+    int roundOfGame;
     private ArrayList<Player> players;
     private PokerTable table;
 
@@ -44,7 +40,7 @@ public class PokerGame implements Runnable{
     private void setUpGame() {
     	InitializeGame.setStartValues(this);
         createBots(5);
-        InitializeGame.setPlayersToTable(this, gui);
+        gui.getMainFrame().setPlayersToTable(this, gui);
         dealCardsToAll();
         gui.getMainFrame().showCardsOnHand(players);
         readyToPlay = true;
@@ -56,12 +52,12 @@ public class PokerGame implements Runnable{
 	 * 1 round, that is until there is only 1 player left.
 	 */
 	public void playRound() {
-		Player previousPlayer = players.get(5);
-		previousPlayer.doAction(Action.FINISHED);
+		
 		if(readyToPlay && isGameNotFinished()){
+			Player previousPlayer = players.get(players.size() -1);
+			previousPlayer.doAction(Action.FINISHED);
 			for(Player player : players){
-				System.out.println("yes!");
-				if(!player.hasFolded()){
+				if(!player.hasFolded() && roundOfGame < 4){
 					
 					while(previousPlayer.getChoice() == Action.WAITING){sleepWait();} //Wait
 					
@@ -92,7 +88,8 @@ public class PokerGame implements Runnable{
 	public void playerRound(Player player){
 		System.out.println("players turn: "+player.toString());
 		startOfRound(player);
-		InitializeGame.setPlayersToTable(this, gui);
+		gui.getMainFrame().reDraw();
+		sleepWait();
 		round(player);
 		endOfRound(player);
 	}
@@ -107,10 +104,10 @@ public class PokerGame implements Runnable{
 	}
 
 	private void startOfRound(Player player) {
-		if(player.isSmallBlind()){
+		if(roundOfGame == 0 && player.isSmallBlind()){
 			player.pay(smallBlind);
 		}
-		else if(player.isBigBlind()){
+		else if(roundOfGame == 0 && player.isBigBlind()){
 			player.pay(bigBlind);
 		}
 		else{
@@ -178,21 +175,45 @@ public class PokerGame implements Runnable{
 		while(!readyToPlay){
 			sleepWait();
 		}
-		System.out.println("ready");
 	}
 	public void gameLoop(){
+		roundOfGame = 0;
 		while(isGameNotFinished()){
-			System.out.println("hei3");
+			specificRoundSettings(roundOfGame);
 			playRound();
 			
+			roundOfGame++;
 		}
 	}
 	
+	private void specificRoundSettings(int roundOfGame) {
+		//Round 0, blind round, no one can raise, just check in this test version
+		
+		if(roundOfGame == 1){ //Flopp
+			table.drawCommunityCards();
+			gui.getMainFrame().showCommunityCards(table.communityCards, 0, 2);
+		}
+		if(roundOfGame == 2){ //Turn
+			gui.getMainFrame().showCommunityCards(table.communityCards, 3, 3);
+		}
+		if(roundOfGame == 3){ //River
+			gui.getMainFrame().showCommunityCards(table.communityCards, 4, 4);
+		}
+		if(roundOfGame == 4){
+			for(Player player : players){
+				player.doAction(Action.FOLD);
+			}
+			gui.getMainFrame().playerWon(players.get(0));
+		}
+		
+	}
+
+
+
 	public void sleepWait(){
 		try {
-			Thread.sleep(10);
+			Thread.sleep(30);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

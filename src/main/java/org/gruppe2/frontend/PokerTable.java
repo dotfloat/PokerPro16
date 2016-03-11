@@ -11,6 +11,7 @@ public class PokerTable {
     public ArrayList<Player> players = new ArrayList<>();
     public ArrayList<Card> communityCards = new ArrayList<>(5);
     public int pot;
+    
 
 
     public PokerTable(Deck deck, int pot) {
