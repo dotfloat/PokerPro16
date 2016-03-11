@@ -166,4 +166,19 @@ public class Player implements PlayerAction{
     public void play (Action action){
         choice = action;
     }
+
+    /**
+     * Make a player pay blind cost
+     * @param chips Number of chips to pay
+     * @return True if the player can pay the blind, false if the player can't
+     */
+    public boolean payBlind (int chips){
+        if (chips > this.chips)
+            return false;
+        else {
+            this.chips -= chips;
+            table.addToPot(chips);
+            return true;
+        }
+    }
 }
