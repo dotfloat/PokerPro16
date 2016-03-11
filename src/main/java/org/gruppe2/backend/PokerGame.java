@@ -10,11 +10,10 @@ import java.util.ArrayList;
  */
 public class PokerGame{
 
-    GUI gui;
-    int startChips;
-    int smallBlind;
-    int bigBlind;
-
+    private GUI gui;
+    private int startChips;
+    private int smallBlind;
+    private int bigBlind;
     private ArrayList<Player> players;
     private PokerTable table;
 
@@ -44,6 +43,12 @@ public class PokerGame{
      */
     public void addPlayer(String name){
         Player newPlayer = new Player(name, startChips, table);
+
+        if(players.size() == 1)
+            newPlayer.setBigBlind();
+        if(players.size() == 2)
+            newPlayer.setSmallBlind();
+
         players.add(newPlayer);
         table.addPlayer(newPlayer);
     }
@@ -73,6 +78,54 @@ public class PokerGame{
     public void dealCardsToAll(){
         for(Player guy: players){
             guy.giveCards(table.deck.drawCard(), table.deck.drawCard());
+        }
+    }
+
+    /**
+     * method for rotating blinds.
+     *
+     * Finds Big Blind and removes his blind
+     * Finds small blind, makes next person at table small blind, and makes the previous smallblind Bigblind
+     * this should rotatate the blinds.
+     */
+    public void rotateBlinds(){
+        boolean smallBlindRotated = false;
+        boolean bigBlindRotated = false;
+        for(Player player: players){
+            if(player.isBigBlind() && ! bigBlindRotated){
+                player.resetBlinds();
+                bigBlindRotated = true;
+            }
+            if (player.isSmallBlind() && ! smallBlindRotated){
+                players.get((players.indexOf(player) +1) % players.size()).setSmallBlind();
+                player.resetBlinds();
+                player.setBigBlind();
+                smallBlindRotated = true;
+            }
+        }
+    }
+
+    /**
+     * Method for paying blinds
+     *
+     * removes players not ale to pay his blind. NOTE: NEED FOR UPDATING GUI?
+     *
+     * the blinds does not increase over time for now.
+     */
+    public void payBlinds(){
+        for(Player player: players){
+            if (player.isBigBlind()){
+                if( ! player.payBlind(bigBlind)){
+                    players.remove(player);
+                    rotateBlinds();
+                }
+            }
+            if (player.isSmallBlind()){
+               if( ! player.payBlind(smallBlind)){
+                   players.remove(player);
+                   rotateBlinds();
+               }
+            }
         }
     }
 
@@ -121,6 +174,7 @@ public class PokerGame{
      */
     public void runGame(){
         startGame();
+        payBlinds();
         playerActionsIteration();
         addCardsToTable();
         playerActionsIteration();
@@ -129,6 +183,7 @@ public class PokerGame{
         addCardsToTable();
         playerActionsIteration();
         declareWinner();
+        rotateBlinds();
     }
 
 
