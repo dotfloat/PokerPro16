@@ -4,16 +4,16 @@ package org.gruppe2.backend;
  * Created by Mikal on 09.03.16.
  */
 public class Player implements PlayerAction{
-    private String name;
-    private int chips;
-    private Card card1;
-    private Card card2;
-    private boolean fold = false;
-    private boolean isSmallBlind;
-    private boolean isBigBlind;
-    private PokerTable table;
-    private boolean isBot;
-    private Action choice;
+	protected String name;
+    protected int chips;
+    protected Card card1;
+    protected Card card2;
+    protected boolean fold = false;
+    protected boolean isSmallBlind;
+    protected boolean isBigBlind;
+    protected PokerTable table;
+    protected boolean isBot;
+    protected Action choice;
 
     /**
      * Makes a player which is a user player
