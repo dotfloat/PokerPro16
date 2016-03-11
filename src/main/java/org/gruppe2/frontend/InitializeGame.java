@@ -1,5 +1,6 @@
 package org.gruppe2.frontend;
 
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -110,6 +111,10 @@ public class InitializeGame {
 	}
 	
 	public static void setPlayersToTable(PokerGame pokerGame, GUI gui) {
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+		
 		int playerNumber = 0;
 		for (Player player : pokerGame.getPlayers()) {
 			Label playerPosition = new Label(player.getName()+ " "
@@ -143,7 +148,9 @@ public class InitializeGame {
 			playerPosition.setFont(new Font(15));
 			gui.getMainFrame().getChildren().add(playerPosition);
 			playerNumber++;
+			}
 		}
+		});
 
 	}
 

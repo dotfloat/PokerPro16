@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import org.gruppe2.frontend.Card.Suit;
+
 public class GUI extends Application {
 	// Position variables
 	static int x;
@@ -34,7 +36,7 @@ public class GUI extends Application {
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
 	
-	MouseHandler mouseActions;
+	
 	// Cell lists for optimization
 	int numberOfcellLists;
 	
@@ -52,9 +54,6 @@ public class GUI extends Application {
 	public void init() {
 
 		setWindowSize(800, 600);
-		
-		
-		
 		setStep(0);
 	}
 	/**
@@ -88,6 +87,8 @@ public class GUI extends Application {
 
 		startShow(root, scene, primaryStage, gc);
 		
+	    mainFrame.createCardImage(new Card(2, Suit.CLUBS));
+		
 		pokerGame = new PokerGame(this);
 		
 		Thread th = new Thread(pokerGame);
@@ -104,8 +105,6 @@ public class GUI extends Application {
 
 			@Override
 			public void handle(long arg0) {
-				
-				
 				
 				
 				getMainFrame().paint();
@@ -129,9 +128,6 @@ public class GUI extends Application {
 
 	public void startShow(Group root, Scene scene, Stage primaryStage, GraphicsContext gc) {
 		// start show
-		Cam cam = new Cam(getMainFrame(), root, this);
-		scene.setCamera(cam);
-		mouseActions = new MouseHandler(getMainFrame(), cam);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		launchAnimation(gc);
