@@ -13,7 +13,7 @@ public class Player{
     private boolean isBigBlind;
     private PokerTable table;
     private boolean isBot;
-    private Action choice;
+    private Action choice = Action.WAITING;
 
     /**
      * Makes a player which is a user player
@@ -155,11 +155,18 @@ public class Player{
         {
         	case CALL:
         		
-        	case CHECK:	
+        	case CHECK:
+        		if(table.getPlayers().get(0) == this){} //Do nothing
+        		
+        		else{
+        			pay(50); //Just something to make the program run
+        		}
         		
         	case FOLD:
         		
-        	default: //Raise
+        	case RAISE:
+        		
+        	default: //Finished
         		
         }
     }
@@ -182,4 +189,9 @@ public class Player{
 		chips = chips - amount;
 		table.addToPot(amount);
 	}
+    
+    @Override
+    public String toString(){
+    	return name;
+    }
 }

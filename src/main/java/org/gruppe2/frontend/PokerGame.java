@@ -5,10 +5,12 @@ import org.gruppe2.frontend.InitializeGame;
 
 import java.util.ArrayList;
 
+import javafx.application.Application;
+
 /**
  * class to play a pokergame
  */
-public class PokerGame{
+public class PokerGame implements Runnable{
 
     GUI gui;
     int startChips;
@@ -46,6 +48,7 @@ public class PokerGame{
         dealCardsToAll();
         gui.getMainFrame().showCardsOnHand(players);
         readyToPlay = true;
+        table.setPlayers(players);
 	}
     
 
@@ -53,16 +56,31 @@ public class PokerGame{
 	 * 1 round, that is until there is only 1 player left.
 	 */
 	public void playRound() {
-		
+		Player previousPlayer = players.get(5);
+		previousPlayer.doAction(Action.FINISHED);
+		System.out.println("enter");
 		if(readyToPlay && isGameNotFinished()){
 			for(Player player : players){
-				if(!player.hasFolded())
+				System.out.println("yes!");
+				if(!player.hasFolded()){
+					
+					while(previousPlayer.getChoice() == Action.WAITING){sleepWait();} //Wait
+					
 					playerRound(player);
-				
+					previousPlayer = player;
+				}
 			}
+			resetPlayersForNextRound();
 		}
 	}
 	
+	private void resetPlayersForNextRound() {
+		for( Player player : players){
+			player.doAction(Action.WAITING);
+		}
+		
+	}
+
 	private boolean isGameNotFinished() {
 		for(Player player : players){
 			if(!player.hasFolded()){
@@ -75,6 +93,7 @@ public class PokerGame{
 	public void playerRound(Player player){
 		System.out.println("players turn: "+player.toString());
 		startOfRound(player);
+		
 		round(player);
 		endOfRound(player);
 	}
@@ -97,10 +116,11 @@ public class PokerGame{
 		}
 		else{
 			if(!player.isBot()){
-//				ChoicePopup.showChoices(this, player);
+				ChoicePopup.showChoices(this, player);
 			}
 			else{
 				//DO BOT AI -->
+				player.doAction(Action.CHECK);;
 			}
 		}
 		
@@ -134,7 +154,45 @@ public class PokerGame{
         players.add(newPlayer);
       //table.addPlayer(newPlayer);
     }
-    
 
+
+    /**
+     * Game loop
+     */
+	@Override
+	public void run() {
+		
+		waitForGUISetup();
+		
+		gameLoop();
+
+	}
+	
+	
+	
+	public void waitForGUISetup(){
+		while(!readyToPlay){
+			sleepWait();
+		}
+		System.out.println("ready");
+	}
+	public void gameLoop(){
+		while(isGameNotFinished()){
+			System.out.println("hei3");
+			playRound();
+			
+		}
+	}
+	
+	public void sleepWait(){
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+    
+    
 
 }

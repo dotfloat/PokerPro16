@@ -33,6 +33,9 @@ public class PokerTable {
     public ArrayList<Player> getPlayers() {
         return players;
     }
+    public void  setPlayers(ArrayList<Player> listOfPlayers) {
+        players = listOfPlayers;
+    }
 
     public void addToPot(int p) {
         pot = pot + p;

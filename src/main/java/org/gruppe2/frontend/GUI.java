@@ -40,6 +40,7 @@ public class GUI extends Application {
 	
 	
 	public GUI() {
+		
 	}
 
 	@Override
@@ -52,7 +53,8 @@ public class GUI extends Application {
 
 		setWindowSize(800, 600);
 		
-		pokerGame = new PokerGame(this);
+		
+		
 		setStep(0);
 	}
 	/**
@@ -60,6 +62,7 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
 		// Create stage
 		primaryStage.setTitle("PokerPro 2016");
 		Group root = new Group();
@@ -84,8 +87,14 @@ public class GUI extends Application {
 		setInitialChildrenToRoot(border, canvas, root);
 
 		startShow(root, scene, primaryStage, gc);
+		
+		pokerGame = new PokerGame(this);
+		
+		Thread th = new Thread(pokerGame);
+		th.start();
 
 	}
+	
 	/**
 	 * This event is launched for each round of the game, it simulates the round, paints the update.
 	 * @param gc
@@ -97,7 +106,7 @@ public class GUI extends Application {
 			public void handle(long arg0) {
 				
 				
-				pokerGame.playRound();
+				
 				
 				getMainFrame().paint();
 				
@@ -106,6 +115,7 @@ public class GUI extends Application {
 		});
 		getTimer().start();
 		setPaused(false);
+		
 	}
 	
 	/**
@@ -144,9 +154,6 @@ public class GUI extends Application {
 		y = b;
 	}
 
-	public static void main(String[] args) {
-		Application.launch();
-	}
 
 	public boolean isPaused() {
 		return paused;
@@ -198,5 +205,9 @@ public class GUI extends Application {
 
 	public static void setScale(int scale) {
 		GUI.scale = scale;
+	}
+	public static void main(String[] args) {
+    	Application.launch();
+		
 	}
 }
