@@ -131,6 +131,10 @@ public class PokerGame{
 
     /**
      * lets all players do their actions
+     *
+     *NOTE: not fully functional, does not work around raising, and responding to it, would only work if everyone calls.
+     * may need to be replaced by a new function or be re-made
+     *
      */
     public void playerActionsIteration(){
         boolean allDone = false;
