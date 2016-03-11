@@ -1,5 +1,7 @@
 package org.gruppe2.frontend;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,23 +11,28 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ChoicePopup {
+public class ChoicePopup{
 	
 	
 	public static void showChoices(PokerGame pokerGame, Player player) {
-		Group root = new Group();
-		Stage dialogStage = new Stage();
-		dialogStage.setTitle("Choose your destiny!");
-		dialogStage.initModality(Modality.WINDOW_MODAL);
-		Scene scene = new Scene(root);
-		dialogStage.setScene(scene);
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+		    	Group root = new Group();
+				Stage dialogStage = new Stage();
+				dialogStage.setTitle("Choose your destiny!");
+				dialogStage.initModality(Modality.WINDOW_MODAL);
+				Scene scene = new Scene(root);
+				dialogStage.setScene(scene);
 
-		GridPane grid = new GridPane();
-		createGrid(grid, root, dialogStage, pokerGame, player);
+				GridPane grid = new GridPane();
+				createGrid(grid, root, dialogStage, pokerGame, player);
+		    	dialogStage.showAndWait();    
+		    }           
+		});
 		
-		
-		// Show the dialog and wait until the user closes it
-		dialogStage.showAndWait();
+
+
 	}
 	private static void createGrid(GridPane grid, Group root,
 			Stage dialogStage, PokerGame pokerGame, Player player) {

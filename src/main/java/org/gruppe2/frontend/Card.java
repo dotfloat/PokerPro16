@@ -28,4 +28,19 @@ public class Card {
     public String toString() {
         return getFaceValue() + " of " + getSuit();
     }
+    /**
+     * Method so GUI can find card easily
+     * @return
+     */
+    public String toStringGUI() {
+    	String finalName = String.valueOf(getSuit().toString().toLowerCase().charAt(0));
+    	
+    	if(getFaceValue() > 9)
+    		finalName += getFaceValue();
+    	else 
+    		finalName += "0"+getFaceValue();
+    	
+        return finalName;
+    }
+    
 }
