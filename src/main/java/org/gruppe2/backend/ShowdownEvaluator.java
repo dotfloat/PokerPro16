@@ -9,34 +9,51 @@ public class ShowdownEvaluator {
 
     private ArrayList<Card> cards;
 
-    public enum Hands{ROYALFLUSH, STRAIGHTFLUSH, FOUROFAKIND, FULLHOUSE, FLUSH, STRAIGHT, THREEOFAKIND, TWOPAIRS, ONEPAIR, HIGHCARD};
+    /**
+     * Possible hands sorted from lowest to highest value.
+     *
+     * This makes the comparison more idiomatic, ie:
+     * <code>Hand.HIGHCARD < Hand.ROYALFLUSH</code>
+     */
+    public enum Hand {
+        HIGHCARD,
+        ONEPAIR,
+        TWOPAIRS,
+        THREEOFAKIND,
+        STRAIGHT,
+        FLUSH,
+        FULLHOUSE,
+        FOUROFAKIND,
+        STRAIGHTFLUSH,
+        ROYALFLUSH
+    }
 
     /**
      * Method used to evaluate cards. Evaluated from best to worst. Returns the best hand.
      * @param cards cards to evaluate
-     * @return enum Hands, best hand
+     * @return enum Hand, best hand
      */
-    public Hands evaluate(ArrayList<Card> cards) {
+    public Hand evaluate(ArrayList<Card> cards) {
         if(royalFlush(cards))
-            return Hands.ROYALFLUSH;
+            return Hand.ROYALFLUSH;
         else if(straightFlush(cards))
-            return Hands.STRAIGHTFLUSH;
+            return Hand.STRAIGHTFLUSH;
         else if(fourOfAKind(cards))
-            return Hands.FOUROFAKIND;
+            return Hand.FOUROFAKIND;
         else if(fullHouse(cards))
-            return Hands.FULLHOUSE;
+            return Hand.FULLHOUSE;
         else if(flush(cards))
-            return Hands.FLUSH;
+            return Hand.FLUSH;
         else if(straight(cards))
-            return Hands.STRAIGHT;
+            return Hand.STRAIGHT;
         else if(threeOfAKind(cards))
-            return Hands.THREEOFAKIND;
+            return Hand.THREEOFAKIND;
         else if(twoPair(cards))
-            return Hands.TWOPAIRS;
+            return Hand.TWOPAIRS;
         else if(onePair(cards))
-            return Hands.ONEPAIR;
+            return Hand.ONEPAIR;
         else
-            return Hands.HIGHCARD;
+            return Hand.HIGHCARD;
     }
 
 
