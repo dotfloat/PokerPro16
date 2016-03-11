@@ -133,14 +133,22 @@ public class PokerGame{
      * lets all players do their actions
      */
     public void playerActionsIteration(){
+        boolean allDone = false;
         boolean wait = true;
         Player previousPlayer = players.get(players.size() -1);
-        for(Player player: players){
-            while(wait) {
-                if (previousPlayer.getChoice().equals(Action.WAIT)) {
+        for(Player player: players) {
+            while (wait) {
+                if (previousPlayer.getChoice().equals(Action.WAIT) && ! allDone) {
                     player.doAction();
                     previousPlayer = player;
-                    wait = false;
+
+                    if (players.indexOf(player) != players.size() - 1) {
+                        wait = false;
+                    } else
+                        allDone = true;
+                }
+                else if (allDone && previousPlayer.getChoice().equals(Action.WAIT)){
+                  wait = false;
                 }
             }
             wait = true;
