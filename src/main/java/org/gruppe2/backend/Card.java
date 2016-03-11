@@ -4,13 +4,18 @@ public class Card implements Comparable<Card> {
 
 
     public enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES}
+    //to simplify things
+    static final int JACK = 11;
+    static final int QUEEN = 12;
+    static final int KING = 13;
+    static final int ACE = 14;
 
     private Suit suit;
     private int faceValue;
 
     public Card(int faceValue, Suit suit) {
         if(faceValue < 2 || faceValue > 14) {
-            throw new IllegalArgumentException("faceValue can't be less than 2 or bigger than 13");
+            throw new IllegalArgumentException("faceValue can't be less than 2 or bigger than 14");
         }
         else {
             this.faceValue = faceValue;
@@ -33,8 +38,7 @@ public class Card implements Comparable<Card> {
 
         Card card = (Card) o;
 
-        if (faceValue != card.faceValue) return false;
-        return suit == card.suit;
+        return faceValue == card.faceValue && suit == card.suit;
 
     }
 
