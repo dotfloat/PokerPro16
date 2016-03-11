@@ -14,16 +14,16 @@ import javafx.scene.layout.Pane;
  */
 public class Painter extends Pane {
 
-	TestSimulator simulator;
+	PokerGame game;
 	//Used to make sure the drawing are correct size compared to screen. 
 	//ig. 120 vdw = 12 vdw on screen if scale = 10
 	private int scale = 10;
 	GUI gui;
 	Image backGround;
 	Canvas canvas;
-	public Painter(TestSimulator simulator, GUI gui) {
+	public Painter(PokerGame game, GUI gui) {
 		super();
-		this.simulator = simulator;
+		this.game = game;
 		this.gui = gui;
 		setBackGround("tableAndBackGround.png");
 	}
@@ -33,7 +33,7 @@ public class Painter extends Pane {
 	 */
 	public void paint() {
 		
-		doTasks(simulator.getList());
+//		doTasks(game.getTable());
 		
 	}
 
@@ -50,16 +50,49 @@ public class Painter extends Pane {
 	}
 	
 	public void showCardsOnHand(ArrayList<Player> listOfPlayers){
+		int playerNumber = 0;
 		for(Player player : listOfPlayers){
-			Label card1 = new Label(player.card1.toString());
-			Label card2 = new Label(player.card2.toString());
+			Label card1 = new Label(player.getCard1().toString());
+			Label card2 = new Label(player.getCard2().toString());
 			
-			card1.setLayoutX(150);
-			card1.setLayoutY(360);
-			card2.setLayoutX(150);
-			card2.setLayoutY(330);
-			
+			if(playerNumber == 0){
+				card1.setLayoutX(150);
+				card1.setLayoutY(290);
+				card2.setLayoutX(150);
+				card2.setLayoutY(320);
+			}
+			else if(playerNumber == 1){
+				card1.setLayoutX(250);
+				card1.setLayoutY(130);
+				card2.setLayoutX(250);
+				card2.setLayoutY(160);
+			}
+			else if(playerNumber == 2){
+				card1.setLayoutX(430);
+				card1.setLayoutY(130);
+				card2.setLayoutX(430);
+				card2.setLayoutY(160);	
+			}
+			else if(playerNumber == 3){
+				card1.setLayoutX(560);
+				card1.setLayoutY(290);
+				card2.setLayoutX(560);
+				card2.setLayoutY(320);
+			}
+			else if(playerNumber == 4){
+				card1.setLayoutX(430);
+				card1.setLayoutY(380);
+				card2.setLayoutX(430);
+				card2.setLayoutY(410);
+			}
+			else if(playerNumber == 5){
+				card1.setLayoutX(250);
+				card1.setLayoutY(380);
+				card2.setLayoutX(250);
+				card2.setLayoutY(410);
+			}
 			this.getChildren().addAll(card1,card2);
+			playerNumber++;
 		}
 	}
 

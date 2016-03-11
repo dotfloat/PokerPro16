@@ -26,7 +26,7 @@ public class Deck {
     public int getSize() {
         return cards.size() - nextCard;
     }
-
+     
     /**
      * method used to draw a card from the deck. We add to the next card position to simulate cards getting removed from deck.
      * @return next card from deck

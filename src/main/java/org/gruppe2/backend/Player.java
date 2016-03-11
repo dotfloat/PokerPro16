@@ -12,24 +12,38 @@ public class Player implements PlayerAction{
     private boolean isSmallBlind;
     private boolean isBigBlind;
     private PokerTable table;
+    private boolean isBot;
+    private Action choice;
 
     /**
-     *
+     * Makes a player which is a user player
      * @param name Player name
      * @param startChips How many starting chips the player starts with
-     * @param table What table the player play on
+     * @param table The table the player plays on
      */
     public Player(String name, int startChips, PokerTable table) {
         this.name = name;
         this.chips = startChips;
         this.table = table;
+        this.isBot = false;
     }
 
     /**
-     * Creates a player with no name, 0 chips and no table
+     * Makes a player controlled by a AI
+     * @param startChips How many chips a player starts with
+     * @param table The table the AI plays on
      */
-    public Player() {
-        chips = 0;
+    public Player(int startChips, PokerTable table) {
+        this.chips = startChips;
+        this.table = table;
+        isBot = true;
+    }
+
+    /**
+     * @return True if this player is controlled by an AI
+     */
+    public boolean isBot() {
+        return isBot;
     }
 
     /**
@@ -135,6 +149,21 @@ public class Player implements PlayerAction{
 
     @Override
     public void doAction() {
+        choice = null;
+    }
 
+    /**
+     * @return The last play choice
+     */
+    public Action getChoice() {
+        return choice;
+    }
+
+    /**
+     * Makes the player interact with the table
+     * @param action The action to be preformed by the player
+     */
+    public void play (Action action){
+        choice = action;
     }
 }

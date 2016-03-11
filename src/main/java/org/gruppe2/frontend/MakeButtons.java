@@ -13,7 +13,7 @@ public class MakeButtons {
 	Button restart, pause, rotate, exit;
 	GridPane grid = new GridPane();
 
-	public void makeButton(BorderPane border, TestSimulator simulator, GUI gui, Group root) {
+	public void makeButton(BorderPane border, GUI gui, Group root) {
 		
 		//Make menu
 		new TopMenu(grid, gui);
