@@ -35,14 +35,9 @@ public class DeckTest {
         assertEquals("Deck is not the right size after drawing several cards", 52-toDraw, deck.getSize());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void drawingTooManyCardsShouldThrowExceptionTest() {
-        try {
-            deck.drawCards(54);
-            assert(false);
-        } catch (IllegalArgumentException e) {
-            assert(true);
-        }
+        deck.drawCards(54);
     }
 
     @Test

@@ -20,14 +20,8 @@ public class CardTest {
         assertEquals("New card does not have the correct faceValue", 3, card.getFaceValue());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void illegalFaceValueShouldThrowExceptionTest() {
-        try {
-            Card card = new Card(17, Card.Suit.HEARTS);
-            assert(false);
-        } catch (IllegalArgumentException e) {
-            assert(true);
-        }
-
+        new Card(17, Card.Suit.HEARTS);
     }
 }
