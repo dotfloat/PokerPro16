@@ -1,8 +1,14 @@
 package org.gruppe2.ai;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.gruppe2.backend.Action;
+import org.gruppe2.backend.Card;
 import org.gruppe2.backend.Player;
 import org.gruppe2.backend.PokerTable;
+import org.gruppe2.backend.ShowdownEvaluator;
+import org.gruppe2.backend.ShowdownEvaluator.Hand;
 
 public class Bot extends Player {
 
@@ -40,11 +46,43 @@ public class Bot extends Player {
 	 * @return value (0-100)
 	 */
 	private int calculateHandValue() {
-		// Maybe make it add all of the other calculators together?
-//		int value = 0;
-//		value = calculateStraightFlush() + etc..value.
-		// TODO: Implement the calculator
-		return 0;
+		int value = 0;
+		ArrayList<Card> cards = new ArrayList<Card>();
+		if (card1 != null && card2 != null) {
+			cards.add(card1);
+			cards.add(card2);
+		}
+		if (table != null) {
+			ArrayList<Card> cardsOnTable = table.getCardOnTable();
+			for (Card c : cardsOnTable) {
+				cards.add(c);
+			}
+		}
+		Collections.sort(cards);
+		ShowdownEvaluator se = new ShowdownEvaluator();
+		Hand hand = se.evaluate(cards);
+		if (hand.equals(Hand.ROYALFLUSH)) {
+			value = 1;
+		} else if (hand.equals(Hand.STRAIGHTFLUSH)) {
+			value = 95;
+		} else if (hand.equals(Hand.FOUROFAKIND)) {
+			value = 90;
+		} else if (hand.equals(Hand.FULLHOUSE)) {
+			value = 85;
+		} else if (hand.equals(Hand.FLUSH)) {
+			value = 80;
+		} else if (hand.equals(Hand.STRAIGHT)) {
+			value = 75;
+		} else if (hand.equals(Hand.THREEOFAKIND)) {
+			value = 70;
+		} else if (hand.equals(Hand.TWOPAIRS)) {
+			value = 60;
+		} else if (hand.equals(Hand.ONEPAIR)) {
+			value = 35;
+		} else if (hand.equals(Hand.HIGHCARD)) {
+			value=0;
+		}
+		return value;
 	}
 	
 	/**
