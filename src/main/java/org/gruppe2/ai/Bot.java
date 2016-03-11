@@ -156,4 +156,14 @@ public class Bot extends Player {
 		// TODO: Implement calculation
 		return 0;
 	}
+	/**
+	 * Finds the cards included in the hand getting evaluated. 
+	 * For example if AI got 4 of a kind, bestHand will be those 4 cards.
+	 * This method is to help evaluate hand value.
+	 * @return bestHand
+	 */
+	private ArrayList<Card> getCardsInBestHand(){
+		ArrayList<Card> bestHand;
+		return null;
+	}
 }
