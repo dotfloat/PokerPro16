@@ -58,7 +58,6 @@ public class PokerGame implements Runnable{
 	public void playRound() {
 		Player previousPlayer = players.get(5);
 		previousPlayer.doAction(Action.FINISHED);
-		System.out.println("enter");
 		if(readyToPlay && isGameNotFinished()){
 			for(Player player : players){
 				System.out.println("yes!");
@@ -93,7 +92,7 @@ public class PokerGame implements Runnable{
 	public void playerRound(Player player){
 		System.out.println("players turn: "+player.toString());
 		startOfRound(player);
-		
+		InitializeGame.setPlayersToTable(this, gui);
 		round(player);
 		endOfRound(player);
 	}
@@ -141,12 +140,17 @@ public class PokerGame implements Runnable{
     }
 
     private void createBots(int i) {
-		players.add(new Player("Dåsa",players.get(0).getChips(),table,true));
-		players.add(new Player("Kåre",players.get(0).getChips(),table,true));
-		players.add(new Player("Dangle",players.get(0).getChips(),table,true));
-		players.add(new Player("MaqGruber",players.get(0).getChips(),table,true));
-		players.add(new Player("SheMaleLion",players.get(0).getChips(),table,true));
-		
+    	if(!(players.size() == 0)){
+			players.add(new Player("Dåsa",players.get(0).getChips(),table,true));
+			players.add(new Player("Kåre",players.get(0).getChips(),table,true));
+			players.add(new Player("Dangle",players.get(0).getChips(),table,true));
+			players.add(new Player("MaqGruber",players.get(0).getChips(),table,true));
+			players.add(new Player("SheMaleLion",players.get(0).getChips(),table,true));
+		}
+    	else{
+    		System.out.println("error, real player was not created");
+    		System.exit(1);
+    	}
 	}
     
     public void addPlayer(String name){

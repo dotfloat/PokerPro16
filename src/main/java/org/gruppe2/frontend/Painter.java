@@ -25,7 +25,7 @@ public class Painter extends Pane {
 		super();
 		this.game = game;
 		this.gui = gui;
-		//setBackGround("tableAndBackGround.png");
+		setBackGround("tableAndBackGround.png");
 	}
 
 	/**
@@ -52,8 +52,8 @@ public class Painter extends Pane {
 	public void showCardsOnHand(ArrayList<Player> listOfPlayers){
 		int playerNumber = 0;
 		for(Player player : listOfPlayers){
-			Label card1 = new Label(player.getCard1().toString());
-			Label card2 = new Label(player.getCard2().toString());
+			ImageView card1 = createCardImage(player.getCard1());
+			ImageView card2 = createCardImage(player.getCard2());
 			
 			if(playerNumber == 0){
 				card1.setLayoutX(150);
@@ -114,6 +114,18 @@ public class Painter extends Pane {
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
+	
+	public ImageView createCardImage(Card card){
+		String name = "Pictures/"+card.toStringGUI()+".png";
+		
+		Image image = new Image(getClass().getResourceAsStream(name),30,80,true,true);
+		
+		ImageView cardPic = new ImageView(image);
+		
+		return cardPic;
+
+	}
+	
 	
 
 
