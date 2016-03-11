@@ -1,0 +1,37 @@
+#PokerPro16
+
+## Synopsis
+
+PokerPro16 is an implementation of the poker game Texas Hold'em, written in Java and uses the [JavaFX API](http://docs.oracle.com/javase/8/javafx/api/toc.htm).
+
+## Code Example
+
+TODO
+
+## Installation
+
+Download the PokerPro16.jar file from /bin and run it. This requires Java Runtime Environment 8. If you don't have an JRE already installed, you can find it [here](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html).
+
+## API Reference
+
+TODO
+
+## Contributors
+
+###The project was made possible by the following people:
+..* Zohar Malamant
+..* Åsmund Hammer
+..* Håkon Tjeldnes
+..* Petter Thorgersen
+..* Daniel Jensen
+..* Kjetil Kjørstad
+..* Andreas Ommundsen
+..* Håkon Knudsen
+..* Mikal Naustdal
+..* Runar Serigstad
+..* Svein Høgemo
+..* Cem Pedersen
+
+## License
+
+PokerPro16 is under the [MIT](https://opensource.org/licenses/MIT) license.
