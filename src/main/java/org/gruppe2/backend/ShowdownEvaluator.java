@@ -122,7 +122,7 @@ public class ShowdownEvaluator {
      * @return true for full house, false if not a full house
      */
     public boolean fullHouse(List<Card> cards) {
-        return (threeOfAKind(cards) && twoPair(cards));
+        return (threeOfAKind(cards) && onePair(cards));
     }
 
     /**
