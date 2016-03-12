@@ -51,6 +51,7 @@ public interface GameClient {
      * Called before the player has decided on an action.
      * @param board
      * @param otherPlayer
+            return numChips;
      */
     default void onOtherPlayerTurn(Board board, Player otherPlayer) {}
 
