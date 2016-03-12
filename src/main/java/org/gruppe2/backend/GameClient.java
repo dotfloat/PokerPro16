@@ -1,7 +1,4 @@
-package org.gruppe2;
-
-import org.gruppe2.backend.Card;
-import org.gruppe2.backend.Player;
+package org.gruppe2.backend;
 
 import java.util.List;
 
@@ -45,7 +42,7 @@ public interface GameClient {
      * @param board
      * @return The action that the client wants to do
      */
-    default Action onTurn(Board board) { return Action.DISCONNECT; }
+    default Action onTurn(Board board) { return new Action(Action.Type.DISCONNECT, 1); }
 
     /**
      * Called before the player has decided on an action.
@@ -69,11 +66,4 @@ public interface GameClient {
      * @param newCards
      */
     default void onCommunalCards(Board board, List<Card> newCards) {}
-}
-
-enum Action {
-    DISCONNECT
-}
-
-class Board {
 }

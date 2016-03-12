@@ -14,6 +14,7 @@ public class Player implements PlayerAction{
     protected PokerTable table;
     protected boolean isBot;
     protected Action choice;
+    private GameClient client; //TODO: add client to player
 
     /**
      * Makes a player which is a user player
@@ -180,5 +181,12 @@ public class Player implements PlayerAction{
             table.addToPot(chips);
             return true;
         }
+    }
+
+    /**
+     * @return the client associated with this player
+     */
+    public GameClient getClient() {
+        return this.client;
     }
 }
