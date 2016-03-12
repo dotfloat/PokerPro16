@@ -7,8 +7,6 @@ import java.util.*;
  */
 public class ShowdownEvaluator {
 
-    private ArrayList<Card> cards;
-
     /**
      * Possible hands sorted from lowest to highest value.
      *
@@ -33,7 +31,8 @@ public class ShowdownEvaluator {
      * @param cards cards to evaluate
      * @return enum Hand, best hand
      */
-    public Hand evaluate(ArrayList<Card> cards) {
+
+    public Hand evaluate(List<Card> cards) {
         if(royalFlush(cards))
             return Hand.ROYALFLUSH;
         else if(straightFlush(cards))
@@ -62,7 +61,7 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true if it is a royal flush, false if not
      */
-    public boolean royalFlush(ArrayList<Card> cards) {
+    public boolean royalFlush(List<Card> cards) {
         if(straight(cards) && flush(cards)) {
             Collections.sort(cards);
 
@@ -86,7 +85,7 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true if it is a straight flush, false if not
      */
-    public boolean straightFlush(ArrayList<Card> cards) {
+    public boolean straightFlush(List<Card> cards) {
         return (flush(cards) && straight(cards));
     }
 
@@ -95,17 +94,15 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true if four of a kind, false if not
      */
-    public boolean fourOfAKind(ArrayList<Card> cards) {
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    public boolean fourOfAKind(List<Card> cards) {
+        HashMap<Integer, Integer> map = new HashMap<>();
 
-        for(int i = 0; i < cards.size(); i++) {
-
-            if (map.containsKey(cards.get(i).getFaceValue())) {
-                int add = map.get(cards.get(i).getFaceValue());
-                map.replace(cards.get(i).getFaceValue(), add+1);
-            }
-            else {
-                map.put(cards.get(i).getFaceValue(),1);
+        for (Card card : cards) {
+            if (map.containsKey(card.getFaceValue())) {
+                int add = map.get(card.getFaceValue());
+                map.replace(card.getFaceValue(), add + 1);
+            } else {
+                map.put(card.getFaceValue(), 1);
             }
         }
 
@@ -124,7 +121,7 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true for full house, false if not a full house
      */
-    public boolean fullHouse(ArrayList<Card> cards) {
+    public boolean fullHouse(List<Card> cards) {
         return (threeOfAKind(cards) && twoPair(cards));
     }
 
@@ -133,18 +130,16 @@ public class ShowdownEvaluator {
      * @param cards list of cards to check
      * @return true for flush, false if not flush
      */
-    public boolean flush(ArrayList<Card> cards) {
+    public boolean flush(List<Card> cards) {
         boolean isFlush = false;
-        HashMap<Card.Suit, Integer> map = new HashMap<Card.Suit, Integer>();
+        HashMap<Card.Suit, Integer> map = new HashMap<>();
 
-        for(int i = 0; i < cards.size(); i++) {
-
-            if (map.containsKey(cards.get(i).getSuit())) {
-                int add = map.get(cards.get(i).getSuit());
-                map.replace(cards.get(i).getSuit(), add+1);
-            }
-            else {
-                map.put(cards.get(i).getSuit(),1);
+        for (Card card : cards) {
+            if (map.containsKey(card.getSuit())) {
+                int add = map.get(card.getSuit());
+                map.replace(card.getSuit(), add + 1);
+            } else {
+                map.put(card.getSuit(), 1);
             }
         }
 
@@ -162,7 +157,7 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true for straight, false if not straight
      */
-    public boolean straight(ArrayList<Card> cards) {
+    public boolean straight(List<Card> cards) {
         Collections.sort(cards);
 
         //using a set to remove duplicates
@@ -201,28 +196,16 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true for three of a kind, false if not
      */
-    public boolean threeOfAKind(ArrayList<Card> cards) {
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    public boolean threeOfAKind(List<Card> cards) {
+        Map<Integer, Integer> freq = cardFaceFrequency(cards);
 
-        for(int i = 0; i < cards.size(); i++) {
-
-            if (map.containsKey(cards.get(i).getFaceValue())) {
-                int add = map.get(cards.get(i).getFaceValue());
-                map.replace(cards.get(i).getFaceValue(), add+1);
-            }
-            else {
-                map.put(cards.get(i).getFaceValue(),1);
-            }
-        }
-
-        boolean isThreeOfAKind = false;
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+        for(Map.Entry<Integer, Integer> entry : freq.entrySet()) {
             if(entry.getValue() >= 3) {
-                isThreeOfAKind = true;
+                return true;
             }
         }
 
-        return isThreeOfAKind;
+        return false;
     }
 
     /**
@@ -230,32 +213,17 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true for two pairs, false if not
      */
-    public boolean twoPair(ArrayList<Card> cards) {
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    public boolean twoPair(List<Card> cards) {
+        Map<Integer, Integer> freq = cardFaceFrequency(cards);
 
-        for(int i = 0; i < cards.size(); i++) {
-
-            if (map.containsKey(cards.get(i).getFaceValue())) {
-                int add = map.get(cards.get(i).getFaceValue());
-                map.replace(cards.get(i).getFaceValue(), add+1);
-            }
-            else {
-                map.put(cards.get(i).getFaceValue(),1);
-            }
-        }
-
-        boolean isTwoPair = false;
-        int count = 0;
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+        int numPairs = 0;
+        for(Map.Entry<Integer, Integer> entry : freq.entrySet()) {
             if(entry.getValue() >= 2) {
-                count++;
-                if(count == 2) {
-                    isTwoPair = true;
-                }
+                numPairs++;
             }
         }
 
-        return isTwoPair;
+        return numPairs == 2;
     }
 
     /**
@@ -263,29 +231,16 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true if there is a pair, false if not
      */
-    public boolean onePair(ArrayList<Card> cards) {
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    public boolean onePair(List<Card> cards) {
+        Map<Integer, Integer> freq = cardFaceFrequency(cards);
 
-        for(int i = 0; i < cards.size(); i++) {
-
-            if (map.containsKey(cards.get(i).getFaceValue())) {
-                int add = map.get(cards.get(i).getFaceValue());
-                map.replace(cards.get(i).getFaceValue(), add+1);
-            }
-            else {
-                map.put(cards.get(i).getFaceValue(),1);
+        for(Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            if(entry.getValue() == 2) {
+                return true;
             }
         }
 
-        boolean isPair = false;
-        int count = 0;
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if(entry.getValue() >= 2) {
-                isPair = true;
-            }
-        }
-
-        return isPair;
+        return false;
     }
 
     /**
@@ -293,8 +248,26 @@ public class ShowdownEvaluator {
      * @param cards cards to check
      * @return true, you should use the others tests first
      */
-    public boolean highCard(ArrayList<Card> cards) {
+    @SuppressWarnings("UnusedParameters")
+    public boolean highCard(List<Card> cards) {
         return true;
     }
 
+    /**
+     * How often a value shows up
+     * @param cards cards to check
+     * @return A map with the key as faceValue and value as number of times the value shows up
+     */
+    private Map<Integer, Integer> cardFaceFrequency(List<Card> cards) {
+        HashMap<Integer, Integer> freq = new HashMap<>();
+
+        for (Card c : cards) {
+            int face = c.getFaceValue();
+            int old_freq = freq.containsKey(face) ? freq.get(face) : 0;
+
+            freq.put(face, old_freq + 1);
+        }
+
+        return freq;
+    }
 }
