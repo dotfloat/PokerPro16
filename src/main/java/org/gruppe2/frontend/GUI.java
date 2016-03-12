@@ -13,7 +13,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.gruppe2.frontend.Card.Suit;
-
+/**
+ * Current main gui class, and also the mainClass
+ * The game loop is in PokerGame
+ * @author Håkon
+ *
+ */
 public class GUI extends Application {
 	// Position variables
 	static int x;
@@ -41,9 +46,7 @@ public class GUI extends Application {
 	int numberOfcellLists;
 	
 	
-	public GUI() {
-		
-	}
+	public GUI() {}
 
 	@Override
 	/*
@@ -97,7 +100,8 @@ public class GUI extends Application {
 	}
 	
 	/**
-	 * This event is launched for each round of the game, it simulates the round, paints the update.
+	 * This event is launched for each round of the game, it simulates the GUI round, it checks the root's children and draws them, if 
+	 * any new children.
 	 * @param gc
 	 */
 	public void launchAnimation(GraphicsContext gc) {
@@ -132,7 +136,11 @@ public class GUI extends Application {
 		primaryStage.show();
 		launchAnimation(gc);
 	}
-
+	/**
+	 * Sets size of window
+	 * @param x
+	 * @param y
+	 */
 	@SuppressWarnings("static-access")
 	public void setWindowSize(int x, int y) {
 		// Width
@@ -144,45 +152,74 @@ public class GUI extends Application {
 		y_max = y - (getScale() * 2);
 		y_min = getScale();
 	}
-
+	/**
+	 * Sets x and y:
+	 * @param a, length of window.
+	 * @param b, height of window.
+	 */
 	public void setXY(int a, int b) {
 		x = a;
 		y = b;
 	}
 
-
+	/**
+	 * Checks if game is paused.
+	 * @return
+	 */
 	public boolean isPaused() {
 		return paused;
 	}
-
+	/**
+	 * Pauses the game.
+	 * @param paused
+	 */
 	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}
-
+	
+	/**
+	 * Gets current step(number of redraws)
+	 * @return
+	 */
 	public int getStep() {
 		return step;
 	}
-
+	/**
+	 * Sets the reDrawStep, only used to reset to 0.
+	 * @param step
+	 */
 	public void setStep(int step) {
 		this.step = step;
 	}
-
+	/**
+	 * Restart of mainFrame, occurs if table is reset.
+	 */
 	public void restart() {
 	
 	}
-
+	/**
+	 * Gets the timer that controlls gui refresh rate
+	 */
 	public AnimationTimer getTimer() {
 		return timer;
 	}
-
+	/**
+	 * Sets the timer that controlls gui refresh rate
+	 *
+	 */
 	public void setTimer(AnimationTimer timer) {
 		this.timer = timer;
 	}
-
+	/**
+	 * Gets the frame that paints the board, players, cards etc.
+	 * @return
+	 */
 	public Painter getMainFrame() {
 		return mainFrame;
 	}
-
+	/**
+	 * Sets the frame that paints the board, players, cards etc.
+	 */
 	public void setMainFrame(Painter mainFrame) {
 		this.mainFrame = mainFrame;
 	}
@@ -194,14 +231,27 @@ public class GUI extends Application {
 	public int getY() {
 		return y;
 	}
-
+	/**
+	 * Gets the scale that gives the ratio between window size and size of board picture.
+	 * The smaller it is, the less of the window will be the board
+	 * @return
+	 */
 	public static int getScale() {
 		return scale;
 	}
-
+	/**
+	 * Sets the scale that gives the ratio between window size and size of board picture.
+	 * The smaller it is, the less of the window will be the board
+	 * @return
+	 */
 	public static void setScale(int scale) {
 		GUI.scale = scale;
 	}
+	
+	/**
+	 * Main method, calls PokerGame as a new thread in .start().
+	 * @param args
+	 */
 	public static void main(String[] args) {
     	Application.launch();
 		
