@@ -74,12 +74,7 @@ public class ShowdownEvaluator {
                     cardSet.add(card.getFaceValue());
             }
 
-            if(cardSet.size() == 5) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return cardSet.size() == 5;
         }
         else {
             return false;

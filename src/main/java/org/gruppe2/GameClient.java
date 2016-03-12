@@ -39,8 +39,8 @@ public interface GameClient {
     default void onCommunalCards(Board board, List<Card> newCards) {}
 }
 
-public class Action {
+class Action {
 }
 
-public class Board {
+class Board {
 }
