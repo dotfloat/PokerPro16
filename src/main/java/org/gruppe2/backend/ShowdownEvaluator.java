@@ -200,7 +200,7 @@ public class ShowdownEvaluator {
         Map<Integer, Integer> freq = cardFaceFrequency(cards);
 
         for(Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            if(entry.getValue() >= 3) {
+            if(entry.getValue() == 3) {
                 return true;
             }
         }
@@ -218,7 +218,7 @@ public class ShowdownEvaluator {
 
         int numPairs = 0;
         for(Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            if(entry.getValue() >= 2) {
+            if(entry.getValue() == 2) {
                 numPairs++;
             }
         }
