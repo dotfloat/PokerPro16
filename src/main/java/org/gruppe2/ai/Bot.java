@@ -33,20 +33,11 @@ public class Bot extends Player {
 	}
 	
 	/**
-	 * Calculates the value of the cards currently on the table
-	 * @return value (0-100)
+	 * Makes a list of cards in your hand + cards on the table and sorts them.
+	 * Should be used when calculating values.
+	 * @return cards on table + hand.
 	 */
-	private int calculateTableValue() {
-		// TODO: Implement the calculator
-		return 0;
-	}
-	
-	/**
-	 * Calculates the value of the cards in your hand combined with the current table.
-	 * @return value (0-100)
-	 */
-	private int calculateHandValue() {
-		int value = 0;
+	private ArrayList<Card> getCardsFromTableAndHand() {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		if (card1 != null && card2 != null) {
 			cards.add(card1);
@@ -59,30 +50,54 @@ public class Bot extends Player {
 			}
 		}
 		Collections.sort(cards);
+		return cards;
+	}
+	
+	private int evaluateCards(ArrayList<Card> cards) {
 		ShowdownEvaluator se = new ShowdownEvaluator();
 		Hand hand = se.evaluate(cards);
-		if (hand.equals(Hand.ROYALFLUSH)) {
-			value = 1;
-		} else if (hand.equals(Hand.STRAIGHTFLUSH)) {
-			value = 95;
-		} else if (hand.equals(Hand.FOUROFAKIND)) {
-			value = 90;
-		} else if (hand.equals(Hand.FULLHOUSE)) {
-			value = 85;
-		} else if (hand.equals(Hand.FLUSH)) {
-			value = 80;
-		} else if (hand.equals(Hand.STRAIGHT)) {
-			value = 75;
-		} else if (hand.equals(Hand.THREEOFAKIND)) {
-			value = 70;
-		} else if (hand.equals(Hand.TWOPAIRS)) {
-			value = 60;
-		} else if (hand.equals(Hand.ONEPAIR)) {
-			value = 35;
-		} else if (hand.equals(Hand.HIGHCARD)) {
-			value=0;
+		switch(hand) {
+		case ROYALFLUSH:
+			return 100;
+		case STRAIGHTFLUSH:
+			return 95;
+		case FOUROFAKIND:
+			return 90;
+		case FULLHOUSE:
+			return 85;
+		case FLUSH:
+			return 80;
+		case STRAIGHT:
+			return 75;
+		case THREEOFAKIND:
+			return 70;
+		case TWOPAIRS:
+			return 60;
+		case ONEPAIR:
+			return 35;
+		case HIGHCARD:
+			return 0;
+		default:
+			return 0;
 		}
-		return value;
+	}
+	
+	/**
+	 * Calculates the value of the cards currently on the table
+	 * @return value (0-100)
+	 */
+	private int evaluateTable() {
+		ArrayList<Card> cards = table.getCardOnTable();
+		return evaluateCards(cards);
+	}
+	
+	/**
+	 * Calculates the value of the cards in your hand combined with the current table.
+	 * @return value (0-100)
+	 */
+	private int evaluateHand() {
+		ArrayList<Card> cards = getCardsFromTableAndHand();
+		return evaluateCards(cards);
 	}
 	
 	/**
@@ -156,6 +171,7 @@ public class Bot extends Player {
 		// TODO: Implement calculation
 		return 0;
 	}
+	
 	/**
 	 * Finds the cards included in the hand getting evaluated. 
 	 * For example if AI got 4 of a kind, bestHand will be those 4 cards.
