@@ -22,7 +22,11 @@ public class Bot extends Player {
 		super(startChips, table);
 		name = "AI";
 	}
-	
+
+	public Action onTurn() {
+		return new Action(Action.Type.FOLD);
+	}
+
 	/**
 	 * Do an action.
 	 */
@@ -31,7 +35,7 @@ public class Bot extends Player {
 		// TODO: Actions.
 		choice = action;
 	}
-	
+
 	/**
 	 * Makes a list of cards in your hand + cards on the table and sorts them.
 	 * Should be used when calculating values.
@@ -54,32 +58,7 @@ public class Bot extends Player {
 	}
 	
 	private int evaluateCards(ArrayList<Card> cards) {
-		ShowdownEvaluator se = new ShowdownEvaluator();
-		Hand hand = se.evaluate(cards);
-		switch(hand) {
-		case ROYALFLUSH:
-			return 100;
-		case STRAIGHTFLUSH:
-			return 95;
-		case FOUROFAKIND:
-			return 90;
-		case FULLHOUSE:
-			return 85;
-		case FLUSH:
-			return 80;
-		case STRAIGHT:
-			return 75;
-		case THREEOFAKIND:
-			return 70;
-		case TWOPAIRS:
-			return 60;
-		case ONEPAIR:
-			return 35;
-		case HIGHCARD:
-			return 0;
-		default:
-			return 0;
-		}
+		return 0;
 	}
 	
 	/**
