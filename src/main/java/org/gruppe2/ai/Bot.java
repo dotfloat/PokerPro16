@@ -11,6 +11,7 @@ import org.gruppe2.backend.ShowdownEvaluator;
 import org.gruppe2.backend.ShowdownEvaluator.Hand;
 
 public class Bot extends Player {
+	private ArrayList<AIEvaluate> evaluators = new ArrayList<>();
 
 	/**
 	 * Initializes a Player (as a bot)
@@ -21,9 +22,21 @@ public class Bot extends Player {
 	public Bot(int startChips, PokerTable table) {
 		super(startChips, table);
 		name = "AI";
+
+		evaluators.add(new HandEvaluator());
 	}
 
 	public Action onTurn() {
+		int strength = 0;
+
+		for (AIEvaluate eval : evaluators) {
+			strength += eval.evaluate(table, this);
+		}
+
+		if (strength > 50) {
+			return new Action(Action.Type.ADD_CHIPS, 0);
+		}
+		
 		return new Action(Action.Type.FOLD);
 	}
 

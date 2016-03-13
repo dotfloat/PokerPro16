@@ -7,23 +7,34 @@ import org.gruppe2.backend.PokerTable;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class BotTest {
     @Test
     public void dontFoldOnRoyalFlush() {
-        ArrayList<Card> cards = new ArrayList<>();
-        PokerTable table = new PokerTable(new Deck(), 0);
+        PokerTable table = new PokerTableMock();
         Bot bot = new Bot(100, table);
-        cards.add(new Card(10, Card.Suit.CLUBS));
-        cards.add(new Card(11, Card.Suit.CLUBS));
+        bot.giveCards(new Card(10, Card.Suit.CLUBS), new Card(11, Card.Suit.CLUBS));
+
+        assertNotEquals(Action.Type.FOLD, bot.onTurn().getType());
+    }
+}
+
+class PokerTableMock extends PokerTable {
+    public PokerTableMock() {
+        super(null, 0);
+    }
+
+    @Override
+    public ArrayList<Card> getCardOnTable() {
+        ArrayList<Card> cards = new ArrayList<>();
         cards.add(new Card(7, Card.Suit.HEARTS));
         cards.add(new Card(12, Card.Suit.CLUBS));
         cards.add(new Card(13, Card.Suit.CLUBS));
         cards.add(new Card(14, Card.Suit.CLUBS)); //This is Ace
         cards.add(new Card(2, Card.Suit.SPADES));
-
-        assertNotEquals(Action.Type.FOLD, bot.onTurn().getType());
+        return cards;
     }
 }

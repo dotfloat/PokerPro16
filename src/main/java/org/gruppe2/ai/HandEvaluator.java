@@ -15,6 +15,7 @@ public class HandEvaluator implements AIEvaluate {
         List<Card> cards = getCardsFromTableAndHand(table, bot);
         ShowdownEvaluator se = new ShowdownEvaluator();
         ShowdownEvaluator.Hand hand = se.evaluate(cards);
+
         switch(hand) {
             case ROYALFLUSH:
                 return 100;
