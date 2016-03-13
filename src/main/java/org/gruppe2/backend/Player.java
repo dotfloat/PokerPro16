@@ -2,14 +2,15 @@ package org.gruppe2.backend;
 
 public class Player {
     private String name;
-    private int chips;
+    private int bank;
+    private int bet;
     private Card[] cards;
     private GameClient client;
 
     public Player(String name, int chips, GameClient client) {
         this.cards = new Card[2];
         this.name = name;
-        this.chips = chips;
+        this.bank = bank;
         this.client = client;
     }
 
@@ -21,14 +22,6 @@ public class Player {
         this.name = name;
     }
 
-    public int getChips() {
-        return chips;
-    }
-
-    public void setChips(int chips) {
-        this.chips = chips;
-    }
-
     public Card[] getCards() {
         return cards;
     }
@@ -38,11 +31,23 @@ public class Player {
         this.cards[1] = card1;
     }
 
-    public GameClient getClient() {
-        return client;
+    public int getBank() {
+        return bank;
     }
 
-    public void setClient(GameClient client) {
-        this.client = client;
+    public void setBank(int bank) {
+        this.bank = bank;
+    }
+
+    public int getBet() {
+        return bet;
+    }
+
+    public void setBet(int bet) {
+        this.bet = bet;
+    }
+
+    public GameClient getClient() {
+        return client;
     }
 }

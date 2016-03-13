@@ -1,10 +1,23 @@
 package org.gruppe2.backend;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class GameSession {
-    ArrayList<Player> players = new ArrayList<>();
-    Table table = new Table();
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> activePlayers = new ArrayList<>();
+    private Table table = new Table();
+    private int smallBlindAmount = 5;
+    private int bigBlindAmount = 10;
+
+    public int getSmallBlindAmount() {
+        return smallBlindAmount;
+    }
+
+    public int getBigBlindAmount() {
+        return bigBlindAmount;
+    }
 
     /**
      * Main game loop
@@ -12,7 +25,7 @@ public class GameSession {
      */
     public void mainLoop() {
         for (;;) {
-            eachTurn();
+            roundLoop();
         }
     }
 
@@ -21,13 +34,46 @@ public class GameSession {
         players.add(player);
     }
 
-    private void eachTurn() {
-        for(Player player : players) {
-            notifyOtherPlayersAboutTurn(player);
-            Action playerAction = player.getClient().onTurn();
-            doPlayerAction(playerAction, player);
-            notifyOtherPlayersAboutAction(player, playerAction);
+    private void roundLoop() {
+        activePlayers = new ArrayList<>();
+        activePlayers.addAll(players);
 
+        notifyRoundStart();
+
+        for (int current = 0; !activePlayers.isEmpty(); current++) {
+            Player player = activePlayers.get((current + 1) % activePlayers.size());
+
+            if (current == 0) {
+                player.setBet(bigBlindAmount);
+                notifyOtherPlayersAboutAction(player, new Action(Action.Type.BIG_BLIND, bigBlindAmount));
+                continue;
+            } else if (current == 1) {
+                player.setBet(smallBlindAmount);
+                notifyOtherPlayersAboutAction(player, new Action(Action.Type.SMALL_BLIND, smallBlindAmount));
+                continue;
+            }
+
+            notifyOtherPlayersAboutTurn(player);
+            Action action = player.getClient().onTurn();
+            notifyOtherPlayersAboutAction(player, action);
+
+            if (action.getType() == Action.Type.FOLD) {
+                activePlayers.remove(player);
+            }
+        }
+
+        notifyRoundEnd();
+    }
+
+    void notifyRoundStart() {
+        for (Player p : players) {
+            p.getClient().onRoundStart();
+        }
+    }
+
+    void notifyRoundEnd() {
+        for (Player p : players) {
+            p.getClient().onRoundEnd();
         }
     }
 

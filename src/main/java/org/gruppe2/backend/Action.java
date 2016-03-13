@@ -37,6 +37,8 @@ public class Action {
     public enum Type {
         DISCONNECT,
         FOLD,
-        ADD_CHIPS /* Check, Call or Raise */
+        ADD_CHIPS, /* Check, Call or Raise */
+        BIG_BLIND,
+        SMALL_BLIND
     }
 }

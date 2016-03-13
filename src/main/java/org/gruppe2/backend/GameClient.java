@@ -72,4 +72,8 @@ public class GameClient {
      * @param newCards
      */
     public void onCommunalCards(List<Card> newCards) {}
+
+    public GameSession getSession() {
+        return session;
+    }
 }

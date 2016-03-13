@@ -14,8 +14,13 @@ public class ConsoleClient extends GameClient {
     }
 
     @Override
+    public void onRoundStart() {
+        System.out.println("A new round has started");
+    }
+
+    @Override
     public void onOtherPlayerAction(Player player, Action action) {
-        System.out.printf("%s (%d) ", player.getName(), player.getChips());
+        System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), player.getBet());
 
         switch (action.getType()) {
             case FOLD:
@@ -25,12 +30,24 @@ public class ConsoleClient extends GameClient {
             case ADD_CHIPS:
                 System.out.println("");
                 break;
+
+            case SMALL_BLIND:
+                System.out.println("paid the small blind: " + getSession().getSmallBlindAmount());
+                break;
+
+            case BIG_BLIND:
+                System.out.println("paid the big blind: " + getSession().getBigBlindAmount());
+                break;
+
+            default:
+                System.out.println("!!! " + action.getType());
+                break;
         }
     }
 
     @Override
     public Action onTurn() {
-        System.out.print("Your turn (fold, check, raise): ");
+        System.out.print("> Your turn (fold, check, raise): ");
 
         Scanner ls = new Scanner(in.nextLine());
         String cmd = ls.next().toLowerCase();
@@ -38,6 +55,9 @@ public class ConsoleClient extends GameClient {
         switch(cmd) {
             case "fold":
                 return new Action(Action.Type.FOLD);
+
+            case "check":
+                return new Action(Action.Type.ADD_CHIPS, 0);
 
             default:
                 System.out.println("Unknown command");
@@ -59,7 +79,10 @@ public class ConsoleClient extends GameClient {
     public static void main(String[] args) {
         GameSession session = new GameSession();
         session.addPlayer("ConsoleClient", new ConsoleClient(session));
-        session.addPlayer("AIClient", new AIClient(session));
+        session.addPlayer("Anne", new AIClient(session));
+        session.addPlayer("Bob", new AIClient(session));
+        session.addPlayer("Chuck", new AIClient(session));
+        session.addPlayer("Dennis", new AIClient(session));
         session.mainLoop();
     }
 }
