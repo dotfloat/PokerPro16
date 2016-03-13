@@ -24,11 +24,11 @@ public class Bot extends Player {
 		name = "AI";
 
 		evaluators.add(new HandEvaluator());
+		evaluators.add(new OtherPlayersEvaluator());
 	}
 
 	public Action onTurn() {
 		int strength = 0;
-
 		for (AIEvaluate eval : evaluators) {
 			strength += eval.evaluate(table, this);
 		}
