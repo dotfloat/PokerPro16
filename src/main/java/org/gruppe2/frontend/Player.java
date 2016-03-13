@@ -29,9 +29,9 @@ public class Player{
     }
 
     /**
-     * Makes a player controlled by a AI
+     * Makes a player controlled by a AIClient
      * @param startChips How many chips a player starts with
-     * @param table The table the AI plays on
+     * @param table The table the AIClient plays on
      */
     public Player(String name, int startChips, PokerTable table,boolean isbot) {
     	this.name = name;
@@ -41,7 +41,7 @@ public class Player{
     }
 
     /**
-     * @return True if this player is controlled by an AI
+     * @return True if this player is controlled by an AIClient
      */
     public boolean isBot() {
         return isBot;

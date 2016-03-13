@@ -1,39 +1,35 @@
 package org.gruppe2.backend;
 
-import org.gruppe2.frontend.GUI;
-import org.gruppe2.frontend.InitializeGame;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * class to play a pokergame
  */
 public class PokerGame{
-
-    private GUI gui;
     private int startChips;
-    private int smallBlind;
-    private int bigBlind;
+    private int smallBlindAmount;
+    private int bigBlindAmount;
+    private int dealer;
     private ArrayList<Player> players;
-    private PokerTable table;
+    private Table table;
 
 
     /**
      *
-     * @param gui
      * @param startChips
      * @param smallBlind
      * @param bigBlind
      *
      * Constructor for pokergame
      */
-    public PokerGame(GUI gui, int startChips, int smallBlind, int bigBlind){ //parameterene startchips, smallBlind, og bigBLind er input i GUIen som brukeren skriver inn.
-        this.gui = gui;
-        this.smallBlind = smallBlind;
-        this.bigBlind = bigBlind;
+    public PokerGame(int startChips, int smallBlindAmount, int bigBlindAmount) { //parameterene startchips, smallBlind, og bigBLind er input i GUIen som brukeren skriver inn.
+        this.smallBlindAmount = smallBlindAmount;
+        this.bigBlindAmount = bigBlindAmount;
         this.startChips = startChips;
+        this.dealer = 0;
 
-         table = new PokerTable(new Deck(), 0);
+        table = new Table();
     }
 
     /**
@@ -41,23 +37,33 @@ public class PokerGame{
      *
      * methods for adding players to the game/table
      */
-    public void addPlayer(String name){
-        Player newPlayer = new Player(name, startChips, table);
-
-        if(players.size() == 1)
-            newPlayer.setBigBlind();
-        if(players.size() == 2)
-            newPlayer.setSmallBlind();
+    public void addPlayer(String name, GameClient client) {
+        Player newPlayer = new Player(name, startChips, client);
 
         players.add(newPlayer);
-        table.addPlayer(newPlayer);
     }
 
     /**
      * @return playerlist
      */
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
+    }
+
+    /**
+     * TODO: Verify: Big blind is the player after the dealer
+     * @return player who is big blind
+     */
+    public Player getPlayerBigBlind() {
+        return players.get((dealer + 1) % players.size());
+    }
+
+    /**
+     * TODO: Verify: Big blind is the player after the big blind
+     * @return player who is small blind
+     */
+    public Player getPlayerSmallBlind() {
+        return players.get((dealer + 2) % players.size());
     }
 
     /**
@@ -76,8 +82,8 @@ public class PokerGame{
      * Deals two cards to each player
      */
     public void dealCardsToAll(){
-        for(Player guy: players){
-            guy.giveCards(table.deck.drawCard(), table.deck.drawCard());
+        for(Player player: players){
+            player.setCards(table.getDeck().drawCard(), table.getDeck().drawCard());
         }
     }
 
@@ -88,21 +94,8 @@ public class PokerGame{
      * Finds small blind, makes next person at table small blind, and makes the previous smallblind Bigblind
      * this should rotatate the blinds.
      */
-    public void rotateBlinds(){
-        boolean smallBlindRotated = false;
-        boolean bigBlindRotated = false;
-        for(Player player: players){
-            if(player.isBigBlind() && ! bigBlindRotated){
-                player.resetBlinds();
-                bigBlindRotated = true;
-            }
-            if (player.isSmallBlind() && ! smallBlindRotated){
-                players.get((players.indexOf(player) +1) % players.size()).setSmallBlind();
-                player.resetBlinds();
-                player.setBigBlind();
-                smallBlindRotated = true;
-            }
-        }
+    public void rotateDealer() {
+        dealer = (dealer + 1) % players.size();
     }
 
     /**
@@ -112,21 +105,22 @@ public class PokerGame{
      *
      * the blinds does not increase over time for now.
      */
-    public void payBlinds(){
-        for(Player player: players){
-            if (player.isBigBlind()){
-                if( ! player.payBlind(bigBlind)){
-                    players.remove(player);
-                    rotateBlinds();
-                }
-            }
-            if (player.isSmallBlind()){
-               if( ! player.payBlind(smallBlind)){
-                   players.remove(player);
-                   rotateBlinds();
-               }
-            }
-        }
+    public void payBlinds() {
+//        getPlayerBigBlind()
+//        for(Player player: players){
+//            if (player.isBigBlind()){
+//                if( ! player.payBlind(bigBlind)){
+//                    players.remove(player);
+//                    rotateBlinds();
+//                }
+//            }
+//            if (player.isSmallBlind()){
+//               if( ! player.payBlind(smallBlind)){
+//                   players.remove(player);
+//                   rotateBlinds();
+//               }
+//            }
+//        }
     }
 
     /**
@@ -137,40 +131,40 @@ public class PokerGame{
      *
      */
     public void playerActionsIteration(){
-        boolean allDone = false;
-        boolean wait = true;
-        Player previousPlayer = players.get(players.size() -1);
-        for(Player player: players) {
-            while (wait) {
-                if (previousPlayer.getChoice().equals(Action.WAIT) && ! allDone) {
-                    player.doAction();
-                    previousPlayer = player;
-
-                    if (players.indexOf(player) != players.size() - 1) {
-                        wait = false;
-                    } else
-                        allDone = true;
-                }
-                else if (allDone && previousPlayer.getChoice().equals(Action.WAIT)){
-                  wait = false;
-                }
-            }
-            wait = true;
-        }
+//        boolean allDone = false;
+//        boolean wait = true;
+//        Player previousPlayer = players.get(players.size() -1);
+//        for(Player player: players) {
+//            while (wait) {
+//                if (previousPlayer.getChoice().equals(Action.WAIT) && ! allDone) {
+//                    player.doAction();
+//                    previousPlayer = player;
+//
+//                    if (players.indexOf(player) != players.size() - 1) {
+//                        wait = false;
+//                    } else
+//                        allDone = true;
+//                }
+//                else if (allDone && previousPlayer.getChoice().equals(Action.WAIT)){
+//                  wait = false;
+//                }
+//            }
+//            wait = true;
+//        }
     }
 
     /**
      * Method for drawing cards in a texas hold 'em game. NOTE: DOES NOT DISCARD ANY CARDS AS OF NOW
      */
     public void addCardsToTable(){
-        //burde kanskje kunne aksesere deck med et getDeck istedet for at alle felvaribler i PokerTable er public.
-        if(table.getCardOnTable().isEmpty()){
-            table.getCardOnTable().add(table.deck.drawCard());
-            table.getCardOnTable().add(table.deck.drawCard());
-            table.getCardOnTable().add(table.deck.drawCard());
+        //burde kanskje kunne aksesere deck med et getDeck istedet for at alle felvaribler i Table er public.
+        if(table.getCommunityCards().isEmpty()){
+            table.getCommunityCards().add(table.getDeck().drawCard());
+            table.getCommunityCards().add(table.getDeck().drawCard());
+            table.getCommunityCards().add(table.getDeck().drawCard());
         }
         else {
-            table.getCardOnTable().add(table.deck.drawCard());
+            table.getCommunityCards().add(table.getDeck().drawCard());
         }
     }
 
@@ -195,7 +189,7 @@ public class PokerGame{
         addCardsToTable();
         playerActionsIteration();
         declareWinner();
-        rotateBlinds();
+        rotateDealer();
     }
 
 

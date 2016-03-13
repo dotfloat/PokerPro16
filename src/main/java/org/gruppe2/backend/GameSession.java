@@ -1,29 +1,30 @@
 package org.gruppe2.backend;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class GameInit {
-    List<Player> players;
-    Board board;
-
-    /**
-     * New game
-     * @param players list of players with reference to the game client
-     * @param board board we're playing on
-     */
-    public GameInit(List<Player> players, Board board) {
-        this.players = players;
-        this.board = board;
-    }
+public class GameSession {
+    ArrayList<Player> players = new ArrayList<>();
+    Table table = new Table();
 
     /**
      * Main game loop
      * Notify players about which players turn it is, waits for that players action and notifies all players about the action
      */
-    void runGame() {
+    public void mainLoop() {
+        for (;;) {
+            eachTurn();
+        }
+    }
+
+    public void addPlayer(String name, GameClient client) {
+        Player player = new Player(name, 100, client);
+        players.add(player);
+    }
+
+    private void eachTurn() {
         for(Player player : players) {
             notifyOtherPlayersAboutTurn(player);
-            Action playerAction = player.getClient().onTurn(board);
+            Action playerAction = player.getClient().onTurn();
             doPlayerAction(playerAction, player);
             notifyOtherPlayersAboutAction(player, playerAction);
 
@@ -37,7 +38,7 @@ public class GameInit {
     void notifyOtherPlayersAboutTurn(Player player) {
         for(Player playerToNotify : players) {
             if(!playerToNotify.equals(player)) {
-                playerToNotify.getClient().onOtherPlayerTurn(board, player);
+                playerToNotify.getClient().onOtherPlayerTurn(player);
             }
         }
     }
@@ -50,7 +51,7 @@ public class GameInit {
     void notifyOtherPlayersAboutAction(Player player, Action action) {
         for(Player playerToNotify : players) {
             if(!playerToNotify.equals(player)) {
-                playerToNotify.getClient().onOtherPlayerAction(board, player, action);
+                playerToNotify.getClient().onOtherPlayerAction(player, action);
             }
         }
     }
@@ -62,7 +63,7 @@ public class GameInit {
      * @param player player performing
      */
     void doPlayerAction(Action action, Player player) {
-        if(checkLegalAction(action, player)) {
+        if (checkLegalAction(action, player)) {
             //do action something
         }
         else {

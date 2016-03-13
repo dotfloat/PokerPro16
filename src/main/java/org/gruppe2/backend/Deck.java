@@ -2,27 +2,36 @@ package org.gruppe2.backend;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Class for creating a standard deck of cards with 52 cards, 13 of each type.
  */
 public class Deck {
-
-    private ArrayList<Card> cards = new ArrayList<Card>();
+    private ArrayList<Card> cards;
+    private int cardsLeft;
 
     public Deck() {
-        for(Card.Suit suit : Card.Suit.values()) {
-            for(int i = 2; i <= 14; i++) {
-                cards.add(new Card(i,suit));
+        cards = new ArrayList<>();
+        for (Card.Suit suit : Card.Suit.values()) {
+            for (int face = 2; face <= 14; face++) {
+                cards.add(new Card(face, suit));
             }
         }
+
+        shuffle();
+    }
+
+    public void shuffle() {
+        Collections.shuffle(cards);
+        cardsLeft = 52;
     }
 
     /**
      * @return size of the deck
      */
-    public int getSize() {
-        return cards.size();
+    public int getAvailableCards() {
+        return cardsLeft;
     }
 
     /**
@@ -30,11 +39,11 @@ public class Deck {
      * @return next card from deck
      */
     public Card drawCard() {
-        if(cards.size() == 0) {
-            return null;
+        if (cardsLeft <= 0) {
+            throw new RuntimeException("Not enough cards in deck");
         }
 
-        return cards.remove(0);
+        return cards.get(--cardsLeft);
     }
 
     /**
@@ -42,12 +51,8 @@ public class Deck {
      * @param amount amount of cards to draw
      * @return ArrayList og cards
      */
-    public ArrayList<Card> drawCards(int amount) {
-       if(amount > cards.size()) {
-            throw new IllegalArgumentException("Not enough cards in deck");
-        }
-
-        ArrayList<Card> drawnCards = new ArrayList<Card>();
+    public List<Card> drawCards(int amount) {
+        ArrayList<Card> drawnCards = new ArrayList<>();
 
         for(int i = 0; i < amount; i++) {
             drawnCards.add(drawCard());
@@ -56,15 +61,7 @@ public class Deck {
         return drawnCards;
     }
 
-    public void shuffle() {
-        Collections.shuffle(cards);
-    }
-
-    /**
-     * Get the cards that are still in the deck
-     * @return cards still in deck
-     */
-    public ArrayList<Card> getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 }
