@@ -19,6 +19,11 @@ public class ConsoleClient extends GameClient {
     }
 
     @Override
+    public void onPlayerVictory(Player player) {
+        System.out.println(player.getName() + " has won");
+    }
+
+    @Override
     public void onOtherPlayerAction(Player player, Action action) {
         System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), player.getBet());
 
@@ -83,6 +88,7 @@ public class ConsoleClient extends GameClient {
         session.addPlayer("Bob", new AIClient(session));
         session.addPlayer("Chuck", new AIClient(session));
         session.addPlayer("Dennis", new AIClient(session));
+        session.addPlayer("Emma", new AIClient(session));
         session.mainLoop();
     }
 }

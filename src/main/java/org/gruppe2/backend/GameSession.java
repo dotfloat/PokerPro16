@@ -41,7 +41,11 @@ public class GameSession {
         notifyRoundStart();
 
         for (int current = 0; !activePlayers.isEmpty(); current++) {
-            Player player = activePlayers.get((current + 1) % activePlayers.size());
+            int currentPlayerIdx = (current + 1) % activePlayers.size();
+            Player player = activePlayers.get(currentPlayerIdx);
+
+            if (player == null)
+                continue;
 
             if (current == 0) {
                 player.setBet(bigBlindAmount);
@@ -58,11 +62,33 @@ public class GameSession {
             notifyOtherPlayersAboutAction(player, action);
 
             if (action.getType() == Action.Type.FOLD) {
-                activePlayers.remove(player);
+                activePlayers.set(currentPlayerIdx, null);
+            }
+
+            if (numActivePlayers() == 1) {
+                for (Player p : activePlayers) {
+                    if (p != null) {
+                        notifyPlayerVictory(p);
+                        break;
+                    }
+                }
+                break;
             }
         }
 
         notifyRoundEnd();
+    }
+
+    private int numActivePlayers() {
+        int numActivePlayers = 0;
+
+        for (Player p : activePlayers) {
+            if (p != null) {
+                numActivePlayers++;
+            }
+        }
+
+        return numActivePlayers;
     }
 
     void notifyRoundStart() {
@@ -74,6 +100,12 @@ public class GameSession {
     void notifyRoundEnd() {
         for (Player p : players) {
             p.getClient().onRoundEnd();
+        }
+    }
+
+    void notifyPlayerVictory(Player winner) {
+        for (Player p : players) {
+            p.getClient().onPlayerVictory(winner);
         }
     }
 

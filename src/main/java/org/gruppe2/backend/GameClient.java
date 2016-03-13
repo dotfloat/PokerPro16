@@ -41,6 +41,13 @@ public class GameClient {
     public void onRoundEnd() {}
 
     /**
+     * Called when a player wins
+     */
+    public void onPlayerVictory(Player player) {
+
+    }
+
+    /**
      * Called when it's the player's action. It is allowed to block.
      *
      * Only active players can receive this. (Not spectators)
