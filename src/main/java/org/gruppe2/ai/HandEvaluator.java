@@ -2,7 +2,7 @@ package org.gruppe2.ai;
 
 import org.gruppe2.backend.Card;
 import org.gruppe2.backend.Player;
-import org.gruppe2.backend.PokerTable;
+import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.ShowdownEvaluator;
 
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ import java.util.List;
 
 public class HandEvaluator implements AIEvaluate {
     @Override
-    public double evaluate(PokerTable table, Player bot) {
-        List<Card> cards = getCardsFromTableAndHand(table, bot);
+    public double evaluate(GameSession session, Player bot) {
+        List<Card> cards = getCardsFromTableAndHand(session, bot);
         ShowdownEvaluator se = new ShowdownEvaluator();
         ShowdownEvaluator.Hand hand = se.evaluate(cards);
 
@@ -47,14 +47,14 @@ public class HandEvaluator implements AIEvaluate {
      * Should be used when calculating values.
      * @return cards on table + hand.
      */
-    private List<Card> getCardsFromTableAndHand(PokerTable table, Player bot) {
+    private List<Card> getCardsFromTableAndHand(GameSession session, Player bot) {
         ArrayList<Card> cards = new ArrayList<Card>();
         if (bot.getCard1() != null && bot.getCard2() != null) {
             cards.add(bot.getCard1());
             cards.add(bot.getCard2());
         }
-        if (table != null) {
-            ArrayList<Card> cardsOnTable = table.getCardOnTable();
+        if (session != null) {
+            List<Card> cardsOnTable = session.getTable().getCommunityCards();
             for (Card c : cardsOnTable) {
                 cards.add(c);
             }
