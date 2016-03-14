@@ -24,8 +24,7 @@ public class ChoiceBar{
 				HBox hbox = new HBox(50);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
-				createGrid(hbox, gui.border, player);
-		    	
+				createGrid(hbox, gui.border, player); 	
 		    }           
 		});
 	}
@@ -75,6 +74,7 @@ public class ChoiceBar{
 		//Slider
 		raiseSlider.setShowTickMarks(false);
 		raiseSlider.setShowTickLabels(false);
+<<<<<<< HEAD
 		raiseSlider.setMajorTickUnit(10);
 		raiseSlider.setBlockIncrement(10);
 		raiseSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -83,6 +83,10 @@ public class ChoiceBar{
 				sliderValue.textProperty().setValue(String.valueOf((int) raiseSlider.getValue())+" CHIPS");
 			}
 		});
+=======
+		raiseSlider.setMajorTickUnit(5);
+		raiseSlider.setBlockIncrement(5);
+>>>>>>> be0040a08fad52f7b57cb5b9c4479638a79f1324
 		
 		
 //		raiseSlider.setOnAction(e -> {

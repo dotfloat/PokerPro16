@@ -64,7 +64,7 @@ public class Painter extends Pane {
 
 	public void setBackGround(String name) {
 		
-		this.setStyle("-fx-background-color: brown");
+		this.setStyle("-fx-background-color: #662200");
 		backGround = new Image(getClass().getResourceAsStream(name));
 		ImageView bg = new ImageView(backGround);
 		bg.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
