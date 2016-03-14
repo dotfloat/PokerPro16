@@ -16,7 +16,7 @@ public class MakeButtons {
 	public void makeButton(BorderPane border, GUI gui, Group root) {
 		
 		//Make menu
-		new TopMenu(grid, gui);
+//		new TopMenu(grid, gui);
 		
 		// Buttons
 		restart = new Button("Restart");
@@ -59,15 +59,14 @@ public class MakeButtons {
 				Platform.exit();
 			}
 		});
-		// creating object buttons
-		GridPane grid1 = new GridPane();
+		
 		
 		// Add to parrent scene
 		grid.add(restart, 1, 1);
 		grid.add(pause, 2, 1);
 		grid.add(exit, 4, 1);
 		border.setTop(grid);
-		border.setLeft(grid1);
+		
 	}
 
 	

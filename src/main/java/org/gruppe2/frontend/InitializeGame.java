@@ -1,5 +1,7 @@
 package org.gruppe2.frontend;
 
+import org.gruppe2.backend.Player;
+
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -19,7 +21,7 @@ import javafx.stage.Stage;
  */
 public class InitializeGame {
 
-	public static void setStartValues(PokerGame pokerGame) {
+	public static void setStartValues() {
 		Group root = new Group();
 		Stage dialogStage = new Stage();
 		dialogStage.setTitle("Edit Person");
@@ -28,7 +30,7 @@ public class InitializeGame {
 		dialogStage.setScene(scene);
 
 		GridPane grid = new GridPane();
-		createGrid(grid, root, dialogStage, pokerGame);
+		createGrid(grid, root, dialogStage);
 		
 		
 		dialogStage.showAndWait();
@@ -36,7 +38,7 @@ public class InitializeGame {
 	}
 
 	private static void createGrid(GridPane grid, Group root,
-			Stage dialogStage, PokerGame pokerGame) {
+			Stage dialogStage) {
 
 		Label nameLabel = new Label("Name:");
 		TextField nameField = new TextField();
@@ -53,7 +55,7 @@ public class InitializeGame {
 		Button ok = new Button("ok");
 		Button cancel = new Button("cancel");
 		setButtonAction(ok, cancel, nameField, smallBlindField, bigBlindField,
-				startMoneyField, pokerGame, dialogStage);
+				startMoneyField, dialogStage);
 
 		grid.add(nameLabel, 1, 1);
 		grid.add(nameField, 2, 1);
@@ -70,14 +72,14 @@ public class InitializeGame {
 		grid.add(ok, 1, 5);
 		grid.add(cancel, 2, 5);
 		
-		setUpEmptyPot(pokerGame);
+//		setUpEmptyPot(pokerGame);
 		root.getChildren().add(grid);
 	}
 
 	private static void setButtonAction(Button ok, Button cancel,
 			TextField nameField, TextField smallBlindField,
 			TextField bigBlindField, TextField startMoneyField,
-			PokerGame pokerGame, Stage dialogStage) {
+			 Stage dialogStage) {
 
 		ok.setOnAction(e -> {
 			if (!nameField.getText().equals(null)) {
@@ -86,13 +88,13 @@ public class InitializeGame {
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
 
-					pokerGame.getPlayers().add(new Player(name, startValue,pokerGame.getTable()));
-
+//					pokerGame.getPlayers().add(new Player(name, startValue,pokerGame.getTable()));
+					
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
 
-					pokerGame.smallBlind = smallBlind;
-					pokerGame.bigBlind = bigBlind;
+//					pokerGame.smallBlind = smallBlind;
+//					pokerGame.bigBlind = bigBlind;
 
 					dialogStage.close();
 				}
@@ -128,8 +130,8 @@ public class InitializeGame {
 	 * Draws the pot in top middle of bord.
 	 * @return
 	 */
-	private static void setUpEmptyPot(PokerGame pokerGame){
-		pokerGame.gui.getMainFrame().updateTablePot(pokerGame);
-	}
+//	private static void setUpEmptyPot(){
+//		gui.getMainFrame().updateTablePot(0);
+//	}
 
 }
