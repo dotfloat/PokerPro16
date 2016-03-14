@@ -67,10 +67,10 @@ public class Painter extends Pane {
 		this.setStyle("-fx-background-color: brown");
 		backGround = new Image(getClass().getResourceAsStream(name));
 		ImageView bg = new ImageView(backGround);
-		bg.setFitWidth(gui.getX()-gui.getX()*0.3);
-		bg.setFitHeight(gui.getY()-gui.getY()*0.3);
-		bg.setLayoutX(gui.getX()/2-bg.getFitWidth()/2);
-		bg.setLayoutY(gui.getY()/2-bg.getFitHeight()/2);
+		bg.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
+		bg.setFitHeight(gui.getHeight()-gui.getHeight()*0.3);
+		bg.setLayoutX(gui.getWidth()/2-bg.getFitWidth()/2);
+		bg.setLayoutY(gui.getHeight()/2-bg.getFitHeight()/2);
 		this.getChildren().add(bg);
 	}
 
@@ -200,7 +200,7 @@ public class Painter extends Pane {
 	}
 	
 	public ImageView createCardImage(Card card){
-		String name = "/c02.png";
+		String name = "/Picture";
 		
 		Image image = new Image(getClass().getResourceAsStream(name),30,80,true,true);
 		
@@ -285,20 +285,20 @@ public class Painter extends Pane {
 	}
 
 	
-//	 /**
-//     * Method so GUI can find card easily
-//     * @return
-//     */
-//    public String toStringGUI() {
-////    	String finalName = String.valueOf(getSuit().toString().toLowerCase().charAt(0));
-////    	
-////    	if(getFaceValue() > 9)
-////    		finalName += getFaceValue();
-////    	else 
-////    		finalName += "0"+getFaceValue();
-////    	
-////        return finalName;
-//    }
+	 /**
+     * Method so GUI can find card easily
+     * @return
+     */
+    public String getCardName(Card card) {
+    	String finalName = String.valueOf(card.getSuit().toString().toLowerCase().charAt(0));
+    	
+    	if(card.getFaceValue() > 9)
+    		finalName += card.getFaceValue();
+    	else 
+    		finalName += "0"+card.getFaceValue();
+    	
+        return finalName;
+    }
 	
 
 

@@ -13,18 +13,18 @@ public class GUIClient extends GameClient implements Runnable {
 		
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
 	@Override
 	public Action onTurn(){
-		
 		while (true) {
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
 		
 	}
 	@Override
@@ -37,5 +37,7 @@ public class GUIClient extends GameClient implements Runnable {
         getSession().addPlayer("Emma", new AIClient(getSession()));
         getSession().mainLoop();
 	}
+	
+	
 
 }

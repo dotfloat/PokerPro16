@@ -10,13 +10,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
-import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.GameSession;
-import org.gruppe2.backend.Card;
+import org.gruppe2.backend.Player;
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
@@ -25,12 +23,12 @@ import org.gruppe2.backend.Card;
  */
 public class GUI extends Application {
 	// Position variables
-	static int x;
-	static int x_max;
-	static int x_min;
-	static int y;
-	static int y_max;
-	static int y_min;
+	static int width;
+	static int width_max;
+	static int width_min;
+	static int height;
+	static int height_max;
+	static int height_min;
 	
 	private static int scale = 100;
 	private int step;
@@ -74,32 +72,38 @@ public class GUI extends Application {
 		// Create stage
 		primaryStage.setTitle("PokerPro 2016");
 		Group root = new Group();
-		Scene scene = new Scene(root, x, y);
-		
+		Scene scene = new Scene(root, width, height);
+		scene.getStylesheets().add("/css/style.css");
 		// Canvas creation
-		Canvas canvas = new Canvas(x_max, y_max);
+		Canvas canvas = new Canvas(width_max, height_max);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
+		border = new BorderPane();
 		
-		// Create nodes
 		setMainFrame(new Painter(this));
 		
-		creations = new Pane();
-		statusBar = new Pane();
-		border = new BorderPane();
-
 		// Create node buttons
 		MakeButtons buttons = new MakeButtons();
 		buttons.makeButton(border, this, root);
-
+		
 		setInitialChildrenToRoot(border, canvas, root);
 
 		startShow(root, scene, primaryStage, gc);
 		
-	    mainFrame.createCardImage(new Card(2, Suit.CLUBS));
+	   
 
 		gameSession = new GameSession();
-		Thread th = new Thread(new GUIClient(gameSession, this));
+		GUIClient guiClient = new GUIClient(gameSession, this);
+		gameSession.addPlayer("CoolestPerson", guiClient);
+		gameSession.addPlayer("Anne", new AIClient(gameSession));
+		gameSession.addPlayer("Bob", new AIClient(gameSession));
+        gameSession.addPlayer("Chuck", new AIClient(gameSession));
+        gameSession.addPlayer("Dennis", new AIClient(gameSession));
+        gameSession.addPlayer("Emma", new AIClient(gameSession));
+		Thread th = new Thread(guiClient);
 		th.start();
+		// Create nodes
+		
+		ChoiceBar.showChoices(this, gameSession.getPlayers().get(0));
 
 	}
 	
@@ -146,13 +150,13 @@ public class GUI extends Application {
 	@SuppressWarnings("static-access")
 	public void setWindowSize(int x, int y) {
 		// Width
-		this.x = x;
-		x_max = x - (getScale() * 2);
-		x_min = getScale();
+		this.width = x;
+		width_max = width - (getScale() * 2);
+		width_min = getScale();
 		// Height
-		this.y = y;
-		y_max = y - (getScale() * 2);
-		y_min = getScale();
+		this.height = y;
+		height_max = height - (getScale() * 2);
+		height_min = getScale();
 	}
 	/**
 	 * Sets x and y:
@@ -160,8 +164,8 @@ public class GUI extends Application {
 	 * @param b, height of window.
 	 */
 	public void setXY(int a, int b) {
-		x = a;
-		y = b;
+		width = a;
+		height = b;
 	}
 
 	/**
@@ -226,12 +230,12 @@ public class GUI extends Application {
 		this.mainFrame = mainFrame;
 	}
 
-	public int getX() {
-		return x;
+	public int getWidth() {
+		return width;
 	}
 
-	public int getY() {
-		return y;
+	public int getHeight() {
+		return height;
 	}
 	/**
 	 * Gets the scale that gives the ratio between window size and size of board picture.

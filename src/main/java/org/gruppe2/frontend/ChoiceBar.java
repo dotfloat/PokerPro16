@@ -1,22 +1,15 @@
 package org.gruppe2.frontend;
 
-import org.gruppe2.backend.Player;
-
 import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-public class ChoicePopup{
+import org.gruppe2.backend.Player;
+
+public class ChoiceBar{
 	
 	
 	public static void showChoices(GUI gui, Player player) {
@@ -25,12 +18,11 @@ public class ChoicePopup{
 		    public void run() {
 
 				HBox hbox = new HBox(200);
-				hbox.setStyle("-fx-background-color: black");
+				
 				createGrid(hbox, gui.border, player);
 		    	
 		    }           
 		});
-
 	}
 	private static void createGrid(HBox hbox,
 			BorderPane border,  Player player) {
