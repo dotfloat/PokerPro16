@@ -170,12 +170,21 @@ public class GameSession {
         return table;
     }
 
-//    public List<Action> getPlayerOptions (Player player){
-//        ArrayList<Action> actions = new ArrayList<>();
-//
-//        if (player.getBet() == highestBet)
-//            actions.add(Action.Type.ADD_CHIPS);
-//
-//        return actions;
-//    }
+    /**
+     * Find the possible option to a player
+     * @param player Current player
+     * @return The options available to the player
+     */
+    public PossibleActions getPlayerOptions (Player player){
+        PossibleActions actions = new PossibleActions();
+
+        if (player.getBet() == highestBet)
+            actions.setCheck();
+        if (player.getBank() > highestBet - player.getBet()){
+            actions.setRaise(highestBet - player.getBet() + 1, player.getBank());
+            actions.setCall();
+        }
+
+        return actions;
+    }
 }
