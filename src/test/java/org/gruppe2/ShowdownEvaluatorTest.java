@@ -38,12 +38,12 @@ public class ShowdownEvaluatorTest {
     public void invalidRoyalFlushShouldReturnFalseTest() {
         cards.add(new Card(9, Card.Suit.CLUBS));
         cards.add(new Card(11, Card.Suit.CLUBS));
-        cards.add(new Card(7, Card.Suit.HEARTS));
         cards.add(new Card(12, Card.Suit.CLUBS));
         cards.add(new Card(13, Card.Suit.CLUBS));
-        cards.add(new Card(14, Card.Suit.CLUBS)); //This is Ace
-        cards.add(new Card(2, Card.Suit.SPADES));
-
+        cards.add(new Card(14, Card.Suit.CLUBS));
+        cards.add(new Card(7, Card.Suit.HEARTS));
+         //This is Ace
+        cards.add(new Card(10, Card.Suit.SPADES));
         assertFalse("Invalid royal flush should be false",evaluator.royalFlush(cards));
     }
 
@@ -51,11 +51,12 @@ public class ShowdownEvaluatorTest {
     public void straightFlushShouldReturnTrueTest() {
         cards.add(new Card(2, Card.Suit.CLUBS));
         cards.add(new Card(3, Card.Suit.CLUBS));
-        cards.add(new Card(7, Card.Suit.HEARTS));
         cards.add(new Card(4, Card.Suit.CLUBS));
         cards.add(new Card(5, Card.Suit.CLUBS));
-        cards.add(new Card(14, Card.Suit.CLUBS)); //This is Ace
-        cards.add(new Card(2, Card.Suit.SPADES));
+        cards.add(new Card(6, Card.Suit.CLUBS));
+        cards.add(new Card(9, Card.Suit.HEARTS));
+         //This is Ace
+        cards.add(new Card(3, Card.Suit.SPADES));
 
         assertTrue("Valid straight flush should be true",evaluator.straightFlush(cards));
     }
@@ -266,6 +267,23 @@ public class ShowdownEvaluatorTest {
         cards.add(new Card(2, Card.Suit.SPADES));
 
         assertTrue("High card should be true",evaluator.highCard(cards));
+    }
+    
+    @Test
+    public void testRuntime(){
+    	cards.add(new Card(3, Card.Suit.CLUBS));
+        cards.add(new Card(3, Card.Suit.SPADES));
+        cards.add(new Card(3, Card.Suit.HEARTS));
+        cards.add(new Card(13, Card.Suit.CLUBS));
+        cards.add(new Card(13, Card.Suit.DIAMONDS));
+        cards.add(new Card(7, Card.Suit.CLUBS));
+        cards.add(new Card(6, Card.Suit.DIAMONDS));
+        long msec = System.currentTimeMillis();
+        for (int i =0;i<10000;i++){
+        	evaluator.fullHouse(cards);
+        }
+        long time = System.currentTimeMillis()-msec;
+        System.out.println(time);
     }
 
 }
