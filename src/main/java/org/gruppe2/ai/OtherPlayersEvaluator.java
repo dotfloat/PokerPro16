@@ -1,13 +1,13 @@
 package org.gruppe2.ai;
 
 import org.gruppe2.backend.Player;
-import org.gruppe2.backend.PokerTable;
+import org.gruppe2.backend.GameSession;
 
 public class OtherPlayersEvaluator implements AIEvaluate {
 
 	@Override
-	public double evaluate(PokerTable table, Player bot) {
-		int numberOfPlayers = table.getPlayers().size();
+	public double evaluate(GameSession session, Player bot) {
+		int numberOfPlayers = session.getPlayers().size();
 		int value=0;
 		value+=calculateStraightFlush(numberOfPlayers);
 		value+=calculateFourOfAKind(numberOfPlayers);

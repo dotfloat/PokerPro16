@@ -4,11 +4,13 @@ public class Player {
     private String name;
     private int bank;
     private int bet;
-    private Card[] cards;
+    private Card card0;
+    private Card card1;
     private GameClient client;
 
     public Player(String name, int chips, GameClient client) {
-        this.cards = new Card[2];
+        this.card0 = null;
+        this.card1 = null;
         this.name = name;
         this.bank = bank;
         this.client = client;
@@ -22,13 +24,17 @@ public class Player {
         this.name = name;
     }
 
-    public Card[] getCards() {
-        return cards;
+    public Card getCard1() {
+        return card0;
+    }
+
+    public Card getCard2() {
+        return card1;
     }
 
     public void setCards(Card card0, Card card1) {
-        this.cards[0] = card0;
-        this.cards[1] = card1;
+        this.card0 = card0;
+        this.card1 = card1;
     }
 
     public int getBank() {

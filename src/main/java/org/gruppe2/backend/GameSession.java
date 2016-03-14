@@ -3,6 +3,7 @@ package org.gruppe2.backend;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class GameSession {
     private ArrayList<Player> players = new ArrayList<>();
@@ -17,6 +18,10 @@ public class GameSession {
 
     public int getBigBlindAmount() {
         return bigBlindAmount;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     /**
@@ -158,5 +163,9 @@ public class GameSession {
      */
     boolean checkLegalAction(Action action, Player player) {
         return true;
+    }
+
+    public Table getTable() {
+        return table;
     }
 }
