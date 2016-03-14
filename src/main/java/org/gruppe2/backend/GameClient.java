@@ -3,7 +3,13 @@ package org.gruppe2.backend;
 import java.util.List;
 
 @SuppressWarnings("UnusedParameters")
-public interface GameClient {
+public class GameClient {
+    private GameSession session;
+
+    public GameClient(GameSession session) {
+        this.session = session;
+    }
+
     /* Session events */
 
     /**
@@ -11,14 +17,14 @@ public interface GameClient {
      * @param board
      * @param otherPlayer
      */
-    default void onPlayerConnect(Board board, Player otherPlayer) {}
+    public void onPlayerConnect(Player otherPlayer) {}
 
     /**
      * Called when another player disconnects
      * @param board
      * @param otherPlayer
      */
-    default void onPlayerDisconnect(Board board, Player otherPlayer) {}
+    public void onPlayerDisconnect(Player otherPlayer) {}
 
     /* Game events */
 
@@ -26,13 +32,20 @@ public interface GameClient {
      * Called after the round starts
      * @param board
      */
-    default void onRoundStart(Board board) {}
+    public void onRoundStart() {}
 
     /**
      * Called before the round ends
      * @param board
      */
-    default void onRoundEnd(Board board) {}
+    public void onRoundEnd() {}
+
+    /**
+     * Called when a player wins
+     */
+    public void onPlayerVictory(Player player) {
+
+    }
 
     /**
      * Called when it's the player's action. It is allowed to block.
@@ -42,7 +55,7 @@ public interface GameClient {
      * @param board
      * @return The action that the client wants to do
      */
-    default Action onTurn(Board board) { return new Action(Action.Type.DISCONNECT, 1); }
+    public Action onTurn() { return null; }
 
     /**
      * Called before the player has decided on an action.
@@ -50,7 +63,7 @@ public interface GameClient {
      * @param otherPlayer
             return numChips;
      */
-    default void onOtherPlayerTurn(Board board, Player otherPlayer) {}
+    public void onOtherPlayerTurn(Player otherPlayer) {}
 
     /**
      * Called after the player has decided on an action.
@@ -58,12 +71,16 @@ public interface GameClient {
      * @param otherPlayer
      * @param action
      */
-    default void onOtherPlayerAction(Board board, Player otherPlayer, Action action) {}
+    public void onOtherPlayerAction(Player otherPlayer, Action action) {}
 
     /**
      * Called when cards are added to the communal cards.
      * @param board
      * @param newCards
      */
-    default void onCommunalCards(Board board, List<Card> newCards) {}
+    public void onCommunalCards(List<Card> newCards) {}
+
+    public GameSession getSession() {
+        return session;
+    }
 }

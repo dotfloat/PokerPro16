@@ -115,7 +115,7 @@ public class PokerGame implements Runnable{
 				ChoicePopup.showChoices(this, player);
 			}
 			else{
-				//DO BOT AI -->
+				//DO BOT AIClient -->
 				player.doAction(Action.CHECK);;
 			}
 		}

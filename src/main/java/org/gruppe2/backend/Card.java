@@ -3,12 +3,25 @@ package org.gruppe2.backend;
 public class Card implements Comparable<Card> {
 
 
-    public enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES}
+    public enum Suit {
+        CLUBS('\u2663'), DIAMONDS('\u2666'), HEARTS('\u2665'), SPADES('\u2660');
+
+        private char symbol;
+
+        Suit(char symbol) {
+            this.symbol = symbol;
+        }
+
+        public char getUnicodeSymbol() {
+            return symbol;
+        }
+    }
+
     //to simplify things
-    static final int JACK = 11;
-    static final int QUEEN = 12;
-    static final int KING = 13;
-    static final int ACE = 14;
+    public static final int JACK = 11;
+    public static final int QUEEN = 12;
+    public static final int KING = 13;
+    public static final int ACE = 14;
 
     private Suit suit;
     private int faceValue;
@@ -51,28 +64,40 @@ public class Card implements Comparable<Card> {
 
     /**
      * CompareTo used for sorting a list of cards. We don't care about suit only faceValue
-     * @param o card to caompare
+     * @param other card to compare
      * @return usual compareTo result
      */
     @Override
-    public int compareTo(Card o) {
-        if(this.equals(o))
-            return 0;
-
-        if(this.getFaceValue() < o.getFaceValue()) {
-            return -1;
-        }
-        else if(this.getFaceValue() > o.getFaceValue()) {
-            return 1;
-        }
-        else {
-            //in sorting we don't care about suit
-            return 0;
-        }
+    public int compareTo(Card other) {
+        return Integer.compare(this.getFaceValue(), other.getFaceValue());
     }
 
     @Override
     public String toString() {
-        return getFaceValue() + " of " + getSuit();
+        String face;
+
+        switch (getFaceValue()) {
+            case JACK:
+                face = "J";
+                break;
+
+            case QUEEN:
+                face = "Q";
+                break;
+
+            case KING:
+                face = "K";
+                break;
+
+            case ACE:
+                face = "A";
+                break;
+
+            default:
+                face = String.valueOf(getFaceValue());
+                break;
+        }
+
+        return face + getSuit().getUnicodeSymbol();
     }
 }

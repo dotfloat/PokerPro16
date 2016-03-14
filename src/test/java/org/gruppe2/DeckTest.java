@@ -19,20 +19,20 @@ public class DeckTest {
 
     @Test
     public void deckIs52CardsTest() {
-        assertEquals("Deck is not the right size", 52, deck.getSize());
+        assertEquals("Deck is not the right size", 52, deck.getAvailableCards());
     }
 
     @Test
     public void drawCardShouldDecrementSizeTest() {
         deck.drawCard();
-        assertEquals("Deck is not the right size after drawing a card", 51, deck.getSize());
+        assertEquals("Deck is not the right size after drawing a card", 51, deck.getAvailableCards());
     }
 
     @Test
     public void drawingSeveralCardsShouldDecrementSizeTest() {
         int toDraw = 10;
         deck.drawCards(toDraw);
-        assertEquals("Deck is not the right size after drawing several cards", 52-toDraw, deck.getSize());
+        assertEquals("Deck is not the right size after drawing several cards", 52-toDraw, deck.getAvailableCards());
     }
 
     @Test(expected = IllegalArgumentException.class)
