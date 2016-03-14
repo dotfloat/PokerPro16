@@ -1,8 +1,6 @@
 package org.gruppe2.backend;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class GameSession {
@@ -31,7 +29,7 @@ public class GameSession {
      */
     public void mainLoop() {
         for (;;) {
-            roundLoop();
+            matchLoop();
         }
     }
 
@@ -40,9 +38,10 @@ public class GameSession {
         players.add(player);
     }
 
-    private void roundLoop() {
+    private void matchLoop() {
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
+        highestBet = 0;
 
         notifyRoundStart();
 
@@ -154,8 +153,7 @@ public class GameSession {
             //no legal action
         }
     }
-
-    //TODO: Check for legal action
+    
     /**
      * Check if it is a legal action
      * @param action action being performed
@@ -163,7 +161,18 @@ public class GameSession {
      * @return true if it's legal, false if not
      */
     boolean checkLegalAction(Action action, Player player) {
-        return true;
+        if (!activePlayers.contains(player))
+            return false;
+
+        PossibleActions pa = getPlayerOptions(player);
+        if (action instanceof Action.Check)
+            return pa.canCheck();
+        else if (action instanceof Action.Raise)
+            return pa.canRaise();
+        else if (action instanceof Action.Call)
+            return pa.canCall();
+        else
+            throw new IllegalArgumentException(player + " can't do that action");
     }
 
     public Table getTable() {
@@ -181,7 +190,8 @@ public class GameSession {
         if (player.getBet() == highestBet)
             actions.setCheck();
         if (player.getBank() > highestBet - player.getBet()){
-            actions.setRaise(highestBet - player.getBet() + 1, player.getBank());
+            if (!(player.getBank() == highestBet - player.getBet()))
+                actions.setRaise(highestBet - player.getBet() + 1, player.getBank());
             actions.setCall();
         }
 
