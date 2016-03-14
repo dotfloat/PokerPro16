@@ -70,7 +70,7 @@ public class Painter extends Pane {
 		bg.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
 		bg.setFitHeight(gui.getHeight()-gui.getHeight()*0.3);
 		bg.setLayoutX(gui.getWidth()/2-bg.getFitWidth()/2);
-		bg.setLayoutY(gui.getHeight()/2-bg.getFitHeight()/2);
+		bg.setLayoutY(gui.getHeight()/2-bg.getFitHeight()/1.55);
 		this.getChildren().add(bg);
 	}
 

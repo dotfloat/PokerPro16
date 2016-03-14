@@ -20,31 +20,23 @@ public class MakeButtons {
 		
 		// Buttons
 		restart = new Button("Restart");
-		restart.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				gui.getScene().getStylesheets().clear();
-				gui.getScene().getStylesheets().add("/css/style.css");
-			}
-		});
+		restart.setOnAction(e -> {
+            gui.getScene().getStylesheets().clear();
+            gui.getScene().getStylesheets().add("/css/style.css");
+        });
 
 		pause = new Button("Pause");
-		pause.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				if (!gui.isPaused()) {
-					pause.setText("fortsett");
-					gui.getTimer().stop();
-					gui.setPaused(true);
-				} else {
-					pause.setText("Pause");
-					gui.getTimer().start();
-					gui.setPaused(false);
-				}
-			}
-		});
+		pause.setOnAction(e -> {
+            if (!gui.isPaused()) {
+                pause.setText("fortsett");
+                gui.getTimer().stop();
+                gui.setPaused(true);
+            } else {
+                pause.setText("Pause");
+                gui.getTimer().start();
+                gui.setPaused(false);
+            }
+        });
 
 		
 

@@ -24,7 +24,13 @@
 	-fx-background-color: #006622;
 }
 .slider {
-	-fx-scale-x: 2;
+	-fx-color: #009933;
+	-fx-scale-x: 1;
+}
+
+.label {
+	-fx-text-fill: white;
+	-fx-font: 20px "sans-serif";
 }
 
 .background {

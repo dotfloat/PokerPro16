@@ -1,6 +1,9 @@
 package org.gruppe2.frontend;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +21,7 @@ public class ChoiceBar{
 		    @Override
 		    public void run() {
 		    	
-				HBox hbox = new HBox(200);
+				HBox hbox = new HBox(50);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
 				createGrid(hbox, gui.border, player);
@@ -33,15 +36,17 @@ public class ChoiceBar{
 		Button call = new Button("CALL");
 		Button fold = new Button("FOLD");
 		Button raise = new Button("RAISE");
-		Slider raiseSlider = new Slider(1,10000, 10);
+		Slider raiseSlider = new Slider(1, 5000, 50);
+		raiseSlider.setMaxWidth(500);
+		raiseSlider.setMinWidth(500);
+		Label sliderValue = new Label(raiseSlider.getValue() + " CHIPS");
 		Label showCards = new Label("Cards will be shown here");
 		
-		setButtonAction(raiseSlider, check, call, raise,
-				fold,  player);
+		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue);
 		
 		
 		
-		hbox.getChildren().addAll(fold,call,check,raiseSlider,raise,showCards);
+		hbox.getChildren().addAll(fold,call,check,raiseSlider,sliderValue, raise, showCards);
 		hbox.setMinHeight(70);
 		hbox.setMaxHeight(70);
 		
@@ -51,9 +56,9 @@ public class ChoiceBar{
 	}
 
 	private static void setButtonAction(Slider raiseSlider,
-			Button check, Button call,
-			Button raise, Button fold,
-			 Player player) {
+										Button check, Button call,
+										Button raise, Button fold,
+										Player player, Label sliderValue) {
 		
 //		check.setOnAction(e -> {
 //			player.doAction(Action.CHECK);
@@ -70,8 +75,14 @@ public class ChoiceBar{
 		//Slider
 		raiseSlider.setShowTickMarks(false);
 		raiseSlider.setShowTickLabels(false);
-		raiseSlider.setMajorTickUnit(5);
-		raiseSlider.setBlockIncrement(5);
+		raiseSlider.setMajorTickUnit(10);
+		raiseSlider.setBlockIncrement(10);
+		raiseSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				sliderValue.textProperty().setValue(String.valueOf((int) raiseSlider.getValue())+" CHIPS");
+			}
+		});
 		
 		
 //		raiseSlider.setOnAction(e -> {
