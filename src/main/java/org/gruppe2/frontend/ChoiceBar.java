@@ -35,10 +35,12 @@ public class ChoiceBar{
 		Button call = new Button("CALL");
 		Button fold = new Button("FOLD");
 		Button raise = new Button("RAISE");
-		Slider raiseSlider = new Slider(1, 5000, 50);
-		raiseSlider.setMaxWidth(500);
-		raiseSlider.setMinWidth(500);
-		Label sliderValue = new Label(raiseSlider.getValue() + " CHIPS");
+		Slider raiseSlider = new Slider(25, 5000, 50);
+		raiseSlider.setMaxWidth(450);
+		raiseSlider.setMinWidth(450);
+		Label sliderValue = new Label((int)raiseSlider.getValue() + " CHIPS");
+		sliderValue.setMinWidth(115);
+		sliderValue.setMaxWidth(115);
 		Label showCards = new Label("Cards will be shown here");
 		
 		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue);
@@ -77,11 +79,14 @@ public class ChoiceBar{
 		raiseSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				sliderValue.textProperty().setValue(String.valueOf((int) raiseSlider.getValue())+" CHIPS");
+				sliderValue.textProperty().setValue(checkMaxBid(raiseSlider));
+				//uncomment when there is an actual player
+				//raiseSlider.setMin(player.getBank());
+				//raiseSlider.setMax(player.getBank());
 			}
 		});
 		
-		
+
 //		raiseSlider.setOnAction(e -> {
 //			if (!check.getText().equals(null)) {
 //					if(!raiseField.getText().equals(null)){
@@ -96,6 +101,10 @@ public class ChoiceBar{
 //		});
 	
 
+	}
+	private static String checkMaxBid(Slider slider){
+		if (slider.getValue()==slider.getMax()) return "GO ALL IN";
+		else return (int) slider.getValue() + " CHIPS";
 	}
 
 }
