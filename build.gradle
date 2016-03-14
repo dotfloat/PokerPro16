@@ -9,6 +9,11 @@ run {
     main = mainClassName
 }
 
+task runConsole(type: JavaExec, dependsOn: classes) {
+    args = ['--console']
+    main = mainClassName
+}
+
 jar {
     manifest {
         attributes 'Main-Class': mainClassName

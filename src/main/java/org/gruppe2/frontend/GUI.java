@@ -10,13 +10,17 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import org.gruppe2.frontend.Card.Suit;
+import org.gruppe2.ai.AIClient;
+import org.gruppe2.backend.Card.Suit;
+import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Card;
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
- * @author Håkon
+ * @author Hï¿½kon
  *
  */
 public class GUI extends Application {
@@ -37,14 +41,16 @@ public class GUI extends Application {
 	// Scene objects
 	private Painter mainFrame;
 	Pane creations, statusBar;
-	PokerGame pokerGame;
+	BorderPane border;
+	
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
 	
 	
 	// Cell lists for optimization
 	int numberOfcellLists;
-	
+	//Game
+	GameSession gameSession;
 	
 	public GUI() {}
 
@@ -55,8 +61,8 @@ public class GUI extends Application {
 	 * @see javafx.application.Application#init()
 	 */
 	public void init() {
-
-		setWindowSize(800, 600);
+		
+		setWindowSize(1920, 1080);
 		setStep(0);
 	}
 	/**
@@ -72,15 +78,14 @@ public class GUI extends Application {
 		
 		// Canvas creation
 		Canvas canvas = new Canvas(x_max, y_max);
-		
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
-
+		
 		// Create nodes
-		setMainFrame(new Painter(pokerGame, this));
+		setMainFrame(new Painter(this));
 		
 		creations = new Pane();
 		statusBar = new Pane();
-		BorderPane border = new BorderPane();
+		border = new BorderPane();
 
 		// Create node buttons
 		MakeButtons buttons = new MakeButtons();
@@ -91,10 +96,9 @@ public class GUI extends Application {
 		startShow(root, scene, primaryStage, gc);
 		
 	    mainFrame.createCardImage(new Card(2, Suit.CLUBS));
-		
-		pokerGame = new PokerGame(this);
-		
-		Thread th = new Thread(pokerGame);
+
+		gameSession = new GameSession();
+		Thread th = new Thread(new GUIClient(gameSession, this));
 		th.start();
 
 	}
@@ -109,8 +113,7 @@ public class GUI extends Application {
 
 			@Override
 			public void handle(long arg0) {
-				
-				
+	
 				getMainFrame().paint();
 				
 				setStep(getStep() + 1);
@@ -118,7 +121,6 @@ public class GUI extends Application {
 		});
 		getTimer().start();
 		setPaused(false);
-		
 	}
 	
 	/**

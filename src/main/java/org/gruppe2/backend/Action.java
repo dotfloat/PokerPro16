@@ -4,41 +4,28 @@ package org.gruppe2.backend;
  * Get
  */
 public class Action {
-    public static final int WAIT = 0; // TODO: Remove this
-
-    private Type type;
-    private int intVal;
-
-    public Action(Type type, int intVal) {
-        this.type = type;
-        this.intVal = intVal;
+    protected Action() {
+        // Action can only be extended
     }
 
-    public Action(Type type) {
-        this(type, 0);
+    public static class Fold extends Action {
     }
 
-    public Type getType() {
-        return type;
+    public static class Check extends Action {
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public static class Call extends Action {
     }
 
-    public int getIntVal() {
-        return intVal;
-    }
+    public static class Raise extends Action {
+        private int amount;
 
-    public void setIntVal(int intVal) {
-        this.intVal = intVal;
-    }
+        public Raise(int amount) {
+            this.amount = amount;
+        }
 
-    public enum Type {
-        DISCONNECT,
-        FOLD,
-        ADD_CHIPS, /* Check, Call or Raise */
-        BIG_BLIND,
-        SMALL_BLIND
+        public int getAmount() {
+            return amount;
+        }
     }
 }

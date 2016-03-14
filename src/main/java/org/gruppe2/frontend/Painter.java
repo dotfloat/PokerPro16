@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -17,6 +16,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import org.gruppe2.backend.Card;
+import org.gruppe2.backend.Player;
+import org.gruppe2.backend.PokerGame;
 /**
  * Class that paints the objects.
  * @author htj063
@@ -24,7 +27,7 @@ import javafx.stage.Stage;
  */
 public class Painter extends Pane {
 
-	PokerGame game;
+	
 	//Used to make sure the drawing are correct size compared to screen. 
 	//ig. 120 vdw = 12 vdw on screen if scale = 10
 	private int scale = 10;
@@ -44,11 +47,10 @@ public class Painter extends Pane {
 	Label totalPot;
 	
 	
-	public Painter(PokerGame game, GUI gui) {
+	public Painter(GUI gui) {
 		super();
-		this.game = game;
 		this.gui = gui;
-		setBackGround("/tableAndBackGround.png");
+		setBackGround("/PokertableWithLogo.png");
 	}
 
 	/**
@@ -61,10 +63,14 @@ public class Painter extends Pane {
 	}
 
 	public void setBackGround(String name) {
+		
+		this.setStyle("-fx-background-color: brown");
 		backGround = new Image(getClass().getResourceAsStream(name));
 		ImageView bg = new ImageView(backGround);
-		bg.setFitWidth(gui.getX());
-		bg.setFitHeight(gui.getY());
+		bg.setFitWidth(gui.getX()-gui.getX()*0.3);
+		bg.setFitHeight(gui.getY()-gui.getY()*0.3);
+		bg.setLayoutX(gui.getX()/2-bg.getFitWidth()/2);
+		bg.setLayoutY(gui.getY()/2-bg.getFitHeight()/2);
 		this.getChildren().add(bg);
 	}
 
@@ -131,7 +137,7 @@ public class Painter extends Pane {
 				getChildren().remove(playerPosition4);
 				getChildren().remove(playerPosition5);
 				
-				setPlayersToTable(gui.pokerGame, gui);
+//				setPlayersToTable(gui.pokerGame, gui);
 		    }
 		});
 	}
@@ -143,7 +149,7 @@ public class Painter extends Pane {
 		int playerNumber = 0;
 		for (Player player : pokerGame.getPlayers()) {
 			Label playerPosition = new Label(player.getName()+ " "
-					+ player.getChips());
+					+ "500");
 			if (playerNumber == 0) {
 				playerPosition.setLayoutX(15);
 				playerPosition.setLayoutY(300);
@@ -194,7 +200,7 @@ public class Painter extends Pane {
 	}
 	
 	public ImageView createCardImage(Card card){
-		String name = "/"+card.toStringGUI()+".png";
+		String name = "/c02.png";
 		
 		Image image = new Image(getClass().getResourceAsStream(name),30,80,true,true);
 		
@@ -241,9 +247,9 @@ public class Painter extends Pane {
 		
 	}
 	
-	public void updateTablePot(PokerGame pokerGame){
+	public void updateTablePot(int pot){
 		getChildren().remove(totalPot);
-		totalPot = new Label("Total pot:\n"+pokerGame.getTable().pot);
+		totalPot = new Label("Total pot:\n"+pot);
 		totalPot.setLayoutX(400);
 		totalPot.setLayoutY(100);
 		
@@ -279,7 +285,20 @@ public class Painter extends Pane {
 	}
 
 	
-	
+//	 /**
+//     * Method so GUI can find card easily
+//     * @return
+//     */
+//    public String toStringGUI() {
+////    	String finalName = String.valueOf(getSuit().toString().toLowerCase().charAt(0));
+////    	
+////    	if(getFaceValue() > 9)
+////    		finalName += getFaceValue();
+////    	else 
+////    		finalName += "0"+getFaceValue();
+////    	
+////        return finalName;
+//    }
 	
 
 

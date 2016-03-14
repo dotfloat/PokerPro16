@@ -27,26 +27,16 @@ public class ConsoleClient extends GameClient {
     public void onOtherPlayerAction(Player player, Action action) {
         System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), player.getBet());
 
-        switch (action.getType()) {
-            case FOLD:
-                System.out.println("folded.");
-                break;
-
-            case ADD_CHIPS:
-                System.out.println("");
-                break;
-
-            case SMALL_BLIND:
-                System.out.println("paid the small blind: " + getSession().getSmallBlindAmount());
-                break;
-
-            case BIG_BLIND:
-                System.out.println("paid the big blind: " + getSession().getBigBlindAmount());
-                break;
-
-            default:
-                System.out.println("!!! " + action.getType());
-                break;
+        if (action instanceof Action.Fold) {
+            System.out.println("folded");
+        } else if (action instanceof Action.Call) {
+            System.out.println("called");
+        } else if (action instanceof Action.Check) {
+            System.out.println("checked");
+        } else if (action instanceof Action.Raise) {
+            System.out.println("raised by " + ((Action.Raise) action).getAmount());
+        } else {
+            System.out.println("!!! " + action);
         }
     }
 
@@ -59,14 +49,20 @@ public class ConsoleClient extends GameClient {
 
         switch(cmd) {
             case "fold":
-                return new Action(Action.Type.FOLD);
+                return new Action.Fold();
 
             case "check":
-                return new Action(Action.Type.ADD_CHIPS, 0);
+                return new Action.Check();
+
+            case "call":
+                return new Action.Call();
+
+            case "raise":
+                return new Action.Raise(ls.nextInt());
 
             default:
                 System.out.println("Unknown command");
-                return new Action(Action.Type.DISCONNECT);
+                return null;
         }
     }
 

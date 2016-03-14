@@ -12,6 +12,6 @@ public class AIClient extends GameClient {
 
     @Override
     public Action onTurn() {
-        return new Action(Action.Type.FOLD); // Best AI
+        return new Action.Fold(); // Best AI
     }
 }
