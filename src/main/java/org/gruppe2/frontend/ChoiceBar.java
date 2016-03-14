@@ -1,6 +1,7 @@
 package org.gruppe2.frontend;
 
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -19,6 +20,7 @@ public class ChoiceBar{
 		    	
 				HBox hbox = new HBox(200);
 				hbox.getStyleClass().add("hbox");
+				hbox.setAlignment(Pos.CENTER);
 				createGrid(hbox, gui.border, player);
 		    	
 		    }           
@@ -27,10 +29,10 @@ public class ChoiceBar{
 	private static void createGrid(HBox hbox,
 			BorderPane border,  Player player) {
 
-		Button check = new Button("Check");
-		Button call = new Button("Call");
-		Button fold = new Button("Fold");
-		Button raise = new Button("Raise");
+		Button check = new Button("CHECK");
+		Button call = new Button("CALL");
+		Button fold = new Button("FOLD");
+		Button raise = new Button("RAISE");
 		Slider raiseSlider = new Slider(1,10000, 10);
 		Label showCards = new Label("Cards will be shown here");
 		
@@ -40,8 +42,8 @@ public class ChoiceBar{
 		
 		
 		hbox.getChildren().addAll(fold,call,check,raiseSlider,raise,showCards);
-		hbox.setMinHeight(150);
-		hbox.setMaxHeight(150);
+		hbox.setMinHeight(70);
+		hbox.setMaxHeight(70);
 		
 		border.setBottom(hbox);
 		
@@ -66,10 +68,10 @@ public class ChoiceBar{
 //		});
 		
 		//Slider
-		raiseSlider.setShowTickMarks(true);
-		raiseSlider.setShowTickLabels(true);
-		raiseSlider.setMajorTickUnit(5f);
-		raiseSlider.setBlockIncrement(5f);
+		raiseSlider.setShowTickMarks(false);
+		raiseSlider.setShowTickLabels(false);
+		raiseSlider.setMajorTickUnit(5);
+		raiseSlider.setBlockIncrement(5);
 		
 		
 //		raiseSlider.setOnAction(e -> {
