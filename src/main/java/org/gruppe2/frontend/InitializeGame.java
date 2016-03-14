@@ -29,12 +29,8 @@ public class InitializeGame {
 
 		GridPane grid = new GridPane();
 		createGrid(grid, root, dialogStage, pokerGame);
-		// Set the person into the controller
-		// PersonEditDialogController controller = loader.getController();
-		// controller.setDialogStage(dialogStage);
-		// controller.setPerson(person);
-
-		// Show the dialog and wait until the user closes it
+		
+		
 		dialogStage.showAndWait();
 
 	}
@@ -73,6 +69,8 @@ public class InitializeGame {
 
 		grid.add(ok, 1, 5);
 		grid.add(cancel, 2, 5);
+		
+		setUpEmptyPot(pokerGame);
 		root.getChildren().add(grid);
 	}
 
@@ -125,6 +123,13 @@ public class InitializeGame {
 		}
 
 		return false;
+	}
+	/**
+	 * Draws the pot in top middle of bord.
+	 * @return
+	 */
+	private static void setUpEmptyPot(PokerGame pokerGame){
+		pokerGame.gui.getMainFrame().updateTablePot(pokerGame);
 	}
 
 }

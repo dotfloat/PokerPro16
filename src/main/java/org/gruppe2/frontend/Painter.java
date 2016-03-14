@@ -40,6 +40,9 @@ public class Painter extends Pane {
 	Label playerPosition4;
 	Label playerPosition5;
 	
+	//Total pot
+	Label totalPot;
+	
 	
 	public Painter(PokerGame game, GUI gui) {
 		super();
@@ -236,6 +239,15 @@ public class Painter extends Pane {
 		    }
 		});
 		
+	}
+	
+	public void updateTablePot(PokerGame pokerGame){
+		getChildren().remove(totalPot);
+		totalPot = new Label("Total pot:\n"+pokerGame.getTable().pot);
+		totalPot.setLayoutX(400);
+		totalPot.setLayoutY(100);
+		
+		getChildren().add(totalPot);
 	}
 	
 	public void playerWon(Player player){
