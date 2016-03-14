@@ -43,7 +43,7 @@ public class ChoicePopup{
 		Label showCards = new Label("Cards will be shown here");
 		
 		setButtonAction(raiseSlider, check, call, raise,
-				fold, pokerGame, player);
+				fold,  player);
 		
 		
 		
@@ -54,20 +54,20 @@ public class ChoicePopup{
 	private static void setButtonAction(Slider raiseSlider,
 			Button check, Button call,
 			Button raise, Button fold,
-			PokerGame pokerGame, Player player) {
+			 Player player) {
 		check.setMaxHeight(100);
 		check.setMaxWidth(500);
-		check.setOnAction(e -> {
-			player.doAction(Action.CHECK);
-		});
-		
-		call.setOnAction(e -> {
-			player.doAction(Action.CALL);
-		});
-		
-		fold.setOnAction(e -> {
-			player.doAction(Action.FOLD);
-		});
+//		check.setOnAction(e -> {
+//			player.doAction(Action.CHECK);
+//		});
+//		
+//		call.setOnAction(e -> {
+//			player.doAction(Action.CALL);
+//		});
+//		
+//		fold.setOnAction(e -> {
+//			player.doAction(Action.FOLD);
+//		});
 		
 		//Slider
 		raiseSlider.setShowTickMarks(true);

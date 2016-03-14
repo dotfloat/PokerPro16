@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Card;
@@ -95,11 +96,10 @@ public class GUI extends Application {
 		startShow(root, scene, primaryStage, gc);
 		
 	    mainFrame.createCardImage(new Card(2, Suit.CLUBS));
-		
+
 		gameSession = new GameSession();
-		
-//		Thread th = new Thread(pokerGame);
-//		th.start();
+		Thread th = new Thread(new GUIClient(gameSession, this));
+		th.start();
 
 	}
 	
