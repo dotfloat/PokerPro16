@@ -10,8 +10,6 @@ public class GUIClient extends GameClient implements Runnable {
 	public GUIClient(GameSession session, GUI gui) {
 		super(session);
 		this.gui = gui;
-		
-		// TODO Auto-generated constructor stub
 	}
 	
 	

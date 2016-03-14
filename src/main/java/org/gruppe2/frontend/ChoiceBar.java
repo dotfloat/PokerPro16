@@ -21,8 +21,7 @@ public class ChoiceBar{
 				HBox hbox = new HBox(200);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
-				createGrid(hbox, gui.border, player);
-		    	
+				createGrid(hbox, gui.border, player); 	
 		    }           
 		});
 	}
@@ -72,7 +71,6 @@ public class ChoiceBar{
 		raiseSlider.setShowTickLabels(false);
 		raiseSlider.setMajorTickUnit(5);
 		raiseSlider.setBlockIncrement(5);
-
 		
 		
 //		raiseSlider.setOnAction(e -> {
