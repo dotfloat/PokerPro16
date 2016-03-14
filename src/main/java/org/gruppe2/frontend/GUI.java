@@ -12,11 +12,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.GameSession;
-import org.gruppe2.backend.Player;
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
@@ -62,7 +60,7 @@ public class GUI extends Application {
 	 */
 	public void init() {
 		
-		setWindowSize(1920, 1080);
+		setWindowSize(1728, 972);
 		setStep(0);
 	}
 	/**
@@ -80,6 +78,8 @@ public class GUI extends Application {
 		Canvas canvas = new Canvas(width, height_max);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 		border = new BorderPane();
+		
+		primaryStage.setOnCloseRequest(e -> System.exit(0));
 		
 		setMainFrame(new Painter(this));
 		

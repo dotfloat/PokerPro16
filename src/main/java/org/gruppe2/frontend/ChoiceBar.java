@@ -40,9 +40,12 @@ public class ChoiceBar{
 		
 		
 		hbox.getChildren().addAll(fold,call,check,raiseSlider,raise,showCards);
-		hbox.setMinHeight(30);
-		hbox.setMaxHeight(30);
+		hbox.setMinHeight(150);
+		hbox.setMaxHeight(150);
+		
 		border.setBottom(hbox);
+		
+		
 	}
 
 	private static void setButtonAction(Slider raiseSlider,
