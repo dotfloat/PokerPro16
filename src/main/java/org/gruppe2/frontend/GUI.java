@@ -4,7 +4,6 @@ package org.gruppe2.frontend;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -52,14 +51,14 @@ public class GUI extends Application {
 	
 	public GUI() {}
 
-	@Override
-	/*
+	
+	/**
 	 * Pseudo constructor init
 	 * 
 	 * @see javafx.application.Application#init()
 	 */
+	@Override
 	public void init() {
-		
 		setWindowSize(1728, 972);
 		setStep(0);
 	}
@@ -161,7 +160,7 @@ public class GUI extends Application {
 		height_min = getScale();
 	}
 	/**
-	 * Sets x and y:
+	 * Sets width, height;
 	 * @param a, length of window.
 	 * @param b, height of window.
 	 */

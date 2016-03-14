@@ -66,8 +66,8 @@ public class ChoiceBar{
 //		});
 		
 		//Slider
-		raiseSlider.setShowTickMarks(true);
-		raiseSlider.setShowTickLabels(true);
+//		raiseSlider.setShowTickMarks(true);
+//		raiseSlider.setShowTickLabels(true);
 		raiseSlider.setMajorTickUnit(5f);
 		raiseSlider.setBlockIncrement(5f);
 		

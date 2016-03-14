@@ -54,7 +54,7 @@ public class MakeButtons {
 			@Override
 			public void handle(ActionEvent e) {
 				System.out.println("Exit");
-				Platform.exit();
+				System.exit(0);
 			}
 		});
 		
