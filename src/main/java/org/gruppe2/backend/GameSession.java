@@ -11,6 +11,7 @@ public class GameSession {
     private Table table = new Table();
     private int smallBlindAmount = 5;
     private int bigBlindAmount = 10;
+    private int highestBet;
 
     public int getSmallBlindAmount() {
         return smallBlindAmount;
@@ -167,5 +168,14 @@ public class GameSession {
 
     public Table getTable() {
         return table;
+    }
+
+    public List<Action.Type> getPlayerOptions (Player player){
+        ArrayList<Action.Type> actions = new ArrayList<>();
+
+        if (player.getBet() == highestBet)
+            actions.add(Action.Type.ADD_CHIPS);
+
+        return actions;
     }
 }
