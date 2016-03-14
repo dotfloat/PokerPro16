@@ -55,11 +55,11 @@ public class GameSession {
 
             if (current == 0) {
                 player.setBet(bigBlindAmount);
-                notifyOtherPlayersAboutAction(player, new Action(Action.Type.BIG_BLIND, bigBlindAmount));
+                notifyOtherPlayersAboutAction(player, new Action.Raise(bigBlindAmount));
                 continue;
             } else if (current == 1) {
                 player.setBet(smallBlindAmount);
-                notifyOtherPlayersAboutAction(player, new Action(Action.Type.SMALL_BLIND, smallBlindAmount));
+                notifyOtherPlayersAboutAction(player, new Action.Raise(smallBlindAmount));
                 continue;
             }
 
@@ -67,7 +67,7 @@ public class GameSession {
             Action action = player.getClient().onTurn();
             notifyOtherPlayersAboutAction(player, action);
 
-            if (action.getType() == Action.Type.FOLD) {
+            if (action instanceof Action.Fold) {
                 activePlayers.set(currentPlayerIdx, null);
             }
 
@@ -170,12 +170,12 @@ public class GameSession {
         return table;
     }
 
-    public List<Action.Type> getPlayerOptions (Player player){
-        ArrayList<Action.Type> actions = new ArrayList<>();
-
-        if (player.getBet() == highestBet)
-            actions.add(Action.Type.ADD_CHIPS);
-
-        return actions;
-    }
+//    public List<Action> getPlayerOptions (Player player){
+//        ArrayList<Action> actions = new ArrayList<>();
+//
+//        if (player.getBet() == highestBet)
+//            actions.add(Action.Type.ADD_CHIPS);
+//
+//        return actions;
+//    }
 }
