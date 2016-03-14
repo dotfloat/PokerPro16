@@ -13,10 +13,18 @@ public class Table {
     private int pot;
 
     /**
-     * Draws 5 community cards to the table
+     * Draws card on to the table depending on the round (0-3)
+     * @param round Game round
      */
-    public void drawCommunityCards() {
-        communityCards = deck.drawCards(5);
+    public void drawCommunityCards(int round) {
+        if (round == 1)
+            communityCards = deck.drawCards(3);
+        else if (round == 2)
+            communityCards.add(deck.drawCard());
+        else if (round == 3)
+            communityCards.add(deck.drawCard());
+        else if (round != 0)
+            throw new IndexOutOfBoundsException();
     }
 
     /**

@@ -11,6 +11,7 @@ public class GameSession {
     private Table table = new Table();
     private int smallBlindAmount = 5;
     private int bigBlindAmount = 10;
+    private int highestBet;
 
     public int getSmallBlindAmount() {
         return smallBlindAmount;
@@ -54,11 +55,11 @@ public class GameSession {
 
             if (current == 0) {
                 player.setBet(bigBlindAmount);
-                notifyOtherPlayersAboutAction(player, new Action(Action.Type.BIG_BLIND, bigBlindAmount));
+                notifyOtherPlayersAboutAction(player, new Action.Raise(bigBlindAmount));
                 continue;
             } else if (current == 1) {
                 player.setBet(smallBlindAmount);
-                notifyOtherPlayersAboutAction(player, new Action(Action.Type.SMALL_BLIND, smallBlindAmount));
+                notifyOtherPlayersAboutAction(player, new Action.Raise(smallBlindAmount));
                 continue;
             }
 
@@ -66,7 +67,7 @@ public class GameSession {
             Action action = player.getClient().onTurn();
             notifyOtherPlayersAboutAction(player, action);
 
-            if (action.getType() == Action.Type.FOLD) {
+            if (action instanceof Action.Fold) {
                 activePlayers.set(currentPlayerIdx, null);
             }
 
@@ -168,4 +169,13 @@ public class GameSession {
     public Table getTable() {
         return table;
     }
+
+//    public List<Action> getPlayerOptions (Player player){
+//        ArrayList<Action> actions = new ArrayList<>();
+//
+//        if (player.getBet() == highestBet)
+//            actions.add(Action.Type.ADD_CHIPS);
+//
+//        return actions;
+//    }
 }
