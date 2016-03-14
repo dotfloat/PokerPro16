@@ -198,9 +198,13 @@ public class Painter extends Pane {
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
-	
+	/**
+	 * Gets the specific card as an ImageView
+	 * @param card
+	 * @return
+	 */
 	public ImageView createCardImage(Card card){
-		String name = "/Picture";
+		String name = "/Picture/"+getCardName(card)+".png";
 		
 		Image image = new Image(getClass().getResourceAsStream(name),30,80,true,true);
 		
@@ -283,7 +287,8 @@ public class Painter extends Pane {
 		    }           
 		});
 	}
-
+	
+	
 	
 	 /**
      * Method so GUI can find card easily
