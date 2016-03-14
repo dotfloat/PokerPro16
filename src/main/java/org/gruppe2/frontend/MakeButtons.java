@@ -24,10 +24,8 @@ public class MakeButtons {
 
 			@Override
 			public void handle(ActionEvent e) {
-				System.out.println("Restart");
-				gui.restart();
-				gui.setPaused(false);
-				gui.setStep(0);
+				gui.getScene().getStylesheets().clear();
+				gui.getScene().getStylesheets().add("/css/style.css");
 			}
 		});
 

@@ -16,9 +16,9 @@ public class ChoiceBar{
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
-
+		    	
 				HBox hbox = new HBox(200);
-				
+				hbox.getStyleClass().add("hbox");
 				createGrid(hbox, gui.border, player);
 		    	
 		    }           
@@ -40,6 +40,8 @@ public class ChoiceBar{
 		
 		
 		hbox.getChildren().addAll(fold,call,check,raiseSlider,raise,showCards);
+		hbox.setMinHeight(30);
+		hbox.setMaxHeight(30);
 		border.setBottom(hbox);
 	}
 
@@ -47,8 +49,7 @@ public class ChoiceBar{
 			Button check, Button call,
 			Button raise, Button fold,
 			 Player player) {
-		check.setMaxHeight(100);
-		check.setMaxWidth(500);
+		
 //		check.setOnAction(e -> {
 //			player.doAction(Action.CHECK);
 //		});

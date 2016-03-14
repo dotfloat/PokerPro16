@@ -1,17 +1,17 @@
 .vbox {
 	-fx-background-color: rgb(0,0,0);
-	-fx-effect: innershadow (gaussian, white, 10, 0.5, 0, 5%);
+	-fx-effect: innershadow (gaussian, white, 10, 0.5, 0, 5);
 }
 
 .hbox {
 	-fx-background-color: rgb(0,0,0);
-	-fx-effect: innershadow (gaussian, white, 10, 0.5, 0, 5%);
+	-fx-effect: innershadow (gaussian, white, 10, 0.5, 0, 5);
 }
 .button {
 	-fx-text-fill: white;
 	-fx-font: 16px "sans-serif";
 	-fx-background-color: #009933;
-	-fx-effect: innershadow (gaussian, #33cc33, 10.0, 0.5, 0.0, 5%);
+	-fx-effect: innershadow (three-pass-box, #33cc33,2, 0.0, 0, 1);
 
 }
 .background {

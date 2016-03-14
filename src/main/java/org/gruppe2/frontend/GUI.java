@@ -4,6 +4,7 @@ package org.gruppe2.frontend;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -11,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.GameSession;
@@ -40,7 +42,7 @@ public class GUI extends Application {
 	private Painter mainFrame;
 	Pane creations, statusBar;
 	BorderPane border;
-	
+	Scene scene;
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
 	
@@ -72,10 +74,10 @@ public class GUI extends Application {
 		// Create stage
 		primaryStage.setTitle("PokerPro 2016");
 		Group root = new Group();
-		Scene scene = new Scene(root, width, height);
+		scene = new Scene(root, width, height);
 		scene.getStylesheets().add("/css/style.css");
 		// Canvas creation
-		Canvas canvas = new Canvas(width_max, height_max);
+		Canvas canvas = new Canvas(width, height_max);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 		border = new BorderPane();
 		
@@ -260,6 +262,11 @@ public class GUI extends Application {
 	 */
 	public static void main(String[] args) {
     	Application.launch();
+		
+	}
+
+	public Scene getScene() {
+		return scene;
 		
 	}
 }
