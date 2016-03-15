@@ -10,7 +10,7 @@ public class GameSession {
     private int smallBlindAmount = 5;
     private int bigBlindAmount = 10;
     private int highestBet;
-    private int dealer;
+    private int button;
     private int smallBlind;
     private int bigBlind;
 
@@ -45,58 +45,27 @@ public class GameSession {
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
         highestBet = 0;
+        button = 0;
         smallBlind = 1;
+        bigBlind = 2;
+
+
+        Player smallBlindPayer = activePlayers.get(smallBlind);
+        notifyOtherPlayersAboutAction(smallBlindPayer, new Action.Raise(bigBlindAmount));
+        smallBlindPayer.setBet(smallBlindAmount);
+
+        Player bigBlindPlayer = activePlayers.get(bigBlind);
+        notifyOtherPlayersAboutAction(bigBlindPlayer, new Action.Raise(smallBlindAmount));
+        bigBlindPlayer.setBet(bigBlindAmount);
 
         notifyRoundStart();
 
         for (int i = 0; i < 4; i++){
             table.drawCommunityCards(i);
 
+            players.get(button).getClient().onCommunalCards(table.getCommunityCards());
+
             turnLoop();
-
-            if (numActivePlayers() == 1)
-                break;
-        }
-
-        notifyRoundEnd();
-    }
-
-    private void turnLoop() {
-        Player lastRaiser;
-        int startInt = 0;
-
-        for (int first = smallBlind; first < activePlayers.size(); first++) {
-            lastRaiser = activePlayers.get(first);
-            if (lastRaiser != null) {
-                startInt = first;
-                break;
-            }
-        }
-
-        for (int current = startInt-1; !activePlayers.isEmpty(); current++) {
-            int currentPlayerIdx = (current + 1) % activePlayers.size();
-            Player player = activePlayers.get(currentPlayerIdx);
-
-            if (player == null)
-                continue;
-
-            if (current == 0) {
-                player.setBet(bigBlindAmount);
-                notifyOtherPlayersAboutAction(player, new Action.Raise(bigBlindAmount));
-                continue;
-            } else if (current == 1) {
-                player.setBet(smallBlindAmount);
-                notifyOtherPlayersAboutAction(player, new Action.Raise(smallBlindAmount));
-                continue;
-            }
-
-            notifyOtherPlayersAboutTurn(player);
-            Action action = player.getClient().onTurn(player);
-            notifyOtherPlayersAboutAction(player, action);
-
-            if (action instanceof Action.Fold) {
-                activePlayers.set(currentPlayerIdx, null);
-            }
 
             if (numActivePlayers() == 1) {
                 for (Player p : activePlayers) {
@@ -107,6 +76,42 @@ public class GameSession {
                 }
                 break;
             }
+        }
+
+        notifyRoundEnd();
+    }
+
+    private void turnLoop() {
+        int lastRaiserIndex = 0;
+
+        for (int first = smallBlind; first < activePlayers.size(); first++) {
+            if (activePlayers.get(first) != null) {
+                lastRaiserIndex = first-1;
+                break;
+            }
+        }
+
+        for (int current = smallBlind-1; !activePlayers.isEmpty(); current++) {
+            int currentPlayerIdx = (current + 1) % activePlayers.size();
+            Player player = activePlayers.get(currentPlayerIdx);
+
+            if (player == null)
+                continue;
+
+            notifyOtherPlayersAboutTurn(player);
+            Action action = player.getClient().onTurn(player);
+            notifyOtherPlayersAboutAction(player, action);
+
+            if (action instanceof Action.Fold) {
+                activePlayers.set(currentPlayerIdx, null);
+            }
+            if (action instanceof Action.Raise) {
+                doPlayerAction(action, player);
+                lastRaiserIndex = currentPlayerIdx;
+            }
+
+            if (lastRaiserIndex == currentPlayerIdx && !(action instanceof Action.Raise))
+                break;
         }
 
     }
