@@ -223,6 +223,24 @@ public class GameSession {
                 player.setBank(player.getBank() - raise );
                 table.addToPot(table.getPot() + raise);
             }
+            else if (action instanceof Action.AllIn){
+                int raise = player.getBank();
+                player.setBank(0);
+                player.setBet(player.getBet() + raise);
+                table.addToPot(raise);
+                highestBet = player.getBet();
+            }
+            else if (action instanceof Action.PayBigBlind){
+                player.setBank(player.getBank() - bigBlind);
+                player.setBet(bigBlind);
+                table.addToPot(bigBlind);
+                highestBet = bigBlind;
+            }
+            else if(action instanceof Action.PaySmallBlind){
+                player.setBank(player.getBank() - smallBlind);
+                player.setBet(smallBlind);
+                table.addToPot(smallBlind);
+            }
         }
         else {
             throw new IllegalArgumentException(player.getName() + " can't do that action");
