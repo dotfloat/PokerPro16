@@ -6,6 +6,7 @@ import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.GameClient;
 import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
 
 public class GUIClient extends GameClient implements Runnable {
 	private GUI gui;
@@ -22,7 +23,7 @@ public class GUIClient extends GameClient implements Runnable {
 	}
 
 	@Override
-	public Action onTurn(){
+	public Action onTurn(Player player){
 		Action action = null;
 
 		while ((action = getAction()) == null) {

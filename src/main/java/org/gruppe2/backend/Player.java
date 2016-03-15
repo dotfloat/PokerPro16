@@ -8,7 +8,7 @@ public class Player {
     private Card card1;
     private GameClient client;
 
-    public Player(String name, int chips, GameClient client) {
+    public Player(String name, int bank, GameClient client) {
         this.card0 = null;
         this.card1 = null;
         this.name = name;

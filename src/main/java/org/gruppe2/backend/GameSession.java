@@ -10,6 +10,9 @@ public class GameSession {
     private int smallBlindAmount = 5;
     private int bigBlindAmount = 10;
     private int highestBet;
+    private int dealer;
+    private int smallBlind;
+    private int bigBlind;
 
     public int getSmallBlindAmount() {
         return smallBlindAmount;
@@ -42,10 +45,35 @@ public class GameSession {
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
         highestBet = 0;
+        smallBlind = 1;
 
         notifyRoundStart();
 
-        for (int current = 0; !activePlayers.isEmpty(); current++) {
+        for (int i = 0; i < 4; i++){
+            table.drawCommunityCards(i);
+
+            turnLoop();
+
+            if (numActivePlayers() == 1)
+                break;
+        }
+
+        notifyRoundEnd();
+    }
+
+    private void turnLoop() {
+        Player lastRaiser;
+        int startInt = 0;
+
+        for (int first = smallBlind; first < activePlayers.size(); first++) {
+            lastRaiser = activePlayers.get(first);
+            if (lastRaiser != null) {
+                startInt = first;
+                break;
+            }
+        }
+
+        for (int current = startInt-1; !activePlayers.isEmpty(); current++) {
             int currentPlayerIdx = (current + 1) % activePlayers.size();
             Player player = activePlayers.get(currentPlayerIdx);
 
@@ -63,7 +91,7 @@ public class GameSession {
             }
 
             notifyOtherPlayersAboutTurn(player);
-            Action action = player.getClient().onTurn();
+            Action action = player.getClient().onTurn(player);
             notifyOtherPlayersAboutAction(player, action);
 
             if (action instanceof Action.Fold) {
@@ -81,7 +109,6 @@ public class GameSession {
             }
         }
 
-        notifyRoundEnd();
     }
 
     private int numActivePlayers() {
@@ -153,7 +180,7 @@ public class GameSession {
             //no legal action
         }
     }
-    
+
     /**
      * Check if it is a legal action
      * @param action action being performed
@@ -171,6 +198,8 @@ public class GameSession {
             return pa.canRaise();
         else if (action instanceof Action.Call)
             return pa.canCall();
+        else if (action instanceof Action.Fold)
+            return true;
         else
             throw new IllegalArgumentException(player + " can't do that action");
     }

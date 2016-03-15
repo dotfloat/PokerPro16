@@ -41,8 +41,13 @@ public class ConsoleClient extends GameClient {
     }
 
     @Override
-    public Action onTurn() {
-        System.out.print("> Your turn (fold, check, raise): ");
+    public Action onTurn(Player player) {
+        List<Card> cc = getSession().getTable().getCommunityCards();
+        if (cc != null)
+            System.out.println(cc);
+        System.out.println("> Your turn you can: ");
+        System.out.println(getSession().getPlayerOptions(player));
+
 
         Scanner ls = new Scanner(in.nextLine());
         String cmd = ls.next().toLowerCase();

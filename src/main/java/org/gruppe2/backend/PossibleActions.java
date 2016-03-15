@@ -49,4 +49,20 @@ public class PossibleActions {
     public int getMaxRaise() {
         return maxRaise;
     }
+
+    @Override
+    public String toString() {
+        String options = "> (fold";
+
+        if (call)
+            options += ", call";
+        if (check)
+            options += ", check";
+        if (raise)
+            options += ", raise";
+
+        options += ")";
+
+        return options;
+    }
 }
