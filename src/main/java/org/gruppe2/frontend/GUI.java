@@ -19,10 +19,12 @@ import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Card;
+import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Current main gui class, and also the mainClass
@@ -163,7 +165,19 @@ public class GUI extends Application {
 		getMainFrame().paintPocketCards();
 		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(testPlayers));
 
-
+		int cardsToShow = 3;
+		
+		gameSession.getTable().drawCommunityCards(0);
+		List<Card> cardList = gameSession.getTable().getCommunityCards();
+		
+		List<Card> cardList2 = new ArrayList<Card>();
+		cardList2.add(new Card(4, Suit.DIAMONDS));
+		cardList2.add(new Card(11, Suit.DIAMONDS));
+		cardList2.add(new Card(6, Suit.HEARTS));
+		cardList2.add(new Card(4, Suit.HEARTS));
+		cardList2.add(new Card(9, Suit.CLUBS));
+		
+		getMainFrame().showCommunityCards(cardList2, cardsToShow);
 
 	}
 
