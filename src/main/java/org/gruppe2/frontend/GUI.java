@@ -16,12 +16,16 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
+import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
+
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
@@ -30,6 +34,7 @@ import org.gruppe2.backend.GameSession;
  */
 public class GUI extends Application {
 	// Position variables
+<<<<<<< HEAD
 	int width;
 	int width_max;
 	int width_min;
@@ -37,8 +42,18 @@ public class GUI extends Application {
 	int height_max;
 	int height_min;
 	
+=======
+	static int width;
+	static int width_max;
+	static int width_min;
+	static int height;
+	static int height_max;
+	static int height_min;
+
+>>>>>>> branch 'master' of https://INF112v16-htj063@bitbucket.org/tha056/inf112v16-g2.git
 	private static int scale = 100;
 	private int step;
+	private GUIClient client;
 	//booleans
 	private boolean paused;
 	
@@ -101,18 +116,28 @@ public class GUI extends Application {
 	   
 
 		gameSession = new GameSession();
-		GUIClient guiClient = new GUIClient(gameSession, this);
-		gameSession.addPlayer("CoolestPerson", guiClient);
+		client = new GUIClient(gameSession, this);
+		gameSession.addPlayer("CoolestPerson", client);
 		gameSession.addPlayer("Anne", new AIClient(gameSession));
 		gameSession.addPlayer("Bob", new AIClient(gameSession));
         gameSession.addPlayer("Chuck", new AIClient(gameSession));
         gameSession.addPlayer("Dennis", new AIClient(gameSession));
         gameSession.addPlayer("Emma", new AIClient(gameSession));
-		Thread th = new Thread(guiClient);
+		Thread th = new Thread(client);
 		th.start();
 		// Create nodes
 		
 		ChoiceBar.showChoices(this, gameSession.getPlayers().get(0));
+
+		Player testPlayer = new Player("Mr. Test", 2000, client);
+		testPlayer.setBet(40);
+		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
+		mainFrame.paintPlayerInfoBox(playerInfoBox);
+		ImageView cardImage = mainFrame.createCardImage(new Card(3, Card.Suit.DIAMONDS));
+		cardImage.setLayoutX(300);
+		cardImage.setLayoutY(300);
+		mainFrame.getChildren().add(cardImage);
+
 
 	}
 	
@@ -300,7 +325,7 @@ public class GUI extends Application {
 	public static void setScale(int scale) {
 		GUI.scale = scale;
 	}
-	
+
 	/**
 	 * Main method, calls PokerGame as a new thread in .start().
 	 * @param args
@@ -313,5 +338,13 @@ public class GUI extends Application {
 	public Scene getScene() {
 		return scene;
 		
+	}
+
+	public GUIClient getClient() {
+		return client;
+	}
+
+	public BorderPane getBorder() {
+		return border;
 	}
 }

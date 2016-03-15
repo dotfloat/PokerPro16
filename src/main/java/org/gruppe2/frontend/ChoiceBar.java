@@ -3,7 +3,8 @@ package org.gruppe2.frontend;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+import org.gruppe2.backend.Action;
 import org.gruppe2.backend.Player;
 
 public class ChoiceBar{
@@ -24,12 +26,11 @@ public class ChoiceBar{
 				HBox hbox = new HBox(50);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
-				createGrid(hbox, gui.border, player); 	
+				createGrid( gui, hbox,  player);
 		    }           
 		});
 	}
-	private static void createGrid(HBox hbox,
-			BorderPane border,  Player player) {
+	private static void createGrid(GUI gui, HBox hbox, Player player) {
 
 		Button check = new Button("CHECK");
 		Button call = new Button("CALL");
@@ -42,8 +43,10 @@ public class ChoiceBar{
 		sliderValue.setMinWidth(115);
 		sliderValue.setMaxWidth(115);
 		Label showCards = new Label("Cards will be shown here");
-		
-		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue);
+		showCards.setMinWidth(400);
+		showCards.setMaxWidth(400);
+
+		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue, gui.getClient());
 		
 		
 		
@@ -51,19 +54,15 @@ public class ChoiceBar{
 		hbox.setMinHeight(70);
 		hbox.setMaxHeight(70);
 		
-		border.setBottom(hbox);
-		
-		
+		gui.getBorder().setBottom(hbox);
 	}
 
 	private static void setButtonAction(Slider raiseSlider,
 										Button check, Button call,
 										Button raise, Button fold,
-										Player player, Label sliderValue) {
+										Player player, Label sliderValue, GUIClient client) {
 		
-//		check.setOnAction(e -> {
-//			player.doAction(Action.CHECK);
-//		});
+		check.setOnAction(e -> client.setAction(new Action.Check()));
 //		
 //		call.setOnAction(e -> {
 //			player.doAction(Action.CALL);

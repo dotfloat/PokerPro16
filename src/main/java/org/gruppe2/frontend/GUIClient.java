@@ -1,29 +1,43 @@
 package org.gruppe2.frontend;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.GameClient;
 import org.gruppe2.backend.GameSession;
 
 public class GUIClient extends GameClient implements Runnable {
-	GUI gui;
+	private GUI gui;
+	private volatile Action action = null;
+
 	public GUIClient(GameSession session, GUI gui) {
 		super(session);
 		this.gui = gui;
 	}
-	
-	
-	
+
+	@Override
+	public void onRoundStart() {
+		Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, "Round started").showAndWait());
+	}
+
 	@Override
 	public Action onTurn(){
-		while (true) {
+		Action action = null;
+
+		while ((action = getAction()) == null) {
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
+		setAction(null);
+
+		System.out.println("Action: " + action);
+
+		return action;
 	}
 	@Override
 	public void run() {
@@ -35,7 +49,12 @@ public class GUIClient extends GameClient implements Runnable {
         getSession().addPlayer("Emma", new AIClient(getSession()));
         getSession().mainLoop();
 	}
-	
-	
 
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
+	}
 }
