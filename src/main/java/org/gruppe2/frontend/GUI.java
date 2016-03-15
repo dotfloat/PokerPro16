@@ -141,7 +141,7 @@ public class GUI extends Application {
 
 		gameSession = new GameSession();
 		client = new GUIClient(gameSession, this);
-		gameSession.addPlayer("CoolestPerson", client);
+		
 		gameSession.addPlayer("Anne", new AIClient(gameSession));
 		gameSession.addPlayer("Bob", new AIClient(gameSession));
         gameSession.addPlayer("Chuck", new AIClient(gameSession));
@@ -164,8 +164,7 @@ public class GUI extends Application {
 
 		int cardsToShow = 3;
 		
-		gameSession.getTable().drawCommunityCards(0);
-		List<Card> cardList = gameSession.getTable().getCommunityCards();
+		
 		
 		List<Card> cardList2 = new ArrayList<Card>();
 		cardList2.add(new Card(4, Suit.DIAMONDS));

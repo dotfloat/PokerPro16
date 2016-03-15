@@ -1,6 +1,9 @@
 package org.gruppe2.frontend;
 
+import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Player;
+
+import com.sun.security.ntlm.Client;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -82,12 +85,12 @@ public class InitializeGame {
 					gui.startMainFrame(primaryStage,gui.root, gui.canvas);
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
-
+					
 //					pokerGame.getPlayers().add(new Player(name, startValue,pokerGame.getTable()));
 					
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
-
+					gui.getClient().getSession().addPlayer(name, gui.getClient());
 //					pokerGame.smallBlind = smallBlind;
 //					pokerGame.bigBlind = bigBlind;
 					

@@ -10,27 +10,30 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 
 import org.gruppe2.backend.Action;
+import org.gruppe2.backend.Action.Fold;
 import org.gruppe2.backend.Player;
+
 /**
  * This is the bottom buttons, textfields and slider.
+ * 
  * @author htj063
  *
  */
-public class ChoiceBar{
-	
-	
+public class ChoiceBar {
+
 	public static void showChoices(GUI gui, Player player) {
-		Platform.runLater(new Runnable(){
-		    @Override
-		    public void run() {
-		    	
-				HBox hbox = new HBox(gui.getWidth()*0.025);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+
+				HBox hbox = new HBox(gui.getWidth() * 0.025);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
-				createGrid( gui, hbox,  player);
-		    }           
+				createGrid(gui, hbox, player);
+			}
 		});
 	}
+
 	private static void createGrid(GUI gui, HBox hbox, Player player) {
 
 		Button check = new Button("CHECK");
@@ -38,82 +41,106 @@ public class ChoiceBar{
 		Button fold = new Button("FOLD");
 		Button raise = new Button("RAISE");
 		Slider raiseSlider = new Slider(25, 5000, 50);
-		raiseSlider.setMaxWidth(gui.getWidth()*0.23);
-		raiseSlider.setMinWidth(gui.getWidth()*0.23);
-		Label sliderValue = new Label((int)raiseSlider.getValue() + " CHIPS");
-		sliderValue.setMinWidth(gui.getWidth()*0.055);
-		sliderValue.setMaxWidth(gui.getWidth()*0.055);
-		Label showCards = new Label("Cards will be shown here");
-		showCards.setMinWidth(gui.getWidth()*0.2);
-		showCards.setMaxWidth(gui.getWidth()*0.2);
+		raiseSlider.setMaxWidth(gui.getWidth() * 0.23);
+		raiseSlider.setMinWidth(gui.getWidth() * 0.23);
+		Label sliderValue = new Label((int) raiseSlider.getValue() + " CHIPS");
+		sliderValue.setMinWidth(gui.getWidth() * 0.1);
+		sliderValue.setMaxWidth(gui.getWidth() * 0.1);
+		Label showCards = new Label("");
+		showCards.setMinWidth(gui.getWidth() * 0.2);
+		showCards.setMaxWidth(gui.getWidth() * 0.2);
 
-		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue, gui.getClient());
-		
-		
-		
-		hbox.getChildren().addAll(fold,call,check,raiseSlider,sliderValue, raise, showCards);
+		setButtonAction(raiseSlider, check, call, raise, fold, player,
+				sliderValue, gui.getClient());
+
+		hbox.getChildren().addAll(fold, call, check, raiseSlider, sliderValue,
+				raise, showCards);
 		setHBoxSize(hbox, gui);
 		
+		setKeyListener(check, call, fold, raise, gui, gui.getClient(), raiseSlider,player);
+
 		gui.getBorder().setBottom(hbox);
 	}
-	
 
+	private static void setButtonAction(Slider raiseSlider, Button check,
+			Button call, Button raise, Button fold, Player player,
+			Label sliderValue, GUIClient client) {
 
-	private static void setButtonAction(Slider raiseSlider,
-										Button check, Button call,
-										Button raise, Button fold,
-										Player player, Label sliderValue, GUIClient client) {
-		
 		check.setOnAction(e -> client.setAction(new Action.Check()));
-//		
-//		call.setOnAction(e -> {
-//			player.doAction(Action.CALL);
-//		});
-//		
-//		fold.setOnAction(e -> {
-//			player.doAction(Action.FOLD);
-//		});
-		
-		//Slider
+
+		call.setOnAction(e -> client.setAction(new Action.Call()));
+
+		fold.setOnAction(e -> client.setAction(new Action.Fold()));
+
+		// Slider
 		raiseSlider.setMajorTickUnit(10);
 		raiseSlider.setBlockIncrement(10);
 		raiseSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			public void changed(ObservableValue<? extends Number> observable,
+					Number oldValue, Number newValue) {
 				sliderValue.textProperty().setValue(checkMaxBid(raiseSlider));
-				//uncomment when there is an actual player
-				//raiseSlider.setMin(player.getBank());
-				//raiseSlider.setMax(player.getBank());
+				// uncomment when there is an actual player
+				// raiseSlider.setMin(player.getBank());
+				// raiseSlider.setMax(player.getBank());
 			}
 		});
 		
-
-//		raiseSlider.setOnAction(e -> {
-//			if (!check.getText().equals(null)) {
-//					if(!raiseField.getText().equals(null)){
-//						player.doAction(Action.RAISE);
-//						dialogStage.close();
-//					}
-//					
-//			}
-//			
-//			else
-//				System.out.println("No name");
-//		});
-	
-
-	}
-	private static String checkMaxBid(Slider slider){
-		if (slider.getValue()==slider.getMax()) return "GO ALL IN";
-		else return (int) slider.getValue() + " CHIPS";
-	}
-	
-	private static void setHBoxSize(HBox hbox, GUI gui) {
-		hbox.setMinHeight(gui.getHeight()*0.055);
-		hbox.setMaxHeight(gui.getHeight()*0.055);
-//		hbox.setMinHeight(70);
-//		hbox.setMaxHeight(70);
+		 raise.setOnAction(e -> {
+			 raise(client,raiseSlider,player);
+		 });
+		 
 		
+
+	}
+	
+	
+	/**
+	 * Makes it possible to use keys to play, insted of mouse
+	 * @param check
+	 * @param call
+	 * @param fold
+	 * @param raise
+	 * @param gui
+	 * @param client
+	 * @param raiseSlider
+	 * @param player
+	 */
+	private static void setKeyListener(Button check, Button call, Button fold,
+			Button raise, GUI gui, GUIClient client, Slider raiseSlider, Player player) {
+		gui.scene.setOnKeyPressed( event -> 
+		{
+		
+                switch (event.getCode()) {
+                    case UP:    raise(client,raiseSlider,player); break;
+                    case DOWN:  client.setAction(new Action.Check()); break;
+                    case LEFT:  client.setAction(new Action.Call()); break;
+                    case RIGHT: client.setAction(new Action.Fold()); break;                  
+                }	
+		     });
+		
+	}
+
+	private static String checkMaxBid(Slider slider) {
+		if (slider.getValue() == slider.getMax())
+			return "GO ALL IN";
+		else
+			return (int) slider.getValue() + " CHIPS";
+	}
+	
+	private static void raise(GUIClient client, Slider raiseSlider, Player player){
+		if (client.getSession().getPlayerOptions(player).getMinRaise() < raiseSlider.getValue()) {
+			 if(client.getSession().getPlayerOptions(player).getMaxRaise() > raiseSlider.getValue())
+				 client.setAction(new Action.Raise((int) raiseSlider.getValue()));
+			 }
+	}
+
+	private static void setHBoxSize(HBox hbox, GUI gui) {
+		hbox.setMinHeight(gui.getHeight() * 0.055);
+		hbox.setMaxHeight(gui.getHeight() * 0.055);
+		// hbox.setMinHeight(70);
+		// hbox.setMaxHeight(70);
+
 	}
 
 }
