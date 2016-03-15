@@ -1,5 +1,6 @@
 package org.gruppe2.ai;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gruppe2.backend.Card;
@@ -9,22 +10,61 @@ import org.gruppe2.backend.ShowdownEvaluator;
 
 public class OtherPlayersEvaluator implements AIEvaluate {
 
+	/**
+	 * Evaluates the odds that some other player will get a better hand than you.
+	 * 
+	 * @return double - chance to lose with current hand.
+	 */
 	@Override
 	public double evaluate(GameSession session, Player bot) {
 		int numberOfPlayers = session.getPlayers().size();
 		int value=0;
 		List<Card> cards = session.getTable().getCommunityCards();
 		ShowdownEvaluator evaluator = new ShowdownEvaluator();
-		value+=calculateStraightFlush(numberOfPlayers, cards, evaluator);
-		value+=calculateFourOfAKind(numberOfPlayers, cards, evaluator);
-		value+=calculateFullHouse(numberOfPlayers, cards, evaluator);
-		value+=calculateFlush(numberOfPlayers, cards, evaluator);
-		value+=calculateStraight(numberOfPlayers, cards, evaluator);
-		value+=calculateThreeOfAKind(numberOfPlayers, cards, evaluator);
-		value+=calculateTwoPair(numberOfPlayers, cards, evaluator);
-		value+=calculateOnePair(numberOfPlayers, cards, evaluator);
+		List<Card> botCards = new ArrayList<>();
+		botCards.add(bot.getCard1());
+		botCards.add(bot.getCard2());
+		
+		// There's not supposed to be any "break;" in this switch statement.
+		switch(evaluator.evaluate(botCards)) {
+		case HIGHCARD:
+			value+=calculateHighCard(numberOfPlayers, cards, botCards, evaluator);
+		case ONEPAIR:
+			value+=calculateOnePair(numberOfPlayers, cards, evaluator);
+		case TWOPAIRS:
+			value+=calculateTwoPair(numberOfPlayers, cards, evaluator);
+		case THREEOFAKIND:
+			value+=calculateThreeOfAKind(numberOfPlayers, cards, evaluator);
+		case STRAIGHT:
+			value+=calculateStraight(numberOfPlayers, cards, evaluator);
+		case FLUSH:
+			value+=calculateFlush(numberOfPlayers, cards, evaluator);
+		case FULLHOUSE:
+			value+=calculateFullHouse(numberOfPlayers, cards, evaluator);
+		case FOUROFAKIND:
+			value+=calculateFourOfAKind(numberOfPlayers, cards, evaluator);
+		case STRAIGHTFLUSH:
+			value+=calculateStraightFlush(numberOfPlayers, cards, evaluator);
+		case ROYALFLUSH:
+			value+=calculateRoyalFlush(numberOfPlayers, cards, evaluator);
+		default:
+			break;
+		}
 		return value;
 	}
+	
+	/**
+	 * Calculates the chance to get a Royal Flush before the game round ends.
+	 * @return chance (0-100)
+	 */
+	private double calculateRoyalFlush(int players, List<Card> cards, ShowdownEvaluator evaluator) {
+		if(evaluator.royalFlush(cards))
+			return 100;
+		else{
+			return 0;
+		}
+	}
+	
 	/**
 	 * Calculates the chance to get a Straight Flush before the game round ends.
 	 * @return chance (0-100)
@@ -105,7 +145,7 @@ public class OtherPlayersEvaluator implements AIEvaluate {
 		if(evaluator.twoPair(cards))
 			return 100;
 		else{
-			return calculateOnePair(players, cards, evaluator)*(1/13)*(players*2+cards.size()-2);
+			return calculateOnePair(players, cards, evaluator)*(1/13)*((players-2)*2+cards.size()-2);
 		}
 	}
 	
@@ -117,8 +157,15 @@ public class OtherPlayersEvaluator implements AIEvaluate {
 		if(evaluator.onePair(cards))
 			return 100;
 		else{
-			return (1/13)*(players*2+cards.size());
+			return (1/13)*((players-2)*2+cards.size());
 		}
 	}
-
+	
+	/**
+	 * Calculates the chance that other players has a better High Card.
+	 * @return chance (0-100)
+	 */
+	private double calculateHighCard(int players, List<Card> cards, List<Card> botCards, ShowdownEvaluator evaluator) {
+		return (1 - Math.max(botCards.get(0).getFaceValue(), botCards.get(0).getFaceValue())*(1/13))*players*2;
+	}
 }
