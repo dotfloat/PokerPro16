@@ -35,6 +35,7 @@ public class Painter extends Pane {
 	Image backGround;
 	Canvas canvas;
 	
+	ImageView bg;
 	//Player positions
 	Label playerPosition0;
 	Label playerPosition1;
@@ -65,13 +66,17 @@ public class Painter extends Pane {
 	public void setBackGround(String name) {
 		
 		this.setStyle("-fx-background-color: #662200");
-		backGround = new Image(getClass().getResourceAsStream(name));
-		ImageView bg = new ImageView(backGround);
+		backGround = new Image(getClass().getResourceAsStream(name),600,0,true,true);
+		bg = new ImageView(backGround);
+		updateBackGround();
+		this.getChildren().add(bg);
+	}
+	
+	public void updateBackGround(){
 		bg.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
 		bg.setFitHeight(gui.getHeight()-gui.getHeight()*0.3);
 		bg.setLayoutX(gui.getWidth()/2-bg.getFitWidth()/2);
 		bg.setLayoutY(gui.getHeight()/2-bg.getFitHeight()/1.55);
-		this.getChildren().add(bg);
 	}
 
 	public Image getBackGround() {
