@@ -35,7 +35,6 @@ public class Painter extends Pane {
 	private int scale = 10;
 	GUI gui;
 	Image backGround;
-	Canvas canvas;
 	
 	ImageView bg;
 	//Player positions
@@ -340,21 +339,25 @@ public class Painter extends Pane {
         return finalName;
     }
 
-	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox, int x, int y){
+	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox, double x, double y){
 		playerInfoBox.setLayoutX(x);
 		playerInfoBox.setLayoutY(y);
 		this.getChildren().add(playerInfoBox);
 	}
 
 	public void paintAllPlayers(List<PlayerInfoBox> playerInfoBoxes){
-		int x=100, y=100;
-		for (PlayerInfoBox playerInfoBox : playerInfoBoxes){
-			paintPlayerInfoBox(playerInfoBox, x, y);
-			x+=300;
-			if(x>1200) {
-				y+=300;
-				x=100;
-			}
-		}
+		double xStep = gui.getWidth()/15;
+		double yStep = gui.getHeight()/10;
+		double y = 10;
+		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*2, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*6.5, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(2), xStep*11, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(3), xStep*0.5, yStep*2);
+		paintPlayerInfoBox(playerInfoBoxes.get(4), xStep*12.5, yStep*2);
+		paintPlayerInfoBox(playerInfoBoxes.get(5), xStep*0.5, yStep*4);
+		paintPlayerInfoBox(playerInfoBoxes.get(6), xStep*12.5, yStep*4);
+		paintPlayerInfoBox(playerInfoBoxes.get(7), xStep, yStep*6);
+		paintPlayerInfoBox(playerInfoBoxes.get(8), xStep*12.1, yStep*6);
 	}
+
 }
