@@ -169,6 +169,11 @@ public class Painter extends Pane {
 		view2.setLayoutX(gui.getWidth()*0.86);
 		view2.setLayoutY(gui.getHeight()*0.85);
 		
+		view1.setFitWidth(gui.getWidth()*0.1);
+		view1.setFitHeight(gui.getWidth()*0.1);
+		view2.setFitWidth(gui.getWidth()*0.1);
+		view2.setFitHeight(gui.getWidth()*0.1);
+		
 		view1.setRotate(340);
 		view2.setRotate(0);
 		
@@ -253,7 +258,7 @@ public class Painter extends Pane {
 		    @Override
 		    public void run() {
 		    	
-		    	Double cardOffset = 0.1;
+		    	Double cardOffset = gui.getWidth()*0.05;
 				int counter = 0;
 				ArrayList al = (ArrayList) communityCards;
 				for (int i = 0; i < cardsToShow; i++) {
@@ -263,7 +268,7 @@ public class Painter extends Pane {
 					cardImage.setPreserveRatio(true);
 					cardImage.setFitHeight(gui.getWidth()*0.045);
 					
-					cardImage.setLayoutX(gui.getWidth()*0.4 * (cardOffset*i));
+					cardImage.setLayoutX(gui.getWidth()*0.4 + (cardOffset*i));
 					cardImage.setLayoutY(gui.getHeight()*0.4);
 					
 					getChildren().add(cardImage);
