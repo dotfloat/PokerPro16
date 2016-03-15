@@ -3,6 +3,7 @@ package org.gruppe2.ai;
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.GameClient;
 import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
 
 public class AIClient extends GameClient {
 
@@ -11,7 +12,7 @@ public class AIClient extends GameClient {
     }
 
     @Override
-    public Action onTurn() {
+    public Action onTurn(Player player) {
         return new Action.Fold(); // Best AI
     }
 }

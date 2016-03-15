@@ -55,7 +55,7 @@ public class GameClient {
      * @param board
      * @return The action that the client wants to do
      */
-    public Action onTurn() { return null; }
+    public Action onTurn(Player player) { return null; }
 
     /**
      * Called before the player has decided on an action.
