@@ -1,18 +1,20 @@
 .vbox {
-	-fx-background-color: rgb(0,0,0);
+	-fx-background-color: black;
 }
 
 .hbox {
-	-fx-background-color: rgb(0,0,0);
-	-fx-effect: innershadow( gaussian , #ffffff , 20, 0, 0, 2);
+	-fx-background-color: black;
 }
 
 .pane {
+	-fx-hgap: 10px;
+	-fx-vgap: 5px;
+	-fx-padding: 10px, 10px, 10px, 10px;
  	-fx-background-color: black; 
- 	-fx-border-width: 10px; 
- 	-fx-border-color: black; 
- 	-fx-border-radius: 5px;
+ 	-fx-border-width: 3px;
+ 	-fx-border-color: black;
 }
+
 
 .button {
 	-fx-position-shape: false;
@@ -20,15 +22,17 @@
 	-fx-font-weight: bold;
 	-fx-font: 20px "sans-serif";
 	-fx-background-color: #009933;
-	-fx-effect: innershadow( gaussian , #1aff66 , 2, 0, 0, 4);
+	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
 }
 
 .button:hover {
 	-fx-background-color: #00802b;
+	-fx-effect: innershadow( gaussian , #00cc44 , 2, 0, 0, 4);
 }
 
 .button:pressed {
 	-fx-background-color: #006622;
+	-fx-effect: innershadow( gaussian , #003311 , 2, 0, 0, 4);;
 }
 .slider {
 	-fx-color: #009933;

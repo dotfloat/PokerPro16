@@ -14,6 +14,9 @@ import javafx.scene.layout.VBox;
 import org.gruppe2.backend.*;
 import org.gruppe2.backend.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 *   An object to display player details when the game is being played.
 */
@@ -27,15 +30,21 @@ public class PlayerInfoBox extends GridPane {
 
     public PlayerInfoBox(){
         super();
-        this.getStyleClass().add("pane");
+        getStyleClass().add("pane");
         add(name, 0, 0, 2, 1);
-        add(profileImage, 0, 1, 1, 2);
+        add(profileImage, 0, 1, 1, 3);
         add(currentBet, 1, 2, 1, 1);
         add(chips, 1, 3, 1, 1);
+        profileImage.setPreserveRatio(true);
+        profileImage.setFitWidth(72);
     }
 
     public void updateInfoBox(Player player){
-        name.setText("NAME: " + player.getName());
+        if (player == null){
+            setVisible(false);
+            return;
+        }
+        name.setText(player.getName());
         chips.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
     }
@@ -44,4 +53,24 @@ public class PlayerInfoBox extends GridPane {
         updateInfoBox(player);
     }
 
+    public static List<PlayerInfoBox> createPlayerInfoBoxes(List<Player> players){
+        List<PlayerInfoBox> playerInfoBoxes = new ArrayList<>();
+        for (int i=0;i<9;i++){
+            if (i >= players.size()){
+                playerInfoBoxes.add(new PlayerInfoBox(null));
+            }else playerInfoBoxes.add(new PlayerInfoBox(players.get(i)));
+        }
+        return playerInfoBoxes;
+    }
+
+    public boolean isFull(ArrayList<PlayerInfoBox> playerInfoBoxes) {
+        for (PlayerInfoBox p : playerInfoBoxes) {
+            if (p.getName() == null) return false;
+        }
+        return true;
+    }
+
+    public Label getName() {
+        return name;
+    }
 }

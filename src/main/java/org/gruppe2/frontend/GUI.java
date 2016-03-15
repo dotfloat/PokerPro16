@@ -21,6 +21,8 @@ import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
 
+import java.util.ArrayList;
+
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
@@ -148,7 +150,18 @@ public class GUI extends Application {
 		
 		ChoiceBar.showChoices(this,client.getSession().getPlayers().get(0));
 		
-		
+		Player testPlayer = new Player("Mr. TestRobot", 2020, client);
+		testPlayer.setBet(100);
+		ArrayList<Player> testPlayers = new ArrayList<>();
+		for (int i=0;i<9;i++) {
+			if (i%2 == 0) testPlayers.add(testPlayer);
+			else testPlayers.add(null);
+
+		}
+		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(testPlayers));
+
+
+
 	}
 
 
