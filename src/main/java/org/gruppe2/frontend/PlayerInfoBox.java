@@ -24,8 +24,8 @@ public class PlayerInfoBox extends GridPane {
     private Label currentBet = new Label();
     private ImageView profileImage = new ImageView(new Image (getClass().getResourceAsStream("/default.png")));
 
-
     public PlayerInfoBox(){
+        super();
         add(name, 0, 0, 2, 1);
         add(profileImage, 0, 1, 1, 2);
         add(currentBet, 1, 2, 1, 1);
@@ -37,14 +37,13 @@ public class PlayerInfoBox extends GridPane {
         setMaxHeight(400);
     }
 
-
     public void updateInfoBox(Player player){
         name.setText("NAME: " + player.getName());
         chips.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
     }
     public PlayerInfoBox(Player player){
-        super();
+        this();
         updateInfoBox(player);
     }
 
