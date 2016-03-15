@@ -33,6 +33,8 @@ public class GUIClient extends GameClient implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		
+		gui.updateGUI(player);
 
 		setAction(null);
 
@@ -42,12 +44,12 @@ public class GUIClient extends GameClient implements Runnable {
 	}
 	@Override
 	public void run() {
-		getSession().addPlayer("CoolestPerson", this);
-		getSession().addPlayer("Anne", new AIClient(getSession()));
-		getSession().addPlayer("Bob", new AIClient(getSession()));
-        getSession().addPlayer("Chuck", new AIClient(getSession()));
-        getSession().addPlayer("Dennis", new AIClient(getSession()));
-        getSession().addPlayer("Emma", new AIClient(getSession()));
+//		getSession().addPlayer("CoolestPerson", this);
+//		getSession().addPlayer("Anne", new AIClient(getSession()));
+//		getSession().addPlayer("Bob", new AIClient(getSession()));
+//        getSession().addPlayer("Chuck", new AIClient(getSession()));
+//        getSession().addPlayer("Dennis", new AIClient(getSession()));
+//        getSession().addPlayer("Emma", new AIClient(getSession()));
         getSession().mainLoop();
 	}
 
