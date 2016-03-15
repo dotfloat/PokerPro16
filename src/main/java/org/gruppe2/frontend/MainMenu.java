@@ -9,11 +9,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainMenu extends Pane {
+	ImageView imageView;
 	
 	
 	public void setMainMenu(Stage primaryStage, Group root, GUI gui) {
 		setMainBackGround(root, gui);
+//		this.setStyle("-fx-background-color: black");
 		setButtons(root, gui, primaryStage );
+		
+		
 		
 		
 	}
@@ -28,10 +32,14 @@ public class MainMenu extends Pane {
 		setActionOnButtons(createTable, joinTable, singlePlayer, settings, gui , root, vbox, primaryStage);
 		vbox.getChildren().addAll(createTable,joinTable,singlePlayer,settings);
 		
-		vbox.setLayoutX(gui.getWidth()/2);
-		vbox.setLayoutY(gui.getHeight()/2 + gui.getHeight()*0.2);
+		vbox.setLayoutX(gui.getWidth());
+		vbox.setLayoutY(gui.getHeight() + gui.getHeight()*0.2);
 		
-		root.getChildren().add(vbox);
+		
+		
+		
+		root.getChildren().add(this);
+		this.getChildren().add(vbox);
 		
 	}
 
@@ -59,15 +67,15 @@ public class MainMenu extends Pane {
 
 	private void setMainBackGround(Group root, GUI gui) {
 		
-		ImageView imageView = new ImageView (new Image(getClass().getResourceAsStream("/pokerWhite.png")));
-		imageView.setStyle("-fx-background-color: black");
-		imageView.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
-		imageView.setFitHeight(gui.getHeight()-gui.getHeight()*0.3);
+		imageView = new ImageView (new Image(getClass().getResourceAsStream("/pokerWhite.png")));
+		
+		imageView.setFitWidth(gui.getWidth()-gui.getWidth()*0.1);
+		
 		imageView.setLayoutX(gui.getWidth()/2-imageView.getFitWidth()/2);
-		imageView.setLayoutY(gui.getHeight()/2-imageView.getFitHeight()/1.55);
+		imageView.setLayoutY(gui.getWidth()*0.05);
+		imageView.setPreserveRatio(true);
 		
-		root.getChildren().add(imageView);
-		
+		this.getChildren().add(imageView);
 	}
 	
 	

@@ -92,11 +92,9 @@ public class GUI extends Application {
 
 
 		startShow(root, scene, primaryStage, gc);
-//		MainMenu menu = new MainMenu();
-//	    menu.setMainMenu(primaryStage,root, this);
-		startMainFrame(primaryStage,root, canvas);
-
-
+		MainMenu menu = new MainMenu();
+	    menu.setMainMenu(primaryStage,root, this);
+//		startMainFrame(primaryStage,root, canvas);
 
 	}
 	
