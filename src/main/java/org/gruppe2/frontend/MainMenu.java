@@ -1,5 +1,6 @@
 package org.gruppe2.frontend;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -14,7 +15,7 @@ public class MainMenu extends Pane {
 	
 	public void setMainMenu(Stage primaryStage, Group root, GUI gui) {
 		setMainBackGround(root, gui);
-//		this.setStyle("-fx-background-color: black");
+		this.setStyle("-fx-background-color: black");
 		setButtons(root, gui, primaryStage );
 		
 		
@@ -23,6 +24,7 @@ public class MainMenu extends Pane {
 	}
 
 	private void setButtons(Group root, GUI gui, Stage primaryStage) {
+		gui.canvas.setHeight(gui.getHeight());
 		VBox vbox = new VBox();
 		Button createTable = new Button("CREATE TABLE");
 		Button joinTable = new Button("JOIN TABLE");
@@ -32,14 +34,16 @@ public class MainMenu extends Pane {
 		setActionOnButtons(createTable, joinTable, singlePlayer, settings, gui , root, vbox, primaryStage);
 		vbox.getChildren().addAll(createTable,joinTable,singlePlayer,settings);
 		
-		vbox.setLayoutX(gui.getWidth());
-		vbox.setLayoutY(gui.getHeight() + gui.getHeight()*0.2);
+		vbox.setLayoutX(gui.getWidth()/2 - vbox.getWidth());
+		vbox.setLayoutY(gui.getHeight()/2 + gui.getHeight()*0.2);
+		vbox.setAlignment(Pos.CENTER);
 		
 		
 		
-		
-		root.getChildren().add(this);
 		this.getChildren().add(vbox);
+		root.getChildren().add(this);
+//		root.setStyle("-fx-background-color: black");
+		
 		
 	}
 
@@ -69,7 +73,8 @@ public class MainMenu extends Pane {
 		
 		imageView = new ImageView (new Image(getClass().getResourceAsStream("/pokerWhite.png")));
 		
-		imageView.setFitWidth(gui.getWidth()-gui.getWidth()*0.1);
+		imageView.setFitWidth(gui.getWidth());
+		imageView.setFitHeight(gui.getHeight());
 		
 		imageView.setLayoutX(gui.getWidth()/2-imageView.getFitWidth()/2);
 		imageView.setLayoutY(gui.getWidth()*0.05);

@@ -72,7 +72,7 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		setWindowSize(1728, 972);
+		setWindowSize(1760,920);
 		setStep(0);
 	}
 	/**
@@ -87,13 +87,13 @@ public class GUI extends Application {
 		scene = new Scene(root, width, height);
 		scene.getStylesheets().add("/css/style.css");
 		// Canvas creation
-		canvas = new Canvas(width, height_max);
+		canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
-		
-		
-
-
 		startShow(root, scene, primaryStage, gc);
+		
+
+
+		
 		MainMenu menu = new MainMenu();
 	    menu.setMainMenu(primaryStage,root, this);
 //		startMainFrame(primaryStage,root, canvas);
@@ -124,14 +124,15 @@ public class GUI extends Application {
 	}
 	
 	public void startMainFrame(Stage primaryStage, Group root, Canvas canvas) {
-	    border = new BorderPane();
+	    canvas.setHeight(height_max);
+		border = new BorderPane();
 		setGUIEventHandlers(primaryStage, root);
 		
 		setMainFrame(new Painter(this));
 		
-		// Create node buttons
-		MakeButtons buttons = new MakeButtons();
-		buttons.makeButton(border, this, root);
+//		// Create node buttons
+//		MakeButtons buttons = new MakeButtons();
+//		buttons.makeButton(border, this, root);
 		
 		setInitialChildrenToRoot(border, canvas, root);
 
@@ -165,31 +166,31 @@ public class GUI extends Application {
 
 	private void setGUIEventHandlers(Stage primaryStage, Group root) {
 		primaryStage.setOnCloseRequest(e -> System.exit(0));
-		GUI gui = this;
-		//Window resize listener
-		final ChangeListener<Number> widthListener = new ChangeListener<Number>()
-				{
-				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
-				  {
-					  
-			    	gui.setWidth(newValue.intValue());
-			    	gui.getMainFrame().updateBackGround();
-				  }
-				};
-		final ChangeListener<Number> heightListener = new ChangeListener<Number>()
-				{
-				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
-				  {
-					  
-			    	
-			    	gui.setHeight(newValue.intValue());
-			    	gui.getMainFrame().updateBackGround();
-				  }
-				};
-
-				// finally we have to register the listener
-				primaryStage.widthProperty().addListener(widthListener);
-				primaryStage.heightProperty().addListener(heightListener);
+//		GUI gui = this;
+//		//Window resize listener
+//		final ChangeListener<Number> widthListener = new ChangeListener<Number>()
+//				{
+//				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
+//				  {
+//					  
+//			    	gui.setWidth(newValue.intValue());
+//			    	gui.getMainFrame().updateBackGround();
+//				  }
+//				};
+//		final ChangeListener<Number> heightListener = new ChangeListener<Number>()
+//				{
+//				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
+//				  {
+//					  
+//			    	
+//			    	gui.setHeight(newValue.intValue());
+//			    	gui.getMainFrame().updateBackGround();
+//				  }
+//				};
+//
+//				// finally we have to register the listener
+//				primaryStage.widthProperty().addListener(widthListener);
+//				primaryStage.heightProperty().addListener(heightListener);
 	}
 	
 	/**
