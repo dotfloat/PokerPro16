@@ -2,12 +2,6 @@ package org.gruppe2.frontend;
 
 
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-
-
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -34,7 +28,7 @@ import org.gruppe2.backend.Player;
  */
 public class GUI extends Application {
 	// Position variables
-<<<<<<< HEAD
+
 	int width;
 	int width_max;
 	int width_min;
@@ -42,15 +36,6 @@ public class GUI extends Application {
 	int height_max;
 	int height_min;
 	
-=======
-	static int width;
-	static int width_max;
-	static int width_min;
-	static int height;
-	static int height_max;
-	static int height_min;
-
->>>>>>> branch 'master' of https://INF112v16-htj063@bitbucket.org/tha056/inf112v16-g2.git
 	private static int scale = 100;
 	private int step;
 	private GUIClient client;
@@ -211,14 +196,14 @@ public class GUI extends Application {
 	 * @param x
 	 * @param y
 	 */
-	@SuppressWarnings("static-access")
+	
 	public void setWindowSize(int x, int y) {
 		// Width
-		this.width = x;
+		width = x;
 		width_max = width - (getScale() * 2);
 		width_min = getScale();
 		// Height
-		this.height = y;
+		height = y;
 		height_max = height - (getScale() * 2);
 		height_min = getScale();
 	}
