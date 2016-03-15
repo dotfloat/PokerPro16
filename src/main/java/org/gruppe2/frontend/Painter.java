@@ -19,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import org.gruppe2.backend.Card;
+import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.Player;
 import org.gruppe2.backend.PokerGame;
 /**
@@ -147,6 +148,33 @@ public class Painter extends Pane {
 		    }
 		});
 	}
+	
+	
+	
+	/**
+	 * Get players card, and place on top (last) in scene
+	 * 
+	 */
+	public void paintPocketCards() {
+		Card card1 = new Card(6, Suit.HEARTS);
+		Card card2 = new Card(5, Suit.HEARTS);
+		
+		ImageView view1 = createCardImage(card1);
+		ImageView view2 = createCardImage(card2);
+		
+		gui.root.getChildren().add(view1);
+		gui.root.getChildren().add(view2);
+		
+		view1.setLayoutX(gui.getWidth()*0.85);
+		view1.setLayoutY(gui.getHeight()*0.85);
+		view2.setLayoutX(gui.getWidth()*0.86);
+		view2.setLayoutY(gui.getHeight()*0.85);
+		
+		view1.setRotate(340);
+		view2.setRotate(0);
+		
+	}
+	
 	public void setPlayersToTable(PokerGame pokerGame, GUI gui) {
 		Platform.runLater(new Runnable(){
 		    @Override
@@ -212,13 +240,14 @@ public class Painter extends Pane {
 	public ImageView createCardImage(Card card){
 		String name = "/" + getCardName(card)+".png";
 		
-		Image image = new Image(getClass().getResourceAsStream(name),70,0,true,true);
+		Image image = new Image(getClass().getResourceAsStream(name),200,0,true,true);
 		
 		ImageView cardPic = new ImageView(image);
 		
 		return cardPic;
 
 	}
+
 
 	public void showCommunityCards(ArrayList<Card> communityCards, int low, int top) {
 		Platform.runLater(new Runnable(){

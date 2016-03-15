@@ -98,7 +98,7 @@ public class GUI extends Application {
 //	    menu.setMainMenu(primaryStage,root, this);
 		startMainFrame(primaryStage,root, canvas);
 
-
+		getMainFrame().paintPocketCards();
 
 	}
 	
