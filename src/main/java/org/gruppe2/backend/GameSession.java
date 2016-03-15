@@ -263,7 +263,7 @@ public class GameSession {
         }
         else if (action instanceof Action.Call)
             return pa.canCall();
-        else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind || action instanceof  Action.PaySmallBlind)
+        else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind || action instanceof  Action.PaySmallBlind || action instanceof Action.AllIn)
             return true;
         else
             throw new IllegalArgumentException("Not an action");
