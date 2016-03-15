@@ -73,7 +73,9 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		setWindowSize(1760,920);
+		int a = (int) (1920*0.5);
+		int b = (int) (1080*0.5);
+		setWindowSize(a,b);
 		setStep(0);
 	}
 	/**
@@ -91,17 +93,11 @@ public class GUI extends Application {
 		canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 		startShow(root, scene, primaryStage, gc);
-		
-
 
 		
-
-
-		
-//		MainMenu menu = new MainMenu();
-//	    menu.setMainMenu(primaryStage,root, this);
-		startMainFrame(primaryStage,root, canvas);
-
+		MainMenu menu = new MainMenu();
+	    menu.setMainMenu(primaryStage,root, this);
+//		startMainFrame(primaryStage,root, canvas);
 
 	}
 	
@@ -162,9 +158,6 @@ public class GUI extends Application {
 		}
 		getMainFrame().paintPocketCards();
 		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(testPlayers));
-
-
-
 	}
 
 

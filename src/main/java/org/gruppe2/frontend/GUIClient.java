@@ -18,11 +18,7 @@ public class GUIClient extends GameClient implements Runnable {
 	@Override
 	public void onRoundStart() {
 		Platform.runLater(() -> {
-			//Draw a card on screen
-			ImageView cardImage = gui.getMainFrame().createCardImage(new Card(Card.ACE, Card.Suit.SPADES));
-			cardImage.setLayoutX(600);
-			cardImage.setLayoutY(300);
-			gui.getMainFrame().getChildren().add(cardImage);
+			System.out.println("roundStartTest");
 		});
 	}
 

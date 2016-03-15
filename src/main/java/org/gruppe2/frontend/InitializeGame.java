@@ -78,7 +78,7 @@ public class InitializeGame {
 			if (!nameField.getText().equals(null)) {
 				if (moneyFieldsAreValid(startMoneyField, bigBlindField,
 						smallBlindField)) {
-//					gui.root.getChildren().remove(grid);
+					gui.root.getChildren().remove(grid);
 					gui.startMainFrame(primaryStage,gui.root, gui.canvas);
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());

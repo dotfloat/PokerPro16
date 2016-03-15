@@ -24,7 +24,7 @@ public class ChoiceBar{
 		    @Override
 		    public void run() {
 		    	
-				HBox hbox = new HBox(50);
+				HBox hbox = new HBox(gui.getWidth()*0.025);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
 				createGrid( gui, hbox,  player);
@@ -38,14 +38,14 @@ public class ChoiceBar{
 		Button fold = new Button("FOLD");
 		Button raise = new Button("RAISE");
 		Slider raiseSlider = new Slider(25, 5000, 50);
-		raiseSlider.setMaxWidth(450);
-		raiseSlider.setMinWidth(450);
+		raiseSlider.setMaxWidth(gui.getWidth()*0.23);
+		raiseSlider.setMinWidth(gui.getWidth()*0.23);
 		Label sliderValue = new Label((int)raiseSlider.getValue() + " CHIPS");
-		sliderValue.setMinWidth(115);
-		sliderValue.setMaxWidth(115);
+		sliderValue.setMinWidth(gui.getWidth()*0.055);
+		sliderValue.setMaxWidth(gui.getWidth()*0.055);
 		Label showCards = new Label("Cards will be shown here");
-		showCards.setMinWidth(400);
-		showCards.setMaxWidth(400);
+		showCards.setMinWidth(gui.getWidth()*0.2);
+		showCards.setMaxWidth(gui.getWidth()*0.2);
 
 		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue, gui.getClient());
 		
@@ -109,8 +109,8 @@ public class ChoiceBar{
 	}
 	
 	private static void setHBoxSize(HBox hbox, GUI gui) {
-		hbox.setMinHeight(gui.getWidth()*0.055);
-		hbox.setMaxHeight(gui.getWidth()*0.055);
+		hbox.setMinHeight(gui.getHeight()*0.055);
+		hbox.setMaxHeight(gui.getHeight()*0.055);
 //		hbox.setMinHeight(70);
 //		hbox.setMaxHeight(70);
 		
