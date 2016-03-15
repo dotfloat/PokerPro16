@@ -14,10 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
-import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameSession;
-import org.gruppe2.backend.Player;
-
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
@@ -32,9 +29,10 @@ public class GUI extends Application {
 	static int height;
 	static int height_max;
 	static int height_min;
-	
+
 	private static int scale = 100;
 	private int step;
+	private GUIClient client;
 	//booleans
 	private boolean paused;
 	
@@ -97,14 +95,14 @@ public class GUI extends Application {
 	   
 
 		gameSession = new GameSession();
-		GUIClient guiClient = new GUIClient(gameSession, this);
-		gameSession.addPlayer("CoolestPerson", guiClient);
+		client = new GUIClient(gameSession, this);
+		gameSession.addPlayer("CoolestPerson", client);
 		gameSession.addPlayer("Anne", new AIClient(gameSession));
 		gameSession.addPlayer("Bob", new AIClient(gameSession));
         gameSession.addPlayer("Chuck", new AIClient(gameSession));
         gameSession.addPlayer("Dennis", new AIClient(gameSession));
         gameSession.addPlayer("Emma", new AIClient(gameSession));
-		Thread th = new Thread(guiClient);
+		Thread th = new Thread(client);
 		th.start();
 		// Create nodes
 		
@@ -268,7 +266,7 @@ public class GUI extends Application {
 	public static void setScale(int scale) {
 		GUI.scale = scale;
 	}
-	
+
 	/**
 	 * Main method, calls PokerGame as a new thread in .start().
 	 * @param args
@@ -281,5 +279,13 @@ public class GUI extends Application {
 	public Scene getScene() {
 		return scene;
 		
+	}
+
+	public GUIClient getClient() {
+		return client;
+	}
+
+	public BorderPane getBorder() {
+		return border;
 	}
 }
