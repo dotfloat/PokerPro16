@@ -160,8 +160,7 @@ public class GUI extends Application {
 		}
 		getMainFrame().paintPocketCards();
 		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(testPlayers));
-<<<<<<< HEAD
-=======
+
 
 		int cardsToShow = 3;
 		
@@ -177,7 +176,7 @@ public class GUI extends Application {
 		
 		getMainFrame().showCommunityCards(cardList2, cardsToShow);
 
->>>>>>> 5b689b957fe0170b5c5fdf42639b6cbf20db678b
+
 	}
 
 
