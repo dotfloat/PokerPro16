@@ -21,8 +21,9 @@ public class MainMenu extends Pane {
 		
 		this.setMinHeight(gui.getHeight());
 		this.setMaxHeight(gui.getHeight());
-		this.setStyle("-fx-background-color: black");
+		gui.updateStageDimensions();
 		
+		this.setStyle("-fx-background-color: black");
 		
 	}
 
@@ -65,7 +66,9 @@ public class MainMenu extends Pane {
 		});
 		settings.setOnAction(e -> 
 		{
-			System.out.println("Not yet implemented, wait for next iteration");
+			this.getChildren().remove(vbox);
+			SettingsMenu settingsMenu = new SettingsMenu(this,gui,root);
+			settingsMenu.showSettings();
 		});
 		
 	}
@@ -83,6 +86,7 @@ public class MainMenu extends Pane {
 		
 		this.getChildren().add(imageView);
 	}
+	
 	
 	
 

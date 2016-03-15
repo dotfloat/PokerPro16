@@ -26,6 +26,17 @@
 	-fx-background-color: #009933;
 	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
 }
+.choice-box {
+	-fx-position-shape: false;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font: 20px "sans-serif";
+	-fx-background-color: #009933;
+	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
+}
+.choice-box .context-menu {
+    -fx-background-color: #009933 ;
+}
 
 .button:hover {
 	-fx-background-color: #00802b;

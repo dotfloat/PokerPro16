@@ -10,7 +10,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 
 import org.gruppe2.backend.Action;
-import org.gruppe2.backend.Action.Fold;
 import org.gruppe2.backend.Player;
 
 /**

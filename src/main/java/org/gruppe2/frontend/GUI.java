@@ -2,34 +2,26 @@ package org.gruppe2.frontend;
 
 
 
+import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Card;
-import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.GameSession;
-import org.gruppe2.backend.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Current main gui class, and also the mainClass
- * The game loop is in PokerGame
- * @author H�kon
+ * The game loop is in GameSession
+ * @author H�kon Tjeldnes
  *
  */
 public class GUI extends Application {
@@ -59,9 +51,6 @@ public class GUI extends Application {
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
 	
-	
-	// Cell lists for optimization
-	int numberOfcellLists;
 	//Game
 	GameSession gameSession;
 	
@@ -222,16 +211,7 @@ public class GUI extends Application {
 		height_max = height - (getScale() * 2);
 		height_min = getScale();
 	}
-	/**
-	 * Sets width, height;
-	 * @param a, length of window.
-	 * @param b, height of window.
-	 */
-	public void setXY(int a, int b) {
-		width = a;
-		height = b;
-	}
-
+	
 	/**
 	 * Checks if game is paused.
 	 * @return
@@ -342,6 +322,11 @@ public class GUI extends Application {
 
 	public GUIClient getClient() {
 		return client;
+	}
+	public void updateStageDimensions(){
+		scene.getWindow().setWidth(getWidth());
+		scene.getWindow().setHeight(getHeight());
+		scene.getWindow().sizeToScene();
 	}
 
 	public BorderPane getBorder() {
