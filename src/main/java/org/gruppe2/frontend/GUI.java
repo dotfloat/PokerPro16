@@ -49,6 +49,8 @@ public class GUI extends Application {
 	Pane creations, statusBar;
 	BorderPane border;
 	Scene scene;
+	Canvas canvas;
+	Group root;
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
 	
@@ -79,14 +81,50 @@ public class GUI extends Application {
 		
 		// Create stage
 		primaryStage.setTitle("PokerPro 2016");
-		Group root = new Group();
+		root = new Group();
 		scene = new Scene(root, width, height);
 		scene.getStylesheets().add("/css/style.css");
 		// Canvas creation
-		Canvas canvas = new Canvas(width, height_max);
+		canvas = new Canvas(width, height_max);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
-		border = new BorderPane();
 		
+		
+
+
+		startShow(root, scene, primaryStage, gc);
+		MainMenu menu = new MainMenu();
+	    menu.setMainMenu(primaryStage,root, this);
+	    
+
+
+
+	}
+	
+	
+
+
+	/**
+	 * This event is launched for each round of the game, it simulates the GUI round, it checks the root's children and draws them, if 
+	 * any new children.
+	 * @param gc
+	 */
+	public void launchAnimation(GraphicsContext gc) {
+		setTimer(new AnimationTimer() {
+
+			@Override
+			public void handle(long arg0) {
+	
+//				getMainFrame().paint();
+				
+				setStep(getStep() + 1);
+			}
+		});
+		getTimer().start();
+		setPaused(false);
+	}
+	
+	public void startMainFrame(Stage primaryStage, Group root, Canvas canvas) {
+	    border = new BorderPane();
 		setGUIEventHandlers(primaryStage, root);
 		
 		setMainFrame(new Painter(this));
@@ -96,10 +134,6 @@ public class GUI extends Application {
 		buttons.makeButton(border, this, root);
 		
 		setInitialChildrenToRoot(border, canvas, root);
-
-		startShow(root, scene, primaryStage, gc);
-		
-	   
 
 		gameSession = new GameSession();
 		client = new GUIClient(gameSession, this);
@@ -111,25 +145,11 @@ public class GUI extends Application {
         gameSession.addPlayer("Emma", new AIClient(gameSession));
 		Thread th = new Thread(client);
 		th.start();
-		// Create nodes
 		
-		ChoiceBar.showChoices(this, gameSession.getPlayers().get(0));
-
-		Player testPlayer = new Player("Mr. Test", 2000, client);
-		testPlayer.setBet(40);
-		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
-		mainFrame.paintPlayerInfoBox(playerInfoBox);
-
-
-		//Draw a card on screen
-		ImageView cardImage = mainFrame.createCardImage(new Card(12, Card.Suit.DIAMONDS));
-		cardImage.setLayoutX(300);
-		cardImage.setLayoutY(300);
-		mainFrame.getChildren().add(cardImage);
-
-
+		
 	}
-	
+
+
 	private void setGUIEventHandlers(Stage primaryStage, Group root) {
 		primaryStage.setOnCloseRequest(e -> System.exit(0));
 		GUI gui = this;
@@ -157,27 +177,6 @@ public class GUI extends Application {
 				// finally we have to register the listener
 				primaryStage.widthProperty().addListener(widthListener);
 				primaryStage.heightProperty().addListener(heightListener);
-	}
-
-
-	/**
-	 * This event is launched for each round of the game, it simulates the GUI round, it checks the root's children and draws them, if 
-	 * any new children.
-	 * @param gc
-	 */
-	public void launchAnimation(GraphicsContext gc) {
-		setTimer(new AnimationTimer() {
-
-			@Override
-			public void handle(long arg0) {
-	
-				getMainFrame().paint();
-				
-				setStep(getStep() + 1);
-			}
-		});
-		getTimer().start();
-		setPaused(false);
 	}
 	
 	/**

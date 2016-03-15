@@ -21,24 +21,16 @@ import javafx.stage.Stage;
  */
 public class InitializeGame {
 
-	public static void setStartValues() {
-		Group root = new Group();
-		Stage dialogStage = new Stage();
-		dialogStage.setTitle("Edit Person");
-		dialogStage.initModality(Modality.WINDOW_MODAL);
-		Scene scene = new Scene(root);
-		dialogStage.setScene(scene);
+	public static void setStartValues(GUI gui, Group root, Stage primaryStage) {
+
 
 		GridPane grid = new GridPane();
-		createGrid(grid, root, dialogStage);
-		
-		
-		dialogStage.showAndWait();
+		createGrid(grid, root, gui, primaryStage);
+
 
 	}
 
-	private static void createGrid(GridPane grid, Group root,
-			Stage dialogStage) {
+	private static void createGrid(GridPane grid, Group root, GUI gui, Stage primaryStage) {
 
 		Label nameLabel = new Label("Name:");
 		TextField nameField = new TextField();
@@ -55,7 +47,7 @@ public class InitializeGame {
 		Button ok = new Button("ok");
 		Button cancel = new Button("cancel");
 		setButtonAction(ok, cancel, nameField, smallBlindField, bigBlindField,
-				startMoneyField, dialogStage);
+				startMoneyField, gui, primaryStage);
 
 		grid.add(nameLabel, 1, 1);
 		grid.add(nameField, 2, 1);
@@ -73,18 +65,20 @@ public class InitializeGame {
 		grid.add(cancel, 2, 5);
 		
 //		setUpEmptyPot(pokerGame);
+		grid.setLayoutX(gui.getWidth()/2);
+		grid.setLayoutY(gui.getHeight()/2 + gui.getHeight()*0.2);
 		root.getChildren().add(grid);
 	}
 
 	private static void setButtonAction(Button ok, Button cancel,
 			TextField nameField, TextField smallBlindField,
-			TextField bigBlindField, TextField startMoneyField,
-			 Stage dialogStage) {
+			TextField bigBlindField, TextField startMoneyField, GUI gui, Stage primaryStage) {
 
 		ok.setOnAction(e -> {
 			if (!nameField.getText().equals(null)) {
 				if (moneyFieldsAreValid(startMoneyField, bigBlindField,
 						smallBlindField)) {
+					gui.startMainFrame(primaryStage,gui.root, gui.canvas);
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
 
@@ -95,15 +89,15 @@ public class InitializeGame {
 
 //					pokerGame.smallBlind = smallBlind;
 //					pokerGame.bigBlind = bigBlind;
-
-					dialogStage.close();
+					
+					
 				}
 			}
 			else
 				System.out.println("No name");
 		});
 		cancel.setOnAction(e -> {
-			dialogStage.close();
+			
 			System.out.println("cancel pressed");
 			System.exit(0);
 		});
