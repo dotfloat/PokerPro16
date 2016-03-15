@@ -46,7 +46,7 @@ public class ChoiceBar{
 		showCards.setMinWidth(400);
 		showCards.setMaxWidth(400);
 
-		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue);
+		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue, gui.getClient());
 		
 		
 		

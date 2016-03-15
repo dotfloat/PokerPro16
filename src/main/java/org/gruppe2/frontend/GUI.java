@@ -14,7 +14,10 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
+import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
+
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
@@ -108,7 +111,7 @@ public class GUI extends Application {
 		
 		ChoiceBar.showChoices(this, gameSession.getPlayers().get(0));
 
-		Player testPlayer = new Player("Mr. Test", 2000, guiClient);
+		Player testPlayer = new Player("Mr. Test", 2000, client);
 		testPlayer.setBet(40);
 		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
 		mainFrame.paintPlayerInfoBox(playerInfoBox);
