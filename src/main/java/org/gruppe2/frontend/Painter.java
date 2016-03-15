@@ -248,35 +248,23 @@ public class Painter extends Pane {
 	}
 
 
-	public void showCommunityCards(ArrayList<Card> communityCards, int low, int top) {
+	public void showCommunityCards(List<Card> communityCards, int cardsToShow) {
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
-				
-				for(int currentCard = low; currentCard <= top; currentCard++ ){
-					Card card = communityCards.get(currentCard);
-					ImageView cardImage = createCardImage(card);
+		    	
+		    	Double cardOffset = 0.1;
+				int counter = 0;
+				ArrayList al = (ArrayList) communityCards;
+				for (int i = 0; i < cardsToShow; i++) {
 					
-					if(currentCard == 0){
-						cardImage.setLayoutX(300);
-						cardImage.setLayoutY(300);
-					}
-					if(currentCard == 1){
-						cardImage.setLayoutX(350);
-						cardImage.setLayoutY(300);
-					}
-					if(currentCard == 2){
-						cardImage.setLayoutX(400);
-						cardImage.setLayoutY(300);
-					}
-					if(currentCard == 3){
-						cardImage.setLayoutX(450);
-						cardImage.setLayoutY(300);
-					}
-					if(currentCard == 4){
-						cardImage.setLayoutX(500);
-						cardImage.setLayoutY(300);
-					}
+					Card c = (Card) al.get(i);
+					ImageView cardImage = createCardImage(c);
+					cardImage.setPreserveRatio(true);
+					cardImage.setFitHeight(gui.getWidth()*0.045);
+					
+					cardImage.setLayoutX(gui.getWidth()*0.4 * (cardOffset*i));
+					cardImage.setLayoutY(gui.getHeight()*0.4);
 					
 					getChildren().add(cardImage);
 				}
