@@ -42,9 +42,6 @@ public class ConsoleClient extends GameClient {
 
     @Override
     public Action onTurn(Player player) {
-        List<Card> cc = getSession().getTable().getCommunityCards();
-        if (cc != null)
-            System.out.println(cc);
         System.out.println("> Your turn you can: ");
         System.out.println(getSession().getPlayerOptions(player));
 
@@ -73,6 +70,9 @@ public class ConsoleClient extends GameClient {
 
     @Override
     public void onCommunalCards(List<Card> cards) {
+        if (cards == null)
+            return;
+
         System.out.print("Communal cards: ");
 
         for (Card card : cards) {

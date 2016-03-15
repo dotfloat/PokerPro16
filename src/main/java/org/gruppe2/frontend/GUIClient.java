@@ -2,11 +2,9 @@ package org.gruppe2.frontend;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 import org.gruppe2.ai.AIClient;
-import org.gruppe2.backend.Action;
-import org.gruppe2.backend.GameClient;
-import org.gruppe2.backend.GameSession;
-import org.gruppe2.backend.Player;
+import org.gruppe2.backend.*;
 
 public class GUIClient extends GameClient implements Runnable {
 	private GUI gui;
@@ -19,7 +17,13 @@ public class GUIClient extends GameClient implements Runnable {
 
 	@Override
 	public void onRoundStart() {
-		Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, "Round started").showAndWait());
+		Platform.runLater(() -> {
+			//Draw a card on screen
+			ImageView cardImage = gui.getMainFrame().createCardImage(new Card(Card.ACE, Card.Suit.SPADES));
+			cardImage.setLayoutX(600);
+			cardImage.setLayoutY(300);
+			gui.getMainFrame().getChildren().add(cardImage);
+		});
 	}
 
 	@Override

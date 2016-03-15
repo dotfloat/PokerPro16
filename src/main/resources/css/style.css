@@ -7,9 +7,12 @@
 	-fx-effect: innershadow( gaussian , #ffffff , 20, 0, 0, 2);
 }
 
-/*.gridPane {
- 	-fx-background-color: rgb(0,0,0);
-}*/
+.pane {
+ 	-fx-background-color: black; 
+ 	-fx-border-width: 10px; 
+ 	-fx-border-color: black; 
+ 	-fx-border-radius: 5px;
+}
 
 .button {
 	-fx-position-shape: false;
