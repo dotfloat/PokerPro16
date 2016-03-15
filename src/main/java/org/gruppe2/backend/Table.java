@@ -8,16 +8,30 @@ import java.util.List;
  * Created by cemsepetcioglu on 10.03.16.
  */
 public class Table {
-    private Deck deck = new Deck();
+    private Deck deck;
     private List<Card> communityCards;
     private int pot;
+
+    public Table(){
+        deck = new Deck();
+    }
+
+    public void newDeck(){
+        deck = new Deck();
+    }
+
+    public Card drawACard(){
+        return deck.drawCard();
+    }
 
     /**
      * Draws card on to the table depending on the round (0-3)
      * @param round Game round
      */
     public void drawCommunityCards(int round) {
-        if (round == 1)
+        if (round == 0)
+            communityCards = null;
+        else if (round == 1)
             communityCards = deck.drawCards(3);
         else if (round == 2)
             communityCards.add(deck.drawCard());
@@ -51,5 +65,9 @@ public class Table {
 
     public Deck getDeck() {
         return deck;
+    }
+
+    public void resetPot(){
+        pot = 0;
     }
 }

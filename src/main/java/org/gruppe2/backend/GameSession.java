@@ -46,24 +46,20 @@ public class GameSession {
     }
 
     private void matchLoop() {
-        activePlayers = new ArrayList<>();
-        activePlayers.addAll(players);
+        StartNewMatch();
         button = 0;
         smallBlind = 1;
         bigBlind = 2;
 
-        Action.Raise blind;
+        //Need blind action
         Player smallBlindPayer = activePlayers.get(smallBlind);
-        blind = new Action.Raise(smallBlindAmount);
-        doPlayerAction(blind, smallBlindPayer);
-        notifyOtherPlayersAboutAction(smallBlindPayer, blind);
+        doPlayerAction(new Action.PaySmallBlind(), smallBlindPayer);
+        //  notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
         Player bigBlindPayer = activePlayers.get(bigBlind);
-        blind = new Action.Raise(bigBlindAmount);
-        doPlayerAction(blind, bigBlindPayer);
-        notifyOtherPlayersAboutAction(bigBlindPayer, blind);
+        doPlayerAction(new Action.PayBigBlind(), bigBlindPayer);
+    //    notifyOtherPlayersAboutAction(bigBlindPayer, blind);
 
-        highestBet = bigBlindAmount;
         notifyRoundStart();
 
         for (int i = 0; i < 4; i++){
@@ -104,6 +100,9 @@ public class GameSession {
             if (player == null)
                 continue;
 
+            if (numActivePlayers() == 1)
+                break;
+
             notifyOtherPlayersAboutTurn(player);
             Action action = player.getClient().onTurn(player);
             notifyOtherPlayersAboutAction(player, action);
@@ -128,6 +127,18 @@ public class GameSession {
             }
         }
 
+    }
+
+    private void StartNewMatch(){
+        activePlayers = new ArrayList<>();
+        activePlayers.addAll(players);
+        highestBet = 0;
+        table.resetPot();
+        table.newDeck();
+        for (Player p : activePlayers){
+            p.setBet(0);
+            p.setCards(table.drawACard(), table.drawACard());
+        }
     }
 
     private int numActivePlayers() {
@@ -207,6 +218,24 @@ public class GameSession {
                 player.setBank(player.getBank() - raise );
                 table.addToPot(table.getPot() + raise);
             }
+            else if (action instanceof Action.AllIn){
+                int raise = player.getBank();
+                player.setBank(0);
+                player.setBet(player.getBet() + raise);
+                table.addToPot(raise);
+                highestBet = player.getBet();
+            }
+            else if (action instanceof Action.PayBigBlind){
+                player.setBank(player.getBank() - bigBlindAmount);
+                player.setBet(bigBlindAmount);
+                table.addToPot(bigBlindAmount);
+                highestBet = bigBlindAmount;
+            }
+            else if(action instanceof Action.PaySmallBlind){
+                player.setBank(player.getBank() - smallBlindAmount);
+                player.setBet(smallBlindAmount);
+                table.addToPot(smallBlindAmount);
+            }
         }
         else {
             throw new IllegalArgumentException(player.getName() + " can't do that action");
@@ -234,7 +263,7 @@ public class GameSession {
         }
         else if (action instanceof Action.Call)
             return pa.canCall();
-        else if (action instanceof Action.Fold)
+        else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind || action instanceof  Action.PaySmallBlind || action instanceof Action.AllIn)
             return true;
         else
             throw new IllegalArgumentException("Not an action");
@@ -255,8 +284,9 @@ public class GameSession {
         if (player.getBet() == highestBet)
             actions.setCheck();
         if (player.getBank() > highestBet - player.getBet()){
-            if (!(player.getBank() == highestBet - player.getBet()))
-                actions.setRaise(1, player.getBank() - (player.getBet() + highestBet));
+            int maxRaise = player.getBank() - (player.getBet() + highestBet);
+            if (!(player.getBank() == highestBet - player.getBet()) && maxRaise > 0)
+                actions.setRaise(1, maxRaise);
             actions.setCall();
         }
 

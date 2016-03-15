@@ -14,7 +14,9 @@
  	-fx-border-width: 3px;
  	-fx-border-color: black;
 }
-
+.root {
+	-fx-background-color: black;
+}
 
 .button {
 	-fx-position-shape: false;
