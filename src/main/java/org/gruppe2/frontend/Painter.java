@@ -314,7 +314,6 @@ public class Painter extends Pane {
 		playerInfoBox.setLayoutX(400);
 		playerInfoBox.setLayoutY(400);
 		this.getChildren().add(playerInfoBox);
-
 	}
 	
 

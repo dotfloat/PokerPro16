@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -117,14 +118,17 @@ public class GUI extends Application {
 		Player testPlayer = new Player("Mr. Test", 2000, client);
 		testPlayer.setBet(40);
 		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
-		mainFrame.paintPlayerInfoBox(playerInfoBox);
+		playerInfoBox.setLayoutX(300);
+		playerInfoBox.setLayoutY(300);
+		mainFrame.getChildren().add(playerInfoBox);
 
-		/* Draw a card on screen
-		ImageView cardImage = mainFrame.createCardImage(new Card(3, Card.Suit.DIAMONDS));
+
+		//Draw a card on screen
+		ImageView cardImage = mainFrame.createCardImage(new Card(12, Card.Suit.DIAMONDS));
 		cardImage.setLayoutX(300);
 		cardImage.setLayoutY(300);
 		mainFrame.getChildren().add(cardImage);
-		*/
+
 
 	}
 	
