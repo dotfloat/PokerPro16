@@ -19,6 +19,7 @@ import org.gruppe2.backend.Player;
 */
 
 public class PlayerInfoBox extends GridPane {
+
     private Label name = new Label();
     private Label chips = new Label();
     private Label currentBet = new Label();
@@ -26,15 +27,11 @@ public class PlayerInfoBox extends GridPane {
 
     public PlayerInfoBox(){
         super();
+        this.getStyleClass().add("pane");
         add(name, 0, 0, 2, 1);
         add(profileImage, 0, 1, 1, 2);
         add(currentBet, 1, 2, 1, 1);
         add(chips, 1, 3, 1, 1);
-        setStyle("-fx-background-color: black");
-        setMinWidth(400);
-        setMaxHeight(400);
-        setMinHeight(400);
-        setMaxHeight(400);
     }
 
     public void updateInfoBox(Player player){
