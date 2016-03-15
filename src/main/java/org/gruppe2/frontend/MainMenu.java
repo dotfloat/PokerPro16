@@ -1,5 +1,6 @@
 package org.gruppe2.frontend;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -9,16 +10,24 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainMenu extends Pane {
+	ImageView imageView;
 	
 	
 	public void setMainMenu(Stage primaryStage, Group root, GUI gui) {
+		
+		
 		setMainBackGround(root, gui);
 		setButtons(root, gui, primaryStage );
+		
+		this.setMinHeight(gui.getHeight());
+		this.setMaxHeight(gui.getHeight());
+		this.setStyle("-fx-background-color: black");
 		
 		
 	}
 
 	private void setButtons(Group root, GUI gui, Stage primaryStage) {
+		gui.canvas.setHeight(gui.getHeight());
 		VBox vbox = new VBox();
 		Button createTable = new Button("CREATE TABLE");
 		Button joinTable = new Button("JOIN TABLE");
@@ -28,11 +37,15 @@ public class MainMenu extends Pane {
 		setActionOnButtons(createTable, joinTable, singlePlayer, settings, gui , root, vbox, primaryStage);
 		vbox.getChildren().addAll(createTable,joinTable,singlePlayer,settings);
 		
-		vbox.setLayoutX(gui.getWidth()/2);
+		vbox.setLayoutX(gui.getWidth()/2 - vbox.getWidth());
 		vbox.setLayoutY(gui.getHeight()/2 + gui.getHeight()*0.2);
+		vbox.setAlignment(Pos.CENTER);
 		
-		root.getChildren().add(vbox);
 		
+		
+		this.getChildren().add(vbox);
+		root.getChildren().add(this);
+	
 	}
 
 	private void setActionOnButtons(Button createTable, Button joinTable,
@@ -47,7 +60,7 @@ public class MainMenu extends Pane {
 		});
 		singlePlayer.setOnAction(e -> 
 		{
-			root.getChildren().remove(vbox);
+			this.getChildren().remove(vbox);
 			InitializeGame.setStartValues(gui, root, primaryStage);
 		});
 		settings.setOnAction(e -> 
@@ -59,15 +72,16 @@ public class MainMenu extends Pane {
 
 	private void setMainBackGround(Group root, GUI gui) {
 		
-		ImageView imageView = new ImageView (new Image(getClass().getResourceAsStream("/pokerWhite.png")));
-		imageView.setStyle("-fx-background-color: black");
-		imageView.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
-		imageView.setFitHeight(gui.getHeight()-gui.getHeight()*0.3);
+		imageView = new ImageView (new Image(getClass().getResourceAsStream("/pokerWhite.png")));
+		
+		imageView.setFitWidth(gui.getWidth());
+		imageView.setFitHeight(gui.getHeight());
+		
 		imageView.setLayoutX(gui.getWidth()/2-imageView.getFitWidth()/2);
-		imageView.setLayoutY(gui.getHeight()/2-imageView.getFitHeight()/1.55);
+		imageView.setLayoutY(gui.getWidth()*0.05);
+		imageView.setPreserveRatio(true);
 		
-		root.getChildren().add(imageView);
-		
+		this.getChildren().add(imageView);
 	}
 	
 	

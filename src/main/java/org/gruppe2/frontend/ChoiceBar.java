@@ -52,11 +52,12 @@ public class ChoiceBar{
 		
 		
 		hbox.getChildren().addAll(fold,call,check,raiseSlider,sliderValue, raise, showCards);
-		hbox.setMinHeight(70);
-		hbox.setMaxHeight(70);
+		setHBoxSize(hbox, gui);
 		
 		gui.getBorder().setBottom(hbox);
 	}
+	
+
 
 	private static void setButtonAction(Slider raiseSlider,
 										Button check, Button call,
@@ -105,6 +106,14 @@ public class ChoiceBar{
 	private static String checkMaxBid(Slider slider){
 		if (slider.getValue()==slider.getMax()) return "GO ALL IN";
 		else return (int) slider.getValue() + " CHIPS";
+	}
+	
+	private static void setHBoxSize(HBox hbox, GUI gui) {
+		hbox.setMinHeight(gui.getWidth()*0.055);
+		hbox.setMaxHeight(gui.getWidth()*0.055);
+//		hbox.setMinHeight(70);
+//		hbox.setMaxHeight(70);
+		
 	}
 
 }
