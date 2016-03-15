@@ -45,7 +45,7 @@ public class Table {
     /**
      * @return pot on the table
      */
-    public int setPot() {
+    public int getPot() {
         return pot;
     }
 
