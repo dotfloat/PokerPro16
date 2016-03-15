@@ -48,14 +48,32 @@ public class GameSession {
         smallBlind = 1;
 
         notifyRoundStart();
-/*
+
         for (int i = 0; i < 4; i++){
             table.drawCommunityCards(i);
 
             turnLoop();
+
+            if (numActivePlayers() == 1)
+                break;
         }
-*/
-        for (int current = 0; !activePlayers.isEmpty(); current++) {
+
+        notifyRoundEnd();
+    }
+
+    private void turnLoop() {
+        Player lastRaiser;
+        int startInt = 0;
+
+        for (int first = smallBlind; first < activePlayers.size(); first++) {
+            lastRaiser = activePlayers.get(first);
+            if (lastRaiser != null) {
+                startInt = first;
+                break;
+            }
+        }
+
+        for (int current = startInt-1; !activePlayers.isEmpty(); current++) {
             int currentPlayerIdx = (current + 1) % activePlayers.size();
             Player player = activePlayers.get(currentPlayerIdx);
 
@@ -89,17 +107,6 @@ public class GameSession {
                 }
                 break;
             }
-        }
-
-        notifyRoundEnd();
-    }
-
-    private void turnLoop() {
-        Player lastRaiser;
-        for (int first = smallBlind; first < activePlayers.size(); first++) {
-            lastRaiser = activePlayers.get(first);
-            if (lastRaiser != null)
-                break;
         }
 
     }
