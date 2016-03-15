@@ -3,18 +3,19 @@ package org.gruppe2.frontend;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.Player;
-
+/**
+ * This is the bottom buttons, textfields and slider.
+ * @author htj063
+ *
+ */
 public class ChoiceBar{
 	
 	

@@ -4,6 +4,8 @@ package org.gruppe2.frontend;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -26,13 +28,14 @@ import org.gruppe2.backend.Player;
  */
 public class GUI extends Application {
 	// Position variables
-	static int width;
-	static int width_max;
-	static int width_min;
-	static int height;
-	static int height_max;
-	static int height_min;
 
+	int width;
+	int width_max;
+	int width_min;
+	int height;
+	int height_max;
+	int height_min;
+	
 	private static int scale = 100;
 	private int step;
 	private GUIClient client;
@@ -83,7 +86,7 @@ public class GUI extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 		border = new BorderPane();
 		
-		primaryStage.setOnCloseRequest(e -> System.exit(0));
+		setGUIEventHandlers(primaryStage, root);
 		
 		setMainFrame(new Painter(this));
 		
@@ -115,14 +118,46 @@ public class GUI extends Application {
 		testPlayer.setBet(40);
 		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
 		mainFrame.paintPlayerInfoBox(playerInfoBox);
+
+		/* Draw a card on screen
 		ImageView cardImage = mainFrame.createCardImage(new Card(3, Card.Suit.DIAMONDS));
 		cardImage.setLayoutX(300);
 		cardImage.setLayoutY(300);
 		mainFrame.getChildren().add(cardImage);
-
+		*/
 
 	}
 	
+	private void setGUIEventHandlers(Stage primaryStage, Group root) {
+		primaryStage.setOnCloseRequest(e -> System.exit(0));
+		GUI gui = this;
+		//Window resize listener
+		final ChangeListener<Number> widthListener = new ChangeListener<Number>()
+				{
+				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
+				  {
+					  
+			    	gui.setWidth(newValue.intValue());
+			    	gui.getMainFrame().updateBackGround();
+				  }
+				};
+		final ChangeListener<Number> heightListener = new ChangeListener<Number>()
+				{
+				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
+				  {
+					  
+			    	
+			    	gui.setHeight(newValue.intValue());
+			    	gui.getMainFrame().updateBackGround();
+				  }
+				};
+
+				// finally we have to register the listener
+				primaryStage.widthProperty().addListener(widthListener);
+				primaryStage.heightProperty().addListener(heightListener);
+	}
+
+
 	/**
 	 * This event is launched for each round of the game, it simulates the GUI round, it checks the root's children and draws them, if 
 	 * any new children.
@@ -163,14 +198,14 @@ public class GUI extends Application {
 	 * @param x
 	 * @param y
 	 */
-	@SuppressWarnings("static-access")
+	
 	public void setWindowSize(int x, int y) {
 		// Width
-		this.width = x;
+		width = x;
 		width_max = width - (getScale() * 2);
 		width_min = getScale();
 		// Height
-		this.height = y;
+		height = y;
 		height_max = height - (getScale() * 2);
 		height_min = getScale();
 	}
@@ -245,7 +280,15 @@ public class GUI extends Application {
 	public void setMainFrame(Painter mainFrame) {
 		this.mainFrame = mainFrame;
 	}
-
+	
+	public void setWidth(int width){
+		this.width = width;
+	}
+	
+	public void setHeight(int height){
+		this.height = height;
+	}
+	
 	public int getWidth() {
 		return width;
 	}
