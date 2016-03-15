@@ -22,7 +22,7 @@ public class PlayerInfoBox extends GridPane {
     private Label name = new Label();
     private Label chips = new Label();
     private Label currentBet = new Label();
-    private ImageView profileImage = new ImageView("default.png");
+    private ImageView profileImage = new ImageView(new Image (getClass().getResourceAsStream("/default.png")));
 
 
     public PlayerInfoBox(){
@@ -31,6 +31,10 @@ public class PlayerInfoBox extends GridPane {
         add(currentBet, 1, 2, 1, 1);
         add(chips, 1, 3, 1, 1);
         setStyle("-fx-background-color: black");
+        setMinWidth(400);
+        setMaxHeight(400);
+        setMinHeight(400);
+        setMaxHeight(400);
     }
 
 
