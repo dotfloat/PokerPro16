@@ -1,6 +1,7 @@
 package org.gruppe2.frontend;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -310,13 +311,21 @@ public class Painter extends Pane {
         return finalName;
     }
 
-	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox){
-		playerInfoBox.setLayoutX(400);
-		playerInfoBox.setLayoutY(400);
+	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox, int x, int y){
+		playerInfoBox.setLayoutX(x);
+		playerInfoBox.setLayoutY(y);
 		this.getChildren().add(playerInfoBox);
 	}
-	
 
-
-
+	public void paintAllPlayers(List<PlayerInfoBox> playerInfoBoxes){
+		int x=100, y=100;
+		for (PlayerInfoBox playerInfoBox : playerInfoBoxes){
+			paintPlayerInfoBox(playerInfoBox, x, y);
+			x+=300;
+			if(x>1200) {
+				y+=300;
+				x=100;
+			}
+		}
+	}
 }

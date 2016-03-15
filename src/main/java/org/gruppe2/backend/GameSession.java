@@ -26,6 +26,10 @@ public class GameSession {
         return players;
     }
 
+    public int getHighestBet() {
+        return highestBet;
+    }
+
     /**
      * Main game loop
      * Notify players about which players turn it is, waits for that players action and notifies all players about the action
@@ -44,20 +48,22 @@ public class GameSession {
     private void matchLoop() {
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
-        highestBet = 0;
         button = 0;
         smallBlind = 1;
         bigBlind = 2;
 
-
+        Action.Raise blind;
         Player smallBlindPayer = activePlayers.get(smallBlind);
-        notifyOtherPlayersAboutAction(smallBlindPayer, new Action.Raise(bigBlindAmount));
-        smallBlindPayer.setBet(smallBlindAmount);
+        blind = new Action.Raise(smallBlindAmount);
+        doPlayerAction(blind, smallBlindPayer);
+        notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
-        Player bigBlindPlayer = activePlayers.get(bigBlind);
-        notifyOtherPlayersAboutAction(bigBlindPlayer, new Action.Raise(smallBlindAmount));
-        bigBlindPlayer.setBet(bigBlindAmount);
+        Player bigBlindPayer = activePlayers.get(bigBlind);
+        blind = new Action.Raise(bigBlindAmount);
+        doPlayerAction(blind, bigBlindPayer);
+        notifyOtherPlayersAboutAction(bigBlindPayer, blind);
 
+        highestBet = bigBlindAmount;
         notifyRoundStart();
 
         for (int i = 0; i < 4; i++){
@@ -105,13 +111,21 @@ public class GameSession {
             if (action instanceof Action.Fold) {
                 activePlayers.set(currentPlayerIdx, null);
             }
-            if (action instanceof Action.Raise) {
+            else if (action instanceof Action.Raise) {
                 doPlayerAction(action, player);
                 lastRaiserIndex = currentPlayerIdx;
             }
+            else if (action instanceof Action.Call)
+                doPlayerAction(action, player);
 
             if (lastRaiserIndex == currentPlayerIdx && !(action instanceof Action.Raise))
                 break;
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -181,20 +195,21 @@ public class GameSession {
         if (checkLegalAction(action, player)) {
             if (action instanceof Action.Raise){
                 int raise = ((Action.Raise) action).getAmount();
-                player.setBet(player.getBet() + raise);
-                player.setBank(player.getBank() - raise);
-                table.setPot(table.getPot() + raise);
+                int chipsToMove = (highestBet - player.getBet()) + raise;
+                player.setBet(highestBet + raise);
+                player.setBank(player.getBank() - chipsToMove);
+                table.addToPot(chipsToMove);
                 highestBet = player.getBet();
             }
             else if (action instanceof Action.Call){
                 int raise = highestBet - player.getBet();
                 player.setBet(player.getBet() + raise);
                 player.setBank(player.getBank() - raise );
-                table.setPot(table.getPot() + raise);
+                table.addToPot(table.getPot() + raise);
             }
         }
         else {
-            //no legal action
+            throw new IllegalArgumentException(player.getName() + " can't do that action");
         }
     }
 
@@ -211,14 +226,18 @@ public class GameSession {
         PossibleActions pa = getPlayerOptions(player);
         if (action instanceof Action.Check)
             return pa.canCheck();
-        else if (action instanceof Action.Raise)
+        else if (action instanceof Action.Raise) {
+            int raise = ((Action.Raise) action).getAmount();
+            if (raise < 1 || raise > player.getBank() - (player.getBet() + highestBet))
+                return false;
             return pa.canRaise();
+        }
         else if (action instanceof Action.Call)
             return pa.canCall();
         else if (action instanceof Action.Fold)
             return true;
         else
-            throw new IllegalArgumentException(player + " can't do that action");
+            throw new IllegalArgumentException("Not an action");
     }
 
     public Table getTable() {
@@ -237,7 +256,7 @@ public class GameSession {
             actions.setCheck();
         if (player.getBank() > highestBet - player.getBet()){
             if (!(player.getBank() == highestBet - player.getBet()))
-                actions.setRaise(highestBet - player.getBet() + 1, player.getBank());
+                actions.setRaise(1, player.getBank() - (player.getBet() + highestBet));
             actions.setCall();
         }
 
