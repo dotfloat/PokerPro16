@@ -92,9 +92,9 @@ public class GUI extends Application {
 
 
 		startShow(root, scene, primaryStage, gc);
-		MainMenu menu = new MainMenu();
-	    menu.setMainMenu(primaryStage,root, this);
-	    
+//		MainMenu menu = new MainMenu();
+//	    menu.setMainMenu(primaryStage,root, this);
+		startMainFrame(primaryStage,root, canvas);
 
 
 
@@ -145,6 +145,8 @@ public class GUI extends Application {
         gameSession.addPlayer("Emma", new AIClient(gameSession));
 		Thread th = new Thread(client);
 		th.start();
+		
+		ChoiceBar.showChoices(this,client.getSession().getPlayers().get(0));
 		
 		
 	}

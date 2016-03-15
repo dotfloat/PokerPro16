@@ -4,10 +4,11 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class MainMenu {
+public class MainMenu extends Pane {
 	
 	
 	public void setMainMenu(Stage primaryStage, Group root, GUI gui) {
@@ -57,7 +58,9 @@ public class MainMenu {
 	}
 
 	private void setMainBackGround(Group root, GUI gui) {
-		ImageView imageView = new ImageView (new Image(getClass().getResourceAsStream("/Pokerlogo1.png")));
+		
+		ImageView imageView = new ImageView (new Image(getClass().getResourceAsStream("/pokerWhite.png")));
+		imageView.setStyle("-fx-background-color: black");
 		imageView.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
 		imageView.setFitHeight(gui.getHeight()-gui.getHeight()*0.3);
 		imageView.setLayoutX(gui.getWidth()/2-imageView.getFitWidth()/2);
