@@ -86,24 +86,16 @@ public class InitializeGame {
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
 					
-//					pokerGame.getPlayers().add(new Player(name, startValue,pokerGame.getTable()));
-					
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
 					gui.getClient().getSession().addPlayer(name, gui.getClient());
-//					pokerGame.smallBlind = smallBlind;
-//					pokerGame.bigBlind = bigBlind;
-					
-					
+					gui.getClient().getSession().getPlayers().get(0).setBank(startValue);
+//					gui.getClient().getSession().	
 				}
 			}
-			else
-				System.out.println("No name");
 		});
 		cancel.setOnAction(e -> {
-			
-			System.out.println("cancel pressed");
-			System.exit(0);
+			gui.newMainMenu((Stage) gui.scene.getWindow(), gui.root);
 		});
 
 	}
@@ -124,12 +116,5 @@ public class InitializeGame {
 
 		return false;
 	}
-	/**
-	 * Draws the pot in top middle of bord.
-	 * @return
-	 */
-//	private static void setUpEmptyPot(){
-//		gui.getMainFrame().updateTablePot(0);
-//	}
-
+	
 }

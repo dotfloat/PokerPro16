@@ -95,17 +95,11 @@ public class GUI extends Application {
 		canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 		startShow(root, scene, primaryStage, gc);
-
 		
-		MainMenu menu = new MainMenu();
-	    menu.setMainMenu(primaryStage,root, this);
-//		startMainFrame(primaryStage,root, canvas);
+		newMainMenu(primaryStage,root);
 
 	}
 	
-	
-
-
 	/**
 	 * This event is launched for each round of the game, it simulates the GUI round, it checks the root's children and draws them, if 
 	 * any new children.
@@ -116,8 +110,6 @@ public class GUI extends Application {
 
 			@Override
 			public void handle(long arg0) {
-	
-//				getMainFrame().paint();
 				
 				setStep(getStep() + 1);
 			}
@@ -133,12 +125,16 @@ public class GUI extends Application {
 		
 		setMainFrame(new Painter(this));
 		
-//		// Create node buttons
-//		MakeButtons buttons = new MakeButtons();
-//		buttons.makeButton(border, this, root);
-		
 		setInitialChildrenToRoot(border, canvas, root);
+		testGame();
+		
+		getMainFrame().paintPocketCards();
+	}
+	
+	
 
+
+	private void testGame() {
 		gameSession = new GameSession();
 		client = new GUIClient(gameSession, this);
 		
@@ -150,32 +146,14 @@ public class GUI extends Application {
 		Thread th = new Thread(client);
 		th.start();
 		
-		ChoiceBar.showChoices(this,client.getSession().getPlayers().get(0));
-		
-		Player testPlayer = new Player("Mr. TestRobot", 2020, client);
-		testPlayer.setBet(100);
-		ArrayList<Player> testPlayers = new ArrayList<>();
-		for (int i=0;i<9;i++) {
-			testPlayers.add(testPlayer);
-		}
-		getMainFrame().paintPocketCards();
-		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(testPlayers));
-
-
 		int cardsToShow = 3;
+		gameSession.getTable().drawCommunityCards(1);
+		ArrayList<Card> communityCards = (ArrayList<Card>) gameSession.getTable().getCommunityCards();
+		mainFrame.drawPot();
 		
-		
-		
-		List<Card> cardList2 = new ArrayList<Card>();
-		cardList2.add(new Card(4, Suit.DIAMONDS));
-		cardList2.add(new Card(11, Suit.DIAMONDS));
-		cardList2.add(new Card(6, Suit.HEARTS));
-		cardList2.add(new Card(4, Suit.HEARTS));
-		cardList2.add(new Card(9, Suit.CLUBS));
-		
-		getMainFrame().showCommunityCards(cardList2, cardsToShow);
-
-
+		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers()));
+		ChoiceBar.showChoices(this,client.getSession().getPlayers().get(0)); //Get me
+		getMainFrame().showCommunityCards(communityCards, cardsToShow);
 	}
 
 
@@ -223,6 +201,11 @@ public class GUI extends Application {
 		primaryStage.show();
 		launchAnimation(gc);
 	}
+	public void newMainMenu(Stage primaryStage, Group root2) {
+		MainMenu menu = new MainMenu();
+	    menu.setMainMenu(primaryStage,root, this);
+	}
+	
 	/**
 	 * Sets size of window
 	 * @param x

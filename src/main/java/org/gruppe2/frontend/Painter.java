@@ -6,7 +6,6 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -179,56 +178,6 @@ public class Painter extends Pane {
 		
 	}
 	
-	public void setPlayersToTable(PokerGame pokerGame, GUI gui) {
-		Platform.runLater(new Runnable(){
-		    @Override
-		    public void run() {
-		
-		int playerNumber = 0;
-		for (Player player : pokerGame.getPlayers()) {
-			Label playerPosition = new Label(player.getName()+ " "
-					+ "500");
-			if (playerNumber == 0) {
-				playerPosition.setLayoutX(15);
-				playerPosition.setLayoutY(300);
-				playerPosition0 = playerPosition;
-				
-			}
-			else if (playerNumber == 1) {
-				playerPosition.setLayoutX(250);
-				playerPosition.setLayoutY(40);
-				playerPosition1 = playerPosition;
-			}
-			else if (playerNumber == 2) {
-				playerPosition.setLayoutX(430);
-				playerPosition.setLayoutY(40);
-				playerPosition2 = playerPosition;
-			}
-			else if (playerNumber == 3) {
-				playerPosition.setLayoutX(700);
-				playerPosition.setLayoutY(300);
-				playerPosition3 = playerPosition;
-			}
-			else if (playerNumber == 4) {
-				playerPosition.setLayoutX(430);
-				playerPosition.setLayoutY(500);
-				playerPosition4 = playerPosition;
-			}
-			else if (playerNumber == 5) {
-				playerPosition.setLayoutX(250);
-				playerPosition.setLayoutY(500);
-				playerPosition5 = playerPosition;
-			}
-			playerPosition.setTextFill(Color.HOTPINK);
-			playerPosition.setFont(new Font(15));
-			getChildren().add(playerPosition);
-			playerNumber++;
-			}
-		}
-		});
-
-	}
-	
 	public int getScale() {
 		return scale;
 	}
@@ -249,21 +198,19 @@ public class Painter extends Pane {
 		ImageView cardPic = new ImageView(image);
 		
 		return cardPic;
-
 	}
 
 
-	public void showCommunityCards(List<Card> communityCards, int cardsToShow) {
+	public void showCommunityCards(ArrayList<Card> communityCards, int cardsToShow) {
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
 		    	
 		    	Double cardOffset = gui.getWidth()*0.05;
-				int counter = 0;
-				ArrayList al = (ArrayList) communityCards;
+				
 				for (int i = 0; i < cardsToShow; i++) {
 					
-					Card c = (Card) al.get(i);
+					Card c = (Card) communityCards.get(i);
 					ImageView cardImage = createCardImage(c);
 					cardImage.setPreserveRatio(true);
 					cardImage.setFitHeight(gui.getWidth()*0.045);
@@ -275,16 +222,10 @@ public class Painter extends Pane {
 				}
 		    }
 		});
-		
 	}
 	
-	public void updateTablePot(int pot){
-		getChildren().remove(totalPot);
-		totalPot = new Label("Total pot:\n"+pot);
-		totalPot.setLayoutX(400);
-		totalPot.setLayoutY(100);
-		
-		getChildren().add(totalPot);
+	public void updateTablePot(){
+		totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
 	}
 	
 	public void playerWon(Player player){
@@ -351,6 +292,19 @@ public class Painter extends Pane {
 		paintPlayerInfoBox(playerInfoBoxes.get(6), xStep*12.5, yStep*4);
 		paintPlayerInfoBox(playerInfoBoxes.get(7), xStep, yStep*6);
 		paintPlayerInfoBox(playerInfoBoxes.get(8), xStep*12.1, yStep*6);
+	}
+	/**
+	 * This is the drawing of the pot on the scene.
+	 */
+	public void drawPot() {
+		totalPot = new Label("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
+		totalPot.setLayoutX(gui.getWidth()/2);
+		totalPot.setLayoutY(gui.getHeight()*0.6);
+		
+//		ImageView potImage = new ImageView(new Image(getClass().getResourceAsStream("/pot.png")));
+//		getChildren().add(potImage);
+		
+		getChildren().add(totalPot);
 	}
 
 }
