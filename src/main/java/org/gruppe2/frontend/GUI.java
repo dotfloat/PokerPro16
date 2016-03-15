@@ -93,15 +93,15 @@ public class GUI extends Application {
 		startShow(root, scene, primaryStage, gc);
 		
 
-<<<<<<< HEAD
-		getMainFrame().paintPocketCards();
-=======
 
 		
-		MainMenu menu = new MainMenu();
-	    menu.setMainMenu(primaryStage,root, this);
-//		startMainFrame(primaryStage,root, canvas);
->>>>>>> 80b1a70a009ca306cc689be57b4e60d0d4632d3d
+
+
+		
+//		MainMenu menu = new MainMenu();
+//	    menu.setMainMenu(primaryStage,root, this);
+		startMainFrame(primaryStage,root, canvas);
+
 
 	}
 	
@@ -160,6 +160,7 @@ public class GUI extends Application {
 		for (int i=0;i<9;i++) {
 			testPlayers.add(testPlayer);
 		}
+		getMainFrame().paintPocketCards();
 		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(testPlayers));
 
 
