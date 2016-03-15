@@ -154,9 +154,7 @@ public class GUI extends Application {
 		testPlayer.setBet(100);
 		ArrayList<Player> testPlayers = new ArrayList<>();
 		for (int i=0;i<9;i++) {
-			if (i%2 == 0) testPlayers.add(testPlayer);
-			else testPlayers.add(null);
-
+			testPlayers.add(testPlayer);
 		}
 		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(testPlayers));
 

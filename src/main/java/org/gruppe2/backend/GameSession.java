@@ -52,19 +52,14 @@ public class GameSession {
         bigBlind = 2;
 
         //Need blind action
-        Action.Raise blind;
         Player smallBlindPayer = activePlayers.get(smallBlind);
-        blind = new Action.Raise(smallBlindAmount);
-        doPlayerAction(blind, smallBlindPayer);
-        notifyOtherPlayersAboutAction(smallBlindPayer, blind);
+        doPlayerAction(new Action.PaySmallBlind(), smallBlindPayer);
+        //  notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
         Player bigBlindPayer = activePlayers.get(bigBlind);
-        blind = new Action.Raise(bigBlindAmount);
-        doPlayerAction(blind, bigBlindPayer);
-        notifyOtherPlayersAboutAction(bigBlindPayer, blind);
+        doPlayerAction(new Action.PayBigBlind(), bigBlindPayer);
+    //    notifyOtherPlayersAboutAction(bigBlindPayer, blind);
 
-        highestBet = bigBlindAmount; //Temporary fix
-        table.addToPot(-5); //Temporary fix
         notifyRoundStart();
 
         for (int i = 0; i < 4; i++){
@@ -231,15 +226,15 @@ public class GameSession {
                 highestBet = player.getBet();
             }
             else if (action instanceof Action.PayBigBlind){
-                player.setBank(player.getBank() - bigBlind);
-                player.setBet(bigBlind);
-                table.addToPot(bigBlind);
-                highestBet = bigBlind;
+                player.setBank(player.getBank() - bigBlindAmount);
+                player.setBet(bigBlindAmount);
+                table.addToPot(bigBlindAmount);
+                highestBet = bigBlindAmount;
             }
             else if(action instanceof Action.PaySmallBlind){
-                player.setBank(player.getBank() - smallBlind);
-                player.setBet(smallBlind);
-                table.addToPot(smallBlind);
+                player.setBank(player.getBank() - smallBlindAmount);
+                player.setBet(smallBlindAmount);
+                table.addToPot(smallBlindAmount);
             }
         }
         else {
@@ -268,7 +263,7 @@ public class GameSession {
         }
         else if (action instanceof Action.Call)
             return pa.canCall();
-        else if (action instanceof Action.Fold)
+        else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind || action instanceof  Action.PaySmallBlind || action instanceof Action.AllIn)
             return true;
         else
             throw new IllegalArgumentException("Not an action");

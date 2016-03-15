@@ -310,30 +310,25 @@ public class Painter extends Pane {
         return finalName;
     }
 
-	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox, int x, int y){
+	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox, double x, double y){
 		playerInfoBox.setLayoutX(x);
 		playerInfoBox.setLayoutY(y);
 		this.getChildren().add(playerInfoBox);
 	}
 
 	public void paintAllPlayers(List<PlayerInfoBox> playerInfoBoxes){
-		int xStep = gui.getWidth()/11;
-		int yStep = gui.getHeight()/8;
-		int x = xStep*3;
-		int y = yStep;
-		for (int i=0;i<9;i++){
-			switch (i){
-				case 0: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 1: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 2: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 3: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 4: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 5: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 6: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 7: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				case 8: paintPlayerInfoBox(playerInfoBoxes.get(i), x, y);
-				default: return;
-			}
-		}
+		double xStep = gui.getWidth()/15;
+		double yStep = gui.getHeight()/10;
+		double y = 10;
+		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*2, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*6.5, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(2), xStep*11, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(3), xStep*0.5, yStep*2);
+		paintPlayerInfoBox(playerInfoBoxes.get(4), xStep*12.5, yStep*2);
+		paintPlayerInfoBox(playerInfoBoxes.get(5), xStep*0.5, yStep*4);
+		paintPlayerInfoBox(playerInfoBoxes.get(6), xStep*12.5, yStep*4);
+		paintPlayerInfoBox(playerInfoBoxes.get(7), xStep, yStep*6);
+		paintPlayerInfoBox(playerInfoBoxes.get(8), xStep*12.1, yStep*6);
 	}
+
 }
