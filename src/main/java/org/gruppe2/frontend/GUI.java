@@ -118,9 +118,7 @@ public class GUI extends Application {
 		Player testPlayer = new Player("Mr. Test", 2000, client);
 		testPlayer.setBet(40);
 		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
-		playerInfoBox.setLayoutX(300);
-		playerInfoBox.setLayoutY(300);
-		mainFrame.getChildren().add(playerInfoBox);
+		mainFrame.paintPlayerInfoBox(playerInfoBox);
 
 
 		//Draw a card on screen
