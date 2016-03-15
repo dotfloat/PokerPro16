@@ -179,7 +179,19 @@ public class GameSession {
      */
     void doPlayerAction(Action action, Player player) {
         if (checkLegalAction(action, player)) {
-            //do action something
+            if (action instanceof Action.Raise){
+                int raise = ((Action.Raise) action).getAmount();
+                player.setBet(player.getBet() + raise);
+                player.setBank(player.getBank() - raise);
+                table.setPot(table.getPot() + raise);
+                highestBet = player.getBet();
+            }
+            else if (action instanceof Action.Call){
+                int raise = highestBet - player.getBet();
+                player.setBet(player.getBet() + raise);
+                player.setBank(player.getBank() - raise );
+                table.setPot(table.getPot() + raise);
+            }
         }
         else {
             //no legal action
