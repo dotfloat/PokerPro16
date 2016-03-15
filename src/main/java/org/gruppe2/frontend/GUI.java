@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
 
 /**
  * Current main gui class, and also the mainClass
@@ -44,6 +45,7 @@ public class GUI extends Application {
 	// Scene objects
 	private Painter mainFrame;
 	Pane creations, statusBar;
+	ChoiceBar choiceBar;
 	BorderPane border;
 	Scene scene;
 	Canvas canvas;
@@ -141,9 +143,11 @@ public class GUI extends Application {
 		mainFrame.drawPot();
 		
 		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers()));
-		ChoiceBar.showChoices(this,client.getSession().getPlayers().get(0)); //Get me
+		setChoiceBar();
 		getMainFrame().showCommunityCards(communityCards, cardsToShow);
 	}
+
+	
 
 
 	private void setGUIEventHandlers(Stage primaryStage, Group root) {
@@ -210,6 +214,13 @@ public class GUI extends Application {
 		height = y;
 		height_max = height - (getScale() * 2);
 		height_min = getScale();
+	}
+	/**
+	 * Sets the bottom choiceBar to frame
+	 */
+	private void setChoiceBar() {
+		choiceBar = new ChoiceBar();
+		choiceBar.showChoices(this,client.getSession().getPlayers().get(0)); //Get me
 	}
 	
 	/**
@@ -331,5 +342,17 @@ public class GUI extends Application {
 
 	public BorderPane getBorder() {
 		return border;
+	}
+	
+
+	/**
+	 * Updates gui each time a real players round is up.
+	 * @param player
+	 */
+	public void updateGUI(Player player) {
+		//PlayerInfoBox.updateInfoBox(player);
+		//getMainFrame().updatePot();
+//		choiceBar.updatePossibleBarsToClick();
+		//--->
 	}
 }

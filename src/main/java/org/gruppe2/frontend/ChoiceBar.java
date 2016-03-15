@@ -19,8 +19,11 @@ import org.gruppe2.backend.Player;
  *
  */
 public class ChoiceBar {
-
-	public static void showChoices(GUI gui, Player player) {
+	boolean canCheck = true;
+	boolean canCall = true;
+	boolean canRaise = true;
+	boolean canFold = true;
+	public  void showChoices(GUI gui, Player player) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -33,19 +36,21 @@ public class ChoiceBar {
 		});
 	}
 
-	private static void createGrid(GUI gui, HBox hbox, Player player) {
+	private  void createGrid(GUI gui, HBox hbox, Player player) {
 
 		Button check = new Button("CHECK");
 		Button call = new Button("CALL");
 		Button fold = new Button("FOLD");
 		Button raise = new Button("RAISE");
+		
 		Slider raiseSlider = new Slider(25, 5000, 50);
 		raiseSlider.setMaxWidth(gui.getWidth() * 0.23);
 		raiseSlider.setMinWidth(gui.getWidth() * 0.23);
 		Label sliderValue = new Label((int) raiseSlider.getValue() + " CHIPS");
 		sliderValue.setMinWidth(gui.getWidth() * 0.1);
 		sliderValue.setMaxWidth(gui.getWidth() * 0.1);
-		Label showCards = new Label("");
+		
+		Label showCards = new Label(""); //Label that creates space, does nothing else
 		showCards.setMinWidth(gui.getWidth() * 0.2);
 		showCards.setMaxWidth(gui.getWidth() * 0.2);
 
@@ -61,15 +66,21 @@ public class ChoiceBar {
 		gui.getBorder().setBottom(hbox);
 	}
 
-	private static void setButtonAction(Slider raiseSlider, Button check,
+	private  void setButtonAction(Slider raiseSlider, Button check,
 			Button call, Button raise, Button fold, Player player,
 			Label sliderValue, GUIClient client) {
+		
+		check.setOnAction(e -> {if(canCheck)
+				client.setAction(new Action.Check());
+			});
 
-		check.setOnAction(e -> client.setAction(new Action.Check()));
+		call.setOnAction(e -> {if(canCall)
+			client.setAction(new Action.Call());
+		});
 
-		call.setOnAction(e -> client.setAction(new Action.Call()));
-
-		fold.setOnAction(e -> client.setAction(new Action.Fold()));
+		fold.setOnAction(e -> {if(canFold)
+			client.setAction(new Action.Fold());
+		});
 
 		// Slider
 		raiseSlider.setMajorTickUnit(10);
@@ -85,7 +96,7 @@ public class ChoiceBar {
 			}
 		});
 		
-		 raise.setOnAction(e -> {
+		 raise.setOnAction(e -> {if(canFold)
 			 raise(client,raiseSlider,player);
 		 });
 		 
@@ -105,7 +116,7 @@ public class ChoiceBar {
 	 * @param raiseSlider
 	 * @param player
 	 */
-	private static void setKeyListener(Button check, Button call, Button fold,
+	private  void setKeyListener(Button check, Button call, Button fold,
 			Button raise, GUI gui, GUIClient client, Slider raiseSlider, Player player) {
 		gui.scene.setOnKeyPressed( event -> 
 		{
@@ -120,26 +131,32 @@ public class ChoiceBar {
 		
 	}
 
-	private static String checkMaxBid(Slider slider) {
+	private  String checkMaxBid(Slider slider) {
 		if (slider.getValue() == slider.getMax())
 			return "GO ALL IN";
 		else
 			return (int) slider.getValue() + " CHIPS";
 	}
 	
-	private static void raise(GUIClient client, Slider raiseSlider, Player player){
+	private  void raise(GUIClient client, Slider raiseSlider, Player player){
 		if (client.getSession().getPlayerOptions(player).getMinRaise() < raiseSlider.getValue()) {
 			 if(client.getSession().getPlayerOptions(player).getMaxRaise() > raiseSlider.getValue())
 				 client.setAction(new Action.Raise((int) raiseSlider.getValue()));
 			 }
 	}
 
-	private static void setHBoxSize(HBox hbox, GUI gui) {
+	private  void setHBoxSize(HBox hbox, GUI gui) {
 		hbox.setMinHeight(gui.getHeight() * 0.055);
 		hbox.setMaxHeight(gui.getHeight() * 0.055);
 		// hbox.setMinHeight(70);
 		// hbox.setMaxHeight(70);
 
+	}
+	/**
+	 * Removes eventpossibilities and makes buttons grey, if they are not possible to click.
+	 */
+	public void updatePossibleBarsToClick(){
+		
 	}
 
 }

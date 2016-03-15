@@ -9,7 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+/**
+ * Displays all possible settings
+ * @author htj063
+ *
+ */
 public class SettingsMenu extends Pane {
 	MainMenu mainMenu;
 	GUI gui;
@@ -30,8 +34,8 @@ public class SettingsMenu extends Pane {
 		Button medium = new Button("1280x720");
 		Button small = new Button("960x540");
 
-		ChoiceBox<Button> resolutions = new ChoiceBox<Button>(
-				FXCollections.observableArrayList(big, medium, small));
+		ChoiceBox<String> resolutions = new ChoiceBox<String>(
+				FXCollections.observableArrayList(big.getText(), medium.getText(), small.getText()));
 
 		resolutions.getSelectionModel();
 		gui.canvas.setHeight(gui.getHeight());
@@ -48,9 +52,16 @@ public class SettingsMenu extends Pane {
 		root.getChildren().add(this);
 
 	}
-
+	/**
+	 * Create event listener for buttons pushed in settings choice box
+	 * @param big
+	 * @param medium
+	 * @param small
+	 * @param vbox
+	 * @param resolutions
+	 */
 	private void setEventListener(Button big, Button medium, Button small,
-			VBox vbox, ChoiceBox<Button> resolutions) {
+			VBox vbox, ChoiceBox<String> resolutions) {
 		resolutions
 				.getSelectionModel()
 				.selectedItemProperty()
