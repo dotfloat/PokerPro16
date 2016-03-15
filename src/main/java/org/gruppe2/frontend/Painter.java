@@ -206,7 +206,7 @@ public class Painter extends Pane {
 	public ImageView createCardImage(Card card){
 		String name = "/" + getCardName(card)+".png";
 		
-		Image image = new Image(getClass().getResourceAsStream(name),30,80,true,true);
+		Image image = new Image(getClass().getResourceAsStream(name),70,0,true,true);
 		
 		ImageView cardPic = new ImageView(image);
 		

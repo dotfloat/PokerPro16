@@ -30,6 +30,7 @@ public class PlayerInfoBox extends GridPane {
         add(profileImage, 0, 1, 1, 2);
         add(currentBet, 1, 2, 1, 1);
         add(chips, 1, 3, 1, 1);
+        setStyle("-fx-background-color: black");
     }
 
 

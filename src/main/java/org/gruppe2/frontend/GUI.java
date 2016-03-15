@@ -115,11 +115,13 @@ public class GUI extends Application {
 		testPlayer.setBet(40);
 		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
 		mainFrame.paintPlayerInfoBox(playerInfoBox);
+
+		/* Draw a card on screen
 		ImageView cardImage = mainFrame.createCardImage(new Card(3, Card.Suit.DIAMONDS));
 		cardImage.setLayoutX(300);
 		cardImage.setLayoutY(300);
 		mainFrame.getChildren().add(cardImage);
-
+		*/
 
 	}
 	
