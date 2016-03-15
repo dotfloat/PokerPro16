@@ -28,4 +28,16 @@ public class Action {
             return amount;
         }
     }
+
+    public static class AllIn extends Action{
+
+    }
+
+    public static class PaySmallBlind extends  Action{
+
+    }
+
+    public static class PayBigBlind extends Action{
+        
+    }
 }
