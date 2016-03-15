@@ -38,7 +38,7 @@ public class Table {
      * Adding pot to table
      * @param p pot value
      */
-    public void setPot(int p) {
+    public void addToPot(int p) {
         pot = pot + p;
     }
 
