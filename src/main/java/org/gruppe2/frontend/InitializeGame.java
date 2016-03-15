@@ -47,7 +47,7 @@ public class InitializeGame {
 		Button ok = new Button("ok");
 		Button cancel = new Button("cancel");
 		setButtonAction(ok, cancel, nameField, smallBlindField, bigBlindField,
-				startMoneyField, gui, primaryStage);
+				startMoneyField, gui, primaryStage, grid);
 
 		grid.add(nameLabel, 1, 1);
 		grid.add(nameField, 2, 1);
@@ -72,12 +72,13 @@ public class InitializeGame {
 
 	private static void setButtonAction(Button ok, Button cancel,
 			TextField nameField, TextField smallBlindField,
-			TextField bigBlindField, TextField startMoneyField, GUI gui, Stage primaryStage) {
+			TextField bigBlindField, TextField startMoneyField, GUI gui, Stage primaryStage, GridPane grid) {
 
 		ok.setOnAction(e -> {
 			if (!nameField.getText().equals(null)) {
 				if (moneyFieldsAreValid(startMoneyField, bigBlindField,
 						smallBlindField)) {
+//					gui.root.getChildren().remove(grid);
 					gui.startMainFrame(primaryStage,gui.root, gui.canvas);
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());

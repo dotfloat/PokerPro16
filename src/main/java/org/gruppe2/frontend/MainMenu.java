@@ -14,11 +14,14 @@ public class MainMenu extends Pane {
 	
 	
 	public void setMainMenu(Stage primaryStage, Group root, GUI gui) {
+		
+		
 		setMainBackGround(root, gui);
-		this.setStyle("-fx-background-color: black");
 		setButtons(root, gui, primaryStage );
 		
-		
+		this.setMinHeight(gui.getHeight());
+		this.setMaxHeight(gui.getHeight());
+		this.setStyle("-fx-background-color: black");
 		
 		
 	}
@@ -42,9 +45,7 @@ public class MainMenu extends Pane {
 		
 		this.getChildren().add(vbox);
 		root.getChildren().add(this);
-//		root.setStyle("-fx-background-color: black");
-		
-		
+	
 	}
 
 	private void setActionOnButtons(Button createTable, Button joinTable,
@@ -59,7 +60,7 @@ public class MainMenu extends Pane {
 		});
 		singlePlayer.setOnAction(e -> 
 		{
-			root.getChildren().remove(vbox);
+			this.getChildren().remove(vbox);
 			InitializeGame.setStartValues(gui, root, primaryStage);
 		});
 		settings.setOnAction(e -> 
