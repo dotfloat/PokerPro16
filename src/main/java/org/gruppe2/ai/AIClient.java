@@ -33,7 +33,7 @@ public class AIClient extends GameClient {
             types.add(raise);
         }
 
-        switch (rand.nextInt(types.size())) {
+        switch (rand.nextInt(types.size() + 1)) {
             case call:
                 return new Action.Call();
 
