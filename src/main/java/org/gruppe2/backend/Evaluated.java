@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import org.gruppe2.backend.ShowdownEvaluator.Hand;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 public class Evaluated {
 	HashMap<Hand, Integer> handAndHighCards = new HashMap<Hand,Integer>();
 	public HashMap<Hand,Integer> getHigh(){
