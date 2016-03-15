@@ -42,6 +42,8 @@ public class ChoiceBar{
 		sliderValue.setMinWidth(115);
 		sliderValue.setMaxWidth(115);
 		Label showCards = new Label("Cards will be shown here");
+		showCards.setMinWidth(400);
+		showCards.setMaxWidth(400);
 		
 		setButtonAction(raiseSlider, check, call, raise, fold, player, sliderValue);
 		

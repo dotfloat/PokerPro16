@@ -204,7 +204,7 @@ public class Painter extends Pane {
 	 * @return
 	 */
 	public ImageView createCardImage(Card card){
-		String name = "/Picture/"+getCardName(card)+".png";
+		String name = "/" + getCardName(card)+".png";
 		
 		Image image = new Image(getClass().getResourceAsStream(name),30,80,true,true);
 		
@@ -304,6 +304,13 @@ public class Painter extends Pane {
     	
         return finalName;
     }
+
+	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox){
+		playerInfoBox.setLayoutX(400);
+		playerInfoBox.setLayoutY(400);
+		this.getChildren().add(playerInfoBox);
+
+	}
 	
 
 

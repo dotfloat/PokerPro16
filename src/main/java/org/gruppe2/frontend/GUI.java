@@ -8,12 +8,16 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
+import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
+
 /**
  * Current main gui class, and also the mainClass
  * The game loop is in PokerGame
@@ -105,6 +109,16 @@ public class GUI extends Application {
 		// Create nodes
 		
 		ChoiceBar.showChoices(this, gameSession.getPlayers().get(0));
+
+		Player testPlayer = new Player("Mr. Test", 2000, guiClient);
+		testPlayer.setBet(40);
+		PlayerInfoBox playerInfoBox = new PlayerInfoBox(testPlayer);
+		mainFrame.paintPlayerInfoBox(playerInfoBox);
+		ImageView cardImage = mainFrame.createCardImage(new Card(3, Card.Suit.DIAMONDS));
+		cardImage.setLayoutX(300);
+		cardImage.setLayoutY(300);
+		mainFrame.getChildren().add(cardImage);
+
 
 	}
 	
