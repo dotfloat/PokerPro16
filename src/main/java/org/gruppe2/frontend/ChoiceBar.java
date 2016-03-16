@@ -80,8 +80,9 @@ public class ChoiceBar {
 		ChoiceBar This = this;
 		
 		check.setOnAction(e -> {
-			if (This.canCheck)
-				client.setAction(new Action.Check());
+			if (This.canCheck){
+				client.setAction(new Action.Check()); 
+			}
 		});
 
 		call.setOnAction(e -> {

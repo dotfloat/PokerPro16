@@ -132,24 +132,6 @@ public class Painter extends Pane {
 		}
 	}
 	
-	public void reDraw(){
-		Platform.runLater(new Runnable(){
-		    @Override
-		    public void run() {
-				
-				getChildren().remove(playerPosition0);
-				getChildren().remove(playerPosition1);
-				getChildren().remove(playerPosition2);
-				getChildren().remove(playerPosition3);
-				getChildren().remove(playerPosition4);
-				getChildren().remove(playerPosition5);
-				
-//				setPlayersToTable(gui.pokerGame, gui);
-		    }
-		});
-	}
-	
-	
 	
 	/**
 	 * Get players card, and place on top (last) in scene
@@ -204,6 +186,7 @@ public class Painter extends Pane {
 
 
 	public void showCommunityCards(ArrayList<Card> communityCards) {
+		if(communityCards == null) return;
 		this.communityCards = communityCards;
 		if(communityCards.size() == 0) return;
 		
