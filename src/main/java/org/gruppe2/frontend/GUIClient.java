@@ -69,7 +69,6 @@ public class GUIClient extends GameClient implements Runnable {
 		    public void run() {
 		    	gui.getMainFrame().showCommunityCards(communityCards);
 		    }});
-		
 	}
 	@Override
 	public void onPlayerAction(Player player, Action action){

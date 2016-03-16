@@ -88,4 +88,8 @@ public class Player {
         result = 31 * result + (card1 != null ? card1.hashCode() : 0);
         return result;
     }
+    @Override
+    public String toString(){
+    	return name;
+    }
 }

@@ -40,7 +40,7 @@ public class GUI extends Application {
 	
 	private static int scale = 100;
 	private int step;
-	private GUIClient client;
+	
 	//booleans
 	private boolean paused;
 	
@@ -57,8 +57,12 @@ public class GUI extends Application {
 	private AnimationTimer timer;
 
 	//Game
-	GameSession gameSession;
+	GameSession gameSession = new GameSession();
+	GUIClient client = new GUIClient(gameSession, this);
+	
+	
 	ArrayList<PlayerInfoBox> playerInfoBoxes;
+	
 	public GUI() {}
 
 	
@@ -91,7 +95,7 @@ public class GUI extends Application {
 		startShow(root, scene, primaryStage, gc);
 		
 		newMainMenu(primaryStage,root);
-
+		
 	}
 
 	/**
@@ -129,9 +133,9 @@ public class GUI extends Application {
 
 
 	private void testGame() {
-		gameSession = new GameSession();
-		client = new GUIClient(gameSession, this);
-
+		
+		System.out.println("Now:"+gameSession.getPlayers().size());
+		gameSession.addPlayer("me", client);
 		gameSession.addPlayer("Anne", new AIClient(gameSession));
 		gameSession.addPlayer("Bob", new AIClient(gameSession));
         gameSession.addPlayer("Chuck", new AIClient(gameSession));
