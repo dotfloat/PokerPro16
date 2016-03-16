@@ -23,6 +23,7 @@ public class GUIClient extends GameClient {
 	public void onRoundStart() {
 		Platform.runLater(() -> {
 			gui.getMainFrame().clearCommunityCards();
+			gui.getMainFrame().paintPocketCards();
 			System.out.println("roundStartTest");
 		});
 	}
