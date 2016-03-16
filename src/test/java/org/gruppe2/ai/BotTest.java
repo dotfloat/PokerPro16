@@ -3,6 +3,8 @@ package org.gruppe2.ai;
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.Card;
 import org.gruppe2.backend.Deck;
+import org.gruppe2.backend.ShowdownEvaluator;
+import org.gruppe2.backend.ShowdownEvaluator.Hand;
 import org.gruppe2.backend.Table;
 import org.junit.Test;
 
@@ -12,6 +14,14 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class BotTest {
+	
+	@Test
+	public void testTest(){
+		ShowdownEvaluator sh = new ShowdownEvaluator();
+		for (Hand h:sh.reverse(Hand.values())){
+			System.out.println(h);
+		}
+	}
 
     // TODO: Fix test
 //    @Test

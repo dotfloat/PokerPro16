@@ -17,40 +17,40 @@ public class OtherPlayersEvaluator implements AIEvaluate {
 	 */
 	@Override
 	public double evaluate(GameSession session, Player bot) {
-		int numberOfPlayers = session.getPlayers().size();
-		int value=0;
-		List<Card> cards = session.getTable().getCommunityCards();
-		ShowdownEvaluator evaluator = new ShowdownEvaluator();
-		List<Card> botCards = new ArrayList<>();
-		botCards.add(bot.getCard1());
-		botCards.add(bot.getCard2());
-		
-		// There's not supposed to be any "break;" in this switch statement.
-		switch(evaluator.evaluate(botCards)) {
-		case HIGHCARD:
-			value+=calculateHighCard(numberOfPlayers, cards, botCards, evaluator);
-		case ONEPAIR:
-			value+=calculateOnePair(numberOfPlayers, cards, evaluator);
-		case TWOPAIRS:
-			value+=calculateTwoPair(numberOfPlayers, cards, evaluator);
-		case THREEOFAKIND:
-			value+=calculateThreeOfAKind(numberOfPlayers, cards, evaluator);
-		case STRAIGHT:
-			value+=calculateStraight(numberOfPlayers, cards, evaluator);
-		case FLUSH:
-			value+=calculateFlush(numberOfPlayers, cards, evaluator);
-		case FULLHOUSE:
-			value+=calculateFullHouse(numberOfPlayers, cards, evaluator);
-		case FOUROFAKIND:
-			value+=calculateFourOfAKind(numberOfPlayers, cards, evaluator);
-		case STRAIGHTFLUSH:
-			value+=calculateStraightFlush(numberOfPlayers, cards, evaluator);
-		case ROYALFLUSH:
-			value+=calculateRoyalFlush(numberOfPlayers, cards, evaluator);
-		default:
-			break;
-		}
-		return value;
+//		int numberOfPlayers = session.getPlayers().size();
+//		int value=0;
+//		List<Card> cards = session.getTable().getCommunityCards();
+//		ShowdownEvaluator evaluator = new ShowdownEvaluator();
+//		List<Card> botCards = new ArrayList<>();
+//		botCards.add(bot.getCard1());
+//		botCards.add(bot.getCard2());
+//		
+//		// There's not supposed to be any "break;" in this switch statement.
+//		switch(evaluator.evaluate(botCards)) {
+//		case HIGHCARD:
+//			value+=calculateHighCard(numberOfPlayers, cards, botCards, evaluator);
+//		case ONEPAIR:
+//			value+=calculateOnePair(numberOfPlayers, cards, evaluator);
+//		case TWOPAIRS:
+//			value+=calculateTwoPair(numberOfPlayers, cards, evaluator);
+//		case THREEOFAKIND:
+//			value+=calculateThreeOfAKind(numberOfPlayers, cards, evaluator);
+//		case STRAIGHT:
+//			value+=calculateStraight(numberOfPlayers, cards, evaluator);
+//		case FLUSH:
+//			value+=calculateFlush(numberOfPlayers, cards, evaluator);
+//		case FULLHOUSE:
+//			value+=calculateFullHouse(numberOfPlayers, cards, evaluator);
+//		case FOUROFAKIND:
+//			value+=calculateFourOfAKind(numberOfPlayers, cards, evaluator);
+//		case STRAIGHTFLUSH:
+//			value+=calculateStraightFlush(numberOfPlayers, cards, evaluator);
+//		case ROYALFLUSH:
+//			value+=calculateRoyalFlush(numberOfPlayers, cards, evaluator);
+//		default:
+//			break;
+//		}
+		return 0;
 	}
 	
 	/**
