@@ -73,4 +73,7 @@ public class PlayerInfoBox extends GridPane {
     public Label getName() {
         return name;
     }
+    public void updateProfileImage(ImageView imageView){
+    	profileImage = imageView;
+    }
 }

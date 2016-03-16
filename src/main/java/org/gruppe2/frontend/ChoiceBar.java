@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.Player;
+import org.gruppe2.backend.PossibleActions;
 
 /**
  * This is the bottom buttons, textfields and slider.
@@ -23,7 +24,13 @@ public class ChoiceBar {
 	boolean canCall = true;
 	boolean canRaise = true;
 	boolean canFold = true;
-	public  void showChoices(GUI gui, Player player) {
+	
+	Button check;
+	Button call; 
+	Button fold; 
+	Button raise;
+
+	public void showChoices(GUI gui, Player player) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -36,21 +43,22 @@ public class ChoiceBar {
 		});
 	}
 
-	private  void createGrid(GUI gui, HBox hbox, Player player) {
+	private void createGrid(GUI gui, HBox hbox, Player player) {
 
-		Button check = new Button("CHECK");
-		Button call = new Button("CALL");
-		Button fold = new Button("FOLD");
-		Button raise = new Button("RAISE");
-		
+		check = new Button("CHECK");
+		call = new Button("CALL");
+		fold = new Button("FOLD");
+		raise = new Button("RAISE");
+
 		Slider raiseSlider = new Slider(25, 5000, 50);
 		raiseSlider.setMaxWidth(gui.getWidth() * 0.23);
 		raiseSlider.setMinWidth(gui.getWidth() * 0.23);
 		Label sliderValue = new Label((int) raiseSlider.getValue() + " CHIPS");
 		sliderValue.setMinWidth(gui.getWidth() * 0.1);
 		sliderValue.setMaxWidth(gui.getWidth() * 0.1);
-		
-		Label showCards = new Label(""); //Label that creates space, does nothing else
+
+		Label showCards = new Label(""); // Label that creates space, does
+											// nothing else
 		showCards.setMinWidth(gui.getWidth() * 0.2);
 		showCards.setMaxWidth(gui.getWidth() * 0.2);
 
@@ -60,26 +68,30 @@ public class ChoiceBar {
 		hbox.getChildren().addAll(fold, call, check, raiseSlider, sliderValue,
 				raise, showCards);
 		setHBoxSize(hbox, gui);
-		
-		setKeyListener(check, call, fold, raise, gui, gui.getClient(), raiseSlider,player);
+
+		setKeyListener(check, call, fold, raise, gui, gui.getClient(),
+				raiseSlider, player);
 
 		gui.getBorder().setBottom(hbox);
 	}
 
-	private  void setButtonAction(Slider raiseSlider, Button check,
-			Button call, Button raise, Button fold, Player player,
-			Label sliderValue, GUIClient client) {
-		
-		check.setOnAction(e -> {if(canCheck)
-				client.setAction(new Action.Check());
-			});
+	private void setButtonAction(Slider raiseSlider, Button check, Button call,
+			Button raise, Button fold, Player player, Label sliderValue,
+			GUIClient client) {
 
-		call.setOnAction(e -> {if(canCall)
-			client.setAction(new Action.Call());
+		check.setOnAction(e -> {
+			if (canCheck)
+				client.setAction(new Action.Check());
 		});
 
-		fold.setOnAction(e -> {if(canFold)
-			client.setAction(new Action.Fold());
+		call.setOnAction(e -> {
+			if (canCall)
+				client.setAction(new Action.Call());
+		});
+
+		fold.setOnAction(e -> {
+			if (canFold)
+				client.setAction(new Action.Fold());
 		});
 
 		// Slider
@@ -95,18 +107,17 @@ public class ChoiceBar {
 				// raiseSlider.setMax(player.getBank());
 			}
 		});
-		
-		 raise.setOnAction(e -> {if(canFold)
-			 raise(client,raiseSlider,player);
-		 });
-		 
-		
+
+		raise.setOnAction(e -> {
+			if (canFold)
+				raise(client, raiseSlider, player);
+		});
 
 	}
-	
-	
+
 	/**
 	 * Makes it possible to use keys to play, insted of mouse
+	 * 
 	 * @param check
 	 * @param call
 	 * @param fold
@@ -116,47 +127,78 @@ public class ChoiceBar {
 	 * @param raiseSlider
 	 * @param player
 	 */
-	private  void setKeyListener(Button check, Button call, Button fold,
-			Button raise, GUI gui, GUIClient client, Slider raiseSlider, Player player) {
-		gui.scene.setOnKeyPressed( event -> 
-		{
-		
-                switch (event.getCode()) {
-                    case UP:    raise(client,raiseSlider,player); break;
-                    case DOWN:  client.setAction(new Action.Check()); break;
-                    case LEFT:  client.setAction(new Action.Call()); break;
-                    case RIGHT: client.setAction(new Action.Fold()); break;                  
-                }	
-		     });
-		
+	private void setKeyListener(Button check, Button call, Button fold,
+			Button raise, GUI gui, GUIClient client, Slider raiseSlider,
+			Player player) {
+		gui.scene.setOnKeyPressed(event -> {
+
+			switch (event.getCode()) {
+			case UP:
+				raise(client, raiseSlider, player);
+				break;
+			case DOWN:
+				client.setAction(new Action.Check());
+				break;
+			case LEFT:
+				client.setAction(new Action.Call());
+				break;
+			case RIGHT:
+				client.setAction(new Action.Fold());
+				break;
+			}
+		});
+
 	}
 
-	private  String checkMaxBid(Slider slider) {
+	private String checkMaxBid(Slider slider) {
 		if (slider.getValue() == slider.getMax())
 			return "GO ALL IN";
 		else
 			return (int) slider.getValue() + " CHIPS";
 	}
-	
-	private  void raise(GUIClient client, Slider raiseSlider, Player player){
-		if (client.getSession().getPlayerOptions(player).getMinRaise() < raiseSlider.getValue()) {
-			 if(client.getSession().getPlayerOptions(player).getMaxRaise() > raiseSlider.getValue())
-				 client.setAction(new Action.Raise((int) raiseSlider.getValue()));
-			 }
+
+	private void raise(GUIClient client, Slider raiseSlider, Player player) {
+		if (client.getSession().getPlayerOptions(player).getMinRaise() < raiseSlider
+				.getValue()) {
+			if (client.getSession().getPlayerOptions(player).getMaxRaise() > raiseSlider
+					.getValue())
+				client.setAction(new Action.Raise((int) raiseSlider.getValue()));
+		}
 	}
 
-	private  void setHBoxSize(HBox hbox, GUI gui) {
+	private void setHBoxSize(HBox hbox, GUI gui) {
 		hbox.setMinHeight(gui.getHeight() * 0.055);
 		hbox.setMaxHeight(gui.getHeight() * 0.055);
 		// hbox.setMinHeight(70);
 		// hbox.setMaxHeight(70);
 
 	}
+
 	/**
-	 * Removes eventpossibilities and makes buttons grey, if they are not possible to click.
+	 * Removes eventpossibilities and makes buttons grey, if they are not
+	 * possible to click.
+	 * 
+	 * @param player
 	 */
-	public void updatePossibleBarsToClick(){
-		
+	public void updatePossibleBarsToClick(Player player) {
+		PossibleActions pa = player.getClient().getSession()
+				.getPlayerOptions(player);
+		if (pa.canCall()) {
+			call.getStyleClass().add("button");
+
+		} else {
+			call.getStyleClass().add("buttonIllegal");
+		}
+		if (pa.canCheck()) {
+			check.getStyleClass().add("button");
+		} else {
+			check.getStyleClass().add("buttonIllegal");
+		}
+		if (pa.canRaise()) {
+			raise.getStyleClass().add("button");
+		} else {
+			raise.getStyleClass().add("buttonIllegal");
+		}
 	}
 
 }

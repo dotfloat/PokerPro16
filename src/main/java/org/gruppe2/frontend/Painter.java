@@ -307,4 +307,11 @@ public class Painter extends Pane {
 		getChildren().add(totalPot);
 	}
 
+	public void checkForFoldedPlayers(ArrayList<PlayerInfoBox> playerInfoBoxes) {
+		for(PlayerInfoBox playerInfoBox : playerInfoBoxes){
+			
+		}
+		
+	}
+
 }

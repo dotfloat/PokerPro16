@@ -8,7 +8,11 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-
+/**
+ * Makes top game controll buttons, currently not used.
+ * @author htj063
+ *
+ */
 public class MakeButtons {
 	Button restart, pause, rotate, exit;
 	GridPane grid = new GridPane();

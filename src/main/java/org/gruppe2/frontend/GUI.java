@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -55,7 +56,7 @@ public class GUI extends Application {
 	
 	//Game
 	GameSession gameSession;
-	
+	ArrayList<PlayerInfoBox> playerInfoBoxes;
 	public GUI() {}
 
 	
@@ -141,8 +142,8 @@ public class GUI extends Application {
 		gameSession.getTable().drawCommunityCards(1);
 		ArrayList<Card> communityCards = (ArrayList<Card>) gameSession.getTable().getCommunityCards();
 		mainFrame.drawPot();
-		
-		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers()));
+		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
+		mainFrame.paintAllPlayers(playerInfoBoxes);
 		setChoiceBar();
 		getMainFrame().showCommunityCards(communityCards, cardsToShow);
 	}
@@ -337,6 +338,7 @@ public class GUI extends Application {
 	public void updateStageDimensions(){
 		scene.getWindow().setWidth(getWidth());
 		scene.getWindow().setHeight(getHeight());
+		
 		scene.getWindow().sizeToScene();
 	}
 
@@ -350,9 +352,15 @@ public class GUI extends Application {
 	 * @param player
 	 */
 	public void updateGUI(Player player) {
-		//PlayerInfoBox.updateInfoBox(player);
-		//getMainFrame().updatePot();
-//		choiceBar.updatePossibleBarsToClick();
-		//--->
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+		    	
+				playerInfoBoxes.get(0).updateInfoBox(player);
+				getMainFrame().updateTablePot();
+				choiceBar.updatePossibleBarsToClick(player);
+				getMainFrame().checkForFoldedPlayers(playerInfoBoxes);
+				//--->
+		    }});
 	}
 }

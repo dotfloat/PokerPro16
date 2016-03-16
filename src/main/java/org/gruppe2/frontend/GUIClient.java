@@ -25,7 +25,7 @@ public class GUIClient extends GameClient implements Runnable {
 	@Override
 	public Action onTurn(Player player){
 		Action action = null;
-
+		System.out.println("your turn player");
 		while ((action = getAction()) == null) {
 			try {
 				Thread.sleep(500);
@@ -35,7 +35,7 @@ public class GUIClient extends GameClient implements Runnable {
 		}
 		
 		gui.updateGUI(player);
-
+		
 		setAction(null);
 
 		System.out.println("Action: " + action);
