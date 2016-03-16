@@ -70,7 +70,7 @@ public class InitializeGame {
 
 		vBox.setLayoutX(gui.getWidth()*0.5 - buttonWidth*0.5);
 		vBox.setLayoutY(gui.getHeight()*0.5 + buttonHeight);
-		vBox.getChildren().addAll(nameField, smallBlindField, bigBlindField, startMoneyField, cancel, ok);
+		vBox.getChildren().addAll(nameField, smallBlindField, bigBlindField, startMoneyField, ok, cancel);
 		
 //		setUpEmptyPot(pokerGame);
 		root.getChildren().add(vBox);
