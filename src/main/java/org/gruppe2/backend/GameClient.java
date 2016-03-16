@@ -2,7 +2,6 @@ package org.gruppe2.backend;
 
 import java.util.List;
 
-@SuppressWarnings("UnusedParameters")
 public class GameClient {
     private GameSession session = null;
     private volatile String name = "Noname";

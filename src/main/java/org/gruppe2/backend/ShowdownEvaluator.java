@@ -2,8 +2,6 @@ package org.gruppe2.backend;
 
 import java.util.*;
 
-import org.gruppe2.backend.Card.Suit;
-
 /**
  * A class for evaluating hands at showdown. Can be used to evaluate for
  * specific hands, or by the evaluate method which returns the best hand form
@@ -488,7 +486,6 @@ public class ShowdownEvaluator {
 	 *            cards to check
 	 * @return true, you should use the others tests first
 	 */
-	@SuppressWarnings("UnusedParameters")
 	public boolean highCard(List<Card> cards) {
 		evaluated = new Evaluated();
 		Collections.sort(cards);
@@ -530,8 +527,8 @@ public class ShowdownEvaluator {
 	 * @return Player
 	 */
 	public ArrayList<Player> getWinnerOfRound(Table table, ArrayList<Player> players) {
-		HashMap<Player, Evaluated> playersAndEvaluated = new HashMap();
-		HashMap<Evaluated, Player> evaluatedAndPlayers = new HashMap();
+		HashMap<Player, Evaluated> playersAndEvaluated = new HashMap<Player, Evaluated>();
+		HashMap<Evaluated, Player> evaluatedAndPlayers = new HashMap<Evaluated, Player>();
 		for (Player p : players) {
 			if (p == null){
 				System.out.println("Player=null");
@@ -545,8 +542,8 @@ public class ShowdownEvaluator {
 			playersAndEvaluated.put(p, evaluated);
 			evaluatedAndPlayers.put(evaluated, p);
 		}
-		ArrayList<Player> winners = new ArrayList();
-		ArrayList<Evaluated> evaluateds = new ArrayList();
+		ArrayList<Player> winners = new ArrayList<Player>();
+		ArrayList<Evaluated> evaluateds = new ArrayList<Evaluated>();
 		for (Evaluated ev : playersAndEvaluated.values())
 			evaluateds.add(ev);
 		Collections.sort(evaluateds);

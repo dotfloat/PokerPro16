@@ -5,7 +5,6 @@ import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.Deck;
 import org.gruppe2.backend.Evaluated;
 import org.gruppe2.backend.GameClient;
-import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
 import org.gruppe2.backend.ShowdownEvaluator;
 import org.gruppe2.backend.ShowdownEvaluator.Hand;
@@ -14,10 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-
 import static org.junit.Assert.*;
 
 public class ShowdownEvaluatorTest {
@@ -358,8 +354,6 @@ public class ShowdownEvaluatorTest {
 	@Test
 	public void testEvaluateWithRandomCards() {
 		int numberOfWins = 0;
-		int numberOfMoreThanOneWinner=0;
-		int numberOf3Wins = 0;
 		for (int i = 0; i < 1; i++) {
 			Deck deck = new Deck();
 			MockTable t = new MockTable();
@@ -370,16 +364,16 @@ public class ShowdownEvaluatorTest {
 			p1.setCards(new Card(2,Suit.CLUBS), new Card(2,Suit.DIAMONDS));
 			p2.setCards(new Card(2,Suit.CLUBS), new Card(2,Suit.SPADES));
 			p3.setCards(new Card(2,Suit.CLUBS), new Card(2,Suit.HEARTS));
-			ArrayList<Player> active = new ArrayList();
+			ArrayList<Player> active = new ArrayList<Player>();
 			active.add(p1);
 			active.add(p2);
 			active.add(p3);
 			ShowdownEvaluator se = new ShowdownEvaluator();
 			ArrayList<Player> winners = se.getWinnerOfRound(t, active);
-			if (winners.size()>=2)
-				numberOfMoreThanOneWinner++;
-			if (winners.size()==3)
-				numberOf3Wins++;
+			if (winners.size()>=2) {
+			}
+			if (winners.size()==3) {
+			}
 			System.out.println(winners.size());
 			for (Player p : winners) {
 					numberOfWins++;
@@ -418,7 +412,7 @@ class MockTable extends Table {
 
 	@Override
 	public List<Card> getCommunityCards() {
-		ArrayList<Card> list = new ArrayList();
+		ArrayList<Card> list = new ArrayList<Card>();
 		list.add(c1);
 		list.add(c2);
 		list.add(c3);

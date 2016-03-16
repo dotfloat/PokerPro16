@@ -1,6 +1,5 @@
 package org.gruppe2.ai;
 
-import javafx.geometry.Pos;
 import org.gruppe2.backend.*;
 
 import java.util.ArrayList;
