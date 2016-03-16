@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Card;
+import org.gruppe2.backend.GameBuilder;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
 
@@ -57,8 +58,8 @@ public class GUI extends Application {
 	private AnimationTimer timer;
 
 	//Game
-	GameSession gameSession = new GameSession();
-	GUIClient client = new GUIClient(gameSession, this);
+	GameSession gameSession = null;
+	GUIClient client = new GUIClient(this);
 	
 	
 	ArrayList<PlayerInfoBox> playerInfoBoxes;
@@ -133,18 +134,17 @@ public class GUI extends Application {
 
 
 	private void testGame() {
-		
-		System.out.println("Now:"+gameSession.getPlayers().size());
-		gameSession.addPlayer("me", client);
-		gameSession.addPlayer("Anne", new AIClient(gameSession));
-		gameSession.addPlayer("Bob", new AIClient(gameSession));
-        gameSession.addPlayer("Chuck", new AIClient(gameSession));
-        gameSession.addPlayer("Dennis", new AIClient(gameSession));
-        gameSession.addPlayer("Emma", new AIClient(gameSession));
-		Thread th = new Thread(client);
-		th.start();
-		
 
+		gameSession = new GameBuilder()
+				.ai(5)
+				.blinds(10, 5)
+				.startMoney(100)
+				.mainClient(client)
+				.build();
+
+		System.out.println("Now:"+gameSession.getPlayers().size());
+		Thread th = new Thread(() -> gameSession.mainLoop());
+		th.start();
 	
 		mainFrame.drawPot();
 		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());

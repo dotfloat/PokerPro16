@@ -9,6 +9,10 @@ import java.util.Scanner;
 public class ConsoleClient extends GameClient {
     Scanner in = new Scanner(System.in);
 
+    public ConsoleClient() {
+        setName("ConsoleClient");
+    }
+
     @Override
     public void onRoundStart() {
         System.out.println("A new round has started");
@@ -85,7 +89,7 @@ public class ConsoleClient extends GameClient {
     public static void main(String[] args) {
         new GameBuilder()
                 .ai(5)
-                .mainClient("ConsoleClient", new ConsoleClient())
+                .mainClient(new ConsoleClient())
                 .build()
                 .mainLoop();
     }
