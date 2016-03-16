@@ -12,34 +12,34 @@ import java.util.List;
 public class HandEvaluator implements AIEvaluate {
     @Override
     public double evaluate(GameSession session, Player bot) {
-        List<Card> cards = getCardsFromTableAndHand(session, bot);
-        ShowdownEvaluator se = new ShowdownEvaluator();
-        ShowdownEvaluator.Hand hand = se.evaluate(cards);
+//        List<Card> cards = getCardsFromTableAndHand(session, bot);
+//        ShowdownEvaluator se = new ShowdownEvaluator();
+//        ShowdownEvaluator.Hand hand = se.evaluate(cards);
+//
+//        switch(hand) {
+//            case ROYALFLUSH:
+//                return 100;
+//            case STRAIGHTFLUSH:
+//                return 95;
+//            case FOUROFAKIND:
+//                return 90;
+//            case FULLHOUSE:
+//                return 85;
+//            case FLUSH:
+//                return 80;
+//            case STRAIGHT:
+//                return 75;
+//            case THREEOFAKIND:
+//                return 70;
+//            case TWOPAIRS:
+//                return 60;
+//            case ONEPAIR:
+//                return 35;
+//            case HIGHCARD:
+//                return 0;
+//            default:
+                return 0;
 
-        switch(hand) {
-            case ROYALFLUSH:
-                return 100;
-            case STRAIGHTFLUSH:
-                return 95;
-            case FOUROFAKIND:
-                return 90;
-            case FULLHOUSE:
-                return 85;
-            case FLUSH:
-                return 80;
-            case STRAIGHT:
-                return 75;
-            case THREEOFAKIND:
-                return 70;
-            case TWOPAIRS:
-                return 60;
-            case ONEPAIR:
-                return 35;
-            case HIGHCARD:
-                return 0;
-            default:
-                return 0;
-        }
     }
 
     /**

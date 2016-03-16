@@ -1,12 +1,15 @@
 package org.gruppe2.ai;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.gruppe2.backend.Card;
 import org.gruppe2.backend.Card.Suit;
+import org.gruppe2.backend.Evaluated;
 import org.gruppe2.backend.GameClient;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
+import org.gruppe2.backend.ShowdownEvaluator.Hand;
 import org.gruppe2.backend.Table;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +41,6 @@ public class OtherPlayersEvaluatorTest {
 		
 		evaluator.evaluate(session, bot);
 	}
-	
 	
 }
 
