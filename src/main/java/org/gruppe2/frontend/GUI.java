@@ -338,7 +338,6 @@ public class GUI extends Application {
 	public void updateStageDimensions(){
 		scene.getWindow().setWidth(getWidth());
 		scene.getWindow().setHeight(getHeight());
-		
 		scene.getWindow().sizeToScene();
 	}
 
