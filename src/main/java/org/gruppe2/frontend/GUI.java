@@ -73,8 +73,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		int a = (int) (1920*0.8);
-		int b = (int) (1080*0.8);
+		int a = (int) (1920);
+		int b = (int) (1080);
 		setWindowSize(a,b);
 		setStep(0);
 	}

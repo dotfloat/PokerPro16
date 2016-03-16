@@ -62,11 +62,10 @@ public class Painter extends Pane {
 	}
 
 	public void setBackGround(String name) {
-
+		
 		this.setStyle("-fx-background-color: #662200");
 		backGround = new Image(getClass().getResourceAsStream(name),600,0,true,true);
 		bg = new ImageView(backGround);
-		bg.setPreserveRatio(true);
 		updateBackGround();
 		this.getChildren().add(bg);
 	}
@@ -145,18 +144,18 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view1);
 		gui.root.getChildren().add(view2);
 		
-		view1.setLayoutX(gui.getWidth()*0.77);
-		view1.setLayoutY(gui.getHeight()*0.60);
-		view2.setLayoutX(gui.getWidth()*0.83);
-		view2.setLayoutY(gui.getHeight()*0.60);
+		view1.setLayoutX(gui.getWidth()*0.85);
+		view1.setLayoutY(gui.getHeight()*0.65);
+		view2.setLayoutX(gui.getWidth()*0.86);
+		view2.setLayoutY(gui.getHeight()*0.65);
 		
-		view1.setFitWidth(gui.getWidth()*0.13);
-		view1.setPreserveRatio(true);
-		view2.setFitWidth(gui.getWidth()*0.13);
-		view2.setPreserveRatio(true);
+		view1.setFitWidth(gui.getWidth()*0.1);
+		view1.setFitHeight(gui.getWidth()*0.1);
+		view2.setFitWidth(gui.getWidth()*0.1);
+		view2.setFitHeight(gui.getWidth()*0.1);
 		
-		view1.setRotate(350);
-		view2.setRotate(10);
+		view1.setRotate(340);
+		view2.setRotate(0);
 		
 	}
 	
@@ -202,9 +201,15 @@ public class Painter extends Pane {
 					cardImage.setFitHeight(gui.getWidth()*0.045);
 					
 					cardImage.setLayoutX(gui.getWidth()*0.4 + (cardOffset*i));
-					cardImage.setLayoutY(gui.getHeight()*0.4);
+					cardImage.setLayoutY(gui.getHeight()*0.32);
 					
 					getChildren().add(cardImage);
+//					try {
+//						Thread.sleep(500);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 		    }
 		});
@@ -212,7 +217,6 @@ public class Painter extends Pane {
 	public void clearCommunityCards(){
 		if(communityCards != null){
 			if(communityCards.size() == 0) return;
-			
 			else
 				Platform.runLater(new Runnable(){
 				    @Override
@@ -224,8 +228,9 @@ public class Painter extends Pane {
 	
 	
 	public void updateTablePot(){
-		
-		totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
+		System.out.println();
+		if(totalPot != null)
+			totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
 	}
 	
 	public void playerWon(Player player){
