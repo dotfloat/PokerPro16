@@ -51,7 +51,6 @@ public class GameSession {
         smallBlind = 1;
         bigBlind = 2;
 
-        //Need blind action
         Player smallBlindPayer = activePlayers.get(smallBlind);
         doPlayerAction(new Action.PaySmallBlind(), smallBlindPayer);
         //  notifyOtherPlayersAboutAction(smallBlindPayer, blind);
@@ -86,13 +85,15 @@ public class GameSession {
     private void turnLoop() {
         int lastRaiserIndex = 0;
 
-        for (int first = smallBlind; first < activePlayers.size(); first++) {
-            if (activePlayers.get(first) != null) {
-                lastRaiserIndex = first-1;
+        for (int last = button; true; last--) {
+            if (last < 0)
+                last = activePlayers.size()-1;
+            if (activePlayers.get(last) != null) {
+                lastRaiserIndex = last;
                 break;
             }
         }
-
+        
         for (int current = smallBlind-1; !activePlayers.isEmpty(); current++) {
             int currentPlayerIdx = (current + 1) % activePlayers.size();
             Player player = activePlayers.get(currentPlayerIdx);

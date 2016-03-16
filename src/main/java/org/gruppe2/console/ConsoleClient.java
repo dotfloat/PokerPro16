@@ -20,7 +20,7 @@ public class ConsoleClient extends GameClient {
 
     @Override
     public void onPlayerVictory(Player player) {
-        System.out.println(player.getName() + " has won");
+        System.out.println(player.getName() + " has won \n");
     }
 
     @Override
