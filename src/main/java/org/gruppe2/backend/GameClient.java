@@ -74,6 +74,13 @@ public class GameClient {
     public void onOtherPlayerAction(Player otherPlayer, Action action) {}
 
     /**
+     * Called after the player has decided on an action.
+     * @param player
+     * @param action
+     */
+    public void onPlayerAction(Player player, Action action){}
+
+    /**
      * Called when cards are added to the communal cards.
      * @param board
      * @param newCards
