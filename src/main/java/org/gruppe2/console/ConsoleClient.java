@@ -25,8 +25,6 @@ public class ConsoleClient extends GameClient {
 
     @Override
     public void onOtherPlayerAction(Player player, Action action) {
-        System.out.println("Highest bet: " + getSession().getHighestBet());
-        System.out.println("Table pot: " + getSession().getTable().getPot());
         System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), player.getBet());
 
         if (action instanceof Action.Fold) {
@@ -44,6 +42,11 @@ public class ConsoleClient extends GameClient {
 
     @Override
     public Action onTurn(Player player) {
+        System.out.println("Highest bet: " + getSession().getHighestBet());
+        System.out.println("Table pot: " + getSession().getTable().getPot());
+        System.out.printf("Your cards: %s %s \n", player.getCard1(), player.getCard2());
+        System.out.printf("Your chips: %d \n", player.getBank());
+        System.out.printf("Current bet: %d \n", player.getBet());
         System.out.println("> Your turn you can: ");
         System.out.println(getSession().getPlayerOptions(player));
 

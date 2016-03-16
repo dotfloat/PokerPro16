@@ -183,19 +183,25 @@ public class ChoiceBar {
 				.getPlayerOptions(player);
 		if (pa.canCall()) {
 			call.getStyleClass().add("button");
+			canCall = true;
 
 		} else {
 			call.getStyleClass().add("buttonIllegal");
+			canCall = false;
 		}
 		if (pa.canCheck()) {
 			check.getStyleClass().add("button");
+			canCall = true;
 		} else {
 			check.getStyleClass().add("buttonIllegal");
+			canCall = false;
 		}
 		if (pa.canRaise()) {
 			raise.getStyleClass().add("button");
+			canCall = true;
 		} else {
 			raise.getStyleClass().add("buttonIllegal");
+			canCall = false;
 		}
 	}
 

@@ -37,8 +37,8 @@ public class Table {
             communityCards.add(deck.drawCard());
         else if (round == 3)
             communityCards.add(deck.drawCard());
-        else if (round != 0)
-            throw new IndexOutOfBoundsException();
+        else
+            throw new IndexOutOfBoundsException("Turn overflow");
     }
 
     /**
