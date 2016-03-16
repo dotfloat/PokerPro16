@@ -201,13 +201,13 @@ public class Painter extends Pane {
 	}
 
 
-	public void showCommunityCards(ArrayList<Card> communityCards, int cardsToShow) {
+	public void showCommunityCards(ArrayList<Card> communityCards) {
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
 		    	
 		    	Double cardOffset = gui.getWidth()*0.05;
-				
+				int cardsToShow = communityCards.size();
 				for (int i = 0; i < cardsToShow; i++) {
 					
 					Card c = (Card) communityCards.get(i);

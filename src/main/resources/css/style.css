@@ -46,7 +46,6 @@
 	-fx-font-weight: bold;
 	-fx-font: 20px "sans-serif";
 	-fx-background-color: #009933;
-	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
 }
 .choice-box .context-menu {
     -fx-background-color: #009933 ;
@@ -92,4 +91,11 @@
 	-fx-background-image: url("backgroundtile.png");
 	-fx-background-size: 200px, 200px;
 	-fx-background-repeat: repeat;
+}
+
+.text-field {
+	-fx-background-color: #00802b;
+	-fx-text-fill: white;
+	-fx-font-size: 20;
+	-fx-prompt-text-fill: whitesmoke;
 }

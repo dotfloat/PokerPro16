@@ -69,8 +69,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		int a = (int) (1920*0.5);
-		int b = (int) (1080*0.5);
+		int a = (int) (1920*0.8);
+		int b = (int) (1080*0.8);
 		setWindowSize(a,b);
 		setStep(0);
 	}
@@ -140,14 +140,13 @@ public class GUI extends Application {
 		Thread th = new Thread(client);
 		th.start();
 		
-		int cardsToShow = 3;
-		gameSession.getTable().drawCommunityCards(1);
-		ArrayList<Card> communityCards = (ArrayList<Card>) gameSession.getTable().getCommunityCards();
+
+	
 		mainFrame.drawPot();
 		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
 		mainFrame.paintAllPlayers(playerInfoBoxes);
 		setChoiceBar();
-		getMainFrame().showCommunityCards(communityCards, cardsToShow);
+		
 	}
 
 
@@ -356,7 +355,6 @@ public class GUI extends Application {
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
-		    	
 				playerInfoBoxes.get(0).updateInfoBox(player);
 				
 				
