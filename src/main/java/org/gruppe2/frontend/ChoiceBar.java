@@ -54,8 +54,8 @@ public class ChoiceBar {
 		raiseSlider.setMaxWidth(gui.getWidth() * 0.23);
 		raiseSlider.setMinWidth(gui.getWidth() * 0.23);
 		Label sliderValue = new Label((int) raiseSlider.getValue() + " CHIPS");
-		sliderValue.setMinWidth(gui.getWidth() * 0.1);
-		sliderValue.setMaxWidth(gui.getWidth() * 0.1);
+		sliderValue.setMinWidth(gui.getWidth() * 0.15);
+		sliderValue.setMaxWidth(gui.getWidth() * 0.15);
 
 		Label showCards = new Label(""); // Label that creates space, does
 											// nothing else
@@ -65,12 +65,10 @@ public class ChoiceBar {
 		setButtonAction(raiseSlider, check, call, raise, fold, player,
 				sliderValue, gui.getClient());
 
-		hbox.getChildren().addAll(fold, call, check, raiseSlider, sliderValue,
-				raise, showCards);
+		hbox.getChildren().addAll(fold, call, check, raiseSlider, sliderValue, raise, showCards);
 		setHBoxSize(hbox, gui);
 
-		setKeyListener(check, call, fold, raise, gui, gui.getClient(),
-				raiseSlider, player);
+		setKeyListener(check, call, fold, raise, gui, gui.getClient(), raiseSlider, player);
 
 		gui.getBorder().setBottom(hbox);
 	}
