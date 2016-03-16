@@ -1,5 +1,6 @@
 package org.gruppe2.frontend;
 
+import javafx.scene.layout.VBox;
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Player;
 
@@ -27,61 +28,65 @@ public class InitializeGame {
 	public static void setStartValues(GUI gui, Group root, Stage primaryStage) {
 
 
-		GridPane grid = new GridPane();
-		createGrid(grid, root, gui, primaryStage);
+		VBox vBox = new VBox(10);
+		createGrid(vBox, root, gui, primaryStage);
 
 
 	}
 
-	private static void createGrid(GridPane grid, Group root, GUI gui, Stage primaryStage) {
+	private static void createGrid(VBox vBox, Group root, GUI gui, Stage primaryStage) {
 
-		Label nameLabel = new Label("Name:");
+		double buttonWidth = gui.getWidth()*0.4;
+		double buttonHeight = gui.getHeight()*0.05;
+
 		TextField nameField = new TextField();
+		nameField.setPromptText("ENTER YOUR NAME");
+		nameField.setPrefWidth(buttonWidth);
+		nameField.setPrefHeight(buttonHeight);
 
-		Label smallBlindLabel = new Label("Small blind:");
 		TextField smallBlindField = new TextField();
+		smallBlindField.setPromptText("SET SMALL BLIND");
+		smallBlindField.setPrefWidth(buttonWidth);
+		smallBlindField.setPrefHeight(buttonHeight);
 
-		Label bigBlindLabel = new Label("Big blind:");
 		TextField bigBlindField = new TextField();
+		bigBlindField.setPromptText("SET BIG BLIND");
+		bigBlindField.setPrefWidth(buttonWidth);
+		bigBlindField.setPrefHeight(buttonHeight);
 
-		Label startMoneyLabel = new Label("Start money:");
 		TextField startMoneyField = new TextField();
+		startMoneyField.setPromptText("SET AMOUNT OF CHIPS");
+		startMoneyField.setPrefWidth(buttonWidth);
+		startMoneyField.setPrefHeight(buttonHeight);
 
-		Button ok = new Button("ok");
-		Button cancel = new Button("cancel");
-		setButtonAction(ok, cancel, nameField, smallBlindField, bigBlindField,
-				startMoneyField, gui, primaryStage, grid);
 
-		grid.add(nameLabel, 1, 1);
-		grid.add(nameField, 2, 1);
+		Button ok = new Button("OK");
+		ok.setPrefWidth(buttonWidth);
+		ok.setPrefHeight(buttonHeight);
 
-		grid.add(smallBlindLabel, 1, 2);
-		grid.add(smallBlindField, 2, 2);
+		Button cancel = new Button("CANCEL");
+		cancel.setPrefWidth(buttonWidth);
+		cancel.setPrefHeight(buttonHeight);
 
-		grid.add(bigBlindLabel, 1, 3);
-		grid.add(bigBlindField, 2, 3);
+		setButtonAction(ok, cancel, nameField, smallBlindField, bigBlindField, startMoneyField, gui, primaryStage, vBox);
 
-		grid.add(startMoneyLabel, 1, 4);
-		grid.add(startMoneyField, 2, 4);
-
-		grid.add(ok, 1, 5);
-		grid.add(cancel, 2, 5);
+		vBox.setLayoutX(gui.getWidth()*0.5 - buttonWidth*0.5);
+		vBox.setLayoutY(gui.getHeight()*0.5 + buttonHeight);
+		vBox.getChildren().addAll(nameField, smallBlindField, bigBlindField, startMoneyField, cancel, ok);
 		
 //		setUpEmptyPot(pokerGame);
-		grid.setLayoutX(gui.getWidth()/2);
-		grid.setLayoutY(gui.getHeight()/2 + gui.getHeight()*0.2);
-		root.getChildren().add(grid);
+		root.getChildren().add(vBox);
 	}
 
 	private static void setButtonAction(Button ok, Button cancel,
-			TextField nameField, TextField smallBlindField,
-			TextField bigBlindField, TextField startMoneyField, GUI gui, Stage primaryStage, GridPane grid) {
+										TextField nameField, TextField smallBlindField,
+										TextField bigBlindField, TextField startMoneyField, GUI gui, Stage primaryStage, VBox vBox) {
 
 		ok.setOnAction(e -> {
 			if (!nameField.getText().equals(null)) {
 				if (moneyFieldsAreValid(startMoneyField, bigBlindField,
 						smallBlindField)) {
-					gui.root.getChildren().remove(grid);
+					gui.root.getChildren().remove(vBox);
 					gui.startMainFrame(primaryStage,gui.root, gui.canvas);
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
@@ -95,6 +100,7 @@ public class InitializeGame {
 			}
 		});
 		cancel.setOnAction(e -> {
+			gui.root.getChildren().remove(vBox);
 			gui.newMainMenu((Stage) gui.scene.getWindow(), gui.root);
 		});
 
