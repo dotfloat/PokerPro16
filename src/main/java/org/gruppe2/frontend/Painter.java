@@ -229,12 +229,16 @@ public class Painter extends Pane {
 		});
 	}
 	public void clearCommunityCards(){
-		
-		Platform.runLater(new Runnable(){
-		    @Override
-		    public void run() {
-		    	getChildren().removeAll(communityCards);
-		    }});
+		if(communityCards != null){
+			if(communityCards.size() == 0) return;
+			
+			else
+				Platform.runLater(new Runnable(){
+				    @Override
+				    public void run() {
+				    	getChildren().removeAll(communityCards);
+				    }});
+		}
 	}
 	
 	
