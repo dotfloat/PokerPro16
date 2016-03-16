@@ -23,6 +23,7 @@ public class GUIClient extends GameClient implements Runnable {
 	@Override
 	public void onRoundStart() {
 		Platform.runLater(() -> {
+			gui.getMainFrame().clearCommunityCards();
 			System.out.println("roundStartTest");
 		});
 	}
