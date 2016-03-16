@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -52,10 +55,10 @@ public class GUI extends Application {
 	Group root;
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
-	
+
 	//Game
 	GameSession gameSession;
-	
+	ArrayList<PlayerInfoBox> playerInfoBoxes;
 	public GUI() {}
 
 	
@@ -66,8 +69,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		int a = (int) (1920*0.5);
-		int b = (int) (1080*0.5);
+		int a = (int) (1920*0.8);
+		int b = (int) (1080*0.8);
 		setWindowSize(a,b);
 		setStep(0);
 	}
@@ -90,7 +93,7 @@ public class GUI extends Application {
 		newMainMenu(primaryStage,root);
 
 	}
-	
+
 	/**
 	 * This event is launched for each round of the game, it simulates the GUI round, it checks the root's children and draws them, if 
 	 * any new children.
@@ -115,20 +118,20 @@ public class GUI extends Application {
 		setGUIEventHandlers(primaryStage, root);
 		
 		setMainFrame(new Painter(this));
-		
+
 		setInitialChildrenToRoot(border, canvas, root);
 		testGame();
-		
+
 		getMainFrame().paintPocketCards();
 	}
-	
-	
+
+
 
 
 	private void testGame() {
 		gameSession = new GameSession();
 		client = new GUIClient(gameSession, this);
-		
+
 		gameSession.addPlayer("Anne", new AIClient(gameSession));
 		gameSession.addPlayer("Bob", new AIClient(gameSession));
         gameSession.addPlayer("Chuck", new AIClient(gameSession));
@@ -137,17 +140,16 @@ public class GUI extends Application {
 		Thread th = new Thread(client);
 		th.start();
 		
-		int cardsToShow = 3;
-		gameSession.getTable().drawCommunityCards(1);
-		ArrayList<Card> communityCards = (ArrayList<Card>) gameSession.getTable().getCommunityCards();
-		mainFrame.drawPot();
-		
-		mainFrame.paintAllPlayers(PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers()));
-		setChoiceBar();
-		getMainFrame().showCommunityCards(communityCards, cardsToShow);
-	}
 
 	
+		mainFrame.drawPot();
+		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
+		mainFrame.paintAllPlayers(playerInfoBoxes);
+		setChoiceBar();
+		
+	}
+
+
 
 
 	private void setGUIEventHandlers(Stage primaryStage, Group root) {
@@ -198,7 +200,7 @@ public class GUI extends Application {
 		MainMenu menu = new MainMenu();
 	    menu.setMainMenu(primaryStage,root, this);
 	}
-	
+
 	/**
 	 * Sets size of window
 	 * @param x
@@ -222,7 +224,7 @@ public class GUI extends Application {
 		choiceBar = new ChoiceBar();
 		choiceBar.showChoices(this,client.getSession().getPlayers().get(0)); //Get me
 	}
-	
+
 	/**
 	 * Checks if game is paused.
 	 * @return
@@ -343,16 +345,25 @@ public class GUI extends Application {
 	public BorderPane getBorder() {
 		return border;
 	}
-	
+
 
 	/**
 	 * Updates gui each time a real players round is up.
 	 * @param player
 	 */
 	public void updateGUI(Player player) {
-		//PlayerInfoBox.updateInfoBox(player);
-		//getMainFrame().updatePot();
-//		choiceBar.updatePossibleBarsToClick();
-		//--->
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+		    	for( PlayerInfoBox playerInfoBox : playerInfoBoxes){
+		    		if(playerInfoBox.getPlayer() == player){
+		    			playerInfoBox.updateInfoBox(player);
+		    		}
+		    	}	
+				
+				getMainFrame().updateTablePot();
+				choiceBar.updatePossibleBarsToClick(player);
+				//--->
+		    }});
 	}
 }

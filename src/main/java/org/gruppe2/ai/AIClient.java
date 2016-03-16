@@ -44,6 +44,8 @@ public class AIClient extends GameClient {
                 return new Action.Check();
 
             case raise:
+                if (actions.getMinRaise() == actions.getMaxRaise())
+                    return new Action.Raise(actions.getMaxRaise());
                 return new Action.Raise(rand.nextInt(actions.getMaxRaise() - actions.getMinRaise()) + actions.getMinRaise());
 
             default:

@@ -1,10 +1,15 @@
 package org.gruppe2.frontend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.image.ImageView;
-import org.gruppe2.ai.AIClient;
-import org.gruppe2.backend.*;
+
+import org.gruppe2.backend.Action;
+import org.gruppe2.backend.Card;
+import org.gruppe2.backend.GameClient;
+import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
 
 public class GUIClient extends GameClient implements Runnable {
 	private GUI gui;
@@ -18,14 +23,16 @@ public class GUIClient extends GameClient implements Runnable {
 	@Override
 	public void onRoundStart() {
 		Platform.runLater(() -> {
+			gui.getMainFrame().clearCommunityCards();
 			System.out.println("roundStartTest");
 		});
 	}
 
 	@Override
 	public Action onTurn(Player player){
+//		gui.updateGUI(player);
 		Action action = null;
-
+		System.out.println("your turn player");
 		while ((action = getAction()) == null) {
 			try {
 				Thread.sleep(500);
@@ -34,8 +41,8 @@ public class GUIClient extends GameClient implements Runnable {
 			}
 		}
 		
-		gui.updateGUI(player);
-
+//		gui.updateGUI(player);
+		
 		setAction(null);
 
 		System.out.println("Action: " + action);
@@ -44,12 +51,6 @@ public class GUIClient extends GameClient implements Runnable {
 	}
 	@Override
 	public void run() {
-//		getSession().addPlayer("CoolestPerson", this);
-//		getSession().addPlayer("Anne", new AIClient(getSession()));
-//		getSession().addPlayer("Bob", new AIClient(getSession()));
-//        getSession().addPlayer("Chuck", new AIClient(getSession()));
-//        getSession().addPlayer("Dennis", new AIClient(getSession()));
-//        getSession().addPlayer("Emma", new AIClient(getSession()));
         getSession().mainLoop();
 	}
 
@@ -59,5 +60,19 @@ public class GUIClient extends GameClient implements Runnable {
 
 	public void setAction(Action action) {
 		this.action = action;
+	}
+	@Override
+	public void onCommunalCards(List<Card> communalCards){
+		ArrayList<Card> communityCards =  (ArrayList<Card>) communalCards;
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+		    	gui.getMainFrame().showCommunityCards(communityCards);
+		    }});
+		
+	}
+	@Override
+	public void onPlayerAction(Player player, Action action){
+		gui.updateGUI(player);
 	}
 }

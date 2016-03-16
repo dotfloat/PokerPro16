@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MainMenu extends Pane {
@@ -14,39 +15,48 @@ public class MainMenu extends Pane {
 	
 	
 	public void setMainMenu(Stage primaryStage, Group root, GUI gui) {
-		
-		
+
 		setMainBackGround(root, gui);
 		setButtons(root, gui, primaryStage );
-		
+
 		this.setMinHeight(gui.getHeight());
 		this.setMaxHeight(gui.getHeight());
 		gui.updateStageDimensions();
-		
-		this.setStyle("-fx-background-color: black");
+
+		getScene().setFill(Color.BLACK);
 		
 	}
 
 	private void setButtons(Group root, GUI gui, Stage primaryStage) {
 		gui.canvas.setHeight(gui.getHeight());
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(10);
+		double buttonWidth = gui.getWidth()*0.4;
+		double buttonHeight = gui.getHeight()*0.05;
 		Button createTable = new Button("CREATE TABLE");
 		Button joinTable = new Button("JOIN TABLE");
 		Button singlePlayer = new Button("SINGLE PLAYER");
 		Button settings = new Button("SETTINGS");
+
+		//want to do this with css, but haven't found out how just yet
+		createTable.setPrefWidth(buttonWidth);
+		joinTable.setPrefWidth(buttonWidth);
+		singlePlayer.setPrefWidth(buttonWidth);
+		settings.setPrefWidth(buttonWidth);
+
+		//want to do this with css, but haven't found out how just yet
+		createTable.setPrefHeight(buttonHeight);
+		joinTable.setPrefHeight(buttonHeight);
+		singlePlayer.setPrefHeight(buttonHeight);
+		settings.setPrefHeight(buttonHeight);
 		
 		setActionOnButtons(createTable, joinTable, singlePlayer, settings, gui , root, vbox, primaryStage);
 		vbox.getChildren().addAll(createTable,joinTable,singlePlayer,settings);
 		
-		vbox.setLayoutX(gui.getWidth()/2 - vbox.getWidth());
-		vbox.setLayoutY(gui.getHeight()/2 + gui.getHeight()*0.2);
-		vbox.setAlignment(Pos.CENTER);
-		
-		
-		
+		vbox.setLayoutX(gui.getWidth()*0.5 - buttonWidth*0.5);
+		vbox.setLayoutY(gui.getHeight()*0.5 + buttonHeight*3);
+
 		this.getChildren().add(vbox);
 		root.getChildren().add(this);
-	
 	}
 
 	private void setActionOnButtons(Button createTable, Button joinTable,
@@ -77,12 +87,10 @@ public class MainMenu extends Pane {
 		
 		imageView = new ImageView (new Image(getClass().getResourceAsStream("/pokerWhite.png")));
 		
-		imageView.setFitWidth(gui.getWidth());
-		imageView.setFitHeight(gui.getHeight());
-		
+		imageView.setFitWidth(gui.getWidth()*0.9);
+		imageView.setPreserveRatio(true);
 		imageView.setLayoutX(gui.getWidth()/2-imageView.getFitWidth()/2);
 		imageView.setLayoutY(gui.getWidth()*0.05);
-		imageView.setPreserveRatio(true);
 		
 		this.getChildren().add(imageView);
 	}

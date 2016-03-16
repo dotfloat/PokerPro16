@@ -47,6 +47,8 @@ public class Painter extends Pane {
 	//Total pot
 	Label totalPot;
 	
+	ArrayList<Card> communityCards;
+	
 	
 	public Painter(GUI gui) {
 		super();
@@ -164,9 +166,9 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view2);
 		
 		view1.setLayoutX(gui.getWidth()*0.85);
-		view1.setLayoutY(gui.getHeight()*0.85);
+		view1.setLayoutY(gui.getHeight()*0.7);
 		view2.setLayoutX(gui.getWidth()*0.86);
-		view2.setLayoutY(gui.getHeight()*0.85);
+		view2.setLayoutY(gui.getHeight()*0.7);
 		
 		view1.setFitWidth(gui.getWidth()*0.1);
 		view1.setFitHeight(gui.getWidth()*0.1);
@@ -201,13 +203,16 @@ public class Painter extends Pane {
 	}
 
 
-	public void showCommunityCards(ArrayList<Card> communityCards, int cardsToShow) {
+	public void showCommunityCards(ArrayList<Card> communityCards) {
+		this.communityCards = communityCards;
+		if(communityCards.size() == 0) return;
+		
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
 		    	
 		    	Double cardOffset = gui.getWidth()*0.05;
-				
+				int cardsToShow = communityCards.size();
 				for (int i = 0; i < cardsToShow; i++) {
 					
 					Card c = (Card) communityCards.get(i);
@@ -223,6 +228,19 @@ public class Painter extends Pane {
 		    }
 		});
 	}
+	public void clearCommunityCards(){
+		if(communityCards != null){
+			if(communityCards.size() == 0) return;
+			
+			else
+				Platform.runLater(new Runnable(){
+				    @Override
+				    public void run() {
+				    	getChildren().removeAll(communityCards);
+				    }});
+		}
+	}
+	
 	
 	public void updateTablePot(){
 		totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
@@ -281,7 +299,7 @@ public class Painter extends Pane {
 
 	public void paintAllPlayers(List<PlayerInfoBox> playerInfoBoxes){
 		double xStep = gui.getWidth()/15;
-		double yStep = gui.getHeight()/10;
+		double yStep = gui.getHeight()/11;
 		double y = 10;
 		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*2, y);
 		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*6.5, y);
@@ -306,5 +324,4 @@ public class Painter extends Pane {
 		
 		getChildren().add(totalPot);
 	}
-
 }

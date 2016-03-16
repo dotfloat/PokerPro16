@@ -1,14 +1,17 @@
 package org.gruppe2.frontend;
 
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-
+/**
+ * Makes top game controll buttons, currently not used.
+ * @author htj063
+ *
+ */
 public class MakeButtons {
 	Button restart, pause, rotate, exit;
 	GridPane grid = new GridPane();
@@ -49,7 +52,6 @@ public class MakeButtons {
 				System.exit(0);
 			}
 		});
-		
 		
 		// Add to parrent scene
 		grid.add(restart, 1, 1);

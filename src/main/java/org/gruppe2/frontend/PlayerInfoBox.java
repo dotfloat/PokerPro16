@@ -27,6 +27,7 @@ public class PlayerInfoBox extends GridPane {
     private Label chips = new Label();
     private Label currentBet = new Label();
     private ImageView profileImage = new ImageView(new Image (getClass().getResourceAsStream("/default.png")));
+    private Player player;
 
     public PlayerInfoBox(){
         super();
@@ -44,9 +45,13 @@ public class PlayerInfoBox extends GridPane {
             setVisible(false);
             return;
         }
+        this.player = player;
         name.setText(player.getName());
         chips.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
+        if(player.getClient().getSession().playerHasFolded(player)){
+        	updateProfileImage(new ImageView(new Image (getClass().getResourceAsStream("/defaultFolded.png"))));
+        }
     }
     public PlayerInfoBox(Player player){
         this();
@@ -63,14 +68,14 @@ public class PlayerInfoBox extends GridPane {
         return playerInfoBoxes;
     }
 
-    public boolean isFull(ArrayList<PlayerInfoBox> playerInfoBoxes) {
-        for (PlayerInfoBox p : playerInfoBoxes) {
-            if (p.getName() == null) return false;
-        }
-        return true;
-    }
-
     public Label getName() {
         return name;
     }
+    public void updateProfileImage(ImageView imageView){
+    	profileImage = imageView;
+    }
+
+	public Player getPlayer() {
+		return player;
+	}
 }

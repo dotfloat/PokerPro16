@@ -46,7 +46,7 @@ public class GameSession {
     }
 
     private void matchLoop() {
-        StartNewMatch();
+        startNewMatch();
         button = 0;
         smallBlind = 1;
         bigBlind = 2;
@@ -71,6 +71,8 @@ public class GameSession {
             if (numActivePlayers() == 1) {
                 for (Player p : activePlayers) {
                     if (p != null) {
+                        p.addToBank(table.getPot());
+                        table.resetPot();
                         notifyPlayerVictory(p);
                         break;
                     }
@@ -117,7 +119,7 @@ public class GameSession {
             else if (action instanceof Action.Call)
                 doPlayerAction(action, player);
 
-            notifyOtherPlayersAboutAction(player, action);
+            notifyAllPlayersAboutAction(player, action);
 
             if (lastRaiserIndex == currentPlayerIdx && !(action instanceof Action.Raise))
                 break;
@@ -131,7 +133,7 @@ public class GameSession {
 
     }
 
-    private void StartNewMatch(){
+    private void startNewMatch(){
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
         highestBet = 0;
@@ -198,6 +200,11 @@ public class GameSession {
         }
     }
 
+    private void notifyAllPlayersAboutAction(Player player, Action action){
+        for(Player playerToNotify : players)
+            playerToNotify.getClient().onPlayerAction(player, action);
+    }
+
     //TODO: Code to perform actions
     /**
      * Perform the action requested by the player
@@ -259,7 +266,7 @@ public class GameSession {
             return pa.canCheck();
         else if (action instanceof Action.Raise) {
             int raise = ((Action.Raise) action).getAmount();
-            if (raise < 1 || raise > player.getBank() - (player.getBet() + highestBet))
+            if (raise < 1 || raise > player.getBank() + player.getBet() - highestBet)
                 return false;
             return pa.canRaise();
         }
@@ -285,14 +292,22 @@ public class GameSession {
 
         if (player.getBet() == highestBet)
             actions.setCheck();
-        if (player.getBank() > highestBet - player.getBet()){
-            int maxRaise = player.getBank() - (player.getBet() + highestBet);
-            if (!(player.getBank() == highestBet - player.getBet()) && maxRaise > 0)
-                actions.setRaise(1, maxRaise);
+        if (player.getBank() >= highestBet - player.getBet()){
             if (highestBet - player.getBet() != 0)
                 actions.setCall();
         }
+        int maxRaise = player.getBank() + player.getBet() - highestBet;
+        if (maxRaise > 0)
+            actions.setRaise(1, maxRaise);
 
         return actions;
+    }
+
+    public boolean playerHasFolded(Player player){
+        for (Player p : activePlayers)
+            if (player.equals(p))
+                return false;
+
+        return true;
     }
 }
