@@ -30,7 +30,7 @@ public class GUIClient extends GameClient implements Runnable {
 
 	@Override
 	public Action onTurn(Player player){
-//		gui.updateGUI(player);
+		gui.updateGUI(player);
 		Action action = null;
 		System.out.println("your turn player");
 		while ((action = getAction()) == null) {
@@ -40,8 +40,6 @@ public class GUIClient extends GameClient implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
-//		gui.updateGUI(player);
 		
 		setAction(null);
 
@@ -69,6 +67,15 @@ public class GUIClient extends GameClient implements Runnable {
 		    public void run() {
 		    	gui.getMainFrame().showCommunityCards(communityCards);
 		    }});
+	}
+	@Override
+	public void onOtherPlayerTurn(Player player){
+		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
+			if(playerInfoBox.getPlayer() == player){
+//				playerInfoBox
+			}
+		}
+		
 	}
 	@Override
 	public void onPlayerAction(Player player, Action action){
