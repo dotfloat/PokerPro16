@@ -138,8 +138,9 @@ public class Painter extends Pane {
 	 * 
 	 */
 	public void paintPocketCards() {
-		Card card1 = new Card(6, Suit.HEARTS);
-		Card card2 = new Card(5, Suit.HEARTS);
+		Player player = gui.client.getSession().getPlayers().get(0);
+		Card card1 = player.getCard1();
+		Card card2 = player.getCard2();
 		
 		ImageView view1 = createCardImage(card1);
 		ImageView view2 = createCardImage(card2);
@@ -148,9 +149,9 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view2);
 		
 		view1.setLayoutX(gui.getWidth()*0.85);
-		view1.setLayoutY(gui.getHeight()*0.7);
+		view1.setLayoutY(gui.getHeight()*0.65);
 		view2.setLayoutX(gui.getWidth()*0.86);
-		view2.setLayoutY(gui.getHeight()*0.7);
+		view2.setLayoutY(gui.getHeight()*0.65);
 		
 		view1.setFitWidth(gui.getWidth()*0.1);
 		view1.setFitHeight(gui.getWidth()*0.1);

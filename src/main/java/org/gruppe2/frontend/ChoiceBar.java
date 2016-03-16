@@ -183,6 +183,10 @@ public class ChoiceBar {
 	public void updatePossibleBarsToClick(Player player) {
 		PossibleActions pa = player.getClient().getSession()
 				.getPlayerOptions(player);
+//		call.getStyleClass().remove(0);
+//		check.getStyleClass().remove(0);
+//		fold.getStyleClass().remove(0);
+//		raise.getStyleClass().remove(0);
 		if (pa.canCall()) {
 			call.getStyleClass().add("button");
 			canCall = true;
@@ -193,17 +197,17 @@ public class ChoiceBar {
 		}
 		if (pa.canCheck()) {
 			check.getStyleClass().add("button");
-			canCall = true;
+			canCheck = true;
 		} else {
 			check.getStyleClass().add("buttonIllegal");
-			canCall = false;
+			canCheck = false;
 		}
 		if (pa.canRaise()) {
 			raise.getStyleClass().add("button");
-			canCall = true;
+			canRaise = true;
 		} else {
 			raise.getStyleClass().add("buttonIllegal");
-			canCall = false;
+			canRaise = false;
 		}
 		raiseSlider.setMax(pa.getMaxRaise());
 		raiseSlider.setMin(pa.getMinRaise());

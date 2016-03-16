@@ -23,6 +23,7 @@ public class GUIClient extends GameClient {
 	public void onRoundStart() {
 		Platform.runLater(() -> {
 			gui.getMainFrame().clearCommunityCards();
+			gui.getMainFrame().paintPocketCards();
 			System.out.println("roundStartTest");
 		});
 	}
@@ -65,11 +66,16 @@ public class GUIClient extends GameClient {
 	}
 	@Override
 	public void onOtherPlayerTurn(Player player){
-		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
-			if(playerInfoBox.getPlayer() == player){
-//				playerInfoBox
-			}
-		}
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+				if(gui.playerInfoBoxes == null)return;
+				for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
+					if(playerInfoBox.getPlayer() == player){
+		//				playerInfoBox
+					}
+				}
+		    }});
 		
 	}
 	@Override
