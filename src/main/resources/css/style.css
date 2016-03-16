@@ -67,7 +67,7 @@ buttonIllegal:pressed {
 
 .button:pressed {
 	-fx-background-color: #006622;
-	-fx-effect: innershadow( gaussian , #003311 , 2, 0, 0, 4);;
+	-fx-effect: innershadow( gaussian , #003311 , 2, 0, 0, 4);
 }
 .slider {
 	-fx-color: #009933;
