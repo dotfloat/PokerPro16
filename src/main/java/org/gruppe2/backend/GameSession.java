@@ -47,9 +47,9 @@ public class GameSession {
         }
     }
 
-    public void addPlayer(String name, GameClient client) {
+    public void addPlayer(GameClient client) {
         client.setSession(this);
-        Player player = new Player(name, 100, client);
+        Player player = new Player(client.getName(), 100, client);
         players.add(player);
     }
 

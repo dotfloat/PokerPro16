@@ -5,14 +5,7 @@ import java.util.List;
 @SuppressWarnings("UnusedParameters")
 public class GameClient {
     private GameSession session = null;
-
-    public GameClient() {
-
-    }
-
-    public GameClient(GameSession session) {
-        this.session = session;
-    }
+    private volatile String name = "Noname";
 
     /* Session events */
 
@@ -97,5 +90,13 @@ public class GameClient {
 
     public void setSession(GameSession session) {
         this.session = session;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

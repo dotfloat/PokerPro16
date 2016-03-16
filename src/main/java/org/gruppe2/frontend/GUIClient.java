@@ -11,12 +11,11 @@ import org.gruppe2.backend.GameClient;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
 
-public class GUIClient extends GameClient implements Runnable {
+public class GUIClient extends GameClient {
 	private GUI gui;
 	private volatile Action action = null;
 
-	public GUIClient(GameSession session, GUI gui) {
-		super(session);
+	public GUIClient(GUI gui) {
 		this.gui = gui;
 	}
 
@@ -46,10 +45,6 @@ public class GUIClient extends GameClient implements Runnable {
 		System.out.println("Action: " + action);
 
 		return action;
-	}
-	@Override
-	public void run() {
-        getSession().mainLoop();
 	}
 
 	public Action getAction() {
