@@ -59,6 +59,9 @@ public class GUI extends Application {
 	
 	
 	ArrayList<PlayerInfoBox> playerInfoBoxes;
+	public int startValue;
+	public int smallBlind;
+	public int bigBlind;
 	
 	public GUI() {}
 
@@ -70,8 +73,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		int a = (int) (1920*0.8);
-		int b = (int) (1080*0.8);
+		int a = (int) (1920);
+		int b = (int) (1080);
 		setWindowSize(a,b);
 		setStep(0);
 	}
@@ -133,8 +136,8 @@ public class GUI extends Application {
 
 		gameSession = new GameBuilder()
 				.ai(5)
-				.blinds(10, 5)
-				.startMoney(100)
+				.blinds(bigBlind, smallBlind)
+				.startMoney(startValue)
 				.mainClient(client)
 				.build();
 

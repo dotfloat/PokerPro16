@@ -38,11 +38,11 @@ public class GameBuilder {
         GameSession session = new GameSession(smallBlind, bigBlind);
 
         if (client != null) {
-            session.addPlayer(client);
+            session.addPlayer(client, startMoney);
         }
 
         for (int i = 0; i <  numAI; i++) {
-            session.addPlayer(new AIBuilder().build());
+            session.addPlayer(new AIBuilder().build(), startMoney);
         }
 
         return session;
