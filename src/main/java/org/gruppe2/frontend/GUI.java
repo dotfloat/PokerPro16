@@ -357,7 +357,6 @@ public class GUI extends Application {
 		    public void run() {
 				playerInfoBoxes.get(0).updateInfoBox(player);
 				
-				
 				getMainFrame().updateTablePot();
 				choiceBar.updatePossibleBarsToClick(player);
 				//--->

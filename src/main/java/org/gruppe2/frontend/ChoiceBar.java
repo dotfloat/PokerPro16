@@ -29,6 +29,7 @@ public class ChoiceBar {
 	Button call; 
 	Button fold; 
 	Button raise;
+	Slider raiseSlider;
 
 	public void showChoices(GUI gui, Player player) {
 		Platform.runLater(new Runnable() {
@@ -50,7 +51,7 @@ public class ChoiceBar {
 		fold = new Button("FOLD");
 		raise = new Button("RAISE");
 
-		Slider raiseSlider = new Slider(25, 5000, 50);
+		raiseSlider = new Slider(25, 5000, 50);
 		raiseSlider.setMaxWidth(gui.getWidth() * 0.23);
 		raiseSlider.setMinWidth(gui.getWidth() * 0.23);
 		Label sliderValue = new Label((int) raiseSlider.getValue() + " CHIPS");
@@ -105,7 +106,7 @@ public class ChoiceBar {
 				// raiseSlider.setMax(player.getBank());
 			}
 		});
-
+		
 		raise.setOnAction(e -> {
 			if (canFold)
 				raise(client, raiseSlider, player);
@@ -149,10 +150,9 @@ public class ChoiceBar {
 	}
 
 	private String checkMaxBid(Slider slider) {
-		if (slider.getValue() == slider.getMax())
-			return "GO ALL IN";
-		else
-			return (int) slider.getValue() + " CHIPS";
+		if (slider.getValue() == slider.getMax()) raise.setText("ALL IN");
+		else raise.setText("RAISE");
+		return (int) slider.getValue() + " CHIPS";
 	}
 
 	private void raise(GUIClient client, Slider raiseSlider, Player player) {
@@ -203,6 +203,8 @@ public class ChoiceBar {
 			raise.getStyleClass().add("buttonIllegal");
 			canCall = false;
 		}
+		raiseSlider.setMax(pa.getMaxRaise());
+		raiseSlider.setMin(pa.getMinRaise());
 	}
 
 }
