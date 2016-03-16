@@ -23,11 +23,10 @@ import java.util.List;
 
 public class PlayerInfoBox extends GridPane {
 
-
     private Label name = new Label();
     private Label chips = new Label();
     private Label currentBet = new Label();
-    private ImageView profileImage = new ImageView(new Image (getClass().getResourceAsStream("/default.png")));
+    private ImageView profileImage = new ImageView(new Image(getClass().getResourceAsStream("/default.png")));
     private Player player;
 
     public PlayerInfoBox(){
@@ -51,16 +50,7 @@ public class PlayerInfoBox extends GridPane {
         chips.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
         updatePicture();
-       
-    }
-    
 
-	public void setBackgroundRed() {
-    	this.setStyle("-fx-background-color: red;");
-    }
-    
-    public void setBackgroundBlack() {
-    	this.setStyle("-fx-background-color: black;");
     }
     
     public PlayerInfoBox(Player player){
@@ -86,7 +76,7 @@ public class PlayerInfoBox extends GridPane {
 		getStyleClass().clear();
 		getStyleClass().add("paneActive");
 	}
-	
+
 	public void setInActive() {
 		getStyleClass().clear();
 		getStyleClass().add("pane");
@@ -96,11 +86,11 @@ public class PlayerInfoBox extends GridPane {
 	}
 	 private void updatePicture() {
     	 if(player.getClient().getSession().playerHasFolded(player))
-         	profileImage.setImage(new Image 
+         	profileImage.setImage(new Image
          			(getClass().getResourceAsStream("/defaultFolded.png")));
-         else 
-         	profileImage.setImage(new Image 
+         else
+         	profileImage.setImage(new Image
          			(getClass().getResourceAsStream("/default.png")));
-		
+
 	}
 }

@@ -41,7 +41,7 @@
 	-fx-effect: innershadow( gaussian , darkgray , 2, 0, 0, 4);
 }
 
-buttonIllegal:pressed {
+.buttonIllegal:pressed {
 	-fx-background-color: gray;
 	-fx-effect: innershadow( gaussian , darkgray , 2, 0, 0, 4);
 }
