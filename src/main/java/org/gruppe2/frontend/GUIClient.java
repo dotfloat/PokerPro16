@@ -72,8 +72,10 @@ public class GUIClient extends GameClient {
 				if(gui.playerInfoBoxes == null)return;
 				for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
 					if(playerInfoBox.getPlayer() == player){
-		//				playerInfoBox
+						playerInfoBox.setActive();
 					}
+					else
+						playerInfoBox.setInActive();
 				}
 		    }});
 		
