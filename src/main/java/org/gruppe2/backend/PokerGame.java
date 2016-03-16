@@ -8,8 +8,6 @@ import java.util.List;
  */
 public class PokerGame{
     private int startChips;
-    private int smallBlindAmount;
-    private int bigBlindAmount;
     private int dealer;
     private ArrayList<Player> players;
     private Table table;
@@ -24,8 +22,6 @@ public class PokerGame{
      * Constructor for pokergame
      */
     public PokerGame(int startChips, int smallBlindAmount, int bigBlindAmount) { //parameterene startchips, smallBlind, og bigBLind er input i GUIen som brukeren skriver inn.
-        this.smallBlindAmount = smallBlindAmount;
-        this.bigBlindAmount = bigBlindAmount;
         this.startChips = startChips;
         this.dealer = 0;
 

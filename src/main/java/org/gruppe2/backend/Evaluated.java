@@ -1,10 +1,6 @@
 package org.gruppe2.backend;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.gruppe2.backend.ShowdownEvaluator.Hand;
 
 public class Evaluated implements Comparable<Evaluated> {

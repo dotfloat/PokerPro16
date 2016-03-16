@@ -1,6 +1,5 @@
 package org.gruppe2.backend;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
