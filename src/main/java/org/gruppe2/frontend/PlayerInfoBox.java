@@ -49,14 +49,12 @@ public class PlayerInfoBox extends GridPane {
         name.setText(player.getName());
         chips.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
-        if(player.getClient().getSession().playerHasFolded(player)){
-        	updateProfileImage(new ImageView(new Image 
-        			(getClass().getResourceAsStream("/defaultFolded.png"))));
-        }
+        updatePicture();
+       
     }
     
-    
-    public void setBackgroundRed() {
+
+	public void setBackgroundRed() {
     	this.setStyle("-fx-background-color: red;");
     }
     
@@ -82,11 +80,17 @@ public class PlayerInfoBox extends GridPane {
     public Label getName() {
         return name;
     }
-    public void updateProfileImage(ImageView imageView){
-    	profileImage = imageView;
-    }
-
+    
 	public Player getPlayer() {
 		return player;
+	}
+	 private void updatePicture() {
+    	 if(player.getClient().getSession().playerHasFolded(player))
+         	profileImage.setImage(new Image 
+         			(getClass().getResourceAsStream("/defaultFolded.png")));
+         else 
+         	profileImage.setImage(new Image 
+         			(getClass().getResourceAsStream("/default.png")));
+		
 	}
 }

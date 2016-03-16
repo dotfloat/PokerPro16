@@ -223,6 +223,7 @@ public class Painter extends Pane {
 	
 	
 	public void updateTablePot(){
+		
 		totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
 	}
 	

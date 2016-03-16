@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.stage.Stage;
 
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.Card;
@@ -83,7 +84,7 @@ public class GUIClient extends GameClient {
 	@Override
 	public void onRoundEnd() {
 		Platform.runLater(() -> {
-			gui.setMainFrame(gui.getMainFrame());
+			gui.setMainFrame(new Painter(gui));
 		});
 	}
 

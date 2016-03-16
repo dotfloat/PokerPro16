@@ -141,13 +141,13 @@ public class GUI extends Application {
 		System.out.println("Now:"+gameSession.getPlayers().size());
 		setChoiceBar();
 
-		Thread th = new Thread(() -> gameSession.mainLoop());
-		th.start();
+		
 	
 		mainFrame.drawPot();
 		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
 		mainFrame.paintAllPlayers(playerInfoBoxes);
-
+		Thread th = new Thread(() -> gameSession.mainLoop());
+		th.start();
 		
 	}
 
