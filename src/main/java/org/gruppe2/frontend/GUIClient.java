@@ -67,15 +67,18 @@ public class GUIClient extends GameClient {
 	}
 
 	@Override
-	public void onOtherPlayerTurn(Player player) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				if (gui.playerInfoBoxes == null)
-					return;
-				for (PlayerInfoBox playerInfoBox : gui.playerInfoBoxes) {
-					if (playerInfoBox.getPlayer() == player) {
+
+	public void onOtherPlayerTurn(Player player){
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+				if(gui.playerInfoBoxes == null)return;
+				for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
+					if(playerInfoBox.getPlayer() == player){
+						playerInfoBox.setActive();
 					}
+					else
+						playerInfoBox.setInActive();
 				}
 			}
 		});
