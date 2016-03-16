@@ -30,6 +30,7 @@ public class OtherPlayersEvaluatorTest {
 		bot = session.getPlayers().get(0);
 	}
 	
+	/*
 	@Test
 	public void onePairIsCertainIfAlreadyOnTable() {
 		ArrayList<Card> cards = new ArrayList<>();
@@ -41,6 +42,7 @@ public class OtherPlayersEvaluatorTest {
 		
 		evaluator.evaluate(session, bot);
 	}
+	*/
 	
 }
 
