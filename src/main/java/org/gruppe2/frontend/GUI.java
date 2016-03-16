@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -17,8 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import org.gruppe2.ai.AIClient;
-import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameBuilder;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
@@ -96,7 +92,6 @@ public class GUI extends Application {
 		startShow(root, scene, primaryStage, gc);
 		
 		newMainMenu(primaryStage,root);
-		
 	}
 
 	/**
@@ -365,11 +360,12 @@ public class GUI extends Application {
 		    	for( PlayerInfoBox playerInfoBox : playerInfoBoxes){
 		    		if(playerInfoBox.getPlayer() == player){
 		    			playerInfoBox.updateInfoBox(player);
+		    			getMainFrame().updateTablePot();
+						choiceBar.updatePossibleBarsToClick(player);
 		    		}
 		    	}	
 				
-				getMainFrame().updateTablePot();
-				choiceBar.updatePossibleBarsToClick(player);
+				
 				//--->
 		    }});
 	}

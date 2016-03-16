@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.Card;
 import org.gruppe2.backend.GameClient;
-import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
 
 public class GUIClient extends GameClient {
@@ -22,14 +21,13 @@ public class GUIClient extends GameClient {
 	@Override
 	public void onRoundStart() {
 		Platform.runLater(() -> {
-			gui.getMainFrame().clearCommunityCards();
 			gui.getMainFrame().paintPocketCards();
 			System.out.println("roundStartTest");
 		});
 	}
 
 	@Override
-	public Action onTurn(Player player){
+	public Action onTurn(Player player) {
 		gui.updateGUI(player);
 		Action action = null;
 		System.out.println("your turn player");
@@ -40,7 +38,7 @@ public class GUIClient extends GameClient {
 				e.printStackTrace();
 			}
 		}
-		
+
 		setAction(null);
 
 		System.out.println("Action: " + action);
@@ -55,16 +53,20 @@ public class GUIClient extends GameClient {
 	public void setAction(Action action) {
 		this.action = action;
 	}
+
 	@Override
-	public void onCommunalCards(List<Card> communalCards){
-		ArrayList<Card> communityCards =  (ArrayList<Card>) communalCards;
-		Platform.runLater(new Runnable(){
-		    @Override
-		    public void run() {
-		    	gui.getMainFrame().showCommunityCards(communityCards);
-		    }});
+	public void onCommunalCards(List<Card> communalCards) {
+		ArrayList<Card> communityCards = (ArrayList<Card>) communalCards;
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gui.getMainFrame().showCommunityCards(communityCards);
+			}
+		});
 	}
+
 	@Override
+
 	public void onOtherPlayerTurn(Player player){
 		Platform.runLater(new Runnable(){
 		    @Override
@@ -77,11 +79,19 @@ public class GUIClient extends GameClient {
 					else
 						playerInfoBox.setInActive();
 				}
-		    }});
-		
+			}
+		});
 	}
+
 	@Override
-	public void onPlayerAction(Player player, Action action){
+	public void onRoundEnd() {
+		Platform.runLater(() -> {
+			gui.setMainFrame(gui.getMainFrame());
+		});
+	}
+
+	@Override
+	public void onPlayerAction(Player player, Action action) {
 		gui.updateGUI(player);
 	}
 }
