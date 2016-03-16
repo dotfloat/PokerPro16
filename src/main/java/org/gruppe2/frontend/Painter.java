@@ -164,9 +164,9 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view2);
 		
 		view1.setLayoutX(gui.getWidth()*0.85);
-		view1.setLayoutY(gui.getHeight()*0.85);
+		view1.setLayoutY(gui.getHeight()*0.7);
 		view2.setLayoutX(gui.getWidth()*0.86);
-		view2.setLayoutY(gui.getHeight()*0.85);
+		view2.setLayoutY(gui.getHeight()*0.7);
 		
 		view1.setFitWidth(gui.getWidth()*0.1);
 		view1.setFitHeight(gui.getWidth()*0.1);
