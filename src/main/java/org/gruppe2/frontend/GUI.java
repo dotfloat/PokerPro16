@@ -117,7 +117,7 @@ public class GUI extends Application {
 	}
 	
 	public void startMainFrame(Stage primaryStage, Group root, Canvas canvas) {
-	    canvas.setHeight(height);
+	    canvas.setHeight(height_max);
 		border = new BorderPane();
 		setGUIEventHandlers(primaryStage, root);
 		
