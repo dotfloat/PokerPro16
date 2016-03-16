@@ -74,8 +74,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		int a = (int) (1920);
-		int b = (int) (1080);
+		int a = (int) (1920*0.5);
+		int b = (int) (1080*0.5);
 		setWindowSize(a,b);
 		setStep(0);
 	}
@@ -94,7 +94,7 @@ public class GUI extends Application {
 		canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 		startShow(root, scene, primaryStage, gc);
-		
+		primaryStage.setResizable(false);
 		newMainMenu(primaryStage,root);
 	}
 
@@ -117,17 +117,16 @@ public class GUI extends Application {
 	}
 	
 	public void startMainFrame(Stage primaryStage, Group root, Canvas canvas) {
-	    canvas.setHeight(height_max);
+	    canvas.setHeight(height);
 		border = new BorderPane();
 		setGUIEventHandlers(primaryStage, root);
 		
 		setMainFrame(new Painter(this));
 
 		setInitialChildrenToRoot(border, canvas, root);
-
+		
 		testGame();
 
-		
 	}
 
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
-import javafx.stage.Stage;
 
 import org.gruppe2.backend.Action;
 import org.gruppe2.backend.Card;
@@ -29,11 +28,7 @@ public class GUIClient extends GameClient {
 
 	@Override
 	public Action onTurn(Player player) {
-		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
-			if(playerInfoBox.getPlayer() == player){
-				playerInfoBox.setInActive();
-			}
-		}
+		activateAndDeactivatePlayers(gui, player);
 		gui.updateGUI(player);
 		Action action = null;
 		System.out.println("your turn player");
@@ -46,14 +41,17 @@ public class GUIClient extends GameClient {
 		}
 
 		setAction(null);
-		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
-			if(playerInfoBox.getPlayer() == player){
-				playerInfoBox.setActive();
-			}
-		}
 		System.out.println("Action: " + action);
 
 		return action;
+	}
+
+	private void activateAndDeactivatePlayers(GUI gui, Player player) {
+		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
+			if(playerInfoBox.getPlayer() == player){
+				playerInfoBox.setActive();
+			}else playerInfoBox.setInActive();
+		}
 	}
 
 	public Action getAction() {
@@ -67,12 +65,7 @@ public class GUIClient extends GameClient {
 	@Override
 	public void onCommunalCards(List<Card> communalCards) {
 		ArrayList<Card> communityCards = (ArrayList<Card>) communalCards;
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				gui.getMainFrame().showCommunityCards(communityCards);
-			}
-		});
+		Platform.runLater(() -> gui.getMainFrame().showCommunityCards(communityCards));
 	}
 
 	@Override
@@ -82,22 +75,24 @@ public class GUIClient extends GameClient {
 		    @Override
 		    public void run() {
 				if(gui.playerInfoBoxes == null)return;
-				for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
-					if(playerInfoBox.getPlayer() == player){
-						playerInfoBox.setActive();
-					}
-					else
-						playerInfoBox.setInActive();
-				}
+				activateAndDeactivatePlayers(gui, player);
 			}
 		});
 	}
-
+	/**
+	 * Resets frame, this methods needs major cleanup in next iteration.
+	 */
 	@Override
 	public void onRoundEnd() {
 		Platform.runLater(() -> {
-			gui.setMainFrame(new Painter(gui));
+			gui.getMainFrame().clearCommunityCards();
+			
 		});
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

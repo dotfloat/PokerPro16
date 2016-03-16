@@ -43,7 +43,7 @@ public class Painter extends Pane {
 	//Total pot
 	Label totalPot;
 	
-	ArrayList<Card> communityCards;
+	ArrayList<ImageView> communityImageCards;
 	
 	
 	public Painter(GUI gui) {
@@ -63,7 +63,7 @@ public class Painter extends Pane {
 
 	public void setBackGround(String name) {
 		
-		this.setStyle("-fx-background-color: #662200");
+		this.setStyle("-fx-background-color: #505050");
 		backGround = new Image(getClass().getResourceAsStream(name),600,0,true,true);
 		bg = new ImageView(backGround);
 		updateBackGround();
@@ -145,9 +145,9 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view2);
 		
 		view1.setLayoutX(gui.getWidth()*0.77);
-		view1.setLayoutY(gui.getHeight()*0.65);
+		view1.setLayoutY(gui.getHeight()*0.80);
 		view2.setLayoutX(gui.getWidth()*0.83);
-		view2.setLayoutY(gui.getHeight()*0.65);
+		view2.setLayoutY(gui.getHeight()*0.80);
 		
 		view1.setFitWidth(gui.getWidth()*0.15);
 		view1.setPreserveRatio(true);
@@ -186,11 +186,11 @@ public class Painter extends Pane {
 		if(communityCards == null) return;
 		
 		if(communityCards.size() == 0) return;
-		this.communityCards = communityCards;
+
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
-		    	
+		    	communityImageCards = new ArrayList<ImageView>();
 		    	Double cardOffset = gui.getWidth()*0.05;
 				int cardsToShow = communityCards.size();
 				for (int i = 0; i < cardsToShow; i++) {
@@ -203,32 +203,24 @@ public class Painter extends Pane {
 					cardImage.setLayoutX(gui.getWidth()*0.4 + (cardOffset*i));
 					cardImage.setLayoutY(gui.getHeight()*0.32);
 					
+					communityImageCards.add(cardImage);
 					getChildren().add(cardImage);
-//					try {
-//						Thread.sleep(500);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
+
 				}
 		    }
 		});
 	}
 	public void clearCommunityCards(){
-		if(communityCards != null){
-			if(communityCards.size() == 0) return;
+		if(communityImageCards != null){
+			if(communityImageCards.size() == 0) return;
 			else
-				Platform.runLater(new Runnable(){
-				    @Override
-				    public void run() {
-				    	getChildren().removeAll(communityCards);
-				    }});
+				gui.getMainFrame().getChildren().removeAll(communityImageCards);
+				    
 		}
 	}
 	
 	
 	public void updateTablePot(){
-		System.out.println();
 		if(totalPot != null)
 			totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
 	}

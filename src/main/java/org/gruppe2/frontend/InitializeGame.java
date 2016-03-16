@@ -61,7 +61,7 @@ public class InitializeGame {
 		Button ok = new Button("OK");
 		ok.setPrefWidth(buttonWidth);
 		ok.setPrefHeight(buttonHeight);
-
+		
 		Button cancel = new Button("CANCEL");
 		cancel.setPrefWidth(buttonWidth);
 		cancel.setPrefHeight(buttonHeight);

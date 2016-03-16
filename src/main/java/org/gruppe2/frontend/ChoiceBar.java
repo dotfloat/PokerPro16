@@ -37,8 +37,8 @@ public class ChoiceBar {
 			public void run() {
 
 				HBox hbox = new HBox(gui.getWidth() * 0.03);
+				hbox.setStyle("-fx-background-color: black; -fx-alignment: center");
 				hbox.getStyleClass().add("hbox");
-				hbox.setAlignment(Pos.CENTER);
 				createGrid(gui, hbox, player);
 			}
 		});
