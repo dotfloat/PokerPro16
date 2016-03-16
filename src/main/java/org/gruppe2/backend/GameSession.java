@@ -11,8 +11,6 @@ public class GameSession {
     private int bigBlindAmount = 10;
     private int highestBet;
     private int button;
-    private int smallBlind;
-    private int bigBlind;
 
     public GameSession() {
 
@@ -58,15 +56,11 @@ public class GameSession {
     private void matchLoop() {
         startNewMatch();
         button = 0;
-        smallBlind = 1;
-        bigBlind = 2;
 
-        Player smallBlindPayer = activePlayers.get(smallBlind);
-        doPlayerAction(new Action.PaySmallBlind(), smallBlindPayer);
+        doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
         //  notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
-        Player bigBlindPayer = activePlayers.get(bigBlind);
-        doPlayerAction(new Action.PayBigBlind(), bigBlindPayer);
+        doPlayerAction(new Action.PayBigBlind(), getBigBlindPlayer());
     //    notifyOtherPlayersAboutAction(bigBlindPayer, blind);
 
         notifyRoundStart();
@@ -106,7 +100,7 @@ public class GameSession {
             }
         }
 
-        for (int current = smallBlind-1; !activePlayers.isEmpty(); current++) {
+        for (int current = button; !activePlayers.isEmpty(); current++) {
             int currentPlayerIdx = (current + 1) % activePlayers.size();
             Player player = activePlayers.get(currentPlayerIdx);
 
@@ -316,6 +310,22 @@ public class GameSession {
             actions.setRaise(1, maxRaise);
 
         return actions;
+    }
+
+    public int getSmallBlindIdx() {
+        return (button + 1) % players.size();
+    }
+
+    public int getBigBlindIdx() {
+        return (button + 2) % players.size();
+    }
+
+    public Player getSmallBlindPlayer() {
+        return players.get(getSmallBlindIdx());
+    }
+
+    public Player getBigBlindPlayer() {
+        return players.get(getBigBlindIdx());
     }
 
     public boolean playerHasFolded(Player player){
