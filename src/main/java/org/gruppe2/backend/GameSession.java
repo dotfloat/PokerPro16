@@ -14,6 +14,15 @@ public class GameSession {
     private int smallBlind;
     private int bigBlind;
 
+    public GameSession() {
+
+    }
+
+    public GameSession(int smallBlind, int bigBlind) {
+        this.smallBlindAmount = smallBlind;
+        this.bigBlindAmount = bigBlind;
+    }
+
     public int getSmallBlindAmount() {
         return smallBlindAmount;
     }
@@ -41,6 +50,7 @@ public class GameSession {
     }
 
     public void addPlayer(String name, GameClient client) {
+        client.setSession(this);
         Player player = new Player(name, 100, client);
         players.add(player);
     }

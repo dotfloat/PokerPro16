@@ -4,7 +4,11 @@ import java.util.List;
 
 @SuppressWarnings("UnusedParameters")
 public class GameClient {
-    private GameSession session;
+    private GameSession session = null;
+
+    public GameClient() {
+
+    }
 
     public GameClient(GameSession session) {
         this.session = session;
@@ -89,5 +93,9 @@ public class GameClient {
 
     public GameSession getSession() {
         return session;
+    }
+
+    public void setSession(GameSession session) {
+        this.session = session;
     }
 }
