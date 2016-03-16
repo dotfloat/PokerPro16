@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -338,7 +340,6 @@ public class GUI extends Application {
 	public void updateStageDimensions(){
 		scene.getWindow().setWidth(getWidth());
 		scene.getWindow().setHeight(getHeight());
-		
 		scene.getWindow().sizeToScene();
 	}
 
@@ -357,9 +358,10 @@ public class GUI extends Application {
 		    public void run() {
 		    	
 				playerInfoBoxes.get(0).updateInfoBox(player);
+				
+				
 				getMainFrame().updateTablePot();
 				choiceBar.updatePossibleBarsToClick(player);
-				getMainFrame().checkForFoldedPlayers(playerInfoBoxes);
 				//--->
 		    }});
 	}

@@ -1,7 +1,6 @@
 package org.gruppe2.frontend;
 
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -53,7 +52,6 @@ public class MakeButtons {
 				System.exit(0);
 			}
 		});
-		
 		
 		// Add to parrent scene
 		grid.add(restart, 1, 1);

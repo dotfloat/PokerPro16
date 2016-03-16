@@ -47,6 +47,9 @@ public class PlayerInfoBox extends GridPane {
         name.setText(player.getName());
         chips.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
+        if(player.getClient().getSession().playerHasFolded(player)){
+        	updateProfileImage(new ImageView(new Image (getClass().getResourceAsStream("/defaultFolded.png"))));
+        }
     }
     public PlayerInfoBox(Player player){
         this();
