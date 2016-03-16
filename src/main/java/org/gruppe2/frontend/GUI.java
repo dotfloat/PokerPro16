@@ -127,7 +127,6 @@ public class GUI extends Application {
 
 		testGame();
 
-		
 	}
 
 

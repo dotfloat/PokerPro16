@@ -92,12 +92,20 @@ public class GUIClient extends GameClient {
 			}
 		});
 	}
-
+	/**
+	 * Resets frame, this methods needs major cleanup in next iteration.
+	 */
 	@Override
 	public void onRoundEnd() {
 		Platform.runLater(() -> {
-			gui.setMainFrame(new Painter(gui));
+			gui.getMainFrame().clearCommunityCards();
+			
 		});
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
