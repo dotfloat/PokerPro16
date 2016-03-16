@@ -58,6 +58,10 @@ public class Player {
         return client;
     }
 
+    public void addToBank(int chips){
+        bank += chips;
+    }
+
     public int getTablePosition() {
         return tablePosition;
     }

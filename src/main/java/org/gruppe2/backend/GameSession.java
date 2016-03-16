@@ -71,6 +71,8 @@ public class GameSession {
             if (numActivePlayers() == 1) {
                 for (Player p : activePlayers) {
                     if (p != null) {
+                        p.addToBank(table.getPot());
+                        table.resetPot();
                         notifyPlayerVictory(p);
                         break;
                     }
