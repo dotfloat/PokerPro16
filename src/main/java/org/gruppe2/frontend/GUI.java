@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -17,8 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import org.gruppe2.ai.AIClient;
-import org.gruppe2.backend.Card;
+import org.gruppe2.backend.GameBuilder;
 import org.gruppe2.backend.GameSession;
 import org.gruppe2.backend.Player;
 
@@ -40,7 +37,7 @@ public class GUI extends Application {
 	
 	private static int scale = 100;
 	private int step;
-	private GUIClient client;
+	
 	//booleans
 	private boolean paused;
 	
@@ -57,8 +54,16 @@ public class GUI extends Application {
 	private AnimationTimer timer;
 
 	//Game
-	GameSession gameSession;
+	GameSession gameSession = null;
+	GUIClient client = new GUIClient(this);
+	
+	
 	ArrayList<PlayerInfoBox> playerInfoBoxes;
+	public int startValue;
+	public int smallBlind;
+	public int bigBlind;
+	public String meName;
+	
 	public GUI() {}
 
 	
@@ -69,8 +74,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		int a = (int) (1920*0.8);
-		int b = (int) (1080*0.8);
+		int a = (int) (1920);
+		int b = (int) (1080);
 		setWindowSize(a,b);
 		setStep(0);
 	}
@@ -91,7 +96,6 @@ public class GUI extends Application {
 		startShow(root, scene, primaryStage, gc);
 		
 		newMainMenu(primaryStage,root);
-
 	}
 
 	/**
@@ -120,32 +124,30 @@ public class GUI extends Application {
 		setMainFrame(new Painter(this));
 
 		setInitialChildrenToRoot(border, canvas, root);
+
 		testGame();
 
-		getMainFrame().paintPocketCards();
+		
 	}
 
 
 
 
 	private void testGame() {
-		gameSession = new GameSession();
-		client = new GUIClient(gameSession, this);
 
-		gameSession.addPlayer("Anne", new AIClient(gameSession));
-		gameSession.addPlayer("Bob", new AIClient(gameSession));
-        gameSession.addPlayer("Chuck", new AIClient(gameSession));
-        gameSession.addPlayer("Dennis", new AIClient(gameSession));
-        gameSession.addPlayer("Emma", new AIClient(gameSession));
-		Thread th = new Thread(client);
-		th.start();
-		
-
+		gameSession = new GameBuilder()
+				.ai(5)
+				.blinds(bigBlind, smallBlind)
+				.startMoney(startValue)
+				.mainClient(client)
+				.build();
+		setChoiceBar();
 	
 		mainFrame.drawPot();
 		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
 		mainFrame.paintAllPlayers(playerInfoBoxes);
-		setChoiceBar();
+		Thread th = new Thread(() -> gameSession.mainLoop());
+		th.start();
 		
 	}
 
@@ -355,11 +357,15 @@ public class GUI extends Application {
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
-				playerInfoBoxes.get(0).updateInfoBox(player);
+		    	for( PlayerInfoBox playerInfoBox : playerInfoBoxes){
+		    		if(playerInfoBox.getPlayer() == player){
+		    			playerInfoBox.updateInfoBox(player);
+		    			getMainFrame().updateTablePot();
+						choiceBar.updatePossibleBarsToClick(player);
+		    		}
+		    	}	
 				
 				
-				getMainFrame().updateTablePot();
-				choiceBar.updatePossibleBarsToClick(player);
 				//--->
 		    }});
 	}

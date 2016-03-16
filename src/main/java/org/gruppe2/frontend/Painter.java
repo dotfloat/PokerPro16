@@ -12,15 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import org.gruppe2.backend.Card;
-import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.Player;
-import org.gruppe2.backend.PokerGame;
 /**
  * Class that paints the objects.
  * @author htj063
@@ -46,6 +42,8 @@ public class Painter extends Pane {
 	
 	//Total pot
 	Label totalPot;
+	
+	ArrayList<Card> communityCards;
 	
 	
 	public Painter(GUI gui) {
@@ -130,32 +128,15 @@ public class Painter extends Pane {
 		}
 	}
 	
-	public void reDraw(){
-		Platform.runLater(new Runnable(){
-		    @Override
-		    public void run() {
-				
-				getChildren().remove(playerPosition0);
-				getChildren().remove(playerPosition1);
-				getChildren().remove(playerPosition2);
-				getChildren().remove(playerPosition3);
-				getChildren().remove(playerPosition4);
-				getChildren().remove(playerPosition5);
-				
-//				setPlayersToTable(gui.pokerGame, gui);
-		    }
-		});
-	}
-	
-	
 	
 	/**
 	 * Get players card, and place on top (last) in scene
 	 * 
 	 */
 	public void paintPocketCards() {
-		Card card1 = new Card(6, Suit.HEARTS);
-		Card card2 = new Card(5, Suit.HEARTS);
+		Player player = gui.client.getSession().getPlayers().get(0);
+		Card card1 = player.getCard1();
+		Card card2 = player.getCard2();
 		
 		ImageView view1 = createCardImage(card1);
 		ImageView view2 = createCardImage(card2);
@@ -163,18 +144,18 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view1);
 		gui.root.getChildren().add(view2);
 		
-		view1.setLayoutX(gui.getWidth()*0.85);
-		view1.setLayoutY(gui.getHeight()*0.85);
-		view2.setLayoutX(gui.getWidth()*0.86);
-		view2.setLayoutY(gui.getHeight()*0.85);
+		view1.setLayoutX(gui.getWidth()*0.77);
+		view1.setLayoutY(gui.getHeight()*0.65);
+		view2.setLayoutX(gui.getWidth()*0.83);
+		view2.setLayoutY(gui.getHeight()*0.65);
 		
-		view1.setFitWidth(gui.getWidth()*0.1);
-		view1.setFitHeight(gui.getWidth()*0.1);
-		view2.setFitWidth(gui.getWidth()*0.1);
-		view2.setFitHeight(gui.getWidth()*0.1);
+		view1.setFitWidth(gui.getWidth()*0.15);
+		view1.setPreserveRatio(true);
+		view2.setFitWidth(gui.getWidth()*0.15);
+		view2.setPreserveRatio(true);
 		
-		view1.setRotate(340);
-		view2.setRotate(0);
+		view1.setRotate(350);
+		view2.setRotate(5);
 		
 	}
 	
@@ -202,6 +183,10 @@ public class Painter extends Pane {
 
 
 	public void showCommunityCards(ArrayList<Card> communityCards) {
+		if(communityCards == null) return;
+		
+		if(communityCards.size() == 0) return;
+		this.communityCards = communityCards;
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
@@ -216,16 +201,36 @@ public class Painter extends Pane {
 					cardImage.setFitHeight(gui.getWidth()*0.045);
 					
 					cardImage.setLayoutX(gui.getWidth()*0.4 + (cardOffset*i));
-					cardImage.setLayoutY(gui.getHeight()*0.4);
+					cardImage.setLayoutY(gui.getHeight()*0.32);
 					
 					getChildren().add(cardImage);
+//					try {
+//						Thread.sleep(500);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 		    }
 		});
 	}
+	public void clearCommunityCards(){
+		if(communityCards != null){
+			if(communityCards.size() == 0) return;
+			else
+				Platform.runLater(new Runnable(){
+				    @Override
+				    public void run() {
+				    	getChildren().removeAll(communityCards);
+				    }});
+		}
+	}
+	
 	
 	public void updateTablePot(){
-		totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
+		System.out.println();
+		if(totalPot != null)
+			totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
 	}
 	
 	public void playerWon(Player player){

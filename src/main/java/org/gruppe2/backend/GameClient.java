@@ -4,11 +4,8 @@ import java.util.List;
 
 @SuppressWarnings("UnusedParameters")
 public class GameClient {
-    private GameSession session;
-
-    public GameClient(GameSession session) {
-        this.session = session;
-    }
+    private GameSession session = null;
+    private volatile String name = "Noname";
 
     /* Session events */
 
@@ -74,6 +71,13 @@ public class GameClient {
     public void onOtherPlayerAction(Player otherPlayer, Action action) {}
 
     /**
+     * Called after the player has decided on an action.
+     * @param player
+     * @param action
+     */
+    public void onPlayerAction(Player player, Action action){}
+
+    /**
      * Called when cards are added to the communal cards.
      * @param board
      * @param newCards
@@ -82,5 +86,17 @@ public class GameClient {
 
     public GameSession getSession() {
         return session;
+    }
+
+    public void setSession(GameSession session) {
+        this.session = session;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

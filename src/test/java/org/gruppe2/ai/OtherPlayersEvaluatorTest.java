@@ -23,8 +23,8 @@ public class OtherPlayersEvaluatorTest {
 	public void generate() {
 		evaluator = new OtherPlayersEvaluator();
 		session = new GameSessionMock();
-		session.addPlayer("Mock", new GameClient(session));
-		session.addPlayer("Mock2", new GameClient(session));
+//		session.addPlayer("Mock", new GameClient(session));
+//		session.addPlayer("Mock2", new GameClient(session));
 		session.getPlayers().get(0).setCards(new Card(5, Suit.CLUBS), new Card(3, Suit.DIAMONDS));
 		session.getTable().drawCommunityCards(1);
 		bot = session.getPlayers().get(0);

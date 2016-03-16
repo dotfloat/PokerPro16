@@ -4,11 +4,16 @@ import javafx.geometry.Pos;
 import org.gruppe2.backend.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class AIClient extends GameClient {
-    public AIClient(GameSession session) {
-        super(session);
+    private static final List<String> names = Arrays.asList("Anne", "Bob", "Chuck", "Dennis", "Emma");
+
+    public AIClient() {
+        Random rand = new Random();
+        setName(names.get(rand.nextInt(names.size())));
     }
 
     @Override
@@ -44,6 +49,8 @@ public class AIClient extends GameClient {
                 return new Action.Check();
 
             case raise:
+                if (actions.getMinRaise() == actions.getMaxRaise())
+                    return new Action.Raise(actions.getMaxRaise());
                 return new Action.Raise(rand.nextInt(actions.getMaxRaise() - actions.getMinRaise()) + actions.getMinRaise());
 
             default:

@@ -7,12 +7,19 @@ public class GameSession {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
     private Table table = new Table();
-    private int smallBlindAmount = 5;
-    private int bigBlindAmount = 10;
+    private int smallBlindAmount;
+    private int bigBlindAmount;
     private int highestBet;
     private int button;
-    private int smallBlind;
-    private int bigBlind;
+
+    public GameSession() {
+
+    }
+
+    public GameSession(int smallBlind, int bigBlind) {
+        this.smallBlindAmount = smallBlind;
+        this.bigBlindAmount = bigBlind;
+    }
 
     public int getSmallBlindAmount() {
         return smallBlindAmount;
@@ -40,23 +47,20 @@ public class GameSession {
         }
     }
 
-    public void addPlayer(String name, GameClient client) {
-        Player player = new Player(name, 100, client);
+    public void addPlayer(GameClient client, int startMoney) {
+        client.setSession(this);
+        Player player = new Player(client.getName(), startMoney, client);
         players.add(player);
     }
 
     private void matchLoop() {
-        StartNewMatch();
+        startNewMatch();
         button = 0;
-        smallBlind = 1;
-        bigBlind = 2;
 
-        Player smallBlindPayer = activePlayers.get(smallBlind);
-        doPlayerAction(new Action.PaySmallBlind(), smallBlindPayer);
+        doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
         //  notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
-        Player bigBlindPayer = activePlayers.get(bigBlind);
-        doPlayerAction(new Action.PayBigBlind(), bigBlindPayer);
+        doPlayerAction(new Action.PayBigBlind(), getBigBlindPlayer());
     //    notifyOtherPlayersAboutAction(bigBlindPayer, blind);
 
         notifyRoundStart();
@@ -64,13 +68,15 @@ public class GameSession {
         for (int i = 0; i < 4; i++){
             table.drawCommunityCards(i);
 
-            players.get(button).getClient().onCommunalCards(table.getCommunityCards());
+            notifyAllPlayersAboutCommunityCards(table.getCommunityCards());
 
             turnLoop();
 
             if (numActivePlayers() == 1) {
                 for (Player p : activePlayers) {
                     if (p != null) {
+                        p.addToBank(table.getPot());
+                        table.resetPot();
                         notifyPlayerVictory(p);
                         break;
                     }
@@ -94,7 +100,7 @@ public class GameSession {
             }
         }
 
-        for (int current = smallBlind-1; !activePlayers.isEmpty(); current++) {
+        for (int current = button; !activePlayers.isEmpty(); current++) {
             int currentPlayerIdx = (current + 1) % activePlayers.size();
             Player player = activePlayers.get(currentPlayerIdx);
 
@@ -117,7 +123,7 @@ public class GameSession {
             else if (action instanceof Action.Call)
                 doPlayerAction(action, player);
 
-            notifyOtherPlayersAboutAction(player, action);
+            notifyAllPlayersAboutAction(player, action);
 
             if (lastRaiserIndex == currentPlayerIdx && !(action instanceof Action.Raise))
                 break;
@@ -131,7 +137,7 @@ public class GameSession {
 
     }
 
-    private void StartNewMatch(){
+    private void startNewMatch(){
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
         highestBet = 0;
@@ -196,6 +202,16 @@ public class GameSession {
                 playerToNotify.getClient().onOtherPlayerAction(player, action);
             }
         }
+    }
+
+    private void notifyAllPlayersAboutAction(Player player, Action action){
+        for(Player playerToNotify : players)
+            playerToNotify.getClient().onPlayerAction(player, action);
+    }
+
+    private void notifyAllPlayersAboutCommunityCards(List<Card> communityCards){
+        for (Player playersToNotify : players)
+            playersToNotify.getClient().onCommunalCards(communityCards);
     }
 
     //TODO: Code to perform actions
@@ -285,15 +301,31 @@ public class GameSession {
 
         if (player.getBet() == highestBet)
             actions.setCheck();
-        if (player.getBank() > highestBet - player.getBet()){
-            int maxRaise = player.getBank() + player.getBet() - highestBet;
-            if (maxRaise > 0)
-                actions.setRaise(1, maxRaise);
+        if (player.getBank() >= highestBet - player.getBet()){
             if (highestBet - player.getBet() != 0)
                 actions.setCall();
         }
+        int maxRaise = player.getBank() + player.getBet() - highestBet;
+        if (maxRaise > 0)
+            actions.setRaise(1, maxRaise);
 
         return actions;
+    }
+
+    public int getSmallBlindIdx() {
+        return (button + 1) % players.size();
+    }
+
+    public int getBigBlindIdx() {
+        return (button + 2) % players.size();
+    }
+
+    public Player getSmallBlindPlayer() {
+        return players.get(getSmallBlindIdx());
+    }
+
+    public Player getBigBlindPlayer() {
+        return players.get(getBigBlindIdx());
     }
 
     public boolean playerHasFolded(Player player){

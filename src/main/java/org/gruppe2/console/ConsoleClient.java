@@ -9,8 +9,8 @@ import java.util.Scanner;
 public class ConsoleClient extends GameClient {
     Scanner in = new Scanner(System.in);
 
-    public ConsoleClient(GameSession session) {
-        super(session);
+    public ConsoleClient() {
+        setName("ConsoleClient");
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ConsoleClient extends GameClient {
     }
 
     @Override
-    public void onOtherPlayerAction(Player player, Action action) {
+    public void onPlayerAction(Player player, Action action) {
         System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), player.getBet());
 
         if (action instanceof Action.Fold) {
@@ -87,13 +87,12 @@ public class ConsoleClient extends GameClient {
     }
 
     public static void main(String[] args) {
-        GameSession session = new GameSession();
-        session.addPlayer("ConsoleClient", new ConsoleClient(session));
-        session.addPlayer("Anne", new AIClient(session));
-        session.addPlayer("Bob", new AIClient(session));
-        session.addPlayer("Chuck", new AIClient(session));
-        session.addPlayer("Dennis", new AIClient(session));
-        session.addPlayer("Emma", new AIClient(session));
-        session.mainLoop();
+        new GameBuilder()
+                .ai(5)
+                .blinds(15, 7)
+                .startMoney(1000)
+                .mainClient(new ConsoleClient())
+                .build()
+                .mainLoop();
     }
 }

@@ -37,18 +37,13 @@ public class MainMenu extends Pane {
 		Button singlePlayer = new Button("SINGLE PLAYER");
 		Button settings = new Button("SETTINGS");
 
-		createTable.getStyleClass().add("buttonMenu");
-		joinTable.getStyleClass().add("buttonMenu");
-		singlePlayer.getStyleClass().add("buttonMenu");
-		settings.getStyleClass().add("buttonMenu");
-
-		//want to this with css, but haven't found out how just yet
+		//want to do this with css, but haven't found out how just yet
 		createTable.setPrefWidth(buttonWidth);
 		joinTable.setPrefWidth(buttonWidth);
 		singlePlayer.setPrefWidth(buttonWidth);
 		settings.setPrefWidth(buttonWidth);
 
-		//want to this with css, but haven't found out how just yet
+		//want to do this with css, but haven't found out how just yet
 		createTable.setPrefHeight(buttonHeight);
 		joinTable.setPrefHeight(buttonHeight);
 		singlePlayer.setPrefHeight(buttonHeight);
@@ -60,10 +55,8 @@ public class MainMenu extends Pane {
 		vbox.setLayoutX(gui.getWidth()*0.5 - buttonWidth*0.5);
 		vbox.setLayoutY(gui.getHeight()*0.5 + buttonHeight*3);
 
-		
 		this.getChildren().add(vbox);
 		root.getChildren().add(this);
-	
 	}
 
 	private void setActionOnButtons(Button createTable, Button joinTable,

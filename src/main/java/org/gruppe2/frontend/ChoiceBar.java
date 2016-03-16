@@ -29,13 +29,14 @@ public class ChoiceBar {
 	Button call; 
 	Button fold; 
 	Button raise;
+	Slider raiseSlider;
 
 	public void showChoices(GUI gui, Player player) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 
-				HBox hbox = new HBox(gui.getWidth() * 0.025);
+				HBox hbox = new HBox(gui.getWidth() * 0.03);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
 				createGrid(gui, hbox, player);
@@ -50,17 +51,17 @@ public class ChoiceBar {
 		fold = new Button("FOLD");
 		raise = new Button("RAISE");
 
-		Slider raiseSlider = new Slider(25, 5000, 50);
+		raiseSlider = new Slider(25, 5000, 50);
 		raiseSlider.setMaxWidth(gui.getWidth() * 0.23);
 		raiseSlider.setMinWidth(gui.getWidth() * 0.23);
 		Label sliderValue = new Label((int) raiseSlider.getValue() + " CHIPS");
-		sliderValue.setMinWidth(gui.getWidth() * 0.15);
-		sliderValue.setMaxWidth(gui.getWidth() * 0.15);
+		sliderValue.setMinWidth(gui.getWidth() * 0.08);
+		sliderValue.setMaxWidth(gui.getWidth() * 0.08);
 
 		Label showCards = new Label(""); // Label that creates space, does
 											// nothing else
-		showCards.setMinWidth(gui.getWidth() * 0.2);
-		showCards.setMaxWidth(gui.getWidth() * 0.2);
+		showCards.setMinWidth(gui.getWidth() * 0.25);
+		showCards.setMaxWidth(gui.getWidth() * 0.25);
 
 		setButtonAction(raiseSlider, check, call, raise, fold, player,
 				sliderValue, gui.getClient());
@@ -70,25 +71,27 @@ public class ChoiceBar {
 
 		setKeyListener(check, call, fold, raise, gui, gui.getClient(), raiseSlider, player);
 
-		gui.getBorder().setBottom(hbox);
+		gui.border.setBottom(hbox);
 	}
 
 	private void setButtonAction(Slider raiseSlider, Button check, Button call,
 			Button raise, Button fold, Player player, Label sliderValue,
 			GUIClient client) {
-
+		ChoiceBar This = this;
+		
 		check.setOnAction(e -> {
-			if (canCheck)
-				client.setAction(new Action.Check());
+			if (This.canCheck){
+				client.setAction(new Action.Check()); 
+			}
 		});
 
 		call.setOnAction(e -> {
-			if (canCall)
+			if (This.canCall)
 				client.setAction(new Action.Call());
 		});
 
 		fold.setOnAction(e -> {
-			if (canFold)
+			if (This.canFold)
 				client.setAction(new Action.Fold());
 		});
 
@@ -100,14 +103,11 @@ public class ChoiceBar {
 			public void changed(ObservableValue<? extends Number> observable,
 					Number oldValue, Number newValue) {
 				sliderValue.textProperty().setValue(checkMaxBid(raiseSlider));
-				// uncomment when there is an actual player
-				// raiseSlider.setMin(player.getBank());
-				// raiseSlider.setMax(player.getBank());
 			}
 		});
-
+		
 		raise.setOnAction(e -> {
-			if (canFold)
+			if (This.canFold)
 				raise(client, raiseSlider, player);
 		});
 
@@ -149,10 +149,9 @@ public class ChoiceBar {
 	}
 
 	private String checkMaxBid(Slider slider) {
-		if (slider.getValue() == slider.getMax())
-			return "GO ALL IN";
-		else
-			return (int) slider.getValue() + " CHIPS";
+		if (slider.getValue() == slider.getMax()) raise.setText("ALL IN");
+		else raise.setText("RAISE");
+		return (int) slider.getValue() + " CHIPS";
 	}
 
 	private void raise(GUIClient client, Slider raiseSlider, Player player) {
@@ -165,8 +164,8 @@ public class ChoiceBar {
 	}
 
 	private void setHBoxSize(HBox hbox, GUI gui) {
-		hbox.setMinHeight(gui.getHeight() * 0.055);
-		hbox.setMaxHeight(gui.getHeight() * 0.055);
+		hbox.setMinHeight(gui.getHeight() * 0.06);
+		hbox.setMaxHeight(gui.getHeight() * 0.06);
 		// hbox.setMinHeight(70);
 		// hbox.setMaxHeight(70);
 
@@ -181,6 +180,10 @@ public class ChoiceBar {
 	public void updatePossibleBarsToClick(Player player) {
 		PossibleActions pa = player.getClient().getSession()
 				.getPlayerOptions(player);
+//		call.getStyleClass().remove(0);
+//		check.getStyleClass().remove(0);
+//		fold.getStyleClass().remove(0);
+//		raise.getStyleClass().remove(0);
 		if (pa.canCall()) {
 			call.getStyleClass().add("button");
 			canCall = true;
@@ -191,18 +194,20 @@ public class ChoiceBar {
 		}
 		if (pa.canCheck()) {
 			check.getStyleClass().add("button");
-			canCall = true;
+			canCheck = true;
 		} else {
 			check.getStyleClass().add("buttonIllegal");
-			canCall = false;
+			canCheck = false;
 		}
 		if (pa.canRaise()) {
 			raise.getStyleClass().add("button");
-			canCall = true;
+			canRaise = true;
 		} else {
 			raise.getStyleClass().add("buttonIllegal");
-			canCall = false;
+			canRaise = false;
 		}
+		raiseSlider.setMax(pa.getMaxRaise());
+		raiseSlider.setMin(pa.getMinRaise());
 	}
 
 }

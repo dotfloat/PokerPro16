@@ -4,8 +4,6 @@ import javafx.scene.layout.VBox;
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Player;
 
-import com.sun.security.ntlm.Client;
-
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -72,7 +70,7 @@ public class InitializeGame {
 
 		vBox.setLayoutX(gui.getWidth()*0.5 - buttonWidth*0.5);
 		vBox.setLayoutY(gui.getHeight()*0.5 + buttonHeight);
-		vBox.getChildren().addAll(nameField, smallBlindField, bigBlindField, startMoneyField, cancel, ok);
+		vBox.getChildren().addAll(nameField, smallBlindField, bigBlindField, startMoneyField, ok, cancel);
 		
 //		setUpEmptyPot(pokerGame);
 		root.getChildren().add(vBox);
@@ -87,15 +85,19 @@ public class InitializeGame {
 				if (moneyFieldsAreValid(startMoneyField, bigBlindField,
 						smallBlindField)) {
 					gui.root.getChildren().remove(vBox);
-					gui.startMainFrame(primaryStage,gui.root, gui.canvas);
+					
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
 					
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
-					gui.getClient().getSession().addPlayer(name, gui.getClient());
-					gui.getClient().getSession().getPlayers().get(0).setBank(startValue);
-//					gui.getClient().getSession().	
+					gui.meName = name;
+					gui.startValue = startValue;
+					gui.smallBlind = smallBlind;
+					gui.bigBlind = bigBlind;
+					
+					gui.startMainFrame(primaryStage,gui.root, gui.canvas); //THIS IS START!!!!
+
 				}
 			}
 		});
