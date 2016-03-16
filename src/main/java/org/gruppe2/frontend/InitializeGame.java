@@ -91,11 +91,10 @@ public class InitializeGame {
 					
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
-					
-//					gui.getClient().getSession().addPlayer(name, gui.getClient());
-					
-//					gui.getClient().getSession().getPlayers().get(0).setBank(startValue);
-//					gui.getClient().getSession().	
+					gui.startValue = startValue;
+					gui.smallBlind = smallBlind;
+					gui.bigBlind = bigBlind;
+
 				}
 			}
 		});

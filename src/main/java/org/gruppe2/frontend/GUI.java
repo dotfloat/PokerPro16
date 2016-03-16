@@ -59,6 +59,9 @@ public class GUI extends Application {
 	
 	
 	ArrayList<PlayerInfoBox> playerInfoBoxes;
+	public int startValue;
+	public int smallBlind;
+	public int bigBlind;
 	
 	public GUI() {}
 
@@ -133,8 +136,8 @@ public class GUI extends Application {
 
 		gameSession = new GameBuilder()
 				.ai(5)
-				.blinds(10, 5)
-				.startMoney(100)
+				.blinds(bigBlind, smallBlind)
+				.startMoney(startValue)
 				.mainClient(client)
 				.build();
 

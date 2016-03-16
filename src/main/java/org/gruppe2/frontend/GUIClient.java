@@ -29,6 +29,11 @@ public class GUIClient extends GameClient {
 
 	@Override
 	public Action onTurn(Player player) {
+		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
+			if(playerInfoBox.getPlayer() == player){
+				playerInfoBox.setInActive();
+			}
+		}
 		gui.updateGUI(player);
 		Action action = null;
 		System.out.println("your turn player");
@@ -41,7 +46,11 @@ public class GUIClient extends GameClient {
 		}
 
 		setAction(null);
-
+		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
+			if(playerInfoBox.getPlayer() == player){
+				playerInfoBox.setActive();
+			}
+		}
 		System.out.println("Action: " + action);
 
 		return action;
