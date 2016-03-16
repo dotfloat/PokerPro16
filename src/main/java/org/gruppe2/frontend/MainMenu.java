@@ -29,17 +29,36 @@ public class MainMenu extends Pane {
 
 	private void setButtons(Group root, GUI gui, Stage primaryStage) {
 		gui.canvas.setHeight(gui.getHeight());
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(10);
+		double buttonWidth = gui.getWidth()*0.4;
+		double buttonHeight = gui.getHeight()*0.05;
 		Button createTable = new Button("CREATE TABLE");
 		Button joinTable = new Button("JOIN TABLE");
 		Button singlePlayer = new Button("SINGLE PLAYER");
 		Button settings = new Button("SETTINGS");
+
+		createTable.getStyleClass().add("buttonMenu");
+		joinTable.getStyleClass().add("buttonMenu");
+		singlePlayer.getStyleClass().add("buttonMenu");
+		settings.getStyleClass().add("buttonMenu");
+
+		//want to this with css, but haven't found out how just yet
+		createTable.setPrefWidth(buttonWidth);
+		joinTable.setPrefWidth(buttonWidth);
+		singlePlayer.setPrefWidth(buttonWidth);
+		settings.setPrefWidth(buttonWidth);
+
+		//want to this with css, but haven't found out how just yet
+		createTable.setPrefHeight(buttonHeight);
+		joinTable.setPrefHeight(buttonHeight);
+		singlePlayer.setPrefHeight(buttonHeight);
+		settings.setPrefHeight(buttonHeight);
 		
 		setActionOnButtons(createTable, joinTable, singlePlayer, settings, gui , root, vbox, primaryStage);
 		vbox.getChildren().addAll(createTable,joinTable,singlePlayer,settings);
 		
-		vbox.setLayoutX(gui.getWidth()/2 - vbox.getWidth());
-		vbox.setLayoutY(gui.getHeight()/2 + gui.getHeight()*0.2);
+		vbox.setLayoutX(gui.getWidth()*0.5 - vbox.getWidth());
+		vbox.setLayoutY(gui.getHeight()*0.5);
 		vbox.setAlignment(Pos.CENTER);
 		
 		

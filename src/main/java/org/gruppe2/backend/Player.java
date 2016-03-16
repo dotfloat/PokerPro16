@@ -4,6 +4,7 @@ public class Player {
     private String name;
     private int bank;
     private int bet;
+    private int tablePosition;
     private Card card0;
     private Card card1;
     private GameClient client;
@@ -55,5 +56,13 @@ public class Player {
 
     public GameClient getClient() {
         return client;
+    }
+
+    public int getTablePosition() {
+        return tablePosition;
+    }
+
+    public void setTablePosition(int tablePosition) {
+        this.tablePosition = tablePosition;
     }
 }

@@ -26,6 +26,20 @@
 	-fx-background-color: #009933;
 	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
 }
+.buttonIllegal {
+	-fx-position-shape: false;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font: 20px "sans-serif";
+	-fx-background-color: gray;
+	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
+}
+
+.buttonMenu {
+	-fx-hgap: 10px;
+	-fx-alignment: center;
+}
+
 .choice-box {
 	-fx-position-shape: false;
 	-fx-text-fill: white;

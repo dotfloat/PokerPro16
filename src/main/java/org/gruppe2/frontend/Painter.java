@@ -281,7 +281,7 @@ public class Painter extends Pane {
 
 	public void paintAllPlayers(List<PlayerInfoBox> playerInfoBoxes){
 		double xStep = gui.getWidth()/15;
-		double yStep = gui.getHeight()/10;
+		double yStep = gui.getHeight()/11;
 		double y = 10;
 		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*2, y);
 		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*6.5, y);

@@ -63,13 +63,6 @@ public class PlayerInfoBox extends GridPane {
         return playerInfoBoxes;
     }
 
-    public boolean isFull(ArrayList<PlayerInfoBox> playerInfoBoxes) {
-        for (PlayerInfoBox p : playerInfoBoxes) {
-            if (p.getName() == null) return false;
-        }
-        return true;
-    }
-
     public Label getName() {
         return name;
     }

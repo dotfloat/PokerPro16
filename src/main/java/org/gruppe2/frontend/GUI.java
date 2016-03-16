@@ -53,7 +53,7 @@ public class GUI extends Application {
 	Group root;
 	// Light, timer, mousehandler
 	private AnimationTimer timer;
-	
+
 	//Game
 	GameSession gameSession;
 	ArrayList<PlayerInfoBox> playerInfoBoxes;
@@ -91,7 +91,7 @@ public class GUI extends Application {
 		newMainMenu(primaryStage,root);
 
 	}
-	
+
 	/**
 	 * This event is launched for each round of the game, it simulates the GUI round, it checks the root's children and draws them, if 
 	 * any new children.
@@ -116,20 +116,20 @@ public class GUI extends Application {
 		setGUIEventHandlers(primaryStage, root);
 		
 		setMainFrame(new Painter(this));
-		
+
 		setInitialChildrenToRoot(border, canvas, root);
 		testGame();
-		
+
 		getMainFrame().paintPocketCards();
 	}
-	
-	
+
+
 
 
 	private void testGame() {
 		gameSession = new GameSession();
 		client = new GUIClient(gameSession, this);
-		
+
 		gameSession.addPlayer("Anne", new AIClient(gameSession));
 		gameSession.addPlayer("Bob", new AIClient(gameSession));
         gameSession.addPlayer("Chuck", new AIClient(gameSession));
@@ -148,7 +148,7 @@ public class GUI extends Application {
 		getMainFrame().showCommunityCards(communityCards, cardsToShow);
 	}
 
-	
+
 
 
 	private void setGUIEventHandlers(Stage primaryStage, Group root) {
@@ -199,7 +199,7 @@ public class GUI extends Application {
 		MainMenu menu = new MainMenu();
 	    menu.setMainMenu(primaryStage,root, this);
 	}
-	
+
 	/**
 	 * Sets size of window
 	 * @param x
@@ -223,7 +223,7 @@ public class GUI extends Application {
 		choiceBar = new ChoiceBar();
 		choiceBar.showChoices(this,client.getSession().getPlayers().get(0)); //Get me
 	}
-	
+
 	/**
 	 * Checks if game is paused.
 	 * @return
@@ -345,7 +345,7 @@ public class GUI extends Application {
 	public BorderPane getBorder() {
 		return border;
 	}
-	
+
 
 	/**
 	 * Updates gui each time a real players round is up.
