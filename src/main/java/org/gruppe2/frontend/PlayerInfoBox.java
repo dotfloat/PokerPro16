@@ -23,7 +23,7 @@ import java.util.List;
 
 public class PlayerInfoBox extends GridPane {
 
-<<<<<<< HEAD
+
     private Label name = new Label();
     private Label chips = new Label();
     private Label currentBet = new Label();
@@ -81,76 +81,16 @@ public class PlayerInfoBox extends GridPane {
     public Label getName() {
         return name;
     }
-    
-=======
-	private Label name = new Label();
-	private Label chips = new Label();
-	private Label currentBet = new Label();
-	private ImageView profileImage = new ImageView(new Image (getClass().getResourceAsStream("/default.png")));
-	private Player player;
-
-	public PlayerInfoBox(){
-		super();
-		getStyleClass().add("pane");
-		add(name, 0, 0, 2, 1);
-		add(profileImage, 0, 1, 1, 3);
-		add(currentBet, 1, 2, 1, 1);
-		add(chips, 1, 3, 1, 1);
-		profileImage.setPreserveRatio(true);
-		profileImage.setFitWidth(72);
-	}
-
-	public void updateInfoBox(Player player){
-
-
-		if (player == null){
-			setVisible(false);
-			return;
-		}
-		this.player = player;
-		name.setText(player.getName());
-		chips.setText("CHIPS: " + player.getBank());
-		currentBet.setText("BET: " + player.getBet());
-		if(player.getClient().getSession().playerHasFolded(player)){
-			updateProfileImage(new ImageView(new Image 
-					(getClass().getResourceAsStream("/defaultFolded.png"))));
-		}	
-	}
-
 
 	public void setActive() {
 		getStyleClass().clear();
 		getStyleClass().add("paneActive");
 	}
-
+	
 	public void setInActive() {
 		getStyleClass().clear();
 		getStyleClass().add("pane");
 	}
-
-	public PlayerInfoBox(Player player){
-		this();
-		updateInfoBox(player);
-	}
-
-	public static List<PlayerInfoBox> createPlayerInfoBoxes(List<Player> players){
-		List<PlayerInfoBox> playerInfoBoxes = new ArrayList<>();
-		for (int i=0;i<9;i++){
-			if (i >= players.size()){
-				playerInfoBoxes.add(new PlayerInfoBox(null));
-			}else playerInfoBoxes.add(new PlayerInfoBox(players.get(i)));
-		}
-		return playerInfoBoxes;
-	}
-
-	public Label getName() {
-		return name;
-	}
-	public void updateProfileImage(ImageView imageView){
-		profileImage = imageView;
-	}
-
->>>>>>> 4e782ee335a3986596c69c864d4b901826d9f33b
 	public Player getPlayer() {
 		return player;
 	}
