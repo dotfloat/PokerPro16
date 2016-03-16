@@ -9,10 +9,6 @@ import java.util.Scanner;
 public class ConsoleClient extends GameClient {
     Scanner in = new Scanner(System.in);
 
-    public ConsoleClient(GameSession session) {
-        super(session);
-    }
-
     @Override
     public void onRoundStart() {
         System.out.println("A new round has started");
@@ -87,13 +83,10 @@ public class ConsoleClient extends GameClient {
     }
 
     public static void main(String[] args) {
-        GameSession session = new GameSession();
-        session.addPlayer("ConsoleClient", new ConsoleClient(session));
-        session.addPlayer("Anne", new AIClient(session));
-        session.addPlayer("Bob", new AIClient(session));
-        session.addPlayer("Chuck", new AIClient(session));
-        session.addPlayer("Dennis", new AIClient(session));
-        session.addPlayer("Emma", new AIClient(session));
-        session.mainLoop();
+        new GameBuilder()
+                .ai(5)
+                .mainClient("ConsoleClient", new ConsoleClient())
+                .build()
+                .mainLoop();
     }
 }
