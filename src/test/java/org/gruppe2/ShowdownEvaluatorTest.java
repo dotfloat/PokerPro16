@@ -383,6 +383,7 @@ public class ShowdownEvaluatorTest {
 			System.out.println(winners.size());
 			for (Player p : winners) {
 					numberOfWins++;
+					System.out.println(p.getName());
 			}
 			System.out.println(numberOfWins);
 		}
@@ -392,7 +393,7 @@ public class ShowdownEvaluatorTest {
 
 class MockPlayer extends Player {
 	public MockPlayer(String name) {
-		super(name, 10000, new GameClient(new GameSession()));
+		super(name, 10000, new GameClient());
 	}
 }
 
