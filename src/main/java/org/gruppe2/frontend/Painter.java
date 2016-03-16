@@ -47,6 +47,8 @@ public class Painter extends Pane {
 	//Total pot
 	Label totalPot;
 	
+	ArrayList<Card> communityCards;
+	
 	
 	public Painter(GUI gui) {
 		super();
@@ -202,6 +204,9 @@ public class Painter extends Pane {
 
 
 	public void showCommunityCards(ArrayList<Card> communityCards) {
+		this.communityCards = communityCards;
+		if(communityCards.size() == 0) return;
+		
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
@@ -223,6 +228,19 @@ public class Painter extends Pane {
 		    }
 		});
 	}
+	public void clearCommunityCards(){
+		if(communityCards != null){
+			if(communityCards.size() == 0) return;
+			
+			else
+				Platform.runLater(new Runnable(){
+				    @Override
+				    public void run() {
+				    	getChildren().removeAll(communityCards);
+				    }});
+		}
+	}
+	
 	
 	public void updateTablePot(){
 		totalPot.setText("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");

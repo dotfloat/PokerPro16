@@ -77,19 +77,20 @@ public class ChoiceBar {
 	private void setButtonAction(Slider raiseSlider, Button check, Button call,
 			Button raise, Button fold, Player player, Label sliderValue,
 			GUIClient client) {
-
+		ChoiceBar This = this;
+		
 		check.setOnAction(e -> {
-			if (canCheck)
+			if (This.canCheck)
 				client.setAction(new Action.Check());
 		});
 
 		call.setOnAction(e -> {
-			if (canCall)
+			if (This.canCall)
 				client.setAction(new Action.Call());
 		});
 
 		fold.setOnAction(e -> {
-			if (canFold)
+			if (This.canFold)
 				client.setAction(new Action.Fold());
 		});
 
@@ -108,7 +109,7 @@ public class ChoiceBar {
 		});
 		
 		raise.setOnAction(e -> {
-			if (canFold)
+			if (This.canFold)
 				raise(client, raiseSlider, player);
 		});
 

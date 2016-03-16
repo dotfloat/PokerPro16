@@ -355,7 +355,11 @@ public class GUI extends Application {
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
-				playerInfoBoxes.get(0).updateInfoBox(player);
+		    	for( PlayerInfoBox playerInfoBox : playerInfoBoxes){
+		    		if(playerInfoBox.getPlayer() == player){
+		    			playerInfoBox.updateInfoBox(player);
+		    		}
+		    	}	
 				
 				getMainFrame().updateTablePot();
 				choiceBar.updatePossibleBarsToClick(player);
