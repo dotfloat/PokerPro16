@@ -295,4 +295,12 @@ public class GameSession {
 
         return actions;
     }
+
+    public boolean playerHasFolded(Player player){
+        for (Player p : activePlayers)
+            if (player.equals(p))
+                return false;
+        
+        return true;
+    }
 }
