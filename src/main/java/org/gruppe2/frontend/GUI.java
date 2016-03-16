@@ -125,6 +125,7 @@ public class GUI extends Application {
 		setMainFrame(new Painter(this));
 
 		setInitialChildrenToRoot(border, canvas, root);
+
 		testGame();
 
 		getMainFrame().paintPocketCards();
@@ -144,12 +145,21 @@ public class GUI extends Application {
 
 		System.out.println("Now:"+gameSession.getPlayers().size());
 		Thread th = new Thread(() -> gameSession.mainLoop());
+		gameSession.addPlayer("me", client);
+		gameSession.addPlayer("Anne", new AIClient(gameSession));
+		gameSession.addPlayer("Bob", new AIClient(gameSession));
+        gameSession.addPlayer("Chuck", new AIClient(gameSession));
+        gameSession.addPlayer("Dennis", new AIClient(gameSession));
+        gameSession.addPlayer("Emma", new AIClient(gameSession));
+
+        setChoiceBar();
+		Thread th = new Thread(client);
 		th.start();
 	
 		mainFrame.drawPot();
 		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
 		mainFrame.paintAllPlayers(playerInfoBoxes);
-		setChoiceBar();
+
 		
 	}
 
