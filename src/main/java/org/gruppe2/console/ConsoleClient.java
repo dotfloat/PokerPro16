@@ -24,7 +24,7 @@ public class ConsoleClient extends GameClient {
     }
 
     @Override
-    public void onOtherPlayerAction(Player player, Action action) {
+    public void onPlayerAction(Player player, Action action) {
         System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), player.getBet());
 
         if (action instanceof Action.Fold) {

@@ -64,7 +64,7 @@ public class GameSession {
         for (int i = 0; i < 4; i++){
             table.drawCommunityCards(i);
 
-            players.get(button).getClient().onCommunalCards(table.getCommunityCards());
+            notifyAllPlayersAboutCommunityCards(table.getCommunityCards());
 
             turnLoop();
 
@@ -203,6 +203,11 @@ public class GameSession {
     private void notifyAllPlayersAboutAction(Player player, Action action){
         for(Player playerToNotify : players)
             playerToNotify.getClient().onPlayerAction(player, action);
+    }
+
+    private void notifyAllPlayersAboutCommunityCards(List<Card> communityCards){
+        for (Player playersToNotify : players)
+            playersToNotify.getClient().onCommunalCards(communityCards);
     }
 
     //TODO: Code to perform actions
