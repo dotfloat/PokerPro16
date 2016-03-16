@@ -94,7 +94,7 @@ public class GUI extends Application {
 		canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();	
 		startShow(root, scene, primaryStage, gc);
-		primaryStage.setResizable(false);
+		primaryStage.setResizable(true);
 		newMainMenu(primaryStage,root);
 	}
 
