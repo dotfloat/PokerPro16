@@ -70,11 +70,16 @@ public class GUIClient extends GameClient implements Runnable {
 	}
 	@Override
 	public void onOtherPlayerTurn(Player player){
-		for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
-			if(playerInfoBox.getPlayer() == player){
-//				playerInfoBox
-			}
-		}
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+				if(gui.playerInfoBoxes == null)return;
+				for(PlayerInfoBox playerInfoBox : gui.playerInfoBoxes){
+					if(playerInfoBox.getPlayer() == player){
+		//				playerInfoBox
+					}
+				}
+		    }});
 		
 	}
 	@Override
