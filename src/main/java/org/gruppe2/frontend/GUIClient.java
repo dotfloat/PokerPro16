@@ -78,15 +78,13 @@ public class GUIClient extends GameClient {
 				}
 			}
 		});
-
 	}
 
 	@Override
 	public void onRoundEnd() {
 		Platform.runLater(() -> {
-			gui.getMainFrame().clearCommunityCards();
+			gui.setMainFrame(gui.getMainFrame());
 		});
-
 	}
 
 	@Override

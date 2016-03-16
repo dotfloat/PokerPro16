@@ -12,15 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import org.gruppe2.backend.Card;
-import org.gruppe2.backend.Card.Suit;
 import org.gruppe2.backend.Player;
-import org.gruppe2.backend.PokerGame;
 /**
  * Class that paints the objects.
  * @author htj063
@@ -188,9 +184,9 @@ public class Painter extends Pane {
 
 	public void showCommunityCards(ArrayList<Card> communityCards) {
 		if(communityCards == null) return;
-		this.communityCards = communityCards;
-		if(communityCards.size() == 0) return;
 		
+		if(communityCards.size() == 0) return;
+		this.communityCards = communityCards;
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
