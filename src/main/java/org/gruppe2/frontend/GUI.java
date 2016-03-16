@@ -74,8 +74,8 @@ public class GUI extends Application {
 	 */
 	@Override
 	public void init() {
-		int a = (int) (1920*0.5);
-		int b = (int) (1080*0.5);
+		int a = (int) (1920);
+		int b = (int) (1080);
 		setWindowSize(a,b);
 		setStep(0);
 	}
@@ -141,7 +141,7 @@ public class GUI extends Application {
 				.mainClient(client)
 				.build();
 		setChoiceBar();
-	
+
 		mainFrame.drawPot();
 		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
 		mainFrame.paintAllPlayers(playerInfoBoxes);
@@ -186,8 +186,8 @@ public class GUI extends Application {
 	 * This method connects the scene with its children.
 	 */
 	public void setInitialChildrenToRoot(BorderPane border, Canvas canvas, Group root) {
-		getMainFrame().getChildren().add(canvas);
 		border.setCenter(getMainFrame());
+		getMainFrame().getChildren().add(canvas);
 		root.getChildren().add(border);
 	}
 

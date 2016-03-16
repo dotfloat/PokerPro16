@@ -3,7 +3,6 @@ package org.gruppe2.frontend;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -36,15 +35,15 @@ public class ChoiceBar {
 			@Override
 			public void run() {
 
-				HBox hbox = new HBox(gui.getWidth() * 0.03);
+				HBox hbox = new HBox(gui.getWidth() * 0.02);
 				hbox.setStyle("-fx-background-color: black; -fx-alignment: center");
 				hbox.getStyleClass().add("hbox");
-				createGrid(gui, hbox, player);
+				createHBox(gui, hbox, player);
 			}
 		});
 	}
 
-	private void createGrid(GUI gui, HBox hbox, Player player) {
+	private void createHBox(GUI gui, HBox hbox, Player player) {
 
 		check = new Button("CHECK");
 		call = new Button("CALL");
@@ -164,8 +163,8 @@ public class ChoiceBar {
 	}
 
 	private void setHBoxSize(HBox hbox, GUI gui) {
-		hbox.setMinHeight(gui.getHeight() * 0.06);
-		hbox.setMaxHeight(gui.getHeight() * 0.06);
+		hbox.setMinHeight(gui.getHeight() * 0.1);
+		hbox.setMaxHeight(gui.getHeight() * 0.1);
 		// hbox.setMinHeight(70);
 		// hbox.setMaxHeight(70);
 

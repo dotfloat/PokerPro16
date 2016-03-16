@@ -64,17 +64,17 @@ public class Painter extends Pane {
 	public void setBackGround(String name) {
 		
 		this.setStyle("-fx-background-color: #505050");
-		backGround = new Image(getClass().getResourceAsStream(name),600,0,true,true);
+		backGround = new Image(getClass().getResourceAsStream(name));
 		bg = new ImageView(backGround);
+		bg.setPreserveRatio(true);
 		updateBackGround();
 		this.getChildren().add(bg);
 	}
 	
 	public void updateBackGround(){
-		bg.setFitWidth(gui.getWidth()-gui.getWidth()*0.3);
-		bg.setFitHeight(gui.getHeight()-gui.getHeight()*0.3);
-		bg.setLayoutX(gui.getWidth()/2-bg.getFitWidth()/2);
-		bg.setLayoutY(gui.getHeight()/2-bg.getFitHeight()/1.55);
+		bg.setFitHeight(gui.getHeight() - gui.getHeight()*0.2);
+		bg.setLayoutX(gui.getWidth()*0.1);
+		bg.setLayoutY(gui.getHeight()*0.5 - bg.getFitHeight()*0.5);
 	}
 
 	public Image getBackGround() {
@@ -145,9 +145,9 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view2);
 		
 		view1.setLayoutX(gui.getWidth()*0.77);
-		view1.setLayoutY(gui.getHeight()*0.80);
+		view1.setLayoutY(gui.getHeight()*0.77);
 		view2.setLayoutX(gui.getWidth()*0.83);
-		view2.setLayoutY(gui.getHeight()*0.80);
+		view2.setLayoutY(gui.getHeight()*0.77);
 		
 		view1.setFitWidth(gui.getWidth()*0.15);
 		view1.setPreserveRatio(true);
