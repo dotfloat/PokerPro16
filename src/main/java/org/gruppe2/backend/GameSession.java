@@ -46,7 +46,7 @@ public class GameSession {
     }
 
     private void matchLoop() {
-        StartNewMatch();
+        startNewMatch();
         button = 0;
         smallBlind = 1;
         bigBlind = 2;
@@ -119,7 +119,7 @@ public class GameSession {
             else if (action instanceof Action.Call)
                 doPlayerAction(action, player);
 
-            notifyOtherPlayersAboutAction(player, action);
+            notifyAllPlayersAboutAction(player, action);
 
             if (lastRaiserIndex == currentPlayerIdx && !(action instanceof Action.Raise))
                 break;
@@ -133,7 +133,7 @@ public class GameSession {
 
     }
 
-    private void StartNewMatch(){
+    private void startNewMatch(){
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
         highestBet = 0;
@@ -198,6 +198,11 @@ public class GameSession {
                 playerToNotify.getClient().onOtherPlayerAction(player, action);
             }
         }
+    }
+
+    private void notifyAllPlayersAboutAction(Player player, Action action){
+        for(Player playerToNotify : players)
+            playerToNotify.getClient().onPlayerAction(player, action);
     }
 
     //TODO: Code to perform actions
@@ -287,13 +292,13 @@ public class GameSession {
 
         if (player.getBet() == highestBet)
             actions.setCheck();
-        if (player.getBank() > highestBet - player.getBet()){
-            int maxRaise = player.getBank() + player.getBet() - highestBet;
-            if (maxRaise > 0)
-                actions.setRaise(1, maxRaise);
+        if (player.getBank() >= highestBet - player.getBet()){
             if (highestBet - player.getBet() != 0)
                 actions.setCall();
         }
+        int maxRaise = player.getBank() + player.getBet() - highestBet;
+        if (maxRaise > 0)
+            actions.setRaise(1, maxRaise);
 
         return actions;
     }
