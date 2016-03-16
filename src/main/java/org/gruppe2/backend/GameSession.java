@@ -93,7 +93,7 @@ public class GameSession {
                 break;
             }
         }
-        
+
         for (int current = smallBlind-1; !activePlayers.isEmpty(); current++) {
             int currentPlayerIdx = (current + 1) % activePlayers.size();
             Player player = activePlayers.get(currentPlayerIdx);
@@ -106,7 +106,6 @@ public class GameSession {
 
             notifyOtherPlayersAboutTurn(player);
             Action action = player.getClient().onTurn(player);
-            notifyOtherPlayersAboutAction(player, action);
 
             if (action instanceof Action.Fold) {
                 activePlayers.set(currentPlayerIdx, null);
@@ -117,6 +116,8 @@ public class GameSession {
             }
             else if (action instanceof Action.Call)
                 doPlayerAction(action, player);
+
+            notifyOtherPlayersAboutAction(player, action);
 
             if (lastRaiserIndex == currentPlayerIdx && !(action instanceof Action.Raise))
                 break;
@@ -217,7 +218,7 @@ public class GameSession {
                 int raise = highestBet - player.getBet();
                 player.setBet(player.getBet() + raise);
                 player.setBank(player.getBank() - raise );
-                table.addToPot(table.getPot() + raise);
+                table.addToPot(raise);
             }
             else if (action instanceof Action.AllIn){
                 int raise = player.getBank();
@@ -288,7 +289,8 @@ public class GameSession {
             int maxRaise = player.getBank() - (player.getBet() + highestBet);
             if (!(player.getBank() == highestBet - player.getBet()) && maxRaise > 0)
                 actions.setRaise(1, maxRaise);
-            actions.setCall();
+            if (highestBet - player.getBet() != 0)
+                actions.setCall();
         }
 
         return actions;
