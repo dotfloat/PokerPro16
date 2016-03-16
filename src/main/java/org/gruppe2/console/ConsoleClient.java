@@ -89,6 +89,8 @@ public class ConsoleClient extends GameClient {
     public static void main(String[] args) {
         new GameBuilder()
                 .ai(5)
+                .blinds(15, 7)
+                .startMoney(1000)
                 .mainClient(new ConsoleClient())
                 .build()
                 .mainLoop();
