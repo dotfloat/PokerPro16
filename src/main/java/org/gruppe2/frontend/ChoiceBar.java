@@ -150,10 +150,9 @@ public class ChoiceBar {
 	}
 
 	private String checkMaxBid(Slider slider) {
-		if (slider.getValue() == slider.getMax())
-			return "GO ALL IN";
-		else
-			return (int) slider.getValue() + " CHIPS";
+		if (slider.getValue() == slider.getMax()) raise.setText("ALL IN");
+		else raise.setText("RAISE");
+		return (int) slider.getValue() + " CHIPS";
 	}
 
 	private void raise(GUIClient client, Slider raiseSlider, Player player) {
