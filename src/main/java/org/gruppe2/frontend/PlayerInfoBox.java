@@ -50,9 +50,20 @@ public class PlayerInfoBox extends GridPane {
         chips.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
         if(player.getClient().getSession().playerHasFolded(player)){
-        	updateProfileImage(new ImageView(new Image (getClass().getResourceAsStream("/defaultFolded.png"))));
+        	updateProfileImage(new ImageView(new Image 
+        			(getClass().getResourceAsStream("/defaultFolded.png"))));
         }
     }
+    
+    
+    public void setBackgroundRed() {
+    	this.setStyle("-fx-background-color: red;");
+    }
+    
+    public void setBackgroundBlack() {
+    	this.setStyle("-fx-background-color: black;");
+    }
+    
     public PlayerInfoBox(Player player){
         this();
         updateInfoBox(player);
