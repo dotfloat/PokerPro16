@@ -63,7 +63,7 @@ public class Painter extends Pane {
 
 	public void setBackGround(String name) {
 		
-		this.setStyle("-fx-background-color: #662200");
+		this.setStyle("-fx-background-color: #505050");
 		backGround = new Image(getClass().getResourceAsStream(name),600,0,true,true);
 		bg = new ImageView(backGround);
 		updateBackGround();
@@ -145,9 +145,9 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view2);
 		
 		view1.setLayoutX(gui.getWidth()*0.77);
-		view1.setLayoutY(gui.getHeight()*0.65);
+		view1.setLayoutY(gui.getHeight()*0.80);
 		view2.setLayoutX(gui.getWidth()*0.83);
-		view2.setLayoutY(gui.getHeight()*0.65);
+		view2.setLayoutY(gui.getHeight()*0.80);
 		
 		view1.setFitWidth(gui.getWidth()*0.15);
 		view1.setPreserveRatio(true);
