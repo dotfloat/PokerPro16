@@ -17,6 +17,23 @@
 .root {
 	-fx-background-color: black;
 }
+.buttonIllegal {
+	-fx-position-shape: false;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font: 20px "sans-serif";
+	-fx-background-color: gray;
+	-fx-effect: innershadow( gaussian , darkgray , 2, 0, 0, 4);
+}
+.buttonIllegal:hover {
+	-fx-background-color: gray;
+	-fx-effect: innershadow( gaussian , darkgray , 2, 0, 0, 4);
+}
+
+buttonIllegal:pressed {
+	-fx-background-color: gray;
+	-fx-effect: innershadow( gaussian , darkgray , 2, 0, 0, 4);
+}
 
 .button {
 	-fx-position-shape: false;
@@ -24,14 +41,6 @@
 	-fx-font-weight: bold;
 	-fx-font: 20px "sans-serif";
 	-fx-background-color: #009933;
-	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
-}
-.buttonIllegal {
-	-fx-position-shape: false;
-	-fx-text-fill: white;
-	-fx-font-weight: bold;
-	-fx-font: 20px "sans-serif";
-	-fx-background-color: gray;
 	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
 }
 
