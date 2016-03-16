@@ -6,6 +6,7 @@ import java.util.List;
 public class GameSession {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
+    private ShowdownEvaluator showdownEvaluator = new ShowdownEvaluator();
     private Table table = new Table();
     private int smallBlindAmount;
     private int bigBlindAmount;
@@ -56,6 +57,7 @@ public class GameSession {
     private void matchLoop() {
         startNewMatch();
         button = 0;
+        Player winner = null;
 
         doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
         //  notifyOtherPlayersAboutAction(smallBlindPayer, blind);
@@ -75,15 +77,20 @@ public class GameSession {
             if (numActivePlayers() == 1) {
                 for (Player p : activePlayers) {
                     if (p != null) {
-                        p.addToBank(table.getPot());
-                        table.resetPot();
-                        notifyPlayerVictory(p);
+                        winner = p;
                         break;
                     }
                 }
                 break;
             }
         }
+
+        if (winner == null)
+            winner = showdownEvaluator.getWinnerOfRound(table, activePlayers).get(0);
+
+        winner.addToBank(table.getPot());
+        table.resetPot();
+        notifyPlayerVictory(winner);
 
         notifyRoundEnd();
     }
