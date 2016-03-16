@@ -259,7 +259,7 @@ public class GameSession {
             return pa.canCheck();
         else if (action instanceof Action.Raise) {
             int raise = ((Action.Raise) action).getAmount();
-            if (raise < 1 || raise > player.getBank() - (player.getBet() + highestBet))
+            if (raise < 1 || raise > player.getBank() + player.getBet() - highestBet)
                 return false;
             return pa.canRaise();
         }
@@ -286,8 +286,8 @@ public class GameSession {
         if (player.getBet() == highestBet)
             actions.setCheck();
         if (player.getBank() > highestBet - player.getBet()){
-            int maxRaise = player.getBank() - (player.getBet() + highestBet);
-            if (!(player.getBank() == highestBet - player.getBet()) && maxRaise > 0)
+            int maxRaise = player.getBank() + player.getBet() - highestBet;
+            if (maxRaise > 0)
                 actions.setRaise(1, maxRaise);
             if (highestBet - player.getBet() != 0)
                 actions.setCall();
@@ -300,7 +300,7 @@ public class GameSession {
         for (Player p : activePlayers)
             if (player.equals(p))
                 return false;
-        
+
         return true;
     }
 }
