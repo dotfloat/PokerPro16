@@ -36,7 +36,7 @@ public class ChoiceBar {
 			@Override
 			public void run() {
 
-				HBox hbox = new HBox(gui.getWidth() * 0.025);
+				HBox hbox = new HBox(gui.getWidth() * 0.03);
 				hbox.getStyleClass().add("hbox");
 				hbox.setAlignment(Pos.CENTER);
 				createGrid(gui, hbox, player);
@@ -55,13 +55,13 @@ public class ChoiceBar {
 		raiseSlider.setMaxWidth(gui.getWidth() * 0.23);
 		raiseSlider.setMinWidth(gui.getWidth() * 0.23);
 		Label sliderValue = new Label((int) raiseSlider.getValue() + " CHIPS");
-		sliderValue.setMinWidth(gui.getWidth() * 0.15);
-		sliderValue.setMaxWidth(gui.getWidth() * 0.15);
+		sliderValue.setMinWidth(gui.getWidth() * 0.08);
+		sliderValue.setMaxWidth(gui.getWidth() * 0.08);
 
 		Label showCards = new Label(""); // Label that creates space, does
 											// nothing else
-		showCards.setMinWidth(gui.getWidth() * 0.2);
-		showCards.setMaxWidth(gui.getWidth() * 0.2);
+		showCards.setMinWidth(gui.getWidth() * 0.25);
+		showCards.setMaxWidth(gui.getWidth() * 0.25);
 
 		setButtonAction(raiseSlider, check, call, raise, fold, player,
 				sliderValue, gui.getClient());
@@ -71,7 +71,7 @@ public class ChoiceBar {
 
 		setKeyListener(check, call, fold, raise, gui, gui.getClient(), raiseSlider, player);
 
-		gui.getBorder().setBottom(hbox);
+		gui.border.setBottom(hbox);
 	}
 
 	private void setButtonAction(Slider raiseSlider, Button check, Button call,
@@ -103,9 +103,6 @@ public class ChoiceBar {
 			public void changed(ObservableValue<? extends Number> observable,
 					Number oldValue, Number newValue) {
 				sliderValue.textProperty().setValue(checkMaxBid(raiseSlider));
-				// uncomment when there is an actual player
-				// raiseSlider.setMin(player.getBank());
-				// raiseSlider.setMax(player.getBank());
 			}
 		});
 		
