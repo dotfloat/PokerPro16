@@ -4,8 +4,6 @@ import javafx.scene.layout.VBox;
 import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.Player;
 
-import com.sun.security.ntlm.Client;
-
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
