@@ -7,8 +7,8 @@ public class GameSession {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> activePlayers = new ArrayList<>();
     private Table table = new Table();
-    private int smallBlindAmount = 5;
-    private int bigBlindAmount = 10;
+    private int smallBlindAmount;
+    private int bigBlindAmount;
     private int highestBet;
     private int button;
 
@@ -47,9 +47,9 @@ public class GameSession {
         }
     }
 
-    public void addPlayer(GameClient client) {
+    public void addPlayer(GameClient client, int startMoney) {
         client.setSession(this);
-        Player player = new Player(client.getName(), 100, client);
+        Player player = new Player(client.getName(), startMoney, client);
         players.add(player);
     }
 
