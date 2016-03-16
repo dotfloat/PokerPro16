@@ -85,15 +85,18 @@ public class InitializeGame {
 				if (moneyFieldsAreValid(startMoneyField, bigBlindField,
 						smallBlindField)) {
 					gui.root.getChildren().remove(vBox);
-					gui.startMainFrame(primaryStage,gui.root, gui.canvas);
+					
 					String name = nameField.getText();
 					int startValue = Integer.valueOf(startMoneyField.getText());
 					
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
+					gui.meName = name;
 					gui.startValue = startValue;
 					gui.smallBlind = smallBlind;
 					gui.bigBlind = bigBlind;
+					
+					gui.startMainFrame(primaryStage,gui.root, gui.canvas); //THIS IS START!!!!
 
 				}
 			}

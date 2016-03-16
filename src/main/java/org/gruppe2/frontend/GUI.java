@@ -62,6 +62,7 @@ public class GUI extends Application {
 	public int startValue;
 	public int smallBlind;
 	public int bigBlind;
+	public String meName;
 	
 	public GUI() {}
 
@@ -140,11 +141,7 @@ public class GUI extends Application {
 				.startMoney(startValue)
 				.mainClient(client)
 				.build();
-
-		System.out.println("Now:"+gameSession.getPlayers().size());
 		setChoiceBar();
-
-		
 	
 		mainFrame.drawPot();
 		playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
