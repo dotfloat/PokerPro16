@@ -92,6 +92,7 @@ public class InitializeGame {
 					int smallBlind = Integer.valueOf(smallBlindField.getText());
 					int bigBlind = Integer.valueOf(smallBlindField.getText());
 					gui.meName = name;
+					gui.getClient().setName(name);
 					gui.startValue = startValue;
 					gui.smallBlind = smallBlind;
 					gui.bigBlind = bigBlind;
