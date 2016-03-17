@@ -72,9 +72,9 @@ public class Painter extends Pane {
 	}
 	
 	public void updateBackGround(){
-		bg.setFitWidth(gui.getWidth() * 0.85);
+		bg.setFitWidth(gui.getWidth() * 0.8);
 		bg.setLayoutX(gui.getWidth()*0.5 - bg.getFitWidth()*0.5);
-		bg.setLayoutY(gui.getHeight()*0.05);
+		bg.setLayoutY(gui.getHeight()*0.08);
 	}
 
 	public Image getBackGround() {
@@ -185,9 +185,7 @@ public class Painter extends Pane {
 
 
 	public void showCommunityCards(ArrayList<Card> communityCards) {
-		if(communityCards == null) return;
-		
-		if(communityCards.size() == 0) return;
+		if(communityCards == null || communityCards.size() == 0) return;
 
 		Platform.runLater(new Runnable(){
 		    @Override
@@ -200,10 +198,10 @@ public class Painter extends Pane {
 					Card c = (Card) communityCards.get(i);
 					ImageView cardImage = createCardImage(c);
 					cardImage.setPreserveRatio(true);
-					cardImage.setFitHeight(gui.getWidth()*0.045);
+					cardImage.setFitHeight(gui.getWidth()*0.055);
 					
 					cardImage.setLayoutX(gui.getWidth()*0.4 + (cardOffset*i));
-					cardImage.setLayoutY(gui.getHeight()*0.32);
+					cardImage.setLayoutY(gui.getHeight()*0.4);
 					
 					communityImageCards.add(cardImage);
 					getChildren().add(cardImage);
@@ -282,15 +280,15 @@ public class Painter extends Pane {
 		double xStep = gui.getWidth()/15;
 		double yStep = gui.getHeight()/11;
 		double y = 10;
-		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*2, y);
-		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*6.5, y);
-		paintPlayerInfoBox(playerInfoBoxes.get(2), xStep*11, y);
-		paintPlayerInfoBox(playerInfoBoxes.get(3), xStep*0.5, yStep*2);
-		paintPlayerInfoBox(playerInfoBoxes.get(4), xStep*12.5, yStep*2);
-		paintPlayerInfoBox(playerInfoBoxes.get(5), xStep*0.5, yStep*4);
-		paintPlayerInfoBox(playerInfoBoxes.get(6), xStep*12.5, yStep*4);
-		paintPlayerInfoBox(playerInfoBoxes.get(7), xStep, yStep*6);
-		paintPlayerInfoBox(playerInfoBoxes.get(8), xStep*12.1, yStep*6);
+		paintPlayerInfoBox(playerInfoBoxes.get(3), xStep*2, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(4), xStep*6.5, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(5), xStep*11, y);
+		paintPlayerInfoBox(playerInfoBoxes.get(2), xStep*0.5, yStep*2);
+		paintPlayerInfoBox(playerInfoBoxes.get(6), xStep*12.5, yStep*2);
+		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*0.5, yStep*4);
+		paintPlayerInfoBox(playerInfoBoxes.get(7), xStep*12.5, yStep*4);
+		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*0.5, yStep*6);
+		paintPlayerInfoBox(playerInfoBoxes.get(8), xStep*12.5, yStep*6);
 	}
 	/**
 	 * This is the drawing of the pot on the scene.

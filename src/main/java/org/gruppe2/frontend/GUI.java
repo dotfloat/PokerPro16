@@ -215,7 +215,7 @@ public class GUI extends Application {
 		width_min = getScale();
 		// Height
 		height = y;
-		height_max = height - (getScale() * 2);
+		height_max = (int) (height - height*0.07);
 		height_min = getScale();
 	}
 	/**

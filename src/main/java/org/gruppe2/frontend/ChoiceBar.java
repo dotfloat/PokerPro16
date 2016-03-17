@@ -162,8 +162,8 @@ public class ChoiceBar {
 	}
 
 	private void setHBoxSize(HBox hbox, GUI gui) {
-		hbox.setMinHeight(gui.getHeight() * 0.1);
-		hbox.setMaxHeight(gui.getHeight() * 0.1);
+		hbox.setMinHeight(gui.getHeight() * 0.07);
+		hbox.setMaxHeight(gui.getHeight() * 0.07);
 		// hbox.setMinHeight(70);
 		// hbox.setMaxHeight(70);
 

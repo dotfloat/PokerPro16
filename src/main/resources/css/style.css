@@ -4,23 +4,20 @@
 
 .hbox {
 	-fx-background-color: black;
-	-fx-alignment: bottom-center;
-	-fx-max-height: 40px;
+	-fx-alignment: center;
 }
 
 .pane {
 	-fx-hgap: 10px;
 	-fx-vgap: 5px;
-	-fx-padding: 10px, 10px, 10px, 10px;
- 	-fx-background-color: black; 
- 	-fx-border-width: 1px;
- 	-fx-border-color: black;
+	-fx-padding: 10px;
+	-fx-background-color: black;
 }
 
 .paneActive {
 	-fx-hgap: 10px;
 	-fx-vgap: 5px;
-	-fx-padding: 10px, 10px, 10px, 10px;
+	-fx-padding: 10px;
 	-fx-background-color: black;
 	-fx-border-width: 1px;
 	-fx-border-color: black;
