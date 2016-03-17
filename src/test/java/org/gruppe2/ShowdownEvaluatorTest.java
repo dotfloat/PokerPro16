@@ -9,6 +9,7 @@ import org.gruppe2.backend.Player;
 import org.gruppe2.backend.ShowdownEvaluator;
 import org.gruppe2.backend.ShowdownEvaluator.Hand;
 import org.gruppe2.backend.Table;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class ShowdownEvaluatorTest {
 
 		assertTrue("Valid royal flush should be true", evaluator.royalFlush(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.ROYALFLUSH);
+		Assert.assertTrue(ev.getHand() == Hand.ROYALFLUSH);
 	}
 
 	@Test
@@ -54,7 +55,7 @@ public class ShowdownEvaluatorTest {
 		cards.add(new Card(10, Card.Suit.SPADES));
 		assertFalse("Invalid royal flush should be false", evaluator.royalFlush(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.ROYALFLUSH);
+		Assert.assertTrue(ev.getHand() != Hand.ROYALFLUSH);
 	}
 
 	@Test
@@ -70,7 +71,7 @@ public class ShowdownEvaluatorTest {
 
 		assertTrue("Valid straight flush should be true", evaluator.straightFlush(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.STRAIGHTFLUSH);
+		Assert.assertTrue(ev.getHand() == Hand.STRAIGHTFLUSH);
 	}
 
 	@Test
@@ -85,7 +86,7 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid straight flush should be false", evaluator.straightFlush(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.STRAIGHTFLUSH);
+		Assert.assertTrue(ev.getHand() != Hand.STRAIGHTFLUSH);
 	}
 
 	@Test
@@ -100,7 +101,7 @@ public class ShowdownEvaluatorTest {
 
 		assertTrue("Four of a kind should be true", evaluator.fourOfAKind(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.FOUROFAKIND);
+		Assert.assertTrue(ev.getHand() == Hand.FOUROFAKIND);
 	}
 
 	@Test
@@ -115,7 +116,7 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid four of a kind should be false", evaluator.fourOfAKind(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.FOUROFAKIND);
+		Assert.assertTrue(ev.getHand() != Hand.FOUROFAKIND);
 	}
 
 	@Test
@@ -130,14 +131,14 @@ public class ShowdownEvaluatorTest {
 
 		assertTrue("Valid full house should be true", evaluator.fullHouse(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.FULLHOUSE);
+		Assert.assertTrue(ev.getHand() == Hand.FULLHOUSE);
 	}
 
 	@Test
 	public void invalidFullHouseShouldReturnFalseTest() {
 		cards.add(new Card(3, Card.Suit.CLUBS));
 		cards.add(new Card(4, Card.Suit.SPADES));
-		cards.add(new Card(3, Card.Suit.HEARTS));
+		cards.add(new Card(13, Card.Suit.HEARTS));
 		cards.add(new Card(13, Card.Suit.CLUBS));
 		cards.add(new Card(13, Card.Suit.DIAMONDS));
 		cards.add(new Card(7, Card.Suit.CLUBS));
@@ -145,7 +146,12 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid full house should be true", evaluator.fullHouse(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.FULLHOUSE);
+		Assert.assertTrue(ev.getHand() != Hand.FULLHOUSE);
+		Assert.assertTrue(evaluator.threeOfAKind(cards));
+		Assert.assertTrue(ev.getHand()==Hand.THREEOFAKIND);
+		
+		
+		
 	}
 
 	@Test
@@ -154,13 +160,14 @@ public class ShowdownEvaluatorTest {
 		cards.add(new Card(3, Card.Suit.CLUBS));
 		cards.add(new Card(7, Card.Suit.HEARTS));
 		cards.add(new Card(4, Card.Suit.CLUBS));
-		cards.add(new Card(5, Card.Suit.CLUBS));
+		cards.add(new Card(12, Card.Suit.CLUBS));
 		cards.add(new Card(6, Card.Suit.CLUBS));
 		cards.add(new Card(8, Card.Suit.DIAMONDS));
 
 		assertTrue("Valid flush should be true", evaluator.flush(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.FLUSH);
+		System.out.println(ev.getHand());
+		Assert.assertTrue(ev.getHand() == Hand.FLUSH);
 	}
 
 	@Test
@@ -175,7 +182,7 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid flush should be false", evaluator.flush(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.FLUSH);
+		Assert.assertTrue(ev.getHand() != Hand.FLUSH);
 	}
 
 	@Test
@@ -190,7 +197,7 @@ public class ShowdownEvaluatorTest {
 
 		assertTrue("Valid straight should be true", evaluator.straight(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.STRAIGHT);
+		Assert.assertTrue(ev.getHand() == Hand.STRAIGHT);
 	}
 
 	@Test
@@ -205,12 +212,12 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid straight should be false", evaluator.straight(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.STRAIGHT);
+		Assert.assertTrue(ev.getHand() != Hand.STRAIGHT);
 	}
 
 	@Test
 	public void threeOfAKindShouldReturnTrueTest() {
-		cards.add(new Card(2, Card.Suit.CLUBS));
+		cards.add(new Card(3, Card.Suit.CLUBS));
 		cards.add(new Card(8, Card.Suit.CLUBS));
 		cards.add(new Card(4, Card.Suit.HEARTS));
 		cards.add(new Card(4, Card.Suit.CLUBS));
@@ -220,7 +227,7 @@ public class ShowdownEvaluatorTest {
 
 		assertTrue("Three of a kind should be true", evaluator.threeOfAKind(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.THREEOFAKIND);
+		Assert.assertTrue(ev.getHand() == Hand.THREEOFAKIND);
 	}
 
 	@Test
@@ -235,7 +242,7 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid three of a kind should be false", evaluator.threeOfAKind(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.THREEOFAKIND);
+		Assert.assertTrue(ev.getHand() != Hand.THREEOFAKIND);
 	}
 
 	@Test
@@ -250,7 +257,7 @@ public class ShowdownEvaluatorTest {
 
 		assertTrue("Two pair should be true", evaluator.twoPair(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.TWOPAIRS);
+		Assert.assertTrue(ev.getHand() == Hand.TWOPAIRS);
 	}
 
 	@Test
@@ -265,7 +272,7 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid two pair should be false", evaluator.twoPair(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.TWOPAIRS);
+		Assert.assertTrue(ev.getHand() != Hand.TWOPAIRS);
 	}
 
 	@Test
@@ -275,12 +282,12 @@ public class ShowdownEvaluatorTest {
 		cards.add(new Card(4, Card.Suit.HEARTS));
 		cards.add(new Card(4, Card.Suit.CLUBS));
 		cards.add(new Card(5, Card.Suit.SPADES));
-		cards.add(new Card(14, Card.Suit.DIAMONDS)); // This is Ace
+		cards.add(new Card(12, Card.Suit.DIAMONDS)); // This is Ace
 		cards.add(new Card(2, Card.Suit.SPADES));
 
 		assertTrue("One pair should be true", evaluator.onePair(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.ONEPAIR);
+		Assert.assertTrue(ev.getHand() == Hand.ONEPAIR);
 	}
 
 	@Test
@@ -295,7 +302,7 @@ public class ShowdownEvaluatorTest {
 
 		assertFalse("Invalid one pair should be true", evaluator.onePair(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() != Hand.ONEPAIR);
+		Assert.assertTrue(ev.getHand() != Hand.ONEPAIR);
 	}
 
 	@Test
@@ -305,12 +312,12 @@ public class ShowdownEvaluatorTest {
 		cards.add(new Card(4, Card.Suit.HEARTS));
 		cards.add(new Card(7, Card.Suit.CLUBS));
 		cards.add(new Card(5, Card.Suit.SPADES));
-		cards.add(new Card(14, Card.Suit.DIAMONDS)); // This is Ace
+		cards.add(new Card(13, Card.Suit.DIAMONDS)); // This is Ace
 		cards.add(new Card(2, Card.Suit.SPADES));
 
 		assertTrue("High card should be true", evaluator.highCard(cards));
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.HIGHCARD);
+		Assert.assertTrue(ev.getHand() == Hand.HIGHCARD);
 	}
 
 	@Test
@@ -324,7 +331,7 @@ public class ShowdownEvaluatorTest {
 		cards.add(new Card(6, Card.Suit.DIAMONDS));
 		long msec = System.currentTimeMillis();
 		Evaluated ev = evaluator.evaluate(cards);
-		assert(ev.getHand() == Hand.FULLHOUSE);
+		Assert.assertTrue(ev.getHand() == Hand.FULLHOUSE);
 		long time = System.currentTimeMillis() - msec;
 		System.out.println(time);
 	}

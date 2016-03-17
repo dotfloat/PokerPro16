@@ -32,52 +32,52 @@ public class ShowdownEvaluator {
 	public Evaluated evaluate(List<Card> cards) {
 		Collections.sort(cards);
 		// done
-		if (royalFlush(cards)){
+		if (royalFlush(cards)) {
 			evaluated.setHand(Hand.ROYALFLUSH);
 			return evaluated;
 		}
 		// done
-		else if (straightFlush(cards)){
+		else if (straightFlush(cards)) {
 			evaluated.setHand(Hand.STRAIGHTFLUSH);
 			return evaluated;
 		}
 		// done
-		else if (fourOfAKind(cards)){
+		else if (fourOfAKind(cards)) {
 			evaluated.setHand(Hand.FOUROFAKIND);
 			return evaluated;
 		}
 		// done
-		else if (fullHouse(cards)){
+		else if (fullHouse(cards)) {
 			evaluated.setHand(Hand.FULLHOUSE);
 			return evaluated;
 		}
 		// done
-		else if (flush(cards)){
+		else if (flush(cards)) {
 			evaluated.setHand(Hand.FLUSH);
 			return evaluated;
 		}
 		// done
-		else if (straight(cards)){
+		else if (straight(cards)) {
 			evaluated.setHand(Hand.STRAIGHT);
 			return evaluated;
 		}
 		// done
-		else if (threeOfAKind(cards)){
+		else if (threeOfAKind(cards)) {
 			evaluated.setHand(Hand.THREEOFAKIND);
 			return evaluated;
 		}
 		// done
-		else if (twoPair(cards)){
+		else if (twoPair(cards)) {
 			evaluated.setHand(Hand.TWOPAIRS);
 			return evaluated;
 		}
 		// done
-		else if (onePair(cards)){
+		else if (onePair(cards)) {
 			evaluated.setHand(Hand.ONEPAIR);
 			return evaluated;
 		}
 		// done
-		else if (highCard(cards)){
+		else if (highCard(cards)) {
 			evaluated.setHand(Hand.HIGHCARD);
 			return evaluated;
 		}
@@ -255,19 +255,23 @@ public class ShowdownEvaluator {
 				}
 			}
 			ArrayList<Integer> highs = new ArrayList<>();
+			int high3 =0;
 			for (int i = 1; i < 15; i++) {
 				if (map.get(i) == null)
 					continue;
 				if (map.get(i) == 3)
-					highs.add(map.get(i));
+					high3=map.get(i);
 				if (map.get(i) == 2)
 					highs.add(map.get(i));
 			}
-			if (highs.size() > 2) {
+			if (highs.size() > 1) {
 				Collections.sort(highs);
 			}
-			high[0] = highs.get(highs.size() - 1);
-			high[0] = highs.get(highs.size() - 2);
+			high[0] = high3;
+			if (high3!=highs.get(highs.size()-1))
+				high[1]=highs.get(highs.size()-1);
+			else
+				high[1] = highs.get(highs.size() - 2);
 			evaluated.addHand(Hand.FULLHOUSE, high);
 			// end of evaluated logic
 			return true;
@@ -530,7 +534,7 @@ public class ShowdownEvaluator {
 		HashMap<Player, Evaluated> playersAndEvaluated = new HashMap<Player, Evaluated>();
 		HashMap<Evaluated, Player> evaluatedAndPlayers = new HashMap<Evaluated, Player>();
 		for (Player p : players) {
-			if (p == null){
+			if (p == null) {
 				System.out.println("Player=null");
 				continue;
 			}
@@ -549,14 +553,14 @@ public class ShowdownEvaluator {
 		Collections.sort(evaluateds);
 		System.out.println("Length of evaluatedsList " + evaluateds.size());
 		winners.add(evaluatedAndPlayers.get(evaluateds.get(0)));
-		if (evaluateds.size()>=2){
-		for (int i =1;i<evaluateds.size();i++){
-			if (evaluateds.get(i).compareTo(evaluateds.get(i-1))==0){
-				winners.add(evaluatedAndPlayers.get(evaluateds.get(i)));
-			}else {
-				System.out.println("Hands:"+evaluateds.get(i).getHand() + evaluateds.get(i-1).getHand());
+		if (evaluateds.size() >= 2) {
+			for (int i = 1; i < evaluateds.size(); i++) {
+				if (evaluateds.get(i).compareTo(evaluateds.get(i - 1)) == 0) {
+					winners.add(evaluatedAndPlayers.get(evaluateds.get(i)));
+				} else {
+					System.out.println("Hands:" + evaluateds.get(i).getHand() + evaluateds.get(i - 1).getHand());
+				}
 			}
-		}
 		}
 		return winners;
 	}

@@ -63,7 +63,7 @@ public class Painter extends Pane {
 
 	public void setBackGround(String name) {
 		
-		this.setStyle("-fx-background-color: #505050");
+		this.getStyleClass().add("background");
 		backGround = new Image(getClass().getResourceAsStream(name));
 		bg = new ImageView(backGround);
 		bg.setPreserveRatio(true);
@@ -72,9 +72,9 @@ public class Painter extends Pane {
 	}
 	
 	public void updateBackGround(){
-		bg.setFitHeight(gui.getHeight() - gui.getHeight()*0.2);
-		bg.setLayoutX(gui.getWidth()*0.1);
-		bg.setLayoutY(gui.getHeight()*0.5 - bg.getFitHeight()*0.5);
+		bg.setFitWidth(gui.getWidth() * 0.85);
+		bg.setLayoutX(gui.getWidth()*0.5 - bg.getFitWidth()*0.5);
+		bg.setLayoutY(gui.getHeight()*0.05);
 	}
 
 	public Image getBackGround() {
@@ -144,16 +144,18 @@ public class Painter extends Pane {
 		gui.root.getChildren().add(view1);
 		gui.root.getChildren().add(view2);
 		
-		view1.setLayoutX(gui.getWidth()*0.77);
-		view1.setLayoutY(gui.getHeight()*0.77);
-		view2.setLayoutX(gui.getWidth()*0.83);
-		view2.setLayoutY(gui.getHeight()*0.77);
+		view1.setLayoutX(gui.getWidth() * 0.75);
+		view1.setLayoutY(gui.getHeight() * 0.77);
+		view2.setLayoutX(gui.getWidth() * 0.83);
+		view2.setLayoutY(gui.getHeight() * 0.77);
 		
-		view1.setFitWidth(gui.getWidth()*0.15);
+		view1.setFitWidth(gui.getWidth() * 0.15);
 		view1.setPreserveRatio(true);
+		view1.setSmooth(true);
 		view2.setFitWidth(gui.getWidth()*0.15);
 		view2.setPreserveRatio(true);
-		
+		view2.setSmooth(true);
+
 		view1.setRotate(350);
 		view2.setRotate(5);
 		

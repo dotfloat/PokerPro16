@@ -4,6 +4,8 @@
 
 .hbox {
 	-fx-background-color: black;
+	-fx-alignment: bottom-center;
+	-fx-max-height: 40px;
 }
 
 .pane {
@@ -108,7 +110,7 @@
 }
 
 .background {
-	-fx-background-image: url("backgroundtile.png");
+	-fx-background-image: url("/floorTile.png");
 	-fx-background-size: 200px, 200px;
 	-fx-background-repeat: repeat;
 }
@@ -117,5 +119,6 @@
 	-fx-background-color: #00802b;
 	-fx-text-fill: white;
 	-fx-font-size: 20;
+	-fx-alignment: center;
 	-fx-prompt-text-fill: whitesmoke;
 }

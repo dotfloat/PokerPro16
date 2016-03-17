@@ -35,8 +35,7 @@ public class ChoiceBar {
 			@Override
 			public void run() {
 
-				HBox hbox = new HBox(gui.getWidth() * 0.02);
-				hbox.setStyle("-fx-background-color: black; -fx-alignment: center");
+				HBox hbox = new HBox(gui.getWidth() * 0.01);
 				hbox.getStyleClass().add("hbox");
 				createHBox(gui, hbox, player);
 			}
