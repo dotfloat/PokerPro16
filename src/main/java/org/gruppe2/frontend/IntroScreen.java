@@ -1,5 +1,6 @@
 package org.gruppe2.frontend;
 
+import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 /*
 * This will be the intro screen.
 */
-public class IntroScreen extends Pane {
+public class IntroScreen extends Application {
 
     public void setIntroScreen(GUI gui, Stage primaryStage, Group root){
         setIntroBackground(gui, primaryStage, root);
@@ -33,4 +34,12 @@ public class IntroScreen extends Pane {
 
     }
 
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+    }
 }
