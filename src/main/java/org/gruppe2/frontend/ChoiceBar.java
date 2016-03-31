@@ -41,7 +41,12 @@ public class ChoiceBar {
 			}
 		});
 	}
-
+	/**
+	 * Creates the boxes on bottom you can push, call, check etc. 
+	 * @param gui
+	 * @param hbox
+	 * @param player
+	 */
 	private void createHBox(GUI gui, HBox hbox, Player player) {
 
 		check = new Button("CHECK");
@@ -71,7 +76,17 @@ public class ChoiceBar {
 
 		gui.border.setBottom(hbox);
 	}
-
+	/**
+	 * Action events for bottom buttons
+	 * @param raiseSlider
+	 * @param check
+	 * @param call
+	 * @param raise
+	 * @param fold
+	 * @param player
+	 * @param sliderValue
+	 * @param client
+	 */
 	private void setButtonAction(Slider raiseSlider, Button check, Button call,
 			Button raise, Button fold, Player player, Label sliderValue,
 			GUIClient client) {
@@ -112,33 +127,45 @@ public class ChoiceBar {
 	}
 
 	/**
-	 * Makes it possible to use keys to play, insted of mouse
+	 * Makes it possible to use keys to play, instead of mouse
 	 * 
 	 */
 	@SuppressWarnings("incomplete-switch")
 	private void setKeyListener(Button check, Button call, Button fold,
 			Button raise, GUI gui, GUIClient client, Slider raiseSlider,
 			Player player) {
+		
 		gui.scene.setOnKeyPressed(event -> {
 
 			switch (event.getCode()) {
 			case UP:
-				raise(client, raiseSlider, player);
+				if(canRaiseNow())
+					raiseSlider.setValue(raiseSlider.getValue()*2);
+				
 				break;
 			case DOWN:
-				client.setAction(new Action.Check());
+				raiseSlider.setValue(raiseSlider.getValue()/2);
 				break;
 			case LEFT:
-				client.setAction(new Action.Call());
+				client.setAction(new Action.Fold());
 				break;
 			case RIGHT:
-				client.setAction(new Action.Fold());
+				if(canCall && canRaise && raiseSlider.getValue() > 1)
+					raise(client, raiseSlider, player);
+				else if(canCall)
+					client.setAction(new Action.Call());
+				else if(canCheck)
+					client.setAction(new Action.Check());
+				
 				break;
 			}
 		});
-
 	}
-
+	/**
+	 * If raise is all you have, change text of raise button to ALL IN
+	 * @param slider
+	 * @return
+	 */
 	private String checkMaxBid(Slider slider) {
 		if (slider.getValue() == slider.getMax()) raise.setText("ALL IN");
 		else raise.setText("RAISE");
@@ -157,9 +184,6 @@ public class ChoiceBar {
 	private void setHBoxSize(HBox hbox, GUI gui) {
 		hbox.setMinHeight(gui.getHeight() * 0.07);
 		hbox.setMaxHeight(gui.getHeight() * 0.07);
-		// hbox.setMinHeight(70);
-		// hbox.setMaxHeight(70);
-
 	}
 
 	/**
@@ -171,10 +195,8 @@ public class ChoiceBar {
 	public void updatePossibleBarsToClick(Player player) {
 		PossibleActions pa = player.getClient().getSession()
 				.getPlayerOptions(player);
-//		call.getStyleClass().remove(0);
-//		check.getStyleClass().remove(0);
-//		fold.getStyleClass().remove(0);
-//		raise.getStyleClass().remove(0);
+		System.out.println("Possible acctions: canCall: "+pa.canCall()+" canCheck: "+pa.canCheck());
+		
 		if (pa.canCall()) {
 			call.getStyleClass().add("button");
 			canCall = true;
@@ -199,6 +221,7 @@ public class ChoiceBar {
 		}
 		raiseSlider.setMax(pa.getMaxRaise());
 		raiseSlider.setMin(pa.getMinRaise());
+		raiseSlider.setValue(pa.getMinRaise());
 	}
 	
 	private boolean canCheckNow(){
