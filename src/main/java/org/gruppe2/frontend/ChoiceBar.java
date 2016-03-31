@@ -114,15 +114,8 @@ public class ChoiceBar {
 	/**
 	 * Makes it possible to use keys to play, insted of mouse
 	 * 
-	 * @param check
-	 * @param call
-	 * @param fold
-	 * @param raise
-	 * @param gui
-	 * @param client
-	 * @param raiseSlider
-	 * @param player
 	 */
+	@SuppressWarnings("incomplete-switch")
 	private void setKeyListener(Button check, Button call, Button fold,
 			Button raise, GUI gui, GUIClient client, Slider raiseSlider,
 			Player player) {

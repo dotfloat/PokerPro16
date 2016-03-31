@@ -1,21 +1,14 @@
 package org.gruppe2.frontend;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
-import javafx.scene.Node;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import org.gruppe2.backend.*;
-import org.gruppe2.backend.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.gruppe2.backend.Player;
 
 /*
  *   An object to display player details when the game is being played.

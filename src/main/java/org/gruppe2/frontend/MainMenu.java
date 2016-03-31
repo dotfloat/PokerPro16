@@ -1,6 +1,5 @@
 package org.gruppe2.frontend;
 
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
