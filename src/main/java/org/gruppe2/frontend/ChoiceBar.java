@@ -75,21 +75,21 @@ public class ChoiceBar {
 	private void setButtonAction(Slider raiseSlider, Button check, Button call,
 			Button raise, Button fold, Player player, Label sliderValue,
 			GUIClient client) {
-		ChoiceBar This = this;
+		
 		
 		check.setOnAction(e -> {
-			if (This.canCheck){
+			if (canCheckNow()){
 				client.setAction(new Action.Check()); 
 			}
 		});
 
 		call.setOnAction(e -> {
-			if (This.canCall)
+			if (canCallNow())
 				client.setAction(new Action.Call());
 		});
 
 		fold.setOnAction(e -> {
-			if (This.canFold)
+			if (canFoldNow())
 				client.setAction(new Action.Fold());
 		});
 
@@ -105,7 +105,7 @@ public class ChoiceBar {
 		});
 		
 		raise.setOnAction(e -> {
-			if (This.canFold)
+			if (canRaiseNow())
 				raise(client, raiseSlider, player);
 		});
 
@@ -146,9 +146,9 @@ public class ChoiceBar {
 	}
 
 	private void raise(GUIClient client, Slider raiseSlider, Player player) {
-		if (client.getSession().getPlayerOptions(player).getMinRaise() < raiseSlider
+		if (client.getSession().getPlayerOptions(player).getMinRaise() <= raiseSlider
 				.getValue()) {
-			if (client.getSession().getPlayerOptions(player).getMaxRaise() > raiseSlider
+			if (client.getSession().getPlayerOptions(player).getMaxRaise() >= raiseSlider
 					.getValue())
 				client.setAction(new Action.Raise((int) raiseSlider.getValue()));
 		}
@@ -199,6 +199,19 @@ public class ChoiceBar {
 		}
 		raiseSlider.setMax(pa.getMaxRaise());
 		raiseSlider.setMin(pa.getMinRaise());
+	}
+	
+	private boolean canCheckNow(){
+		return canCheck;
+	}
+	private boolean canCallNow(){
+		return canCall;
+	}
+	private boolean canRaiseNow(){
+		return canRaise;
+	}
+	private boolean canFoldNow(){
+		return canFold;
 	}
 
 }
