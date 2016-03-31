@@ -40,17 +40,17 @@ public class AIClient extends GameClient {
 		*/
 
 		if (actions.canCall()) {
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 8; i++)
 				types.add(call);
 		}
 
 		if (actions.canCheck()) {
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 8; i++)
 				types.add(check);
 		}
 
 		if (actions.canRaise()) {
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 3; i++)
 				types.add(raise);
 		}
 
@@ -68,10 +68,10 @@ public class AIClient extends GameClient {
 				return new Action.Raise(actions.getMaxRaise());
 			int maxRaiseAmount = actions.getMaxRaise();
 			double smartRaise = rand.nextDouble();
-			if (smartRaise <= 0.75)
-				maxRaiseAmount = (int) (maxRaiseAmount*0.25);
-			else if (smartRaise > 0.75 && smartRaise <= 0.99)
-				maxRaiseAmount = (int) (maxRaiseAmount * 0.75);
+			if (smartRaise <= 0.90)
+				maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount*0.05));
+			else if (smartRaise > 0.90 && smartRaise <= 0.999)
+				maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.20));
 			return new Action.Raise(
 					rand.nextInt(maxRaiseAmount - actions.getMinRaise()) + actions.getMinRaise());
 
