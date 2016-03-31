@@ -1,19 +1,9 @@
 package org.gruppe2.frontend;
 
-import javafx.scene.layout.VBox;
-import org.gruppe2.ai.AIClient;
-import org.gruppe2.backend.Player;
-
-import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Modality;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
