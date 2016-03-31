@@ -40,15 +40,18 @@ public class AIClient extends GameClient {
 		*/
 
 		if (actions.canCall()) {
-			types.add(call);
+			for (int i = 0; i < 3; i++)
+				types.add(call);
 		}
 
 		if (actions.canCheck()) {
-			types.add(check);
+			for (int i = 0; i < 3; i++)
+				types.add(check);
 		}
 
 		if (actions.canRaise()) {
-			types.add(raise);
+			for (int i = 0; i < 2; i++)
+				types.add(raise);
 		}
 
 		types.add(fold);
@@ -63,8 +66,14 @@ public class AIClient extends GameClient {
 		case raise:
 			if (actions.getMinRaise() == actions.getMaxRaise())
 				return new Action.Raise(actions.getMaxRaise());
+			int maxRaiseAmount = actions.getMaxRaise();
+			double smartRaise = rand.nextDouble();
+			if (smartRaise <= 0.75)
+				maxRaiseAmount = (int) (maxRaiseAmount*0.25);
+			else if (smartRaise > 0.75 && smartRaise <= 0.99)
+				maxRaiseAmount = (int) (maxRaiseAmount * 0.75);
 			return new Action.Raise(
-					rand.nextInt(actions.getMaxRaise() - actions.getMinRaise()) + actions.getMinRaise());
+					rand.nextInt(maxRaiseAmount - actions.getMinRaise()) + actions.getMinRaise());
 
 		default:
 			return new Action.Fold();
