@@ -12,6 +12,7 @@
 	-fx-vgap: 5px;
 	-fx-padding: 10px;
 	-fx-background-color: black;
+	-fx-background-radius: 10px;
 }
 
 .paneActive {
@@ -19,9 +20,8 @@
 	-fx-vgap: 5px;
 	-fx-padding: 10px;
 	-fx-background-color: black;
-	-fx-border-width: 1px;
-	-fx-border-color: black;
-	-fx-effect: dropshadow(three-pass-box, #00e64d, 20, 0, 0, 0);
+	-fx-background-radius: 10px;
+	-fx-effect: dropshadow(three-pass-box, #0099ff, 20, 0, 0, 0);
 }
 
 .root {
@@ -47,11 +47,24 @@
 
 .button {
 	-fx-position-shape: false;
-	-fx-text-fill: white;
+	-fx-text-fill: #0099ff;
 	-fx-font-weight: bold;
 	-fx-font: 20px "sans-serif";
-	-fx-background-color: #009933;
-	-fx-effect: innershadow( gaussian , #00e64d , 2, 0, 0, 4);
+	-fx-background-color: #333333;
+	-fx-background-radius: 15px;
+	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
+
+}
+
+.button:hover {
+	-fx-background-color: #262626;
+	-fx-text-fill: #33adff;
+	-fx-effect: innershadow( gaussian , #404040 , 2, 0, 0, 4);
+}
+
+.button:pressed {
+	-fx-background-color: #1a1a1a;
+	-fx-effect: innershadow(gaussian, #0d0d0d, 2, 0, 0, 4);
 }
 
 .buttonMenu {
@@ -66,39 +79,31 @@
 	-fx-font: 20px "sans-serif";
 	-fx-background-color: #009933;
 }
+
 .choice-box .context-menu {
     -fx-background-color: #009933 ;
 }
 
-.button:hover {
-	-fx-background-color: #00802b;
-	-fx-effect: innershadow( gaussian , #00cc44 , 2, 0, 0, 4);
-}
-
-.button:pressed {
-	-fx-background-color: #006622;
-	-fx-effect: innershadow( gaussian , #003311 , 2, 0, 0, 4);
-}
 .slider {
 	-fx-color: #009933;
-	-fx-effect: innershadow( gaussian , #1aff66 , 2, 0, 0, 4);
 }
 .slider .thumb {
-    -fx-background-color: #009933;
+    -fx-background-color: #0099ff;
     -fx-size: 10;
+	-fx-effect: innershadow( gaussian , #33adff , 2, 0, 0, 4);
 }
 
 .slider .thumb:hover {
-	-fx-background-color: #00802b;
+	-fx-background-color: #33adff;
 }
 
 .slider .thumb:pressed {
-	-fx-background-color: #006622;
+	-fx-background-color: #007acc;
 }
 
 .slider .track {
-	-fx-background-color: #009933;
-	-fx-effect: innershadow( gaussian , #1aff66 , 2, 0, 0, 3);
+	-fx-background-color: #404040;
+	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 3);
 }
 
 .label {
@@ -113,9 +118,18 @@
 }
 
 .text-field {
-	-fx-background-color: #00802b;
+	-fx-background-color: #1a1a1a;
+	-fx-background-radius: 15px;
 	-fx-text-fill: white;
 	-fx-font-size: 20;
 	-fx-alignment: center;
 	-fx-prompt-text-fill: whitesmoke;
+}
+.text-field:focused {
+	-fx-background-color: black;
+	-fx-text-fill: white;
+	-fx-font-size: 20;
+	-fx-alignment: center;
+	-fx-prompt-text-fill: whitesmoke;
+	-fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
 }

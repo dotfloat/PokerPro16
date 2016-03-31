@@ -32,13 +32,6 @@ public class Painter extends Pane {
 	Image backGround;
 	
 	ImageView bg;
-	//Player positions
-	Label playerPosition0;
-	Label playerPosition1;
-	Label playerPosition2;
-	Label playerPosition3;
-	Label playerPosition4;
-	Label playerPosition5;
 	
 	//Total pot
 	Label totalPot;
@@ -283,18 +276,18 @@ public class Painter extends Pane {
 		paintPlayerInfoBox(playerInfoBoxes.get(3), xStep*2, y);
 		paintPlayerInfoBox(playerInfoBoxes.get(4), xStep*6.5, y);
 		paintPlayerInfoBox(playerInfoBoxes.get(5), xStep*11, y);
-		paintPlayerInfoBox(playerInfoBoxes.get(2), xStep*0.5, yStep*2);
+		paintPlayerInfoBox(playerInfoBoxes.get(2), xStep*0.2, yStep*2);
 		paintPlayerInfoBox(playerInfoBoxes.get(6), xStep*12.5, yStep*2);
-		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*0.5, yStep*4);
-		paintPlayerInfoBox(playerInfoBoxes.get(7), xStep*12.5, yStep*4);
-		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*0.5, yStep*6);
-		paintPlayerInfoBox(playerInfoBoxes.get(8), xStep*12.5, yStep*6);
+		paintPlayerInfoBox(playerInfoBoxes.get(1), xStep*0.2, yStep*4.2);
+		paintPlayerInfoBox(playerInfoBoxes.get(7), xStep*12.5, yStep*4.2);
+		paintPlayerInfoBox(playerInfoBoxes.get(0), xStep*0.2, yStep*6.4);
+		paintPlayerInfoBox(playerInfoBoxes.get(8), xStep*12.5, yStep*6.4);
 	}
 	/**
 	 * This is the drawing of the pot on the scene.
 	 */
 	public void drawPot() {
-		totalPot = new Label("POT:"+gui.getClient().getSession().getTable().getPot()+" CH");
+		totalPot = new Label("POT: "+gui.getClient().getSession().getTable().getPot()+" CH");
 		totalPot.setLayoutX(gui.getWidth()/2);
 		totalPot.setLayoutY(gui.getHeight()*0.6);
 		

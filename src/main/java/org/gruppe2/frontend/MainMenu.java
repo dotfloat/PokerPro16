@@ -2,6 +2,7 @@ package org.gruppe2.frontend;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +24,7 @@ public class MainMenu extends Pane {
 		this.setMaxHeight(gui.getHeight());
 		gui.updateStageDimensions();
 
-		getScene().setFill(Color.BLACK);
+		getScene().setFill(Color.color(0.02,0.02,0.02));
 		
 	}
 
@@ -54,6 +55,7 @@ public class MainMenu extends Pane {
 		
 		vbox.setLayoutX(gui.getWidth()*0.5 - buttonWidth*0.5);
 		vbox.setLayoutY(gui.getHeight()*0.5 + buttonHeight*3);
+		vbox.setMaxHeight(gui.getHeight()*0.4);
 
 		this.getChildren().add(vbox);
 		root.getChildren().add(this);
