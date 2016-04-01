@@ -77,7 +77,8 @@ public class PlayerInfoBox extends GridPane {
 	public Player getPlayer() {
 		return player;
 	}
-	 private void updatePicture() {
+
+    private void updatePicture() {
     	 if(player.getClient().getSession().playerHasFolded(player))
          	profileImage.setImage(new Image
          			(getClass().getResourceAsStream("/defaultFolded.png")));

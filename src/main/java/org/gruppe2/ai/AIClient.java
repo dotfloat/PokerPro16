@@ -72,6 +72,8 @@ public class AIClient extends GameClient {
 				maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount*0.05));
 			else if (smartRaise > 0.90 && smartRaise <= 0.999)
 				maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.20));
+			if (maxRaiseAmount == actions.getMaxRaise())
+				return new Action.Raise(maxRaiseAmount);
 			return new Action.Raise(
 					rand.nextInt(maxRaiseAmount - actions.getMinRaise()) + actions.getMinRaise());
 

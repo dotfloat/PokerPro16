@@ -102,7 +102,7 @@ public class GUIClient extends GameClient {
 	
 	@Override
 	public void onPlayerVictory(Player player){
-		gui.getMainFrame().playerWon(player);
+		gui.getMainFrame().playerWons(player);
 		gui.getMainFrame().clearCommunityCards();
 	}
 }
