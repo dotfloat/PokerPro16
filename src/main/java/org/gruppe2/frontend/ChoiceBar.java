@@ -89,7 +89,7 @@ public class ChoiceBar {
 			GUIClient client) {
 	
 		bet.setOnAction(e -> {
-			if (canRaiseNow())
+			if (canRaiseNow() && canCallNow() && raiseSlider.getValue() > 1)
 				raise(client, raiseSlider, player);
 			else if (canCallNow())
 				client.setAction(new Action.Call());
@@ -143,7 +143,6 @@ public class ChoiceBar {
 					client.setAction(new Action.Call());
 				else if(canCheck)
 					client.setAction(new Action.Check());
-				
 				break;
 			}
 		});
@@ -193,7 +192,7 @@ public class ChoiceBar {
 			bet.getStyleClass().add("button");
 			canCheck = true;
 		} 
-		if (pa.canRaise()) {
+		if (pa.canRaise() && raiseSlider.getValue() > 1) {
 			bet.getStyleClass().add("button");
 			canRaise = true;
 		} 

@@ -74,7 +74,16 @@
 	-fx-background-radius: 15px;
 	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
 }
-
+.scroll.pane {
+	-fx-background-color: transparent;
+	-fx-position-shape: false;
+	-fx-text-fill: #0099ff;
+	-fx-font-weight: bold;
+	-fx-font: 20px "sans-serif";
+	-fx-background-color: #333333;
+	-fx-background-radius: 15px;
+	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
+}
 .slider {
 	-fx-color: #009933;
 }
@@ -107,6 +116,7 @@
 	-fx-background-size: 300px, 300px;
 	-fx-background-repeat: repeat;
 }
+
 
 .text-field {
 	-fx-background-color: #1a1a1a;
