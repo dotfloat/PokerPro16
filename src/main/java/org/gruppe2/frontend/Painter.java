@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -179,7 +181,7 @@ public class Painter extends Pane {
 
 				GridPane grid = new GridPane();
 
-				Label wonText = new Label("Player: "+player.toString() +" Won the game!");
+				Label wonText = new Label("Player: "+player.toString() +" won the game!");
 
 				Button ok = new Button("Ok");
 
@@ -192,6 +194,21 @@ public class Painter extends Pane {
 		    	dialogStage.showAndWait();    
 		    }           
 		});
+	}
+	public void playerWons(Player player){
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Label wonText = new Label(player.toString().toUpperCase() +" WON THE ROUND!\nTotal win");
+				HBox statusBox = new HBox();
+				statusBox.getChildren().add(wonText);
+				statusBox.getStyleClass().add("pane");
+				statusBox.setLayoutX(getWidth()*0.5 - statusBox.getWidth());
+				statusBox.setLayoutY(getHeight()*0.5 - statusBox.getHeight());
+				getChildren().add(statusBox);
+			}
+		});
+
 	}
 	
 	
