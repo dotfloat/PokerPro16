@@ -140,8 +140,7 @@ public class ChoiceBar {
 			switch (event.getCode()) {
 			case UP:
 				if(canRaiseNow())
-					raiseSlider.setValue(raiseSlider.getValue()*2);
-				
+					raiseSlider.setValue(raiseSlider.getValue()*2);		
 				break;
 			case DOWN:
 				raiseSlider.setValue(raiseSlider.getValue()/2);

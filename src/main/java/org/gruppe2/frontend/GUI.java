@@ -363,8 +363,6 @@ public class GUI extends Application {
 						choiceBar.updatePossibleBarsToClick(player);
 		    		}
 		    	}	
-				
-				
 				//--->
 		    }});
 	}
