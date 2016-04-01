@@ -147,7 +147,6 @@ public class GUI extends Application {
 		mainFrame.paintAllPlayers(playerInfoBoxes);
 		Thread th = new Thread(() -> gameSession.mainLoop());
 		th.start();
-		
 	}
 
 
