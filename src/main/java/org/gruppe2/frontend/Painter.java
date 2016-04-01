@@ -135,7 +135,7 @@ public class Painter extends Pane {
 					Card c = (Card) communityCards.get(i);
 					ImageView cardImage = createCardImage(c);
 					cardImage.setPreserveRatio(true);
-					cardImage.setFitHeight(gui.getWidth()*0.055);
+					cardImage.setFitHeight(gui.getWidth()*0.07);
 					
 					cardImage.setLayoutX(gui.getWidth()*0.4 + (cardOffset*i));
 					cardImage.setLayoutY(gui.getHeight()*0.4);
