@@ -23,9 +23,6 @@ public class SettingsMenu extends Pane {
 		this.mainMenu = mainMenu;
 		this.gui = gui;
 		this.root = root;
-		// this.setMinHeight(gui.getHeight());
-		// this.setMaxHeight(gui.getHeight());
-		// this.setStyle("-fx-background-color: black");
 	}
 
 	public void showSettings() {
@@ -33,16 +30,17 @@ public class SettingsMenu extends Pane {
 		Button big = new Button("1920x1080");
 		Button medium = new Button("1280x720");
 		Button small = new Button("960x540");
-
+		Button cancel = new Button("Cancel");
 		ChoiceBox<String> resolutions = new ChoiceBox<String>(
 				FXCollections.observableArrayList(big.getText(), medium.getText(), small.getText()));
 
 		resolutions.getSelectionModel();
 		gui.canvas.setHeight(gui.getHeight());
 		VBox vbox = new VBox();
-
-		vbox.getChildren().addAll(resolutionText, resolutions);
-		setEventListener(big, medium, small, vbox, resolutions);
+		vbox.setSpacing(gui.getHeight()/20);
+		
+		vbox.getChildren().addAll(resolutionText, resolutions, cancel);
+		setEventListener(big, medium, small, vbox, resolutions, cancel);
 
 		vbox.setLayoutX(gui.getWidth() / 2 - vbox.getWidth());
 		vbox.setLayoutY(gui.getHeight() / 2 + gui.getHeight() * 0.2);
@@ -59,14 +57,15 @@ public class SettingsMenu extends Pane {
 	 * @param small
 	 * @param vbox
 	 * @param resolutions
+	 * @param cancel 
 	 */
 	private void setEventListener(Button big, Button medium, Button small,
-			VBox vbox, ChoiceBox<String> resolutions) {
+			VBox vbox, ChoiceBox<String> resolutions, Button cancel) {
 		resolutions
 				.getSelectionModel()
 				.selectedItemProperty()
 				.addListener(
-						e -> {
+						e -> { // Set new resolution and Go back to main menu
 							if (resolutions.getSelectionModel().isSelected(0)) {
 								gui.setWindowSize(1920, 1080);
 
@@ -78,12 +77,23 @@ public class SettingsMenu extends Pane {
 									.isSelected(2)) {
 								gui.setWindowSize(960, 540);
 							}
-							this.getChildren().remove(vbox);
-							mainMenu.getChildren().remove(0);
-							root.getChildren().remove(mainMenu);
-							
-							mainMenu.setMainMenu((Stage) gui.scene.getWindow(),
-									root, gui);
+							resetFrameToMainMenu(vbox);
 						});
+		
+		cancel.setOnAction( e -> { // Go back to main menu
+			resetFrameToMainMenu(vbox);
+		});
+		
+	}
+	/**
+	 * Goes back to main menu
+	 * @param vbox
+	 */
+	public void resetFrameToMainMenu(VBox vbox){
+		this.getChildren().remove(vbox);
+		mainMenu.getChildren().remove(0);
+		root.getChildren().remove(mainMenu);
+		mainMenu.setMainMenu((Stage) gui.scene.getWindow(),
+				root, gui);
 	}
 }

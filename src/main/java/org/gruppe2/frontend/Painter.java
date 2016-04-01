@@ -25,17 +25,12 @@ import org.gruppe2.backend.Player;
 public class Painter extends Pane {
 
 	
-	//Used to make sure the drawing are correct size compared to screen. 
-	//ig. 120 vdw = 12 vdw on screen if scale = 10
-	private int scale = 10;
+	
 	GUI gui;
 	Image backGround;
-	
 	ImageView bg;
 	
-	//Total pot
 	Label totalPot;
-	
 	ArrayList<ImageView> communityImageCards;
 	
 	
@@ -74,54 +69,6 @@ public class Painter extends Pane {
 		return backGround;
 	}
 	
-	public void showCardsOnHand(ArrayList<Player> listOfPlayers){
-		int playerNumber = 0;
-		for(Player player : listOfPlayers){
-			ImageView card1 = createCardImage(player.getCard1());
-			ImageView card2 = createCardImage(player.getCard2());
-			
-			if(playerNumber == 0){
-				card1.setLayoutX(150);
-				card1.setLayoutY(290);
-				card2.setLayoutX(150);
-				card2.setLayoutY(320);
-			}
-			else if(playerNumber == 1){
-				card1.setLayoutX(250);
-				card1.setLayoutY(130);
-				card2.setLayoutX(250);
-				card2.setLayoutY(160);
-			}
-			else if(playerNumber == 2){
-				card1.setLayoutX(430);
-				card1.setLayoutY(130);
-				card2.setLayoutX(430);
-				card2.setLayoutY(160);	
-			}
-			else if(playerNumber == 3){
-				card1.setLayoutX(560);
-				card1.setLayoutY(290);
-				card2.setLayoutX(560);
-				card2.setLayoutY(320);
-			}
-			else if(playerNumber == 4){
-				card1.setLayoutX(430);
-				card1.setLayoutY(380);
-				card2.setLayoutX(430);
-				card2.setLayoutY(410);
-			}
-			else if(playerNumber == 5){
-				card1.setLayoutX(250);
-				card1.setLayoutY(380);
-				card2.setLayoutX(250);
-				card2.setLayoutY(410);
-			}
-			this.getChildren().addAll(card1,card2);
-			playerNumber++;
-		}
-	}
-	
-	
 	/**
 	 * Get players card, and place on top (last) in scene
 	 * 
@@ -154,13 +101,6 @@ public class Painter extends Pane {
 		
 	}
 	
-	public int getScale() {
-		return scale;
-	}
-
-	public void setScale(int scale) {
-		this.scale = scale;
-	}
 	/**
 	 * Gets the specific card as an ImageView
 	 * @param card
@@ -179,11 +119,13 @@ public class Painter extends Pane {
 
 	public void showCommunityCards(ArrayList<Card> communityCards) {
 		if(communityCards == null || communityCards.size() == 0) return;
-
+		if(communityCards.size() == 3)
+			communityImageCards = new ArrayList<ImageView>();
+		
 		Platform.runLater(new Runnable(){
 		    @Override
 		    public void run() {
-		    	communityImageCards = new ArrayList<ImageView>();
+		    	
 		    	Double cardOffset = gui.getWidth()*0.05;
 				int cardsToShow = communityCards.size();
 				for (int i = 0; i < cardsToShow; i++) {
@@ -204,12 +146,18 @@ public class Painter extends Pane {
 		});
 	}
 	public void clearCommunityCards(){
-		if(communityImageCards != null){
-			if(communityImageCards.size() == 0) return;
-			else
-				gui.getMainFrame().getChildren().removeAll(communityImageCards);
-				    
-		}
+		Platform.runLater(new Runnable(){
+		    @Override
+		    public void run() {
+				if(communityImageCards != null){
+					if(communityImageCards.size() == 0) return;
+					else
+						gui.getMainFrame().getChildren().removeAll(communityImageCards);
+						communityImageCards = new ArrayList<ImageView>();
+						    
+				}
+		    }
+	    });
 	}
 	
 	
@@ -234,7 +182,7 @@ public class Painter extends Pane {
 				Label wonText = new Label("Player: "+player.toString() +" Won the game!");
 
 				Button ok = new Button("Ok");
-	
+
 				grid.addRow(1, wonText);
 				
 				grid.addRow(2, ok);

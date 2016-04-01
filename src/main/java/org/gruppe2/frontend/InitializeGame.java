@@ -88,7 +88,7 @@ public class InitializeGame {
 					gui.smallBlind = smallBlind;
 					gui.bigBlind = bigBlind;
 					
-					gui.startMainFrame(primaryStage,gui.root, gui.canvas); //THIS IS START!!!!
+					gui.startMainFrame(primaryStage,gui.root, gui.canvas); //THIS IS START GAME!!!!
 
 				}
 			}
@@ -101,7 +101,13 @@ public class InitializeGame {
 	}
 	
 	
-
+	/**
+	 * Checks if money inputs in main menu screen are valid.
+	 * @param startMoneyField
+	 * @param bigBlindField
+	 * @param smallBlindField
+	 * @return
+	 */
 	private static boolean moneyFieldsAreValid(TextField startMoneyField,
 			TextField bigBlindField, TextField smallBlindField) {
 		

@@ -74,14 +74,22 @@
 
 .choice-box {
 	-fx-position-shape: false;
-	-fx-text-fill: white;
+	-fx-text-fill: #0099ff;
 	-fx-font-weight: bold;
 	-fx-font: 20px "sans-serif";
-	-fx-background-color: #009933;
+	-fx-background-color: #333333;
+	-fx-background-radius: 15px;
+	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
 }
 
 .choice-box .context-menu {
-    -fx-background-color: #009933 ;
+    -fx-position-shape: false;
+	-fx-text-fill: #0099ff;
+	-fx-font-weight: bold;
+	-fx-font: 20px "sans-serif";
+	-fx-background-color: #333333;
+	-fx-background-radius: 15px;
+	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
 }
 
 .slider {

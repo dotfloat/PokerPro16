@@ -362,8 +362,7 @@ public class GUI extends Application {
 		    			getMainFrame().updateTablePot();
 						choiceBar.updatePossibleBarsToClick(player);
 		    		}
-		    	}	
-				//--->
+		    	}		
 		    }});
 	}
 }

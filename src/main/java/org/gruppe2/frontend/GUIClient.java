@@ -99,4 +99,10 @@ public class GUIClient extends GameClient {
 	public void onPlayerAction(Player player, Action action) {
 		gui.updateGUI(player);
 	}
+	
+	@Override
+	public void onPlayerVictory(Player player){
+		gui.getMainFrame().playerWon(player);
+		gui.getMainFrame().clearCommunityCards();
+	}
 }

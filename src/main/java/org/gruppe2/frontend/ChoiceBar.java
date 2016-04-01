@@ -194,7 +194,7 @@ public class ChoiceBar {
 	public void updatePossibleBarsToClick(Player player) {
 		PossibleActions pa = player.getClient().getSession()
 				.getPlayerOptions(player);
-		System.out.println("Possible acctions: canCall: "+pa.canCall()+" canCheck: "+pa.canCheck());
+//		System.out.println("Possible actions: canCall: "+pa.canCall()+" canCheck: "+pa.canCheck());
 		
 		if (pa.canCall()) {
 			call.getStyleClass().add("button");

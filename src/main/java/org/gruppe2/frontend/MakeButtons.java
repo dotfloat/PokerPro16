@@ -18,8 +18,7 @@ public class MakeButtons {
 
 	public void makeButton(BorderPane border, GUI gui, Group root) {
 		
-		//Make menu
-		new TopMenu(grid, gui);
+		
 		
 		// Buttons
 		restart = new Button("Restart");
