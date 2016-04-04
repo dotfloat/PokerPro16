@@ -11,6 +11,7 @@ public class Main {
     }
 
     private static EntryPoint entryPoint = EntryPoint.JAVAFX;
+	public static boolean autostart = false;
 
     public static void main(String[] args) {
         parseArgs(args);
@@ -42,7 +43,10 @@ public class Main {
                 case "-o":
                     entryPoint = EntryPoint.OLD_JAVAFX;
                     break;
-
+                case "--autostart":
+                	autostart = true;
+                	break;
+                    
                 default:
                     System.out.println("Unknown argument: " + arg);
                     break;

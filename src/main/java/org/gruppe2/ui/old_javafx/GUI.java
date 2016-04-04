@@ -11,6 +11,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import org.gruppe2.Main;
 import org.gruppe2.game.old.GameBuilder;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
@@ -109,7 +111,18 @@ public class GUI extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         startShow(root, scene, primaryStage, gc);
         primaryStage.setResizable(true);
-        newMainMenu(primaryStage, root);
+        
+        if(!Main.autostart) // Autostart mode.
+        	newMainMenu(primaryStage, root);
+        else{    //Normal main menu mode.
+        	bigBlind = 50;
+        	smallBlind = 25;
+        	startValue = 500;
+        	meName = "Mr. Me";
+        	startMainFrame(primaryStage,root, canvas);
+        }
+        
+        	
     }
 
     /**
