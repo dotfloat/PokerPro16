@@ -1,18 +1,30 @@
 package org.gruppe2;
 
-import org.gruppe2.console.ConsoleClient;
-import org.gruppe2.frontend.GUI;
+import javafx.application.Application;
+import org.gruppe2.ui.console.ConsoleClient;
+import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.old_javafx.GUI;
 
 public class Main {
-    private static boolean useGUI = true;
+    private enum EntryPoint {
+        CONSOLE, OLD_JAVAFX, JAVAFX
+    }
+
+    private static EntryPoint entryPoint = EntryPoint.JAVAFX;
 
     public static void main(String[] args) {
         parseArgs(args);
 
-        if (useGUI) {
-            GUI.main(null);
-        } else {
-            ConsoleClient.main(null);
+        switch (entryPoint) {
+            case CONSOLE:
+                ConsoleClient.main(args);
+                break;
+            case OLD_JAVAFX:
+                GUI.main(args);
+                break;
+            case JAVAFX:
+                Application.launch(PokerApplication.class, args);
+                break;
         }
     }
 
@@ -22,7 +34,13 @@ public class Main {
                 case "--console":
                 case "--nogui":
                 case "-c":
-                    useGUI = false;
+                    entryPoint = EntryPoint.CONSOLE;
+                    break;
+
+                case "--old-javafx":
+                case "--old-gui":
+                case "-o":
+                    entryPoint = EntryPoint.OLD_JAVAFX;
                     break;
 
                 default:

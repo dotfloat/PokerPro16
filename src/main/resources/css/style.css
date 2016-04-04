@@ -115,7 +115,7 @@
 }
 
 .background {
-    -fx-background-image: url("/floorTile.png");
+    -fx-background-image: url("/images/ui/floorTile.png");
     -fx-background-size: 300px, 300px;
     -fx-background-repeat: repeat;
 }

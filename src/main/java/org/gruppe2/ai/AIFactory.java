@@ -1,6 +1,6 @@
 package org.gruppe2.ai;
 
-import org.gruppe2.backend.GameClient;
+import org.gruppe2.game.GameClient;
 
 public class AIFactory {
     private Difficulty difficulty;
