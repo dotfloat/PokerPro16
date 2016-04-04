@@ -1,8 +1,8 @@
 package org.gruppe2;
 
-import org.gruppe2.game.*;
-import org.gruppe2.game.Card.Suit;
-import org.gruppe2.game.ShowdownEvaluator.Hand;
+import org.gruppe2.game.old.*;
+import org.gruppe2.game.old.Card.Suit;
+import org.gruppe2.game.old.ShowdownEvaluator.Hand;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

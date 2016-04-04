@@ -1,4 +1,4 @@
-package org.gruppe2.game;
+package org.gruppe2.game.old;
 
 import java.util.ArrayList;
 import java.util.List;

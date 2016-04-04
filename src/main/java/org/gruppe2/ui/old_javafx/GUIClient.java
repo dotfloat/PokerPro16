@@ -1,10 +1,10 @@
 package org.gruppe2.ui.old_javafx;
 
 import javafx.application.Platform;
-import org.gruppe2.game.Action;
-import org.gruppe2.game.Card;
-import org.gruppe2.game.GameClient;
-import org.gruppe2.game.Player;
+import org.gruppe2.game.old.Action;
+import org.gruppe2.game.old.Card;
+import org.gruppe2.game.old.GameClient;
+import org.gruppe2.game.old.Player;
 
 import java.util.ArrayList;
 import java.util.List;

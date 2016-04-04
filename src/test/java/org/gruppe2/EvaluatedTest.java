@@ -1,7 +1,7 @@
 package org.gruppe2;
 
-import org.gruppe2.game.Evaluated;
-import org.gruppe2.game.ShowdownEvaluator.Hand;
+import org.gruppe2.game.old.Evaluated;
+import org.gruppe2.game.old.ShowdownEvaluator.Hand;
 import org.junit.Test;
 
 import java.util.Random;

@@ -1,8 +1,8 @@
 package org.gruppe2.ai;
 
-import org.gruppe2.game.Card;
-import org.gruppe2.game.GameSession;
-import org.gruppe2.game.Player;
+import org.gruppe2.game.old.Card;
+import org.gruppe2.game.old.GameSession;
+import org.gruppe2.game.old.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;

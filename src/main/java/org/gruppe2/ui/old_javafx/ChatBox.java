@@ -4,7 +4,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import org.gruppe2.game.Player;
+import org.gruppe2.game.old.Player;
 
 public class ChatBox extends Pane {
 

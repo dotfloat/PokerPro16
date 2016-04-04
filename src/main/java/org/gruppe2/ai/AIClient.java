@@ -1,9 +1,9 @@
 package org.gruppe2.ai;
 
-import org.gruppe2.game.Action;
-import org.gruppe2.game.GameClient;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.PossibleActions;
+import org.gruppe2.game.old.Action;
+import org.gruppe2.game.old.GameClient;
+import org.gruppe2.game.old.Player;
+import org.gruppe2.game.old.PossibleActions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,22 +1,20 @@
-package org.gruppe2.game;
-
-import org.gruppe2.game.ShowdownEvaluator.Hand;
+package org.gruppe2.game.old;
 
 import java.util.HashMap;
 
 public class Evaluated implements Comparable<Evaluated> {
-    private HashMap<Hand, int[]> handAndHighCards = new HashMap<Hand, int[]>();
-    private Hand hand;
+    private HashMap<ShowdownEvaluator.Hand, int[]> handAndHighCards = new HashMap<ShowdownEvaluator.Hand, int[]>();
+    private ShowdownEvaluator.Hand hand;
 
-    private HashMap<Hand, int[]> getHigh() {
+    private HashMap<ShowdownEvaluator.Hand, int[]> getHigh() {
         return handAndHighCards;
     }
 
-    public Hand getHand() {
+    public ShowdownEvaluator.Hand getHand() {
         return hand;
     }
 
-    public void setHand(Hand hand) {
+    public void setHand(ShowdownEvaluator.Hand hand) {
         this.hand = hand;
     }
 
@@ -32,7 +30,7 @@ public class Evaluated implements Comparable<Evaluated> {
     public int compareTo(Evaluated ev2) {
         if (ev2 == null)
             return 1;
-        Hand[] hands = Hand.values(); // ShowdownEvaluator.reverse(Hand.values());
+        ShowdownEvaluator.Hand[] hands = ShowdownEvaluator.Hand.values(); // ShowdownEvaluator.reverse(Hand.values());
         for (int i = hands.length - 1; i >= 0; i--) {
             if (this.getHigh().get(hands[i]) == null && ev2.getHigh().get(hands[i]) == null)
                 continue;
@@ -57,7 +55,7 @@ public class Evaluated implements Comparable<Evaluated> {
         return 0;
     }
 
-    public void addHand(Hand hand, int[] high) {
+    public void addHand(ShowdownEvaluator.Hand hand, int[] high) {
         handAndHighCards.put(hand, high);
     }
 

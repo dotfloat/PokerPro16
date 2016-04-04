@@ -1,6 +1,6 @@
 package org.gruppe2.ui.console;
 
-import org.gruppe2.game.*;
+import org.gruppe2.game.old.*;
 
 import java.util.List;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package org.gruppe2.game;
+package org.gruppe2.game.old;
 
 import org.gruppe2.ai.AIBuilder;
 

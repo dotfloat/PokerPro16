@@ -11,9 +11,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.gruppe2.game.GameBuilder;
-import org.gruppe2.game.GameSession;
-import org.gruppe2.game.Player;
+import org.gruppe2.game.old.GameBuilder;
+import org.gruppe2.game.old.GameSession;
+import org.gruppe2.game.old.Player;
 
 import java.util.ArrayList;
 

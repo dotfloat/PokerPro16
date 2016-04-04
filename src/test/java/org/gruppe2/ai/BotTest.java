@@ -1,7 +1,7 @@
 package org.gruppe2.ai;
 
-import org.gruppe2.game.ShowdownEvaluator;
-import org.gruppe2.game.ShowdownEvaluator.Hand;
+import org.gruppe2.game.old.ShowdownEvaluator;
+import org.gruppe2.game.old.ShowdownEvaluator.Hand;
 import org.junit.Test;
 
 public class BotTest {

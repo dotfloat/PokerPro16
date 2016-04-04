@@ -12,8 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.gruppe2.game.Card;
-import org.gruppe2.game.Player;
+import org.gruppe2.game.old.Card;
+import org.gruppe2.game.old.Player;
 
 import java.util.ArrayList;
 import java.util.List;
