@@ -136,7 +136,6 @@ public class GUI extends Application {
 
             @Override
             public void handle(long arg0) {
-
                 setStep(getStep() + 1);
             }
         });
