@@ -10,13 +10,11 @@ public class PokerApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         StackPane root = new StackPane();
-        root.getChildren().add(new CloseMe());
+        root.getChildren().add(new GameWindow());
 
         stage.setTitle("PokerPro16");
-        stage.setScene(new Scene(root, 300, 250));
+        stage.setScene(new Scene(root));
         stage.show();
 
-        stage.setMinWidth(300);
-        stage.setMinHeight(250);
     }
 }
