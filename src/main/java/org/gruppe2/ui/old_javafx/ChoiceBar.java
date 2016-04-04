@@ -91,11 +91,11 @@ public class ChoiceBar {
                                  GUIClient client) {
 
         bet.setOnAction(e -> {
-            if (canRaiseNow() && canCallNow() && raiseSlider.getValue() > 1)
+            if (canCallNow() && canRaiseNow()   && raiseSlider.getValue() > 1)
                 raise(client, raiseSlider, player);
             else if (canCallNow())
                 client.setAction(new Action.Call());
-            else
+            else if(canCheck)
                 client.setAction(new Action.Check());
         });
 
@@ -185,20 +185,22 @@ public class ChoiceBar {
         PossibleActions pa = player.getClient().getSession()
                 .getPlayerOptions(player);
 //		System.out.println("Possible actions: canCall: "+pa.canCall()+" canCheck: "+pa.canCheck());
-
-        if (pa.canCall()) {
-            bet.getStyleClass().add("button");
-            canCall = true;
-        }
-
-        if (pa.canCheck()) {
-            bet.getStyleClass().add("button");
-            canCheck = true;
-        }
+        
+        canCall = pa.canCall();
+        if(canCall && !pa.canRaise())
+        	bet.setText("Call");
+   
+        canCheck = pa.canCheck();
+        if(canCheck)
+        	bet.setText("Check");
         if (pa.canRaise() && raiseSlider.getValue() > 1) {
             bet.getStyleClass().add("button");
+            bet.setText("RAISE");
             canRaise = true;
         }
+        else
+        	canRaise = false;
+        
         raiseSlider.setMax(pa.getMaxRaise());
         raiseSlider.setMin(pa.getMinRaise());
         raiseSlider.setValue(pa.getMinRaise());
