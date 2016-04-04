@@ -17,10 +17,10 @@ public class Main {
 
         switch (entryPoint) {
             case CONSOLE:
-                ConsoleClient.main(args);
+                ConsoleClient.launch();
                 break;
             case OLD_JAVAFX:
-                GUI.main(args);
+                Application.launch(GUI.class, args);
                 break;
             case JAVAFX:
                 Application.launch(PokerApplication.class, args);

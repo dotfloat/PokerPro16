@@ -81,16 +81,6 @@ public class GUI extends Application {
     }
 
     /**
-     * Main method, calls PokerGame as a new thread in .start().
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        Application.launch();
-
-    }
-
-    /**
      * Pseudo constructor init
      *
      * @see javafx.application.Application#init()

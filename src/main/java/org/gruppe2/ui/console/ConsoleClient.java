@@ -12,7 +12,7 @@ public class ConsoleClient extends GameClient {
         setName("ConsoleClient");
     }
 
-    public static void main(String[] args) {
+    public static void launch() {
         new GameBuilder()
                 .ai(5)
                 .blinds(15, 7)
