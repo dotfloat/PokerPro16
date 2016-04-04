@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<VBox stylesheets="@../css/style.css">
+	
+</ VBox>
+
+
+
+VBOX
+Button createTable = new Button("CREATE TABLE");
+        Button joinTable = new Button("JOIN TABLE");
+        Button singlePlayer = new Button("SINGLE PLAYER");
+        Button settings = new Button("SETTINGS");
