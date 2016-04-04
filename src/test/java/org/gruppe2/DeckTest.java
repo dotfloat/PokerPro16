@@ -2,12 +2,13 @@ package org.gruppe2;
 
 import org.gruppe2.backend.Card;
 import org.gruppe2.backend.Deck;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class DeckTest {
     Deck deck;
@@ -32,7 +33,7 @@ public class DeckTest {
     public void drawingSeveralCardsShouldDecrementSizeTest() {
         int toDraw = 10;
         deck.drawCards(toDraw);
-        assertEquals("Deck is not the right size after drawing several cards", 52-toDraw, deck.getAvailableCards());
+        assertEquals("Deck is not the right size after drawing several cards", 52 - toDraw, deck.getAvailableCards());
     }
 
     @Test(expected = RuntimeException.class)
@@ -45,8 +46,8 @@ public class DeckTest {
         ArrayList<Card> temp = new ArrayList<Card>(deck.getCards());
         deck.shuffle();
         boolean isSame = true;
-        for(int i = 0; i < temp.size(); i++) {
-            if(!temp.get(i).equals(deck.getCards().get(i))) {
+        for (int i = 0; i < temp.size(); i++) {
+            if (!temp.get(i).equals(deck.getCards().get(i))) {
                 isSame = false;
                 break;
             }

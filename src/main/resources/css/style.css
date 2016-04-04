@@ -1,140 +1,143 @@
 .vbox {
-	-fx-background-color: black;
+    -fx-background-color: black;
 }
 
 .hbox {
-	-fx-background-color: black;
-	-fx-alignment: center;
+    -fx-background-color: black;
+    -fx-alignment: center;
 }
 
 .pane {
-	-fx-hgap: 10px;
-	-fx-vgap: 5px;
-	-fx-padding: 10px;
-	-fx-background-color: black;
-	-fx-background-radius: 10px;
+    -fx-hgap: 10px;
+    -fx-vgap: 5px;
+    -fx-padding: 10px;
+    -fx-background-color: black;
+    -fx-background-radius: 10px;
 }
 
 .paneActive {
-	-fx-hgap: 10px;
-	-fx-vgap: 5px;
-	-fx-padding: 10px;
-	-fx-background-color: black;
-	-fx-background-radius: 10px;
-	-fx-effect: dropshadow(three-pass-box, #0099ff, 20, 0, 0, 0);
+    -fx-hgap: 10px;
+    -fx-vgap: 5px;
+    -fx-padding: 10px;
+    -fx-background-color: black;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, #0099ff, 20, 0, 0, 0);
 }
 
 .root {
-	-fx-background-color: black;
+    -fx-background-color: black;
 }
 
 .button {
-	-fx-position-shape: false;
-	-fx-text-fill: #0099ff;
-	-fx-font-weight: bold;
-	-fx-font: 20px "sans-serif";
-	-fx-background-color: #333333;
-	-fx-background-radius: 15px;
-	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
+    -fx-position-shape: false;
+    -fx-text-fill: #0099ff;
+    -fx-font-weight: bold;
+    -fx-font: 20px "sans-serif";
+    -fx-background-color: #333333;
+    -fx-background-radius: 15px;
+    -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 4);
 
 }
 
 .button:hover {
-	-fx-background-color: #262626;
-	-fx-text-fill: #33adff;
-	-fx-effect: innershadow( gaussian , #404040 , 2, 0, 0, 4);
+    -fx-background-color: #262626;
+    -fx-text-fill: #33adff;
+    -fx-effect: innershadow(gaussian, #404040, 2, 0, 0, 4);
 }
 
 .button:pressed {
-	-fx-background-color: #1a1a1a;
-	-fx-effect: innershadow(gaussian, #0d0d0d, 2, 0, 0, 4);
+    -fx-background-color: #1a1a1a;
+    -fx-effect: innershadow(gaussian, #0d0d0d, 2, 0, 0, 4);
 }
 
 .buttonMenu {
-	-fx-hgap: 10px;
-	-fx-alignment: center;
+    -fx-hgap: 10px;
+    -fx-alignment: center;
 }
 
 .choice-box {
-	-fx-position-shape: false;
-	-fx-text-fill: #0099ff;
-	-fx-font-weight: bold;
-	-fx-font: 20px "sans-serif";
-	-fx-background-color: #333333;
-	-fx-background-radius: 15px;
-	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
+    -fx-position-shape: false;
+    -fx-text-fill: #0099ff;
+    -fx-font-weight: bold;
+    -fx-font: 20px "sans-serif";
+    -fx-background-color: #333333;
+    -fx-background-radius: 15px;
+    -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 4);
 }
 
 .choice-box .context-menu {
     -fx-position-shape: false;
-	-fx-text-fill: #0099ff;
-	-fx-font-weight: bold;
-	-fx-font: 20px "sans-serif";
-	-fx-background-color: #333333;
-	-fx-background-radius: 15px;
-	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
+    -fx-text-fill: #0099ff;
+    -fx-font-weight: bold;
+    -fx-font: 20px "sans-serif";
+    -fx-background-color: #333333;
+    -fx-background-radius: 15px;
+    -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 4);
 }
+
 .scroll.pane {
-	-fx-background-color: transparent;
-	-fx-position-shape: false;
-	-fx-text-fill: #0099ff;
-	-fx-font-weight: bold;
-	-fx-font: 20px "sans-serif";
-	-fx-background-color: #333333;
-	-fx-background-radius: 15px;
-	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 4);
+    -fx-background-color: transparent;
+    -fx-position-shape: false;
+    -fx-text-fill: #0099ff;
+    -fx-font-weight: bold;
+    -fx-font: 20px "sans-serif";
+    -fx-background-color: #333333;
+    -fx-background-radius: 15px;
+    -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 4);
 }
+
 .slider {
-	-fx-color: #009933;
+    -fx-color: #009933;
 }
+
 .slider .thumb {
     -fx-background-color: #0099ff;
     -fx-size: 10;
-	-fx-effect: innershadow( gaussian , #33adff , 2, 0, 0, 4);
+    -fx-effect: innershadow(gaussian, #33adff, 2, 0, 0, 4);
 }
 
 .slider .thumb:hover {
-	-fx-background-color: #33adff;
+    -fx-background-color: #33adff;
 }
 
 .slider .thumb:pressed {
-	-fx-background-color: #007acc;
+    -fx-background-color: #007acc;
 }
 
 .slider .track {
-	-fx-background-color: #404040;
-	-fx-effect: innershadow( gaussian , #595959 , 2, 0, 0, 3);
+    -fx-background-color: #404040;
+    -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 3);
 }
 
 .label {
-	-fx-text-fill: white;
-	-fx-font: 20px "sans-serif";
+    -fx-text-fill: white;
+    -fx-font: 20px "sans-serif";
 }
 
 .background {
-	-fx-background-image: url("/floorTile.png");
-	-fx-background-size: 300px, 300px;
-	-fx-background-repeat: repeat;
+    -fx-background-image: url("/floorTile.png");
+    -fx-background-size: 300px, 300px;
+    -fx-background-repeat: repeat;
 }
-
 
 .text-field {
-	-fx-background-color: #1a1a1a;
-	-fx-background-radius: 15px;
-	-fx-text-fill: white;
-	-fx-font-size: 20;
-	-fx-alignment: center;
-	-fx-prompt-text-fill: whitesmoke;
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 15px;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-prompt-text-fill: whitesmoke;
 }
+
 .text-field:focused {
-	-fx-background-color: black;
-	-fx-text-fill: white;
-	-fx-font-size: 20;
-	-fx-alignment: center;
-	-fx-prompt-text-fill: whitesmoke;
-	-fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-prompt-text-fill: whitesmoke;
+    -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
 }
 
 .statusBox {
-	-fx-background-color: #007acc;
+    -fx-background-color: #007acc;
 }

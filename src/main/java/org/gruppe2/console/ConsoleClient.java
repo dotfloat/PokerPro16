@@ -1,6 +1,5 @@
 package org.gruppe2.console;
 
-import org.gruppe2.ai.AIClient;
 import org.gruppe2.backend.*;
 
 import java.util.List;
@@ -11,6 +10,16 @@ public class ConsoleClient extends GameClient {
 
     public ConsoleClient() {
         setName("ConsoleClient");
+    }
+
+    public static void main(String[] args) {
+        new GameBuilder()
+                .ai(5)
+                .blinds(15, 7)
+                .startMoney(1000)
+                .mainClient(new ConsoleClient())
+                .build()
+                .mainLoop();
     }
 
     @Override
@@ -53,7 +62,7 @@ public class ConsoleClient extends GameClient {
         Scanner ls = new Scanner(in.nextLine());
         String cmd = ls.next().toLowerCase();
 
-        switch(cmd) {
+        switch (cmd) {
             case "fold":
                 return new Action.Fold();
 
@@ -84,15 +93,5 @@ public class ConsoleClient extends GameClient {
         }
 
         System.out.println();
-    }
-
-    public static void main(String[] args) {
-        new GameBuilder()
-                .ai(5)
-                .blinds(15, 7)
-                .startMoney(1000)
-                .mainClient(new ConsoleClient())
-                .build()
-                .mainLoop();
     }
 }

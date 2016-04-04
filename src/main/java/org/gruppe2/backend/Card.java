@@ -3,34 +3,17 @@ package org.gruppe2.backend;
 public class Card implements Comparable<Card> {
 
 
-    public enum Suit {
-        CLUBS('\u2663'), DIAMONDS('\u2666'), HEARTS('\u2665'), SPADES('\u2660');
-
-        private char symbol;
-
-        Suit(char symbol) {
-            this.symbol = symbol;
-        }
-
-        public char getUnicodeSymbol() {
-            return symbol;
-        }
-    }
-
     //to simplify things
     public static final int JACK = 11;
     public static final int QUEEN = 12;
     public static final int KING = 13;
     public static final int ACE = 14;
-
     private Suit suit;
     private int faceValue;
-
     public Card(int faceValue, Suit suit) {
-        if(faceValue < 2 || faceValue > 14) {
+        if (faceValue < 2 || faceValue > 14) {
             throw new IllegalArgumentException("faceValue can't be less than 2 or bigger than 14");
-        }
-        else {
+        } else {
             this.faceValue = faceValue;
             this.suit = suit;
         }
@@ -64,6 +47,7 @@ public class Card implements Comparable<Card> {
 
     /**
      * CompareTo used for sorting a list of cards. We don't care about suit only faceValue
+     *
      * @param other card to compare
      * @return usual compareTo result
      */
@@ -99,5 +83,19 @@ public class Card implements Comparable<Card> {
         }
 
         return face + getSuit().getUnicodeSymbol();
+    }
+
+    public enum Suit {
+        CLUBS('\u2663'), DIAMONDS('\u2666'), HEARTS('\u2665'), SPADES('\u2660');
+
+        private char symbol;
+
+        Suit(char symbol) {
+            this.symbol = symbol;
+        }
+
+        public char getUnicodeSymbol() {
+            return symbol;
+        }
     }
 }

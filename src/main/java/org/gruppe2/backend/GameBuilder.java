@@ -41,7 +41,7 @@ public class GameBuilder {
             session.addPlayer(client, startMoney);
         }
 
-        for (int i = 0; i <  numAI; i++) {
+        for (int i = 0; i < numAI; i++) {
             session.addPlayer(new AIBuilder().build(), startMoney);
         }
 

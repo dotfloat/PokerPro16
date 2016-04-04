@@ -36,6 +36,7 @@ public class Deck {
 
     /**
      * method used to draw a card from the deck. Card gets removed from the list
+     *
      * @return next card from deck
      */
     public Card drawCard() {
@@ -48,13 +49,14 @@ public class Deck {
 
     /**
      * method to draw several cards from the deck. Throws an IllegalArgumentException if there are not enough cards in the deck
+     *
      * @param amount amount of cards to draw
      * @return ArrayList og cards
      */
     public List<Card> drawCards(int amount) {
         ArrayList<Card> drawnCards = new ArrayList<>();
 
-        for(int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
             drawnCards.add(drawCard());
         }
 

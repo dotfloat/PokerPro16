@@ -1,8 +1,9 @@
 package org.gruppe2.ai;
 
 import org.gruppe2.backend.Card;
-import org.gruppe2.backend.Player;
 import org.gruppe2.backend.GameSession;
+import org.gruppe2.backend.Player;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,13 +37,14 @@ public class HandEvaluator implements AIEvaluate {
 //            case HIGHCARD:
 //                return 0;
 //            default:
-                return 0;
+        return 0;
 
     }
 
     /**
      * Makes a list of cards in your hand + cards on the table and sorts them.
      * Should be used when calculating values.
+     *
      * @return cards on table + hand.
      */
     private List<Card> getCardsFromTableAndHand(GameSession session, Player bot) {

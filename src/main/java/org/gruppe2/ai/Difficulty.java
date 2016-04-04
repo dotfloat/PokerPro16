@@ -1,7 +1,7 @@
 package org.gruppe2.ai;
 
 public enum Difficulty {
-	RANDOM,
+    RANDOM,
     EASY,
     MEDIUM,
     HARD

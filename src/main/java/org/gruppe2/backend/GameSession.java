@@ -43,7 +43,7 @@ public class GameSession {
      * Notify players about which players turn it is, waits for that players action and notifies all players about the action
      */
     public void mainLoop() {
-        for (;;) {
+        for (; ; ) {
             matchLoop();
         }
     }
@@ -63,11 +63,11 @@ public class GameSession {
         //  notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
         doPlayerAction(new Action.PayBigBlind(), getBigBlindPlayer());
-    //    notifyOtherPlayersAboutAction(bigBlindPayer, blind);
+        //    notifyOtherPlayersAboutAction(bigBlindPayer, blind);
 
         notifyRoundStart();
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             table.drawCommunityCards(i);
 
             notifyAllPlayersAboutCommunityCards(table.getCommunityCards());
@@ -100,7 +100,7 @@ public class GameSession {
 
         for (int last = button; true; last--) {
             if (last < 0)
-                last = activePlayers.size()-1;
+                last = activePlayers.size() - 1;
             if (activePlayers.get(last) != null) {
                 lastRaiserIndex = last;
                 break;
@@ -122,12 +122,10 @@ public class GameSession {
 
             if (action instanceof Action.Fold) {
                 activePlayers.set(currentPlayerIdx, null);
-            }
-            else if (action instanceof Action.Raise) {
+            } else if (action instanceof Action.Raise) {
                 doPlayerAction(action, player);
                 lastRaiserIndex = currentPlayerIdx;
-            }
-            else if (action instanceof Action.Call)
+            } else if (action instanceof Action.Call)
                 doPlayerAction(action, player);
 
             notifyAllPlayersAboutAction(player, action);
@@ -144,13 +142,13 @@ public class GameSession {
 
     }
 
-    private void startNewMatch(){
+    private void startNewMatch() {
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
         highestBet = 0;
         table.resetPot();
         table.newDeck();
-        for (Player p : activePlayers){
+        for (Player p : activePlayers) {
             p.setBet(0);
             p.setCards(table.drawACard(), table.drawACard());
         }
@@ -188,11 +186,12 @@ public class GameSession {
 
     /**
      * Notify all players about whose turn it is
+     *
      * @param player player whose turn it is
      */
     void notifyOtherPlayersAboutTurn(Player player) {
-        for(Player playerToNotify : players) {
-            if(!playerToNotify.equals(player)) {
+        for (Player playerToNotify : players) {
+            if (!playerToNotify.equals(player)) {
                 playerToNotify.getClient().onOtherPlayerTurn(player);
             }
         }
@@ -200,75 +199,74 @@ public class GameSession {
 
     /**
      * Notify all players abut the action performed
+     *
      * @param player player who performed the action
      * @param action the action performed
      */
     void notifyOtherPlayersAboutAction(Player player, Action action) {
-        for(Player playerToNotify : players) {
-            if(!playerToNotify.equals(player)) {
+        for (Player playerToNotify : players) {
+            if (!playerToNotify.equals(player)) {
                 playerToNotify.getClient().onOtherPlayerAction(player, action);
             }
         }
     }
 
-    private void notifyAllPlayersAboutAction(Player player, Action action){
-        for(Player playerToNotify : players)
+    private void notifyAllPlayersAboutAction(Player player, Action action) {
+        for (Player playerToNotify : players)
             playerToNotify.getClient().onPlayerAction(player, action);
     }
 
-    private void notifyAllPlayersAboutCommunityCards(List<Card> communityCards){
+    private void notifyAllPlayersAboutCommunityCards(List<Card> communityCards) {
         for (Player playersToNotify : players)
             playersToNotify.getClient().onCommunalCards(communityCards);
     }
 
     //TODO: Code to perform actions
+
     /**
      * Perform the action requested by the player
+     *
      * @param action action to perform
      * @param player player performing
      */
     void doPlayerAction(Action action, Player player) {
         if (checkLegalAction(action, player)) {
-            if (action instanceof Action.Raise){
+            if (action instanceof Action.Raise) {
                 int raise = ((Action.Raise) action).getAmount();
                 int chipsToMove = (highestBet - player.getBet()) + raise;
                 player.setBet(highestBet + raise);
                 player.setBank(player.getBank() - chipsToMove);
                 table.addToPot(chipsToMove);
                 highestBet = player.getBet();
-            }
-            else if (action instanceof Action.Call){
+            } else if (action instanceof Action.Call) {
                 int raise = highestBet - player.getBet();
                 player.setBet(player.getBet() + raise);
-                player.setBank(player.getBank() - raise );
+                player.setBank(player.getBank() - raise);
                 table.addToPot(raise);
-            }
-            else if (action instanceof Action.AllIn){
+            } else if (action instanceof Action.AllIn) {
                 int raise = player.getBank();
                 player.setBank(0);
                 player.setBet(player.getBet() + raise);
                 table.addToPot(raise);
                 highestBet = player.getBet();
-            }
-            else if (action instanceof Action.PayBigBlind){
+            } else if (action instanceof Action.PayBigBlind) {
                 player.setBank(player.getBank() - bigBlindAmount);
                 player.setBet(bigBlindAmount);
                 table.addToPot(bigBlindAmount);
                 highestBet = bigBlindAmount;
-            }
-            else if(action instanceof Action.PaySmallBlind){
+            } else if (action instanceof Action.PaySmallBlind) {
                 player.setBank(player.getBank() - smallBlindAmount);
                 player.setBet(smallBlindAmount);
                 table.addToPot(smallBlindAmount);
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException(player.getName() + " can't do that action");
         }
     }
 
     /**
      * Check if it is a legal action
+     *
      * @param action action being performed
      * @param player player performing
      * @return true if it's legal, false if not
@@ -285,10 +283,9 @@ public class GameSession {
             if (raise < 1 || raise > player.getBank() + player.getBet() - highestBet)
                 return false;
             return pa.canRaise();
-        }
-        else if (action instanceof Action.Call)
+        } else if (action instanceof Action.Call)
             return pa.canCall();
-        else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind || action instanceof  Action.PaySmallBlind || action instanceof Action.AllIn)
+        else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind || action instanceof Action.PaySmallBlind || action instanceof Action.AllIn)
             return true;
         else
             throw new IllegalArgumentException("Not an action");
@@ -300,15 +297,16 @@ public class GameSession {
 
     /**
      * Find the possible option to a player
+     *
      * @param player Current player
      * @return The options available to the player
      */
-    public PossibleActions getPlayerOptions (Player player){
+    public PossibleActions getPlayerOptions(Player player) {
         PossibleActions actions = new PossibleActions();
 
         if (player.getBet() == highestBet)
             actions.setCheck();
-        if (player.getBank() >= highestBet - player.getBet()){
+        if (player.getBank() >= highestBet - player.getBet()) {
             if (highestBet - player.getBet() != 0)
                 actions.setCall();
         }
@@ -335,7 +333,7 @@ public class GameSession {
         return players.get(getBigBlindIdx());
     }
 
-    public boolean playerHasFolded(Player player){
+    public boolean playerHasFolded(Player player) {
         for (Player p : activePlayers)
             if (player.equals(p))
                 return false;

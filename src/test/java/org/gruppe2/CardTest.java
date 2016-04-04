@@ -1,18 +1,18 @@
 package org.gruppe2;
 
 import org.gruppe2.backend.Card;
-import org.junit.*;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class CardTest {
 
-   @Test
+    @Test
     public void cardSuitIsCorrectTest() {
-       Card card = new Card(3, Card.Suit.HEARTS);
-       assertEquals("New card is not of correct suit", Card.Suit.HEARTS, card.getSuit());
-   }
+        Card card = new Card(3, Card.Suit.HEARTS);
+        assertEquals("New card is not of correct suit", Card.Suit.HEARTS, card.getSuit());
+    }
 
     @Test
     public void cardFaceValueIsCorrectTest() {

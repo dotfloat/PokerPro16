@@ -12,7 +12,11 @@ import javafx.stage.Stage;
 */
 public class IntroScreen extends Application {
 
-    public void setIntroScreen(GUI gui, Stage primaryStage, Group root){
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+
+    public void setIntroScreen(GUI gui, Stage primaryStage, Group root) {
         setIntroBackground(gui, primaryStage, root);
         setAnimation(gui, primaryStage, root);
     }
@@ -30,10 +34,6 @@ public class IntroScreen extends Application {
         graphicsContext.setFill(Color.WHITE);
 
 
-    }
-
-    public static void main(String[] args) {
-        Application.launch(args);
     }
 
     @Override

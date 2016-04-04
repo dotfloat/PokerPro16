@@ -29,15 +29,12 @@ public class Action {
         }
     }
 
-    public static class AllIn extends Action{
-
+    public static class AllIn extends Action {
     }
 
-    public static class PaySmallBlind extends  Action{
-
+    public static class PaySmallBlind extends Action {
     }
 
-    public static class PayBigBlind extends Action{
-        
+    public static class PayBigBlind extends Action {
     }
 }

@@ -58,7 +58,7 @@ public class Player {
         return client;
     }
 
-    public void addToBank(int chips){
+    public void addToBank(int chips) {
         bank += chips;
     }
 
@@ -88,8 +88,9 @@ public class Player {
         result = 31 * result + (card1 != null ? card1.hashCode() : 0);
         return result;
     }
+
     @Override
-    public String toString(){
-    	return name;
+    public String toString() {
+        return name;
     }
 }

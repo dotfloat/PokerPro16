@@ -11,20 +11,21 @@ public class Table {
     private List<Card> communityCards;
     private int pot;
 
-    public Table(){
+    public Table() {
         deck = new Deck();
     }
 
-    public void newDeck(){
+    public void newDeck() {
         deck = new Deck();
     }
 
-    public Card drawACard(){
+    public Card drawACard() {
         return deck.drawCard();
     }
 
     /**
      * Draws card on to the table depending on the round (0-3)
+     *
      * @param round Game round
      */
     public void drawCommunityCards(int round) {
@@ -49,6 +50,7 @@ public class Table {
 
     /**
      * Adding pot to table
+     *
      * @param p pot value
      */
     public void addToPot(int p) {
@@ -66,7 +68,7 @@ public class Table {
         return deck;
     }
 
-    public void resetPot(){
+    public void resetPot() {
         pot = 0;
     }
 }

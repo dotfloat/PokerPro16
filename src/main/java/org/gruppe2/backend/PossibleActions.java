@@ -16,15 +16,15 @@ public class PossibleActions {
         raise = false;
     }
 
-    public void setCall(){
+    public void setCall() {
         call = true;
     }
 
-    public void setCheck(){
+    public void setCheck() {
         check = true;
     }
 
-    public void setRaise(int minRaise, int maxRaise){
+    public void setRaise(int minRaise, int maxRaise) {
         raise = true;
         this.minRaise = minRaise;
         this.maxRaise = maxRaise;

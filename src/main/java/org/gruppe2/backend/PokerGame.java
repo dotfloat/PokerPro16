@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * class to play a pokergame
  */
-public class PokerGame{
+public class PokerGame {
     private int startChips;
     private int dealer;
     private ArrayList<Player> players;
@@ -14,12 +14,9 @@ public class PokerGame{
 
 
     /**
-     *
      * @param startChips
      * @param smallBlind
-     * @param bigBlind
-     *
-     * Constructor for pokergame
+     * @param bigBlind   Constructor for pokergame
      */
     public PokerGame(int startChips, int smallBlindAmount, int bigBlindAmount) { //parameterene startchips, smallBlind, og bigBLind er input i GUIen som brukeren skriver inn.
         this.startChips = startChips;
@@ -29,9 +26,7 @@ public class PokerGame{
     }
 
     /**
-     * @param name
-     *
-     * methods for adding players to the game/table
+     * @param name methods for adding players to the game/table
      */
     public void addPlayer(String name, GameClient client) {
         Player newPlayer = new Player(name, startChips, client);
@@ -48,6 +43,7 @@ public class PokerGame{
 
     /**
      * TODO: Verify: Big blind is the player after the dealer
+     *
      * @return player who is big blind
      */
     public Player getPlayerBigBlind() {
@@ -56,6 +52,7 @@ public class PokerGame{
 
     /**
      * TODO: Verify: Big blind is the player after the big blind
+     *
      * @return player who is small blind
      */
     public Player getPlayerSmallBlind() {
@@ -65,7 +62,7 @@ public class PokerGame{
     /**
      * initiates the values for the gui
      */
-    public void startGame(){
+    public void startGame() {
         /* need to refresh methods in InitializeGame and gui for these to work
         InitializeGame.setStartValues(this);
         InitializeGame.setPlayersToTable(this, gui);
@@ -77,15 +74,15 @@ public class PokerGame{
     /**
      * Deals two cards to each player
      */
-    public void dealCardsToAll(){
-        for(Player player: players){
+    public void dealCardsToAll() {
+        for (Player player : players) {
             player.setCards(table.getDeck().drawCard(), table.getDeck().drawCard());
         }
     }
 
     /**
      * method for rotating blinds.
-     *
+     * <p>
      * Finds Big Blind and removes his blind
      * Finds small blind, makes next person at table small blind, and makes the previous smallblind Bigblind
      * this should rotatate the blinds.
@@ -96,9 +93,9 @@ public class PokerGame{
 
     /**
      * Method for paying blinds
-     *
+     * <p>
      * removes players not ale to pay his blind. NOTE: NEED FOR UPDATING GUI?
-     *
+     * <p>
      * the blinds does not increase over time for now.
      */
     public void payBlinds() {
@@ -121,12 +118,11 @@ public class PokerGame{
 
     /**
      * lets all players do their actions
-     *
-     *NOTE: not fully functional, does not work around raising, and responding to it, would only work if everyone calls.
+     * <p>
+     * NOTE: not fully functional, does not work around raising, and responding to it, would only work if everyone calls.
      * may need to be replaced by a new function or be re-made
-     *
      */
-    public void playerActionsIteration(){
+    public void playerActionsIteration() {
 //        boolean allDone = false;
 //        boolean wait = true;
 //        Player previousPlayer = players.get(players.size() -1);
@@ -152,14 +148,13 @@ public class PokerGame{
     /**
      * Method for drawing cards in a texas hold 'em game. NOTE: DOES NOT DISCARD ANY CARDS AS OF NOW
      */
-    public void addCardsToTable(){
+    public void addCardsToTable() {
         //burde kanskje kunne aksesere deck med et getDeck istedet for at alle felvaribler i Table er public.
-        if(table.getCommunityCards().isEmpty()){
+        if (table.getCommunityCards().isEmpty()) {
             table.getCommunityCards().add(table.getDeck().drawCard());
             table.getCommunityCards().add(table.getDeck().drawCard());
             table.getCommunityCards().add(table.getDeck().drawCard());
-        }
-        else {
+        } else {
             table.getCommunityCards().add(table.getDeck().drawCard());
         }
     }
@@ -167,14 +162,14 @@ public class PokerGame{
     /**
      * Looks through all players hands and board and declears winner
      */
-    public void declareWinner(){
+    public void declareWinner() {
         //todoo
     }
 
     /**
      * Runs through the game for one hand
      */
-    public void runGame(){
+    public void runGame() {
         startGame();
         payBlinds();
         playerActionsIteration();
@@ -187,12 +182,6 @@ public class PokerGame{
         declareWinner();
         rotateDealer();
     }
-
-
-
-
-
-    
 
 
 }

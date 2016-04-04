@@ -4,7 +4,7 @@ import org.gruppe2.backend.Table;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class TableTest {
@@ -44,20 +44,20 @@ public class TableTest {
     @Test
     public void addingToPotShouldIncreasePot() {
         int basePot = table.getPot();
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             table.addToPot(i);
-            assertEquals("Pot should be increased with the amount added to it", basePot+i, table.getPot());
+            assertEquals("Pot should be increased with the amount added to it", basePot + i, table.getPot());
             basePot = table.getPot();
         }
     }
 
     @Test
     public void resetPotShouldMakeThePotEmpty() {
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             table.addToPot(i);
         }
         table.resetPot();
-        assertEquals("The pot should be 0 after being reset",0,table.getPot());
+        assertEquals("The pot should be 0 after being reset", 0, table.getPot());
     }
 
 
