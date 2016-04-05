@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<VBox stylesheets="@../css/style.css">
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<BorderPane >
+        <top>
+               <ImageView>
+                       <image>
+                               <Image url="\src\main\resources\images\ui\pokerWhite.png" backgroundLoading="true"/>
+                       </image>
+               </ImageView>
+        </top>
+
+        <center>
+                < VBox stylesheets="@../css/style.css">
+                        <children>
+                                <Button id = "SinglePlayerButton" text = "Single player" />
+                        </children>
+                </ VBox>
+        </center>
+
+</BorderPane>
+
 	
-</ VBox>
 
 
-
-VBOX
-Button createTable = new Button("CREATE TABLE");
-        Button joinTable = new Button("JOIN TABLE");
-        Button singlePlayer = new Button("SINGLE PLAYER");
-        Button settings = new Button("SETTINGS");
