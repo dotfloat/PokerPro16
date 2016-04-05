@@ -11,17 +11,17 @@
         <top>
                <ImageView>
                        <image>
-                               <Image url="\src\main\resources\images\ui\pokerWhite.png" backgroundLoading="true"/>
+                               <Image url='/images/ui/PokertableWithLogo.png'/>
                        </image>
                </ImageView>
         </top>
 
         <center>
-                < VBox stylesheets="@../css/style.css">
+                <VBox stylesheets="@../css/style.css" >
                         <children>
                                 <Button id = "SinglePlayerButton" text = "Single player" />
                         </children>
-                </ VBox>
+                </VBox>
         </center>
 
 </BorderPane>

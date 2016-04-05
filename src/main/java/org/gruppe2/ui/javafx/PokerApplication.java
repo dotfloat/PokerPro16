@@ -30,7 +30,7 @@ public class PokerApplication extends Application {
 //        root.getChildren().add(new GameWindow());
 
         // Menu-bar always present
-        URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
+        URL menuUrl = getClass().getResource("/views/MainMenu.fxml");
         MenuBar menu = FXMLLoader.load( menuUrl );
         root.setTop( menu );
 

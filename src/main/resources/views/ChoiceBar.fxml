@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <HBox stylesheets="@../css/style.css">
-	<ChatBox />
-	<Button text="FOLD" />
-	<Slider />
-	<Label />
-	<Button text="BET" />
+	<ChatBox id="ChatBox" />
+	<Button id="FOLD" text="FOLD" />
+	<Slider id="Slider" />
+	<Label id=sliderValue"/>
+	<Button id="BET" text="BET" />
 	<Label /> 
 </ HBox>	
 
