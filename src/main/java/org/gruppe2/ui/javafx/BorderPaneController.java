@@ -11,11 +11,14 @@ import java.io.IOException;
 public class BorderPaneController extends BorderPane {
 
     BorderPaneController() {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/views/" + getClass().getSimpleName() + ".fxml"));
             fxmlLoader.setController(this);
+            fxmlLoader.setRoot(this);
 
-        try {
+            this.setStyle("-fx-background-color: black");
+
             fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
