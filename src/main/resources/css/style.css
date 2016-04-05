@@ -145,3 +145,10 @@
 .borderPane {
     -fx-background-color: blue;
 }
+
+#table {
+    -fx-background-image: url("/images/ui/PokerTableWithLogo.png");
+    -fx-background-size: 1280 786;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
