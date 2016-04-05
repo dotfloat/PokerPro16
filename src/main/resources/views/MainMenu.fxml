@@ -7,30 +7,25 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.text.Text?>
-
-<BorderPane  xmlns:fx="http://javafx.com/fxml"
-            prefHeight="200" prefWidth="320">
-
+<BorderPane >
         <top>
-                <Text text="java-Buddy"/>
+               <ImageView>
+                       <image>
+                               <Image url="\src\main\resources\images\ui\pokerWhite.png" backgroundLoading="true"/>
+                       </image>
+               </ImageView>
         </top>
-        <left>
-                <Label text="Who are you?"/>
-        </left>
+
         <center>
-                <TextField id="textfield" fx:id="textfield"/>
+                < VBox stylesheets="@../css/style.css">
+                        <children>
+                                <Button id = "SinglePlayerButton" text = "Single player" />
+                        </children>
+                </ VBox>
         </center>
-        <right>
-                <Button id="button"  text="Click Me!"
-                        fx:id="button"/>
-        </right>
-        <bottom>
-                <Label id="label" fx:id="label"/>
-        </bottom>
 
 </BorderPane>
+
 	
 
 
