@@ -13,7 +13,7 @@ public class PokerApplication extends Application {
         root.getChildren().add(new GameWindow());
 
         stage.setTitle("PokerPro16");
-        stage.setScene(new Scene(root));
+        stage.setScene(new Scene(root, 1920*0.8, 1080*0.8));
         stage.show();
 
     }

@@ -141,3 +141,9 @@
 .statusBox {
     -fx-background-color: #007acc;
 }
+
+.gridPane {
+    -fx-background-color: blue;
+    -fx-padding: 10,10,10,10;
+    -fx-hgap: 10%;
+}
