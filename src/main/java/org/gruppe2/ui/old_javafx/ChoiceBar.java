@@ -187,7 +187,7 @@ public class ChoiceBar {
 //		System.out.println("Possible actions: canCall: "+pa.canCall()+" canCheck: "+pa.canCheck());
         
         canCall = pa.canCall();
-        if(canCall && !pa.canRaise())
+        if(canCall)
         	bet.setText("Call");
    
         canCheck = pa.canCheck();

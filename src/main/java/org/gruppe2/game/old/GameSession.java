@@ -14,7 +14,7 @@ public class GameSession {
     private int button;
 
     public GameSession() {
-
+        button = 0;
     }
 
     public GameSession(int smallBlind, int bigBlind) {
@@ -56,7 +56,6 @@ public class GameSession {
 
     private void matchLoop() {
         startNewMatch();
-        button = 0;
         Player winner = null;
 
         doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
@@ -93,6 +92,7 @@ public class GameSession {
         notifyPlayerVictory(winner);
 
         notifyRoundEnd();
+        rotateButton();
     }
 
     private void turnLoop() {
@@ -146,7 +146,6 @@ public class GameSession {
         activePlayers = new ArrayList<>();
         activePlayers.addAll(players);
         highestBet = 0;
-        table.resetPot();
         table.newDeck();
         for (Player p : activePlayers) {
             p.setBet(0);
@@ -164,6 +163,10 @@ public class GameSession {
         }
 
         return numActivePlayers;
+    }
+
+    private void rotateButton(){
+        button = (button + 1) % players.size();
     }
 
     void notifyRoundStart() {
