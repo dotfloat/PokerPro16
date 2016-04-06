@@ -42,13 +42,14 @@ public class GameWindow extends BorderPaneController {
 	}
 	public GameWindow(){
 		super();
+		System.out.println(slider);
 //		setSizes();
 //		setEvents();
 	}
 
 	@FXML
 	private void setSizes() {
-        System.out.println(slider);
+        
 		slider.setMaxWidth(width * 0.23);
         slider.setMinWidth(height * 0.23);
        

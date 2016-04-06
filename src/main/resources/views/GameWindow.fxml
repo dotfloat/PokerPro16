@@ -11,6 +11,15 @@
 
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow">
+   <center>
+   		<BorderPane>
+	  		<ImageView fitHeight="920" fitWidth="1080" preserveRatio="true">
+			        <image>
+			                <Image url="/images/ui/PokertableWithLogo.png" preserveRatio="false"/>
+			        </image>
+			</ImageView>
+		</BorderPane>
+   </center>
    <bottom>
    			<HBox stylesheets="@../css/style.css" style="-fx-background-color: green" >
 				<ChatBox fx:id="chatBox" />
