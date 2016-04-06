@@ -5,17 +5,14 @@
 
 package org.gruppe2.ui.javafx;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import org.gruppe2.game.old.Player;
-import org.gruppe2.ui.old_javafx.GUIClient;
-
-import java.net.URL;
 
 public class PokerApplication extends Application {
 
