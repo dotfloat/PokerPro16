@@ -9,15 +9,20 @@
 <?import javafx.scene.control.Label?>
 
 
+<<<<<<< HEAD
 <fx:root type="javafx.scene.layout.BorderPane"
 		 xmlns:fx="http://javafx.com/fxml"
          fx:controller="org.gruppe2.ui.javafx.GameWindow">
+=======
+<BorderPane type="javafx.scene.layout.BorderPane"
+		 xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow">
+>>>>>>> b28e4159d6446f22fa5e23ac4a955f5203c6e18e
 
    <bottom>
 
    			<HBox stylesheets="@../css/style.css" >
 
-				<Button fx:id="FOLD" text="FOLD" id="button"   />
+				<Button fx:id="FOLD" text="FOLD" id="button" />
 				<Slider fx:id="Slider" id="slider" />
 				<Label fx:id="sliderValue" id="label"/>
 				<Button fx:id="BET" text="BET" id="button" />
@@ -26,4 +31,4 @@
 			</HBox>
 
    </bottom> 
-</fx:root>
+</BorderPane>
