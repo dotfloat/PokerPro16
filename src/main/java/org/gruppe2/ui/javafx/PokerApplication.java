@@ -34,17 +34,11 @@ public class PokerApplication extends Application {
         MenuBar menu = FXMLLoader.load( menuUrl );
         root.setTop( menu );
 
-<<<<<<< HEAD
+
         // Set default scene
         URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
         BorderPane gameWindow = FXMLLoader.load( gameWindowUrl );
         root.setCenter( gameWindow );
-=======
-        // Set default scene, or intro....
-        URL settingUrl = getClass().getResource("/views/GameWindow.fxml");
-        BorderPane settings = FXMLLoader.load( settingUrl );
-        root.setCenter( settings );
->>>>>>> afcfed60f13a42b64e917a9fd9d6fa5a541be733
 
         //Set stage
         Scene scene = new Scene(root, 1280, 786);
