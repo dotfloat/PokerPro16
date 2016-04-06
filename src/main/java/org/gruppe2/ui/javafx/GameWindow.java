@@ -31,9 +31,6 @@ public class GameWindow extends BorderPaneController {
 	private Label sliderValue = new Label();
 	@FXML
 	private Button BET;
-
-//	@FXML
-//	private ChatBox chatBox;
 	
 	public GameWindow(Player player){
 		super();
