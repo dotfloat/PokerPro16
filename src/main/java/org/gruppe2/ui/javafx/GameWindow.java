@@ -14,7 +14,7 @@ import org.gruppe2.ui.old_javafx.GUIClient;
 /**
  * Created by kjors on 04.04.2016.
  */
-public class GameWindow {
+public class GameWindow extends BorderPaneController {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	
@@ -45,7 +45,7 @@ public class GameWindow {
 	}
 	public GameWindow(){
 		super();
-		setSizes();
+//		setSizes();
 //		setEvents();
 	}
 
