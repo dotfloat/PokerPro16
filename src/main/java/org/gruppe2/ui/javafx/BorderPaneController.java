@@ -28,11 +28,13 @@ public class BorderPaneController extends BorderPane {
             }
 
             if (fxmlLoader.getRoot() == null) {
-                fxmlLoader.setRoot(this);
-                fxmlLoader.load();
+                fxmlLoader.setRoot(this);         
             }
 
             this.setStyle("-fx-background-color: black");
+            if (fxmlLoader.getRoot() == null) {
+            	fxmlLoader.load();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
