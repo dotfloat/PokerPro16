@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,16 +15,55 @@ public class ShowdownEvaluatorNew {
 	public ArrayList<HandCollector> evaluateHands(List<Card> cards) {
 		ArrayList<HandCollector> hands = new ArrayList<>();
 		
-		hands.addAll(royalFlushTest(copy(cards)));
-		hands.addAll(straightFlushTest(copy(cards)));
-		hands.addAll(fourOfAKindTest(copy(cards)));
-		hands.addAll(fullHouseTest(copy(cards)));
-		hands.addAll(flushTest(copy(cards)));
-		hands.addAll(straightTest(copy(cards)));
-		hands.addAll(threeOfAKindTest(copy(cards)));
-		hands.addAll(twoPairTest(copy(cards)));
-		hands.addAll(onePairTest(copy(cards)));
-		hands.addAll(highCardTest(copy(cards)));
+		// My little quick fix; because I messed up the poker rules to begin with.
+		// It looks terrible, but it works, I'll fix it later when brain functions again.
+		hands.addAll(royalFlush(cards));
+		if(hands.isEmpty())
+			hands.addAll(straightFlush(cards));
+		if(hands.isEmpty()) {
+			hands.addAll(fourOfAKind(cards));
+			if(!hands.isEmpty())
+				hands.add(new HandCollector(1, getBestHighCard(cards)));
+		}
+		if(hands.isEmpty())
+			hands.addAll(fullHouse(cards));
+		if(hands.isEmpty())
+			hands.addAll(flush(cards));
+		if(hands.isEmpty())
+			hands.addAll(straight(cards));
+		if(hands.isEmpty()) {
+			hands.addAll(threeOfAKind(cards));
+			if(!hands.isEmpty()) {
+				ArrayList<Card> pair = getBestOnePair(cards);
+				if(pair.isEmpty()) {
+					ArrayList<Card> bestCard = getBestHighCard(cards);
+					hands.add(new HandCollector(1, bestCard));
+					cards.removeAll(bestCard);
+					hands.add(new HandCollector(1, getBestHighCard(cards)));
+				}else
+					hands.add(new HandCollector(2,pair));
+			}
+		}
+		if(hands.isEmpty()) {
+			hands.addAll(twoPair(cards));
+			if(!hands.isEmpty())
+				hands.add(new HandCollector(1, getBestHighCard(cards)));
+		}
+		if(hands.isEmpty()) {
+			hands.addAll(onePair(cards));
+			if(!hands.isEmpty()) {
+				ArrayList<Card> bestCard = getBestHighCard(cards);
+				hands.add(new HandCollector(1, bestCard));
+				cards.removeAll(bestCard);
+				ArrayList<Card> bestCard_2 = getBestHighCard(cards);
+				hands.add(new HandCollector(1, bestCard_2));
+				cards.removeAll(bestCard_2);
+				hands.add(new HandCollector(1, getBestHighCard(cards)));
+			}
+		}
+		if(hands.isEmpty()) {
+			hands.addAll(highCard(cards));
+		}
 		
 		return hands;
 	}
@@ -36,38 +76,38 @@ public class ShowdownEvaluatorNew {
 	}
 	
 	public int evaluateTest(List<Card> cards) {
-		Collections.sort(cards);
-		if (!royalFlushTest(cards).isEmpty())
+//		Collections.sort(cards);
+		if (!royalFlush(cards).isEmpty())
 			return 10;
-		else if (!straightFlushTest(cards).isEmpty())
+		else if (!straightFlush(cards).isEmpty())
 			return 9;
-		else if (!fourOfAKindTest(cards).isEmpty())
+		else if (!fourOfAKind(cards).isEmpty())
 			return 8;
-		else if (!fullHouseTest(cards).isEmpty())
+		else if (!fullHouse(cards).isEmpty())
 			return 7;
-		else if (!flushTest(cards).isEmpty())
+		else if (!flush(cards).isEmpty())
 			return 6;
-		else if (!straightTest(cards).isEmpty())
+		else if (!straight(cards).isEmpty())
 			return 5;
-		else if (!threeOfAKindTest(cards).isEmpty())
+		else if (!threeOfAKind(cards).isEmpty())
 			return 4;
-		else if (!twoPairTest(cards).isEmpty())
+		else if (!twoPair(cards).isEmpty())
 			return 3;
-		else if (!onePairTest(cards).isEmpty())
+		else if (!onePair(cards).isEmpty())
 			return 2;
-		else if (!highCardTest(cards).isEmpty())
+		else if (!highCard(cards).isEmpty())
 			return 1;
 		else {
 			throw new IllegalArgumentException("Error, got an impossible hand!");
 		}
 	}
 	
-	public ArrayList<HandCollector> royalFlushTest(List<Card> cards) {
+	public ArrayList<HandCollector> royalFlush(List<Card> cards) {
 		ArrayList<HandCollector> listRoyalFlushHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
-		while (!(pair = getBestStraightFlush(cards)).isEmpty()) {
-			listRoyalFlushHands.add(new HandCollector(5, pair));
+		while (!(pair = getBestroyalFlush(cards)).isEmpty()) {
+			listRoyalFlushHands.add(new HandCollector(10, pair));
 			cards.removeAll(pair);
 		}
 
@@ -86,13 +126,13 @@ public class ShowdownEvaluatorNew {
 		return listOfCardsInRoyalFlush;
 	}
 
-	public ArrayList<HandCollector> straightFlushTest(
+	public ArrayList<HandCollector> straightFlush(
 			List<Card> cards) {
 		ArrayList<HandCollector> listStraightFlushHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
 		while (!(pair = getBestStraightFlush(cards)).isEmpty()) {
-			listStraightFlushHands.add(new HandCollector(5, pair));
+			listStraightFlushHands.add(new HandCollector(9, pair));
 			cards.removeAll(pair);
 		}
 
@@ -158,15 +198,15 @@ public class ShowdownEvaluatorNew {
 		return flushWithSuit;
 	}
 
-	public ArrayList<HandCollector> fourOfAKindTest(List<Card> cards) {
+	public ArrayList<HandCollector> fourOfAKind(List<Card> cards) {
 		ArrayList<HandCollector> listFourOfAKindHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
 		while (!(pair = getBestFourOfAKind(cards)).isEmpty()) {
-			listFourOfAKindHands.add(new HandCollector(5, pair));
+			listFourOfAKindHands.add(new HandCollector(8, pair));
 			cards.removeAll(pair);
 		}
-
+		
 		return listFourOfAKindHands;
 	}
 
@@ -194,12 +234,12 @@ public class ShowdownEvaluatorNew {
 		return listOfCardsInFourOfAKind;
 	}
 
-	public ArrayList<HandCollector> fullHouseTest(List<Card> cards) {
+	public ArrayList<HandCollector> fullHouse(List<Card> cards) {
 		ArrayList<HandCollector> listFullHouseHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
 		while (!(pair = getBestFullHouse(cards)).isEmpty()) {
-			listFullHouseHands.add(new HandCollector(5, pair));
+			listFullHouseHands.add(new HandCollector(7, pair));
 			cards.removeAll(pair);
 		}
 
@@ -229,12 +269,12 @@ public class ShowdownEvaluatorNew {
 		return listOfCardsInFullHouse;
 	}
 
-	public ArrayList<HandCollector> flushTest(List<Card> cards) {
+	public ArrayList<HandCollector> flush(List<Card> cards) {
 		ArrayList<HandCollector> listFlushHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
 		while (!(pair = getBestFlush(cards)).isEmpty()) {
-			listFlushHands.add(new HandCollector(5, pair));
+			listFlushHands.add(new HandCollector(6, pair));
 			cards.removeAll(pair);
 		}
 
@@ -299,7 +339,7 @@ public class ShowdownEvaluatorNew {
 		return flushWithSuit;
 	}
 
-	public ArrayList<HandCollector> straightTest(List<Card> cards) {
+	public ArrayList<HandCollector> straight(List<Card> cards) {
 		ArrayList<HandCollector> listStraightHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
@@ -353,7 +393,7 @@ public class ShowdownEvaluatorNew {
 		return listOfCardsInStraight;
 	}
 
-	public ArrayList<HandCollector> threeOfAKindTest(List<Card> cards) {
+	public ArrayList<HandCollector> threeOfAKind(List<Card> cards) {
 		ArrayList<HandCollector> listThreeOfAKindHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
@@ -389,7 +429,7 @@ public class ShowdownEvaluatorNew {
 		return listOfCardsInThreeOfAKind;
 	}
 
-	public ArrayList<HandCollector> twoPairTest(List<Card> cards) {
+	public ArrayList<HandCollector> twoPair(List<Card> cards) {
 		ArrayList<HandCollector> listTwoPairHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
@@ -425,7 +465,7 @@ public class ShowdownEvaluatorNew {
 	}
 
 	// TODO: Bugfix, it returns too many cards.
-	public ArrayList<HandCollector> onePairTest(List<Card> cards) {
+	public ArrayList<HandCollector> onePair(List<Card> cards) {
 		ArrayList<HandCollector> listPairHands = new ArrayList<>();
 
 		ArrayList<Card> pair = null;
@@ -480,7 +520,7 @@ public class ShowdownEvaluatorNew {
 	 * return listOfCardsInPair; }
 	 */
 
-	public ArrayList<HandCollector> highCardTest(List<Card> cards) {
+	public ArrayList<HandCollector> highCard(List<Card> cards) {
 		ArrayList<HandCollector> listOfCardsInHighCard = new ArrayList<>();
 		Collections.sort(cards);
 		if (!cards.isEmpty())
@@ -528,6 +568,28 @@ public class ShowdownEvaluatorNew {
 			return newSuit;
 		}
 	}
+	
+	public ArrayList<Player> getWinnerOfRound(List<Player> players) {
+		ArrayList<Player> winners = new ArrayList<>();
+		for(Player p : players)
+			winners.add(p);
+				
+		PlayerComparator comp = new PlayerComparator();
+		for(int i = 0; i < winners.size()-1; i++) {
+			switch(comp.compare(winners.get(i), winners.get(i+1))) {
+			case -1:
+				winners.remove(i);
+				break;
+			case 1:
+				winners.remove(i+1);
+				break;
+			case 0:
+				break;
+			}
+		}
+		
+		return winners;
+	}
 }
 
 class PlayerComparator implements Comparator<Player> {
@@ -547,24 +609,153 @@ class PlayerComparator implements Comparator<Player> {
 				.getCommunityCards());
 
 		ShowdownEvaluatorNew evaluator = new ShowdownEvaluatorNew();
-
-		return evaluator.evaluateTest(p1_Cards) < evaluator
-				.evaluateTest(p2_Cards) ? -1
-				: evaluator.evaluateTest(p1_Cards) > evaluator
-						.evaluateTest(p2_Cards) ? 1 : checkIfEqual(p1_Cards,
-						p2_Cards);
+		ArrayList<HandCollector> p1_hands = evaluator.evaluateHands(p1_Cards);
+		ArrayList<HandCollector> p2_hands = evaluator.evaluateHands(p2_Cards);
+		
+		Iterator<HandCollector> p1_iterator = p1_hands.iterator();
+		Iterator<HandCollector> p2_iterator = p2_hands.iterator();
+		
+		return compareHands(p1_iterator, p2_iterator);
 	}
-
-	private int checkIfEqual(ArrayList<Card> p1_Cards, ArrayList<Card> p2_Cards) {
-		ShowdownEvaluatorNew evaluator = new ShowdownEvaluatorNew();
-
-		if (evaluator.evaluateTest(p1_Cards) == 1)
-			return evaluator.highCardTest(p1_Cards).get(0)
-					.compareTo(evaluator.highCardTest(p2_Cards).get(0));
-		else if (evaluator.evaluateTest(p1_Cards) == 2) {
-
+	
+	public int compareHands(Iterator<HandCollector> p1_iterator, Iterator<HandCollector> p2_iterator) {
+		
+		//Handle special cases;
+		if(p1_iterator.hasNext() && !p2_iterator.hasNext())
+			return 1;
+		else if(!p1_iterator.hasNext() && p2_iterator.hasNext())
+			return -1;
+		else if(!p1_iterator.hasNext() && !p2_iterator.hasNext())
+			return 0;
+		
+		HandCollector p1_hand = p1_iterator.next();
+		HandCollector p2_hand = p2_iterator.next();
+		
+		//Compare ranks (it's cheaper)
+		if(p1_hand.getRank() > p2_hand.getRank())
+			return 1;
+		else if(p1_hand.getRank() < p2_hand.getRank())
+			return -1;
+		else {
+			int compareCards = compareCards(p1_hand.getCards(), p2_hand.getCards(), p1_hand.getRank());
+			if(compareCards == 0)
+				return compareHands(p1_iterator, p2_iterator);
+			else
+				return compareCards;
 		}
-
+	}
+	
+	public int compareCards(List<Card> hand_1, List<Card> hand_2, int rank) {
+		switch(rank) {
+		case 1:
+			return compareHighCard(hand_1, hand_2);
+		case 2:
+			return compareOnePair(hand_1, hand_2);
+		case 3:
+			return compareTwoPair(hand_1, hand_2);
+		case 4:
+			return compareThreeOfAKind(hand_1, hand_2);
+		case 5:
+			return compareStraight(hand_1, hand_2);
+		case 6:
+			return compareFlush(hand_1, hand_2);
+		case 7:
+			return compareFullHouse(hand_1, hand_2);
+		case 8:
+			return compareFourOfAKind(hand_1, hand_2);
+		case 9:
+			return compareStraightFlush(hand_1, hand_2);
+		case 10:
+			return 0;
+		default:
+			throw new IllegalArgumentException("Hand rank can't be above 10 or below 1");
+		}
+	}
+	
+	public int compareStraightFlush(List<Card> hand_1, List<Card> hand_2) {
+		return combineFaceValue(hand_1, hand_2);
+	}
+	
+	public int compareFourOfAKind(List<Card> hand_1, List<Card> hand_2) {
+		return combineFaceValue(hand_1, hand_2);
+	}
+	
+	public int compareFullHouse(List<Card> hand_1, List<Card> hand_2) {
+		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ArrayList<Card> bestHouse_1 = se.getBestThreeOfAKind(hand_1);
+		ArrayList<Card> bestHouse_2 = se.getBestThreeOfAKind(hand_2);
+		
+		int compareThreeCards = compareThreeOfAKind(bestHouse_1, bestHouse_2);
+		if(compareThreeCards != 0)
+			return compareThreeCards;
+		else{
+			ArrayList<Card> copy_hand_1 = copyHand(hand_1);
+			copy_hand_1.removeAll(bestHouse_1);
+			ArrayList<Card> copy_hand_2 = copyHand(hand_2);
+			copy_hand_2.removeAll(bestHouse_2);
+			
+			return compareTwoPair(copy_hand_1, copy_hand_2);
+		}
+	}
+	
+	public ArrayList<Card> copyHand(List<Card> hand) {
+		ArrayList<Card> newHand = new ArrayList<>();
+		
+		for(int i = 0; i < hand.size(); i++)
+			newHand.add(hand.get(i));
+		
+		return newHand;
+	}
+	
+	public int compareFlush(List<Card> hand_1, List<Card> hand_2) {
+		return compareHighCard(hand_1, hand_2);
+	}
+	
+	public int compareStraight(List<Card> hand_1, List<Card> hand_2) {
+		return compareHighCard(hand_1, hand_2);
+	}
+	
+	public int compareThreeOfAKind(List<Card> hand_1, List<Card> hand_2) {
+		return combineFaceValue(hand_1, hand_2);
+	}
+	
+	public int compareTwoPair(List<Card> hand_1, List<Card> hand_2) {
+		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ArrayList<Card> bestTwoPair_1 = se.getBestOnePair(hand_1);
+		ArrayList<Card> bestTwoPair_2 = se.getBestOnePair(hand_2);
+		
+		int compareBestPair = compareOnePair(bestTwoPair_1, bestTwoPair_2);
+		if(compareBestPair != 0) // If they have the same top pair, continue...
+			return compareBestPair;
+		
+		ArrayList<Card> copy_hand_1 = copyHand(hand_1);
+		copy_hand_1.removeAll(bestTwoPair_1);
+		ArrayList<Card> copy_hand_2 = copyHand(hand_2);
+		copy_hand_2.removeAll(bestTwoPair_2);
+		
+		return compareOnePair(copy_hand_1, copy_hand_2);
+	}
+	
+	public int compareOnePair(List<Card> hand_1, List<Card> hand_2) {
+		return combineFaceValue(hand_1, hand_2);
+	}
+	
+	public int combineFaceValue(List<Card> hand_1, List<Card> hand_2) {
+		int hand_1_score = 0, hand_2_score = 0;
+		for(Card c : hand_1)
+			hand_1_score += c.getFaceValue();
+		for(Card c : hand_2)
+			hand_2_score += c.getFaceValue();
+		return Integer.compare(hand_1_score, hand_2_score);
+	}
+	
+	public int compareHighCard(List<Card> hand_1, List<Card> hand_2) {
+		for(int i = 0; i < hand_1.size() && i < hand_2.size(); i++) {
+			int comp = hand_1.get(i).compareTo(hand_2.get(i));
+			if(comp != 0)
+				return comp;
+		}
+		
 		return 0;
 	}
 }
