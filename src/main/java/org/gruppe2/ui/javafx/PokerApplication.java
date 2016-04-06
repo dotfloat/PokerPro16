@@ -31,6 +31,15 @@ public class PokerApplication extends Application {
         // Lets load startValues from settings-file or something...
     	startValues();
 
+//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+//                    "/views/" + getClass().getSimpleName() + ".fxml"));
+//
+//        fxmlLoader.setController( this );
+//        fxmlLoader.setRoot( root );
+//
+//        System.out.println( "fxmlLoader file: " + fxmlLoader.getLocation().toString());
+//        System.out.println( "fxmlLoader root: " + fxmlLoader.getRoot().toString());
+
         /**
          * Menu-bar always present in main stage
          * Let's pretend this is just temporary
@@ -47,8 +56,11 @@ public class PokerApplication extends Application {
          * when changing scenes later, use SceneController.setScene()
          * Mvh Kjetil
          */
-        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
-        SceneController.setScene( introSceneUrl );
+//        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
+//        SceneController.setScene( introSceneUrl );
+
+        BorderPane introScene = new GameWindow();
+
 
 
         /**
