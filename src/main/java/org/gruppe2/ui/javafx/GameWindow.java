@@ -26,9 +26,9 @@ public class GameWindow extends BorderPaneController {
 	@FXML
 	private Button FOLD;
 	@FXML
-	private Slider slider = new Slider();
+	private Slider slider;
 	@FXML
-	private Label sliderValue = new Label();
+	private Label sliderValue;
 	@FXML
 	private Button BET;
 	
@@ -42,13 +42,13 @@ public class GameWindow extends BorderPaneController {
 	}
 	public GameWindow(){
 		super();
-		setSizes();
+//		setSizes();
 //		setEvents();
 	}
 
 	@FXML
 	private void setSizes() {
-        
+        System.out.println(slider);
 		slider.setMaxWidth(width * 0.23);
         slider.setMinWidth(height * 0.23);
        

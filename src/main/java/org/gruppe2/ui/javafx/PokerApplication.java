@@ -48,7 +48,7 @@ public class PokerApplication extends Application {
         URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
         MenuBar menu = FXMLLoader.load( menuUrl );
         root.setTop( menu );
-
+        
 
         /**
          * Set start-scene (intro)
@@ -56,11 +56,11 @@ public class PokerApplication extends Application {
          * when changing scenes later, use SceneController.setScene()
          * Mvh Kjetil
          */
-//        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
-//        SceneController.setScene( introSceneUrl );
+        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
+        SceneController.setScene( introSceneUrl );
 
         BorderPane introScene = new GameWindow();
-
+        
 
 
         /**
