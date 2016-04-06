@@ -513,7 +513,6 @@ public class ShowdownEvaluator {
         HashMap<Evaluated, Player> evaluatedAndPlayers = new HashMap<Evaluated, Player>();
         for (Player p : players) {
             if (p == null) {
-                System.out.println("Player=null");
                 continue;
             }
             List<Card> cards = table.getCommunityCards();
@@ -529,7 +528,6 @@ public class ShowdownEvaluator {
         for (Evaluated ev : playersAndEvaluated.values())
             evaluateds.add(ev);
         Collections.sort(evaluateds);
-        System.out.println("Length of evaluatedsList " + evaluateds.size());
         winners.add(evaluatedAndPlayers.get(evaluateds.get(0)));
         if (evaluateds.size() >= 2) {
             for (int i = 1; i < evaluateds.size(); i++) {

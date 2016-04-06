@@ -12,7 +12,7 @@ public class CalculateTwoPairs {
 	
 	public static double getChanceOfWinningWithTwoPairs (ArrayList<Card> currentCards,int cardsLeftToPick, int numberOfActivePlayers){
 		//TODO
-		return 1;
+		return 0;
 	}
 	
 	private ArrayList<Card> getMissingCardsForTwoPairs(ArrayList<Card> currentCards){
