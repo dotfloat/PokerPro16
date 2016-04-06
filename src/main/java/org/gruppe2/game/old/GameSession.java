@@ -153,7 +153,7 @@ public class GameSession {
         }
     }
 
-    private int numActivePlayers() {
+    public int numActivePlayers() {
         int numActivePlayers = 0;
 
         for (Player p : activePlayers) {

@@ -348,52 +348,84 @@ public class ShowdownEvaluatorTest {
         active.add(p3);
         ShowdownEvaluator se = new ShowdownEvaluator();
         ArrayList<Player> winners = se.getWinnerOfRound(t, active);
+        for (Player players : winners) {
+            System.out.println(players.getName());
+        }
     }
 
-//    @Test
-//    public void testEvaluateWithRandomCards() {
-//        int numberOfWins = 0;
-//        for (int i = 0; i < 1; i++) {
-//            Deck deck = new Deck();
-//            MockTable t = new MockTable();
-//            MockPlayer p1 = new MockPlayer("Player1");
-//            MockPlayer p2 = new MockPlayer("Player2");
-//            MockPlayer p3 = new MockPlayer("Player3");
-//            t.setCards(deck.drawCard(), deck.drawCard(), deck.drawCard(), deck.drawCard(), deck.drawCard());
-//            p1.setCards(new Card(2, Suit.CLUBS), new Card(2, Suit.DIAMONDS));
-//            p2.setCards(new Card(2, Suit.CLUBS), new Card(2, Suit.SPADES));
-//            p3.setCards(new Card(2, Suit.CLUBS), new Card(2, Suit.HEARTS));
-//            ArrayList<Player> active = new ArrayList<Player>();
-//            active.add(p1);
-//            active.add(p2);
-//            active.add(p3);
-//            ShowdownEvaluator se = new ShowdownEvaluator();
-//            ArrayList<Player> winners = se.getWinnerOfRound(t, active);
-//            if (winners.size() >= 2) {
-//            }
-//            if (winners.size() == 3) {
-//            }
-//            System.out.println(winners.size());
-//            for (Player p : winners) {
-//                numberOfWins++;
-//            }
-//        }
-//    }
+    @Test
+    public void testEvaluateWithRandomCards() {
+        int numberOfWins = 0;
+        for (int i = 0; i < 1; i++) {
+            Deck deck = new Deck();
+            MockTable t = new MockTable();
+            MockPlayer p1 = new MockPlayer("Player1");
+            MockPlayer p2 = new MockPlayer("Player2");
+            MockPlayer p3 = new MockPlayer("Player3");
+            t.setCards(deck.drawCard(), deck.drawCard(), deck.drawCard(), deck.drawCard(), deck.drawCard());
+            p1.setCards(new Card(2, Suit.CLUBS), new Card(2, Suit.DIAMONDS));
+            p2.setCards(new Card(2, Suit.CLUBS), new Card(2, Suit.SPADES));
+            p3.setCards(new Card(2, Suit.CLUBS), new Card(2, Suit.HEARTS));
+            ArrayList<Player> active = new ArrayList<Player>();
+            active.add(p1);
+            active.add(p2);
+            active.add(p3);
+            ShowdownEvaluator se = new ShowdownEvaluator();
+            ArrayList<Player> winners = se.getWinnerOfRound(t, active);
+            if (winners.size() >= 2) {
+            }
+            if (winners.size() == 3) {
+            }
+            System.out.println(winners.size());
+            for (Player p : winners) {
+                numberOfWins++;
+                System.out.println(p.getName());
+            }
+            System.out.println(numberOfWins);
+        }
+    }
 
 }
 
 class MockPlayer extends Player {
+	MockGameSession mocksession = new MockGameSession();
+	MockGameClient mockclient = new MockGameClient();
+	
     public MockPlayer(String name) {
-        super(name, 10000, new GameClient());
+        super(name, 10000, new MockGameClient());
+    }
+    
+    public GameClient getClient() {
+    	return mockclient;
+    }
+    
+    public GameSession getSession() {
+    	return mocksession;
     }
 }
 
+class MockGameClient extends GameClient {
+	MockGameSession mocksession = new MockGameSession();
+	
+	public GameSession getSession() {
+    	return mocksession;
+    }
+}
+
+class MockGameSession extends GameSession {
+	MockTable mocktable = new MockTable();
+	
+	public Table getTable() {
+		return mocktable;
+	}
+}
+
 class MockTable extends Table {
-    Card c1;
-    Card c2;
-    Card c3;
-    Card c4;
-    Card c5;
+    Card c1 = new Card(3, Suit.CLUBS);
+    Card c2 = new Card(5, Suit.DIAMONDS);
+    Card c3 = new Card(7, Suit.HEARTS);
+    Card c4 = new Card(9, Suit.SPADES);
+    Card c5 = new Card(11, Suit.CLUBS);
 
     public MockTable() {
         super();

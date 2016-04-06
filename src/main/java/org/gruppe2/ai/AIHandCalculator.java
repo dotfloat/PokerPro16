@@ -22,6 +22,7 @@ public class AIHandCalculator {
 		if (table!=null)
 			return 0;
 		double handStrength=0;
+		
 		MockDeck d = new MockDeck();
 		List<Card> cardsToRemove = table.getCommunityCards();
 		cardsToRemove.add(player.getCard1());
@@ -29,7 +30,10 @@ public class AIHandCalculator {
 		d.removeCards(cardsToRemove);
 		int numberOfWins=0;
 		for (int i = 0; i < 1000; i++){
-			
+			ArrayList<Player> newPlayers = new ArrayList<Player>();
+			for (int j = 0; j<players.size();j++){
+				
+			}
 		}
 		return handStrength;
 	}
