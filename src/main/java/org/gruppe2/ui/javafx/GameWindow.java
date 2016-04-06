@@ -1,6 +1,5 @@
 package org.gruppe2.ui.javafx;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,7 +8,6 @@ import javafx.scene.control.Slider;
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.PossibleActions;
-import org.gruppe2.ui.old_javafx.ChatBox;
 import org.gruppe2.ui.old_javafx.GUIClient;
 
 /**
@@ -50,7 +48,7 @@ public class GameWindow extends BorderPaneController {
 	private void setEvents() {
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
-}
+	}
 
 	/**
 	 * This will become fxml

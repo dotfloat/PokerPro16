@@ -15,7 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class PokerApplication extends Application {
-
+	private int width;
+	private int height;
     // Setting global root. Will only change scenes
     private static BorderPane root = new BorderPane();
 
@@ -26,8 +27,10 @@ public class PokerApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        BorderPane root = new BorderPane();
-//        root.getChildren().add(new GameWindow());
+
+    	startValues();
+    	//        BorderPane root = new BorderPane();
+    	//        root.getChildren().add(new GameWindow());
 
         // Menu-bar always present
         URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
@@ -40,10 +43,21 @@ public class PokerApplication extends Application {
         BorderPane gameWindow = new GameWindow();
 
         //Set stage
-        Scene scene = new Scene(root, 1280, 786);
+        Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setTitle("PokerPro16");
         stage.setScene(scene);
         stage.show();
     }
+
+	private void startValues() {
+		width = 1280;
+		height = 768;	
+	}
+	public int getWidth(){
+		return width;
+	}
+	public int getHeight(){
+		return height;
+	}
 }
