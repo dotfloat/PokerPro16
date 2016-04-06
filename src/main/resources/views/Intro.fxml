@@ -3,12 +3,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Button?>
 <fx:root type="javafx.scene.layout.BorderPane"
-         xmlns:fx="http://javafx.com/fxml" styleClass="kjeks">
+         xmlns:fx="http://javafx.com/fxml" onMouseClicked="#goToMenu">
 
 
         <top>
-            <StackPane alignment="CENTER" styleClass="kjeks" style="-fx-padding: 30px">
+            <StackPane alignment="CENTER" style="-fx-padding: 30px">
                 <ImageView fx:id="logo" preserveRatio="true">
                     <Image url="/images/ui/pokerWhite.png"/>
                 </ImageView>
@@ -21,7 +22,7 @@
         </center>
 
         <bottom>
-            <Label text="Hola Senõr BOTTOM!" textFill="black"/>
+            <Button text="GoToMenu" onAction="#goToMenu"/>
         </bottom>
 
 
