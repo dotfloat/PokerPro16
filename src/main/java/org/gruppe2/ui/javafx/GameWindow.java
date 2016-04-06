@@ -46,12 +46,16 @@ public class GameWindow extends BorderPaneController {
 		BET.setOnAction(e -> betAction());
 }
 
-
-	void foldAction(){
+	/**
+	 * This will become fxml
+	 */
+	private void foldAction(){
 		client.setAction(new Action.Fold());
 	}
-	
-	void betAction(){
+	/**
+	 * This will become fxml
+	 */
+	private void betAction(){
 		 if (pa.canCall() && pa.canRaise() && raiseSlider.getValue() > 1)
              raise(client, raiseSlider, player);
          else if (pa.canCall())
