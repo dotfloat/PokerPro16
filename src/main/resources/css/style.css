@@ -1,10 +1,13 @@
-
+.background {
+    -fx-background-image: url("/images/ui/floorTile.png");
+    -fx-background-size: 400px;
+    -fx-background-repeat: repeat;
+}
 .borderPane {
     -fx-background-color: blue;
 }
 
 .button {
-    -fx-position-shape: false;
     -fx-text-fill: #0099ff;
     -fx-font-weight: bold;
     -fx-font: 20px "sans-serif";
@@ -52,6 +55,8 @@
 .hbox {
     -fx-background-color: black;
     -fx-alignment: center;
+    -fx-vgap: 20px;
+    -fx-padding:10px;
 }
 
 .label {
@@ -117,10 +122,8 @@
     -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 3);
 }
 
-.background {
-    -fx-background-image: url("/images/ui/floorTile.png");
-    -fx-background-size: 300px, 300px;
-    -fx-background-repeat: repeat;
+.statusBox {
+    -fx-background-color: #007acc;
 }
 
 .text-field {
@@ -139,10 +142,6 @@
     -fx-alignment: center;
     -fx-prompt-text-fill: whitesmoke;
     -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
-}
-
-.statusBox {
-    -fx-background-color: #007acc;
 }
 
 #table {

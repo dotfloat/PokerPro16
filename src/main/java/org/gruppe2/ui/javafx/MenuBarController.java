@@ -27,15 +27,20 @@ public class MenuBarController {
     @FXML
     private MenuItem quit;
 
+    
     @FXML
     void setScene(ActionEvent event) {
 
         // Get the id of the menu button clicked
         MenuItem item = (MenuItem) event.getSource();
         String optionClicked = item.getId();
-        URL newScene;
-
-        // Load the fxml-file corresponding to the button
+        
+        switchScene(optionClicked);
+    }
+    
+    public void switchScene(String optionClicked){
+    	// Load the fxml-file corresponding to the button
+    	URL newScene = null;
         switch (optionClicked) {
             case "settings": newScene = getClass().getResource("/views/Settings.fxml");
                 break;

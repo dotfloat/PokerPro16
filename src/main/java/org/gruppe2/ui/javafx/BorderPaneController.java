@@ -1,8 +1,10 @@
 package org.gruppe2.ui.javafx;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -25,7 +27,7 @@ public class BorderPaneController extends BorderPane {
 
 			this.setStyle("-fx-background-color: black");
 			if (fxmlLoader.getRoot() == null) {
-				fxmlLoader.load();
+				this.getChildren().setAll((Collection<? extends Node>) fxmlLoader.load());
 			}
 
 		} catch (IOException e) {

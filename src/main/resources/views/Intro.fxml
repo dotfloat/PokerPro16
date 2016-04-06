@@ -1,27 +1,29 @@
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Slider?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.Intro"
-            stylesheets="/css/style.css" onMouseClicked="#goToMenu">
+            stylesheets="/css/style.css" onMouseClicked="#goToMenu" fx:id="borderPane">
 
+    <top>
+        <StackPane alignment="CENTER" style="-fx-padding: 30px,0,0,0">
+            <ImageView fx:id="logo" preserveRatio="true">
+                <Image url="/images/ui/pokerWhite.png"/>
+            </ImageView>
+        </StackPane>
 
-        <top>
-            <StackPane alignment="CENTER" style="-fx-padding: 30px">
-                <ImageView fx:id="logo" preserveRatio="true">
-                    <Image url="/images/ui/pokerWhite.png"/>
-                </ImageView>
-            </StackPane>
+    </top>
 
-        </top>
+    <center>
+        <Label fx:id="clickToContinue" text="Click to continue"/>
+    </center>
 
-        <center>
-        </center>
+    <bottom>
 
-
+    </bottom>
 
 
 </BorderPane>

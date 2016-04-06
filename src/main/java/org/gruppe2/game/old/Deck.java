@@ -8,7 +8,7 @@ import java.util.List;
  * Class for creating a standard deck of cards with 52 cards, 13 of each type.
  */
 public class Deck {
-    private ArrayList<Card> cards;
+    protected ArrayList<Card> cards;
     private int cardsLeft;
 
     public Deck() {
