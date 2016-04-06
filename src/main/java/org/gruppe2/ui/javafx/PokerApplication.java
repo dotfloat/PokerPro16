@@ -26,18 +26,18 @@ public class PokerApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        BorderPane root = new BorderPane();
-//        root.getChildren().add(new GameWindow());
+        BorderPane root = new BorderPane();
+        root.getChildren().add(new Intro());
 
 //        // Menu-bar always present
 //        URL menuUrl = getClass().getResource("/views/MainMenu.fxml");
 //        MenuBar menu = FXMLLoader.load( menuUrl );
 //        root.setTop( menu );
 
-        // Set default scene
+        /*
         URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
         GameWindow gameWindow = FXMLLoader.load( gameWindowUrl );
-        root.setCenter( gameWindow );
+        root.setCenter( gameWindow );*/
 
         //Set stage
         Scene scene = new Scene(root, 1280, 786);
