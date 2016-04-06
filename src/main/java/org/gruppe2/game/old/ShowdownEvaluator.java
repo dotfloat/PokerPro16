@@ -534,7 +534,6 @@ public class ShowdownEvaluator {
                 if (evaluateds.get(i).compareTo(evaluateds.get(i - 1)) == 0) {
                     winners.add(evaluatedAndPlayers.get(evaluateds.get(i)));
                 } else {
-                    System.out.println("Hands:" + evaluateds.get(i).getHand() + evaluateds.get(i - 1).getHand());
                 }
             }
         }
