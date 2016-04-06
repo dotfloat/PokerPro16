@@ -4,18 +4,12 @@ package org.gruppe2.ui.javafx;
  * Created by Petter on 04/04/2016.
  */
 
-import com.sun.scenario.animation.AnimationPulse;
-import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -26,7 +20,6 @@ public class Intro implements Initializable {
 
     @FXML private ImageView logo;
     @FXML private Label clickToContinue;
-    @FXML private BorderPane borderPane;
 
     public void goToMenu() throws IOException{
         SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));

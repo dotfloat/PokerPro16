@@ -3,11 +3,8 @@ package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -24,8 +21,6 @@ public class MainMenu implements Initializable {
     @FXML private Button viewStatistics;
     @FXML private Button settings;
     @FXML private VBox vBox;
-    private double height = PokerApplication.getHeight();
-    private double width = PokerApplication.getWidth();
 
 
     @Override

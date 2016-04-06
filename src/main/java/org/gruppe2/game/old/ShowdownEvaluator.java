@@ -534,6 +534,7 @@ public class ShowdownEvaluator {
                 if (evaluateds.get(i).compareTo(evaluateds.get(i - 1)) == 0) {
                     winners.add(evaluatedAndPlayers.get(evaluateds.get(i)));
                 } else {
+                	
                 }
             }
         }
