@@ -14,7 +14,7 @@
             xmlns:fx="http://javafx.com/fxml/1">
 
    <bottom>
-   		<children>
+
    			<HBox stylesheets="@../css/style.css" >
 				<ChatBox fx:id="ChatBox" id=/>
 				<Button fx:id="FOLD" text="FOLD" id="button" onMouseClicked="foldAction"  />
@@ -23,6 +23,6 @@
 				<Button fx:id="BET" text="BET" id="button" onMouseClicked="betAction" />
 				<Label /> 
 			</HBox>
-   		</children>
+
    </bottom> 
 </BorderPane>

@@ -92,7 +92,7 @@ public class GameSession {
         notifyPlayerVictory(winner);
 
         notifyRoundEnd();
-        rotateButton();
+        button = (button + 1) % players.size();
     }
 
     private void turnLoop() {
@@ -163,10 +163,6 @@ public class GameSession {
         }
 
         return numActivePlayers;
-    }
-
-    private void rotateButton(){
-        button = (button + 1) % players.size();
     }
 
     void notifyRoundStart() {
