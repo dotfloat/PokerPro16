@@ -388,17 +388,44 @@ public class ShowdownEvaluatorTest {
 }
 
 class MockPlayer extends Player {
+	MockGameSession mocksession = new MockGameSession();
+	MockGameClient mockclient = new MockGameClient();
+	
     public MockPlayer(String name) {
-        super(name, 10000, new GameClient());
+        super(name, 10000, new MockGameClient());
+    }
+    
+    public GameClient getClient() {
+    	return mockclient;
+    }
+    
+    public GameSession getSession() {
+    	return mocksession;
     }
 }
 
+class MockGameClient extends GameClient {
+	MockGameSession mocksession = new MockGameSession();
+	
+	public GameSession getSession() {
+    	return mocksession;
+    }
+}
+
+class MockGameSession extends GameSession {
+	MockTable mocktable = new MockTable();
+	
+	public Table getTable() {
+		return mocktable;
+	}
+}
+
 class MockTable extends Table {
-    Card c1;
-    Card c2;
-    Card c3;
-    Card c4;
-    Card c5;
+    Card c1 = new Card(3, Suit.CLUBS);
+    Card c2 = new Card(5, Suit.DIAMONDS);
+    Card c3 = new Card(7, Suit.HEARTS);
+    Card c4 = new Card(9, Suit.SPADES);
+    Card c5 = new Card(11, Suit.CLUBS);
 
     public MockTable() {
         super();

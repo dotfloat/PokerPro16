@@ -3,11 +3,15 @@ package org.gruppe2;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Card.Suit;
+import org.gruppe2.game.old.GameClient;
 import org.gruppe2.game.old.HandCollector;
+import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.ShowdownEvaluatorNew;
+import org.gruppe2.game.old.Table;
 import org.junit.Test;
 
 public class ShowdownEvaluatorNewTest {
@@ -41,6 +45,37 @@ public class ShowdownEvaluatorNewTest {
 	}
 	
 	@Test
+	public void testWinnersOfRound() {
+		List<Player> players = new ArrayList<>();
+		MockPlayer p1 = new MockPlayer("BOT 1");
+		MockPlayer p2 = new MockPlayer("BOT 2");
+		players.add(p1);
+		players.add(p2);
+		
+		Card p1c1 = new Card(13, Suit.CLUBS);
+		Card p1c2 = new Card(13, Suit.DIAMONDS);
+		p1.setCards(p1c1, p1c2);
+		
+		Card p2c1 = new Card(2, Suit.HEARTS);
+		Card p2c2 = new Card(4, Suit.SPADES);
+		p2.setCards(p2c1, p2c2);
+		
+		/*
+		System.out.println("Cards on table:");
+		for(Card c : p1.getSession().getTable().getCommunityCards()) {
+			System.out.println(c);
+		}
+		*/
+		
+		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ArrayList<Player> winners = se.getWinnerOfRound(players);
+		
+		for(Player p : winners)
+			System.out.println("Winner: " + p.getName());
+	}
+	
+	/*
+	@Test
 	public void printTest() {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		cards.add(new Card(2, Suit.DIAMONDS)); // 2 of Diamonds
@@ -64,11 +99,11 @@ public class ShowdownEvaluatorNewTest {
 				System.out.println(c);
 			}
 		}
-		
 //		printHands(result);
 		
 //		assertTrue(result.containsAll(compare) && result.size() == compare.size());
 	}
+	*/
 	
 	@Test
 	public void onePairTestShouldReturnHighestPair() {
