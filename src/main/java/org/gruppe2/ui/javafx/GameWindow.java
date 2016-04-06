@@ -8,16 +8,21 @@ import javafx.scene.control.Slider;
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.PossibleActions;
+import org.gruppe2.ui.old_javafx.ChatBox;
 import org.gruppe2.ui.old_javafx.GUIClient;
 
 /**
  * Created by kjors on 04.04.2016.
  */
 public class GameWindow extends BorderPaneController {
+	private int width = PokerApplication.getWidth();
+	private int height = PokerApplication.getHeight();
+	
 	GUIClient client;
 	PossibleActions pa;
 	Player player;
-	
+	@FXML
+	private ChatBox chatBox;
 	@FXML
 	private Button FOLD;
 	@FXML
@@ -40,11 +45,17 @@ public class GameWindow extends BorderPaneController {
 	}
 	public GameWindow(){
 		super();
-
+//		setSizes();
 //		setEvents();
 	}
 
 
+	private void setSizes() {
+        
+		raiseSlider.setMaxWidth(width * 0.23);
+        raiseSlider.setMinWidth(height * 0.23);
+		
+	}
 	private void setEvents() {
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());

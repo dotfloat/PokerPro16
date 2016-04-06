@@ -14,8 +14,9 @@ public class ChatBox extends Pane {
         super();
         this.player = player;
         createChatBox(gui);
-
-
+    }
+    public ChatBox() {
+        super();
     }
 
     private void createChatBox(GUI gui) {

@@ -15,8 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class PokerApplication extends Application {
-	private int width;
-	private int height;
+	private static int width;
+	private static int height;
     // Setting global root. Will only change scenes
     private static BorderPane root = new BorderPane();
 
@@ -55,10 +55,10 @@ public class PokerApplication extends Application {
 		width = 1280;
 		height = 768;	
 	}
-	public int getWidth(){
+	public static int getWidth(){
 		return width;
 	}
-	public int getHeight(){
+	public static int getHeight(){
 		return height;
 	}
 }
