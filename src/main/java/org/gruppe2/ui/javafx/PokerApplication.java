@@ -28,22 +28,34 @@ public class PokerApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        // Lets load startValues from settings-file or something...
     	startValues();
-    	//        BorderPane root = new BorderPane();
-    	//        root.getChildren().add(new GameWindow());
 
-        // Menu-bar always present
+        /**
+         * Menu-bar always present in main stage
+         * Let's pretend this is just temporary
+         */
+
         URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
         MenuBar menu = FXMLLoader.load( menuUrl );
         root.setTop( menu );
 
 
-        // Set default scene
-//        URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
-        BorderPane gameWindow = new GameWindow();
-        
+        /**
+         * Set start-scene (intro)
+         *
+         * when changing scenes later, use SceneController.setScene()
+         * Mvh Kjetil
+         */
+        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
+        SceneController.setScene( introSceneUrl );
 
-        //Set stage
+
+        /**
+         * Set up stage
+         *
+         * NEVER use setRoot later, only SceneController
+         */
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setTitle("PokerPro16");
