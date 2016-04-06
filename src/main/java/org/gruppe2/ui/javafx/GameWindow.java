@@ -26,14 +26,11 @@ public class GameWindow extends BorderPaneController {
 	@FXML
 	private Button FOLD;
 	@FXML
+	private Slider slider = new Slider();
+	@FXML
+	private Label sliderValue = new Label();
+	@FXML
 	private Button BET;
-	@FXML
-	private Slider raiseSlider;
-	@FXML
-	private Label sliderValue;
-
-//	@FXML
-//	private ChatBox chatBox;
 	
 	public GameWindow(Player player){
 		super();
@@ -45,19 +42,21 @@ public class GameWindow extends BorderPaneController {
 	}
 	public GameWindow(){
 		super();
-//		setSizes();
+		setSizes();
 //		setEvents();
 	}
 
-
+	@FXML
 	private void setSizes() {
         
-		raiseSlider.setMaxWidth(width * 0.23);
-        raiseSlider.setMinWidth(height * 0.23);
+		slider.setMaxWidth(width * 0.23);
+        slider.setMinWidth(height * 0.23);
+       
         sliderValue.setMinWidth(width * 0.08);
         sliderValue.setMaxWidth(height * 0.08);
 		
 	}
+	@FXML
 	private void setEvents() {
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
@@ -73,8 +72,8 @@ public class GameWindow extends BorderPaneController {
 	 * This will become fxml
 	 */
 	private void betAction(){
-		 if (pa.canCall() && pa.canRaise() && raiseSlider.getValue() > 1)
-             raise(client, raiseSlider, player);
+		 if (pa.canCall() && pa.canRaise() && slider.getValue() > 1)
+             raise(client, slider, player);
          else if (pa.canCall())
              client.setAction(new Action.Call());
          else if(pa.canCheck())
