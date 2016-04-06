@@ -36,32 +36,22 @@ public class MenuBarController {
         // Get the id of the menu button clicked
         MenuItem item = (MenuItem) event.getSource();
         String optionClicked = item.getId();
-        URL newFxmlFile;
+        URL newScene;
 
         // Load the fxml-file corresponding to the button
         switch (optionClicked) {
-            case "settings": newFxmlFile = getClass().getResource("/views/Settings.fxml");
+            case "settings": newScene = getClass().getResource("/views/Settings.fxml");
                 break;
-            case "startGame": newFxmlFile = getClass().getResource("/views/GameWindow.fxml");
+            case "startGame": newScene = getClass().getResource("/views/GameWindow.fxml");
                 break;
-            case "lobby": newFxmlFile = getClass().getResource("/views/Lobby.fxml");
+            case "lobby": newScene = getClass().getResource("/views/Lobby.fxml");
                 break;
-            default: newFxmlFile = getClass().getResource("/views/GameWindow.fxml");
+            default: newScene = getClass().getResource("/views/GameWindow.fxml");
                 break;
         }
 
-        try {
-
-            // initialize the new scene
-            BorderPane newScene = FXMLLoader.load( newFxmlFile );
-
-            // load new scene to the center of stage / main root BorderPane
-            BorderPane border = PokerApplication.getRoot();
-            border.setCenter( newScene );
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Call the scene-changer
+        SceneController.setScene( newScene );
     }
 
     public void quit() { Platform.exit(); }
