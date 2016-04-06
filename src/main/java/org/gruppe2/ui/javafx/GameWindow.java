@@ -37,8 +37,13 @@ public class GameWindow extends BorderPaneController {
 		this.player = player;
 		this.client = (GUIClient) player.getClient();
 		pa = player.getClient().getSession()
-	                .getPlayerOptions(player);
+				.getPlayerOptions(player);
 		setEvents();
+	}
+	public GameWindow(){
+		super();
+
+//		setEvents();
 	}
 
 

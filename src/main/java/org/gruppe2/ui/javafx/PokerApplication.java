@@ -12,6 +12,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.gruppe2.game.old.Player;
+import org.gruppe2.ui.old_javafx.GUIClient;
+
 import java.net.URL;
 
 public class PokerApplication extends Application {
@@ -36,9 +39,8 @@ public class PokerApplication extends Application {
 
 
         // Set default scene
-        URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
-        BorderPane gameWindow = FXMLLoader.load( gameWindowUrl );
-        root.setCenter( gameWindow );
+//        URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
+        BorderPane gameWindow = new GameWindow();
 
         //Set stage
         Scene scene = new Scene(root, 1280, 786);
