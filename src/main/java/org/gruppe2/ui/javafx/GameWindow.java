@@ -3,6 +3,8 @@ package org.gruppe2.ui.javafx;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -46,6 +48,7 @@ public class GameWindow implements Initializable {
         
 		slider.setMaxWidth(width * 0.23);
         slider.setMinWidth(height * 0.23);
+        slider.setMax(5000);
        
         sliderValue.setMinWidth(width * 0.08);
         sliderValue.setMaxWidth(height * 0.08);
@@ -55,39 +58,57 @@ public class GameWindow implements Initializable {
 	private void setEvents() {
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
+		slider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                                Number oldValue, Number newValue) {
+                sliderValue.textProperty().setValue(checkMaxBid(slider));
+            }
+        });
 	}
 
 	/**
 	 * This will become fxml
 	 */
 	private void foldAction(){
-		client.setAction(new Action.Fold());
+		System.out.println("FOLD NOT IMPLEMENTED");
 	}
 	/**
 	 * This will become fxml
 	 */
 	private void betAction(){
-		 if (pa.canCall() && pa.canRaise() && slider.getValue() > 1)
-             raise(client, slider, player);
-         else if (pa.canCall())
-             client.setAction(new Action.Call());
-         else if(pa.canCheck())
-             client.setAction(new Action.Check());
+		System.out.println("BET NOT IMPLEMENTED");
+//		 if (pa.canCall() && pa.canRaise() && slider.getValue() > 1)
+//             raise(client, slider, player);
+//         else if (pa.canCall())
+//             client.setAction(new Action.Call());
+//         else if(pa.canCheck())
+//             client.setAction(new Action.Check());
 	}
 	
 	private void raise(GUIClient client, Slider raiseSlider, Player player) {
-        if (client.getSession().getPlayerOptions(player).getMinRaise() <= raiseSlider
-                .getValue()) {
-            if (client.getSession().getPlayerOptions(player).getMaxRaise() >= raiseSlider
-                    .getValue())
-                client.setAction(new Action.Raise((int) raiseSlider.getValue()));
-        }
+//        if (client.getSession().getPlayerOptions(player).getMinRaise() <= raiseSlider
+//                .getValue()) {
+//            if (client.getSession().getPlayerOptions(player).getMaxRaise() >= raiseSlider
+//                    .getValue())
+//                client.setAction(new Action.Raise((int) raiseSlider.getValue()));
+//        }
     }
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		System.out.println("he");
-		System.out.println(slider);
 		assert(slider != null):"slider is null";
 		setSizes();
+		setEvents();
 	}
+	/**
+     * If raise is all you have, change text of raise button to ALL IN
+     *
+     * @param slider
+     * @return
+     */
+    private String checkMaxBid(Slider slider) {
+        if (slider.getValue() == slider.getMax()) BET.setText("ALL IN");
+        else BET.setText("RAISE");
+        return (int) slider.getValue() + " CHIPS";
+    }
 }

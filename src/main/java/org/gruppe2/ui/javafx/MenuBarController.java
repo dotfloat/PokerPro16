@@ -35,7 +35,6 @@ public class MenuBarController {
         MenuItem item = (MenuItem) event.getSource();
         String optionClicked = item.getId();
         
-        
         switchScene(optionClicked);
     }
     
