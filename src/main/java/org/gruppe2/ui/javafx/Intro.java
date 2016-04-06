@@ -24,15 +24,7 @@ public class Intro extends BorderPaneController {
         System.out.println("Something happens.");
     }
 
-    public double getFitWidth() {
-        return fitWidth.get();
-    }
-
     public DoubleProperty fitWidthProperty() {
         return fitWidth;
-    }
-
-    public void setFitWidth(double fitWidth) {
-        this.fitWidth.set(fitWidth);
     }
 }

@@ -4,11 +4,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <fx:root type="javafx.scene.layout.BorderPane"
-         xmlns:fx="http://javafx.com/fxml" styleClass="kjeks">
+         xmlns:fx="http://javafx.com/fxml">
 
 
         <top>
-            <StackPane alignment="CENTER" styleClass="kjeks" style="-fx-padding: 30px">
+            <StackPane alignment="CENTER" style="-fx-padding: 30px">
                 <ImageView fx:id="logo" preserveRatio="true">
                     <Image url="/images/ui/pokerWhite.png"/>
                 </ImageView>

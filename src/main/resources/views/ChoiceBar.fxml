@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.HBox?>
+<?import org.gruppe2.ui.old_javafx.ChatBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Label?>
+
 <HBox stylesheets="@../css/style.css">
-	<ChatBox id="ChatBox" />
+	<ChatBox fx:id="ChatBox" />
 	<Button id="FOLD" text="FOLD" />
 	<Slider id="Slider" />
-	<Label id=sliderValue"/>
+	<Label id="sliderValue"/>
 	<Button id="BET" text="BET" />
 	<Label /> 
-</ HBox>	
+</HBox>
 
 
 
