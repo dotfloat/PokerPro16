@@ -4,8 +4,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Button?>
-<fx:root type="javafx.scene.layout.BorderPane"
-         xmlns:fx="http://javafx.com/fxml" onMouseClicked="#goToMenu">
+<?import javafx.scene.control.Slider?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.Intro"
+            stylesheets="/css/style.css" onMouseClicked="#goToMenu">
 
 
         <top>
@@ -18,12 +19,9 @@
         </top>
 
         <center>
-            <Label text="Heisann CENTER" textFill="black"/>
         </center>
 
-        <bottom>
-            <Button text="GoToMenu" onAction="#goToMenu"/>
-        </bottom>
 
 
-</fx:root>
+
+</BorderPane>

@@ -17,6 +17,7 @@ public class SceneController {
     public static void setScene(URL url) {
 
         try {
+        	
             BorderPane newScene = FXMLLoader.load( url );
             BorderPane stage = PokerApplication.getRoot();
             stage.setCenter( newScene );

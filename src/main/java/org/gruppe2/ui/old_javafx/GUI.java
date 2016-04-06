@@ -4,6 +4,8 @@ package org.gruppe2.ui.old_javafx;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -174,31 +176,31 @@ public class GUI extends Application {
 
     private void setGUIEventHandlers(Stage primaryStage, Group root) {
         primaryStage.setOnCloseRequest(e -> System.exit(0));
-//		GUI gui = this;
-//		//Window resize listener
-//		final ChangeListener<Number> widthListener = new ChangeListener<Number>()
-//				{
-//				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
-//				  {
-//
-//			    	gui.setWidth(newValue.intValue());
-//			    	gui.getMainFrame().updateBackGround();
-//				  }
-//				};
-//		final ChangeListener<Number> heightListener = new ChangeListener<Number>()
-//				{
-//				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
-//				  {
-//
-//
-//			    	gui.setHeight(newValue.intValue());
-//			    	gui.getMainFrame().updateBackGround();
-//				  }
-//				};
-//
-//				// finally we have to register the listener
-//				primaryStage.widthProperty().addListener(widthListener);
-//				primaryStage.heightProperty().addListener(heightListener);
+		GUI gui = this;
+		//Window resize listener
+		final ChangeListener<Number> widthListener = new ChangeListener<Number>()
+				{
+				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
+				  {
+
+			    	gui.setWidth(newValue.intValue());
+			    	gui.getMainFrame().updateBackGround();
+				  }
+				};
+		final ChangeListener<Number> heightListener = new ChangeListener<Number>()
+				{
+				  public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue)
+				  {
+
+
+			    	gui.setHeight(newValue.intValue());
+			    	gui.getMainFrame().updateBackGround();
+				  }
+				};
+
+				// finally we have to register the listener
+				primaryStage.widthProperty().addListener(widthListener);
+				primaryStage.heightProperty().addListener(heightListener);
     }
 
     /**

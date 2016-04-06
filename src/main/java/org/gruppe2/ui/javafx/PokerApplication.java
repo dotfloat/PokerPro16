@@ -56,10 +56,10 @@ public class PokerApplication extends Application {
          * when changing scenes later, use SceneController.setScene()
          * Mvh Kjetil
          */
-//        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
-//        SceneController.setScene( introSceneUrl );
 
-        BorderPane introScene = new GameWindow();
+
+
+        
 
 
 
@@ -72,6 +72,8 @@ public class PokerApplication extends Application {
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setTitle("PokerPro16");
         stage.setScene(scene);
+        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
+        SceneController.setScene( introSceneUrl );
         stage.show();
     }
 
