@@ -10,7 +10,7 @@ public class CalculateTwoPairs {
 		return 0;
 	}
 	
-	public static double getChanceOfWinningWithTwoPairs (ArrayList<Card> currentCardsArrayList<Card> communityCards, ArrayList<Card> AIhandCards,int cardsLeftToPick, int numberOfActivePlayers){
+	public static double getChanceOfWinningWithTwoPairs (ArrayList<Card> currentCardsArrayList, ArrayList<Card> communityCards, ArrayList<Card> AIhandCards,int cardsLeftToPick, int numberOfActivePlayers){
 		//TODO
 		return 0;
 	}
