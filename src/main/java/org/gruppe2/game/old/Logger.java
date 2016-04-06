@@ -24,7 +24,7 @@ public class Logger {
 	 */
 	public Logger() {
 		LocalDateTime dateTime = LocalDateTime.now();
-		String filePath = "logs/";
+		String filePath = "./logs/";
 		String fileName = filePath + String.format("%d.%d_%d.%d", dateTime.getYear(), dateTime.getDayOfYear(),
 				dateTime.getHour(), dateTime.getMinute());
 		logFile = new File(fileName);
