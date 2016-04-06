@@ -8,7 +8,6 @@ public class GameSession {
 	private ArrayList<Player> activePlayers = new ArrayList<>();
 	private ShowdownEvaluator showdownEvaluator = new ShowdownEvaluator();
 	private Table table = new Table();
-	private Logger logger = new Logger();
 	private int smallBlindAmount;
 	private int bigBlindAmount;
 	private int highestBet;
@@ -98,7 +97,8 @@ public class GameSession {
 
 	private void turnLoop() {
 		int lastRaiserIndex = 0;
-
+		Logger logger = new Logger();
+		logger.record("New Turn!");
 		for (int last = button; true; last--) {
 			if (last < 0)
 				last = activePlayers.size() - 1;
