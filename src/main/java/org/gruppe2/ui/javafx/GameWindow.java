@@ -46,15 +46,17 @@ public class GameWindow extends BorderPaneController {
 //		setEvents();
 	}
 
-
+	@FXML
 	private void setSizes() {
         
-		slider.setMaxWidth(width * 0.50);
-        slider.setMinWidth(height * 0.50);
+		slider.setMaxWidth(width * 0.23);
+        slider.setMinWidth(height * 0.23);
+       
         sliderValue.setMinWidth(width * 0.08);
         sliderValue.setMaxWidth(height * 0.08);
 		
 	}
+	@FXML
 	private void setEvents() {
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
