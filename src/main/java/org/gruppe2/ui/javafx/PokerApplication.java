@@ -5,14 +5,14 @@
 
 package org.gruppe2.ui.javafx;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.net.URL;
 
 public class PokerApplication extends Application {
 
@@ -26,18 +26,18 @@ public class PokerApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        BorderPane root = new BorderPane();
-        root.getChildren().add(new Intro());
+//        BorderPane root = new BorderPane();
+//        root.getChildren().add(new GameWindow());
 
-//        // Menu-bar always present
-//        URL menuUrl = getClass().getResource("/views/MainMenu.fxml");
-//        MenuBar menu = FXMLLoader.load( menuUrl );
-//        root.setTop( menu );
+        // Menu-bar always present
+        URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
+        MenuBar menu = FXMLLoader.load( menuUrl );
+        root.setTop( menu );
 
-        /*
-        URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
-        GameWindow gameWindow = FXMLLoader.load( gameWindowUrl );
-        root.setCenter( gameWindow );*/
+
+        // Set default scene
+//        URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
+        BorderPane gameWindow = new GameWindow();
 
         //Set stage
         Scene scene = new Scene(root, 1280, 786);

@@ -153,7 +153,7 @@ public class GUI extends Application {
         setInitialChildrenToRoot(border, canvas, root);
 
         testGame();
-
+        
     }
 
     private void testGame() {

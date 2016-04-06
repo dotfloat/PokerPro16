@@ -9,19 +9,21 @@
 <?import javafx.scene.control.Label?>
 
 
-<fx:root type="javafx.scene.layout.BorderPane"
-		 xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow">
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow">
+
 
    <bottom>
 
    			<HBox stylesheets="@../css/style.css" >
-   			
-				<Button fx:id="FOLD" text="FOLD" id="button" onAction="#foldAction"  />
+
+				<Button fx:id="FOLD" text="FOLD" id="button" />
 				<Slider fx:id="Slider" id="slider" />
 				<Label fx:id="sliderValue" id="label"/>
-				<Button fx:id="BET" text="BET" id="button" onAction="#betAction" />
+				<Button fx:id="BET" text="BET" id="button" />
+
 				<Label /> 
 			</HBox>
 
    </bottom> 
-</fx:root>
+</BorderPane>

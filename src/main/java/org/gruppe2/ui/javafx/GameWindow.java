@@ -1,5 +1,6 @@
 package org.gruppe2.ui.javafx;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,10 +22,13 @@ public class GameWindow extends BorderPaneController {
 	
 	@FXML
 	private Button FOLD;
-	@FXML 
+	@FXML
+	private Button BET;
+	@FXML
 	private Slider raiseSlider;
 	@FXML
 	private Label sliderValue;
+
 //	@FXML
 //	private ChatBox chatBox;
 	
@@ -33,15 +37,31 @@ public class GameWindow extends BorderPaneController {
 		this.player = player;
 		this.client = (GUIClient) player.getClient();
 		pa = player.getClient().getSession()
-	                .getPlayerOptions(player);
+				.getPlayerOptions(player);
+		setEvents();
+	}
+	public GameWindow(){
+		super();
+
+//		setEvents();
 	}
 
-	
-	void foldAction(){
+
+	private void setEvents() {
+		FOLD.setOnAction(e -> foldAction());
+		BET.setOnAction(e -> betAction());
+}
+
+	/**
+	 * This will become fxml
+	 */
+	private void foldAction(){
 		client.setAction(new Action.Fold());
 	}
-	
-	void betAction(){
+	/**
+	 * This will become fxml
+	 */
+	private void betAction(){
 		 if (pa.canCall() && pa.canRaise() && raiseSlider.getValue() > 1)
              raise(client, raiseSlider, player);
          else if (pa.canCall())

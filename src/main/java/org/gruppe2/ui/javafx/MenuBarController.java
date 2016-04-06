@@ -6,6 +6,7 @@
 
 package org.gruppe2.ui.javafx;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,30 +25,44 @@ public class MenuBarController {
     private MenuItem startGame;
 
     @FXML
-    void setSceneSettings(ActionEvent event) {
-        try {
-            URL settingsUrl = getClass().getResource("/view/Settings.fxml");
-            GridPane settings = FXMLLoader.load( settingsUrl );
-
-            BorderPane border = PokerApplication.getRoot();
-            border.setCenter( settings );
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private MenuItem lobby;
 
     @FXML
-    void setSceneGame(ActionEvent event) {
-        try {
-            URL gameUrl = getClass().getResource("/view/GameWindow.fxml");
-            BorderPane game = FXMLLoader.load( gameUrl );
+    private MenuItem quit;
 
+    @FXML
+    void setScene(ActionEvent event) {
+
+        // Get the id of the menu button clicked
+        MenuItem item = (MenuItem) event.getSource();
+        String optionClicked = item.getId();
+        URL newFxmlFile;
+
+        // Load the fxml-file corresponding to the button
+        switch (optionClicked) {
+            case "settings": newFxmlFile = getClass().getResource("/views/Settings.fxml");
+                break;
+            case "startGame": newFxmlFile = getClass().getResource("/views/GameWindow.fxml");
+                break;
+            case "lobby": newFxmlFile = getClass().getResource("/views/Lobby.fxml");
+                break;
+            default: newFxmlFile = getClass().getResource("/views/GameWindow.fxml");
+                break;
+        }
+
+        try {
+
+            // initialize the new scene
+            BorderPane newScene = FXMLLoader.load( newFxmlFile );
+
+            // load new scene to the center of stage / main root BorderPane
             BorderPane border = PokerApplication.getRoot();
-            border.setCenter( game );
+            border.setCenter( newScene );
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void quit() { Platform.exit(); }
 }
