@@ -11,8 +11,7 @@ import java.net.URL;
  * Changes scene in PokerApplication main root BorderPane
  * #url = URL to fxml-file
  */
-public class SceneController {
-
+class SceneController {
 
     public static void setScene(URL url) {
 
@@ -21,8 +20,11 @@ public class SceneController {
             BorderPane newScene = FXMLLoader.load( url );
             BorderPane stage = PokerApplication.getRoot();
             stage.setCenter( newScene );
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }

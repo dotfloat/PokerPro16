@@ -6,7 +6,6 @@
 package org.gruppe2.ui.javafx;
 
 import java.net.URL;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +16,7 @@ import javafx.stage.Stage;
 public class PokerApplication extends Application {
 	private static int width;
 	private static int height;
+
     // Setting global root. Will only change scenes
     private static BorderPane root = new BorderPane();
 
@@ -30,50 +30,37 @@ public class PokerApplication extends Application {
 
         // Lets load startValues from settings-file or something...
     	startValues();
+        stage.setTitle("PokerPro16");
 
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-//                    "/views/" + getClass().getSimpleName() + ".fxml"));
-//
-//        fxmlLoader.setController( this );
-//        fxmlLoader.setRoot( root );
-//
-//        System.out.println( "fxmlLoader file: " + fxmlLoader.getLocation().toString());
-//        System.out.println( "fxmlLoader root: " + fxmlLoader.getRoot().toString());
 
         /**
          * Menu-bar always present in main stage
          * Let's pretend this is just temporary
          */
-
         URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
         MenuBar menu = FXMLLoader.load( menuUrl );
         root.setTop( menu );
 
 
         /**
-         * Set start-scene (intro)
+         * Set start-scene to intro
          *
          * when changing scenes later, use SceneController.setScene()
          * Mvh Kjetil
          */
-
-
-
-        
-
+        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
+        SceneController.setScene( introSceneUrl );
 
 
         /**
          * Set up stage
          *
-         * NEVER use setRoot later, only SceneController
+         * No global stylesheet in javaFX 8 stage, only on every scene
          */
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-        stage.setTitle("PokerPro16");
+
         stage.setScene(scene);
-        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
-        SceneController.setScene( introSceneUrl );
         stage.show();
     }
 
