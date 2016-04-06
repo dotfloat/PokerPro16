@@ -16,11 +16,11 @@
    <bottom>
 
    			<HBox stylesheets="@../css/style.css" >
-				<ChatBox fx:id="ChatBox" id=/>
-				<Button fx:id="FOLD" text="FOLD" id="button" onMouseClicked="foldAction"  />
+   			
+				<Button fx:id="FOLD" text="FOLD" id="button" setOnMouseClicked="foldAction"  />
 				<Slider fx:id="Slider" id="slider" />
 				<Label fx:id="sliderValue" id="label"/>
-				<Button fx:id="BET" text="BET" id="button" onMouseClicked="betAction" />
+				<Button fx:id="BET" text="BET" id="button" setOnMouseClicked="betAction" />
 				<Label /> 
 			</HBox>
 

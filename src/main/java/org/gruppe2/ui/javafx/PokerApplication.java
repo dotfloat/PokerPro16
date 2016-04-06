@@ -35,9 +35,9 @@ public class PokerApplication extends Application {
 //        root.setTop( menu );
 
         // Set default scene
-        URL settingUrl = getClass().getResource("/views/GameWindow.fxml");
-        BorderPane settings = FXMLLoader.load( settingUrl );
-        root.setCenter( settings );
+        URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
+        GameWindow gameWindow = FXMLLoader.load( gameWindowUrl );
+        root.setCenter( gameWindow );
 
         //Set stage
         Scene scene = new Scene(root, 1280, 786);
