@@ -8,7 +8,6 @@
 }
 
 .button {
-    -fx-position-shape: false;
     -fx-text-fill: #0099ff;
     -fx-font-weight: bold;
     -fx-font: 20px "sans-serif";

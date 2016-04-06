@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 public class Intro implements Initializable {
 
     @FXML private ImageView logo;
-    @FXML private Label label;
+    @FXML private Label clickToContinue;
     @FXML private BorderPane borderPane;
 
     public void goToMenu() throws IOException{
@@ -37,7 +37,7 @@ public class Intro implements Initializable {
         assert logo != null : "is null";
         logo.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.8));
 
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(1500), logo);
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(700), clickToContinue);
         fadeTransition.setFromValue(1.0);
         fadeTransition.setToValue(0.1);
         fadeTransition.setCycleCount(Timeline.INDEFINITE);
