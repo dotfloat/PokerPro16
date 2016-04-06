@@ -59,7 +59,7 @@ public class PokerApplication extends Application {
 
 
 
-        BorderPane introScene = new GameWindow();
+        
 
 
 
