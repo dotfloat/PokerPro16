@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Button?>
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<BorderPane>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+         xmlns="http://javafx.com/javafx/8.0.65"
+          fx:controller="org.gruppe2.ui.javafx.MainMenu">
+          
         <top>
                 <HBox alignment="CENTER">
                         <ImageView fitHeight="920" fitWidth="1080" preserveRatio="true">
@@ -25,11 +26,11 @@
         </left>
         <center>
                 <VBox stylesheets="@../css/style.css" alignment="CENTER" styleClass="vbox" spacing="10">
-                        <Button id = "CreateTable" text = "Create Table"/>
-                        <Button id = "JoinTable" text = "Join Table"/>
-                        <Button id ="SinglePlayer" text = "Singleplayer"/>
-                        <Button id = "ViewStatistics" text = "View Statistics"/>
-                        <Button id = "Settings" text = "Settings"/>
+                        <Button fx:id = "CreateTable" text = "Create Table"/>
+                        <Button fx:id = "JoinTable" text = "Join Table"/>
+                        <Button fx:id ="SinglePlayer" text = "Singleplayer"/>
+                        <Button fx:id = "ViewStatistics" text = "View Statistics"/>
+                        <Button fx:id = "Settings" text = "Settings"/>
                 </VBox>
         </center>
 

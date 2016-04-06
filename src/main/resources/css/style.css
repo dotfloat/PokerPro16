@@ -123,7 +123,9 @@
     -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 3);
 }
 
-
+.statusBox {
+    -fx-background-color: #007acc;
+}
 
 .text-field {
     -fx-background-color: #1a1a1a;
@@ -141,10 +143,6 @@
     -fx-alignment: center;
     -fx-prompt-text-fill: whitesmoke;
     -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
-}
-
-.statusBox {
-    -fx-background-color: #007acc;
 }
 
 #table {

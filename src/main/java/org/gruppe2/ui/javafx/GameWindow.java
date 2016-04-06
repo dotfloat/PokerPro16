@@ -39,19 +39,7 @@ public class GameWindow implements Initializable {
 	@FXML
 	private Button BET;
 	
-	public GameWindow(Player player){
-		super();
-		this.player = player;
-		this.client = (GUIClient) player.getClient();
-		pa = player.getClient().getSession()
-				.getPlayerOptions(player);
-		setEvents();
-	}
-	public GameWindow(){
-		
-		setSizes();
-//		setEvents();
-	}
+	
 
 	@FXML
 	private void setSizes() {
@@ -100,5 +88,6 @@ public class GameWindow implements Initializable {
 		System.out.println("he");
 		System.out.println(slider);
 		assert(slider != null):"slider is null";
+		setSizes();
 	}
 }
