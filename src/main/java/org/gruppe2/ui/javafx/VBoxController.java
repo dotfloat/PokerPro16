@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 
 class VBoxController extends VBox {
+	
     VBoxController() {
         /* Java doesn't have templates so we have to resort to writing boilerplate code -.-  */
         try {

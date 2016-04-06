@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import org.gruppe2.ui.old_javafx.ChatBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Label?>
 
-<BorderPane prefHeight="768.0" prefWidth="1280.0" style="-fx-background-image: url('/images/ui/PokertableWithLogo.png');" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                <MenuItem text="Start game" />
 
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow">
+   <bottom>
+   			<HBox stylesheets="@../css/style.css" style="-fx-background-color: white" >
+				<ChatBox fx:id="chatBox" />
+				<Button fx:id="FOLD" text="FOLD" id="button" />
+				<Slider fx:id="slider" id="slider" />
+				<Label fx:id="sliderValue" id="label"/>
+				<Button fx:id="BET" text="BET" id="button" />
+
+				<Label /> 
+			</HBox>
+
+   </bottom> 
 </BorderPane>
