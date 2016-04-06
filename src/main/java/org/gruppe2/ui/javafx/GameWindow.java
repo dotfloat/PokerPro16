@@ -21,10 +21,13 @@ public class GameWindow extends BorderPaneController {
 	
 	@FXML
 	private Button FOLD;
+	@FXML
+	private Button BET;
 	@FXML 
 	private Slider raiseSlider;
 	@FXML
 	private Label sliderValue;
+	
 //	@FXML
 //	private ChatBox chatBox;
 	
@@ -33,9 +36,16 @@ public class GameWindow extends BorderPaneController {
 		this.client = (GUIClient) player.getClient();
 		pa = player.getClient().getSession()
 	                .getPlayerOptions(player);
+		setEvents();
 	}
 
 	
+	private void setEvents() {
+		FOLD.setOnAction(e -> foldAction());
+		BET.setOnAction(e -> betAction());
+}
+
+
 	void foldAction(){
 		client.setAction(new Action.Fold());
 	}
