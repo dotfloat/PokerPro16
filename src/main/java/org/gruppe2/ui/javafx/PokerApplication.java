@@ -41,6 +41,7 @@ public class PokerApplication extends Application {
         // Set default scene
 //        URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
         BorderPane gameWindow = new GameWindow();
+        
 
         //Set stage
         Scene scene = new Scene(root, width, height);

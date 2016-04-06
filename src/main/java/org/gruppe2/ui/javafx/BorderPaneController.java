@@ -14,10 +14,10 @@ public class BorderPaneController extends BorderPane {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/views/" + getClass().getSimpleName() + ".fxml"));
-            fxmlLoader.setController(this);
-            
-            fxmlLoader.setRoot(this);
 
+            fxmlLoader.setController(this);
+            fxmlLoader.setRoot(this);
+ 
             this.setStyle("-fx-background-color: black");
 
             fxmlLoader.load();
@@ -25,5 +25,4 @@ public class BorderPaneController extends BorderPane {
             e.printStackTrace();
         }
     }
-
 }
