@@ -29,10 +29,10 @@ public class PokerApplication extends Application {
 //        BorderPane root = new BorderPane();
 //        root.getChildren().add(new GameWindow());
 
-        // Menu-bar always present
-        URL menuUrl = getClass().getResource("/views/MainMenu.fxml");
-        MenuBar menu = FXMLLoader.load( menuUrl );
-        root.setTop( menu );
+//        // Menu-bar always present
+//        URL menuUrl = getClass().getResource("/views/MainMenu.fxml");
+//        MenuBar menu = FXMLLoader.load( menuUrl );
+//        root.setTop( menu );
 
         // Set default scene
         URL settingUrl = getClass().getResource("/views/GameWindow.fxml");
