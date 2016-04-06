@@ -1,4 +1,8 @@
-
+.background {
+    -fx-background-image: url("/images/ui/floorTile.png");
+    -fx-background-size: 400px;
+    -fx-background-repeat: repeat;
+}
 .borderPane {
     -fx-background-color: blue;
 }
@@ -52,6 +56,8 @@
 .hbox {
     -fx-background-color: black;
     -fx-alignment: center;
+    -fx-vgap: 20px;
+    -fx-padding:10px;
 }
 
 .label {
@@ -117,11 +123,7 @@
     -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 3);
 }
 
-.background {
-    -fx-background-image: url("/images/ui/floorTile.png");
-    -fx-background-size: 300px, 300px;
-    -fx-background-repeat: repeat;
-}
+
 
 .text-field {
     -fx-background-color: #1a1a1a;

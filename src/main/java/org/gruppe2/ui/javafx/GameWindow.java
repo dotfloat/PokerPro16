@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
 
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.old.Player;
@@ -21,6 +22,8 @@ public class GameWindow extends BorderPaneController {
 	GUIClient client;
 	PossibleActions pa;
 	Player player;
+	@FXML
+	private BorderPane borderPane;
 	@FXML
 	private ChatBox chatBox;
 	@FXML

@@ -11,10 +11,10 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
    <center>
    		<BorderPane>
-	  		<ImageView fitHeight="920" fitWidth="1080" preserveRatio="true">
+	  		<ImageView fitHeight="600" fitWidth="1280" preserveRatio="true" layoutX= "100" layoutY= "50"   >
 			        <image>
 			                <Image url="/images/ui/PokertableWithLogo.png" preserveRatio="false"/>
 			        </image>
@@ -22,11 +22,11 @@
 		</BorderPane>
    </center>
    <bottom>
-   			<HBox stylesheets="@../css/style.css" style="-fx-background-color: green" >
+   			<HBox styleClass="hbox" spacing="20" >
 				<ChatBox fx:id="chatBox" />
 				<Button fx:id="FOLD" text="FOLD" id="button" />
-				<Slider fx:id="slider" id="slider" />
-				<Label fx:id="sliderValue" text="0" id="label"/>
+				<Slider fx:id="slider" id="slider" prefWidth="500" />
+				<Label fx:id="sliderValue" text="0 CHIPS" id="label"/>
 				<Button fx:id="BET" text="BET" id="button" />
 
 				<Label /> 
