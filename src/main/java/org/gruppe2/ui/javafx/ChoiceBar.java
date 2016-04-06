@@ -10,15 +10,11 @@ import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.PossibleActions;
 import org.gruppe2.ui.old_javafx.GUIClient;
 
-/**
- * Created by kjors on 04.04.2016.
- */
-public class GameWindow extends BorderPaneController {
+public class ChoiceBar extends ChoiceBarController {
 	GUIClient client;
 	PossibleActions pa;
 	Player player;
-	
-	public GameWindow(Player player){
+	public ChoiceBar(Player player){
 		this.player = player;
 		this.client = (GUIClient) player.getClient();
 		pa = player.getClient().getSession()
@@ -53,4 +49,6 @@ public class GameWindow extends BorderPaneController {
                 client.setAction(new Action.Raise((int) raiseSlider.getValue()));
         }
     }
+	
+
 }
