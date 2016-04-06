@@ -32,6 +32,7 @@ public class GameWindow extends BorderPaneController {
 //	private ChatBox chatBox;
 	
 	public GameWindow(Player player){
+		super();
 		this.player = player;
 		this.client = (GUIClient) player.getClient();
 		pa = player.getClient().getSession()

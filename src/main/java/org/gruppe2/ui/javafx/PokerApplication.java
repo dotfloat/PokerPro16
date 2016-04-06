@@ -10,8 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.net.URL;
 
 public class PokerApplication extends Application {
@@ -29,15 +29,22 @@ public class PokerApplication extends Application {
 //        BorderPane root = new BorderPane();
 //        root.getChildren().add(new GameWindow());
 
-//        // Menu-bar always present
-//        URL menuUrl = getClass().getResource("/views/MainMenu.fxml");
-//        MenuBar menu = FXMLLoader.load( menuUrl );
-//        root.setTop( menu );
+        // Menu-bar always present
+        URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
+        MenuBar menu = FXMLLoader.load( menuUrl );
+        root.setTop( menu );
 
+<<<<<<< HEAD
         // Set default scene
         URL gameWindowUrl = getClass().getResource("/views/GameWindow.fxml");
         BorderPane gameWindow = FXMLLoader.load( gameWindowUrl );
         root.setCenter( gameWindow );
+=======
+        // Set default scene, or intro....
+        URL settingUrl = getClass().getResource("/views/GameWindow.fxml");
+        BorderPane settings = FXMLLoader.load( settingUrl );
+        root.setCenter( settings );
+>>>>>>> afcfed60f13a42b64e917a9fd9d6fa5a541be733
 
         //Set stage
         Scene scene = new Scene(root, 1280, 786);
