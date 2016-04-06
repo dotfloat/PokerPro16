@@ -22,8 +22,7 @@ import org.gruppe2.game.logic.*;
 public class Intro implements Initializable {
 
     @FXML private ImageView logo;
-    @FXML private Label label;
-    @FXML private BorderPane borderPane;
+    @FXML private Label clickToContinue;
 
     public void goToMenu() throws IOException{
         SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
@@ -34,7 +33,7 @@ public class Intro implements Initializable {
         assert logo != null : "is null";
         logo.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.8));
 
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(1500), logo);
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(700), clickToContinue);
         fadeTransition.setFromValue(1.0);
         fadeTransition.setToValue(0.1);
         fadeTransition.setCycleCount(Timeline.INDEFINITE);
