@@ -1,20 +1,25 @@
 package org.gruppe2.ui.javafx;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.PossibleActions;
-import org.gruppe2.ui.old_javafx.ChatBox;
 import org.gruppe2.ui.old_javafx.GUIClient;
 
 /**
  * Created by kjors on 04.04.2016.
  */
-public class GameWindow extends BorderPaneController {
+public class GameWindow implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	
@@ -22,13 +27,15 @@ public class GameWindow extends BorderPaneController {
 	PossibleActions pa;
 	Player player;
 	@FXML
-	private ChatBox chatBox;
+	private BorderPane borderPane;
+	@FXML
+	private TextField chatField;
 	@FXML
 	private Button FOLD;
 	@FXML
-	private Slider slider = new Slider();
+	private Slider slider;
 	@FXML
-	private Label sliderValue = new Label();
+	private Label sliderValue;
 	@FXML
 	private Button BET;
 	
@@ -41,7 +48,7 @@ public class GameWindow extends BorderPaneController {
 		setEvents();
 	}
 	public GameWindow(){
-		super();
+		
 		setSizes();
 //		setEvents();
 	}
@@ -88,4 +95,10 @@ public class GameWindow extends BorderPaneController {
                 client.setAction(new Action.Raise((int) raiseSlider.getValue()));
         }
     }
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		System.out.println("he");
+		System.out.println(slider);
+		assert(slider != null):"slider is null";
+	}
 }

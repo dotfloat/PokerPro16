@@ -25,7 +25,7 @@ public class BorderPaneController extends BorderPane {
 
 			this.setStyle("-fx-background-color: black");
 			if (fxmlLoader.getRoot() == null) {
-				fxmlLoader.load();
+				this.getChildren().setAll(fxmlLoader.load());
 			}
 
 		} catch (IOException e) {

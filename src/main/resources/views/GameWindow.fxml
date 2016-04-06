@@ -2,23 +2,35 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.HBox?>
 <?import org.gruppe2.ui.old_javafx.ChatBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 
 
-
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
+   <center>
+   		<StackPane>
+	  		<ImageView fitHeight="550" fitWidth="1100" preserveRatio="true"   >
+			        <image>
+			                <Image url="/images/ui/PokertableWithLogo.png" preserveRatio="false"/>
+			        </image>
+			</ImageView>
+		</StackPane>
+   </center>
    <bottom>
-   			<HBox stylesheets="@../css/style.css" style="-fx-background-color: white" >
-				<ChatBox fx:id="chatBox" />
+   			<HBox styleClass="hbox" spacing="20" >
+				<TextField fx:id="chatField" prefWidth="200" />
 				<Button fx:id="FOLD" text="FOLD" id="button" />
-				<Slider fx:id="slider" id="slider" />
-				<Label fx:id="sliderValue" id="label"/>
+				<Slider fx:id="slider" id="slider" prefWidth="500" />
+				<Label fx:id="sliderValue" text="0 CHIPS" id="label"/>
 				<Button fx:id="BET" text="BET" id="button" />
-
+				<Label text="" id="label" prefWidth="200"/>
 				<Label /> 
 			</HBox>
 

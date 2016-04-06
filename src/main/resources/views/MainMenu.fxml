@@ -24,7 +24,7 @@
 
         </left>
         <center>
-                <VBox stylesheets="@../css/style.css" alignment="CENTER">
+                <VBox stylesheets="@../css/style.css" alignment="CENTER" styleClass="vbox" spacing="10">
                         <Button id = "CreateTable" text = "Create Table"/>
                         <Button id = "JoinTable" text = "Join Table"/>
                         <Button id ="SinglePlayer" text = "Singleplayer"/>

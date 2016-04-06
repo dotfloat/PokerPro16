@@ -1,4 +1,8 @@
-
+.background {
+    -fx-background-image: url("/images/ui/floorTile.png");
+    -fx-background-size: 400px;
+    -fx-background-repeat: repeat;
+}
 .borderPane {
     -fx-background-color: blue;
 }
@@ -52,6 +56,16 @@
 .hbox {
     -fx-background-color: black;
     -fx-alignment: center;
+    -fx-vgap: 20px;
+    -fx-padding:10px;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font: 20px "sans-serif";
+}
+.menu {
+    -fx-text-color: black;
 }
 
 .pane {
@@ -109,20 +123,7 @@
     -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 3);
 }
 
-.label {
-    -fx-text-fill: white;
-    -fx-font: 20px "sans-serif";
-}
 
-.menu {
-    -fx-text-color: black;
-}
-
-.background {
-    -fx-background-image: url("/images/ui/floorTile.png");
-    -fx-background-size: 300px, 300px;
-    -fx-background-repeat: repeat;
-}
 
 .text-field {
     -fx-background-color: #1a1a1a;
@@ -153,5 +154,6 @@
     -fx-background-position: center center;
 }
 .vbox {
-    -fx-background-color: black;
+    -fx-background-color: transparent;
+    -fx-vgap: 10px;
 }
