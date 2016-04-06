@@ -1,31 +1,6 @@
-.vbox {
-    -fx-background-color: black;
-}
 
-.hbox {
-    -fx-background-color: black;
-    -fx-alignment: center;
-}
-
-.pane {
-    -fx-hgap: 10px;
-    -fx-vgap: 5px;
-    -fx-padding: 10px;
-    -fx-background-color: black;
-    -fx-background-radius: 10px;
-}
-
-.paneActive {
-    -fx-hgap: 10px;
-    -fx-vgap: 5px;
-    -fx-padding: 10px;
-    -fx-background-color: black;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(three-pass-box, #0099ff, 20, 0, 0, 0);
-}
-
-.root {
-    -fx-background-color: black;
+.borderPane {
+    -fx-background-color: blue;
 }
 
 .button {
@@ -36,7 +11,6 @@
     -fx-background-color: #333333;
     -fx-background-radius: 15px;
     -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 4);
-
 }
 
 .button:hover {
@@ -73,6 +47,32 @@
     -fx-background-color: #333333;
     -fx-background-radius: 15px;
     -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 4);
+}
+
+.hbox {
+    -fx-background-color: black;
+    -fx-alignment: center;
+}
+
+.pane {
+    -fx-hgap: 10px;
+    -fx-vgap: 5px;
+    -fx-padding: 10px;
+    -fx-background-color: black;
+    -fx-background-radius: 10px;
+}
+
+.paneActive {
+    -fx-hgap: 10px;
+    -fx-vgap: 5px;
+    -fx-padding: 10px;
+    -fx-background-color: black;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, #0099ff, 20, 0, 0, 0);
+}
+
+.root {
+    -fx-background-color: black;
 }
 
 .scroll.pane {
@@ -142,13 +142,12 @@
     -fx-background-color: #007acc;
 }
 
-.borderPane {
-    -fx-background-color: blue;
-}
-
 #table {
     -fx-background-image: url("/images/ui/PokerTableWithLogo.png");
     -fx-background-size: 1280 786;
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
+}
+.vbox {
+    -fx-background-color: black;
 }

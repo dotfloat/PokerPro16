@@ -7,7 +7,7 @@
 <?import javafx.scene.control.Label?>
 
 <HBox stylesheets="@../css/style.css">
-	<ChatBox fx:id="ChatBox" />
+	<ChatBox fx:id="ChatBox" id?/>
 	<Button id="FOLD" text="FOLD" />
 	<Slider id="Slider" />
 	<Label id="sliderValue"/>
