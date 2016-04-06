@@ -453,6 +453,7 @@ public class ShowdownEvaluatorNew {
 															// pair.
 					highestCardValue = entry.getKey();
 					for (Suit s : entry.getValue())
+						if(listOfCardsInPair.size() < 2)
 						// Add all cards in new pair.
 						listOfCardsInPair.add(new Card(entry.getKey(), s));
 				}
