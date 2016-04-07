@@ -11,8 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.old.Player;
@@ -36,19 +38,62 @@ public class GameWindowController implements Initializable {
 	@FXML private Slider slider;
 	@FXML private Label sliderValue;
 	@FXML private Button BET;
-	
-	
+	@FXML private HBox communityCardsBox;
+	@FXML private ImageView playerCard1;
+	@FXML private ImageView playerCard2;
 
 	@FXML
 	private void setSizes() {
 		slider.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.4));
-        slider.setMinWidth(height * 0.23);
+        slider.setMinWidth(height * 0.15);
         slider.setMax(5000);
        
         sliderValue.setMinWidth(width * 0.09);
         sliderValue.setMaxWidth(height * 0.09);
 
 		pokerTable.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.7));
+		
+		
+		setPlayerCards();
+		setCommunityCards();
+	}
+	
+	/**
+	 * This is just test method for proof of conecpt, change this when backend is ready with playerCards.
+	 */
+	private void setPlayerCards() {
+		playerCard1.setImage(new Image(("/images/cards/" + "c02" + ".png")));
+		playerCard2.setImage(new Image(("/images/cards/" + "c03" + ".png")));
+		playerCard1.setLayoutX(width * 0.80);
+        playerCard1.setLayoutY(height * 0.77);
+        playerCard2.setLayoutX(width * 0.88);
+        playerCard2.setLayoutY(height * 0.77);
+
+        playerCard1.setFitWidth(width * 0.12);
+        playerCard1.setPreserveRatio(true);
+        playerCard1.setSmooth(true);
+        playerCard2.setFitWidth(width * 0.12);
+        playerCard2.setPreserveRatio(true);
+        playerCard2.setSmooth(true);
+
+        playerCard1.setRotate(350);
+        playerCard2.setRotate(5);
+		
+	}
+	/**
+	 * This is just test method for proof of conecpt, change this when backend is ready with playerCards.
+	 */
+	private void setCommunityCards() {
+		
+		for(int i = 0;i<5;i++){
+			ImageView cardImage = new ImageView(new Image(("/images/cards/" + "c02" + ".png")));
+			communityCardsBox.getChildren().add(cardImage);
+			cardImage.setPreserveRatio(true);
+            cardImage.setFitHeight(width * 0.07);
+		}
+		communityCardsBox.setLayoutX(width);
+		communityCardsBox.setLayoutY(height);
+		
 	}
 	@FXML
 	private void setEvents() {
@@ -98,7 +143,7 @@ public class GameWindowController implements Initializable {
 		setEvents();
 	}
 	/**
-     * If raise is all you have, change text of raise button to ALL IN
+     * If you raise all you have, change text of raise button to ALL IN
      *
      * @param slider
      * @return
