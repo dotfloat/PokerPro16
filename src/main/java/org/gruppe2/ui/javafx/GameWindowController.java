@@ -22,7 +22,7 @@ import org.gruppe2.ui.old_javafx.GUIClient;
 /**
  * Created by kjors on 04.04.2016.
  */
-public class GameWindow implements Initializable {
+public class GameWindowController implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	

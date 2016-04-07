@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 import org.gruppe2.game.logic.*;
 
-public class Intro implements Initializable {
+public class IntroController implements Initializable {
 
     @FXML private ImageView logo;
     @FXML private Label clickToContinue;
@@ -40,8 +40,8 @@ public class Intro implements Initializable {
 
         clickToContinueFading(clickToContinue);
 
-        //Soundplayer introSong = new Soundplayer("Crazy_Bone_Rag.mid");
-        //introSong.play();
+        Soundplayer introSong = new Soundplayer("Crazy_Bone_Rag.mid");
+        introSong.play();
 
     }
 

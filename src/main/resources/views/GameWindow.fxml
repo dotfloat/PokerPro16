@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.HBox?>
-<?import org.gruppe2.ui.old_javafx.ChatBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 
-
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindowController" fx:id="borderPane" styleClass="background">
    <center>
    		<StackPane>
 	  		<ImageView fx:id="pokerTable" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 50, 0.3, 10, 10)">
