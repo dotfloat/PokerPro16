@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
 import org.gruppe2.game.old.Action;
@@ -28,31 +29,26 @@ public class GameWindow implements Initializable {
 	GUIClient client;
 	PossibleActions pa;
 	Player player;
-	@FXML
-	private BorderPane borderPane;
-	@FXML
-	private TextField chatField;
-	@FXML
-	private Button FOLD;
-	@FXML
-	private Slider slider;
-	@FXML
-	private Label sliderValue;
-	@FXML
-	private Button BET;
+	@FXML private BorderPane borderPane;
+	@FXML private TextField chatField;
+	@FXML private ImageView pokerTable;
+	@FXML private Button FOLD;
+	@FXML private Slider slider;
+	@FXML private Label sliderValue;
+	@FXML private Button BET;
 	
 	
 
 	@FXML
 	private void setSizes() {
-        
-		slider.setMaxWidth(width * 0.23);
+		slider.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.4));
         slider.setMinWidth(height * 0.23);
         slider.setMax(5000);
        
-        sliderValue.setMinWidth(width * 0.08);
-        sliderValue.setMaxWidth(height * 0.08);
-		
+        sliderValue.setMinWidth(width * 0.09);
+        sliderValue.setMaxWidth(height * 0.09);
+
+		pokerTable.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.7));
 	}
 	@FXML
 	private void setEvents() {
@@ -94,6 +90,7 @@ public class GameWindow implements Initializable {
 //                client.setAction(new Action.Raise((int) raiseSlider.getValue()));
 //        }
     }
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		assert(slider != null):"slider is null";

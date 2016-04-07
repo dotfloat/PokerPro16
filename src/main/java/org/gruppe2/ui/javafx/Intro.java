@@ -40,6 +40,9 @@ public class Intro implements Initializable {
 
         clickToContinueFading(clickToContinue);
 
+        //Soundplayer introSong = new Soundplayer("Crazy_Bone_Rag.mid");
+        //introSong.play();
+
     }
 
     private void fallingAnimation(Rectangle node){
@@ -59,9 +62,6 @@ public class Intro implements Initializable {
         fadeTransition.setCycleCount(Timeline.INDEFINITE);
         fadeTransition.setAutoReverse(true);
         fadeTransition.play();
-
-//        Soundplayer introSong = new Soundplayer("Crazy_Bone_Rag.mid");
-//        introSong.play();
 
     }
 }
