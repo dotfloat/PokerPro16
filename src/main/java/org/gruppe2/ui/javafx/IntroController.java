@@ -40,8 +40,8 @@ public class IntroController implements Initializable {
 
         clickToContinueFading(clickToContinue);
 
-        Soundplayer introSong = new Soundplayer("Crazy_Bone_Rag.mid");
-        introSong.play();
+//        Soundplayer introSong = new Soundplayer("Crazy_Bone_Rag.mid");
+//        introSong.play();
 
     }
 

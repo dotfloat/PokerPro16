@@ -17,6 +17,7 @@
 			</ImageView>
 		</StackPane>
    </center>
+
    <bottom>
    			<HBox styleClass="hbox" spacing="20" >
 				<TextField fx:id="chatField" prefWidth="200" />
