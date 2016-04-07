@@ -17,15 +17,6 @@ public class Player {
         this.client = client;
     }
 
-    /**
-     * Constructor used to create a player with cards. No name, bank or client. Used by AI to calculate hand strength
-     * @param card0 card 1
-     * @param card1 card 2
-     */
-    public Player(Card card0, Card card1) {
-        setCards(card0, card1);
-    }
-
     public String getName() {
         return name;
     }
