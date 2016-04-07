@@ -15,6 +15,10 @@
 			                <Image url="/images/ui/PokertableWithLogo.png"/>
 			        </image>
 			</ImageView>
+			
+			<HBox fx:id="communityCardsBox">
+				
+			</HBox>
 		</StackPane>
    </center>
 
@@ -30,4 +34,10 @@
 			</HBox>
 
    </bottom> 
+   <ImageView fx:id="playerCard1" preserveRatio="true">
+			        
+	</ImageView>
+	<ImageView fx:id="playerCard2" preserveRatio="true">
+			        
+	</ImageView>
 </BorderPane>
