@@ -98,12 +98,12 @@ public class ShowdownEvaluator {
             }
 
             if (cardSet.size() == 5) {
-                // Start of evaluated logic
+                // Start of evaluated objects
                 int i = Collections.max(cardSet);
                 int[] high = new int[1];
                 high[0] = i;
                 evaluated.addHand(Hand.ROYALFLUSH, high);
-                // end of evaluated logic
+                // end of evaluated objects
                 return true;
             }
             return false;
@@ -135,11 +135,11 @@ public class ShowdownEvaluator {
                         count++;
                         lastCard = c;
                         if (count == 5) {
-                            // Start of evaluated logic
+                            // Start of evaluated objects
                             int[] high = new int[1];
                             high[0] = lastCard.getFaceValue();
                             evaluated.addHand(Hand.STRAIGHTFLUSH, high);
-                            // end of evaluated logic
+                            // end of evaluated objects
                             return true;
                         }
                         continue;
@@ -187,7 +187,7 @@ public class ShowdownEvaluator {
                 isFourOfAKind = true;
             }
         }
-        // Start of evaluated logic
+        // Start of evaluated objects
         if (isFourOfAKind) {
             int[] high = new int[2];
             int high1 = 0;
@@ -213,7 +213,7 @@ public class ShowdownEvaluator {
                 high[1] = high1;
             evaluated.addHand(Hand.FOUROFAKIND, high);
         }
-        // end of evaluated logic
+        // end of evaluated objects
 
         return isFourOfAKind;
     }
@@ -227,7 +227,7 @@ public class ShowdownEvaluator {
      */
     public boolean fullHouse(List<Card> cards) {
         if (threeOfAKind(cards) && onePair(cards)) {
-            // Start of evaluated logic
+            // Start of evaluated objects
             evaluated = new Evaluated();
             HashMap<Integer, Integer> map = new HashMap<>();
             int[] high = new int[2];
@@ -258,7 +258,7 @@ public class ShowdownEvaluator {
             else
                 high[1] = highs.get(highs.size() - 2);
             evaluated.addHand(Hand.FULLHOUSE, high);
-            // end of evaluated logic
+            // end of evaluated objects
             return true;
         }
         return false;
@@ -289,13 +289,13 @@ public class ShowdownEvaluator {
                 isFlush = true;
             }
         }
-        // Start of evaluated logic
+        // Start of evaluated objects
         if (isFlush) {
             int[] high = new int[1];
             high[0] = Collections.max(map.values());
             evaluated.addHand(Hand.FLUSH, high);
         }
-        // end of evaluated logic
+        // end of evaluated objects
 
         return isFlush;
     }
@@ -333,11 +333,11 @@ public class ShowdownEvaluator {
             if (cardValuesArray[i] + 1 == cardValuesArray[i + 1]) {
                 count++;
                 if (count == 4) {
-                    // Start of evaluated logic
+                    // Start of evaluated objects
                     int[] high = new int[1];
                     high[0] = cardValuesArray[i + 1];
                     evaluated.addHand(Hand.STRAIGHT, high);
-                    // end of evaluated logic
+                    // end of evaluated objects
                     return true;
                 }
             } else {
@@ -366,7 +366,7 @@ public class ShowdownEvaluator {
                 three = true;
             }
         }
-        // Start of evaluated logic
+        // Start of evaluated objects
         if (three) {
             ArrayList<Integer> highest = new ArrayList<Integer>();
             for (Card c : cards) {
@@ -381,7 +381,7 @@ public class ShowdownEvaluator {
             high[1] = highest.get(length - 1);
             high[2] = highest.get(length - 2);
         }
-        // end of evaluated logic
+        // end of evaluated objects
         return three;
     }
 
@@ -403,7 +403,7 @@ public class ShowdownEvaluator {
                 numPairs++;
             }
         }
-        // Start of evaluated logic
+        // Start of evaluated objects
         if (numPairs >= 2) {
             Collections.sort(pairValues);
             if (pairValues.size() == 3) {
@@ -421,7 +421,7 @@ public class ShowdownEvaluator {
             high[2] = highestCard;
             evaluated.addHand(Hand.TWOPAIRS, high);
         }
-        // end of evaluated logic
+        // end of evaluated objects
         return numPairs >= 2;
     }
 
@@ -442,7 +442,7 @@ public class ShowdownEvaluator {
                 onePair = true;
             }
         }
-        // Start of evaluated logic
+        // Start of evaluated objects
         if (onePair) {
             ArrayList<Integer> highestCards = new ArrayList<>();
             for (Card c : cards) {
@@ -458,7 +458,7 @@ public class ShowdownEvaluator {
             high[3] = highestCards.get(length - 3);
             evaluated.addHand(Hand.ONEPAIR, high);
         }
-        // end of evaluated logic
+        // end of evaluated objects
         return onePair;
     }
 

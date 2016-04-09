@@ -1,6 +1,7 @@
 package org.gruppe2.ui.javafx;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -27,10 +28,12 @@ import org.gruppe2.ui.old_javafx.GUIClient;
 public class GameWindowController implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-	
+
+
+	// MVC. should we keep objects and shit in the models (backend)?
 	GUIClient client;
 	PossibleActions pa;
-	Player player;
+	ArrayList<Player> players = new ArrayList<>();
 	@FXML private BorderPane borderPane;
 	@FXML private TextField chatField;
 	@FXML private ImageView pokerTable;
