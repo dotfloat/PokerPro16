@@ -9,7 +9,6 @@ public class Resources {
 	public static void loadFXML(Node node){
 		try {
 			String name = "/views/" + node.getClass().getSimpleName() + ".fxml";
-			System.out.println(name);
 			FXMLLoader fxmlLoader = new FXMLLoader(Resources.class.getResource(name));
 			
 			fxmlLoader.setRoot(node);
