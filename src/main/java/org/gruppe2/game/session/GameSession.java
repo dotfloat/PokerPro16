@@ -30,13 +30,11 @@ public class GameSession extends Session {
     public boolean addPlayer(AbstractPlayerController controller) {
         synchronized (players) {
             if (players.size() >= maxPlayers) {
-                controller.setAsyncStatus(AsyncStatus.FAILED);
                 return false;
             }
 
             players.add(controller);
 
-            controller.setAsyncStatus(AsyncStatus.COMPLETED);
             return true;
         }
     }

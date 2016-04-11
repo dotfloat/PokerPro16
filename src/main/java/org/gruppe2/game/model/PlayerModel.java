@@ -2,7 +2,7 @@ package org.gruppe2.game.model;
 
 import java.util.UUID;
 
-public class PlayerModel {
+public class PlayerModel implements Model {
     private final UUID uuid;
     private final String name;
     private final String avatar;

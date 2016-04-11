@@ -1,13 +1,18 @@
 package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.objects.Player;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
 public class GameSessionTest {
-    SessionContext context;
+    private SessionContext context;
+    private PlayerModel model = new PlayerModel(UUID.randomUUID(), "Zohar", "zohar");
 
     @Before
     public void setup() {
@@ -19,28 +24,15 @@ public class GameSessionTest {
      */
     @Test
     public void addPlayerTest() {
-        MockPlayerController player = new MockPlayerController();
-        context.addPlayer(player);
-
-        assertEquals(AsyncStatus.COMPLETED, player.getAsyncStatus());
+        assertTrue(context.addPlayer(new MockPlayerController(model)));
     }
 
     @Test
     public void addTooManyPlayersTest() {
-        MockPlayerController player;
-
         for (int i = 0; i < context.getMaxPlayers(); i++) {
-            player = new MockPlayerController();
-
-            context.addPlayer(player);
-
-            assertEquals(AsyncStatus.COMPLETED, player.getAsyncStatus());
+            assertTrue(context.addPlayer(new MockPlayerController(model)));
         }
 
-        player = new MockPlayerController();
-
-        context.addPlayer(player);
-
-        assertEquals(AsyncStatus.FAILED, player.getAsyncStatus());
+        assertFalse(context.addPlayer(new MockPlayerController(model)));
     }
 }

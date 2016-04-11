@@ -16,7 +16,7 @@
 			        </image>
 			</ImageView>
 			
-			<HBox fx:id="communityCardsBox">
+			<HBox fx:id="communityCardsBox" spacing="10">
 				
 			</HBox>
 		</StackPane>
