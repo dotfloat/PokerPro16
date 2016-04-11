@@ -144,7 +144,6 @@ public class GameWindowController implements Initializable {
 		
 		for(int i = 0; i<6;i++){
 			players.add(new Player("Bot", i, null));
-			
 		}
 		
 		
