@@ -21,14 +21,6 @@ public class SessionContextTest {
 
     @Test
     public void spectatorCountTest() {
-        assertEquals(0, context.getSpectatorCount());
-
-        context.addSpectator();
-
-        assertEquals(1, context.getSpectatorCount());
-
-        context.removeSpectator();
-
-        assertEquals(0, context.getSpectatorCount());
+        fail("Implement pls");
     }
 }

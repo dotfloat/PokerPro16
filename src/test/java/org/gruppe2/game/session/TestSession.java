@@ -1,25 +1,15 @@
 package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameState;
-import org.gruppe2.game.controller.AbstractPlayerController;
-import org.gruppe2.game.view.GameView;
+import org.gruppe2.game.controller.PlayerController;
+import org.gruppe2.game.event.EventHandler;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.model.PlayerModel;
 
 public class TestSession extends Session {
-    private GameState state = GameState.WAITING_FOR_PLAYERS;
-
     @Override
-    GameState getGameState() {
-        return state;
-    }
+    public void update() {
 
-    @Override
-    public boolean addPlayer(AbstractPlayerController controller) {
-        return false;
-    }
-
-    @Override
-    public GameView getGame() {
-        return null;
     }
 
     @Override
@@ -28,12 +18,7 @@ public class TestSession extends Session {
     }
 
     @Override
-    public int getMaxPlayers() {
-        return 0;
-    }
-
-    @Override
-    public void update() {
-
+    public boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler) {
+        return false;
     }
 }

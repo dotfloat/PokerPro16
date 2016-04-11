@@ -26,54 +26,21 @@ public class GameSessionTest {
      */
     @Test
     public void addPlayerTest() {
-        assertTrue(context.addPlayer(new MockPlayerController(context)));
+        fail();
     }
 
     @Test
     public void addTooManyPlayersTest() {
-        for (int i = 0; i < context.getMaxPlayers(); i++) {
-            assertTrue(context.addPlayer(new MockPlayerController(context)));
-        }
-
-        assertFalse(context.addPlayer(new MockPlayerController(context)));
+        fail();
     }
 
     @Test
-    public void gameViewTest() throws InterruptedException {
-        final boolean[] received = {false};
-
-        context.getGame().onPlayerJoin((PlayerJoinEvent event) -> received[0] = true);
-
-        context.addPlayer(new MockPlayerController(context));
-
-        Thread.sleep(100);
-
-        assertTrue(received[0]);
+    public void gameViewTest() {
+        fail();
     }
 
     @Test
     public void registerToPlayerTest() {
-        final int[] numAccess = {0};
-
-        MockPlayerController player1;
-        MockPlayerController player2;
-        PlayerView view;
-
-        player1 = new MockPlayerController(context);
-        player1.setModel(new PlayerModel(UUID.randomUUID(), "JW", "jw"));
-        player1.setView(new PlayerView(player1));
-
-        player2 = new MockPlayerController(context);
-        player2.setModel(new PlayerModel(UUID.randomUUID(), "flusha", "flusha"));
-        player2.setView(new PlayerView(player2));
-
-        context.addPlayer(player1);
-        context.addPlayer(player2);
-
-        if ((view = context.getGame().getPlayerByName("flusha")) != null) {
-            view.onAction((PlayerActionEvent event) -> numAccess[0]++);
-        } else {
-            fail("Couldn't find player name.");
-        }
+        fail();
     }
 }
