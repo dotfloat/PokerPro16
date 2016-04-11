@@ -3,6 +3,7 @@ package org.gruppe2.game.session;
 import org.gruppe2.game.GameState;
 import org.gruppe2.game.controller.AbstractPlayerController;
 
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Session implements Runnable {
@@ -22,9 +23,27 @@ public abstract class Session implements Runnable {
             return null;
         }
 
-        new Thread(session).start();
+        return session.start();
+    }
 
-        return new SessionContext(session);
+    public SessionContext start() {
+        new Thread(this).start();
+
+        return new SessionContext(this);
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+
+            update();
+
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     MainEventQueue getEventQueue() {
@@ -43,9 +62,13 @@ public abstract class Session implements Runnable {
         return spectatorCount;
     }
 
-    public abstract boolean addPlayer(AbstractPlayerController controller);
-
-    public abstract void addPlayerAsync(AbstractPlayerController controller);
+    public abstract void update();
 
     public abstract void exit();
+
+    // TODO: Move these to a "GameController" or something
+
+    public abstract int getMaxPlayers();
+
+    public abstract boolean addPlayer(AbstractPlayerController controller);
 }
