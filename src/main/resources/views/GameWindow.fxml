@@ -10,19 +10,11 @@
 <?import org.gruppe2.ui.javafx.PlayerInfoBox?>
 <?import org.gruppe2.ui.javafx.ChoiceBar?>
 <?import org.gruppe2.ui.javafx.CommunityCards?>
+<?import org.gruppe2.ui.javafx.Table?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
    <center>
-   		<StackPane>
-	  		<ImageView fx:id="pokerTable" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 50, 0.3, 10, 10)">
-			        <image>
-			                <Image url="/images/ui/PokertableWithLogo.png"/>
-			        </image>
-			</ImageView>
-			<PlayerInfoBox/>
-			<CommunityCards/>
-			
-		</StackPane>
+   		<Table/>
    </center>
 
    <bottom>
