@@ -3,24 +3,23 @@ package org.gruppe2.game.session;
 import org.gruppe2.game.controller.AbstractPlayerController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GameSession extends Session {
-    private List<AbstractPlayerController> players = new ArrayList<AbstractPlayerController>();
-    private ConcurrentLinkedQueue<AbstractPlayerController> newPlayers = new ConcurrentLinkedQueue<>();
+    private final List<AbstractPlayerController> players = Collections.synchronizedList(new ArrayList<>());
+    private final int maxPlayers;
+
     private boolean playing = true;
-    private int maxPlayers = 10;
+
+    public GameSession(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
+    }
 
     @Override
-    public void run() {
-        while(playing) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    public void update() {
+
     }
 
     public boolean isPlaying() {
@@ -30,25 +29,22 @@ public class GameSession extends Session {
     @Override
     public boolean addPlayer(AbstractPlayerController controller) {
         synchronized (players) {
-            if (players.size() + 1 < maxPlayers) {
-                controller.setAsyncStatus(AsyncStatus.REFUSED);
+            if (players.size() >= maxPlayers) {
                 return false;
             }
 
             players.add(controller);
 
-            controller.setAsyncStatus(AsyncStatus.COMPLETED);
             return true;
         }
     }
 
     @Override
-    public void addPlayerAsync(AbstractPlayerController controller) {
-
-    }
-
-    @Override
     public void exit() {
         playing = false;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
     }
 }

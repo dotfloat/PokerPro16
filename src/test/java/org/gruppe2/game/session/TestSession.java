@@ -11,27 +11,23 @@ public class TestSession extends Session {
         return state;
     }
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public boolean addPlayer(AbstractPlayerController controller) {
+        return false;
+    }
 
-	@Override
-	public boolean addPlayer(AbstractPlayerController controller) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public void exit() {
 
-	@Override
-	public void addPlayerAsync(AbstractPlayerController controller) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	public void exit() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public int getMaxPlayers() {
+        return 0;
+    }
+
+    @Override
+    public void update() {
+
+    }
 }

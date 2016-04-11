@@ -48,4 +48,8 @@ public class SessionContext {
     public boolean addPlayer(AbstractPlayerController controller) {
         return session.addPlayer(controller);
     }
+
+    public int getMaxPlayers() {
+        return session.getMaxPlayers();
+    }
 }
