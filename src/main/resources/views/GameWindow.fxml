@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import org.gruppe2.ui.javafx.PlayerInfoBox?>
 <?import org.gruppe2.ui.javafx.ChoiceBar?>
+<?import org.gruppe2.ui.javafx.CommunityCards?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
    <center>
@@ -18,10 +19,9 @@
 			                <Image url="/images/ui/PokertableWithLogo.png"/>
 			        </image>
 			</ImageView>
+			<PlayerInfoBox/>
+			<CommunityCards/>
 			
-			<HBox fx:id="communityCardsBox" spacing="10">
-				
-			</HBox>
 		</StackPane>
    </center>
 

@@ -26,6 +26,8 @@ public class ChoiceBar extends HBox {
 	
 	public ChoiceBar() {
 		Resources.loadFXML(this);
+		setSizes();
+		setEvents();
 	}
 	
 	@FXML

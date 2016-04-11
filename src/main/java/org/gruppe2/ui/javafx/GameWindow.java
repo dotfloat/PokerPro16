@@ -30,7 +30,6 @@ public class GameWindow implements Initializable {
 	
 	@FXML private ImageView pokerTable;
 	
-	@FXML private HBox communityCardsBox;
 	@FXML private ImageView playerCard1;
 	@FXML private ImageView playerCard2;
 
@@ -58,21 +57,7 @@ public class GameWindow implements Initializable {
         playerCard2.setRotate(5);
 		
 	}
-	/**
-	 * This is just test method for proof of conecpt, change this when backend is ready with playerCards.
-	 */
-	private void setCommunityCards() {
-		
-		for(int i = 0;i<5;i++){
-			ImageView cardImage = new ImageView(new Image(("/images/cards/" + "c02" + ".png")));
-			communityCardsBox.getChildren().add(cardImage);
-			cardImage.setPreserveRatio(true);
-            cardImage.setFitWidth(width * 0.05);
-            cardImage.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
-            
-		}
-		communityCardsBox.setAlignment(Pos.CENTER);
-	}
+	
 	
 
 
@@ -124,7 +109,6 @@ public class GameWindow implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		pokerTable.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.6));
 		setPlayerCards();
-		setCommunityCards();
 		setUpPlayerBoxes();
 	}
 	
