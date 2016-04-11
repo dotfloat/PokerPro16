@@ -24,15 +24,15 @@ public class GameSessionTest {
      */
     @Test
     public void addPlayerTest() {
-        assertTrue(context.addPlayer(new MockPlayerController(model)));
+        assertTrue(context.addPlayer(new MockPlayerController(context, model)));
     }
 
     @Test
     public void addTooManyPlayersTest() {
         for (int i = 0; i < context.getMaxPlayers(); i++) {
-            assertTrue(context.addPlayer(new MockPlayerController(model)));
+            assertTrue(context.addPlayer(new MockPlayerController(context, model)));
         }
 
-        assertFalse(context.addPlayer(new MockPlayerController(model)));
+        assertFalse(context.addPlayer(new MockPlayerController(context, model)));
     }
 }
