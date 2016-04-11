@@ -1,6 +1,6 @@
 package org.gruppe2.ui.javafx;
 
-import org.gruppe2.game.objects.Player;
+import org.gruppe2.ui.objects.Player;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.old_javafx.GUIClient;
 
