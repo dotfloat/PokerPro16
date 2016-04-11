@@ -2,7 +2,6 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.objects.Player;
 import org.junit.Before;
 import org.junit.Test;
 

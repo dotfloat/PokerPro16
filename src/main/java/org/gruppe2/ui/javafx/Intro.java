@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class IntroController implements Initializable {
+public class Intro implements Initializable {
 
     @FXML private ImageView logo;
     @FXML private Label clickToContinue;

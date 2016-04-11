@@ -1,4 +1,4 @@
-package org.gruppe2.game.objects;
+package org.gruppe2.ui.objects;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,6 +32,7 @@ public class Table {
 
     public void addPlayer(Player player) {
         switch (numberOfPlayers) {
+            case 0:
             case 1:
             case 2:
             case 4:

@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 /**
  *
  */
-public class MainMenuController implements Initializable {
+public class MainMenu implements Initializable {
     @FXML private ImageView logo;
     @FXML private Button createTable;
     @FXML private Button joinTable;

@@ -2,7 +2,7 @@
  * This is tha player model. It will keep all data related
  * to player, and communicate against game-session
  */
-package org.gruppe2.game.objects;
+package org.gruppe2.ui.objects;
 
 import org.gruppe2.ui.javafx.PokerApplication;
 
@@ -24,7 +24,7 @@ public class Player {
     // counting clockwise around the table
     int playerNumber;
 
-    Player(String name, int playerNumber, PokerApplication game) {
+    public Player(String name, int playerNumber, PokerApplication game) {
 
         this.name = name;
         this.playerNumber = playerNumber;
