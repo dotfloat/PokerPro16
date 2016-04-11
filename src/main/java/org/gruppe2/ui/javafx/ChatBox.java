@@ -5,14 +5,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import org.gruppe2.game.old.Player;
+
 import org.gruppe2.ui.Resources;
 
 public class ChatBox extends ScrollPane {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	
-	private Player player;
 	
     @FXML private TextArea textArea;
 	
@@ -20,7 +19,6 @@ public class ChatBox extends ScrollPane {
 	public ChatBox() {
 		Resources.loadFXML(this);
 		setPositionsAndSettings();
-		
 	}
 
 
@@ -38,11 +36,6 @@ public class ChatBox extends ScrollPane {
 	
 	public void setEventListeners(TextField textField) {
 		
-		//		if(textField == null){
-//			System.out.println("Textfield is not initialized");
-//			System.exit(1);
-//		}
-		
         textField.setOnAction(e -> { // Put text from textField to textArea
             if (textField.getText().equals(null) || textField.getText().equals("")) ;
             else {
@@ -50,7 +43,6 @@ public class ChatBox extends ScrollPane {
                 textField.setText("");
             }
         });
-
 //        this.heightProperty().addListener((observable, oldVal, newVal) -> {
 //            this.setVvalue(((Double) newVal).doubleValue());
 //        });

@@ -2,6 +2,7 @@ package org.gruppe2.ui.javafx;
 
 
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.objects.Player;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,6 +24,12 @@ public class PlayerInfoBox extends Pane {
 
 	public PlayerInfoBox() {
 		Resources.loadFXML(this);
-		
+//		setValues();
+	}
+
+	private void setValues(Player player) {
+		playerName.setText(player.getName());
+		currentBet.setText("0");
+		stack.setText(player.getStack());
 	}
 }

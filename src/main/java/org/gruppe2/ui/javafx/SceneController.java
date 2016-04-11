@@ -10,23 +10,22 @@ import java.net.URL;
 /**
  * Created by kjors on 06.04.2016.
  *
- * Changes scene in PokerApplication main root BorderPane
- * #url = URL to fxml-file
+ * Changes scene in PokerApplication main root BorderPane #url = URL to
+ * fxml-file
  */
 class SceneController {
 
-    public static void setScene(URL url) {
+	public static void setScene(URL url) {
 
-        try {
-        	
-            BorderPane newScene = FXMLLoader.load( url );
-            StackPane stage = PokerApplication.getRoot();
-            stage.getChildren().set(0, newScene);
+		try {
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			BorderPane newScene = FXMLLoader.load(url);
+			StackPane stage = PokerApplication.getRoot();
+			stage.getChildren().set(0, newScene);
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 }
