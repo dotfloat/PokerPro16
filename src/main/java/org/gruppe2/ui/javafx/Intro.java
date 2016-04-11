@@ -11,34 +11,32 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import org.gruppe2.ui.Resources;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Intro implements Initializable {
+public class Intro extends BorderPane {
 
     @FXML private ImageView logo;
     @FXML private Label clickToContinue;
 
-    public void goToMenu() throws IOException{
-        SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        assert logo != null : "is null";
+    public Intro(){
+        Resources.loadFXML(this);
         logo.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.8));
-
         clickToContinueFading(clickToContinue);
-
-//        Soundplayer introSong = new Soundplayer("Crazy_Bone_Rag.mid");
-//        introSong.play();
-
+    }
+    public void goToMenu() throws IOException{
+        System.out.println("Clicked.");
+        //SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
     }
 
     private void fallingAnimation(Rectangle node){

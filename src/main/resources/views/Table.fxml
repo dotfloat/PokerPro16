@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import org.gruppe2.ui.javafx.PlayerInfoBox?>
+<?import org.gruppe2.ui.javafx.ChoiceBar?>
+<?import org.gruppe2.ui.javafx.CommunityCards?>
+<?import org.gruppe2.ui.javafx.ChatBox?>
 
-
-<Pane prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('/images/ui/PokertableWithLogo.png');"
-       xmlns:fx="http://javafx.com/fxml/1" />
+<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
+  		<ImageView fx:id="pokerTable" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 50, 0.3, 10, 10)">
+		        <image>
+		                <Image url="/images/ui/PokertableWithLogo.png"/>
+		        </image>
+		</ImageView>
+		<PlayerInfoBox/>
+		<CommunityCards/>
+		<ChatBox/>
+</fx:root>

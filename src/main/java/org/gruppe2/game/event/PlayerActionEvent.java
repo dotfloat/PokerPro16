@@ -2,10 +2,10 @@ package org.gruppe2.game.event;
 
 import org.gruppe2.game.old.Player;
 
-public class PlayerJoinEvent implements Event {
+public class PlayerActionEvent implements Event {
     private final Player player;
 
-    public PlayerJoinEvent(Player player) {
+    public PlayerActionEvent(Player player) {
         this.player = player;
     }
 

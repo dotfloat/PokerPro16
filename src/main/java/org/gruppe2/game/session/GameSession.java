@@ -2,7 +2,9 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.controller.AbstractPlayerController;
 import org.gruppe2.game.controller.GameController;
+import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.view.GameView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,8 +20,12 @@ public class GameSession extends Session {
     private boolean playing = true;
 
     public GameSession(int maxPlayers) {
+        GameModel gameModel = new GameModel(UUID.randomUUID());
+
         this.maxPlayers = maxPlayers;
-        this.gameController = new GameController(getSessionContext(), new GameModel(UUID.randomUUID()));
+        this.gameController = new GameController(getSessionContext());
+        this.gameController.setModel(gameModel);
+        this.gameController.setView(new GameView(this.gameController));
 }
 
     @Override
@@ -33,15 +39,9 @@ public class GameSession extends Session {
 
     @Override
     public boolean addPlayer(AbstractPlayerController controller) {
-        synchronized (players) {
-            if (players.size() >= maxPlayers) {
-                return false;
-            }
+        gameController.addPlayer(controller);
 
-            players.add(controller);
-
-            return true;
-        }
+        return true;
     }
 
     @Override
@@ -51,5 +51,9 @@ public class GameSession extends Session {
 
     public int getMaxPlayers() {
         return maxPlayers;
+    }
+
+    public GameView getGame() {
+        return gameController.getView();
     }
 }

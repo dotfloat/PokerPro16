@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  *
  */
-class ConcurrentEventQueue {
+public class ConcurrentEventQueue {
     private Map<Class<?>, List<EventHandler<Event>>> handlerMap = new HashMap<>();
     private ConcurrentLinkedQueue<Map.Entry<Class<?>, Event>> queue = new ConcurrentLinkedQueue<>();
 
@@ -19,7 +19,7 @@ class ConcurrentEventQueue {
      * @param handler
      * @param <T>
      */
-    <T extends Event> void registerHandler(Class<T> klass, EventHandler<T> handler) {
+    public <T extends Event> void registerHandler(Class<T> klass, EventHandler<T> handler) {
         List<EventHandler<Event>> list = handlerMap.get(klass);
 
         if (list == null) {
@@ -39,7 +39,7 @@ class ConcurrentEventQueue {
      * @param klass The Class object of the event class. ex: PlayerJoinEvent.class
      * @param event An event object
      */
-    <T extends Event> void addEvent(Class<T> klass, T event) {
+    public <T extends Event> void addEvent(Class<T> klass, T event) {
         queue.add(new AbstractMap.SimpleEntry<>(klass, event));
     }
 
