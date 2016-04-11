@@ -12,41 +12,36 @@
 
 
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-   <children>
-      <StackPane fx:id="playerBoxStackPane" opacity="0.5">
-         <children>
-            <ImageView fx:id="playerPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-            	<Image>
-            		<Image url="/images/ui/avatars/default.png">
-            	</Image>
-            </ImageView>
-            
-            <Circle opacity="0.5" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-               <fill>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="#c49b9b64" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </fill>
-            </Circle>
-            <Label fx:id="playerName" text="Name" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets left="5.0" top="5.0" />
-               </StackPane.margin>
-            </Label>
-            <Label fx:id="stack" text="Stack" StackPane.alignment="BOTTOM_LEFT">
-               <StackPane.margin>
-                  <Insets bottom="5.0" left="5.0" />
-               </StackPane.margin>
-            </Label>
-            <Label fx:id="currentBet" text="Current bet" StackPane.alignment="BOTTOM_RIGHT">
-               <StackPane.margin>
-                  <Insets bottom="5.0" right="5.0" />
-               </StackPane.margin>
-            </Label>
-         </children>
-      </StackPane>
-   </children>
+	  <StackPane fx:id="playerBoxStackPane" opacity="0.5">
+	        <ImageView fx:id="playerPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+  				<Image url="/images/avatars/default.png"/> 
+	        </ImageView>
+	        
+	        <Circle opacity="0.5" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+	           <fill>
+	              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+	                 <stops>
+	                    <Stop color="WHITE" />
+	                    <Stop color="#c49b9b64" offset="1.0" />
+	                 </stops>
+	              </RadialGradient>
+	           </fill>
+	        </Circle>
+	        <Label fx:id="playerName" text="Name" StackPane.alignment="TOP_LEFT">
+	           <StackPane.margin>
+	              <Insets left="5.0" top="5.0" />
+	           </StackPane.margin>
+	        </Label>
+	        <Label fx:id="stack" text="Stack" StackPane.alignment="BOTTOM_LEFT">
+	           <StackPane.margin>
+	              <Insets bottom="5.0" left="5.0" />
+	           </StackPane.margin>
+	        </Label>
+	        <Label fx:id="currentBet" text="Current bet" StackPane.alignment="BOTTOM_RIGHT">
+	           <StackPane.margin>
+	              <Insets bottom="5.0" right="5.0" />
+	           </StackPane.margin>
+	        </Label>
+	  </StackPane>
+   
 </fx:root>
