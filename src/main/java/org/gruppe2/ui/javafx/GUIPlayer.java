@@ -4,114 +4,124 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.scene.layout.Pane;
 
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.GameClient;
 import org.gruppe2.game.old.Player;
+
 /**
  * Test Guiplayer
+ * 
  * @author htj063
  *
  */
 public class GUIPlayer extends GameClient {
-    
+
 	private volatile Action action = null;
 	GameWindow gameWindow;
 	CommunityCards communityCards;
-	
-    public GUIPlayer(GameWindow gameWindow) {
-        this.gameWindow = gameWindow;
-        communityCards = gameWindow.communityCardsBox;
-    }
 
-    @Override
-    public void onRoundStart() {
-        Platform.runLater(() -> {
-            gameWindow.setPlayerCards();
-            System.out.println("roundStartTest");
-        });
-    }
+	public GUIPlayer(GameWindow gameWindow) {
+		this.gameWindow = gameWindow;
+		communityCards = gameWindow.communityCardsBox;
+	}
 
-    @Override
-    public Action onTurn(Player player) {
-//        activateAndDeactivatePlayers(player);
-        gameWindow.updateGameWindow();
-        Action action = null;
-        System.out.println("your turn player");
-        while ((action = getAction()) == null) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+	@Override
+	public void onRoundStart() {
+		Platform.runLater(() -> {
+			gameWindow.setPlayerCards();
+			System.out.println("roundStartTest");
+		});
+	}
 
-        setAction(null);
-        System.out.println("Action: " + action);
+	@Override
+	public Action onTurn(Player player) {
+		activateAndDeactivatePlayers(player);
+		gameWindow.updateGameWindow(player);
+		Action action = null;
+		System.out.println("your turn player");
+		while ((action = getAction()) == null) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
-        return action;
-    }
+		setAction(null);
+		System.out.println("Action: " + action);
 
-//    private void activateAndDeactivatePlayers(Player player) {
-//        for (PlayerInfoBox playerInfoBox : gameWindow.playerInfoBoxes) {
-//            if (playerInfoBox.getPlayer() == player) {
-//                playerInfoBox.setActive();
-//            } else playerInfoBox.setInActive();
-//        }
-//    }
+		return action;
+	}
 
-    public Action getAction() {
-        return action;
-    }
+	private void activateAndDeactivatePlayers(Player player) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for (Pane playerInfoBox : gameWindow.playerInfoBoxes) {
+					if (((PlayerInfoBox) playerInfoBox).getPlayer() == player) {
+						((PlayerInfoBox) playerInfoBox).setActive();
+					} else
+						((PlayerInfoBox) playerInfoBox).setInActive();
+				}
+			}
+		});
+	}
 
-    public void setAction(Action action) {
-        this.action = action;
-    }
+	public Action getAction() {
+		return action;
+	}
 
-    @Override
-    public void onCommunalCards(List<Card> communalCards) {
-        ArrayList<Card> communityCards = (ArrayList<Card>) communalCards;
-        Platform.runLater(() -> gameWindow.communityCardsBox.setCommunityCards(communityCards));
-    }
+	public void setAction(Action action) {
+		this.action = action;
+	}
 
-    @Override
+	@Override
+	public void onCommunalCards(List<Card> communalCards) {
+		ArrayList<Card> communityCards = (ArrayList<Card>) communalCards;
+		Platform.runLater(() -> gameWindow.communityCardsBox
+				.setCommunityCards(communityCards));
+	}
 
-    public void onOtherPlayerTurn(Player player) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (gameWindow.playerInfoBoxes == null) return;
-//                activateAndDeactivatePlayers(player);
-            }
-        });
-    }
+	@Override
+	public void onOtherPlayerTurn(Player player) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (gameWindow.playerInfoBoxes == null)
+					return;
+				activateAndDeactivatePlayers(player);
+			}
+		});
+	}
 
-    /**
-     * Resets frame, this methods needs major cleanup in next iteration.
-     */
-    @Override
-    public void onRoundEnd() {
-        Platform.runLater(() -> {
-        	communityCards.clearCommunityCards();
-        });
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * Resets frame, this methods needs major cleanup in next iteration.
+	 */
+	@Override
+	public void onRoundEnd() {
+		Platform.runLater(() -> {
+			communityCards.clearCommunityCards();
+		});
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void onPlayerAction(Player player, Action action) {
-        gameWindow.updateGameWindow();
-    }
+	@Override
+	public void onPlayerAction(Player player, Action action) {
+		gameWindow.updateGameWindow(player);
+	}
 
-    @Override
-    public void onPlayerVictory(Player player) {
-    	System.out.println(player+" won the game!");
-    	onRoundEnd();
-//        gui.getMainFrame().playerWons(player);
+	@Override
+	public void onPlayerVictory(Player player) {
+		System.out.println(player + " won the game!");
+		onRoundEnd();
+		// gui.getMainFrame().playerWons(player);
 
-    }
+	}
 }

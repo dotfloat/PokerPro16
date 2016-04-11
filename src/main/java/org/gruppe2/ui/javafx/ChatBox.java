@@ -43,8 +43,5 @@ public class ChatBox extends ScrollPane {
                 textField.setText("");
             }
         });
-//        this.heightProperty().addListener((observable, oldVal, newVal) -> {
-//            this.setVvalue(((Double) newVal).doubleValue());
-//        });
     }
 }

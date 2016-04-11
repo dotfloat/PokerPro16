@@ -4,25 +4,21 @@ package org.gruppe2.ui.javafx;
  * Created by Petter on 04/04/2016.
  */
 
+import java.io.IOException;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import org.gruppe2.ui.Resources;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import org.gruppe2.ui.Resources;
 
 public class Intro extends BorderPane {
 

@@ -58,5 +58,17 @@ public class PlayerInfoBox extends Pane {
                     (getClass().getResourceAsStream("/images/avatars/default.png")));
 
     }
+	 public void setActive() {
+	        getStyleClass().clear();
+	        getStyleClass().add("paneActive");
+	}
 	
+	public void setInActive() {
+	    getStyleClass().clear();
+	    getStyleClass().add("pane");
+	}
+	
+	public Player getPlayer(){
+		return player;
+	}
 }

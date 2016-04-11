@@ -1,6 +1,5 @@
 package org.gruppe2.ui.javafx;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -8,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
+
 import org.gruppe2.ui.Resources;
 
 

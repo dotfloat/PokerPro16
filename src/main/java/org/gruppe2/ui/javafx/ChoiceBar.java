@@ -28,7 +28,6 @@ public class ChoiceBar extends HBox {
 	public ChoiceBar() {
 		Resources.loadFXML(this);
 		setSizes();
-		
 	}
 	
 	@FXML
@@ -115,8 +114,6 @@ public class ChoiceBar extends HBox {
             BET.getStyleClass().add("button");
             BET.setText("RAISE");
         }
-        
-        
         slider.setMax(pa.getMaxRaise());
         slider.setMin(pa.getMinRaise());
         slider.setValue(pa.getMinRaise());

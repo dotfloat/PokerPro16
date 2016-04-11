@@ -52,8 +52,9 @@ public class GameWindow implements Initializable {
 	 * is ready with playerCards.
 	 */
 	public void setPlayerCards() {
-		playerCard1.setImage(new Image(("/images/cards/" + "c02" + ".png")));
-		playerCard2.setImage(new Image(("/images/cards/" + "c03" + ".png")));
+		Player player = gameSession.getPlayers().get(0);
+		playerCard1.setImage(new Image(("/images/cards/" + communityCardsBox.getCardName(player.getCard1()) + ".png")));
+		playerCard2.setImage(new Image(("/images/cards/" + communityCardsBox.getCardName(player.getCard2()) + ".png")));
 		playerCard1.setLayoutX(width * 0.80);
 		playerCard1.setLayoutY(height * 0.77);
 		playerCard2.setLayoutX(width * 0.88);
@@ -154,14 +155,14 @@ public class GameWindow implements Initializable {
 
 	}
 
-	public void updateGameWindow() {
+	public void updateGameWindow(Player player) {
 		 Platform.runLater(new Runnable() {
 	            @Override
 	            public void run() {
 		for(Pane playerInfoBox : playerInfoBoxes){
 			((PlayerInfoBox) playerInfoBox).updateInfoBox();
 		}
-		choiceBar.updatePossibleBarsToClick(yourSelf);
+		choiceBar.updatePossibleBarsToClick(player);
 			}
 		});
 	}
