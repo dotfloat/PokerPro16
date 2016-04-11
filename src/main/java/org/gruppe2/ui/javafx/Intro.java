@@ -35,7 +35,6 @@ public class Intro extends BorderPane {
         clickToContinueFading(clickToContinue);
     }
     public void goToMenu() throws IOException{
-        System.out.println("Clicked.");
         SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
     }
 

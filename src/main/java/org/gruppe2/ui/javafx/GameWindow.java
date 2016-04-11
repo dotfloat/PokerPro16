@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,20 +32,19 @@ public class GameWindow implements Initializable {
 	ArrayList<Player> players = new ArrayList<Player>();
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
+
 	GameSession gameSession;
 	CommunityCards communityCardsBox;
 	Player yourSelf;
 
-	@FXML
-	private BorderPane borderPane;
-	@FXML
-	private ImageView playerCard1;
-	@FXML
-	private ImageView playerCard2;
-	@FXML
-	private Table table;
-	@FXML
-	private ChoiceBar choiceBar;
+	
+	
+	@FXML private BorderPane borderPane;
+	@FXML private ImageView playerCard1;
+	@FXML private ImageView playerCard2;
+	@FXML private Table table;
+	@FXML private ChoiceBar choiceBar;
+	
 	
 
 	/**
@@ -75,6 +75,7 @@ public class GameWindow implements Initializable {
 	/**
 	 * This is for testing
 	 */
+
 	public void setUpPlayerBoxes() {
 		
 		for (Player player : gameSession.getPlayers()) {
@@ -82,6 +83,7 @@ public class GameWindow implements Initializable {
 			PlayerInfoBox playerInfoBox = new PlayerInfoBox();
 			playerInfoBoxes.add(playerInfoBox);
 			playerInfoBox.setValues(player);
+
 		}
 		System.out.println("Players size: "+players.size());
 		paintAllPlayers(playerInfoBoxes);
@@ -123,10 +125,14 @@ public class GameWindow implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		((ChatBox) table.getChildren().get(2))
-				.setEventListeners((TextField) choiceBar.getChildren().get(0));
-		communityCardsBox = table.communityCardsBox;
-		testGame();
+		RightMenu rightMenu = new RightMenu();
+		rightMenu.setAlignment(Pos.TOP_RIGHT);
+		SceneController.setMenuButton(rightMenu);
+		
+			((ChatBox) table.getChildren().get(2))
+			.setEventListeners((TextField) choiceBar.getChildren().get(0));
+	communityCardsBox = table.communityCardsBox;
+	testGame();
 
 	}
 
@@ -134,6 +140,7 @@ public class GameWindow implements Initializable {
 	 * Test game for watching game
 	 */
 	private void testGame() {
+
 		addYourSelf();
 		gameSession = new GameBuilder().ai(7).blinds(bigBlind, smallBlind)
 				.startMoney(startValue).mainClient(guiPlayer).build();
@@ -144,6 +151,7 @@ public class GameWindow implements Initializable {
 		
 		Thread th = new Thread(() -> gameSession.mainLoop());
 		th.start();
+
 	}
 
 	public void updateGameWindow() {

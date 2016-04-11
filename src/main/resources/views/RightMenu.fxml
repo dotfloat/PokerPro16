@@ -5,7 +5,7 @@
          stylesheets="/css/style.css" fx:id="rightMenu">
 
 
-        <ToggleButton fx:id="showMenu" text="###" onAction="#showMenu" styleClass="menuButton"/>
+        <ToggleButton fx:id="showMenu" onAction="#showMenu" styleClass="menuButton"/>
     <VBox fx:id="innerBox" styleClass="rightMenu">
         <Button fx:id="viewLobby" text="View lobby" onAction="#viewLobby"/>
         <Button fx:id="leaveTable" text="Leave table" onAction="#leaveTable"/>

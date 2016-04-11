@@ -30,7 +30,6 @@ public class Lobby extends BorderPane {
     }
 
     public void search(){
-        System.out.print("Searching");
         lobbyTiles.getChildren().add(new Label(search.getText()));
     }
 
