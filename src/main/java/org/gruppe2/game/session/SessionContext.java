@@ -3,6 +3,7 @@ package org.gruppe2.game.session;
 import org.gruppe2.game.GameState;
 import org.gruppe2.game.controller.AbstractPlayerController;
 import org.gruppe2.game.view.GameView;
+import org.gruppe2.game.view.PlayerView;
 
 public class SessionContext {
     private Session session;

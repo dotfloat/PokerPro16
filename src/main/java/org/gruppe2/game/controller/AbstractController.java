@@ -4,7 +4,7 @@ import org.gruppe2.game.model.Model;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.game.view.AbstractView;
 
-public abstract class AbstractController<M extends Model, V extends AbstractView<?>> {
+public abstract class AbstractController<M extends Model, V extends AbstractView<M, ?>> {
     private final SessionContext sessionContext;
     private M model = null;
     private V view = null;

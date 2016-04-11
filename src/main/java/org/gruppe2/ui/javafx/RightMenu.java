@@ -22,9 +22,9 @@ public class RightMenu extends VBox {
     public RightMenu(){
         Resources.loadFXML(this);
         innerBox.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.15));
-        //showMenu.setMaxWidth(Double.MAX_VALUE);
         viewLobby.setMaxWidth(Double.MAX_VALUE);
         leaveTable.setMaxWidth(Double.MAX_VALUE);
+        innerBox.setVisible(false);
     }
 
     public void leaveTable(ActionEvent actionEvent) {
@@ -36,25 +36,23 @@ public class RightMenu extends VBox {
     }
 
     public void showMenu(ActionEvent actionEvent) {
-        //showMenu.setVisible(!showMenu.visibleProperty().get());
+        menuAnimation();
+    }
 
+    private void menuAnimation(){
+        if (!innerBox.isVisible()){
+            innerBox.setVisible(true);
+            innerBox.setTranslateX(innerBox.getWidth());
+        }
         TranslateTransition openMenu = new TranslateTransition(new Duration(300), innerBox);
-        openMenu.setToX(PokerApplication.getWidth());
+        openMenu.setToX(0);
         TranslateTransition closeMenu = new TranslateTransition(new Duration(300), innerBox);
         if (innerBox.getTranslateX() != 0){
             openMenu.play();
         }else {
-            closeMenu.setToX(-(innerBox.getWidth()));
+            closeMenu.setToX(innerBox.getWidth());
             closeMenu.play();
         }
-
-        //innerBox.setVisible(!innerBox.visibleProperty().get());
     }
 
-    private void setUpSlideAnimation(VBox vBox){
-        TranslateTransition openMenu = new TranslateTransition(new Duration(300), vBox);
-        openMenu.setToX(PokerApplication.getWidth());
-        TranslateTransition closeMenu = new TranslateTransition(new Duration(300), vBox);
-
-    }
 }
