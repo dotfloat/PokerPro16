@@ -24,7 +24,7 @@ public class Player {
     // counting clockwise around the table
     int playerNumber;
 
-    Player(String name, int playerNumber, PokerApplication game) {
+    public Player(String name, int playerNumber, PokerApplication game) {
 
         this.name = name;
         this.playerNumber = playerNumber;

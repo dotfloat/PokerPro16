@@ -2,12 +2,14 @@ package org.gruppe2.ui.javafx;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -17,10 +19,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+import org.gruppe2.game.objects.Player;
 import org.gruppe2.game.old.Action;
-import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.PossibleActions;
 import org.gruppe2.ui.old_javafx.GUIClient;
+import org.gruppe2.ui.old_javafx.PlayerInfoBox;
 
 /**
  * Created by kjors on 04.04.2016.
@@ -28,11 +31,10 @@ import org.gruppe2.ui.old_javafx.GUIClient;
 public class GameWindowController implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-
-
+	private int numberOfPlayers = 6; //This will be switched, when we can get gamesession ready.
+	
 	// MVC. should we keep objects and shit in the models (backend)?
-	GUIClient client;
-	PossibleActions pa;
+	
 	ArrayList<Player> players = new ArrayList<>();
 	@FXML private BorderPane borderPane;
 	@FXML private TextField chatField;
@@ -54,7 +56,7 @@ public class GameWindowController implements Initializable {
         sliderValue.setMinWidth(width * 0.09);
         sliderValue.setMaxWidth(height * 0.09);
 
-		pokerTable.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.7));
+		pokerTable.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.6));
 		
 		
 		setPlayerCards();
@@ -94,9 +96,7 @@ public class GameWindowController implements Initializable {
 			cardImage.setPreserveRatio(true);
             cardImage.setFitHeight(width * 0.07);
 		}
-		communityCardsBox.setLayoutX(width);
-		communityCardsBox.setLayoutY(height);
-		
+		communityCardsBox.setAlignment(Pos.CENTER);
 	}
 	@FXML
 	private void setEvents() {
@@ -138,6 +138,49 @@ public class GameWindowController implements Initializable {
 //                client.setAction(new Action.Raise((int) raiseSlider.getValue()));
 //        }
     }
+	/**
+	 * This is for testing
+	 */
+	public void setUpPlayerBoxes(){
+		List<PlayerInfoBox> playerInfoBoxes = new ArrayList<PlayerInfoBox>();
+		
+		for(int i = 0; i<6;i++){
+			players.add(new Player("Bot", i, null));
+			
+		}
+		
+		
+	}
+	
+	public void paintAllPlayers(List<PlayerInfoBox> playerInfoBoxes) {
+        double xStep = width / 15;
+        double yStep = height / 11;
+        double y = 10;
+        if(numberOfPlayers > 0)
+        	paintPlayerInfoBox(playerInfoBoxes.get(3), xStep * 2, y);
+        if(numberOfPlayers == 1)
+        	paintPlayerInfoBox(playerInfoBoxes.get(4), xStep * 6.5, y);
+        if(numberOfPlayers == 2)
+        	paintPlayerInfoBox(playerInfoBoxes.get(5), xStep * 11, y);
+        if(numberOfPlayers == 3)
+        	paintPlayerInfoBox(playerInfoBoxes.get(2), xStep * 0.2, yStep * 2);
+        if(numberOfPlayers == 4)
+        	paintPlayerInfoBox(playerInfoBoxes.get(6), xStep * 12.5, yStep * 2);
+        if(numberOfPlayers == 5)
+        	paintPlayerInfoBox(playerInfoBoxes.get(1), xStep * 0.2, yStep * 4.2);
+        if(numberOfPlayers == 6)
+        	paintPlayerInfoBox(playerInfoBoxes.get(7), xStep * 12.5, yStep * 4.2);
+        if(numberOfPlayers == 7)
+        	paintPlayerInfoBox(playerInfoBoxes.get(0), xStep * 0.2, yStep * 6.4);
+        if(numberOfPlayers == 8)
+        	paintPlayerInfoBox(playerInfoBoxes.get(8), xStep * 12.5, yStep * 6.4);
+    }
+	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox, double x, double y) {
+        playerInfoBox.setLayoutX(x);
+        playerInfoBox.setLayoutY(y);
+        borderPane.getChildren().add(playerInfoBox);
+    }
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
