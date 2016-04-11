@@ -10,6 +10,8 @@ public abstract class Session implements Runnable {
     private final MainEventQueue eventQueue = new MainEventQueue();
     private final AtomicInteger spectatorCount = new AtomicInteger(0);
 
+    private final SessionContext sessionContext = new SessionContext(this);
+
     public static SessionContext start(Class<? extends Session> klass) {
         Session session;
 
@@ -71,4 +73,8 @@ public abstract class Session implements Runnable {
     public abstract int getMaxPlayers();
 
     public abstract boolean addPlayer(AbstractPlayerController controller);
+
+    public SessionContext getSessionContext() {
+        return sessionContext;
+    }
 }
