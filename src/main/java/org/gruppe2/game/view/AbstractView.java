@@ -1,26 +1,19 @@
 package org.gruppe2.game.view;
 
-import org.gruppe2.game.model.Model;
-import org.gruppe2.game.session.SessionContext;
+import org.gruppe2.game.controller.AbstractController;
 
-public abstract class AbstractView<T extends Model> {
-    private final SessionContext sessionContext;
-    private T model;
+public abstract class AbstractView<T extends AbstractController> {
+    private T controller;
 
-    public AbstractView(SessionContext sessionContext, T model) {
-        this.sessionContext = sessionContext;
-        this.model = model;
+    public AbstractView(T controller) {
+        this.controller = controller;
     }
 
-    SessionContext getSessionContext() {
-        return sessionContext;
+    T getController() {
+        return controller;
     }
 
-    public T getModel() {
-        return model;
-    }
-
-    public void setModel(T model) {
-        this.model = model;
+    public void setController(T controller) {
+        this.controller = controller;
     }
 }

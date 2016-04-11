@@ -6,8 +6,8 @@ import org.gruppe2.game.old.Action;
 
 public class MockPlayerController extends AbstractPlayerController {
 
-    public MockPlayerController(SessionContext sessionContext, PlayerModel model) {
-        super(sessionContext, model);
+    public MockPlayerController(SessionContext sessionContext) {
+        super(sessionContext);
     }
 
     @Override
