@@ -4,9 +4,9 @@ import org.gruppe2.game.controller.AbstractPlayerController;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.old.Action;
 
-public class GUIPlayerController extends AbstractPlayerController {
+public class GUIPlayer extends AbstractPlayerController {
 
-	public GUIPlayerController(PlayerModel model) {
+	public GUIPlayer(PlayerModel model) {
 		super(model);
 		// TODO Auto-generated constructor stub
 	}

@@ -2,7 +2,6 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.objects.Player;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,15 +23,15 @@ public class GameSessionTest {
      */
     @Test
     public void addPlayerTest() {
-        assertTrue(context.addPlayer(new MockPlayerController(model)));
+        assertTrue(context.addPlayer(new MockPlayerController(context, model)));
     }
 
     @Test
     public void addTooManyPlayersTest() {
         for (int i = 0; i < context.getMaxPlayers(); i++) {
-            assertTrue(context.addPlayer(new MockPlayerController(model)));
+            assertTrue(context.addPlayer(new MockPlayerController(context, model)));
         }
 
-        assertFalse(context.addPlayer(new MockPlayerController(model)));
+        assertFalse(context.addPlayer(new MockPlayerController(context, model)));
     }
 }

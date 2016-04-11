@@ -1,32 +1,27 @@
 package org.gruppe2.ui.javafx;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import java.awt.Label;
 
-import java.awt.*;
-import java.net.URL;
-import java.util.ResourceBundle;
+import org.gruppe2.ui.Resources;
+
+import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * Created by kjors on 07.04.2016.
  */
-public class PlayerInfoBox extends GridPane implements Initializable {
-
+public class PlayerInfoBox extends Pane {
+	
+	@FXML private StackPane playerBoxStackPane;
     @FXML private Label playerName;
     @FXML private Label stack;
     @FXML private Label currentBet;
     @FXML private ImageView playerPicture;
 //    Position pos;
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        // is this a constructor?
-    }
-
-
-
+	public PlayerInfoBox() {
+		Resources.loadFXML(this);
+	}
 }

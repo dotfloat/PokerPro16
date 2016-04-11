@@ -13,7 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 
-public class MenuBarController {
+public class MenuBar {
 
     @FXML
     private MenuItem settings;

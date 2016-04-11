@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 
 
-<Pane xmlns:fx="http://javafx.com/fxml">
+<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
    <children>
       <StackPane id="playerBoxStackPane" opacity="0.5">
          <children>
@@ -43,4 +43,4 @@
          </children>
       </StackPane>
    </children>
-</Pane>
+</fx:root>
