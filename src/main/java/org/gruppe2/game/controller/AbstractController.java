@@ -1,11 +1,15 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.session.AsyncStatus;
+import org.gruppe2.game.model.Model;
 import org.gruppe2.game.session.SessionContext;
 
-abstract class AbstractController {
+abstract class AbstractController<T extends Model> {
     private SessionContext sessionContext = null;
-    private AsyncStatus asyncStatus = AsyncStatus.WAITING;
+    private T model;
+
+    public AbstractController(T model) {
+        this.model = model;
+    }
 
     void update() {
 
@@ -19,11 +23,11 @@ abstract class AbstractController {
         this.sessionContext = sessionContext;
     }
 
-    public AsyncStatus getAsyncStatus() {
-        return asyncStatus;
+    public T getModel() {
+        return model;
     }
 
-    public void setAsyncStatus(AsyncStatus asyncStatus) {
-        this.asyncStatus = asyncStatus;
+    public void setModel(T model) {
+        this.model = model;
     }
 }
