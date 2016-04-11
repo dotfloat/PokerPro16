@@ -14,10 +14,10 @@ public class Table extends StackPane {
 	@FXML private ImageView pokerTable;
 	@FXML private ChatBox chatBox;
 	
+	@SuppressWarnings("static-access")
 	public Table() {
 		Resources.loadFXML(this);
 		pokerTable.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.6));
-		this.setAlignment(chatBox, Pos.BOTTOM_LEFT);
-		
+		this.setAlignment(chatBox, Pos.BOTTOM_LEFT);	
 	}
 }

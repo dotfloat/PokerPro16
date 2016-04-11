@@ -13,6 +13,6 @@
 			<Image url="/images/ui/PokertableWithLogo.png"/>
 		</ImageView>
 		<PlayerInfoBox/>
-		<CommunityCards/>
+		<CommunityCards fx:id="communityCardsBox"/>
 		<ChatBox fx:id="chatBox"/>
 </fx:root>

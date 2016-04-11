@@ -13,7 +13,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-import org.gruppe2.ui.objects.Player;
+import org.gruppe2.ai.AIClient;
+import org.gruppe2.game.old.GameBuilder;
+import org.gruppe2.game.old.GameSession;
+import org.gruppe2.game.old.Player;
+import org.gruppe2.ui.javafx.PlayerInfoBox;
 
 /**
  * This class will be split in several sub controllers, i.g Bottom Hbox with buttons must be one class, etc..
@@ -21,20 +25,26 @@ import org.gruppe2.ui.objects.Player;
 public class GameWindow implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-	
-	ArrayList<Player> players = new ArrayList<>();
+	public int bigBlind = 50;
+	public int smallBlind = 25;
+	public int startValue = 500;
+	ArrayList<Player> players = new ArrayList<Player>();
+	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
+	GUIPlayer guiPlayer;
+	GameSession gameSession ;
 	
 	@FXML private BorderPane borderPane;
 	@FXML private ImageView playerCard1;
 	@FXML private ImageView playerCard2;
 	@FXML private Table table;
 	@FXML private ChoiceBar choiceBar;
+	@FXML public CommunityCards communityCardsBox;
 	
 	
 	/**
 	 * This is just test method for proof of conecpt, change this when backend is ready with playerCards.
 	 */
-	private void setPlayerCards() {
+	public void setPlayerCards() {
 		playerCard1.setImage(new Image(("/images/cards/" + "c02" + ".png")));
 		playerCard2.setImage(new Image(("/images/cards/" + "c03" + ".png")));
 		playerCard1.setLayoutX(width * 0.80);
@@ -52,18 +62,17 @@ public class GameWindow implements Initializable {
 
         playerCard1.setRotate(350);
         playerCard2.setRotate(5);
-		
 	}
 
 	/**
 	 * This is for testing
 	 */
 	public void setUpPlayerBoxes(){
-		List<Pane> playerInfoBoxes = new ArrayList<Pane>();
+		
 //		new PlayerInfoBox() 
-		for(int i = 0; i<6;i++){
-			players.add(new Player("Bot", i, null));
-			playerInfoBoxes.add(i, new PlayerInfoBox());
+		for(int i = 1; i<8;i++){
+			players.add(new Player("Bot", i, new AIClient()));
+			playerInfoBoxes.add(new PlayerInfoBox());
 		}
 		paintAllPlayers(playerInfoBoxes);
 	}
@@ -101,9 +110,37 @@ public class GameWindow implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		setPlayerCards();
-		setUpPlayerBoxes();
+		
 		((ChatBox) table.getChildren().get(3)).setEventListeners((TextField) choiceBar.getChildren().get(0));
+		testGame();
+		
+		
+	}
+	/**
+	 * Test game for watching game
+	 */
+	private void testGame() {
+		guiPlayer = new GUIPlayer(this);
+		players.add(new Player("Person", startValue, guiPlayer));
+		gameSession = new GameBuilder()
+                .ai(7)
+                .blinds(bigBlind, smallBlind)
+                .startMoney(startValue)
+                .mainClient(guiPlayer)
+                .build();
+        
+        setPlayerCards();
+		setUpPlayerBoxes();
+
+//	        mainFrame.drawPot();
+//	        playerInfoBoxes = (ArrayList<PlayerInfoBox>) PlayerInfoBox.createPlayerInfoBoxes(client.getSession().getPlayers());
+//	        mainFrame.paintAllPlayers(playerInfoBoxes);
+//	        Thread th = new Thread(() -> gameSession.mainLoop());
+//	        th.start();
+	    }
+	
+	public void updateGameWindow(){
+		
 	}
 	
 }

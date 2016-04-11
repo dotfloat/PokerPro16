@@ -3,6 +3,6 @@
 <?import javafx.scene.control.*?>
 
 
-<fx:root type="javafx.scene.control.ScrollPane" xmlns:fx="http://javafx.com/fxml" styleClass="scroll.pane">
+<fx:root type="javafx.scene.control.ScrollPane" xmlns:fx="http://javafx.com/fxml" styleClass="scroll.pane" fx:id="chatBox">
 	<TextArea fx:id="textArea" />
 </fx:root>
