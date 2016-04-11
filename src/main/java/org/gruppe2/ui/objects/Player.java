@@ -2,7 +2,7 @@
  * This is tha player model. It will keep all data related
  * to player, and communicate against game-session
  */
-package org.gruppe2.game.objects;
+package org.gruppe2.ui.objects;
 
 import org.gruppe2.ui.javafx.PokerApplication;
 

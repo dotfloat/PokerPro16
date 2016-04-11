@@ -1,4 +1,4 @@
-package org.gruppe2.game.objects;
+package org.gruppe2.ui.objects;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;

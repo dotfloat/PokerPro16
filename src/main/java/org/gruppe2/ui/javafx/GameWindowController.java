@@ -14,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-import org.gruppe2.game.objects.Player;
+import org.gruppe2.ui.objects.Player;
 
 /**
  * This class will be split in several sub controllers, i.g Bottom Hbox with buttons must be one class, etc..
