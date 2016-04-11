@@ -12,7 +12,15 @@ import java.util.HashMap;
  */
 public class Flush {
 
-    public boolean canGetFlush(ArrayList<Card> communityCard, Player p){
+    public boolean canGetFlush(ArrayList<Card> communityCards, Player p){
+        ArrayList<Card> allCards = new ArrayList<>(communityCards);
+        allCards.add(p.getCard1());
+        allCards.add(p.getCard2());
+
+        HashMap<Card.Suit, Integer> numTypes = numberOfEachType(allCards);
+        for (Card.Suit suit : numTypes.keySet())
+            if (numTypes.get(suit) >= communityCards.size())
+                return true;
         return false;
     }
 
