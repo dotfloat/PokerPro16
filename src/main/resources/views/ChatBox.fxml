@@ -4,5 +4,5 @@
 
 
 <fx:root type="javafx.scene.control.ScrollPane" xmlns:fx="http://javafx.com/fxml" styleClass="scroll.pane">
-
+	<TextArea fx:id="textArea" />
 </fx:root>

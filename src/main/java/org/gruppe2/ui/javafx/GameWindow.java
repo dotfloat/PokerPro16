@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -28,7 +29,8 @@ public class GameWindow implements Initializable {
 	
 	@FXML private ImageView playerCard1;
 	@FXML private ImageView playerCard2;
-
+	@FXML private Table table;
+	@FXML private ChoiceBar choiceBar;
 	
 	
 	/**
@@ -106,6 +108,7 @@ public class GameWindow implements Initializable {
 
 		setPlayerCards();
 		setUpPlayerBoxes();
+		((ChatBox) table.getChildren().get(3)).setEventListeners((TextField) choiceBar.getChildren().get(0));
 	}
 	
 }

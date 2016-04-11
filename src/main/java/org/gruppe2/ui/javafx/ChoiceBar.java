@@ -90,4 +90,9 @@ public class ChoiceBar extends HBox {
         else BET.setText("RAISE");
         return (int) slider.getValue() + " CHIPS";
     }
+    
+    public TextField getChatField(){
+    	System.out.println("Before sending its: "+chatField);
+		return chatField;
+    }
 }

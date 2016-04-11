@@ -13,13 +13,13 @@
 <?import org.gruppe2.ui.javafx.Table?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
-   <center>
-   		<Table/>
-   </center>
-
    <bottom>
-   		<ChoiceBar/>
+   		<ChoiceBar fx:id="choiceBar"/>
    </bottom> 
+   
+    <center>
+   		<Table fx:id="table"/>
+   </center>
    
    <ImageView fx:id="playerCard1" preserveRatio="true">
 			        

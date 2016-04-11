@@ -11,10 +11,11 @@ public class Table extends StackPane {
 	private int height = PokerApplication.getHeight();
 	
 	@FXML private ImageView pokerTable;
-	
+	@FXML private ChatBox chatBox;
 	
 	public Table() {
 		Resources.loadFXML(this);
 		pokerTable.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.6));
+		
 	}
 }
