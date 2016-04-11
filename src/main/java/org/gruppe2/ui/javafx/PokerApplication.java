@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,10 +22,10 @@ public class PokerApplication extends Application {
     private static int numberOfPlayers; // Should reside in model / game?
 
     // Setting global root. Will only change scenes
-    private static BorderPane root = new BorderPane();
+    private static StackPane root = new StackPane();
 
     // Controllers will need to get current root to change scenes
-    public static BorderPane getRoot() {
+    public static StackPane getRoot() {
         return root;
     }
 
@@ -35,16 +36,6 @@ public class PokerApplication extends Application {
     	startValues();
         stage.setTitle("PokerPro16");
 
-
-        /**
-         * Menu-bar always present in main stage
-         * Let's pretend this is just temporary
-         */
-        URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
-        MenuBar menu = FXMLLoader.load( menuUrl );
-        root.setTop( menu );
-
-
         /**
          * Set start-scene to intro
          *
@@ -53,7 +44,7 @@ public class PokerApplication extends Application {
          */
 
         Intro intro = new Intro();
-        root.setCenter(intro);
+        root.getChildren().add(intro);
 
         /**
          * Set up stage

@@ -14,9 +14,9 @@
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
 	  <StackPane fx:id="playerBoxStackPane" opacity="0.5">
 	        <ImageView fx:id="playerPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-  				<Image url="/images/avatars/default.png"/> 
+  				<Image url="/images/avatars/default.png"/>
 	        </ImageView>
-	        
+
 	        <Circle opacity="0.5" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
 	           <fill>
 	              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
@@ -43,5 +43,5 @@
 	           </StackPane.margin>
 	        </Label>
 	  </StackPane>
-   
+
 </fx:root>

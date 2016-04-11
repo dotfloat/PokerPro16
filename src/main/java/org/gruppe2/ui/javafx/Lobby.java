@@ -22,7 +22,6 @@ public class Lobby extends BorderPane {
     public Lobby(){
         search.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
         submit.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
-        submit.setMaxWidth(Double.MAX_VALUE);
     }
 
     public void search(){

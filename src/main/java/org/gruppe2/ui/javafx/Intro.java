@@ -36,7 +36,7 @@ public class Intro extends BorderPane {
     }
     public void goToMenu() throws IOException{
         System.out.println("Clicked.");
-        //SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
+        SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
     }
 
     private void fallingAnimation(Rectangle node){
