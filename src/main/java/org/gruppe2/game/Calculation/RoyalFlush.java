@@ -15,36 +15,23 @@ public class RoyalFlush {
         if (communityCards.size() == 0)
             return true;
 
-        ArrayList<Card> allCards = new ArrayList<>(communityCards);
-        allCards.add(p.getCard1());
-        allCards.add(p.getCard2());
+        ArrayList<Card> allRoyalCards = new ArrayList<>();
+        for (Card c : communityCards)
+            if (cardIsRoyal(c))
+                allRoyalCards.add(c);
+        if (cardIsRoyal(p.getCard1()))
+            allRoyalCards.add(p.getCard1());
+        if (cardIsRoyal(p.getCard2()))
+            allRoyalCards.add(p.getCard2());
 
-        if (numberOfRoyalCards(allCards) >= communityCards.size()){
-            HashMap<Card.Suit, Integer> numTypes = new HashMap<>();
-            numTypes.put(Card.Suit.CLUBS, 0);
-            numTypes.put(Card.Suit.DIAMONDS, 0);
-            numTypes.put(Card.Suit.SPADES, 0);
-            numTypes.put(Card.Suit.HEARTS, 0);
+        HashMap<Card.Suit, Integer> numTypes = Flush.numberOfEachType(allRoyalCards);
 
-            for(Card c : allCards)
-                if (cardIsRoyal(c))
-                    numTypes.put(c.getSuit(), numTypes.get(c.getSuit()) + 1);
-
+        if (allRoyalCards.size() >= communityCards.size())
             for (int i : numTypes.values())
                 if (i >= communityCards.size())
                     return true;
-        }
-
 
         return false;
-    }
-
-    private int numberOfRoyalCards(ArrayList<Card> allCards){
-        int royalCards = 0;
-        for (Card c : allCards)
-            if (cardIsRoyal(c))
-                royalCards++;
-        return royalCards;
     }
 
     private boolean cardIsRoyal(Card c) {
@@ -52,10 +39,9 @@ public class RoyalFlush {
     }
 
     public Double royalFlushPossiblity(ArrayList<Card> communityCards, Player p) {
-        if (canGetRoyalFlush(communityCards, p))
+        if (!canGetRoyalFlush(communityCards, p))
             return 0.0;
 
-        ArrayList<Card> royalFlush = new ArrayList<>();
         return 0.0;
     }
 }
