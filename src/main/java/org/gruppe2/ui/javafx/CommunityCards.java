@@ -3,14 +3,12 @@ package org.gruppe2.ui.javafx;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Cards;
 import org.gruppe2.ui.Resources;
 
 public class CommunityCards extends HBox {

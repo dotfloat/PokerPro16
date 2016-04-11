@@ -12,7 +12,6 @@
   		<ImageView fx:id="pokerTable" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 50, 0.3, 10, 10)">
 			<Image url="/images/ui/PokertableWithLogo.png"/>
 		</ImageView>
-		<PlayerInfoBox/>
 		<CommunityCards fx:id="communityCardsBox"/>
 		<ChatBox fx:id="chatBox"/>
 </fx:root>

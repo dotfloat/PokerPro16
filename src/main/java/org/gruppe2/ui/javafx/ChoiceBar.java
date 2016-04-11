@@ -1,9 +1,5 @@
 package org.gruppe2.ui.javafx;
 
-import org.gruppe2.ui.objects.Player;
-import org.gruppe2.ui.Resources;
-import org.gruppe2.ui.old_javafx.GUIClient;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -13,11 +9,16 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import org.gruppe2.game.old.Action;
+import org.gruppe2.game.old.Player;
+import org.gruppe2.game.old.PossibleActions;
+import org.gruppe2.ui.Resources;
+
 public class ChoiceBar extends HBox {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-	
-	
+	private GUIPlayer client;
+	private Player player;
 	@FXML private TextField chatField;
 	@FXML private Button FOLD;
 	@FXML private Slider slider;
@@ -27,7 +28,7 @@ public class ChoiceBar extends HBox {
 	public ChoiceBar() {
 		Resources.loadFXML(this);
 		setSizes();
-		setEvents();
+		
 	}
 	
 	@FXML
@@ -41,7 +42,9 @@ public class ChoiceBar extends HBox {
 	}
 	
 	@FXML
-	private void setEvents() {
+	public void setEvents(GUIPlayer client, Player player) {
+		this.client = client;
+		this.player = player;
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -56,28 +59,30 @@ public class ChoiceBar extends HBox {
 	 * This will become fxml
 	 */
 	private void foldAction(){
-		System.out.println("FOLD NOT IMPLEMENTED");
+		client.setAction(new Action.Fold());
 	}
 	/**
 	 * This will become fxml
 	 */
 	private void betAction(){
-		System.out.println("BET NOT IMPLEMENTED");
-//		 if (pa.canCall() && pa.canRaise() && slider.getValue() > 1)
-//             raise(client, slider, player);
-//         else if (pa.canCall())
-//             client.setAction(new Action.Call());
-//         else if(pa.canCheck())
-//             client.setAction(new Action.Check());
+		PossibleActions pa = client.getSession()
+                .getPlayerOptions(player);
+
+		 if (pa.canCall() && pa.canRaise() && slider.getValue() > 1)
+             raise(client, slider, player);
+         else if (pa.canCall())
+             client.setAction(new Action.Call());
+         else if(pa.canCheck())
+             client.setAction(new Action.Check());
 	}
 	
-	private void raise(GUIClient client, Slider raiseSlider, Player player) {
-//        if (client.getSession().getPlayerOptions(player).getMinRaise() <= raiseSlider
-//                .getValue()) {
-//            if (client.getSession().getPlayerOptions(player).getMaxRaise() >= raiseSlider
-//                    .getValue())
-//                client.setAction(new Action.Raise((int) raiseSlider.getValue()));
-//        }
+	private void raise(GUIPlayer client, Slider raiseSlider, Player player) {
+        if (client.getSession().getPlayerOptions(player).getMinRaise() <= raiseSlider
+                .getValue()) {
+            if (client.getSession().getPlayerOptions(player).getMaxRaise() >= raiseSlider
+                    .getValue())
+                client.setAction(new Action.Raise((int) raiseSlider.getValue()));
+        }
     }
 	/**
      * If you raise all you have, change text of raise button to ALL IN
@@ -89,5 +94,31 @@ public class ChoiceBar extends HBox {
         if (slider.getValue() == slider.getMax()) BET.setText("ALL IN");
         else BET.setText("RAISE");
         return (int) slider.getValue() + " CHIPS";
+    }
+    
+    /**
+     * Removes eventpossibilities and makes buttons grey, if they are not
+     * possible to click.
+     *
+     * @param player
+     */
+    public void updatePossibleBarsToClick(Player player) {
+        PossibleActions pa = player.getClient().getSession()
+                .getPlayerOptions(player);  
+        if( pa.canCall())
+        	BET.setText("Call");
+   
+       
+        if(pa.canCheck())
+        	BET.setText("Check");
+        if (pa.canRaise() && slider.getValue() > 1) {
+            BET.getStyleClass().add("button");
+            BET.setText("RAISE");
+        }
+        
+        
+        slider.setMax(pa.getMaxRaise());
+        slider.setMin(pa.getMinRaise());
+        slider.setValue(pa.getMinRaise());
     }
 }

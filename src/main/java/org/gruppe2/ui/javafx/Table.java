@@ -13,6 +13,7 @@ public class Table extends StackPane {
 	
 	@FXML private ImageView pokerTable;
 	@FXML private ChatBox chatBox;
+	@FXML public CommunityCards communityCardsBox;
 	
 	@SuppressWarnings("static-access")
 	public Table() {
