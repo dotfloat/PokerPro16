@@ -28,9 +28,8 @@ public class ChatBox extends ScrollPane {
 
 	private void setPositionsAndSettings() {
 		
-		this.setMaxSize(width*0.10, height*0.10);
-		this.setLayoutX(width * 0.01);
-		this.setLayoutY(height*0.80);
+		this.setMaxSize(width*0.16, height*0.13);
+		
 		
 		this.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         textArea.setEditable(false);

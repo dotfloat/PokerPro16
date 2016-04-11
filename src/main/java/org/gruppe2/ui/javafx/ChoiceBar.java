@@ -32,8 +32,8 @@ public class ChoiceBar extends HBox {
 	
 	@FXML
 	private void setSizes() {
-		slider.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.4));
-        slider.setMinWidth(height * 0.15);
+		slider.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
+        slider.setMinWidth(width * 0.15);
         slider.setMax(5000);
        
         sliderValue.setMinWidth(width * 0.09);
@@ -89,10 +89,5 @@ public class ChoiceBar extends HBox {
         if (slider.getValue() == slider.getMax()) BET.setText("ALL IN");
         else BET.setText("RAISE");
         return (int) slider.getValue() + " CHIPS";
-    }
-    
-    public TextField getChatField(){
-    	System.out.println("Before sending its: "+chatField);
-		return chatField;
     }
 }
