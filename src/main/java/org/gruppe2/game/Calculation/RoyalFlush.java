@@ -56,5 +56,6 @@ public class RoyalFlush {
             return 0.0;
 
         ArrayList<Card> royalFlush = new ArrayList<>();
+        return 0.0;
     }
 }
