@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -28,7 +29,8 @@ public class GameWindow implements Initializable {
 	
 	@FXML private ImageView playerCard1;
 	@FXML private ImageView playerCard2;
-
+	@FXML private Table table;
+	@FXML private ChoiceBar choiceBar;
 	
 	
 	/**
@@ -45,6 +47,7 @@ public class GameWindow implements Initializable {
         playerCard1.setFitWidth(width * 0.12);
         playerCard1.setPreserveRatio(true);
         playerCard1.setSmooth(true);
+        playerCard1.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.12));
         playerCard2.setFitWidth(width * 0.12);
         playerCard2.setPreserveRatio(true);
         playerCard2.setSmooth(true);
@@ -103,9 +106,9 @@ public class GameWindow implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
 		setPlayerCards();
 		setUpPlayerBoxes();
+		((ChatBox) table.getChildren().get(3)).setEventListeners((TextField) choiceBar.getChildren().get(0));
 	}
 	
 }

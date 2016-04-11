@@ -16,5 +16,5 @@
 		</ImageView>
 		<PlayerInfoBox/>
 		<CommunityCards/>
-		<ChatBox/>
+		<ChatBox fx:id="chatBox"/>
 </fx:root>

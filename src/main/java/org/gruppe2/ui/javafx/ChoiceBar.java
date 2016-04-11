@@ -32,8 +32,8 @@ public class ChoiceBar extends HBox {
 	
 	@FXML
 	private void setSizes() {
-		slider.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.4));
-        slider.setMinWidth(height * 0.15);
+		slider.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
+        slider.setMinWidth(width * 0.15);
         slider.setMax(5000);
        
         sliderValue.setMinWidth(width * 0.09);

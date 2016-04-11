@@ -6,7 +6,7 @@
 
 
         <ToggleButton fx:id="showMenu" text="###" onAction="#showMenu" styleClass="menuButton"/>
-    <VBox fx:id="innerBox" visible="true" styleClass="rightMenu">
+    <VBox fx:id="innerBox" styleClass="rightMenu">
         <Button fx:id="viewLobby" text="View lobby" onAction="#viewLobby"/>
         <Button fx:id="leaveTable" text="Leave table" onAction="#leaveTable"/>
     </VBox>

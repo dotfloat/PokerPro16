@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
@@ -12,9 +13,14 @@
 
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
    <children>
-      <StackPane id="playerBoxStackPane" opacity="0.5">
+      <StackPane fx:id="playerBoxStackPane" opacity="0.5">
          <children>
-            <ImageView id="playerPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="playerPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            	<Image>
+            		<Image url="/images/ui/avatars/default.png">
+            	</Image>
+            </ImageView>
+            
             <Circle opacity="0.5" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
                <fill>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
@@ -25,17 +31,17 @@
                   </RadialGradient>
                </fill>
             </Circle>
-            <Label id="playerName" text="Name" StackPane.alignment="TOP_LEFT">
+            <Label fx:id="playerName" text="Name" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets left="5.0" top="5.0" />
                </StackPane.margin>
             </Label>
-            <Label id="stack" text="Stack" StackPane.alignment="BOTTOM_LEFT">
+            <Label fx:id="stack" text="Stack" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
                   <Insets bottom="5.0" left="5.0" />
                </StackPane.margin>
             </Label>
-            <Label id="currentBet" text="Current bet" StackPane.alignment="BOTTOM_RIGHT">
+            <Label fx:id="currentBet" text="Current bet" StackPane.alignment="BOTTOM_RIGHT">
                <StackPane.margin>
                   <Insets bottom="5.0" right="5.0" />
                </StackPane.margin>
