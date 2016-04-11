@@ -161,9 +161,9 @@
 }
 
 .menuButton {
-    -fx-background-color: black;
+    -fx-background-color: greenyellow;
     -fx-text-fill: white;
 }
 .menuButton:selected {
-
+    -fx-background-color: red;
 }
