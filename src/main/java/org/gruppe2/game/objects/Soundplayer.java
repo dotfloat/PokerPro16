@@ -1,9 +1,8 @@
-package org.gruppe2.game.logic;
+package org.gruppe2.game.objects;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**

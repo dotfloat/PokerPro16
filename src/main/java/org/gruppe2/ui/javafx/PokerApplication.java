@@ -17,6 +17,8 @@ public class PokerApplication extends Application {
 	private static int width;
 	private static int height;
 
+    private static int numberOfPlayers; // Should reside in model / game?
+
     // Setting global root. Will only change scenes
     private static BorderPane root = new BorderPane();
 
@@ -74,4 +76,6 @@ public class PokerApplication extends Application {
 	public static int getHeight(){
 		return height;
 	}
+
+    public static int getNumberOfPlayers() { return numberOfPlayers;}
 }

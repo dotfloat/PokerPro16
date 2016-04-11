@@ -13,16 +13,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import org.gruppe2.game.logic.*;
 
 public class IntroController implements Initializable {
 

@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 /**
  * Created by kjors on 07.04.2016.
  */
-public class Player implements Initializable{
+public class PlayerInfo implements Initializable{
 
     @FXML private Label playerName;
     @FXML private Label stack;
