@@ -15,12 +15,15 @@ public class GeneralCalculations {
         HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
         int amountOfSameKind = 1;
 
-        communityCards.add(p.getCard1());
-        communityCards.add(p.getCard2());
+        ArrayList<Card> allCards = new ArrayList<Card>(communityCards);
 
 
-        for(int i = 0; i < communityCards.size(); i++){
-            int faceValue = communityCards.get(i).getFaceValue();
+        allCards.add(p.getCard1());
+        allCards.add(p.getCard2());
+
+
+        for(int i = 0; i < allCards.size(); i++){
+            int faceValue = allCards.get(i).getFaceValue();
             if(amountCards.containsKey(faceValue)){
                 int amountOfCard = amountCards.get(faceValue) +1;
                 amountCards.put(faceValue, amountOfCard);

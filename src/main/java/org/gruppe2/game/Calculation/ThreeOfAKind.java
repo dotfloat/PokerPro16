@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class ThreeOfAKind {
 
-    public static boolean CanGetThreeOfAKind(ArrayList<Card> communityCards, Player p){
+    public static boolean canGetThreeOfAKind(ArrayList<Card> communityCards, Player p){
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards,p);
 
         if(amountOfSameFace >= 3)
