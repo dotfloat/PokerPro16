@@ -5,16 +5,15 @@
 <?import javafx.scene.control.CheckBox?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
     <top>
-        <HBox>
-            <TextField text="Search"/>
-            <Button text="Search" fx:id="search"/>
-            <CheckBox text="Show only friends"/>
+        <HBox fx:id="searchBar">
+            <TextField fx:id="search" text="Search"/>
+            <Button text="Search" fx:id="submit" onAction="#search"/>
+            <CheckBox fx:id="checkBoxFriends" text="Show only friends" onAction="#friendBox"/>
         </HBox>
     </top>
 
     <center>
-        <TilePane>
-
+        <TilePane fx:id="lobbyTile">
         </TilePane>
     </center>
 </fx:root>
