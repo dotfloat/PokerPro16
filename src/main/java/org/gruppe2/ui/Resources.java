@@ -8,7 +8,7 @@ import javafx.scene.Node;
 public class Resources {
 	public static void loadFXML(Node node){
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(Resources.class.getResource("/views/" + node.getClass().getSimpleName() + ".fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(Resources.class.getResource("/views/" + node.getClass().getSimpleName().replaceFirst("Controller", "") + ".fxml"));
 			
 			fxmlLoader.setRoot(node);
 			fxmlLoader.setController(node);

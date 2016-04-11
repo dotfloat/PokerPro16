@@ -23,16 +23,7 @@
    </center>
 
    <bottom>
-   			<HBox styleClass="hbox" spacing="20" >
-				<TextField fx:id="chatField" prefWidth="200" />
-				<Button fx:id="FOLD" text="FOLD" id="button" />
-				<Slider fx:id="slider" id="slider" prefWidth="500" />
-				<Label fx:id="sliderValue" text="0 CHIPS" id="label"/>
-				<Button fx:id="BET" text="BET" id="button" />
-				<Label text="" id="label" prefWidth="200"/>
-				<Label /> 
-			</HBox>
-
+   		<ChoiceBar />
    </bottom> 
    <ImageView fx:id="playerCard1" preserveRatio="true">
 			        
