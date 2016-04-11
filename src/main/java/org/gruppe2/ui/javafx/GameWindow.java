@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,7 +40,7 @@ public class GameWindow implements Initializable {
 	@FXML private Table table;
 	@FXML private ChoiceBar choiceBar;
 	@FXML public CommunityCards communityCardsBox;
-	
+
 	
 	/**
 	 * This is just test method for proof of conecpt, change this when backend is ready with playerCards.
@@ -68,7 +69,7 @@ public class GameWindow implements Initializable {
 	 * This is for testing
 	 */
 	public void setUpPlayerBoxes(){
-		
+
 //		new PlayerInfoBox() 
 		for(int i = 1; i<8;i++){
 			players.add(new Player("Bot", i, new AIClient()));
@@ -110,11 +111,15 @@ public class GameWindow implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+		RightMenu rightMenu = new RightMenu();
+		rightMenu.setAlignment(Pos.TOP_RIGHT);
+		SceneController.setMenuButton(rightMenu);
+		setPlayerCards();
+
 		((ChatBox) table.getChildren().get(3)).setEventListeners((TextField) choiceBar.getChildren().get(0));
 		testGame();
-		
-		
+
+
 	}
 	/**
 	 * Test game for watching game
@@ -128,7 +133,7 @@ public class GameWindow implements Initializable {
                 .startMoney(startValue)
                 .mainClient(guiPlayer)
                 .build();
-        
+
         setPlayerCards();
 		setUpPlayerBoxes();
 
@@ -138,9 +143,9 @@ public class GameWindow implements Initializable {
 //	        Thread th = new Thread(() -> gameSession.mainLoop());
 //	        th.start();
 	    }
-	
+
 	public void updateGameWindow(){
-		
+
 	}
 	
 }

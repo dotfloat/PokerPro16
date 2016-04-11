@@ -21,9 +21,5 @@
         <Label fx:id="clickToContinue" text="Click to continue"/>
     </center>
 
-    <right>
-        <RightMenu alignment="TOP_RIGHT"></RightMenu>
-    </right>
-
 
 </fx:root>

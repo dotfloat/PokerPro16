@@ -23,6 +23,7 @@ public class RightMenu extends VBox {
     public RightMenu(){
         Resources.loadFXML(this);
         innerBox.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.15));
+        innerBox.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.15));
         viewLobby.setMaxWidth(Double.MAX_VALUE);
         leaveTable.setMaxWidth(Double.MAX_VALUE);
         innerBox.setVisible(false);
@@ -34,6 +35,7 @@ public class RightMenu extends VBox {
 
     public void viewLobby(ActionEvent actionEvent) {
         SceneController.setModal(new Lobby());
+        menuAnimation();
     }
 
     public void showMenu(ActionEvent actionEvent) {
