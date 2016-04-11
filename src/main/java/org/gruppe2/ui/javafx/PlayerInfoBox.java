@@ -23,5 +23,6 @@ public class PlayerInfoBox extends Pane {
 
 	public PlayerInfoBox() {
 		Resources.loadFXML(this);
+		
 	}
 }

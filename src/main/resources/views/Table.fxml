@@ -6,6 +6,7 @@
 <?import org.gruppe2.ui.javafx.PlayerInfoBox?>
 <?import org.gruppe2.ui.javafx.ChoiceBar?>
 <?import org.gruppe2.ui.javafx.CommunityCards?>
+<?import org.gruppe2.ui.javafx.ChatBox?>
 
 <fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
   		<ImageView fx:id="pokerTable" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 50, 0.3, 10, 10)">
@@ -15,4 +16,5 @@
 		</ImageView>
 		<PlayerInfoBox/>
 		<CommunityCards/>
+		<ChatBox/>
 </fx:root>

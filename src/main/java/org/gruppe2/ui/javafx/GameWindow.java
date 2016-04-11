@@ -7,11 +7,9 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import org.gruppe2.ui.objects.Player;
@@ -28,8 +26,6 @@ public class GameWindow implements Initializable {
 	ArrayList<Player> players = new ArrayList<>();
 	@FXML private BorderPane borderPane;
 	
-
-
 	@FXML private ImageView playerCard1;
 	@FXML private ImageView playerCard2;
 
