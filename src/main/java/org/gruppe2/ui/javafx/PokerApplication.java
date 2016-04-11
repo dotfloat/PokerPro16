@@ -16,10 +16,11 @@ public class PokerApplication extends Application {
 
     private static int numberOfPlayers; // Should reside in model / game?
     private Scene scene;
-    // Setting global root. Will only change scenes
-    private static StackPane root = new StackPane();
+    private static StackPane root = new StackPane(); // Setting global root. Will only change scenes
 
-    // Controllers will need to get current root to change scenes
+    /** Controllers will need to get current root to change scenes
+     * @return root
+     */
     public static StackPane getRoot() {
         return root;
     }
@@ -28,8 +29,7 @@ public class PokerApplication extends Application {
     public void start(Stage stage) throws Exception {
 
     	startValues(stage);
-        setStartScene(stage);
-        
+        setStartScene(stage); 
     }
 
 	private void startValues(Stage stage) {
@@ -37,12 +37,15 @@ public class PokerApplication extends Application {
 		height = 768;	
 		stage.setTitle("PokerPro16");
 	}
+	
 	public static int getWidth(){
 		return width;
 	}
+	
 	public static int getHeight(){
 		return height;
 	}
+	
 	/**
      * Set up scene and stage
      * Starts the intro
