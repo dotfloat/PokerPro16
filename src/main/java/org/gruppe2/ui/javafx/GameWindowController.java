@@ -1,5 +1,6 @@
 package org.gruppe2.ui.javafx;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,10 +20,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 import org.gruppe2.game.objects.Player;
 import org.gruppe2.ui.old_javafx.GUIClient;
-import org.gruppe2.ui.old_javafx.PlayerInfoBox;
+import org.gruppe2.ui.javafx.PlayerInfoBox;
 
 /**
  * This class will be split in several sub controllers, i.g Bottom Hbox with buttons must be one class, etc..
@@ -29,7 +32,6 @@ import org.gruppe2.ui.old_javafx.PlayerInfoBox;
 public class GameWindowController implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-	private int numberOfPlayers = 6; //This will be switched, when we can get gamesession ready.
 	
 	// MVC. should we keep objects and shit in the models (backend)?
 	
@@ -59,6 +61,7 @@ public class GameWindowController implements Initializable {
 		
 		setPlayerCards();
 		setCommunityCards();
+		setUpPlayerBoxes();
 	}
 	
 	/**
@@ -92,7 +95,9 @@ public class GameWindowController implements Initializable {
 			ImageView cardImage = new ImageView(new Image(("/images/cards/" + "c02" + ".png")));
 			communityCardsBox.getChildren().add(cardImage);
 			cardImage.setPreserveRatio(true);
-            cardImage.setFitHeight(width * 0.07);
+            cardImage.setFitWidth(width * 0.05);
+            cardImage.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
+            
 		}
 		communityCardsBox.setAlignment(Pos.CENTER);
 	}
@@ -140,39 +145,40 @@ public class GameWindowController implements Initializable {
 	 * This is for testing
 	 */
 	public void setUpPlayerBoxes(){
-		List<PlayerInfoBox> playerInfoBoxes = new ArrayList<PlayerInfoBox>();
-		
+		List<Pane> playerInfoBoxes = new ArrayList<Pane>();
+//		new PlayerInfoBox() 
 		for(int i = 0; i<6;i++){
 			players.add(new Player("Bot", i, null));
+			playerInfoBoxes.add(i, new PlayerInfoBox());
 		}
-		
-		
+		paintAllPlayers(playerInfoBoxes);
 	}
 	
-	public void paintAllPlayers(List<PlayerInfoBox> playerInfoBoxes) {
+	public void paintAllPlayers(List<Pane> playerInfoBoxes) {
         double xStep = width / 15;
         double yStep = height / 11;
         double y = 10;
-        if(numberOfPlayers > 0)
+        int numberOfPlayers = playerInfoBoxes.size();
+        if(numberOfPlayers > 3)
         	paintPlayerInfoBox(playerInfoBoxes.get(3), xStep * 2, y);
-        if(numberOfPlayers == 1)
+        if(numberOfPlayers > 4)
         	paintPlayerInfoBox(playerInfoBoxes.get(4), xStep * 6.5, y);
-        if(numberOfPlayers == 2)
+        if(numberOfPlayers > 5)
         	paintPlayerInfoBox(playerInfoBoxes.get(5), xStep * 11, y);
-        if(numberOfPlayers == 3)
+        if(numberOfPlayers >2)
         	paintPlayerInfoBox(playerInfoBoxes.get(2), xStep * 0.2, yStep * 2);
-        if(numberOfPlayers == 4)
+        if(numberOfPlayers > 6)
         	paintPlayerInfoBox(playerInfoBoxes.get(6), xStep * 12.5, yStep * 2);
-        if(numberOfPlayers == 5)
+        if(numberOfPlayers > 1)
         	paintPlayerInfoBox(playerInfoBoxes.get(1), xStep * 0.2, yStep * 4.2);
-        if(numberOfPlayers == 6)
+        if(numberOfPlayers > 7)
         	paintPlayerInfoBox(playerInfoBoxes.get(7), xStep * 12.5, yStep * 4.2);
-        if(numberOfPlayers == 7)
+        if(numberOfPlayers > 0)
         	paintPlayerInfoBox(playerInfoBoxes.get(0), xStep * 0.2, yStep * 6.4);
-        if(numberOfPlayers == 8)
+        if(numberOfPlayers > 8)
         	paintPlayerInfoBox(playerInfoBoxes.get(8), xStep * 12.5, yStep * 6.4);
     }
-	public void paintPlayerInfoBox(PlayerInfoBox playerInfoBox, double x, double y) {
+	public void paintPlayerInfoBox(Pane playerInfoBox, double x, double y) {
         playerInfoBox.setLayoutX(x);
         playerInfoBox.setLayoutY(y);
         borderPane.getChildren().add(playerInfoBox);
