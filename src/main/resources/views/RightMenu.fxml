@@ -1,11 +1,12 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToggleButton?>
 <fx:root type ="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml"
-         stylesheets="/css/style.css" fx:id="rightMenu" spacing="10">
+         stylesheets="/css/style.css" fx:id="rightMenu">
 
 
-        <Button fx:id="showMenu" text="plz click senpai" onAction="#showMenu"/>
-    <VBox fx:id="innerBox" visible="false" id="rightMenu">
+        <ToggleButton fx:id="showMenu" text="###" onAction="#showMenu" styleClass="menuButton"/>
+    <VBox fx:id="innerBox" visible="true" styleClass="rightMenu">
         <Button fx:id="viewLobby" text="View lobby" onAction="#viewLobby"/>
         <Button fx:id="leaveTable" text="Leave table" onAction="#leaveTable"/>
     </VBox>

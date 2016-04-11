@@ -11,6 +11,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -35,7 +36,6 @@ public class Intro extends BorderPane {
     }
     public void goToMenu() throws IOException{
         System.out.println("Clicked.");
-        Resources.loadFXML(new RightMenu());
         //SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
     }
 

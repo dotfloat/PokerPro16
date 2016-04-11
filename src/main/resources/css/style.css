@@ -89,6 +89,7 @@
 }
 .rightMenu {
     -fx-background-color: red;
+    -fx-padding: 10;
     -fx-spacing: 10;
 }
 
@@ -157,4 +158,12 @@
 .vbox {
     -fx-background-color: transparent;
     -fx-vgap: 10px;
+}
+
+.menuButton {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+.menuButton:selected {
+
 }
