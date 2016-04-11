@@ -11,8 +11,8 @@ import java.net.URL;
 /**
  * Created by kjors on 06.04.2016.
  *
- * Changes scene in PokerApplication main root BorderPane
- * #url = URL to fxml-file
+ * Changes scene in PokerApplication main root BorderPane #url = URL to
+ * fxml-file
  */
 class SceneController {
 

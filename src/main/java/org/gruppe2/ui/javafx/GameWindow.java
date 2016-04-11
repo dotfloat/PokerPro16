@@ -22,11 +22,9 @@ public class GameWindow implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	
-	// MVC. should we keep objects and shit in the models (backend)?
-	
 	ArrayList<Player> players = new ArrayList<>();
-	@FXML private BorderPane borderPane;
 	
+	@FXML private BorderPane borderPane;
 	@FXML private ImageView playerCard1;
 	@FXML private ImageView playerCard2;
 	@FXML private Table table;
@@ -56,9 +54,6 @@ public class GameWindow implements Initializable {
         playerCard2.setRotate(5);
 		
 	}
-
-	
-
 
 	/**
 	 * This is for testing
