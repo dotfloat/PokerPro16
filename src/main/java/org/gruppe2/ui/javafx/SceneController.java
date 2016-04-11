@@ -1,6 +1,7 @@
 package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
@@ -15,17 +16,31 @@ import java.net.URL;
  */
 class SceneController {
 
-	public static void setScene(URL url) {
+    public static void setScene(URL url) {
 
-		try {
+        try {
+        	
+            BorderPane newScene = FXMLLoader.load(url);
+            StackPane stage = PokerApplication.getRoot();
+            stage.getChildren().set(0, newScene);
 
-			BorderPane newScene = FXMLLoader.load(url);
-			StackPane stage = PokerApplication.getRoot();
-			stage.getChildren().set(0, newScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-	}
+    }
+    public static void setModal(Node node){
+        StackPane stage = PokerApplication.getRoot();
+        if (stage.getChildren().size() == 1) {
+            stage.getChildren().add(node);
+        } else {
+            stage.getChildren().set(1, node);
+        }
+    }
+    public static void removeModal(Node node){
+        StackPane stage = PokerApplication.getRoot();
+        stage.getChildren().removeAll(node);
+    }
+
 }

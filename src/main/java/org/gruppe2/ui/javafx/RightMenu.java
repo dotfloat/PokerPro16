@@ -4,6 +4,7 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -32,7 +33,7 @@ public class RightMenu extends VBox {
     }
 
     public void viewLobby(ActionEvent actionEvent) {
-
+        SceneController.setModal(new Lobby());
     }
 
     public void showMenu(ActionEvent actionEvent) {
