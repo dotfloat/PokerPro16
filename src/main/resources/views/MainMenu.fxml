@@ -15,8 +15,6 @@
                                 <Image url="/images/ui/pokerWhite.png"/>
                         </ImageView>
                 </StackPane>
-
-				<PlayerInfoBox />
         </top>
         <left>
 

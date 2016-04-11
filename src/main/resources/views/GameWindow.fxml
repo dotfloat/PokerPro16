@@ -20,10 +20,12 @@
    <bottom>
    		<ChoiceBar/>
    </bottom> 
+   
    <ImageView fx:id="playerCard1" preserveRatio="true">
 			        
 	</ImageView>
 	<ImageView fx:id="playerCard2" preserveRatio="true">
 			        
 	</ImageView>
+	
 </BorderPane>
