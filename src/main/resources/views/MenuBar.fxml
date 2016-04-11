@@ -5,7 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 
 <MenuBar xmlns:fx="http://javafx.com/fxml"
-          fx:controller="org.gruppe2.ui.javafx.MenuBarController">
+          fx:controller="org.gruppe2.ui.javafx.MenuBar">
   <menus>
     <Menu mnemonicParsing="false" fx:id="menu" text="Game">
       <items>

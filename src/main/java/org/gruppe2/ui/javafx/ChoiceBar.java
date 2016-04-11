@@ -13,7 +13,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-public class ChoiceBarController extends HBox {
+public class ChoiceBar extends HBox {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	
@@ -24,7 +24,7 @@ public class ChoiceBarController extends HBox {
 	@FXML private Label sliderValue;
 	@FXML private Button BET;
 	
-	public ChoiceBarController() {
+	public ChoiceBar() {
 		Resources.loadFXML(this);
 	}
 	

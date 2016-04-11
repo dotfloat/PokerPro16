@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 /**
  * Created by kjors on 07.04.2016.
  */
-public class PlayerInfoBoxController extends Pane {
+public class PlayerInfoBox extends Pane {
 	
 	@FXML private StackPane playerBoxStackPane;
     @FXML private Label playerName;
@@ -21,7 +21,7 @@ public class PlayerInfoBoxController extends Pane {
     @FXML private ImageView playerPicture;
 //    Position pos;
 
-	public PlayerInfoBoxController() {
+	public PlayerInfoBox() {
 		Resources.loadFXML(this);
 	}
 }

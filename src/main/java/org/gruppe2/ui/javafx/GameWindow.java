@@ -19,7 +19,7 @@ import org.gruppe2.ui.objects.Player;
 /**
  * This class will be split in several sub controllers, i.g Bottom Hbox with buttons must be one class, etc..
  */
-public class GameWindowController implements Initializable {
+public class GameWindow implements Initializable {
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	
@@ -84,7 +84,7 @@ public class GameWindowController implements Initializable {
 //		new PlayerInfoBox() 
 		for(int i = 0; i<6;i++){
 			players.add(new Player("Bot", i, null));
-			playerInfoBoxes.add(i, new PlayerInfoBoxController());
+			playerInfoBoxes.add(i, new PlayerInfoBox());
 		}
 		paintAllPlayers(playerInfoBoxes);
 	}
