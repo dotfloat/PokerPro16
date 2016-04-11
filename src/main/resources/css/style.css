@@ -87,6 +87,10 @@
 .root {
     -fx-background-color: black;
 }
+.rightMenu {
+    -fx-background-color: red;
+    -fx-spacing: 10;
+}
 
 .scroll.pane {
     -fx-background-color: transparent;

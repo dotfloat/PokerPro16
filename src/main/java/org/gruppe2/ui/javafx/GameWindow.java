@@ -28,8 +28,8 @@ public class GameWindow implements Initializable {
 	ArrayList<Player> players = new ArrayList<>();
 	@FXML private BorderPane borderPane;
 	
-	
-	
+
+
 	@FXML private ImageView playerCard1;
 	@FXML private ImageView playerCard2;
 
@@ -57,7 +57,7 @@ public class GameWindow implements Initializable {
         playerCard2.setRotate(5);
 		
 	}
-	
+
 	
 
 
@@ -107,7 +107,7 @@ public class GameWindow implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		setPlayerCards();
 		setUpPlayerBoxes();
 	}

@@ -1,6 +1,7 @@
 package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.PlayerModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,5 +34,18 @@ public class GameSessionTest {
         }
 
         assertFalse(context.addPlayer(new MockPlayerController(context, model)));
+    }
+
+    @Test
+    public void gameViewTest() throws InterruptedException {
+        final boolean[] received = {false};
+
+        context.getGame().onPlayerJoin((PlayerJoinEvent event) -> received[0] = true);
+
+        context.addPlayer(new MockPlayerController(context, model));
+
+        Thread.sleep(100);
+
+        assertTrue(received[0]);
     }
 }

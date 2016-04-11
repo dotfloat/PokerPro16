@@ -50,9 +50,9 @@ public class PokerApplication extends Application {
          * when changing scenes later, use SceneController.setScene()
          * Mvh Kjetil
          */
-        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
-        SceneController.setScene( introSceneUrl );
 
+        Intro intro = new Intro();
+        root.setCenter(intro);
 
         /**
          * Set up stage
