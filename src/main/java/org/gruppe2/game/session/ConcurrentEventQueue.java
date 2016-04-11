@@ -1,7 +1,9 @@
-package org.gruppe2.game.event;
+package org.gruppe2.game.session;
+
+import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.EventHandler;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
