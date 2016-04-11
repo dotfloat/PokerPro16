@@ -4,6 +4,7 @@ import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -11,7 +12,7 @@ import java.util.HashMap;
  */
 public class RoyalFlush {
 
-    public boolean canGetRoyalFlush(ArrayList<Card> communityCards, Player p){
+    public boolean canGetRoyalFlush(Collection<Card> communityCards, Player p){
         if (communityCards.size() == 0)
             return true;
 
