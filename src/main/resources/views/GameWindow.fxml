@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import org.gruppe2.ui.javafx.PlayerInfoBox?>
+<?import org.gruppe2.ui.javafx.ChoiceBar?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
    <center>
@@ -25,7 +26,7 @@
    </center>
 
    <bottom>
-   		
+   		<ChoiceBar/>
    </bottom> 
    <ImageView fx:id="playerCard1" preserveRatio="true">
 			        
