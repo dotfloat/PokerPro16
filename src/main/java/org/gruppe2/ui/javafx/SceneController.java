@@ -2,6 +2,8 @@ package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -18,8 +20,8 @@ class SceneController {
         try {
         	
             BorderPane newScene = FXMLLoader.load( url );
-            BorderPane stage = PokerApplication.getRoot();
-            stage.setCenter( newScene );
+            StackPane stage = PokerApplication.getRoot();
+            stage.getChildren().set(0, newScene);
 
         } catch (IOException e) {
             e.printStackTrace();
