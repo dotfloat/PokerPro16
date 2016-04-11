@@ -2,6 +2,7 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameState;
 import org.gruppe2.game.controller.AbstractPlayerController;
+import org.gruppe2.game.view.GameView;
 
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -37,6 +38,8 @@ public abstract class Session implements Runnable {
     @Override
     public void run() {
         while(true) {
+
+            eventQueue.process();
 
             update();
 
@@ -77,4 +80,6 @@ public abstract class Session implements Runnable {
     public SessionContext getSessionContext() {
         return sessionContext;
     }
+
+    public abstract GameView getGame();
 }

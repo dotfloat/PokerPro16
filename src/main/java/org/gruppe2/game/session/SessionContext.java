@@ -2,6 +2,7 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameState;
 import org.gruppe2.game.controller.AbstractPlayerController;
+import org.gruppe2.game.view.GameView;
 
 public class SessionContext {
     private Session session;
@@ -13,7 +14,7 @@ public class SessionContext {
         this.session.getEventQueue().registerQueue(eventQueue);
     }
 
-    ConcurrentEventQueue getEventQueue() {
+    public ConcurrentEventQueue getEventQueue() {
         return eventQueue;
     }
 
@@ -51,5 +52,9 @@ public class SessionContext {
 
     public int getMaxPlayers() {
         return session.getMaxPlayers();
+    }
+
+    public GameView getGame() {
+        return session.getGame();
     }
 }
