@@ -39,16 +39,9 @@ public class GameSession extends Session {
 
     @Override
     public boolean addPlayer(AbstractPlayerController controller) {
-        synchronized (players) {
-            if (players.size() >= maxPlayers) {
-                return false;
-            }
+        gameController.addPlayer(controller);
 
-            players.add(controller);
-            getSessionContext().getEventQueue().addEvent(PlayerJoinEvent.class, new PlayerJoinEvent(null));
-
-            return true;
-        }
+        return true;
     }
 
     @Override
