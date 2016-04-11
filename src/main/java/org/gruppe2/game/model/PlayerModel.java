@@ -13,7 +13,7 @@ public class PlayerModel implements Model {
         this.avatar = avatar;
     }
 
-    public UUID getUuid() {
+    public UUID getUUID() {
         return uuid;
     }
 

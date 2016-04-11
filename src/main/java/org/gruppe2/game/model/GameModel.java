@@ -7,10 +7,12 @@ import java.util.UUID;
 
 public class GameModel implements Model {
     private final UUID uuid;
+    private final int maxPlayers;
     private final List<PlayerModel> players;
 
-    public GameModel(UUID uuid) {
+    public GameModel(UUID uuid, int maxPlayers) {
         this.uuid = uuid;
+        this.maxPlayers = maxPlayers;
         this.players = Collections.synchronizedList(new ArrayList<>());
     }
 
@@ -20,5 +22,27 @@ public class GameModel implements Model {
 
     public List<PlayerModel> getPlayers() {
         return players;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public PlayerModel getPlayerByUUID(UUID uuid) {
+        for (PlayerModel player : players) {
+            if (player.getUUID().equals(uuid))
+                return player;
+        }
+
+        return null;
+    }
+
+    public PlayerModel getPlayerByName(String name) {
+        for (PlayerModel player : players) {
+            if (player.getName().equals(name))
+                return player;
+        }
+
+        return null;
     }
 }

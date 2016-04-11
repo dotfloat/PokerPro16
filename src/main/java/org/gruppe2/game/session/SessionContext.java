@@ -1,14 +1,18 @@
 package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameState;
-import org.gruppe2.game.controller.AbstractPlayerController;
+import org.gruppe2.game.controller.PlayerController;
+import org.gruppe2.game.event.EventHandler;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.view.GameView;
-import org.gruppe2.game.view.PlayerView;
 
 public class SessionContext {
     private Session session;
 
     private ConcurrentEventQueue eventQueue = new ConcurrentEventQueue();
+
+    private GameView gameView = new GameView(this);
 
     SessionContext(Session session) {
         this.session = session;
@@ -19,43 +23,15 @@ public class SessionContext {
         return eventQueue;
     }
 
-    /**
-     * Get the number of spectators that are connected
-     * @return spectator count
-     */
-    public int getSpectatorCount() {
-        return session.getSpectatorCount().get();
-    }
-
-    /**
-     * Add a new spectator (ie. increment the count)
-     * @return old spectator count
-     */
-    public int addSpectator() {
-        return session.getSpectatorCount().getAndIncrement();
-    }
-
-    /**
-     * Remove a spectator (ie. decrement the count)
-     * @return old spectator count
-     */
-    public int removeSpectator() {
-        return session.getSpectatorCount().getAndDecrement();
-    }
-
     public GameState getGameState() {
         return session.getGameState();
     }
 
-    public boolean addPlayer(AbstractPlayerController controller) {
-        return session.addPlayer(controller);
-    }
-
-    public int getMaxPlayers() {
-        return session.getMaxPlayers();
+    public boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler) {
+        return session.addPlayer(model, handler);
     }
 
     public GameView getGame() {
-        return session.getGame();
+        return gameView;
     }
 }

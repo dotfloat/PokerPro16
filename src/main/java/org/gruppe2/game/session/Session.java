@@ -1,10 +1,11 @@
 package org.gruppe2.game.session;
 
 import org.gruppe2.game.GameState;
-import org.gruppe2.game.controller.AbstractPlayerController;
-import org.gruppe2.game.view.GameView;
+import org.gruppe2.game.controller.PlayerController;
+import org.gruppe2.game.event.EventHandler;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.model.PlayerModel;
 
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Session implements Runnable {
@@ -73,13 +74,9 @@ public abstract class Session implements Runnable {
 
     // TODO: Move these to a "GameController" or something
 
-    public abstract int getMaxPlayers();
-
-    public abstract boolean addPlayer(AbstractPlayerController controller);
+    public abstract boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler);
 
     public SessionContext getSessionContext() {
         return sessionContext;
     }
-
-    public abstract GameView getGame();
 }
