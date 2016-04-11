@@ -24,16 +24,16 @@ public class GameSessionTest {
      */
     @Test
     public void addPlayerTest() {
-        assertTrue(context.addPlayer(new MockPlayerController(context, model)));
+        assertTrue(context.addPlayer(new MockPlayerController(context)));
     }
 
     @Test
     public void addTooManyPlayersTest() {
         for (int i = 0; i < context.getMaxPlayers(); i++) {
-            assertTrue(context.addPlayer(new MockPlayerController(context, model)));
+            assertTrue(context.addPlayer(new MockPlayerController(context)));
         }
 
-        assertFalse(context.addPlayer(new MockPlayerController(context, model)));
+        assertFalse(context.addPlayer(new MockPlayerController(context)));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class GameSessionTest {
 
         context.getGame().onPlayerJoin((PlayerJoinEvent event) -> received[0] = true);
 
-        context.addPlayer(new MockPlayerController(context, model));
+        context.addPlayer(new MockPlayerController(context));
 
         Thread.sleep(100);
 

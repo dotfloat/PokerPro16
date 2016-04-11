@@ -16,7 +16,6 @@ public class GameSession extends Session {
     private final List<AbstractPlayerController> players = Collections.synchronizedList(new ArrayList<>());
     private final int maxPlayers;
     private final GameController gameController;
-    private final GameView gameView;
 
     private boolean playing = true;
 
@@ -24,8 +23,9 @@ public class GameSession extends Session {
         GameModel gameModel = new GameModel(UUID.randomUUID());
 
         this.maxPlayers = maxPlayers;
-        this.gameController = new GameController(getSessionContext(), gameModel);
-        this.gameView = new GameView(getSessionContext(), gameModel);
+        this.gameController = new GameController(getSessionContext());
+        this.gameController.setModel(gameModel);
+        this.gameController.setView(new GameView(this.gameController));
 }
 
     @Override
@@ -61,6 +61,6 @@ public class GameSession extends Session {
     }
 
     public GameView getGame() {
-        return gameView;
+        return gameController.getView();
     }
 }

@@ -7,8 +7,8 @@ import org.gruppe2.game.session.SessionContext;
 
 public class PlayerController extends AbstractPlayerController {
 
-    public PlayerController(SessionContext sessionContext, PlayerModel model) {
-        super(sessionContext, model);
+    public PlayerController(SessionContext sessionContext) {
+        super(sessionContext);
     }
 
     @Override

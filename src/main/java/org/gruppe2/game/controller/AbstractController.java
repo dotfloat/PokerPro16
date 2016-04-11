@@ -1,27 +1,35 @@
 package org.gruppe2.game.controller;
 
-import com.sun.istack.internal.NotNull;
 import org.gruppe2.game.model.Model;
 import org.gruppe2.game.session.SessionContext;
+import org.gruppe2.game.view.AbstractView;
 
-abstract class AbstractController<T extends Model> {
+public abstract class AbstractController<M extends Model, V extends AbstractView<?>> {
     private final SessionContext sessionContext;
-    private T model;
+    private M model = null;
+    private V view = null;
 
-    public AbstractController(SessionContext sessionContext, T model) {
+    public AbstractController(SessionContext sessionContext) {
         this.sessionContext = sessionContext;
-        this.model = model;
     }
 
-    SessionContext getSessionContext() {
+    public SessionContext getSessionContext() {
         return sessionContext;
     }
 
-    public T getModel() {
+    public M getModel() {
         return model;
     }
 
-    public void setModel(T model) {
+    public void setModel(M model) {
         this.model = model;
+    }
+
+    public V getView() {
+        return view;
+    }
+
+    public void setView(V view) {
+        this.view = view;
     }
 }

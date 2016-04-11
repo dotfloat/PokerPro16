@@ -7,8 +7,8 @@ import org.gruppe2.game.session.SessionContext;
 
 public class GUIPlayer extends AbstractPlayerController {
 
-	public GUIPlayer(SessionContext sessionContext, PlayerModel model) {
-		super(sessionContext, model);
+	public GUIPlayer(SessionContext sessionContext) {
+		super(sessionContext);
 	}
 
 	@Override
