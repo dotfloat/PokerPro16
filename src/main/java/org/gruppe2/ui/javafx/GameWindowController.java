@@ -20,13 +20,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import org.gruppe2.game.objects.Player;
-import org.gruppe2.game.old.Action;
-import org.gruppe2.game.old.PossibleActions;
 import org.gruppe2.ui.old_javafx.GUIClient;
 import org.gruppe2.ui.old_javafx.PlayerInfoBox;
 
 /**
- * Created by kjors on 04.04.2016.
+ * This class will be split in several sub controllers, i.g Bottom Hbox with buttons must be one class, etc..
  */
 public class GameWindowController implements Initializable {
 	private int width = PokerApplication.getWidth();

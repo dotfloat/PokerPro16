@@ -16,5 +16,4 @@ public class GUIPlayerController extends AbstractPlayerController {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
