@@ -72,8 +72,10 @@ public class ShowdownEvaluatorNewTest {
 		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
 		ArrayList<Player> winners = se.getWinnerOfRound(players);
 		
+		/*
 		for(Player p : winners)
 			System.out.println("Winner: " + p.getName());
+		*/
 	}
 	
 	@Test
@@ -116,8 +118,8 @@ public class ShowdownEvaluatorNewTest {
 	public void testWinnersOfRoundComparedToDaniel() {
 		ArrayList<Player> players = new ArrayList<>();
 		
-		int amountOfPlayers = 4;
-		int N = 1;
+		int amountOfPlayers = 6;
+		int N = 100;
 		
 		for(int i = 0; i < N; i++) {
 		Deck d = new Deck();
@@ -133,11 +135,13 @@ public class ShowdownEvaluatorNewTest {
 		Card c4 = d.drawCard();
 		Card c5 = d.drawCard();
 		
+		/*
 		System.out.println(c1);
 		System.out.println(c2);
 		System.out.println(c3);
 		System.out.println(c4);
 		System.out.println(c5);
+		*/
 		
 		for(Player p : players) {
 			MockTable mt = (MockTable) p.getClient().getSession().getTable();
@@ -147,16 +151,19 @@ public class ShowdownEvaluatorNewTest {
 		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
 		ArrayList<Player> winners = se.getWinnerOfRound(players);
 		
+		/*
 		System.out.println("Player 0's community cards:");
 		for(Card c : players.get(0).getClient().getSession().getTable().getCommunityCards())
 			System.out.println(c);
 		
 		for(Player p : players)
 			System.out.println(p.getName());
-		org.gruppe2.game.old.ShowdownEvaluator se2 = new org.gruppe2.game.old.ShowdownEvaluator();
-		ArrayList<Player> stu = se2.getWinnerOfRound(players.get(0).getClient().getSession().getTable(), players);
-//		ArrayList<Player> stu = se2.getWinnerOfRound(players);
+		*/
+		org.gruppe2.game.old.ShowdownEvaluatorNew se2 = new org.gruppe2.game.old.ShowdownEvaluatorNew();
+//		ArrayList<Player> stu = se2.getWinnerOfRound(players.get(0).getClient().getSession().getTable(), players);
+		ArrayList<Player> stu = se2.getWinnerOfRound(players);
 		
+		/*
 		System.out.println("START");
 		
 		for(Player p : players) {
@@ -164,27 +171,32 @@ public class ShowdownEvaluatorNewTest {
 			System.out.println(p.getCard1());
 			System.out.println(p.getCard2());
 		}
+		*/
 		
 		if(winners.size() != stu.size()) {
+			/*
 			System.out.println("Community cards:");
 			for(Card c : players.get(0).getClient().getSession().getTable().getCommunityCards())
 				System.out.println(c);
 			
 			System.out.println("Runar's winners:");
+			*/
 			for(Player p : winners) {
-				System.out.println(p.getName());
+//				System.out.println(p.getName());
 				ArrayList<Card> allCards = new ArrayList<>();
 				allCards.addAll(p.getClient().getSession().getTable().getCommunityCards());
 				allCards.add(p.getCard1());
 				allCards.add(p.getCard2());
 				ArrayList<HandCollector> hands = se.evaluateHands(allCards);
+				/*
 				for(HandCollector h : hands) {
 					System.out.println("Rank: " + h.getRank());
 				}
 				System.out.println(p.getCard1());
 				System.out.println(p.getCard2());
+				 */
 			}
-			
+			/*
 			System.out.println("Daniel's winners:");
 			for(Player p : stu) {
 				System.out.println(p.getName());
@@ -192,6 +204,7 @@ public class ShowdownEvaluatorNewTest {
 				System.out.println(p.getCard2());
 			}
 			System.out.println(winners.size() + " && " + stu.size());
+			*/
 		}
 		
 		assertTrue(winners.size() == stu.size());
