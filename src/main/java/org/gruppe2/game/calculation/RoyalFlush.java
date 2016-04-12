@@ -43,9 +43,9 @@ public class RoyalFlush implements HandCalculation {
 
     public double royalFlushProbability(Collection<Card> communityCards, Player p) {
         if (!canGetRoyalFlush(communityCards, p))
-            return 0.0;
+            return 0;
 
-        return 0.0;
+        return 0;
     }
 
     @Override
