@@ -3,6 +3,7 @@ package org.gruppe2.ui.javafx;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import org.gruppe2.game.calculation.GeneralCalculations;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
@@ -40,12 +41,16 @@ public class ChatBox extends TextArea {
         });
     }
 
-
+    /**
+     * Method for doing commands
+     * @param textField
+     */
 	private void checkForCommands(TextField textField) {
 		String command = textField.getText();
 		if(command.equals("bestHand")){
 			 this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
-			//Best hand--->
+			 System.out.println();
+//			GeneralCalculations.getBestHandForPlayer(this.getParent().getParent().communityCards, ((GameWindowthis.getParent().getParent().yourSelf);
 		}
 		else if(command.equals("log")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
