@@ -18,11 +18,5 @@ public abstract class Controller<M extends Model, V extends AbstractView<M>> {
         return sessionContext;
     }
 
-    public abstract void init();
-
     public abstract void update();
-
-    public abstract M getModel();
-
-    public abstract V getView();
 }

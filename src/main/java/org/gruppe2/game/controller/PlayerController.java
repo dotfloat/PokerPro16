@@ -14,23 +14,8 @@ public class PlayerController extends Controller<PlayerModel, PlayerView> {
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
     public void update() {
 
-    }
-
-    @Override
-    public PlayerModel getModel() {
-        return null;
-    }
-
-    @Override
-    public PlayerView getView() {
-        return null;
     }
 
     public Action pollAction() {
