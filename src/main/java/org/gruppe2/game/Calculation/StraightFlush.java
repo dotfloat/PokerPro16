@@ -11,8 +11,6 @@ import java.util.Collection;
 public class StraightFlush {
 
     public static boolean canGetStraightFlush(Collection<Card> communityCards, Player p){
-
-
-        return false;
+        return Straight.canGetStraight(communityCards, p, true);
     }
 }

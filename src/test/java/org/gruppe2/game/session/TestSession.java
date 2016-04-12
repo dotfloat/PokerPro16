@@ -17,7 +17,7 @@ public abstract class TestSession extends Session {
 
     }
 
-    @Override
+    //@Override
     public boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler) {
         return false;
     }
