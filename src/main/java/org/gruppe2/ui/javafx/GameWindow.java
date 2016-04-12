@@ -71,7 +71,10 @@ public class GameWindow extends BorderPane {
         playerCard1.setLayoutY(height * 0.77);
         playerCard2.setLayoutX(width * 0.88);
         playerCard2.setLayoutY(height * 0.77);
-
+        playerCard1.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.80));
+        playerCard1.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.77));
+        playerCard2.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.88));
+        playerCard2.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.77));
         playerCard1.setFitWidth(width * 0.12);
         playerCard1.setPreserveRatio(true);
         playerCard1.setSmooth(true);
@@ -80,6 +83,8 @@ public class GameWindow extends BorderPane {
         playerCard2.setFitWidth(width * 0.12);
         playerCard2.setPreserveRatio(true);
         playerCard2.setSmooth(true);
+        playerCard2.fitWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.12));
 
         playerCard1.setRotate(350);
         playerCard2.setRotate(5);
