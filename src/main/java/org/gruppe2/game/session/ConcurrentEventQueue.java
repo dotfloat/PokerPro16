@@ -2,33 +2,40 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.event.EventHandler;
+import org.gruppe2.game.model.Model;
 
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *
  */
-class ConcurrentEventQueue {
-    private Map<Class<?>, List<EventHandler<Event>>> handlerMap = new HashMap<>();
-    private ConcurrentLinkedQueue<Map.Entry<Class<?>, Event>> queue = new ConcurrentLinkedQueue<>();
+public class ConcurrentEventQueue {
+    private Map<Class<?>, List<EventMapEntry>> handlerMap = Collections.synchronizedMap(new HashMap<>());
+    private ConcurrentLinkedQueue<EventQueueEntry> queue = new ConcurrentLinkedQueue<>();
 
     /**
-     * Register a new EventHandler for to handle certain events
+     * Register a new EventHandler to handle certain events
+     *
      * @param klass The Class object of the event class. ex: PlayerJoinEvent.class
-     * @param handler
-     * @param <T>
+     * @param handler handler which will be called when the event occurs
+     * @param model model to handle the event for or null to handle for any model
      */
-    <T extends Event> void registerHandler(Class<T> klass, EventHandler<T> handler) {
-        List<EventHandler<Event>> list = handlerMap.get(klass);
+    public <E extends Event, M extends Model> void registerHandler(Class<E> klass, M model, EventHandler<E> handler) {
+        List<EventMapEntry> list = handlerMap.get(klass);
 
         if (list == null) {
             list = new ArrayList<>();
             handlerMap.put(klass, list);
         }
 
-        //noinspection unchecked
-        list.add((EventHandler<Event>) handler);
+        list.add(new EventMapEntry(model, (EventHandler<Event>) handler));
+    }
+
+    public <E extends Event, M extends Model> void registerHandler(Class<E> klass, EventHandler<E> handler) {
+        registerHandler(klass, null, handler);
     }
 
     /**
@@ -39,24 +46,32 @@ class ConcurrentEventQueue {
      * @param klass The Class object of the event class. ex: PlayerJoinEvent.class
      * @param event An event object
      */
-    <T extends Event> void addEvent(Class<T> klass, T event) {
-        queue.add(new AbstractMap.SimpleEntry<>(klass, event));
+    public <E extends Event, M extends Model> void addEvent(Class<E> klass, M model, E event) {
+        queue.add(new EventQueueEntry(klass, model, event));
+    }
+
+    public <E extends Event> void addEvent(Class<E> klass, E event) {
+        addEvent(klass, null, event);
     }
 
     /**
      * Iterate over new events and send them out to their respective handlers
      */
-    void process() {
-        Map.Entry<Class<?>, Event> entry;
+    public void process() {
+        EventQueueEntry queueEntry;
 
-        while ((entry = queue.poll()) != null) {
-            List<EventHandler<Event>> handlerList = handlerMap.get(entry.getKey());
+        while ((queueEntry = queue.poll()) != null) {
+            List<EventMapEntry> handlerList = handlerMap.get(queueEntry.getEventClass());
 
             if (handlerList == null)
                 continue;
 
-            for (EventHandler<Event> handler : handlerList)
-                handler.handle(entry.getValue());
+            for (EventMapEntry handlerEntry : handlerList) {
+                if (handlerEntry.getModel() != null && !queueEntry.getModel().equals(handlerEntry.getModel()))
+                    continue;
+
+                handlerEntry.getHandler().handle(queueEntry.getEvent());
+            }
         }
     }
 

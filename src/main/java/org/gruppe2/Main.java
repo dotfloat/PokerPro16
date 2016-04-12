@@ -1,17 +1,17 @@
 package org.gruppe2;
 
 import javafx.application.Application;
+import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.console.ConsoleClient;
 import org.gruppe2.ui.javafx.PokerApplication;
-import org.gruppe2.ui.old_javafx.GUI;
 
 public class Main {
     private enum EntryPoint {
-        CONSOLE, OLD_JAVAFX, JAVAFX
+        CONSOLE, NEW_CONSOLE, JAVAFX
     }
 
     private static EntryPoint entryPoint = EntryPoint.JAVAFX;
-	public static boolean autostart = false;
+    private static boolean autostart = false;
 
     public static void main(String[] args) {
         parseArgs(args);
@@ -20,9 +20,11 @@ public class Main {
             case CONSOLE:
                 ConsoleClient.launch();
                 break;
-            case OLD_JAVAFX:
-                Application.launch(GUI.class, args);
+
+            case NEW_CONSOLE:
+                new ConsoleApplication().run();
                 break;
+
             case JAVAFX:
                 Application.launch(PokerApplication.class, args);
                 break;
@@ -38,19 +40,22 @@ public class Main {
                     entryPoint = EntryPoint.CONSOLE;
                     break;
 
-                case "--old-javafx":
-                case "--old-gui":
-                case "-o":
-                    entryPoint = EntryPoint.OLD_JAVAFX;
-                    break;
                 case "--autostart":
-                	autostart = true;
-                	break;
-                    
+                    autostart = true;
+                    break;
+
+                case "--new-console":
+                    entryPoint = EntryPoint.NEW_CONSOLE;
+                    break;
+
                 default:
                     System.out.println("Unknown argument: " + arg);
                     break;
             }
         }
+    }
+
+    public static boolean isAutostart() {
+        return autostart;
     }
 }

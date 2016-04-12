@@ -1,55 +1,66 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.GameState;
-import org.gruppe2.game.controller.AbstractPlayerController;
+import org.gruppe2.game.event.Event;
+import org.gruppe2.game.model.Model;
+import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.view.View;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SessionContext {
-    private Session session;
+    private final Session session;
 
-    private ConcurrentEventQueue eventQueue = new ConcurrentEventQueue();
+    private final ConcurrentEventQueue eventQueue = new ConcurrentEventQueue();
+    private final Map<Class<? extends View>, View> viewMap = Collections.synchronizedMap(new HashMap<>());
 
     SessionContext(Session session) {
         this.session = session;
-        this.session.getEventQueue().registerQueue(eventQueue);
+
+        session.getEventQueue().registerQueue(eventQueue);
     }
 
-    ConcurrentEventQueue getEventQueue() {
+    public ConcurrentEventQueue getEventQueue() {
         return eventQueue;
     }
 
-    /**
-     * Get the number of spectators that are connected
-     * @return spectator count
-     */
-    public int getSpectatorCount() {
-        return session.getSpectatorCount().get();
+    public <M extends Model> List<M> getModels(Class<M> klass) {
+        return session.getModels(klass);
     }
 
-    /**
-     * Add a new spectator (ie. increment the count)
-     * @return old spectator count
-     */
-    public int addSpectator() {
-        return session.getSpectatorCount().getAndIncrement();
+    public <M extends Model> M getModel(Class<M> klass) {
+        return session.getModel(klass);
     }
 
-    /**
-     * Remove a spectator (ie. decrement the count)
-     * @return old spectator count
-     */
-    public int removeSpectator() {
-        return session.getSpectatorCount().getAndDecrement();
+    public <V extends View> V getView(Class<V> klass) {
+        View view = viewMap.get(klass);
+
+        if (view != null)
+            return (V) view;
+
+        try {
+            view = klass.newInstance();
+            view.setContext(this);
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        viewMap.put(klass, view);
+
+        return (V) view;
     }
 
-    public GameState getGameState() {
-        return session.getGameState();
+    public boolean addPlayer(PlayerModel model) {
+        return session.addPlayer(model);
     }
 
-    public boolean addPlayer(AbstractPlayerController controller) {
-        return session.addPlayer(controller);
+    public <E extends Event, M extends Model> void addEvent(Class<E> klass, M model, E event) {
+        session.getEventQueue().addEvent(klass, model, event);
     }
 
-    public int getMaxPlayers() {
-        return session.getMaxPlayers();
+    public <E extends Event> void addEvent(Class<E> klass, E event) {
+        session.getEventQueue().addEvent(klass, event);
     }
 }

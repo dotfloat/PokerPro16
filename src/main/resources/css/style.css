@@ -55,6 +55,7 @@
 .hbox {
     -fx-background-color: black;
     -fx-alignment: center;
+    -fx-spacing: 20px;
     -fx-vgap: 20px;
     -fx-padding:10px;
 }
@@ -87,16 +88,10 @@
 .root {
     -fx-background-color: black;
 }
-
-.scroll.pane {
-    -fx-background-color: transparent;
-    -fx-position-shape: false;
-    -fx-text-fill: #0099ff;
-    -fx-font-weight: bold;
-    -fx-font: 20px "sans-serif";
-    -fx-background-color: #333333;
-    -fx-background-radius: 15px;
-    -fx-effect: innershadow(gaussian, #595959, 2, 0, 0, 4);
+.rightMenu {
+    -fx-background-color: black;
+    -fx-padding: 20;
+    -fx-spacing: 20;
 }
 
 .slider {
@@ -144,13 +139,76 @@
     -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
 }
 
-#table {
-    -fx-background-image: url("/images/ui/PokerTableWithLogo.png");
-    -fx-background-size: 1280 786;
-    -fx-background-repeat: stretch;
-    -fx-background-position: center center;
-}
 .vbox {
     -fx-background-color: transparent;
     -fx-vgap: 10px;
+}
+.menuButton {
+    -fx-background-color: black;
+    -fx-min-width: 60px;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-max-width: 60px;
+    -fx-background-image: url("/images/ui/menu.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 40px;
+}
+
+.menuButton:selected {
+    -fx-background-color: #1a1a1a;
+    -fx-effect: innershadow(gaussian, #0d0d0d, 2, 0, 0, 4);
+}
+.menuButton:hover {
+    -fx-background-color: #262626;
+    -fx-effect: innershadow(gaussian, #404040, 2, 0, 0, 4);
+}
+.lobby {
+    -fx-padding: 10px;
+    -fx-background-radius: 20px;
+    -fx-background-color: black;
+    -fx-effect: dropshadow(gaussian, black, 100, 0.08, 0, 0);
+}
+
+.lobbyTiles {
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+    -fx-background-color: #1a1a1a;
+    -fx-background-size: 150px;
+    -fx-background-repeat: repeat;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: rgba(0,0,0,0.5);
+}
+
+.scroll-pane {
+    -fx-background-color: rgba(0,0,0.0.5);
+    -fx-border-color: black;
+    -fx-border-width: 5px;
+}
+.scroll-bar:vertical {
+    -fx-background-color: #333333;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #0099ff;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #33adff;
+}
+
+.scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #007acc;
+}
+
+.text-area {
+    -fx-text-alignment: left;
+    -fx-text-fill: #33adff;
+    -fx-background-color: black;
+}
+.text-area .content {
+    -fx-background-color: transparent;
+    -fx-border-width: 0px;
 }

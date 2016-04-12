@@ -1,11 +1,11 @@
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import org.gruppe2.ui.javafx.RightMenu?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.Intro"
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml"
             stylesheets="/css/style.css" onMouseClicked="#goToMenu" fx:id="borderPane">
 
     <top>
@@ -21,9 +21,5 @@
         <Label fx:id="clickToContinue" text="Click to continue"/>
     </center>
 
-    <bottom>
 
-    </bottom>
-
-
-</BorderPane>
+</fx:root>

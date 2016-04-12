@@ -11,7 +11,7 @@ import org.gruppe2.ui.javafx.PokerApplication;
  */
 public class Player {
 
-    String name; String getName() {return name;}
+    String name; public String getName() {return name;}
 
     // temporary points for testing
     // ui stuff, perhaps best in ui-package?
@@ -57,4 +57,8 @@ public class Player {
         }
         this.x = game.getWidth();
     }
+
+	public String getStack() {
+		return "0";
+	}
 }

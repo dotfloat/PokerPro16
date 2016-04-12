@@ -6,6 +6,7 @@ public class PlayerModel implements Model {
     private final UUID uuid;
     private final String name;
     private final String avatar;
+    private volatile int bank;
 
     public PlayerModel(UUID uuid, String name, String avatar) {
         this.uuid = uuid;
@@ -13,7 +14,7 @@ public class PlayerModel implements Model {
         this.avatar = avatar;
     }
 
-    public UUID getUuid() {
+    public UUID getUUID() {
         return uuid;
     }
 

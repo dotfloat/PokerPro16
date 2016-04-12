@@ -5,76 +5,66 @@
 
 package org.gruppe2.ui.javafx;
 
-import java.net.URL;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.gruppe2.Main;
 
 public class PokerApplication extends Application {
 	private static int width;
 	private static int height;
 
     private static int numberOfPlayers; // Should reside in model / game?
+    private Scene scene;
+    private static StackPane root = new StackPane(); // Setting global root. Will only change scenes
 
-    // Setting global root. Will only change scenes
-    private static BorderPane root = new BorderPane();
-
-    // Controllers will need to get current root to change scenes
-    public static BorderPane getRoot() {
+    /** Controllers will need to get current root to change scenes
+     * @return root
+     */
+    public static StackPane getRoot() {
         return root;
     }
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        // Lets load startValues from settings-file or something...
-    	startValues();
-        stage.setTitle("PokerPro16");
-
-
-        /**
-         * Menu-bar always present in main stage
-         * Let's pretend this is just temporary
-         */
-        URL menuUrl = getClass().getResource("/views/MenuBar.fxml");
-        MenuBar menu = FXMLLoader.load( menuUrl );
-        root.setTop( menu );
-
-
-        /**
-         * Set start-scene to intro
-         *
-         * when changing scenes later, use SceneController.setScene()
-         * Mvh Kjetil
-         */
-        URL introSceneUrl = getClass().getResource("/views/Intro.fxml");
-        SceneController.setScene( introSceneUrl );
-
-
-        /**
-         * Set up stage
-         *
-         * No global stylesheet in javaFX 8 stage, only on every scene
-         */
-        Scene scene = new Scene(root, width, height);
-        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-
-        stage.setScene(scene);
-        stage.show();
+    	startValues(stage);
+        setStartScene(stage); 
     }
 
-	private void startValues() {
+	private void startValues(Stage stage) {
 		width = 1280;
 		height = 768;	
+		stage.setTitle("PokerPro16");
+		stage.getIcons().add(new Image("/images/ui/icon.png"));
 	}
+	
 	public static int getWidth(){
 		return width;
 	}
+	
 	public static int getHeight(){
 		return height;
+	}
+	
+	/**
+     * Set up scene and stage
+     * Starts the intro
+     * No global stylesheet in javaFX 8 stage, only on every scene
+     */
+	private void setStartScene(Stage stage){
+		if(Main.isAutostart())
+			root.getChildren().add(new GameWindow());
+		else
+			root.getChildren().add(new Intro());
+		
+		scene = new Scene(root, width, height);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
 	}
 
     public static int getNumberOfPlayers() { return numberOfPlayers;}
