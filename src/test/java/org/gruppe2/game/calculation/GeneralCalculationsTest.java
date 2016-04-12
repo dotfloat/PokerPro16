@@ -1,8 +1,9 @@
-package org.gruppe2.game.Calculation;
+package org.gruppe2.game.calculation;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
 
+import org.gruppe2.game.calculation.GeneralCalculations;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 import org.junit.Test;
@@ -10,7 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 /**
- * Created by Åsmund on 11/04/2016.
+ * Created by ï¿½smund on 11/04/2016.
  */
 public class GeneralCalculationsTest{
 
