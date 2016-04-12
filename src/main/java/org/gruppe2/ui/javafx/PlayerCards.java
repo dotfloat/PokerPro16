@@ -11,7 +11,7 @@ import org.gruppe2.ui.Resources;
 
 public class PlayerCards extends Pane {
 	private int width = PokerApplication.getWidth();
-		
+	private boolean firstSet = true;	
 	@FXML ImageView playerCard1;
 	@FXML ImageView playerCard2;
 	
@@ -33,21 +33,7 @@ public class PlayerCards extends Pane {
 		playerCard2.setImage(new Image(("/images/cards/"
 				+ communityCardsBox.getCardName(player.getCard2()) + ".png")));
 		
-		
-		playerCard1.setFitWidth(width * 0.12);
-		playerCard1.setPreserveRatio(true);
-		playerCard1.setSmooth(true);
-		playerCard1.fitWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.12));
-		
-		playerCard2.setFitWidth(width * 0.12);
-		playerCard2.setPreserveRatio(true);
-		playerCard2.setSmooth(true);
-		playerCard2.fitWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.12));
-
-		playerCard1.setRotate(350);
-		playerCard2.setRotate(20);
+		checkFirstSet();
 	}
 	
 	private void setPaneStyle(){
@@ -56,5 +42,27 @@ public class PlayerCards extends Pane {
 		this.layoutYProperty().bind(
 				PokerApplication.getRoot().heightProperty().multiply(0.77));
 
+	}
+	/**
+	 * First time needs to set layout
+	 */
+	private void checkFirstSet(){
+		if(firstSet){
+			playerCard1.setFitWidth(width * 0.12);
+			playerCard1.setPreserveRatio(true);
+			playerCard1.setSmooth(true);
+			playerCard1.fitWidthProperty().bind(
+					PokerApplication.getRoot().widthProperty().multiply(0.12));
+			
+			playerCard2.setFitWidth(width * 0.12);
+			playerCard2.setPreserveRatio(true);
+			playerCard2.setSmooth(true);
+			playerCard2.fitWidthProperty().bind(
+					PokerApplication.getRoot().widthProperty().multiply(0.12));
+	
+			playerCard1.setRotate(350);
+			playerCard2.setRotate(20);
+			firstSet = false;
+		}
 	}
 }

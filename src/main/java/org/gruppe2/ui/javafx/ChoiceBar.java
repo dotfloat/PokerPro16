@@ -49,11 +49,12 @@ public class ChoiceBar extends HBox {
 	}
 
 	@FXML
-	public void setEvents(GUIPlayer client, Player player) {
+	public void setEvents(GUIPlayer client) {
 		this.client = client;
-		this.player = player;
+		this.player = client.getSession().getPlayers().get(0);
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
+
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable,
@@ -61,7 +62,34 @@ public class ChoiceBar extends HBox {
 				sliderValue.textProperty().setValue(checkMaxBid(slider));
 			}
 		});
+		setKeyListener();
 	}
+
+	/**
+	 * 
+	 * Makes it possible to use keys to play, instead of mouse
+	 */
+
+	@SuppressWarnings("incomplete-switch")
+
+    private void setKeyListener() {
+        chatField.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                       slider.setValue(slider.getValue() * 2);
+                    break;
+                case DOWN:
+                    slider.setValue(slider.getValue() / 2);
+                    break;
+                case LEFT:
+                	foldAction();
+                    break;
+                case RIGHT:
+                	betAction();
+                    break;
+            }
+        });
+    }
 
 	/**
 	 * This will become fxml
@@ -78,10 +106,10 @@ public class ChoiceBar extends HBox {
 
 		if (pa.canRaise() && slider.getValue() > 1)
 			raise(client, slider, player);
-		else if (pa.canCall())
-			client.setAction(new Action.Call());
 		else if (pa.canCheck())
 			client.setAction(new Action.Check());
+		else if (pa.canCall())
+			client.setAction(new Action.Call());
 	}
 
 	private void raise(GUIPlayer client, Slider raiseSlider, Player player) {
@@ -114,8 +142,7 @@ public class ChoiceBar extends HBox {
 	 * @param player
 	 */
 	public void updatePossibleBarsToClick(Player player) {
-		PossibleActions pa = player.getClient().getSession()
-				.getPlayerOptions(player);
+		PossibleActions pa = client.getSession().getPlayerOptions(player);
 		if (pa.canCall())
 			BET.setText("Call");
 
