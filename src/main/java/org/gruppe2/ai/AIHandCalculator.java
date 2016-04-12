@@ -19,15 +19,13 @@ public class AIHandCalculator {
 	 * Simulates x number of rounds with the current AI hand to return how many 
 	 * of the rounds the AI will win with current hand
 	 * @param table
-	 * @param players
-	 * @param ai
+	 * @param player
 	 * @return double handStrength
 	 */
 	public static double getHandStrength(Table table, Player player){
 		if (table==null)
 			return 0;
 		double handStrength=0;
-		System.out.println(table.getCommunityCards());
 		//int numActivePlayers = player.getClient().getSession().numActivePlayers();
 		int numActivePlayers = 4;
 		List<Card> cardsToRemove = table.getCommunityCards();
@@ -47,7 +45,7 @@ public class AIHandCalculator {
 				}
 				numberOfCards++;
 				mockTable.setCard(new Card(c.getFaceValue(),c.getSuit()));
-				System.out.println("Table should have this card added: " + c);
+				//System.out.println("Table should have this card added: " + c);
 			}
 			int drawsLeft = 5-numberOfCards;
 			for (int j = 0; j < drawsLeft; j++){
@@ -71,12 +69,6 @@ public class AIHandCalculator {
 			
 			
 			newPlayers.add(player1);
-			for (Player p : newPlayers){
-				System.out.println("\n\n\n");
-				System.out.println(p.getCard1());
-				System.out.println(p.getCard2());
-				System.out.println(p.getClient().getSession().getTable().getCommunityCards());
-			}
 			ArrayList<Player> winners = se.getWinnerOfRound(newPlayers);
 			for (Player p1 : winners){
 				if (p1.getName().equals(player.getName())){
@@ -85,7 +77,7 @@ public class AIHandCalculator {
 				}
 					
 			}
-			System.out.println("Winners of round "+ i + ": " + winners.size() );
+			//System.out.println("Winners of round "+ i + ": " + winners.size() );
 		}
 		System.out.println(numberOfWins);
 		numberOfWins*=1.0;
@@ -113,9 +105,10 @@ class AIMockPlayer extends Player {
 }
 
 class AIMockGameClient extends GameClient {
-	MockGameSession mocksession;
+	GameSession mocksession;
 	
-	public void setSession(MockGameSession session){
+	@Override
+	public void setSession(GameSession session){
 		mocksession = session;
 	}
 	
@@ -151,33 +144,23 @@ class AIMockTable extends Table {
     
     public void setCard(Card c){
     	if (c1==null){
-    		System.out.println("Table added this card: " +c);
     		c1=c;
-    		System.out.println("Table added this card: " +c1);
     		return;
     	}
     	if (c2==null){
-    		System.out.println("Table added this card: " +c);
     		c2=c;
-    		System.out.println("Table added this card: " +c2);
     		return;
     	}
     	if (c3==null){
-    		System.out.println("Table added this card: " +c);
     		c3=c;
-    		System.out.println("Table added this card: " +c3);
     		return;
     	}
     	if (c4==null){
-    		System.out.println("Table added this card: " +c);
     		c4=c;
-    		System.out.println("Table added this card: " +c4);
     		return;
     	}
     	if (c5==null){
-    		System.out.println("Table added this card: " +c);
     		c5=c;
-    		System.out.println("Table added this card: " +c5);
     		return;
     	}
     	
@@ -195,12 +178,10 @@ class AIMockTable extends Table {
     public List<Card> getCommunityCards() {
         ArrayList<Card> list = new ArrayList<Card>();
         list.add(c1);
-        System.out.println("dette kortet burde ikke være null......."+c1);
         list.add(c2);
         list.add(c3);
         list.add(c4);
         list.add(c5);
-        System.out.println("Listen skal ikke være null her: " + list);
         return list;
     }
 }
