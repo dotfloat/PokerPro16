@@ -1,4 +1,4 @@
-package org.gruppe2.game.Calculation;
+package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;

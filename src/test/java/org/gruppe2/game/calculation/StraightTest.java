@@ -1,6 +1,6 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.Calculation.Straight;
+import org.gruppe2.game.calculation.Straight;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 import org.junit.Before;

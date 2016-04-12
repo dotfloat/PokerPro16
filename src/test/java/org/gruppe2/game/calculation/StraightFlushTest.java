@@ -1,6 +1,6 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.Calculation.StraightFlush;
+import org.gruppe2.game.calculation.StraightFlush;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 import org.junit.Test;
