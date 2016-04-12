@@ -52,6 +52,9 @@ public class MainMenu extends BorderPane {
 	public void goToLobby(){
 		SceneController.setScene(new Lobby());
 	}
+	public void goToStatistics(){
+		SceneController.setScene(new Statistics());
+	}
 	
 	public void goToSettings(){
 		SceneController.setScene(new Settings());
