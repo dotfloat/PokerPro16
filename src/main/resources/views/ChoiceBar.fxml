@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-
-
 <fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" styleClass="hbox" spacing="20">
 	
-		<TextField fx:id="chatField" prefWidth="200" />
+		<TextField fx:id="chatField"/>
 		<Button fx:id="FOLD" text="FOLD" id="button" />
 		<Slider fx:id="slider" id="slider" prefWidth="500" />
 		<Label fx:id="sliderValue" text="0 CHIPS" id="label"/>

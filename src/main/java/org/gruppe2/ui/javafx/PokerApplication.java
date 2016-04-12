@@ -40,6 +40,7 @@ public class PokerApplication extends Application {
 		height = 768;	
 		stage.setTitle("PokerPro16");
 		stage.getIcons().add(new Image("/images/ui/icon.png"));
+		stage.setOnCloseRequest(e -> System.exit(1));
 	}
 	
 	public static int getWidth(){

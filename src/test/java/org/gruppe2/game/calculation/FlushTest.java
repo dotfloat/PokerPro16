@@ -1,9 +1,7 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.Calculation.Flush;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class FlushTest {
         cards.add(new Card(8, Card.Suit.HEARTS));
         cards.add(new Card(9, Card.Suit.HEARTS));
 
-        HashMap<Card.Suit, Integer> nt = Flush.numberOfEachType(cards);
+        HashMap<Card.Suit, Integer> nt = GeneralCalculations.numberOfEachType(cards);
         assertEquals(3, (int) nt.get(Card.Suit.HEARTS));
         assertEquals(1, (int) nt.get(Card.Suit.CLUBS));
         assertEquals(1, (int) nt.get(Card.Suit.SPADES));

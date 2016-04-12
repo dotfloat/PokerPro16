@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
-import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -22,168 +19,132 @@ import org.gruppe2.ui.Resources;
  * buttons must be one class, etc..
  */
 public class GameWindow extends BorderPane {
-    private int width = PokerApplication.getWidth();
-    private int height = PokerApplication.getHeight();
-    public int bigBlind = 50;
-    public int smallBlind = 25;
-    public int startValue = 500;
-    ArrayList<Player> players = new ArrayList<Player>();
-    List<Pane> playerInfoBoxes = new ArrayList<Pane>();
-    GUIPlayer guiPlayer;
-    Thread th;
 
-    GameSession gameSession;
-    CommunityCards communityCardsBox;
-    Player yourself;
+	private int width = PokerApplication.getWidth();
+	private int height = PokerApplication.getHeight();
+	public int bigBlind = 50;
+	public int smallBlind = 25;
+	public int startValue = 500;
+	ArrayList<Player> players = new ArrayList<Player>();
+	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
+	GUIPlayer guiPlayer;
+	Thread th;
 
-    @FXML
-    private ImageView playerCard1;
-    @FXML
-    private ImageView playerCard2;
-    @FXML
-    private Table table;
-    @FXML
-    private ChoiceBar choiceBar;
+	GameSession gameSession;
+	CommunityCards communityCardsBox;
+	Player yourself;
 
+	@FXML
+	public Pane playerCards;
+	@FXML
+	private Table table;
+	@FXML
+	private ChoiceBar choiceBar;
+	
 
-    public GameWindow() {
-        Resources.loadFXML(this);
+	public GameWindow() {
+		Resources.loadFXML(this);
 
-        ((ChatBox) table.getChildren().get(2))
-                .setEventListeners((TextField) choiceBar.getChildren().get(0));
-        communityCardsBox = table.communityCardsBox;
-        testGame();
-    }
+		((ChatBox) table.getChildren().get(2))
+				.setEventListeners((TextField) choiceBar.getChildren().get(0));
+		communityCardsBox = table.communityCardsBox;
+		testGame();
+	}
 
+	/**
+	 * This is for testing
+	 */
 
-    /**
-     * This is just test method for proof of conecpt, change this when backend
-     * is ready with playerCards.
-     */
-    public void setPlayerCards() {
-        Player player = gameSession.getPlayers().get(0);
-        playerCard1.setImage(new Image(("/images/cards/" + communityCardsBox.getCardName(player.getCard1()) + ".png")));
-        playerCard2.setImage(new Image(("/images/cards/" + communityCardsBox.getCardName(player.getCard2()) + ".png")));
-        playerCard1.setLayoutX(width * 0.80);
-        playerCard1.setLayoutY(height * 0.77);
-        playerCard2.setLayoutX(width * 0.88);
-        playerCard2.setLayoutY(height * 0.77);
-        playerCard1.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.80));
-        playerCard1.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.77));
-        playerCard2.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.88));
-        playerCard2.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.77));
-        playerCard1.setFitWidth(width * 0.12);
-        playerCard1.setPreserveRatio(true);
-        playerCard1.setSmooth(true);
-        playerCard1.fitWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.12));
-        playerCard2.setFitWidth(width * 0.12);
-        playerCard2.setPreserveRatio(true);
-        playerCard2.setSmooth(true);
-        playerCard2.fitWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.12));
+	public void setUpPlayerBoxes() {
 
-        playerCard1.setRotate(350);
-        playerCard2.setRotate(5);
-    }
+		for (Player player : gameSession.getPlayers()) {
+			players.add(player);
+			PlayerInfoBox playerInfoBox = new PlayerInfoBox();
+			playerInfoBoxes.add(playerInfoBox);
+			playerInfoBox.setValues(player);
+		}
+		System.out.println("Players size: " + players.size());
+		paintAllPlayers(playerInfoBoxes);
+	}
 
-    /**
-     * This is for testing
-     */
+	public void paintAllPlayers(List<Pane> playerInfoBoxes) {
 
-    public void setUpPlayerBoxes() {
+		int numberOfPlayers = playerInfoBoxes.size();
+		if (numberOfPlayers > 4)
+			paintPlayerInfoBox(playerInfoBoxes.get(4), 0.3, 0.001);
+		if (numberOfPlayers > 8)
+			paintPlayerInfoBox(playerInfoBoxes.get(8), 0.45, 0.001);
+		if (numberOfPlayers > 5)
+			paintPlayerInfoBox(playerInfoBoxes.get(5), 0.6, 0.002);
+		if (numberOfPlayers > 2)
+			paintPlayerInfoBox(playerInfoBoxes.get(2), 0.13, 0.001);
+		if (numberOfPlayers > 3)
+			paintPlayerInfoBox(playerInfoBoxes.get(3), 0.77, 0.001);
+		if (numberOfPlayers > 6)
+			paintPlayerInfoBox(playerInfoBoxes.get(6), 0.05, 0.2);
+		if (numberOfPlayers > 7)
+			paintPlayerInfoBox(playerInfoBoxes.get(7), 0.8, 0.2);
+		if (numberOfPlayers > 0)
+			paintPlayerInfoBox(playerInfoBoxes.get(0), 0.03, 0.45);
+		if (numberOfPlayers > 1)
+			paintPlayerInfoBox(playerInfoBoxes.get(1), 0.82, 0.45);
+	}
 
-        for (Player player : gameSession.getPlayers()) {
-            players.add(player);
-            PlayerInfoBox playerInfoBox = new PlayerInfoBox();
-            playerInfoBoxes.add(playerInfoBox);
-            playerInfoBox.setValues(player);
-        }
-        System.out.println("Players size: " + players.size());
-        paintAllPlayers(playerInfoBoxes);
-    }
+	public void paintPlayerInfoBox(Pane playerInfoBox, double x, double y) {
 
-    public void paintAllPlayers(List<Pane> playerInfoBoxes) {
-        
-    	
-        int numberOfPlayers = playerInfoBoxes.size();
-        if (numberOfPlayers > 3)
-            paintPlayerInfoBox(playerInfoBoxes.get(3), 0.3, 0.001);
-        if (numberOfPlayers > 4)
-            paintPlayerInfoBox(playerInfoBoxes.get(4), 0.45, 0.001);
-        if (numberOfPlayers > 5)
-            paintPlayerInfoBox(playerInfoBoxes.get(5), 0.6,
-            		0.002);
-        if (numberOfPlayers > 2)
-            paintPlayerInfoBox(playerInfoBoxes.get(2), 0.13, 0.001);
-        if (numberOfPlayers > 6)
-            paintPlayerInfoBox(playerInfoBoxes.get(6), 0.77,
-            		0.001);
-        if (numberOfPlayers > 1)
-            paintPlayerInfoBox(playerInfoBoxes.get(1), 0.05, 0.2);
-        if (numberOfPlayers > 7)
-            paintPlayerInfoBox(playerInfoBoxes.get(7), 0.8,
-            		0.2);
-        if (numberOfPlayers > 0)
-            paintPlayerInfoBox(playerInfoBoxes.get(0), 0.03, 0.45);
-        if (numberOfPlayers > 8)
-            paintPlayerInfoBox(playerInfoBoxes.get(8), 0.81,
-            		0.45);
-    }
+		playerInfoBox.setLayoutX(x * width);
+		playerInfoBox.setLayoutY(y * height);
+		System.out.println(x + " " + y);
+		playerInfoBox.maxWidthProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(0.05));
+		playerInfoBox.maxHeightProperty().bind(
+				PokerApplication.getRoot().heightProperty().multiply(0.05));
 
-    public void paintPlayerInfoBox(Pane playerInfoBox, double x, double y) {
-        
-    	playerInfoBox.setLayoutX(x*width);
-        playerInfoBox.setLayoutY(y*height);
-        System.out.println(x+" "+ y);
-        playerInfoBox.maxWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.05));
-         playerInfoBox.maxHeightProperty().bind(
-                 PokerApplication.getRoot().heightProperty().multiply(0.05));
-        
-        playerInfoBox.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(x));
-        playerInfoBox.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(y));
-        
-        getChildren().add(playerInfoBox);
-    }
+		playerInfoBox.layoutXProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(x));
+		playerInfoBox.layoutYProperty().bind(
+				PokerApplication.getRoot().heightProperty().multiply(y));
 
-    /**
-     * Test game for watching game
-     */
-    private void testGame() {
+		getChildren().add(playerInfoBox);
+	}
 
-        addYourSelf();
-        gameSession = new GameBuilder().ai(8).blinds(bigBlind, smallBlind)
-                .startMoney(startValue).mainClient(guiPlayer).build();
+	/**
+	 * Test game for watching game
+	 */
+	private void testGame() {
 
+		addYourSelf();
+		gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
+				.startMoney(startValue).mainClient(guiPlayer).build();
 
-        setUpPlayerBoxes();
-        // mainFrame.drawPot();
-        
-        th = new Thread(() -> gameSession.mainLoop());
-        th.start();
+		setUpPlayerBoxes();
+		// mainFrame.drawPot();
 
-    }
+		th = new Thread(() -> gameSession.mainLoop());
+		th.start();
 
-    public void updateGameWindow(Player player) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                for (Pane playerInfoBox : playerInfoBoxes) {
-                    ((PlayerInfoBox) playerInfoBox).updateInfoBox();
-                }
-                choiceBar.updatePossibleBarsToClick(player);
-            }
-        });
-    }
+	}
 
-    private void addYourSelf() {
-        guiPlayer = new GUIPlayer(this);
-        yourself = new Player("Person", startValue, guiPlayer);
-        players.add(yourself);
-        choiceBar.setEvents(guiPlayer, yourself);
-    }
-    public Thread getThread(){
+	public void updateGameWindow(Player player) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for (Pane playerInfoBox : playerInfoBoxes) {
+					((PlayerInfoBox) playerInfoBox).updateInfoBox();
+				}
+				choiceBar.updatePossibleBarsToClick(player);
+			}
+		});
+	}
+
+	private void addYourSelf() {
+		guiPlayer = new GUIPlayer(this);
+		yourself = new Player("Person", startValue, guiPlayer);
+		players.add(yourself);
+		choiceBar.setEvents(guiPlayer, yourself);
+	}
+
+	public Thread getThread() {
 		return th;
-    }
+	}
 }

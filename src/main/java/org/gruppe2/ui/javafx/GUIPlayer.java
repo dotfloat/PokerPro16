@@ -31,8 +31,9 @@ public class GUIPlayer extends GameClient {
 	@Override
 	public void onRoundStart() {
 		Platform.runLater(() -> {
-			gameWindow.setPlayerCards();
-			System.out.println("roundStartTest");
+			
+			((PlayerCards) gameWindow.playerCards).setPlayerCards(gameWindow.gameSession, communityCards);
+			
 		});
 	}
 
@@ -122,6 +123,5 @@ public class GUIPlayer extends GameClient {
 		System.out.println(player + " won the game!");
 		onRoundEnd();
 		// gui.getMainFrame().playerWons(player);
-
 	}
 }

@@ -1,4 +1,4 @@
-package org.gruppe2.game.Calculation;
+package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
@@ -25,4 +25,9 @@ public interface HandCalculation {
      * @return The probability in the form of a double
      */
     double handProbability(Collection<Card> communityCards, Player p);
+
+    /**
+     * @return The hand type
+     */
+    HandType getType();
 }

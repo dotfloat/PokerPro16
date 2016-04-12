@@ -1,4 +1,4 @@
-package org.gruppe2.game.Calculation;
+package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * Created by Mikal on 11.04.2016.
  */
-public class RoyalFlush implements HandCalculation{
+public class RoyalFlush implements HandCalculation {
 
     public static boolean canGetRoyalFlush(Collection<Card> communityCards, Player p){
         if (communityCards.size() == 0)
@@ -28,7 +28,7 @@ public class RoyalFlush implements HandCalculation{
         if (allRoyalCards.size() < communityCards.size())
             return false;
 
-        HashMap<Card.Suit, Integer> numTypes = Flush.numberOfEachType(allRoyalCards);
+        HashMap<Card.Suit, Integer> numTypes = GeneralCalculations.numberOfEachType(allRoyalCards);
 
         for (int i : numTypes.values())
             if (i >= communityCards.size())
@@ -56,5 +56,10 @@ public class RoyalFlush implements HandCalculation{
     @Override
     public double handProbability(Collection<Card> communityCards, Player p) {
         return royalFlushProbability(communityCards, p);
+    }
+
+    @Override
+    public HandType getType() {
+        return HandType.ROYALFLUSH;
     }
 }
