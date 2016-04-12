@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public class Straight {
 
-    public boolean canGetStraight(Collection<Card> communityCards, Player p){
+    public static boolean canGetStraight(Collection<Card> communityCards, Player p, boolean sameSuit){
         if (communityCards.size() == 0)
             return true;
 
@@ -20,12 +20,12 @@ public class Straight {
         allCards.add(p.getCard2());
 
         for (int i = 0; i < allCards.size(); i++){
-            int length = checkWithOtherCards(allCards, i, allCards.get(i).getFaceValue());
+            int length = checkWithOtherCards(allCards, i, allCards.get(i).getFaceValue(), sameSuit);
 
             if (length >= communityCards.size())
                 return true;
             else if (allCards.get(i).getFaceValue() == 14){
-                length = checkWithOtherCards(allCards, i, 1);
+                length = checkWithOtherCards(allCards, i, 1, sameSuit);
                 if (length >= communityCards.size())
                     return true;
             }
@@ -34,36 +34,37 @@ public class Straight {
         return false;
     }
 
-    private int checkWithOtherCards(ArrayList<Card> allCards, int i, int faceValue){
+    private static int checkWithOtherCards(ArrayList<Card> allCards, int i, int faceValue, boolean sameSuit){
         int straightLength = 1;
-        int v1 = faceValue;
-        int high = v1 + 4;
-        int low = v1 - 4;
+        int high = faceValue + 4;
+        int low = faceValue - 4;
 
         for (int j = i+1; j < allCards.size(); j++){
             int v2 = allCards.get(j).getFaceValue();
 
-            if (v1 == v2)
+            if (faceValue == v2)
                 continue;
-            if (v2 < v1 && v2 >= low){
+            if (sameSuit && allCards.get(i).getSuit() != allCards.get(j).getSuit())
+                continue;
+            if (v2 < faceValue && v2 >= low){
                 straightLength++;
-                high -= (v1 - v2);
+                high -= (faceValue - v2);
             }
-            if (v2 > v1 && v2 <= high) {
+            if (v2 > faceValue && v2 <= high) {
                 straightLength++;
-                low += (v2 - v1);
+                low += (v2 - faceValue);
             }
 
             if (v2 == 14){
                 v2 = 1;
 
-                if (v2 < v1 && v2 >= low){
+                if (v2 < faceValue && v2 >= low){
                     straightLength++;
-                    high -= (v1 - v2);
+                    high -= (faceValue - v2);
                 }
-                if (v2 > v1 && v2 <= high) {
+                if (v2 > faceValue && v2 <= high) {
                     straightLength++;
-                    low += (v2 - v1);
+                    low += (v2 - faceValue);
                 }
             }
         }

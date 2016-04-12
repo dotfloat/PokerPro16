@@ -41,7 +41,7 @@ public class Main {
                     break;
 
                 case "--autostart":
-                    PokerApplication.degbugAutoStart = true;
+                    autostart = true;
                     break;
 
                 case "--new-console":
