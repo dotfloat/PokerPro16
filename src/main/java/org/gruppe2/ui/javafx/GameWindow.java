@@ -49,8 +49,7 @@ public class GameWindow extends BorderPane {
     public GameWindow() {
         Resources.loadFXML(this);
 
-        ((ChatBox) table.getChildren().get(2))
-                .setEventListeners((TextField) choiceBar.getChildren().get(0));
+        ((ChatBox) table.getChildren().get(2)).setEventListeners((TextField) choiceBar.getChildren().get(0));
         communityCardsBox = table.communityCardsBox;
         testGame();
     }

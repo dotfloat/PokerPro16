@@ -8,11 +8,9 @@ import javafx.scene.control.TextField;
 
 import org.gruppe2.ui.Resources;
 
-public class ChatBox extends ScrollPane {
+public class ChatBox extends TextArea {
 
 
-    @FXML
-    private TextArea textArea;
 
 
     public ChatBox() {
@@ -22,23 +20,24 @@ public class ChatBox extends ScrollPane {
 
 
     private void setPositionsAndSettings() {
-        double scale = 0.22;
-        this.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(scale));
-        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-        this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(scale));
-        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
+        double chatScale = 0.22;
+        this.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(chatScale));
+        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(chatScale));
+        this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(chatScale));
+        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(chatScale));
 
-        this.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        textArea.setEditable(false);
+        editableProperty().setValue(false);
+        setWrapText(true);
 
     }
 
     public void setEventListeners(TextField textField) {
 
         textField.setOnAction(e -> { // Put text from textField to textArea
-            if (textField.getText().equals(null) || textField.getText().equals("")) ;
+            if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
             else {
-                textArea.setText(textArea.getText() + "\n" + "General" + ": " + textField.getText());
+                this.setText(this.getText() + "\n" + "General" + ": " + textField.getText());
+                this.setScrollTop(Double.MAX_VALUE);
                 textField.setText("");
             }
         });

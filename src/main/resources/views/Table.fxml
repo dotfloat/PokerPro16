@@ -11,6 +11,6 @@
 			<Image url="/images/ui/PokertableWithLogo.png"/>
 		</ImageView>
 		<CommunityCards fx:id="communityCardsBox"/>
-		<ChatBox fx:id="chatBox" styleClass="chatBox"/>
-		<RightMenu alignment="TOP_RIGHT"/>
+		<ChatBox fx:id="chatBox"/>
+		<RightMenu fx:id="rightMenu" alignment="TOP_RIGHT"/>
 </fx:root>
