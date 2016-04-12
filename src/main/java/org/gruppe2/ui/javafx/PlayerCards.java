@@ -56,5 +56,10 @@ public class PlayerCards extends Pane {
 
 		playerCard1.setRotate(350);
 		playerCard2.setRotate(5);
+		
+		this.maxWidthProperty().bind((playerCard1.fitWidthProperty().multiply(2)));
+		this.maxHeightProperty().bind((playerCard1.fitHeightProperty().multiply(2)));
+		this.setLayoutX(width * 0.80);
+		this.setLayoutY(height * 0.77);
 	}
 }
