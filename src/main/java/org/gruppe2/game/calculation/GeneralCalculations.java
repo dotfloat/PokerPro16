@@ -73,4 +73,44 @@ public class GeneralCalculations {
         }
         return amountOfSameKind;
     }
+
+    /**
+     * A list over all types of hands to check probability and/or possibility.
+     * List is sorted by hand rank
+     * @return
+     */
+    public static ArrayList<HandCalculation> getAllHandTypes(){
+        ArrayList<HandCalculation> hands = new ArrayList<>();
+        hands.add(new RoyalFlush());
+        hands.add(new StraightFlush());
+        hands.add(new FourOfAKind());
+        hands.add(new FullHouse());
+        hands.add(new Flush());
+        hands.add(new Straight());
+        hands.add(new ThreeOfAKind());
+        hands.add(new TwoPairs());
+        hands.add(new Pair());
+
+        return hands;
+    }
+
+    public static HashMap<Card.Suit, Integer> numberOfEachType (Collection<Card> allCards){
+        HashMap<Card.Suit, Integer> numTypes = new HashMap<>();
+        numTypes.put(Card.Suit.CLUBS, 0);
+        numTypes.put(Card.Suit.DIAMONDS, 0);
+        numTypes.put(Card.Suit.SPADES, 0);
+        numTypes.put(Card.Suit.HEARTS, 0);
+
+        for(Card c : allCards)
+            numTypes.put(c.getSuit(), numTypes.get(c.getSuit()) + 1);
+
+        return numTypes;
+    }
+
+    public static String getBestHandForPlayer(Collection<Card> communityCards, Player p) {
+        for (HandCalculation hand : getAllHandTypes())
+            if (hand.canGetHand(communityCards, p))
+                return hand.getType().toString();
+        return "High card";
+    }
 }

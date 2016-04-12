@@ -25,14 +25,14 @@ public class GameWindow extends BorderPane {
 	public int bigBlind = 50;
 	public int smallBlind = 25;
 	public int startValue = 500;
-	ArrayList<Player> players = new ArrayList<Player>();
+	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
 	Thread th;
 
 	GameSession gameSession;
 	CommunityCards communityCardsBox;
-	Player yourself;
+	String playerName = "Me Player";
 
 	@FXML
 	public Pane playerCards;
@@ -51,8 +51,6 @@ public class GameWindow extends BorderPane {
 		testGame();
 	}
 
-	
-
 	/**
 	 * This is for testing
 	 */
@@ -60,36 +58,35 @@ public class GameWindow extends BorderPane {
 	public void setUpPlayerBoxes() {
 
 		for (Player player : gameSession.getPlayers()) {
-			players.add(player);
+			
 			PlayerInfoBox playerInfoBox = new PlayerInfoBox();
 			playerInfoBoxes.add(playerInfoBox);
 			playerInfoBox.setValues(player);
 		}
-		System.out.println("Players size: " + players.size());
 		paintAllPlayers(playerInfoBoxes);
 	}
 
 	public void paintAllPlayers(List<Pane> playerInfoBoxes) {
 
 		int numberOfPlayers = playerInfoBoxes.size();
-		if (numberOfPlayers > 3)
-			paintPlayerInfoBox(playerInfoBoxes.get(3), 0.3, 0.001);
 		if (numberOfPlayers > 4)
-			paintPlayerInfoBox(playerInfoBoxes.get(4), 0.45, 0.001);
+			paintPlayerInfoBox(playerInfoBoxes.get(4), 0.3, 0.001);
+		if (numberOfPlayers > 8)
+			paintPlayerInfoBox(playerInfoBoxes.get(8), 0.45, 0.001);
 		if (numberOfPlayers > 5)
 			paintPlayerInfoBox(playerInfoBoxes.get(5), 0.6, 0.002);
 		if (numberOfPlayers > 2)
 			paintPlayerInfoBox(playerInfoBoxes.get(2), 0.13, 0.001);
+		if (numberOfPlayers > 3)
+			paintPlayerInfoBox(playerInfoBoxes.get(3), 0.77, 0.001);
 		if (numberOfPlayers > 6)
-			paintPlayerInfoBox(playerInfoBoxes.get(6), 0.77, 0.001);
-		if (numberOfPlayers > 1)
-			paintPlayerInfoBox(playerInfoBoxes.get(1), 0.05, 0.2);
+			paintPlayerInfoBox(playerInfoBoxes.get(6), 0.05, 0.2);
 		if (numberOfPlayers > 7)
 			paintPlayerInfoBox(playerInfoBoxes.get(7), 0.8, 0.2);
 		if (numberOfPlayers > 0)
 			paintPlayerInfoBox(playerInfoBoxes.get(0), 0.03, 0.45);
-		if (numberOfPlayers > 8)
-			paintPlayerInfoBox(playerInfoBoxes.get(8), 0.81, 0.45);
+		if (numberOfPlayers > 1)
+			paintPlayerInfoBox(playerInfoBoxes.get(1), 0.82, 0.45);
 	}
 
 	public void paintPlayerInfoBox(Pane playerInfoBox, double x, double y) {
@@ -116,15 +113,15 @@ public class GameWindow extends BorderPane {
 	private void testGame() {
 
 		addYourSelf();
-		gameSession = new GameBuilder().ai(8).blinds(bigBlind, smallBlind)
+		gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
 				.startMoney(startValue).mainClient(guiPlayer).build();
-
+		System.out.println(gameSession.getPlayers().size());
+		choiceBar.setEvents(guiPlayer);
 		setUpPlayerBoxes();
 		// mainFrame.drawPot();
 
 		th = new Thread(() -> gameSession.mainLoop());
 		th.start();
-
 	}
 
 	public void updateGameWindow(Player player) {
@@ -141,9 +138,7 @@ public class GameWindow extends BorderPane {
 
 	private void addYourSelf() {
 		guiPlayer = new GUIPlayer(this);
-		yourself = new Player("Person", startValue, guiPlayer);
-		players.add(yourself);
-		choiceBar.setEvents(guiPlayer, yourself);
+		guiPlayer.setName(playerName);
 	}
 
 	public Thread getThread() {

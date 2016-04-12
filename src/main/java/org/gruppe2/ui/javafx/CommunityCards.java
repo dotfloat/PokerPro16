@@ -27,10 +27,25 @@ public class CommunityCards extends HBox {
 	public void setCommunityCards(List<Card> communalCards) {
 		if (communalCards == null || communalCards.size() == 0)
 			return;
-		if (communalCards.size() == 3)
+		if (communalCards.size() == 3){
 			communityImageCards = new ArrayList<ImageView>();
-
+			setCommunityCardLoop(communalCards);
+		}
+		else if (communalCards.size() == 4){
+			List<Card> turn = communalCards.subList(3, 4);
+			setCommunityCardLoop(turn);
+		}
+		else if (communalCards.size() == 5){
+			List<Card> river = communalCards.subList(4, 5);
+			setCommunityCardLoop(river);
+		}
+		
+		this.setAlignment(Pos.CENTER);
+	}
+	
+	private void setCommunityCardLoop(List<Card> communalCards){
 		for (Card card : communalCards) {
+			
 			ImageView cardImage = createCardImage(card);
 			this.getChildren().add(cardImage);
 			
@@ -39,18 +54,18 @@ public class CommunityCards extends HBox {
 			cardImage.fitWidthProperty().bind(
 					PokerApplication.getRoot().widthProperty().multiply(0.05));
 			communityImageCards.add(cardImage);
-
 		}
-		this.setAlignment(Pos.CENTER);
 	}
 
 	public void clearCommunityCards() {
 		if (communityImageCards != null) {
 			if (communityImageCards.size() == 0)
 				return;
-			else
+			else{
 				this.getChildren().removeAll(communityImageCards);
-			communityImageCards = new ArrayList<ImageView>();
+				communityImageCards = new ArrayList<ImageView>();
+				System.out.println("hello remove");
+			}
 
 		}
 	}

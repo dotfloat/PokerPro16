@@ -1,8 +1,9 @@
 package org.gruppe2.game.model;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
 
 /**
@@ -16,6 +17,8 @@ public class NetworkServer implements Runnable {
     protected String msg = null;
     private String playerID = "Test Player";
     protected boolean notRunning = false;
+
+    private ArrayList<Thread> threads = new ArrayList<Thread>();
 
     protected Thread runningThread = null;
 
@@ -36,7 +39,11 @@ public class NetworkServer implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            new Thread(new NetworkServerWorker(clientSocket, playerID)).start();
+            Thread t = new Thread(new NetworkServerWorker(clientSocket, playerID));
+            t.start();
+            threads.add(t);
+            System.out.println("Connection received from: " +
+                    clientSocket.getRemoteSocketAddress());
         }
     }
 
@@ -48,6 +55,7 @@ public class NetworkServer implements Runnable {
         this.notRunning = true;
         try {
             this.serverSocket.close();
+            System.out.println("Server closed");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,5 +67,12 @@ public class NetworkServer implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+
+        NetworkServer server = new NetworkServer(8888);
+        server.run();
+
     }
 }

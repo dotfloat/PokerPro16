@@ -161,7 +161,7 @@ public class ShowdownEvaluatorTest {
 
         assertTrue("Valid flush should be true", evaluator.flush(cards));
         Evaluated ev = evaluator.evaluate(cards);
-        System.out.println(ev.getHand());
+//        System.out.println(ev.getHand());
         Assert.assertTrue(ev.getHand() == Hand.FLUSH);
     }
 
@@ -373,12 +373,12 @@ public class ShowdownEvaluatorTest {
             }
             if (winners.size() == 3) {
             }
-            System.out.println(winners.size());
+//            System.out.println(winners.size());
             for (Player p : winners) {
                 numberOfWins++;
             }
         }
-        System.out.println(numberOfWins);
+//        System.out.println(numberOfWins);
     }
 
 }
