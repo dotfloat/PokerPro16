@@ -19,6 +19,7 @@
 		<TextArea fx:id="statistics" text="Here is Statistics" />	
 		<Button text="Replay Game" onAction="#replay"/>
 		<Button text="OK" onAction="#ok"/>
-		<Button text="CANCEL" onAction="#cancel"/>		
+		<Button text="CANCEL" onAction="#cancel"/>	
+		<TextField fx:id="changeLog" text="Change Log" onAction="#changeLogFile"/>	
 	</VBox>
 </fx:root>
