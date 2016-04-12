@@ -28,7 +28,7 @@ public class RoyalFlush implements HandCalculation{
         if (allRoyalCards.size() < communityCards.size())
             return false;
 
-        HashMap<Card.Suit, Integer> numTypes = Flush.numberOfEachType(allRoyalCards);
+        HashMap<Card.Suit, Integer> numTypes = GeneralCalculations.numberOfEachType(allRoyalCards);
 
         for (int i : numTypes.values())
             if (i >= communityCards.size())
