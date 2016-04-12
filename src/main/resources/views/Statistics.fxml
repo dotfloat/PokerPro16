@@ -17,7 +17,7 @@
 <fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml" >
 	<VBox spacing="20" alignment="CENTER" >
 		<TextArea fx:id="statistics" text="Here is Statistics" />	
-		
+		<Button text="Replay Game" onAction="#replay"/>
 		<Button text="OK" onAction="#ok"/>
 		<Button text="CANCEL" onAction="#cancel"/>		
 	</VBox>
