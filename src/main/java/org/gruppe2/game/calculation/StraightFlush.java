@@ -23,4 +23,9 @@ public class StraightFlush implements HandCalculation{
     public double handProbability(Collection<Card> communityCards, Player p) {
         return 0;
     }
+
+    @Override
+    public HandType getType() {
+        return HandType.STRAIGHTFLUSH;
+    }
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * Created by Mikal on 11.04.2016.
  */
-public class RoyalFlush implements HandCalculation{
+public class RoyalFlush implements HandCalculation {
 
     public static boolean canGetRoyalFlush(Collection<Card> communityCards, Player p){
         if (communityCards.size() == 0)
@@ -56,5 +56,10 @@ public class RoyalFlush implements HandCalculation{
     @Override
     public double handProbability(Collection<Card> communityCards, Player p) {
         return royalFlushProbability(communityCards, p);
+    }
+
+    @Override
+    public HandType getType() {
+        return HandType.ROYALFLUSH;
     }
 }
