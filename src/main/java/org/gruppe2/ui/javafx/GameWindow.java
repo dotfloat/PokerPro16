@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -13,6 +14,8 @@ import org.gruppe2.game.old.GameBuilder;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
+
+import com.sun.corba.se.impl.orbutil.graph.Node;
 
 /**
  * This class will be split in several sub controllers, i.g Bottom Hbox with
@@ -93,7 +96,6 @@ public class GameWindow extends BorderPane {
 
 		playerInfoBox.setLayoutX(x * width);
 		playerInfoBox.setLayoutY(y * height);
-		System.out.println(x + " " + y);
 		playerInfoBox.maxWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.05));
 		playerInfoBox.maxHeightProperty().bind(
@@ -143,5 +145,21 @@ public class GameWindow extends BorderPane {
 
 	public Thread getThread() {
 		return th;
+	}
+
+	public void displayRoundWon(Player player) {
+		ScreenText screenText = new ScreenText();
+		screenText.setAnimationRoundWon(player);
+		table.getChildren().add(screenText);
+		screenText.setLayoutX(width/2);
+		screenText.setLayoutY(height/2);
+	}
+
+	public void displayGameWon(Player player) {
+		ScreenText screenText = new ScreenText();
+		screenText.setAnimationGameWon(player);
+		table.getChildren().add(screenText);
+		screenText.setLayoutX(width/2);
+		screenText.setLayoutY(height/2);
 	}
 }

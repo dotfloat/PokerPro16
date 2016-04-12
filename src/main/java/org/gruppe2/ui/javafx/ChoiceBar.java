@@ -1,5 +1,8 @@
 package org.gruppe2.ui.javafx;
 
+import javafx.beans.binding.DoubleExpression;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -8,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.old.Player;
@@ -19,6 +23,8 @@ public class ChoiceBar extends HBox {
 	private int height = PokerApplication.getHeight();
 	private GUIPlayer client;
 	private Player player;
+	private ObjectProperty<Font> fontTracking = new SimpleObjectProperty<Font>(Font.getDefault());
+	
 	@FXML
 	private TextField chatField;
 	@FXML
@@ -37,6 +43,8 @@ public class ChoiceBar extends HBox {
 
 	@FXML
 	private void setSizes() {
+		setFontListener();
+		
 		slider.prefWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.3));
 		slider.setMinWidth(width * 0.15);
@@ -46,6 +54,30 @@ public class ChoiceBar extends HBox {
 
 		sliderValue.setMinWidth(width * 0.09);
 		sliderValue.setMaxWidth(height * 0.09);
+		sliderValue.prefWidthProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(0.09));
+		chatField.prefWidthProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(0.15));
+		FOLD.prefWidthProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(0.09));
+		BET.prefWidthProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(0.09));
+		
+		
+	}
+
+	private void setFontListener() {
+		BET.fontProperty().bind(fontTracking);
+		FOLD.fontProperty().bind(fontTracking);
+		chatField.fontProperty().bind(fontTracking);
+		this.widthProperty().addListener(new ChangeListener<Number>()
+			    {
+	        @Override
+	        public void changed(ObservableValue<? extends Number> observableValue, Number oldWidth, Number newWidth)
+	        {
+	            fontTracking.set(Font.font(newWidth.doubleValue() / 70));
+	        }
+	    });
 	}
 
 	@FXML
