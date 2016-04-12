@@ -32,8 +32,8 @@ public class ScreenText extends Label {
 	}
 
 	private FadeTransition createFader(Node node) {
-        FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
-        fade.setFromValue(1);
+        FadeTransition fade = new FadeTransition(Duration.seconds(3), node);
+        fade.setFromValue(3);
         fade.setToValue(0);
 
         return fade;
