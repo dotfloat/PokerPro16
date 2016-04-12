@@ -26,11 +26,11 @@ public class StraightTest {
     public void cantGetStraightTest() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(new Card(8, Card.Suit.HEARTS));
-        cards.add(new Card(4, Card.Suit.DIAMONDS));
+        cards.add(new Card(6, Card.Suit.DIAMONDS));
         cards.add(new Card(14, Card.Suit.CLUBS));
 
         Player p = new Player("TestPlayer", 0, null);
-        p.setCards(new Card(2, Card.Suit.DIAMONDS), new Card(10, Card.Suit.SPADES));
+        p.setCards(new Card(13, Card.Suit.DIAMONDS), new Card(14, Card.Suit.SPADES));
 
         assertFalse(s.canGetStraight(cards, p));
     }

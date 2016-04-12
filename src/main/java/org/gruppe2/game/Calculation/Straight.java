@@ -15,31 +15,59 @@ public class Straight {
         if (communityCards.size() == 0)
             return true;
 
-        int straightLength = 0;
-
         ArrayList<Card> allCards = new ArrayList<>(communityCards);
         allCards.add(p.getCard1());
         allCards.add(p.getCard2());
 
         for (int i = 0; i < allCards.size(); i++){
-            straightLength++;
-            for (int j = i+1; j < allCards.size(); j++){
-                int v1 = allCards.get(i).getFaceValue();
-                int v2 = allCards.get(j).getFaceValue();
+            int length = checkWithOtherCards(allCards, i, allCards.get(i).getFaceValue());
 
-                if (v1 == v2)
-                    continue;
-                if (v2 < v1 && v2 >= v1 - 4)
-                    straightLength++;
-                if (v2 > v1 && v1 >= v2 - 4)
-                    straightLength++;
-            }
-            if (straightLength >= communityCards.size())
+            if (length >= communityCards.size())
                 return true;
-            else
-                straightLength = 0;
+            else if (allCards.get(i).getFaceValue() == 14){
+                length = checkWithOtherCards(allCards, i, 1);
+                if (length >= communityCards.size())
+                    return true;
+            }
         }
 
         return false;
+    }
+
+    private int checkWithOtherCards(ArrayList<Card> allCards, int i, int faceValue){
+        int straightLength = 1;
+        int v1 = faceValue;
+        int high = v1 + 4;
+        int low = v1 - 4;
+
+        for (int j = i+1; j < allCards.size(); j++){
+            int v2 = allCards.get(j).getFaceValue();
+
+            if (v1 == v2)
+                continue;
+            if (v2 < v1 && v2 >= low){
+                straightLength++;
+                high -= (v1 - v2);
+            }
+            if (v2 > v1 && v2 <= high) {
+                straightLength++;
+                low += (v2 - v1);
+            }
+
+            if (v2 == 14){
+                v2 = 1;
+
+                if (v2 < v1 && v2 >= low){
+                    straightLength++;
+                    high -= (v1 - v2);
+                }
+                if (v2 > v1 && v2 <= high) {
+                    straightLength++;
+                    low += (v2 - v1);
+                }
+            }
+        }
+
+        return straightLength;
     }
 }
