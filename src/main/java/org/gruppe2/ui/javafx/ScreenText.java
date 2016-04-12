@@ -32,24 +32,29 @@ public class ScreenText extends Label {
 	}
 
 	private FadeTransition createFader(Node node) {
-        FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
-        fade.setFromValue(1);
+        FadeTransition fade = new FadeTransition(Duration.seconds(3), node);
+        fade.setFromValue(3);
         fade.setToValue(0);
 
         return fade;
     }
 
+	@SuppressWarnings("static-access")
 	public void setAnimationGameWon(Player player) {
 		this.setText(player+"won the game!");
 		
 		FadeTransition fader = createFader(this);
 		playAnimation(fader);
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+		
+		if (((GameWindow) this.getParent().getParent()).getThread() != null) {
+			try {
+				((GameWindow) this.getParent().getParent()).getThread().sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			((GameWindow) this.getParent().getParent()).getThread().interrupt();
+		}
+		SceneController.setScene(new MainMenu());
 	}
 }
