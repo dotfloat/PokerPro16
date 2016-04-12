@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Deck {
     protected ArrayList<Card> cards;
-    private int cardsLeft;
+    protected int cardsLeft;
 
     public Deck() {
         cards = new ArrayList<>();

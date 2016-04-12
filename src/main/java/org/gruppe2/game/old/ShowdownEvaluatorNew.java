@@ -169,6 +169,7 @@ public class ShowdownEvaluatorNew {
 
 		// Count all suits:
 		for (Card c : cards) {
+			//System.out.println(c);
 			switch (c.getSuit()) {
 			case DIAMONDS:
 				diamonds++;
