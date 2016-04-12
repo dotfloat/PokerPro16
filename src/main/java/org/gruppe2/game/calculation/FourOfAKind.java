@@ -11,7 +11,6 @@ import java.util.Collection;
  */
 public class FourOfAKind implements HandCalculation{
 
-
     public static boolean canGetFourOfAKind(Collection<Card> communityCards, Player p){
 
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards, p);
@@ -36,5 +35,10 @@ public class FourOfAKind implements HandCalculation{
     @Override
     public double handProbability(Collection<Card> communityCards, Player p) {
         return 0;
+    }
+
+    @Override
+    public HandType getType() {
+        return HandType.FOUROFAKIND;
     }
 }

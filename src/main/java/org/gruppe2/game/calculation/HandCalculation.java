@@ -25,4 +25,9 @@ public interface HandCalculation {
      * @return The probability in the form of a double
      */
     double handProbability(Collection<Card> communityCards, Player p);
+
+    /**
+     * @return The hand type
+     */
+    HandType getType();
 }

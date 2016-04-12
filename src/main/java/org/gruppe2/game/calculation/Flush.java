@@ -2,6 +2,7 @@ package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
+import org.gruppe2.game.old.ShowdownEvaluator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,5 +38,10 @@ public class Flush implements HandCalculation{
     @Override
     public double handProbability(Collection<Card> communityCards, Player p) {
         return 0;
+    }
+
+    @Override
+    public HandType getType() {
+        return HandType.FLUSH;
     }
 }
