@@ -11,7 +11,30 @@ import java.util.Map;
 import org.gruppe2.game.old.Card.Suit;
 
 public class ShowdownEvaluatorNew {
-
+	
+	public ArrayList<Player> getWinnerOfRound(List<Player> players) {
+		ArrayList<Player> winners = new ArrayList<>();
+		for(Player p : players)
+			winners.add(p);
+		
+		PlayerComparator comp = new PlayerComparator();
+		winners.sort(comp);
+		for(int i = winners.size()-1; i >= 1; i--) {
+			switch(comp.compare(winners.get(i), winners.get(i-1))) {
+			case -1:
+				winners.remove(i);
+				break;
+			case 1:
+				winners.remove(i-1);
+				break;
+			case 0:
+				break;
+			}
+		}
+		
+		return winners;
+	}
+	
 	public ArrayList<HandCollector> evaluateHands(List<Card> cards) {
 		ArrayList<HandCollector> hands = new ArrayList<>();
 		
@@ -503,23 +526,6 @@ public class ShowdownEvaluatorNew {
 		return listOfCardsInPair;
 	}
 
-	/*
-	 * public ArrayList<Card> onePairTest(List<Card> cards) { Map<Integer,
-	 * Suit[]> freq = cardFaceFrequencyTest(cards); ArrayList<Card>
-	 * listOfCardsInPair = new ArrayList<>(); int highestCardValue = -1;
-	 * 
-	 * for (Map.Entry<Integer, Suit[]> entry : freq.entrySet()) { // Does the
-	 * list of cards contain 2 equal cards of value X? if
-	 * (entry.getValue().length >= 2) { // Is the new pair X higher than other
-	 * pairs found? if(entry.getKey() > highestCardValue) {
-	 * listOfCardsInPair.clear(); // Clear the list of cards in old pair.
-	 * highestCardValue = entry.getKey(); for(Suit s : entry.getValue()) // Add
-	 * all cards in new pair. listOfCardsInPair.add(new Card(entry.getKey(),s));
-	 * } } }
-	 * 
-	 * return listOfCardsInPair; }
-	 */
-
 	public ArrayList<HandCollector> highCard(List<Card> cards) {
 		ArrayList<HandCollector> listOfCardsInHighCard = new ArrayList<>();
 		Collections.sort(cards);
@@ -567,28 +573,6 @@ public class ShowdownEvaluatorNew {
 			newSuit[oldSuit.length] = s;
 			return newSuit;
 		}
-	}
-	
-	public ArrayList<Player> getWinnerOfRound(List<Player> players) {
-		ArrayList<Player> winners = new ArrayList<>();
-		for(Player p : players)
-			winners.add(p);
-				
-		PlayerComparator comp = new PlayerComparator();
-		for(int i = 0; i < winners.size()-1; i++) {
-			switch(comp.compare(winners.get(i), winners.get(i+1))) {
-			case -1:
-				winners.remove(i);
-				break;
-			case 1:
-				winners.remove(i+1);
-				break;
-			case 0:
-				break;
-			}
-		}
-		
-		return winners;
 	}
 }
 
