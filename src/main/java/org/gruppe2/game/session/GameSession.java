@@ -14,14 +14,14 @@ import java.util.UUID;
 
 public class GameSession extends Session {
     private final List<PlayerController> players = Collections.synchronizedList(new ArrayList<>());
-    private final GameController gameController;
+    private final GameController gameController = null;
 
     private boolean playing = true;
 
     public GameSession(int maxPlayers) {
         GameModel gameModel = new GameModel(UUID.randomUUID(), maxPlayers);
 
-        this.gameController = new GameController(getSessionContext());
+        //this.gameController = new GameController(getSessionContext());
     }
 
     @Override
@@ -43,5 +43,10 @@ public class GameSession extends Session {
     @Override
     public void exit() {
         playing = false;
+    }
+
+    @Override
+    public GameModel getGameModel() {
+        return gameController.getModel();
     }
 }

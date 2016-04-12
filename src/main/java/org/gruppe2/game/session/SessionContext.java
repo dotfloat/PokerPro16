@@ -1,9 +1,8 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.GameState;
-import org.gruppe2.game.controller.PlayerController;
 import org.gruppe2.game.event.EventHandler;
 import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.view.GameView;
 
@@ -23,15 +22,13 @@ public class SessionContext {
         return eventQueue;
     }
 
-    public GameState getGameState() {
-        return session.getGameState();
-    }
-
     public boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler) {
         return session.addPlayer(model, handler);
     }
 
-    public GameView getGame() {
+    public GameModel getGameModel() { return session.getGameModel(); }
+
+    public GameView getGameView() {
         return gameView;
     }
 }

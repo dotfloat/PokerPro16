@@ -4,6 +4,7 @@ import org.gruppe2.game.GameState;
 import org.gruppe2.game.controller.PlayerController;
 import org.gruppe2.game.event.EventHandler;
 import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.PlayerModel;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -56,17 +57,7 @@ public abstract class Session implements Runnable {
         return eventQueue;
     }
 
-    SessionContext createContext() {
-        return new SessionContext(this);
-    }
-
-    GameState getGameState() {
-        return GameState.EMPTY;
-    }
-
-    public AtomicInteger getSpectatorCount() {
-        return spectatorCount;
-    }
+    public abstract GameModel getGameModel();
 
     public abstract void update();
 
@@ -75,8 +66,4 @@ public abstract class Session implements Runnable {
     // TODO: Move these to a "GameController" or something
 
     public abstract boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler);
-
-    public SessionContext getSessionContext() {
-        return sessionContext;
-    }
 }

@@ -10,6 +10,8 @@ public class GameModel implements Model {
     private final int maxPlayers;
     private final List<PlayerModel> players;
 
+    private volatile boolean waitingForPlayers = false;
+
     public GameModel(UUID uuid, int maxPlayers) {
         this.uuid = uuid;
         this.maxPlayers = maxPlayers;
@@ -44,5 +46,13 @@ public class GameModel implements Model {
         }
 
         return null;
+    }
+
+    public boolean isWaitingForPlayers() {
+        return waitingForPlayers;
+    }
+
+    public void setWaitingForPlayers(boolean waitingForPlayers) {
+        this.waitingForPlayers = waitingForPlayers;
     }
 }
