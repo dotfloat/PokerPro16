@@ -67,7 +67,7 @@ public class ChoiceBar extends HBox {
 		PossibleActions pa = client.getSession()
                 .getPlayerOptions(player);
 
-		 if (pa.canCall() && pa.canRaise() && slider.getValue() > 1)
+		 if ( pa.canRaise() && slider.getValue() > 1)
              raise(client, slider, player);
          else if (pa.canCall())
              client.setAction(new Action.Call());
@@ -107,13 +107,13 @@ public class ChoiceBar extends HBox {
         if( pa.canCall())
         	BET.setText("Call");
    
-       
-        if(pa.canCheck())
-        	BET.setText("Check");
         if (pa.canRaise() && slider.getValue() > 1) {
             BET.getStyleClass().add("button");
             BET.setText("RAISE");
         }
+        else  if(pa.canCheck())
+        	BET.setText("Check");
+        
         slider.setMax(pa.getMaxRaise());
         slider.setMin(pa.getMinRaise());
         slider.setValue(pa.getMinRaise());
