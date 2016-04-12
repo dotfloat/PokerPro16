@@ -11,8 +11,7 @@ import org.gruppe2.ui.Resources;
 
 public class PlayerCards extends Pane {
 	private int width = PokerApplication.getWidth();
-	private int height = PokerApplication.getHeight();
-	
+		
 	@FXML ImageView playerCard1;
 	@FXML ImageView playerCard2;
 	
@@ -25,29 +24,22 @@ public class PlayerCards extends Pane {
 	 * is ready with playerCards.
 	 */
 	public void setPlayerCards(GameSession gameSession,CommunityCards communityCardsBox) {
-		System.out.println("hello");
 		Player player = gameSession.getPlayers().get(0);
+		setPaneStyle();
+		
+		
 		playerCard1.setImage(new Image(("/images/cards/"
 				+ communityCardsBox.getCardName(player.getCard1()) + ".png")));
 		playerCard2.setImage(new Image(("/images/cards/"
 				+ communityCardsBox.getCardName(player.getCard2()) + ".png")));
-		playerCard1.setLayoutX(width * 0.80);
-		playerCard1.setLayoutY(height * 0.77);
-		playerCard2.setLayoutX(width * 0.88);
-		playerCard2.setLayoutY(height * 0.77);
-		playerCard1.layoutXProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.80));
-		playerCard1.layoutYProperty().bind(
-				PokerApplication.getRoot().heightProperty().multiply(0.77));
-		playerCard2.layoutXProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.88));
-		playerCard2.layoutYProperty().bind(
-				PokerApplication.getRoot().heightProperty().multiply(0.77));
+		
+		
 		playerCard1.setFitWidth(width * 0.12);
 		playerCard1.setPreserveRatio(true);
 		playerCard1.setSmooth(true);
 		playerCard1.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.12));
+		
 		playerCard2.setFitWidth(width * 0.12);
 		playerCard2.setPreserveRatio(true);
 		playerCard2.setSmooth(true);
@@ -55,11 +47,14 @@ public class PlayerCards extends Pane {
 				PokerApplication.getRoot().widthProperty().multiply(0.12));
 
 		playerCard1.setRotate(350);
-		playerCard2.setRotate(5);
-		
-		this.maxWidthProperty().bind((playerCard1.fitWidthProperty().multiply(2)));
-		this.maxHeightProperty().bind((playerCard1.fitHeightProperty().multiply(2)));
-		this.setLayoutX(width * 0.80);
-		this.setLayoutY(height * 0.77);
+		playerCard2.setRotate(20);
+	}
+	
+	private void setPaneStyle(){
+		this.layoutXProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(0.85));
+		this.layoutYProperty().bind(
+				PokerApplication.getRoot().heightProperty().multiply(0.77));
+
 	}
 }
