@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Card.Suit;
+import org.gruppe2.game.old.Deck;
 import org.gruppe2.game.old.GameClient;
 import org.gruppe2.game.old.HandCollector;
 import org.gruppe2.game.old.Player;
+import org.gruppe2.game.old.ShowdownEvaluator;
 import org.gruppe2.game.old.ShowdownEvaluatorNew;
 import org.gruppe2.game.old.Table;
 import org.junit.Test;
@@ -52,8 +54,8 @@ public class ShowdownEvaluatorNewTest {
 		players.add(p1);
 		players.add(p2);
 		
-		Card p1c1 = new Card(13, Suit.CLUBS);
-		Card p1c2 = new Card(13, Suit.DIAMONDS);
+		Card p1c1 = new Card(2, Suit.CLUBS);
+		Card p1c2 = new Card(4, Suit.DIAMONDS);
 		p1.setCards(p1c1, p1c2);
 		
 		Card p2c1 = new Card(2, Suit.HEARTS);
@@ -72,6 +74,128 @@ public class ShowdownEvaluatorNewTest {
 		
 		for(Player p : winners)
 			System.out.println("Winner: " + p.getName());
+	}
+	
+	@Test
+	public void testWinnersOfRoundWithRandomCommunityCards() {
+		List<Player> players = new ArrayList<>();
+		
+		int amountOfPlayers = 4;
+		int N = 1000;
+		
+		for(int i = 1; i <= amountOfPlayers; i++) {
+			MockPlayer p = new MockPlayer("BOT " + i);
+			players.add(p);
+			Card pc1 = new Card(2, Suit.CLUBS);
+			Card pc2 = new Card(2, Suit.DIAMONDS);
+			p.setCards(pc1, pc2);
+		}
+		
+		for(int i = 0; i < N; i++) {
+		
+		Deck d = new Deck();
+		Card c1 = d.drawCard();
+		Card c2 = d.drawCard();
+		Card c3 = d.drawCard();
+		Card c4 = d.drawCard();
+		Card c5 = d.drawCard();
+		
+		for(Player p : players) {
+			MockTable mt = (MockTable) p.getClient().getSession().getTable();
+			mt.setCards(c1, c2, c3, c4, c5);
+		}
+		
+		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ArrayList<Player> winners = se.getWinnerOfRound(players);
+		
+		assertTrue(winners.size() == amountOfPlayers);
+		}
+	}
+	
+	@Test
+	public void testWinnersOfRoundComparedToDaniel() {
+		ArrayList<Player> players = new ArrayList<>();
+		
+		int amountOfPlayers = 4;
+		int N = 1;
+		
+		for(int i = 0; i < N; i++) {
+		Deck d = new Deck();
+		for(int j = 1; j <= amountOfPlayers; j++) {
+			MockPlayer p = new MockPlayer("BOT " + j);
+			players.add(p);
+			p.setCards(d.drawCard(), d.drawCard());
+		}
+		
+		Card c1 = d.drawCard();
+		Card c2 = d.drawCard();
+		Card c3 = d.drawCard();
+		Card c4 = d.drawCard();
+		Card c5 = d.drawCard();
+		
+		System.out.println(c1);
+		System.out.println(c2);
+		System.out.println(c3);
+		System.out.println(c4);
+		System.out.println(c5);
+		
+		for(Player p : players) {
+			MockTable mt = (MockTable) p.getClient().getSession().getTable();
+			mt.setCards(c1, c2, c3, c4, c5);
+		}
+		
+		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ArrayList<Player> winners = se.getWinnerOfRound(players);
+		
+		System.out.println("Player 0's community cards:");
+		for(Card c : players.get(0).getClient().getSession().getTable().getCommunityCards())
+			System.out.println(c);
+		
+		for(Player p : players)
+			System.out.println(p.getName());
+		org.gruppe2.game.old.ShowdownEvaluator se2 = new org.gruppe2.game.old.ShowdownEvaluator();
+		ArrayList<Player> stu = se2.getWinnerOfRound(players.get(0).getClient().getSession().getTable(), players);
+//		ArrayList<Player> stu = se2.getWinnerOfRound(players);
+		
+		System.out.println("START");
+		
+		for(Player p : players) {
+			System.out.println(p.getName());
+			System.out.println(p.getCard1());
+			System.out.println(p.getCard2());
+		}
+		
+		if(winners.size() != stu.size()) {
+			System.out.println("Community cards:");
+			for(Card c : players.get(0).getClient().getSession().getTable().getCommunityCards())
+				System.out.println(c);
+			
+			System.out.println("Runar's winners:");
+			for(Player p : winners) {
+				System.out.println(p.getName());
+				ArrayList<Card> allCards = new ArrayList<>();
+				allCards.addAll(p.getClient().getSession().getTable().getCommunityCards());
+				allCards.add(p.getCard1());
+				allCards.add(p.getCard2());
+				ArrayList<HandCollector> hands = se.evaluateHands(allCards);
+				for(HandCollector h : hands) {
+					System.out.println("Rank: " + h.getRank());
+				}
+				System.out.println(p.getCard1());
+				System.out.println(p.getCard2());
+			}
+			
+			System.out.println("Daniel's winners:");
+			for(Player p : stu) {
+				System.out.println(p.getName());
+				System.out.println(p.getCard1());
+				System.out.println(p.getCard2());
+			}
+			System.out.println(winners.size() + " && " + stu.size());
+		}
+		
+		assertTrue(winners.size() == stu.size());
+		}
 	}
 	
 	/*
@@ -300,14 +424,14 @@ public class ShowdownEvaluatorNewTest {
 	@Test
 	public void RoyalFlushTestShouldReturnHighestRoyalFlush() {
 		ArrayList<Card> cards = new ArrayList<Card>();
+		cards.add(new Card(13, Suit.HEARTS)); // King of Hearts
 		cards.add(new Card(6, Suit.DIAMONDS)); // 6 of Diamonds
-		cards.add(new Card(6, Suit.CLUBS)); // 6 of Clubs
 		cards.add(new Card(9, Suit.HEARTS)); // 9 of Hearts
 		cards.add(new Card(10, Suit.HEARTS)); // 10 of Hearts
+		cards.add(new Card(6, Suit.CLUBS)); // 6 of Clubs
+		cards.add(new Card(14, Suit.HEARTS)); // Ace of Hearts
 		cards.add(new Card(11, Suit.HEARTS)); // Knight of Hearts
 		cards.add(new Card(12, Suit.HEARTS)); // Queen of Hearts
-		cards.add(new Card(13, Suit.HEARTS)); // King of Hearts
-		cards.add(new Card(14, Suit.HEARTS)); // Ace of Hearts
 		
 		ShowdownEvaluatorNew showdown = new ShowdownEvaluatorNew();
 		ArrayList<Card> result = showdown.getBestroyalFlush(cards);
