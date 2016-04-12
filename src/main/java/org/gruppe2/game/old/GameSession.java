@@ -97,8 +97,8 @@ public class GameSession {
 
 	private void turnLoop() {
 		int lastRaiserIndex = 0;
-		Logger logger = new Logger();
-		logger.record("New Turn!");
+//		Logger logger = new Logger();
+//		logger.record("New Turn!");
 		for (int last = button; true; last--) {
 			if (last < 0)
 				last = activePlayers.size() - 1;
@@ -120,7 +120,7 @@ public class GameSession {
 
 			notifyOtherPlayersAboutTurn(player);
 			Action action = player.getClient().onTurn(player);
-			logger.record(player, action);
+//			logger.record(player, action);
 			
 			if (action instanceof Action.Fold) {
 				activePlayers.set(currentPlayerIdx, null);
