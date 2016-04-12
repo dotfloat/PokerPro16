@@ -5,14 +5,15 @@ import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.javafx.CommunityCards;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * Created by Åsmund on 11/04/2016.
+ * Created by ï¿½smund on 11/04/2016.
  */
-public class ThreeOfAKind {
+public class ThreeOfAKind implements HandCalculation{
 
-    public static boolean canGetThreeOfAKind(ArrayList<Card> communityCards, Player p){
+    public static boolean canGetThreeOfAKind(Collection<Card> communityCards, Player p){
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards,p);
 
         if(amountOfSameFace >= 3)
@@ -27,5 +28,15 @@ public class ThreeOfAKind {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean canGetHand(Collection<Card> communityCards, Player p) {
+        return canGetThreeOfAKind(communityCards, p);
+    }
+
+    @Override
+    public double handProbability(Collection<Card> communityCards, Player p) {
+        return 0;
     }
 }
