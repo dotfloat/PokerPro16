@@ -31,9 +31,7 @@ public class GUIPlayer extends GameClient {
 	@Override
 	public void onRoundStart() {
 		Platform.runLater(() -> {
-			
-			((PlayerCards) gameWindow.playerCards).setPlayerCards(gameWindow.gameSession, communityCards);
-			
+			((PlayerCards) gameWindow.playerCards).setPlayerCards(gameWindow.gameSession, communityCards);		
 		});
 	}
 

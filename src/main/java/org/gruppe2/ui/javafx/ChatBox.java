@@ -3,7 +3,7 @@ package org.gruppe2.ui.javafx;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import org.gruppe2.game.calculation.GeneralCalculations;
+
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 

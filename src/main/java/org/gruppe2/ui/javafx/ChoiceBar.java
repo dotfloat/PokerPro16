@@ -49,11 +49,12 @@ public class ChoiceBar extends HBox {
 	}
 
 	@FXML
-	public void setEvents(GUIPlayer client, Player player) {
+	public void setEvents(GUIPlayer client) {
 		this.client = client;
-		this.player = player;
+		this.player = client.getSession().getPlayers().get(0);
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
+		
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable,
@@ -78,10 +79,10 @@ public class ChoiceBar extends HBox {
 
 		if (pa.canRaise() && slider.getValue() > 1)
 			raise(client, slider, player);
-		else if (pa.canCall())
-			client.setAction(new Action.Call());
 		else if (pa.canCheck())
 			client.setAction(new Action.Check());
+		else if (pa.canCall())
+			client.setAction(new Action.Call());
 	}
 
 	private void raise(GUIPlayer client, Slider raiseSlider, Player player) {
@@ -114,7 +115,7 @@ public class ChoiceBar extends HBox {
 	 * @param player
 	 */
 	public void updatePossibleBarsToClick(Player player) {
-		PossibleActions pa = player.getClient().getSession()
+		PossibleActions pa = client.getSession()
 				.getPlayerOptions(player);
 		if (pa.canCall())
 			BET.setText("Call");

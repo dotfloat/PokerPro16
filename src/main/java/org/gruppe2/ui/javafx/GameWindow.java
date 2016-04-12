@@ -25,14 +25,14 @@ public class GameWindow extends BorderPane {
 	public int bigBlind = 50;
 	public int smallBlind = 25;
 	public int startValue = 500;
-	ArrayList<Player> players = new ArrayList<Player>();
+	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
 	Thread th;
 
 	GameSession gameSession;
 	CommunityCards communityCardsBox;
-	Player yourself;
+	String playerName = "Me Player";
 
 	@FXML
 	public Pane playerCards;
@@ -58,12 +58,11 @@ public class GameWindow extends BorderPane {
 	public void setUpPlayerBoxes() {
 
 		for (Player player : gameSession.getPlayers()) {
-			players.add(player);
+			
 			PlayerInfoBox playerInfoBox = new PlayerInfoBox();
 			playerInfoBoxes.add(playerInfoBox);
 			playerInfoBox.setValues(player);
 		}
-		System.out.println("Players size: " + players.size());
 		paintAllPlayers(playerInfoBoxes);
 	}
 
@@ -116,13 +115,13 @@ public class GameWindow extends BorderPane {
 		addYourSelf();
 		gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
 				.startMoney(startValue).mainClient(guiPlayer).build();
-
+		System.out.println(gameSession.getPlayers().size());
+		choiceBar.setEvents(guiPlayer);
 		setUpPlayerBoxes();
 		// mainFrame.drawPot();
 
 		th = new Thread(() -> gameSession.mainLoop());
 		th.start();
-
 	}
 
 	public void updateGameWindow(Player player) {
@@ -139,9 +138,7 @@ public class GameWindow extends BorderPane {
 
 	private void addYourSelf() {
 		guiPlayer = new GUIPlayer(this);
-		yourself = new Player("Person", startValue, guiPlayer);
-		players.add(yourself);
-		choiceBar.setEvents(guiPlayer, yourself);
+		guiPlayer.setName(playerName);
 	}
 
 	public Thread getThread() {
