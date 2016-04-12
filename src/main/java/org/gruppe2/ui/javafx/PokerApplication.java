@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.gruppe2.Main;
 
 public class PokerApplication extends Application {
 	private static int width;
@@ -19,7 +20,6 @@ public class PokerApplication extends Application {
     private static int numberOfPlayers; // Should reside in model / game?
     private Scene scene;
     private static StackPane root = new StackPane(); // Setting global root. Will only change scenes
-    public static boolean degbugAutoStart = false;
 
     /** Controllers will need to get current root to change scenes
      * @return root
@@ -56,7 +56,7 @@ public class PokerApplication extends Application {
      * No global stylesheet in javaFX 8 stage, only on every scene
      */
 	private void setStartScene(Stage stage){
-		if(degbugAutoStart)
+		if(Main.isAutostart())
 			root.getChildren().add(new GameWindow());
 		else
 			root.getChildren().add(new Intro());
