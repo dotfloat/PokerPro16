@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * Created by Mikal on 11.04.2016.
  */
-public class Flush {
+public class Flush implements HandCalculation{
 
     public static boolean canGetFlush(Collection<Card> communityCards, Player p){
         if (communityCards.size() > 0)
@@ -38,5 +38,15 @@ public class Flush {
             numTypes.put(c.getSuit(), numTypes.get(c.getSuit()) + 1);
 
         return numTypes;
+    }
+
+    @Override
+    public boolean canGetHand(Collection<Card> communityCards, Player p) {
+        return canGetFlush(communityCards, p);
+    }
+
+    @Override
+    public double handProbability(Collection<Card> communityCards, Player p) {
+        return 0;
     }
 }
