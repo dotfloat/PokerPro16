@@ -8,6 +8,7 @@ public class GameSession {
 	private ArrayList<Player> activePlayers = new ArrayList<>();
 	private ShowdownEvaluator showdownEvaluator = new ShowdownEvaluator();
 	private Table table = new Table();
+	Logger logger;
 	private int smallBlindAmount;
 	private int bigBlindAmount;
 	private int highestBet;
@@ -57,7 +58,11 @@ public class GameSession {
 	private void matchLoop() {
 		startNewMatch();
 		Player winner = null;
-
+		logger = new Logger();
+		logger.record("New Game!");
+		logger.record("--Stakes--");
+		logger.record("Small Blind: " + getSmallBlindAmount());
+		logger.record("Big Blind: " + getBigBlindAmount());
 		doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
 		// notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
@@ -77,6 +82,9 @@ public class GameSession {
 				for (Player p : activePlayers) {
 					if (p != null) {
 						winner = p;
+						logger.record(p.getName() + " won the pot!");
+						logger.record("Table Pot: " + table.getPot());
+						logger.done();
 						break;
 					}
 				}
@@ -97,8 +105,8 @@ public class GameSession {
 
 	private void turnLoop() {
 		int lastRaiserIndex = 0;
-//		Logger logger = new Logger();
-//		logger.record("New Turn!");
+
+		logger.record("New Turn!");
 		for (int last = button; true; last--) {
 			if (last < 0)
 				last = activePlayers.size() - 1;
@@ -115,12 +123,13 @@ public class GameSession {
 			if (player == null)
 				continue;
 
-			if (numActivePlayers() == 1)
+			if (numActivePlayers() == 1) 
 				break;
+			
 
 			notifyOtherPlayersAboutTurn(player);
 			Action action = player.getClient().onTurn(player);
-//			logger.record(player, action);
+			logger.record(player, action);
 			
 			if (action instanceof Action.Fold) {
 				activePlayers.set(currentPlayerIdx, null);

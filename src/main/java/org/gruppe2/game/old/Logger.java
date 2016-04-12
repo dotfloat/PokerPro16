@@ -71,18 +71,18 @@ public class Logger {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
 
 			if (action instanceof Action.Fold)
-				writer.write(String.format("\u2551  %s  \u00BB  %-8s: Fold.%n", currentTime, player.getName()));
+				writer.write(String.format("\u2551  %s  \u00BB  %-10s: Fold %18s\u2551%n", currentTime, player.getName(),""));
 			else if (action instanceof Action.Check)
-				writer.write(String.format("\u2551  %s  \u00BB  %-8s: Check.%n", currentTime, player.getName()));
+				writer.write(String.format("\u2551  %s  \u00BB  %-10s: Check %17s\u2551%n", currentTime, player.getName(),""));
 			else if (action instanceof Action.Call)
-				writer.write(String.format("\u2551  %s  \u00BB  %-8s: Call.%n", currentTime, player.getName()));
+				writer.write(String.format("\u2551  %s  \u00BB  %-10s: Call %18s\u2551%n", currentTime, player.getName(),""));
 			else if (action instanceof Action.Raise)
-				writer.write(String.format("\u2551  %s  \u00BB  %-8s: Raise %d.%n", currentTime, player.getName(),
-						((Action.Raise) action).getAmount()));
+				writer.write(String.format("\u2551  %s  \u00BB  %-10s: Raise %-5d %11s\u2551%n", currentTime, player.getName(),
+						((Action.Raise) action).getAmount(),""));
 			else if (action instanceof Action.AllIn)
-				writer.write(String.format("\u2551  %s  \u00BB  %-8s: All-in.%n", currentTime, player.getName()));
+				writer.write(String.format("\u2551  %s  \u00BB  %-10s: All-in%n", currentTime, player.getName()));
 			else
-				writer.write(String.format("\u2551  %s  \u00BB  %-8s: Unrecognized action.%n", currentTime, player.getName()));
+				writer.write(String.format("\u2551  %s  \u00BB  %-10s: Unrecognized action%n", currentTime, player.getName()));
 
 		} catch (IOException e) {
 			e.printStackTrace();
