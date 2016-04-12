@@ -3,6 +3,5 @@
 <?import javafx.scene.control.*?>
 
 
-<fx:root type="javafx.scene.control.ScrollPane" xmlns:fx="http://javafx.com/fxml">
-	<TextArea fx:id="textArea"/>
+<fx:root type="javafx.scene.control.TextArea" xmlns:fx="http://javafx.com/fxml">
 </fx:root>

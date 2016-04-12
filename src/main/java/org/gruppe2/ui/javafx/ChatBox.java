@@ -1,20 +1,15 @@
 package org.gruppe2.ui.javafx;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 
+import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
-public class ChatBox extends ScrollPane {
-
-
-    @FXML
-    private TextArea textArea;
-
-
+public class ChatBox extends TextArea {
+	Player player;
+	
     public ChatBox() {
         Resources.loadFXML(this);
         setPositionsAndSettings();
@@ -22,25 +17,55 @@ public class ChatBox extends ScrollPane {
 
 
     private void setPositionsAndSettings() {
-        double scale = 0.22;
-        this.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(scale));
-        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-        this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(scale));
-        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
+        double chatScale = 0.22;
+        this.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(chatScale));
+        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(chatScale));
+        this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(chatScale));
+        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(chatScale));
 
-        this.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        textArea.setEditable(false);
+        editableProperty().setValue(false);
+        setWrapText(true);
 
     }
 
     public void setEventListeners(TextField textField) {
 
         textField.setOnAction(e -> { // Put text from textField to textArea
-            if (textField.getText().equals(null) || textField.getText().equals("")) ;
+            checkForCommands(textField);
+        	if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
             else {
-                textArea.setText(textArea.getText() + "\n" + "General" + ": " + textField.getText());
+                this.setText(this.getText() + "\n" + player + ": " + textField.getText());
                 textField.setText("");
+                this.setScrollTop(Double.MAX_VALUE);
             }
         });
     }
+
+    /**
+     * Method for doing commands
+     * @param textField
+     */
+	private void checkForCommands(TextField textField) {
+		String command = textField.getText();
+		if(command.equals("bestHand")){
+			 this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			 System.out.println();
+//			GeneralCalculations.getBestHandForPlayer(this.getParent().getParent().communityCards, ((GameWindowthis.getParent().getParent().yourSelf);
+		}
+		else if(command.equals("log")){
+			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			//Print logs--->
+		}
+		else if(command.equals("fuck off")){
+			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			//Print playFuckOfClip--->
+		}
+		else if(command.equals("raiding party")){
+			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			//Print raidingPartyClip--->
+		}
+		
+		
+	} 
+
 }

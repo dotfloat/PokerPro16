@@ -5,6 +5,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import org.gruppe2.ui.javafx.ChoiceBar?>
 <?import org.gruppe2.ui.javafx.Table?>
+<?import org.gruppe2.ui.javafx.PlayerCards?>
+
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
 
    <bottom>
@@ -14,12 +16,6 @@
     <center>
    		<Table fx:id="table"/>
    </center>
-
-   <ImageView fx:id="playerCard1" preserveRatio="true">
-
-	</ImageView>
-	<ImageView fx:id="playerCard2" preserveRatio="true">
-
-	</ImageView>
+   <PlayerCards fx:id="playerCards"/>
 
 </fx:root>
