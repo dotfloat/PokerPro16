@@ -3,6 +3,7 @@ package org.gruppe2.ui.javafx;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -35,6 +36,7 @@ public class ChoiceBar extends HBox {
 		slider.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
         slider.setMinWidth(width * 0.15);
         slider.setMax(5000);
+		chatField.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.22));
        
         sliderValue.setMinWidth(width * 0.09);
         sliderValue.setMaxWidth(height * 0.09);

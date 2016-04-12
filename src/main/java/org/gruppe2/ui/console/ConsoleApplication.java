@@ -7,6 +7,7 @@ import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.session.SessionContext;
+import org.gruppe2.game.view.GameView;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class ConsoleApplication implements Runnable {
 
         sessionContext = gameBuilder.start();
 
-        sessionContext.getGameView().onPlayerJoin(System.out::println);
+        sessionContext.getView(GameView.class).onPlayerJoin(System.out::println);
 
         System.out.println();
 

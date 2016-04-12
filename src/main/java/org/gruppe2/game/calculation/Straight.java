@@ -1,4 +1,4 @@
-package org.gruppe2.game.Calculation;
+package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Created by Mikal on 11.04.2016.
  */
-public class Straight {
+public class Straight implements HandCalculation{
 
     public static boolean canGetStraight(Collection<Card> communityCards, Player p, boolean sameSuit){
         if (communityCards.size() == 0)
@@ -70,5 +70,15 @@ public class Straight {
         }
 
         return straightLength;
+    }
+
+    @Override
+    public boolean canGetHand(Collection<Card> communityCards, Player p) {
+        return canGetStraight(communityCards, p, false);
+    }
+
+    @Override
+    public double handProbability(Collection<Card> communityCards, Player p) {
+        return 0.0;
     }
 }

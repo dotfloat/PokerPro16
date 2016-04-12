@@ -7,41 +7,41 @@ import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.game.view.GameView;
 
+import java.util.List;
+
 public class GameController extends Controller<GameModel, GameView> {
-    PlayerController playerController = new PlayerController(getSessionContext());
-    PlayerModel model = null;
+    private final RoundController roundController = new RoundController(getSessionContext());
 
     public GameController(SessionContext sessionContext) {
         super(sessionContext);
     }
 
     @Override
-    public void init() {
-    }
-
-    @Override
     public void update() {
-        if (model != null) {
-            getSessionContext().addEvent(PlayerActionQuery.class, model, new PlayerActionQuery());
-            model = null;
-        }
+        roundController.update();
     }
 
-    @Override
     public GameModel getModel() {
-        return getSessionContext().getGameModel();
+        return (GameModel) getSessionContext().getModel(GameModel.class);
     }
 
-    @Override
     public GameView getView() {
-        return getSessionContext().getGameView();
+        return (GameView) getSessionContext().getView(GameView.class);
     }
 
-    public void addPlayer(PlayerModel model) {
-        getModel().getPlayers().add(model);
+    public boolean addPlayer(PlayerModel model) {
+        List<PlayerModel> players = getSessionContext().getModels(PlayerModel.class);
 
-        this.model = model;
+        if (!(players.size() + 1 >= getModel().getMaxPlayers())) {
+            return false;
+        }
 
-        getSessionContext().addEvent(PlayerJoinEvent.class, new PlayerJoinEvent(model));
+        players.add(model);
+
+        return true;
+    }
+
+    public RoundController getRoundController() {
+        return roundController;
     }
 }

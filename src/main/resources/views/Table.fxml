@@ -12,5 +12,5 @@
 		</ImageView>
 		<CommunityCards fx:id="communityCardsBox"/>
 		<ChatBox fx:id="chatBox"/>
-		<RightMenu alignment="TOP_RIGHT"/>
+		<RightMenu fx:id="rightMenu" alignment="TOP_RIGHT"/>
 </fx:root>

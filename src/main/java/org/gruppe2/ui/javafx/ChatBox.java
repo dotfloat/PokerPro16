@@ -8,38 +8,36 @@ import javafx.scene.control.TextField;
 
 import org.gruppe2.ui.Resources;
 
-public class ChatBox extends ScrollPane {
-	private int width = PokerApplication.getWidth();
-	private int height = PokerApplication.getHeight();
-	
-	
-    @FXML private TextArea textArea;
-	
-	
-	public ChatBox() {
-		Resources.loadFXML(this);
-		setPositionsAndSettings();
-	}
+public class ChatBox extends TextArea {
 
 
 
 
-	private void setPositionsAndSettings() {
-		
-		this.setMaxSize(width*0.16, height*0.13);
-		
-		
-		this.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        textArea.setEditable(false);
-		
-	}
-	
-	public void setEventListeners(TextField textField) {
-		
+    public ChatBox() {
+        Resources.loadFXML(this);
+        setPositionsAndSettings();
+    }
+
+
+    private void setPositionsAndSettings() {
+        double chatScale = 0.22;
+        this.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(chatScale));
+        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(chatScale));
+        this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(chatScale));
+        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(chatScale));
+
+        editableProperty().setValue(false);
+        setWrapText(true);
+
+    }
+
+    public void setEventListeners(TextField textField) {
+
         textField.setOnAction(e -> { // Put text from textField to textArea
-            if (textField.getText().equals(null) || textField.getText().equals("")) ;
+            if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
             else {
-                textArea.setText(textArea.getText() + "\n" + "General" + ": " + textField.getText());
+                this.setText(this.getText() + "\n" + "General" + ": " + textField.getText());
+                this.setScrollTop(Double.MAX_VALUE);
                 textField.setText("");
             }
         });

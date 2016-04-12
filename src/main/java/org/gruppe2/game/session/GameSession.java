@@ -5,6 +5,7 @@ import org.gruppe2.game.controller.PlayerController;
 import org.gruppe2.game.event.EventHandler;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
 
 import java.util.ArrayList;
@@ -15,12 +16,15 @@ import java.util.UUID;
 public class GameSession extends Session {
     private final List<PlayerController> players = Collections.synchronizedList(new ArrayList<>());
     private final GameController gameController;
-    private final GameModel gameModel;
 
     private boolean playing = true;
 
     public GameSession(int maxPlayers) {
-        gameModel = new GameModel(UUID.randomUUID(), maxPlayers);
+        addModels(GameModel.class);
+        getModels(GameModel.class).add(new GameModel(UUID.randomUUID(), 5));
+
+        addModels(PlayerModel.class);
+
         gameController = new GameController(getSessionContext());
     }
 
@@ -43,10 +47,5 @@ public class GameSession extends Session {
     @Override
     public void exit() {
         playing = false;
-    }
-
-    @Override
-    public GameModel getGameModel() {
-        return gameModel;
     }
 }

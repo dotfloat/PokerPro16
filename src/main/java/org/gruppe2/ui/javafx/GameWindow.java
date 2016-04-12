@@ -19,6 +19,7 @@ import org.gruppe2.ui.Resources;
  * buttons must be one class, etc..
  */
 public class GameWindow extends BorderPane {
+
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
 	public int bigBlind = 50;

@@ -1,17 +1,16 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.GameState;
-import org.gruppe2.game.controller.PlayerController;
-import org.gruppe2.game.event.EventHandler;
-import org.gruppe2.game.event.PlayerActionQuery;
-import org.gruppe2.game.model.GameModel;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.view.View;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 
 public abstract class Session implements Runnable {
     private final MainEventQueue eventQueue = new MainEventQueue();
-    private final AtomicInteger spectatorCount = new AtomicInteger(0);
+
+    private final Map<Class<? extends Model>, List<Model>> modelMap = Collections.synchronizedMap(new HashMap<>());
 
     private final SessionContext sessionContext = new SessionContext(this);
 
@@ -39,7 +38,7 @@ public abstract class Session implements Runnable {
 
     @Override
     public void run() {
-        while(true) {
+        while (true) {
 
             eventQueue.process();
 
@@ -57,7 +56,19 @@ public abstract class Session implements Runnable {
         return eventQueue;
     }
 
-    public abstract GameModel getGameModel();
+    public <M extends Model> void addModels(Class<M> klass) {
+        modelMap.put(klass, Collections.synchronizedList(new ArrayList<>()));
+    }
+
+    public <M extends Model> List<M> getModels(Class<M> klass) {
+        return (List<M>) modelMap.get(klass);
+    }
+
+    public <M extends Model> M getModel(Class<M> klass) {
+        List<Model> list = modelMap.get(klass);
+
+        return list != null ? (M) list.get(0) : null;
+    }
 
     public abstract void update();
 
