@@ -24,16 +24,19 @@ public class Logger {
 	 */
 	public Logger() {
 		LocalDateTime dateTime = LocalDateTime.now();
-		String filePath = "./logs/";
+		
+		String filePath = System.getProperty("user.home") + File.separator;
 		String fileName = filePath + String.format("%d.%03d_%02d.%02d.txt", dateTime.getYear(), dateTime.getDayOfYear(),
 				dateTime.getHour(), dateTime.getMinute());
 		logFile = new File(fileName);
-		// Sparkly pretty UNICODE, please don't bully the macs.
+		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
+			// Sparkly pretty UNICODE, please don't bully the macs.	
 			writer.write(String.format("\u2554%50s\u2557%n", "").replace(' ', '\u2550')); // Top frame.
 			writer.write(String.format("\u2551 %02d\u00b7%02d\u00b7%d", dateTime.getDayOfMonth(), dateTime.getMonthValue(),
 					dateTime.getYear())); // Logs the date of creation.
 			writer.write(String.format("%39s\u2551%n", "")); // Completes the frame.
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -91,7 +94,7 @@ public class Logger {
 	 */
 	public void done() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
-			writer.write(String.format("\u255A%50s\u255D%n", "").replace(' ', '\u2550')); // Top frame.
+			writer.write(String.format("\u255A%50s\u255D%n", "").replace(' ', '\u2550')); // Bottom frame.
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
