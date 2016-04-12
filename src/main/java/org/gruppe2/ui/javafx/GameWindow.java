@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +29,7 @@ public class GameWindow extends BorderPane {
     ArrayList<Player> players = new ArrayList<Player>();
     List<Pane> playerInfoBoxes = new ArrayList<Pane>();
     GUIPlayer guiPlayer;
+    Thread th;
 
     GameSession gameSession;
     CommunityCards communityCardsBox;
@@ -47,9 +47,6 @@ public class GameWindow extends BorderPane {
 
     public GameWindow() {
         Resources.loadFXML(this);
-
-        //RightMenu rightMenu = new RightMenu();
-        //SceneController.setMenuButton(rightMenu);
 
         ((ChatBox) table.getChildren().get(2))
                 .setEventListeners((TextField) choiceBar.getChildren().get(0));
@@ -151,8 +148,8 @@ public class GameWindow extends BorderPane {
 
         setUpPlayerBoxes();
         // mainFrame.drawPot();
-
-        Thread th = new Thread(() -> gameSession.mainLoop());
+        
+        th = new Thread(() -> gameSession.mainLoop());
         th.start();
 
     }
@@ -174,6 +171,9 @@ public class GameWindow extends BorderPane {
         yourself = new Player("Person", startValue, guiPlayer);
         players.add(yourself);
         choiceBar.setEvents(guiPlayer, yourself);
+    }
+    public Thread getThread(){
+		return th;
     }
 
 }
