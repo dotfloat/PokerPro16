@@ -4,9 +4,8 @@
 
 PokerPro16 is an implementation of the poker game Texas Hold'em, written in Java and uses the [JavaFX API](http://docs.oracle.com/javase/8/javafx/api/toc.htm).
 
-## Code Example
-
-TODO
+## Screenshots
+![screen1.png](https://bitbucket.org/repo/gqBGk8/images/2048584988-screen1.png)
 
 ## Installation
 
