@@ -1,17 +1,11 @@
 package org.gruppe2.ui.javafx;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
 
 import org.gruppe2.ui.Resources;
 
 public class ChatBox extends TextArea {
-
-
-
 
     public ChatBox() {
         Resources.loadFXML(this);
@@ -37,9 +31,10 @@ public class ChatBox extends TextArea {
             if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
             else {
                 this.setText(this.getText() + "\n" + "General" + ": " + textField.getText());
-                this.setScrollTop(Double.MAX_VALUE);
                 textField.setText("");
+                this.setScrollTop(Double.MAX_VALUE);
             }
         });
     }
+
 }

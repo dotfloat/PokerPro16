@@ -1,47 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.layout.*?>
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="pane">
 
+    <ImageView fx:id="playerPicture" fitWidth="100" preserveRatio="true"
+               GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="3">
+                    <Image url="/images/avatars/default.png"/>
+    </ImageView>
 
-<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-	  <StackPane fx:id="playerBoxStackPane" opacity="0.5">
-	        <ImageView fx:id="playerPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-  				<Image url="/images/avatars/default.png"/>
-	        </ImageView>
+    <Label fx:id="playerName" text="Name" minWidth="150"
+           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-	        <Circle opacity="0.5" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-	           <fill>
-	              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-	                 <stops>
-	                    <Stop color="WHITE" />
-	                    <Stop color="#c49b9b64" offset="1.0" />
-	                 </stops>
-	              </RadialGradient>
-	           </fill>
-	        </Circle>
-	        <Label fx:id="playerName" text="Name" StackPane.alignment="TOP_LEFT">
-	           <StackPane.margin>
-	              <Insets left="5.0" top="5.0" />
-	           </StackPane.margin>
-	        </Label>
-	        <Label fx:id="stack" text="Stack" StackPane.alignment="BOTTOM_LEFT">
-	           <StackPane.margin>
-	              <Insets bottom="5.0" left="5.0" />
-	           </StackPane.margin>
-	        </Label>
-	        <Label fx:id="currentBet" text="Current bet" StackPane.alignment="BOTTOM_RIGHT">
-	           <StackPane.margin>
-	              <Insets bottom="5.0" right="5.0" />
-	           </StackPane.margin>
-	        </Label>
-	  </StackPane>
+    <Label fx:id="stack" text="Stack"
+           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <Label fx:id="currentBet" text="Current bet"
+           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
 </fx:root>
