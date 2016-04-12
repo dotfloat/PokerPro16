@@ -17,12 +17,6 @@ import static org.junit.Assert.assertTrue;
  * Created by Mikal on 11.04.2016.
  */
 public class FlushTest {
-    Flush f;
-
-    @Before
-    public void setUp() throws Exception {
-        f = new Flush();
-    }
 
     @Test
     public void findsCorrectNumberOfSuitsTest() throws Exception {
@@ -50,6 +44,6 @@ public class FlushTest {
         Player p = new Player("TestPlayer", 0, null);
         p.setCards(new Card(3, Card.Suit.DIAMONDS), new Card(8, Card.Suit.SPADES));
 
-        assertTrue(f.canGetFlush(cards, p));
+        assertTrue(Flush.canGetFlush(cards, p));
     }
 }

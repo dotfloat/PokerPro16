@@ -14,13 +14,6 @@ import static org.junit.Assert.*;
  * Created by Mikal on 11.04.2016.
  */
 public class StraightTest {
-    Straight s;
-
-    @Before
-    public void setUp() throws Exception {
-        s = new Straight();
-
-    }
 
     @Test
     public void cantGetStraightTest() {
@@ -32,7 +25,7 @@ public class StraightTest {
         Player p = new Player("TestPlayer", 0, null);
         p.setCards(new Card(13, Card.Suit.DIAMONDS), new Card(14, Card.Suit.SPADES));
 
-        assertFalse(s.canGetStraight(cards, p));
+        assertFalse(Straight.canGetStraight(cards, p, false));
     }
 
     @Test
@@ -45,6 +38,6 @@ public class StraightTest {
         Player p = new Player("TestPlayer", 0, null);
         p.setCards(new Card(13, Card.Suit.DIAMONDS), new Card(10, Card.Suit.SPADES));
 
-        assertTrue(s.canGetStraight(cards, p));
+        assertTrue(Straight.canGetStraight(cards, p, false));
     }
 }
