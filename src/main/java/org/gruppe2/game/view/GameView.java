@@ -7,12 +7,8 @@ import org.gruppe2.game.session.SessionContext;
 
 public class GameView extends AbstractView<GameModel> {
 
-    public GameView(SessionContext sessionContext) {
-        super(sessionContext);
-    }
-
     public void onPlayerJoin(EventHandler<PlayerJoinEvent> handler) {
-        getSessionContext().getEventQueue().registerHandler(PlayerJoinEvent.class, handler);
+        getContext().getEventQueue().registerHandler(PlayerJoinEvent.class, handler);
     }
 
     public PlayerView getPlayerByName(String name) {
