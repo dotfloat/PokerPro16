@@ -48,9 +48,8 @@ public class GameWindow extends BorderPane {
     public GameWindow() {
         Resources.loadFXML(this);
 
-//        RightMenu rightMenu = new RightMenu();
-//        rightMenu.setAlignment(Pos.TOP_RIGHT);
-//        SceneController.setMenuButton(rightMenu);
+        //RightMenu rightMenu = new RightMenu();
+        //SceneController.setMenuButton(rightMenu);
 
         ((ChatBox) table.getChildren().get(2))
                 .setEventListeners((TextField) choiceBar.getChildren().get(0));

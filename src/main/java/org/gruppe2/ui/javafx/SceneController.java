@@ -22,15 +22,17 @@ class SceneController {
 
     public static void setModal(Node node){
         StackPane stage = PokerApplication.getRoot();
-        if (stage.getChildren().size() == 2) {
+        if (stage.getChildren().size() == 1) {
             stage.getChildren().add(node);
+            stage.getChildren().get(0).disableProperty().setValue(true);
         } else {
-            stage.getChildren().set(2, node);
+            stage.getChildren().set(1, node);
         }
     }
     public static void removeModal(Node node){
         StackPane stage = PokerApplication.getRoot();
         stage.getChildren().removeAll(node);
+        stage.getChildren().get(0).disableProperty().setValue(false);
     }
     public static void setMenuButton(Node node){
         StackPane stage = PokerApplication.getRoot();

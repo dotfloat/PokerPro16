@@ -30,7 +30,8 @@ public class RightMenu extends VBox {
     }
 
     public void leaveTable(ActionEvent actionEvent) {
-
+        SceneController.setScene(new MainMenu());
+        //TODO exit thread and stuff
     }
 
     public void viewLobby(ActionEvent actionEvent) {
