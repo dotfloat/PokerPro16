@@ -25,7 +25,7 @@
                         <Button fx:id = "joinTable" text = "Join Table"/>
                         <Button fx:id ="singlePlayer" text = "Singleplayer" onAction="#goToSinglePlayer"/>
                         <Button fx:id = "viewStatistics" text = "View Statistics"/>
-                        <Button fx:id = "settings" text = "Settings"/>
+                        <Button fx:id = "settings" text = "Settings" onAction="#goToSettings"/>
                 </VBox>
         </center>
 

@@ -1,7 +1,5 @@
 package org.gruppe2.ui.javafx;
 
-import java.awt.Container;
-
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +40,7 @@ public class RightMenu extends VBox {
 				PokerApplication.getRoot().heightProperty().multiply(0.2));
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public void leaveTable(ActionEvent actionEvent) {
 		SceneController.setScene(new MainMenu());
 		

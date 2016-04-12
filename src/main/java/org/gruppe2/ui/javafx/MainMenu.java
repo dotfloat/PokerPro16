@@ -39,10 +39,16 @@ public class MainMenu extends BorderPane {
 
 		setButtonSize();
 		fadeIn();
+		
+		
 	}
 
 	public void goToSinglePlayer() throws InterruptedException {
 		SceneController.setScene(new GameWindow());
+	}
+	
+	public void goToSettings(){
+		SceneController.setScene(new Settings());
 	}
 
 	private void fadeIn() {

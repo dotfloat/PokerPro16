@@ -1,6 +1,5 @@
 package org.gruppe2.ui.javafx;
 
-import javafx.beans.binding.DoubleExpression;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;

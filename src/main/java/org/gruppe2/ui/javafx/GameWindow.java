@@ -22,9 +22,9 @@ public class GameWindow extends BorderPane {
 
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-	public int bigBlind = 50;
-	public int smallBlind = 25;
-	public int startValue = 50;
+	public static int bigBlind = 50;
+	public static int smallBlind = 25;
+	public static int startValue = 50;
 	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
