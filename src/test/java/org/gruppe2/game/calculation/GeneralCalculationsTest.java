@@ -1,6 +1,5 @@
 package org.gruppe2.game.calculation;
 
-import junit.framework.TestCase;
 import static org.junit.Assert.*;
 
 import org.gruppe2.game.calculation.GeneralCalculations;

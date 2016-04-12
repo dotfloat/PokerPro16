@@ -19,7 +19,7 @@ public class Pair implements HandCalculation{
 
     @Override
     public boolean canGetHand(Collection<Card> communityCards, Player p) {
-        return canGetPair(communityCards, p);
+        return canGetPair(communityCards,p);
     }
 
     @Override

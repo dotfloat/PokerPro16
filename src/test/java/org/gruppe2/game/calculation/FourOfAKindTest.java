@@ -1,12 +1,12 @@
 package org.gruppe2.game.calculation;
-        import org.gruppe2.game.calculation.FourOfAKind;
+
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by �smund on 12/04/2016.

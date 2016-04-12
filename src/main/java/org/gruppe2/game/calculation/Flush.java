@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class Flush implements HandCalculation{
 
     public static boolean canGetFlush(Collection<Card> communityCards, Player p){
-        if (communityCards.size() > 0)
+        if (communityCards.size() == 0)
             return true;
 
         ArrayList<Card> allCards = new ArrayList<>(communityCards);
@@ -21,9 +21,11 @@ public class Flush implements HandCalculation{
         allCards.add(p.getCard2());
 
         HashMap<Card.Suit, Integer> numTypes = numberOfEachType(allCards);
+        System.out.println(numTypes);
         for (Card.Suit suit : numTypes.keySet())
             if (numTypes.get(suit) >= communityCards.size())
                 return true;
+
         return false;
     }
 

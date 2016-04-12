@@ -2,11 +2,9 @@ package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
-import org.gruppe2.ui.javafx.CommunityCards;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 /**
  * Created by �smund on 11/04/2016.
