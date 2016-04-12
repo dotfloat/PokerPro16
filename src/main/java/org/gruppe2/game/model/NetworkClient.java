@@ -27,7 +27,7 @@ public class NetworkClient {
         ) {
             // create socket-object ?
 
-
+            // just commit test
             inMsg = "Dette er en test";
         } catch (UnknownHostException h) {
             h.printStackTrace();
