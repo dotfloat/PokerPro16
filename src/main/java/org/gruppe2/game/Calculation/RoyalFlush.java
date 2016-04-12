@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class RoyalFlush {
 
-    public boolean canGetRoyalFlush(Collection<Card> communityCards, Player p){
+    public static boolean canGetRoyalFlush(Collection<Card> communityCards, Player p){
         if (communityCards.size() == 0)
             return true;
 
@@ -25,18 +25,20 @@ public class RoyalFlush {
         if (cardIsRoyal(p.getCard2()))
             allRoyalCards.add(p.getCard2());
 
+        if (allRoyalCards.size() < communityCards.size())
+            return false;
+
         HashMap<Card.Suit, Integer> numTypes = Flush.numberOfEachType(allRoyalCards);
 
-        if (allRoyalCards.size() >= communityCards.size())
-            for (int i : numTypes.values())
-                if (i >= communityCards.size())
-                    return true;
+        for (int i : numTypes.values())
+            if (i >= communityCards.size())
+                return true;
 
         return false;
     }
 
-    private boolean cardIsRoyal(Card c) {
-        return c.getFaceValue() >= 10 || c.getFaceValue() <= 14;
+    private static boolean cardIsRoyal(Card c) {
+        return c.getFaceValue() >= 10 && c.getFaceValue() <= 14;
     }
 
     public Double royalFlushPossiblity(ArrayList<Card> communityCards, Player p) {
