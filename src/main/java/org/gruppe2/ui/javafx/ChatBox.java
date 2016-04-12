@@ -37,8 +37,8 @@ public class ChatBox extends TextArea {
             if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
             else {
                 this.setText(this.getText() + "\n" + "General" + ": " + textField.getText());
-                this.setScrollTop(Double.MAX_VALUE);
                 textField.setText("");
+                this.setScrollTop(Double.MAX_VALUE);
             }
         });
     }
