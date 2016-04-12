@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -97,42 +98,52 @@ public class GameWindow extends BorderPane {
             PlayerInfoBox playerInfoBox = new PlayerInfoBox();
             playerInfoBoxes.add(playerInfoBox);
             playerInfoBox.setValues(player);
-
         }
         System.out.println("Players size: " + players.size());
         paintAllPlayers(playerInfoBoxes);
     }
 
     public void paintAllPlayers(List<Pane> playerInfoBoxes) {
-        double xStep = width / 15;
-        double yStep = height / 11;
-        double y = 10;
+        
+    	
         int numberOfPlayers = playerInfoBoxes.size();
         if (numberOfPlayers > 3)
-            paintPlayerInfoBox(playerInfoBoxes.get(3), xStep * 2, y);
+            paintPlayerInfoBox(playerInfoBoxes.get(3), 0.3, 0.001);
         if (numberOfPlayers > 4)
-            paintPlayerInfoBox(playerInfoBoxes.get(4), xStep * 6.5, y);
+            paintPlayerInfoBox(playerInfoBoxes.get(4), 0.45, 0.001);
         if (numberOfPlayers > 5)
-            paintPlayerInfoBox(playerInfoBoxes.get(5), xStep * 11, y);
+            paintPlayerInfoBox(playerInfoBoxes.get(5), 0.6,
+            		0.002);
         if (numberOfPlayers > 2)
-            paintPlayerInfoBox(playerInfoBoxes.get(2), xStep * 0.2, yStep * 2);
+            paintPlayerInfoBox(playerInfoBoxes.get(2), 0.13, 0.001);
         if (numberOfPlayers > 6)
-            paintPlayerInfoBox(playerInfoBoxes.get(6), xStep * 12.5, yStep * 2);
+            paintPlayerInfoBox(playerInfoBoxes.get(6), 0.77,
+            		0.001);
         if (numberOfPlayers > 1)
-            paintPlayerInfoBox(playerInfoBoxes.get(1), xStep * 0.2, yStep * 4.2);
+            paintPlayerInfoBox(playerInfoBoxes.get(1), 0.05, 0.2);
         if (numberOfPlayers > 7)
-            paintPlayerInfoBox(playerInfoBoxes.get(7), xStep * 12.5,
-                    yStep * 4.2);
+            paintPlayerInfoBox(playerInfoBoxes.get(7), 0.8,
+            		0.2);
         if (numberOfPlayers > 0)
-            paintPlayerInfoBox(playerInfoBoxes.get(0), xStep * 0.2, yStep * 6.4);
+            paintPlayerInfoBox(playerInfoBoxes.get(0), 0.03, 0.45);
         if (numberOfPlayers > 8)
-            paintPlayerInfoBox(playerInfoBoxes.get(8), xStep * 12.5,
-                    yStep * 6.4);
+            paintPlayerInfoBox(playerInfoBoxes.get(8), 0.81,
+            		0.45);
     }
 
     public void paintPlayerInfoBox(Pane playerInfoBox, double x, double y) {
-        playerInfoBox.setLayoutX(x);
-        playerInfoBox.setLayoutY(y);
+        
+    	playerInfoBox.setLayoutX(x*width);
+        playerInfoBox.setLayoutY(y*height);
+        System.out.println(x+" "+ y);
+        playerInfoBox.maxWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.05));
+         playerInfoBox.maxHeightProperty().bind(
+                 PokerApplication.getRoot().heightProperty().multiply(0.05));
+        
+        playerInfoBox.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(x));
+        playerInfoBox.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(y));
+        
         getChildren().add(playerInfoBox);
     }
 
@@ -142,7 +153,7 @@ public class GameWindow extends BorderPane {
     private void testGame() {
 
         addYourSelf();
-        gameSession = new GameBuilder().ai(7).blinds(bigBlind, smallBlind)
+        gameSession = new GameBuilder().ai(8).blinds(bigBlind, smallBlind)
                 .startMoney(startValue).mainClient(guiPlayer).build();
 
 
@@ -175,5 +186,4 @@ public class GameWindow extends BorderPane {
     public Thread getThread(){
 		return th;
     }
-
 }
