@@ -8,7 +8,8 @@ import org.gruppe2.game.old.Deck;
 
 public class MockDeck extends Deck{
 	public void removeCards(List<Card> cardsToRemove){
-		this.cards.remove(cardsToRemove);
+		this.cards.removeAll(cardsToRemove);
+		this.cardsLeft-=cardsToRemove.size();
 	}
 	
 	public ArrayList<Card> getCards(){
