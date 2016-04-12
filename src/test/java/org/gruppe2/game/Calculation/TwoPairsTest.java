@@ -1,4 +1,4 @@
-package org.gruppe2.game.Calculation;
+package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 /**
- * Created by Åsmund on 12/04/2016.
+ * Created by ï¿½smund on 12/04/2016.
  */
 public class TwoPairsTest{
 

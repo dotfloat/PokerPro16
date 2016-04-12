@@ -1,7 +1,5 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.Calculation.Flush;
-import org.gruppe2.game.Calculation.RoyalFlush;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 import org.junit.Test;
