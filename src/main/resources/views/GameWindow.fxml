@@ -12,7 +12,8 @@
 <?import org.gruppe2.ui.javafx.CommunityCards?>
 <?import org.gruppe2.ui.javafx.Table?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.gruppe2.ui.javafx.GameWindow" fx:id="borderPane" styleClass="background">
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
+
    <bottom>
    		<ChoiceBar fx:id="choiceBar"/>
    </bottom> 
@@ -28,4 +29,4 @@
 			        
 	</ImageView>
 	
-</BorderPane>
+</fx:root>

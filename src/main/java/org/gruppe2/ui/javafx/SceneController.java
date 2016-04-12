@@ -16,20 +16,10 @@ import java.net.URL;
  */
 class SceneController {
 
-    public static void setScene(URL url) {
-
-        try {
-        	
-            BorderPane newScene = FXMLLoader.load(url);
-            StackPane stage = PokerApplication.getRoot();
-            stage.getChildren().set(0, newScene);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+    public static void setScene(Node node) {
+        PokerApplication.getRoot().getChildren().set(0, node);
     }
+
     public static void setModal(Node node){
         StackPane stage = PokerApplication.getRoot();
         if (stage.getChildren().size() == 2) {

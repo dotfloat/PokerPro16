@@ -4,8 +4,6 @@ package org.gruppe2.ui.javafx;
  * Created by Petter on 04/04/2016.
  */
 
-import java.io.IOException;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,8 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
 import org.gruppe2.ui.Resources;
+
+import java.io.IOException;
 
 public class Intro extends BorderPane {
 
@@ -31,7 +30,7 @@ public class Intro extends BorderPane {
         clickToContinueFading(clickToContinue);
     }
     public void goToMenu() throws IOException{
-        SceneController.setScene((getClass().getResource("/views/MainMenu.fxml")));
+        SceneController.setScene(new MainMenu());
     }
 
     private void fallingAnimation(Rectangle node){
