@@ -43,6 +43,7 @@ public class RightMenu extends VBox {
 
 	public void leaveTable(ActionEvent actionEvent) {
 		SceneController.setScene(new MainMenu());
+		PokerApplication.inGame = false;
 		
 		if (((GameWindow) this.getParent().getParent()).getThread() != null) {
 			((GameWindow) this.getParent().getParent()).getThread().interrupt();

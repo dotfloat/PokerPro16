@@ -41,7 +41,12 @@ public class Lobby extends BorderPane {
 	}
 
 	public void closeLobby() {
-		SceneController.removeModal(this);
+		if(PokerApplication.inGame == false){
+			SceneController.setScene(new MainMenu());
+		}
+		else{
+			SceneController.removeModal(this);
+		}
 	}
 
 	private void setSize() {

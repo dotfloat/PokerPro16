@@ -21,8 +21,8 @@
         </left>
         <center>
                 <VBox fx:id="vBox" alignment="CENTER" styleClass="vbox" spacing="10">
-                        <Button fx:id = "createTable" text = "Create Table"/>
-                        <Button fx:id = "joinTable" text = "Join Table"/>
+                        <Button fx:id = "createTable" text = "Create Table" onAction="#createNetWorkTable"/>
+                        <Button fx:id = "joinTable" text = "Join Table" onAction="#goToLobby"/>
                         <Button fx:id ="singlePlayer" text = "Singleplayer" onAction="#goToSinglePlayer"/>
                         <Button fx:id = "viewStatistics" text = "View Statistics"/>
                         <Button fx:id = "settings" text = "Settings" onAction="#goToSettings"/>

@@ -46,6 +46,12 @@ public class MainMenu extends BorderPane {
 	public void goToSinglePlayer() throws InterruptedException {
 		SceneController.setScene(new GameWindow());
 	}
+	public void createNetWorkTable(){
+		SceneController.setScene(new GameWindow());
+	}
+	public void goToLobby(){
+		SceneController.setScene(new Lobby());
+	}
 	
 	public void goToSettings(){
 		SceneController.setScene(new Settings());

@@ -48,6 +48,7 @@ public class GameWindow extends BorderPane {
 		((ChatBox) table.getChildren().get(2))
 				.setEventListeners((TextField) choiceBar.getChildren().get(0));
 		communityCardsBox = table.communityCardsBox;
+		PokerApplication.inGame = true;
 		testGame();
 	}
 
