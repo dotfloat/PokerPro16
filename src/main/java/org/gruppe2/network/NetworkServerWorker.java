@@ -1,4 +1,4 @@
-package org.gruppe2.game.model;
+package org.gruppe2.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;

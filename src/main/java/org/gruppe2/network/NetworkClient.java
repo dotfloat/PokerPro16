@@ -1,4 +1,4 @@
-package org.gruppe2.game.model;
+package org.gruppe2.network;
 
 import java.io.*;
 import java.net.Socket;
@@ -31,7 +31,7 @@ public class NetworkClient {
                 fromUser = stdIn.readLine();
                 if(fromUser != null) {
                     System.out.println("Client: " + fromUser);
-                    out.println(fromUser);
+                    out.println(fromUser + System.lineSeparator());
                 }
 
 

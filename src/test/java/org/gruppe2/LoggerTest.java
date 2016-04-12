@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Scanner;
 
 import org.gruppe2.game.old.Logger;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,14 +17,21 @@ public class LoggerTest {
 	public void setup() {
 		logger = new Logger();
 	}
-
+	
+	@After
+	public void done() {
+		logger.done();
+	}
+	
 	@Test
 	public void LogFileExists() {
+		logger.record("LogFileExistsTest!");
 		assertTrue("Logger should create a text file upon creation.", logger.getLog().exists());
 	}
 
 	@Test
 	public void LogFileRecordsInput() throws Exception {
+		logger.record("LogRecordsInputTest!");
 		boolean containsInput = false;
 		String loggedString = "All your base are belong to us.";
 		for (int i = 0; i < 50; i++) {
