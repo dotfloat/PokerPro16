@@ -56,6 +56,15 @@ public class ChatBox extends TextArea {
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print logs--->
 		}
+		else if(command.equals("fuck off")){
+			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			//Print playFuckOfClip--->
+		}
+		else if(command.equals("raiding party")){
+			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			//Print raidingPartyClip--->
+		}
+		
 		
 	} 
 

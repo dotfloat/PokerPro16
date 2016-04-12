@@ -54,7 +54,7 @@ public class ChoiceBar extends HBox {
 		this.player = client.getSession().getPlayers().get(0);
 		FOLD.setOnAction(e -> foldAction());
 		BET.setOnAction(e -> betAction());
-		
+
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable,
@@ -62,7 +62,34 @@ public class ChoiceBar extends HBox {
 				sliderValue.textProperty().setValue(checkMaxBid(slider));
 			}
 		});
+		setKeyListener();
 	}
+
+	/**
+	 * 
+	 * Makes it possible to use keys to play, instead of mouse
+	 */
+
+	@SuppressWarnings("incomplete-switch")
+
+    private void setKeyListener() {
+        chatField.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                       slider.setValue(slider.getValue() * 2);
+                    break;
+                case DOWN:
+                    slider.setValue(slider.getValue() / 2);
+                    break;
+                case LEFT:
+                	foldAction();
+                    break;
+                case RIGHT:
+                	betAction();
+                    break;
+            }
+        });
+    }
 
 	/**
 	 * This will become fxml
@@ -115,8 +142,7 @@ public class ChoiceBar extends HBox {
 	 * @param player
 	 */
 	public void updatePossibleBarsToClick(Player player) {
-		PossibleActions pa = client.getSession()
-				.getPlayerOptions(player);
+		PossibleActions pa = client.getSession().getPlayerOptions(player);
 		if (pa.canCall())
 			BET.setText("Call");
 
