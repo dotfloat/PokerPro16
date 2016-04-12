@@ -4,6 +4,7 @@ import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -11,7 +12,7 @@ import java.util.HashMap;
  */
 public class GeneralCalculations {
 
-    public static ArrayList<Integer> recurringFaceValues(ArrayList<Card> communityCards, Player p) {
+    public static ArrayList<Integer> recurringFaceValues(Collection<Card> communityCards, Player p) {
         ArrayList<Integer> recurringFaceValues = new ArrayList<Integer>();
 
         ArrayList<Card> allCards = new ArrayList<Card>(communityCards);
@@ -45,7 +46,7 @@ public class GeneralCalculations {
 
 
 
-    public static int amountOfSameFace(ArrayList<Card> communityCards, Player p){
+    public static int amountOfSameFace(Collection<Card> communityCards, Player p){
         HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
         int amountOfSameKind = 1;
 

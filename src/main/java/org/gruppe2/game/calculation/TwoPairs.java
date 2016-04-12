@@ -4,13 +4,14 @@ import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by �smund on 12/04/2016.
  */
-public class TwoPairs {
+public class TwoPairs implements HandCalculation{
 
-    public static boolean canGetTwoPairs(ArrayList<Card> communityCards, Player p){
+    public static boolean canGetTwoPairs(Collection<Card> communityCards, Player p){
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards,p);
 
         if(communityCards.size() <=3)
@@ -23,5 +24,15 @@ public class TwoPairs {
 
 
         return false;
+    }
+
+    @Override
+    public boolean canGetHand(Collection<Card> communityCards, Player p) {
+        return canGetTwoPairs(communityCards,p);
+    }
+
+    @Override
+    public double handProbability(Collection<Card> communityCards, Player p) {
+        return 0;
     }
 }

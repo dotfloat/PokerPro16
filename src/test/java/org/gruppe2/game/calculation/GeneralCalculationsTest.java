@@ -2,6 +2,7 @@ package org.gruppe2.game.calculation;
 
 import static org.junit.Assert.*;
 
+import org.gruppe2.game.calculation.GeneralCalculations;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 import org.junit.Test;

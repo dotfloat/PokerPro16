@@ -1,9 +1,12 @@
 package org.gruppe2.game.calculation;
 
+import org.gruppe2.game.calculation.ThreeOfAKind;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
 /**
