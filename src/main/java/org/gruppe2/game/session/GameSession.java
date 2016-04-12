@@ -14,14 +14,14 @@ import java.util.UUID;
 
 public class GameSession extends Session {
     private final List<PlayerController> players = Collections.synchronizedList(new ArrayList<>());
-    private final GameController gameController = null;
+    private final GameController gameController;
+    private final GameModel gameModel;
 
     private boolean playing = true;
 
     public GameSession(int maxPlayers) {
-        GameModel gameModel = new GameModel(UUID.randomUUID(), maxPlayers);
-
-        //this.gameController = new GameController(getSessionContext());
+        gameModel = new GameModel(UUID.randomUUID(), maxPlayers);
+        gameController = new GameController(getSessionContext());
     }
 
     @Override
@@ -34,8 +34,8 @@ public class GameSession extends Session {
     }
 
     @Override
-    public boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler) {
-        gameController.addPlayer(model, handler);
+    public boolean addPlayer(PlayerModel model) {
+        gameController.addPlayer(model);
 
         return true;
     }
@@ -47,6 +47,6 @@ public class GameSession extends Session {
 
     @Override
     public GameModel getGameModel() {
-        return gameController.getModel();
+        return gameModel;
     }
 }

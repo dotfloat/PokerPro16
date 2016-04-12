@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class Flush {
 
-    public boolean canGetFlush(Collection<Card> communityCards, Player p){
+    public static boolean canGetFlush(Collection<Card> communityCards, Player p){
         if (communityCards.size() > 0)
             return true;
 

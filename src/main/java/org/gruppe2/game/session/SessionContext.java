@@ -1,8 +1,10 @@
 package org.gruppe2.game.session;
 
+import org.gruppe2.game.event.Event;
 import org.gruppe2.game.event.EventHandler;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.view.GameView;
 
@@ -22,13 +24,21 @@ public class SessionContext {
         return eventQueue;
     }
 
-    public boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler) {
-        return session.addPlayer(model, handler);
+    public boolean addPlayer(PlayerModel model) {
+        return session.addPlayer(model);
     }
 
     public GameModel getGameModel() { return session.getGameModel(); }
 
     public GameView getGameView() {
         return gameView;
+    }
+
+    public <E extends Event, M extends Model> void addEvent(Class<E> klass, M model, E event) {
+        session.getEventQueue().addEvent(klass, model, event);
+    }
+
+    public <E extends Event> void addEvent(Class<E> klass, E event) {
+        session.getEventQueue().addEvent(klass, event);
     }
 }

@@ -6,11 +6,31 @@ import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.view.PlayerView;
 import org.gruppe2.game.session.SessionContext;
 
-public abstract class PlayerController extends Controller<PlayerModel, PlayerView> {
+public class PlayerController extends Controller<PlayerModel, PlayerView> {
     private PlayerActionQuery query = null;
 
     public PlayerController(SessionContext sessionContext) {
         super(sessionContext);
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public PlayerModel getModel() {
+        return null;
+    }
+
+    @Override
+    public PlayerView getView() {
+        return null;
     }
 
     public Action pollAction() {
