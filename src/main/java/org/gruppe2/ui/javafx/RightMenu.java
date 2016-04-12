@@ -1,5 +1,7 @@
 package org.gruppe2.ui.javafx;
 
+import java.awt.Container;
+
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,9 +45,9 @@ public class RightMenu extends VBox {
 	@SuppressWarnings("deprecation")
 	public void leaveTable(ActionEvent actionEvent) {
 		SceneController.setScene(new MainMenu());
-
+		
 		if (((GameWindow) this.getParent().getParent()).getThread() != null) {
-			((GameWindow) this.getParent().getParent()).getThread().stop();
+			((GameWindow) this.getParent().getParent()).getThread().interrupt();
 		}
 
 	}
