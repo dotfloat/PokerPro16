@@ -106,4 +106,11 @@ public class GeneralCalculations {
 
         return numTypes;
     }
+
+    public static String getBestHandForPlayer(Collection<Card> communityCards, Player p) {
+        for (HandCalculation hand : getAllHandTypes())
+            if (hand.canGetHand(communityCards, p))
+                return hand.getType().toString();
+        return "High card";
+    }
 }

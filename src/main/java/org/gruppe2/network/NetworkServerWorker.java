@@ -1,8 +1,9 @@
-package org.gruppe2.game.model;
+package org.gruppe2.network;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -21,9 +22,11 @@ public class NetworkServerWorker implements Runnable{
     @Override
     public void run() {
 
-        try {
-            InputStream in = clientSocket.getInputStream();
-            OutputStream out = clientSocket.getOutputStream();
+        try
+        {
+
+            //  OutputStream out = clientSocket.getOutputStream();
+
 
             /**
              * Message logic goes here. Returns based on protocoll
@@ -39,17 +42,37 @@ public class NetworkServerWorker implements Runnable{
              *      7;move;stack 300 - player 7 wins 300 chips
              *      9;move;loose - player 9 loose
               */
+            String input, output;
+
+            System.out.println("utenfor while");
 
 
-            out.write(("This is a test message from server").getBytes());
-            out.close();
-            in.close();
+            while(true) {
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+                input = in.readLine();
+                System.out.println("Data received: " + input);
+                String[] s = input.split(";");
+                if(s[1].equals("chat")) {
+                    output = "fikk chat";
+                    out.println(output);
+                    System.out.println("chat");
+
+                }
+                if(s[1].equals("bye")) {
+                    break;
+                }
+            }
+
+          //  out.close();
+          //  in.close();
+            clientSocket.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-
     }
+
 }

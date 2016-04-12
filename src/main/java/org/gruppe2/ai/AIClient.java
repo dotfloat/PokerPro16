@@ -29,60 +29,59 @@ public class AIClient extends GameClient {
         Random rand = new Random();
         ArrayList<Integer> types = new ArrayList<>();
         PossibleActions actions = getSession().getPlayerOptions(player);
-        /*
-        double handStrength = AIHandCalculator.getHandStrength(player.getClient().getSession().getTable(),
-				(ArrayList<Player>) player.getClient().getSession().getPlayers(), this);
+       
+        double handStrength = AIHandCalculator.getHandStrength(player.getClient().getSession().getTable(),player);
 		double bank = player.getBank();
 		double toRaise = player.getClient().getSession().getHighestBet() - player.getBet();
 		double rateOfReturn = 0;
-		if (toRaise != 0) {
+		if (toRaise != 0 && bank!=0) {
 			rateOfReturn = handStrength / (toRaise / bank);
 			
 		}
 		return chooseAction(rateOfReturn,actions,bank,handStrength);
-		*/
-
-        if (actions.canCall()) {
-            for (int i = 0; i < 8; i++)
-                types.add(call);
-        }
-
-        if (actions.canCheck()) {
-            for (int i = 0; i < 8; i++)
-                types.add(check);
-        }
-
-        if (actions.canRaise()) {
-            for (int i = 0; i < 3; i++)
-                types.add(raise);
-        }
-
-        types.add(fold);
-
-        switch (types.get(rand.nextInt(types.size()))) {
-            case call:
-                return new Action.Call();
-
-            case check:
-                return new Action.Check();
-
-            case raise:
-                if (actions.getMinRaise() == actions.getMaxRaise())
-                    return new Action.Raise(actions.getMaxRaise());
-                int maxRaiseAmount = actions.getMaxRaise();
-                double smartRaise = rand.nextDouble();
-                if (smartRaise <= 0.90)
-                    maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.05));
-                else if (smartRaise > 0.90 && smartRaise <= 0.999)
-                    maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.20));
-                if (maxRaiseAmount == actions.getMaxRaise())
-                    return new Action.Raise(maxRaiseAmount);
-                return new Action.Raise(
-                        rand.nextInt(maxRaiseAmount - actions.getMinRaise()) + actions.getMinRaise());
-
-            default:
-                return new Action.Fold();
-        }
+		
+//
+//        if (actions.canCall()) {
+//            for (int i = 0; i < 8; i++)
+//                types.add(call);
+//        }
+//
+//        if (actions.canCheck()) {
+//            for (int i = 0; i < 8; i++)
+//                types.add(check);
+//        }
+//
+//        if (actions.canRaise()) {
+//            for (int i = 0; i < 3; i++)
+//                types.add(raise);
+//        }
+//
+//        types.add(fold);
+//
+//        switch (types.get(rand.nextInt(types.size()))) {
+//            case call:
+//                return new Action.Call();
+//
+//            case check:
+//                return new Action.Check();
+//
+//            case raise:
+//                if (actions.getMinRaise() == actions.getMaxRaise())
+//                    return new Action.Raise(actions.getMaxRaise());
+//                int maxRaiseAmount = actions.getMaxRaise();
+//                double smartRaise = rand.nextDouble();
+//                if (smartRaise <= 0.90)
+//                    maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.05));
+//                else if (smartRaise > 0.90 && smartRaise <= 0.999)
+//                    maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.20));
+//                if (maxRaiseAmount == actions.getMaxRaise())
+//                    return new Action.Raise(maxRaiseAmount);
+//                return new Action.Raise(
+//                        rand.nextInt(maxRaiseAmount - actions.getMinRaise()) + actions.getMinRaise());
+//
+//            default:
+//                return new Action.Fold();
+//        }
     }
 
     public Action chooseAction(double rateOfReturn, PossibleActions actions, double bank, double handStrength) {

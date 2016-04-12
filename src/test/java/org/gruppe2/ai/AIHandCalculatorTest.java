@@ -17,8 +17,9 @@ public class AIHandCalculatorTest {
 		AIMockTable t = new AIMockTable();
 		AIMockPlayer player = new AIMockPlayer("player");
 		player.setCards(t.drawACard(), t.drawACard());
+		t.setCards(t.drawACard(), t.drawACard(), t.drawACard(), t.drawACard(), t.drawACard());
 		double d = AIHandCalculator.getHandStrength(t, player);
-		System.out.println(d);
+		System.out.println(d*100);
 	}
 
 }

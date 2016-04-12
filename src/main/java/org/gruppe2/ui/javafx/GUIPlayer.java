@@ -31,11 +31,7 @@ public class GUIPlayer extends GameClient {
 	@Override
 	public void onRoundStart() {
 		Platform.runLater(() -> {
-			System.out.println(gameWindow);
-			System.out.println(gameWindow.playerCards);
-			System.out.println(gameWindow.gameSession);
-			((PlayerCards) gameWindow.playerCards).setPlayerCards(gameWindow.gameSession, communityCards);
-			System.out.println("roundStartTest");
+			((PlayerCards) gameWindow.playerCards).setPlayerCards(gameWindow.gameSession, communityCards);		
 		});
 	}
 
@@ -49,7 +45,7 @@ public class GUIPlayer extends GameClient {
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				 Thread.currentThread().interrupt();
 			}
 		}
 
@@ -111,7 +107,7 @@ public class GUIPlayer extends GameClient {
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -122,9 +118,22 @@ public class GUIPlayer extends GameClient {
 
 	@Override
 	public void onPlayerVictory(Player player) {
-		System.out.println(player + " won the game!");
+		Platform.runLater(() -> {
+			boolean gameFinished = true;
+			for(Player checkPlayer : getSession().getPlayers()){
+				if(checkPlayer != player){
+					if(checkPlayer.getBank() > 0){
+						gameWindow.displayRoundWon(player);
+						gameFinished = false;
+						break;
+					}
+				}
+			}
+			if(gameFinished)
+				gameWindow.displayGameWon(player);
+			
+		});
 		onRoundEnd();
 		// gui.getMainFrame().playerWons(player);
-
 	}
 }

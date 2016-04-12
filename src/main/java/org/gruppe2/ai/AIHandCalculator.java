@@ -19,47 +19,71 @@ public class AIHandCalculator {
 	 * Simulates x number of rounds with the current AI hand to return how many 
 	 * of the rounds the AI will win with current hand
 	 * @param table
-	 * @param players
-	 * @param ai
+	 * @param player
 	 * @return double handStrength
 	 */
 	public static double getHandStrength(Table table, Player player){
 		if (table==null)
 			return 0;
 		double handStrength=0;
-		int numActivePlayers = player.getClient().getSession().numActivePlayers();
-		List<Card> cardsToRemove = table.getCommunityCards();
+		//int numActivePlayers = player.getClient().getSession().numActivePlayers();
+		int numActivePlayers = 4;
+		List<Card> cardsToRemove = new ArrayList<Card>();
+		if (table.getCommunityCards()!=null)
+		cardsToRemove.addAll(table.getCommunityCards());
+		if (player.getCard1()== null || player.getCard2() == null){
+			return 1.0/player.getClient().getSession().numActivePlayers();
+		}
 		cardsToRemove.add(player.getCard1());
 		cardsToRemove.add(player.getCard2());
 		int numberOfWins=0;
-		ShowdownEvaluator se = new ShowdownEvaluator();
-		ShowdownEvaluatorNew seNew = new ShowdownEvaluatorNew();
+		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		
 		for (int i = 0; i < 1000; i++){		
-			MockDeck d = new MockDeck();
-			d.removeCards(cardsToRemove);
-			ArrayList<Player> newPlayers = new ArrayList<Player>();
-			for (int j = 0; j<4;j++){
-				Player p = new AIMockPlayer(j+"");
-				p.setCards(d.drawCard(), d.drawCard());
-				newPlayers.add(p);
-			}
 			AIMockTable mockTable = new AIMockTable();
 			int numberOfCards=0;
+			MockDeck d = new MockDeck();
+			d.removeCards(cardsToRemove);
+			if (table.getCommunityCards()!=null)
 			for (Card c : table.getCommunityCards()){
 				if (c==null){
 					continue;
 				}
 				numberOfCards++;
 				mockTable.setCard(new Card(c.getFaceValue(),c.getSuit()));
+				//System.out.println("Table should have this card added: " + c);
 			}
 			int drawsLeft = 5-numberOfCards;
 			for (int j = 0; j < drawsLeft; j++){
 				mockTable.setCard(d.drawCard());
 			}
-			newPlayers.add(player);
-			ArrayList<Player> winners = se.getWinnerOfRound(mockTable, newPlayers);
-			if (winners.contains(player))
-				numberOfWins++;
+			MockGameSession ms = new MockGameSession();
+			ms.setTable(mockTable);
+			Player player1 = new AIMockPlayer(player.getName());
+			player1.setCards(player.getCard1(), player.getCard2());
+			player1.getClient().setSession(ms);
+			
+			
+			ArrayList<Player> newPlayers = new ArrayList<Player>();
+			for (int j = 0; j<4;j++){
+				Player p = new AIMockPlayer(j+"");
+				p.setCards(d.drawCard(), d.drawCard());
+				p.getClient().setSession(ms);
+				newPlayers.add(p);
+			}
+			
+			
+			
+			newPlayers.add(player1);
+			ArrayList<Player> winners = se.getWinnerOfRound(newPlayers);
+			for (Player p1 : winners){
+				if (p1.getName().equals(player.getName())){
+					numberOfWins++;
+					continue;
+				}
+					
+			}
+			//System.out.println("Winners of round "+ i + ": " + winners.size() );
 		}
 		System.out.println(numberOfWins);
 		numberOfWins*=1.0;
@@ -69,13 +93,14 @@ public class AIHandCalculator {
 }
 
 class AIMockPlayer extends Player {
-	MockGameSession mocksession = new MockGameSession();
+	MockGameSession mocksession;
 	AIMockGameClient mockclient = new AIMockGameClient();
 	
     public AIMockPlayer(String name) {
         super(name, 10000, new AIMockGameClient());
     }
     
+    @Override
     public GameClient getClient() {
     	return mockclient;
     }
@@ -86,15 +111,27 @@ class AIMockPlayer extends Player {
 }
 
 class AIMockGameClient extends GameClient {
-	MockGameSession mocksession = new MockGameSession();
+	GameSession mocksession;
+	
+	@Override
+	public void setSession(GameSession session){
+		mocksession = session;
+	}
+	
+	@Override
 	public GameSession getSession() {
     	return mocksession;
     }
 }
 
 class MockGameSession extends GameSession {
-	AIMockTable mocktable = new AIMockTable();
+	AIMockTable mocktable;
 	
+	public void setTable(AIMockTable table){
+		mocktable = table;
+	}
+	
+	@Override
 	public Table getTable() {
 		return mocktable;
 	}
