@@ -111,5 +111,6 @@ public class GeneralCalculations {
         for (HandCalculation hand : getAllHandTypes())
             if (hand.canGetHand(communityCards, p))
                 return hand.getType().toString();
+        return "High card";
     }
 }
