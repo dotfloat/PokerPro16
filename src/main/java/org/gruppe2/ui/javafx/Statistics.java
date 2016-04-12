@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -21,23 +23,17 @@ public class Statistics extends StackPane {
 	}
 
 	private void setStasticsTest() {
-		String name = "/testLogs/2016.103_21.17.txt";
-		System.out.println(name);
-		String everything = "";
-		try(BufferedReader br = new BufferedReader(new FileReader(name))) {
-		    StringBuilder sb = new StringBuilder();
-		    String line = br.readLine();
+		String name = "src/main/resources/testLogs/2016.103_21.17.txt";
+		String content = "";
 
-		    while (line != null) {
-		        sb.append(line);
-		        sb.append(System.lineSeparator());
-		        line = br.readLine();
-		    }
-		    everything = sb.toString();
+		try {
+			content = new String(Files.readAllBytes(Paths.get(name)));
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		statistics.setText(everything);
+		
+		statistics.setText(content);
 		statistics.setWrapText(true);
 	}
 
