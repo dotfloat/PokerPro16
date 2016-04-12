@@ -65,5 +65,9 @@ public abstract class Session implements Runnable {
 
     // TODO: Move these to a "GameController" or something
 
-    public abstract boolean addPlayer(PlayerModel model, EventHandler<PlayerActionQuery> handler);
+    public abstract boolean addPlayer(PlayerModel model);
+
+    public SessionContext getSessionContext() {
+        return sessionContext;
+    }
 }

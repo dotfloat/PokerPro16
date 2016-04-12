@@ -1,15 +1,15 @@
 package org.gruppe2.game.event;
 
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.model.PlayerModel;
 
 public class PlayerJoinEvent implements Event {
-    private final Player player;
+    private final PlayerModel playerModel;
 
-    public PlayerJoinEvent(Player player) {
-        this.player = player;
+    public PlayerJoinEvent(PlayerModel playerModel) {
+        this.playerModel = playerModel;
     }
 
-    public Player getPlayer() {
-        return player;
+    public PlayerModel getPlayerModel() {
+        return playerModel;
     }
 }
