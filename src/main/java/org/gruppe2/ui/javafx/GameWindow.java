@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +29,7 @@ public class GameWindow extends BorderPane {
     ArrayList<Player> players = new ArrayList<Player>();
     List<Pane> playerInfoBoxes = new ArrayList<Pane>();
     GUIPlayer guiPlayer;
+    Thread th;
 
     GameSession gameSession;
     CommunityCards communityCardsBox;
@@ -47,10 +47,6 @@ public class GameWindow extends BorderPane {
 
     public GameWindow() {
         Resources.loadFXML(this);
-
-        RightMenu rightMenu = new RightMenu();
-        rightMenu.setAlignment(Pos.TOP_RIGHT);
-        SceneController.setMenuButton(rightMenu);
 
         ((ChatBox) table.getChildren().get(2))
                 .setEventListeners((TextField) choiceBar.getChildren().get(0));
@@ -71,7 +67,10 @@ public class GameWindow extends BorderPane {
         playerCard1.setLayoutY(height * 0.77);
         playerCard2.setLayoutX(width * 0.88);
         playerCard2.setLayoutY(height * 0.77);
-
+        playerCard1.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.80));
+        playerCard1.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.77));
+        playerCard2.layoutXProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.88));
+        playerCard2.layoutYProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.77));
         playerCard1.setFitWidth(width * 0.12);
         playerCard1.setPreserveRatio(true);
         playerCard1.setSmooth(true);
@@ -80,6 +79,8 @@ public class GameWindow extends BorderPane {
         playerCard2.setFitWidth(width * 0.12);
         playerCard2.setPreserveRatio(true);
         playerCard2.setSmooth(true);
+        playerCard2.fitWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.12));
 
         playerCard1.setRotate(350);
         playerCard2.setRotate(5);
@@ -147,8 +148,8 @@ public class GameWindow extends BorderPane {
 
         setUpPlayerBoxes();
         // mainFrame.drawPot();
-
-        Thread th = new Thread(() -> gameSession.mainLoop());
+        
+        th = new Thread(() -> gameSession.mainLoop());
         th.start();
 
     }
@@ -170,6 +171,9 @@ public class GameWindow extends BorderPane {
         yourself = new Player("Person", startValue, guiPlayer);
         players.add(yourself);
         choiceBar.setEvents(guiPlayer, yourself);
+    }
+    public Thread getThread(){
+		return th;
     }
 
 }

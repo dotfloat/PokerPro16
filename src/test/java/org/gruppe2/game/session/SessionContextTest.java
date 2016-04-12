@@ -15,11 +15,6 @@ public class SessionContextTest {
     }
 
     @Test
-    public void sessionStartTest() {
-        assertEquals(GameState.WAITING_FOR_PLAYERS, context.getGameState());
-    }
-
-    @Test
     public void spectatorCountTest() {
         fail("Implement pls");
     }

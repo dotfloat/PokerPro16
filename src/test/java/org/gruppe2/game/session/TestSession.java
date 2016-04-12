@@ -6,7 +6,7 @@ import org.gruppe2.game.event.EventHandler;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.model.PlayerModel;
 
-public class TestSession extends Session {
+public abstract class TestSession extends Session {
     @Override
     public void update() {
 

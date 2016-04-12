@@ -47,7 +47,6 @@ public class PlayerInfoBox extends Pane {
         stack.setText("CHIPS: " + player.getBank());
         currentBet.setText("BET: " + player.getBet());
         updatePicture();
-
     }
 	private void updatePicture() {
         if (player.getClient().getSession().playerHasFolded(player))
