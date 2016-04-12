@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+
 import org.gruppe2.ui.Resources;
 
 /**
@@ -29,8 +30,14 @@ public class RightMenu extends VBox {
         innerBox.setVisible(false);
     }
 
-    public void leaveTable(ActionEvent actionEvent) {
-
+    @SuppressWarnings("deprecation")
+	public void leaveTable(ActionEvent actionEvent) {
+        SceneController.setScene(new MainMenu());
+        
+        if(((GameWindow) this.getParent().getParent()).getThread() != null){
+        	 ((GameWindow) this.getParent().getParent()).getThread().stop();
+        }
+        
     }
 
     public void viewLobby(ActionEvent actionEvent) {

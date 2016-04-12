@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import org.gruppe2.ui.javafx.PlayerInfoBox?>
 <?import org.gruppe2.ui.javafx.ChoiceBar?>
-<?import org.gruppe2.ui.javafx.CommunityCards?>
 <?import org.gruppe2.ui.javafx.Table?>
-
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
 
    <bottom>
    		<ChoiceBar fx:id="choiceBar"/>
-   </bottom> 
-   
+   </bottom>
+
     <center>
    		<Table fx:id="table"/>
    </center>
-   
+
    <ImageView fx:id="playerCard1" preserveRatio="true">
-			        
+
 	</ImageView>
 	<ImageView fx:id="playerCard2" preserveRatio="true">
-			        
+
 	</ImageView>
-	
+
 </fx:root>

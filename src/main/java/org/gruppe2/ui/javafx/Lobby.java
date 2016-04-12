@@ -25,8 +25,6 @@ public class Lobby extends BorderPane {
     public Lobby(){
         Resources.loadFXML(this);
         setSize();
-        search.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
-        submit.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
     }
 
     public void search(){
@@ -36,12 +34,16 @@ public class Lobby extends BorderPane {
     public void friendBox(){
         lobbyTiles.getChildren().add(new Label("Displaying table with friends"));
     }
+
     public void closeLobby(){
         SceneController.removeModal(this);
     }
+
     private void setSize(){
         lobby.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.7));
         lobby.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.7));
+        search.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
+        submit.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
     }
 
     private void updateTables(String search){

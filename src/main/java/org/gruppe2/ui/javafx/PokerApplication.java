@@ -7,6 +7,7 @@ package org.gruppe2.ui.javafx;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,6 +39,7 @@ public class PokerApplication extends Application {
 		width = 1280;
 		height = 768;	
 		stage.setTitle("PokerPro16");
+		stage.getIcons().add(new Image("/images/ui/icon.png"));
 	}
 	
 	public static int getWidth(){

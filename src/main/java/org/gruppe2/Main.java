@@ -1,12 +1,13 @@
 package org.gruppe2;
 
 import javafx.application.Application;
+import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.console.ConsoleClient;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Main {
     private enum EntryPoint {
-        CONSOLE, JAVAFX
+        CONSOLE, NEW_CONSOLE, JAVAFX
     }
 
     private static EntryPoint entryPoint = EntryPoint.JAVAFX;
@@ -18,6 +19,10 @@ public class Main {
         switch (entryPoint) {
             case CONSOLE:
                 ConsoleClient.launch();
+                break;
+
+            case NEW_CONSOLE:
+                new ConsoleApplication().run();
                 break;
 
             case JAVAFX:
@@ -37,6 +42,10 @@ public class Main {
 
                 case "--autostart":
                     PokerApplication.degbugAutoStart = true;
+                    break;
+
+                case "--new-console":
+                    entryPoint = EntryPoint.NEW_CONSOLE;
                     break;
 
                 default:

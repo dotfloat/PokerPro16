@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  */
 public class ConcurrentEventQueue {
-    private Map<Class<?>, List<EventMapEntry>> handlerMap = new HashMap<>();
+    private Map<Class<?>, List<EventMapEntry>> handlerMap = Collections.synchronizedMap(new HashMap<>());
     private ConcurrentLinkedQueue<EventQueueEntry> queue = new ConcurrentLinkedQueue<>();
 
     /**
@@ -57,7 +57,7 @@ public class ConcurrentEventQueue {
     /**
      * Iterate over new events and send them out to their respective handlers
      */
-    void process() {
+    public void process() {
         EventQueueEntry queueEntry;
 
         while ((queueEntry = queue.poll()) != null) {
