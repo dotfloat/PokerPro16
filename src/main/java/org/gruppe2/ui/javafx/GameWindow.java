@@ -51,8 +51,6 @@ public class GameWindow extends BorderPane {
 		testGame();
 	}
 
-	
-
 	/**
 	 * This is for testing
 	 */
@@ -72,24 +70,24 @@ public class GameWindow extends BorderPane {
 	public void paintAllPlayers(List<Pane> playerInfoBoxes) {
 
 		int numberOfPlayers = playerInfoBoxes.size();
-		if (numberOfPlayers > 3)
-			paintPlayerInfoBox(playerInfoBoxes.get(3), 0.3, 0.001);
 		if (numberOfPlayers > 4)
-			paintPlayerInfoBox(playerInfoBoxes.get(4), 0.45, 0.001);
+			paintPlayerInfoBox(playerInfoBoxes.get(4), 0.3, 0.001);
+		if (numberOfPlayers > 8)
+			paintPlayerInfoBox(playerInfoBoxes.get(8), 0.45, 0.001);
 		if (numberOfPlayers > 5)
 			paintPlayerInfoBox(playerInfoBoxes.get(5), 0.6, 0.002);
 		if (numberOfPlayers > 2)
 			paintPlayerInfoBox(playerInfoBoxes.get(2), 0.13, 0.001);
+		if (numberOfPlayers > 3)
+			paintPlayerInfoBox(playerInfoBoxes.get(3), 0.77, 0.001);
 		if (numberOfPlayers > 6)
-			paintPlayerInfoBox(playerInfoBoxes.get(6), 0.77, 0.001);
-		if (numberOfPlayers > 1)
-			paintPlayerInfoBox(playerInfoBoxes.get(1), 0.05, 0.2);
+			paintPlayerInfoBox(playerInfoBoxes.get(6), 0.05, 0.2);
 		if (numberOfPlayers > 7)
 			paintPlayerInfoBox(playerInfoBoxes.get(7), 0.8, 0.2);
 		if (numberOfPlayers > 0)
 			paintPlayerInfoBox(playerInfoBoxes.get(0), 0.03, 0.45);
-		if (numberOfPlayers > 8)
-			paintPlayerInfoBox(playerInfoBoxes.get(8), 0.81, 0.45);
+		if (numberOfPlayers > 1)
+			paintPlayerInfoBox(playerInfoBoxes.get(1), 0.82, 0.45);
 	}
 
 	public void paintPlayerInfoBox(Pane playerInfoBox, double x, double y) {
@@ -116,7 +114,7 @@ public class GameWindow extends BorderPane {
 	private void testGame() {
 
 		addYourSelf();
-		gameSession = new GameBuilder().ai(8).blinds(bigBlind, smallBlind)
+		gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
 				.startMoney(startValue).mainClient(guiPlayer).build();
 
 		setUpPlayerBoxes();

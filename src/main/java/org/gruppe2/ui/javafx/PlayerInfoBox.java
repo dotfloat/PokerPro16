@@ -1,16 +1,14 @@
 package org.gruppe2.ui.javafx;
 
 
-import javafx.scene.layout.GridPane;
-import org.gruppe2.ui.Resources;
-import org.gruppe2.game.old.Player;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
+
+import org.gruppe2.game.old.Player;
+import org.gruppe2.ui.Resources;
 
 /**
  * Created by kjors on 07.04.2016.
