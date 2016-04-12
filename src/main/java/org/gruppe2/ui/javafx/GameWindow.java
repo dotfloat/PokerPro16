@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -14,8 +13,6 @@ import org.gruppe2.game.old.GameBuilder;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
-
-import com.sun.corba.se.impl.orbutil.graph.Node;
 
 /**
  * This class will be split in several sub controllers, i.g Bottom Hbox with
@@ -27,7 +24,7 @@ public class GameWindow extends BorderPane {
 	private int height = PokerApplication.getHeight();
 	public int bigBlind = 50;
 	public int smallBlind = 25;
-	public int startValue = 500;
+	public int startValue = 110;
 	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
@@ -157,9 +154,10 @@ public class GameWindow extends BorderPane {
 
 	public void displayGameWon(Player player) {
 		ScreenText screenText = new ScreenText();
-		screenText.setAnimationGameWon(player);
 		table.getChildren().add(screenText);
 		screenText.setLayoutX(width/2);
 		screenText.setLayoutY(height/2);
+		screenText.setAnimationGameWon(player);
+		
 	}
 }
