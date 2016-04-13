@@ -46,7 +46,6 @@ public class ScreenText extends Label {
 		FadeTransition fader = createFader(this);
 		playAnimation(fader);
 		
-		
 		if (((GameWindow) this.getParent().getParent()).getThread() != null) {
 			try {
 				((GameWindow) this.getParent().getParent()).getThread().sleep(3000);
