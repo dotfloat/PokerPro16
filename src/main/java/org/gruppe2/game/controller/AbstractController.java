@@ -76,7 +76,7 @@ public abstract class AbstractController<M extends Model>  implements Controller
         return (List<M>) session.getModels(getModelClass());
     }
 
-    public <E extends Event> void addEvent(Class<E> klass, E event) {
-        getSession().addEvent(klass, event);
+    public void addEvent(Event event) {
+        getSession().addEvent(event);
     }
 }

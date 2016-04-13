@@ -14,13 +14,13 @@ class MainEventQueue {
         queueList.add(queue);
     }
 
-    <E extends Event, M extends Model> void addEvent(Class<E> klass, M model, E event) {
+    void addEvent(Model model, Event event) {
         for (ConcurrentEventQueue queue : queueList)
-            queue.addEvent(klass, model, event);
+            queue.addEvent(model, event);
     }
 
-    <E extends Event> void addEvent(Class<E> klass, E event) {
-        addEvent(klass, null, event);
+    void addEvent(Event event) {
+        addEvent(null, event);
     }
 
     void process() {
