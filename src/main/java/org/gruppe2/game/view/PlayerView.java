@@ -9,10 +9,8 @@ import org.gruppe2.game.session.SessionContext;
 public class PlayerView extends AbstractView<PlayerModel> {
 
     public void onAction(EventHandler<PlayerActionEvent> handler) {
-        getContext().getEventQueue().registerHandler(PlayerActionEvent.class, handler);
     }
 
     public void onActionQuery(EventHandler<PlayerActionQuery> handler) {
-        getContext().getEventQueue().registerHandler(PlayerActionQuery.class, handler);
     }
 }

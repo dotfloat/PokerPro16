@@ -6,14 +6,6 @@ import org.gruppe2.game.model.PlayerModel;
 public class PlayerController extends AbstractController<PlayerModel> {
 
     @Override
-    public void init() {
-    }
-
-    @Override
-    public void update() {
-    }
-
-    @Override
     public Class<? extends Model> getModelClass() {
         return PlayerModel.class;
     }
