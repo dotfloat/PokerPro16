@@ -3,9 +3,6 @@
     -fx-background-size: 400px;
     -fx-background-repeat: repeat;
 }
-.borderPane {
-    -fx-background-color: blue;
-}
 
 .button {
     -fx-text-fill: #0099ff;
@@ -75,8 +72,8 @@
 }
 
 .pane {
-    -fx-hgap: 10px;
-    -fx-vgap: 5px;
+    -fx-hgap: 8px;
+    -fx-vgap: 3px;
     -fx-padding: 10px;
     -fx-background-color: black;
     -fx-background-radius: 10px;
@@ -84,7 +81,7 @@
 
 .paneActive {
     -fx-hgap: 10px;
-    -fx-vgap: 5px;
+    -fx-vgap: 3px;
     -fx-padding: 10px;
     -fx-background-color: black;
     -fx-background-radius: 10px;
@@ -217,4 +214,16 @@
 .text-area .content {
     -fx-background-color: transparent;
     -fx-border-width: 0px;
+}
+
+.check-box .box {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 2px;
+}
+.check-box .box:hover {
+    -fx-background-color: #333333;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #33adff;
 }

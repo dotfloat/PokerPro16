@@ -29,6 +29,15 @@ public class ConsoleClient extends GameClient {
 
     @Override
     public void onPlayerVictory(Player player) {
+        List<Player> showdownPlayers = getSession().getPlayers();
+        System.out.println("Result of showdown:");
+        if(getSession().getTable().getCommunityCards() != null) {
+            System.out.println("Community cards: ");
+            System.out.println(getSession().getTable().getCommunityCards());
+        }
+        for(Player playerFromShowdown : showdownPlayers) {
+            System.out.println(playerFromShowdown.getName() + ": " + playerFromShowdown.getCard1() + ", " + playerFromShowdown.getCard2());
+        }
         System.out.println(player.getName() + " has won \n");
     }
 

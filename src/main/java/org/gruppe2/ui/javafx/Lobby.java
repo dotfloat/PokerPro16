@@ -6,6 +6,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 
 import org.gruppe2.ui.Resources;
@@ -15,16 +16,12 @@ import org.gruppe2.ui.Resources;
  */
 public class Lobby extends BorderPane {
 
-	@FXML
-	private TextField search;
-	@FXML
-	private Button submit;
-	@FXML
-	private CheckBox checkBoxFriends;
-	@FXML
-	private TilePane lobbyTiles;
-	@FXML
-	private BorderPane lobby;
+	@FXML private TextField search;
+	@FXML private Button submit;
+	@FXML private CheckBox checkBoxFriends;
+	@FXML private TilePane lobbyTiles;
+	@FXML private BorderPane lobby;
+	@FXML private HBox searchBar;
 
 	public Lobby() {
 		Resources.loadFXML(this);
@@ -50,6 +47,7 @@ public class Lobby extends BorderPane {
 	}
 
 	private void setSize() {
+		searchBar.spacingProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.03));
 		lobby.maxWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.7));
 		lobby.maxHeightProperty().bind(

@@ -35,6 +35,20 @@ public class GameSession {
 		return players;
 	}
 
+	/**
+	 * Get the current active players
+	 * @return current active players
+     */
+	public List<Player> getActivePlayers() {
+		List<Player> activePlayerList = new ArrayList<Player>();
+		for (Player p : activePlayers) {
+			if (p != null) {
+				activePlayerList.add(p);
+			}
+		}
+		return activePlayerList;
+	}
+
 	public int getHighestBet() {
 		return highestBet;
 	}
