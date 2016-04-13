@@ -144,8 +144,8 @@ public abstract class Session implements Runnable {
         return out;
     }
 
-    public <E extends Event> void addEvent(Class<E> klass, E event) {
-        eventQueue.addEvent(klass, event);
+    public void addEvent(Event event) {
+        eventQueue.addEvent(event);
     }
 
     public boolean isReady() {

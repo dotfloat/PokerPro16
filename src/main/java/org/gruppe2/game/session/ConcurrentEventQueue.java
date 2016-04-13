@@ -46,12 +46,12 @@ public class ConcurrentEventQueue {
      * @param klass The Class object of the event class. ex: PlayerJoinEvent.class
      * @param event An event object
      */
-    public <E extends Event, M extends Model> void addEvent(Class<E> klass, M model, E event) {
-        queue.add(new EventQueueEntry(klass, model, event));
+    public void addEvent(Model model, Event event) {
+        queue.add(new EventQueueEntry(event.getClass(), model, event));
     }
 
-    public <E extends Event> void addEvent(Class<E> klass, E event) {
-        addEvent(klass, null, event);
+    public void addEvent(Event event) {
+        addEvent(null, event);
     }
 
     /**

@@ -20,12 +20,7 @@ public class GameController extends AbstractController<GameModel> {
         // Todo synchronize the entire model
         if (getModel().getPlayers().size() + 1 < getModel().getMaxPlayers()) {
             getModel().getPlayers().add(model);
-            addEvent(PlayerJoinEvent.class, new PlayerJoinEvent(model));
+            addEvent(new PlayerJoinEvent(model));
         }
-    }
-
-    @Message
-    public void sayInChat(String name, String message) {
-        System.out.println(name + ": " + message);
     }
 }

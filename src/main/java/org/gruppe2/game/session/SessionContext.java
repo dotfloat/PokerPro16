@@ -54,12 +54,12 @@ public class SessionContext {
         return (V) view;
     }
 
-    public <E extends Event, M extends Model> void addEvent(Class<E> klass, M model, E event) {
-        session.getEventQueue().addEvent(klass, model, event);
+    public void addEvent(Model model, Event event) {
+        session.getEventQueue().addEvent(model, event);
     }
 
-    public <E extends Event> void addEvent(Class<E> klass, E event) {
-        session.getEventQueue().addEvent(klass, event);
+    public void addEvent(Event event) {
+        session.getEventQueue().addEvent(event);
     }
 
     public void message(String name, Object... args) {

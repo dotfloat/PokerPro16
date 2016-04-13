@@ -3,7 +3,7 @@ package org.gruppe2.ui.javafx;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-
+import org.gruppe2.game.calculation.GeneralCalculations;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
@@ -47,9 +47,10 @@ public class ChatBox extends TextArea {
 	private void checkForCommands(TextField textField) {
 		String command = textField.getText();
 		if(command.equals("bestHand")){
-			 this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
-			 System.out.println();
-//			GeneralCalculations.getBestHandForPlayer(this.getParent().getParent().communityCards, ((GameWindowthis.getParent().getParent().yourSelf);
+			 
+//			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player);
+//			 this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
+			
 		}
 		else if(command.equals("log")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
@@ -63,8 +64,5 @@ public class ChatBox extends TextArea {
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print raidingPartyClip--->
 		}
-		
-		
 	} 
-
 }
