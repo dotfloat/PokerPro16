@@ -37,7 +37,7 @@ public class PlayerCards extends HBox {
 	
 	private void setPaneStyle(){
 		this.layoutXProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.80));
+				PokerApplication.getRoot().widthProperty().multiply(0.83));
 		this.layoutYProperty().bind(
 				PokerApplication.getRoot().heightProperty().multiply(0.78));
 
