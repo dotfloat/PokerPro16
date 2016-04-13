@@ -80,8 +80,8 @@ public class Logger {
 				writer.write(String.format("%s Raise %-5d%n", timeAndPlayer, ((Action.Raise) action).getAmount()));
 			else if (action instanceof Action.AllIn)
 				writer.write(String.format("%s All-in%n", timeAndPlayer));
-			else if (action instanceof Action.Pass)
-				writer.write(String.format("%s Passed%n", timeAndPlayer));
+			else if (action instanceof Action.Pass){}
+//				writer.write(String.format("%s Passed%n", timeAndPlayer));
 			else
 				writer.write(String.format("%s Unrecognized action%n", timeAndPlayer));
 

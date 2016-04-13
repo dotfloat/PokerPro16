@@ -74,13 +74,12 @@ public class GameSession {
 
 	private void matchLoop() {
 		Player winner = null;
-		logger = new Logger();
-		logger.record("#New Game#");
-		logger.record("   Stakes   ");
-		logger.record("Bank: " + activePlayers.get(0));
-
+		logger.record("New Hand");
+		logger.record("Bank: " + activePlayers.get(0).getBank());
+		
 		button = (button + 1) % activePlayers.size();
-
+		logger.record("Button: " + activePlayers.get(button));
+		
 		int currentBigBlind = bigBlindAmount;
 		int currentSmallBlind = smallBlindAmount;
 		Player bigBlindPlayer = getBigBlindPlayer();
@@ -162,7 +161,6 @@ public class GameSession {
 			Action action = new Action.Pass();
 			if (player.getBank() > 0)
 				action = player.getClient().onTurn(player);
-			logger.record(player, action);
 			
 			if (action instanceof Action.Fold) {
 				activePlayers.set(currentPlayerIdx, null);
@@ -172,7 +170,8 @@ public class GameSession {
 			} else if (action instanceof Action.Call) {
 				doPlayerAction(action, player);
 			}
-
+			
+			logger.record(player, action);
 			notifyAllPlayersAboutAction(player, action);
 
 			if (lastRaiserIndex == currentPlayerIdx && !(action instanceof Action.Raise))
@@ -188,6 +187,7 @@ public class GameSession {
 	}
 
 	private void startNewMatch() {
+		logger = new Logger();
 		activePlayers = new ArrayList<>();
 		for (Player player : players)
 			if (player.getBank() > 0)
