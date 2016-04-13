@@ -21,7 +21,7 @@ public class Straight implements HandCalculation{
 
         for (int i = 0; i < allCards.size(); i++){
             int length = checkWithOtherCards(allCards, i, allCards.get(i).getFaceValue(), sameSuit);
-            System.out.println(allCards.get(i));
+
             if (length >= communityCards.size())
                 return true;
             else if (allCards.get(i).getFaceValue() == 14){
