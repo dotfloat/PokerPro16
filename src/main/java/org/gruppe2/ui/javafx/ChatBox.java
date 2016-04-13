@@ -112,4 +112,7 @@ public class ChatBox extends TextArea {
 		else
 			return false;
 	} 
+	public void postMessage(String message){
+		this.setText(this.getText() + message);
+	}
 }
