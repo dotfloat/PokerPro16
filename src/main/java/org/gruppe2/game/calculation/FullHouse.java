@@ -12,6 +12,9 @@ import java.util.Collection;
 public class FullHouse implements HandCalculation{
 
     public static boolean canGetFullHouse(Collection<Card> communityCards, Player p){
+        if (communityCards == null || communityCards.size() == 0)
+            return true;
+
         int amountSameFace = GeneralCalculations.amountOfSameFace(communityCards,p);
         ArrayList<Integer> recurringCards = GeneralCalculations.recurringFaceValues(communityCards, p);
         if(communityCards.size() <3)

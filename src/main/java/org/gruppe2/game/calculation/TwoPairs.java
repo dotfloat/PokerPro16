@@ -12,6 +12,9 @@ import java.util.Collection;
 public class TwoPairs implements HandCalculation{
 
     public static boolean canGetTwoPairs(Collection<Card> communityCards, Player p){
+        if (communityCards == null || communityCards.size() == 0)
+            return true;
+        
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards,p);
 
         if(communityCards.size() <=3)

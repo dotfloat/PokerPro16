@@ -12,6 +12,9 @@ import java.util.Collection;
 public class ThreeOfAKind implements HandCalculation{
 
     public static boolean canGetThreeOfAKind(Collection<Card> communityCards, Player p){
+        if (communityCards == null || communityCards.size() == 0)
+            return true;
+
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards,p);
 
         if(amountOfSameFace >= 3)

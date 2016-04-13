@@ -12,7 +12,7 @@ import java.util.Collection;
 public class Straight implements HandCalculation{
 
     public static boolean canGetStraight(Collection<Card> communityCards, Player p, boolean sameSuit){
-        if (communityCards.size() == 0)
+        if (communityCards == null || communityCards.size() == 0)
             return true;
 
         ArrayList<Card> allCards = new ArrayList<>(communityCards);
