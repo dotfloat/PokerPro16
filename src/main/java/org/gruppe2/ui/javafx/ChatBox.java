@@ -25,11 +25,10 @@ public class ChatBox extends TextArea {
 
         editableProperty().setValue(false);
         setWrapText(true);
-
     }
 
-    public void setEventListeners(TextField textField) {
-
+    public void setEventListeners(TextField textField, Player player) {
+    	this.player = player;
         textField.setOnAction(e -> { // Put text from textField to textArea
             checkForCommands(textField);
         	if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);

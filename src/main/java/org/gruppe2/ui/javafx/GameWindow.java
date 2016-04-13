@@ -45,8 +45,7 @@ public class GameWindow extends BorderPane {
 	public GameWindow() {
 		Resources.loadFXML(this);
 
-		((ChatBox) table.getChildren().get(2))
-				.setEventListeners((TextField) choiceBar.getChildren().get(0));
+		
 		communityCardsBox = table.communityCardsBox;
 		PokerApplication.inGame = true;
 		testGame();
@@ -118,6 +117,8 @@ public class GameWindow extends BorderPane {
 		System.out.println(gameSession.getPlayers().size());
 		choiceBar.setEvents(guiPlayer);
 		setUpPlayerBoxes();
+		((ChatBox) table.getChildren().get(2))
+		.setEventListeners((TextField) choiceBar.getChildren().get(0), gameSession.getPlayers().get(0));
 		// mainFrame.drawPot();
 
 		th = new Thread(() -> gameSession.mainLoop());
