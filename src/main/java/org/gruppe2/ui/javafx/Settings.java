@@ -77,9 +77,8 @@ public class Settings extends StackPane {
 				
 	}
 	public void numberOfBots(){
-		if(numberBots.getText().matches("[0-9]+") && numberBots.getText().length() > 0) {
+		if(numberBots.getText().matches("[0-9]+") && numberBots.getText().length() > 0 && Integer.valueOf(numberBots.getText()) < 10) {
 			PokerApplication.numberOfBots = Integer.valueOf(numberBots.getText());
-			
 		}
 				
 	}
