@@ -65,6 +65,7 @@ public class GameSession {
 
 	public void addPlayer(GameClient client, int startMoney) {
 		client.setSession(this);
+		String name = client.getName();
 		Player player = new Player(client.getName(), startMoney, client);
 		players.add(player);
 	}
@@ -96,9 +97,6 @@ public class GameSession {
 				for (Player p : activePlayers) {
 					if (p != null) {
 						winner = p;
-						logger.record(p.getName() + " won the pot!");
-						logger.record("Table Pot: " + table.getPot());
-						logger.done();
 						break;
 					}
 				}
@@ -110,6 +108,11 @@ public class GameSession {
 			winner = showdownEvaluator.getWinnerOfRound(table, activePlayers).get(0);
 
 		winner.addToBank(table.getPot());
+
+		logger.record(winner.getName() + " won the pot!");
+		logger.record("Table Pot: " + table.getPot());
+		logger.done();
+
 		table.resetPot();
 		notifyPlayerVictory(winner);
 
