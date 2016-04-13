@@ -24,7 +24,7 @@ public class ChoiceBar extends HBox {
     private int height = PokerApplication.getHeight();
     private GUIPlayer client;
     private Player player;
-    private ObjectProperty<Font> fontTracking = new SimpleObjectProperty<Font>(Font.getDefault());
+    static ObjectProperty<Font> fontTracking = new SimpleObjectProperty<Font>(Font.getDefault());
 
     @FXML
     private TextField chatField;

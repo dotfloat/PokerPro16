@@ -5,7 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" fx:id="lobby" styleClass="lobby">
     <top>
-        <HBox fx:id="searchBar" alignment="CENTER" styleClass="hbox">
+        <HBox fx:id="searchBar" alignment="CENTER" style="-fx-background-color: black; -fx-alignment: center; -fx-padding: 10px">
             <TextField fx:id="search" promptText="Search here"/>
             <Button text="Search" fx:id="submit" onAction="#search"/>
             <CheckBox fx:id="checkBoxFriends" text="Show only friends" textFill="#0099ff" onAction="#friendBox"/>
