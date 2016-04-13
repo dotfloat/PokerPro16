@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
 import org.gruppe2.game.old.Action;
+import org.gruppe2.game.old.GameBuilder;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
@@ -18,10 +19,12 @@ public class StatisticsMenu extends StackPane {
 	private String name = "src/main/resources/testLogs/2016.104_09.52.txt";
 	private String content;
 	private boolean onlyGetStatistics = false;
+	
 	private ArrayList<String> playerNames;
 	private ArrayList<Action> actions;
 	private Player player;
 	private int playerRoundsWon;
+	
 	@FXML private TextArea statistics;
 	@FXML private TextField changeLog;
 	
@@ -61,10 +64,7 @@ public class StatisticsMenu extends StackPane {
 		
 		
 		PokerApplication.replayMode = true;
-		GameWindow gameWindow = new GameWindow();
-		SceneController.setScene(gameWindow);
-		Thread th = new Thread(() -> SetUpReplay(gameWindow));
-		th.start();
+		SetUpReplay();
 		PokerApplication.replayMode = false;	
 	}
 	
@@ -73,15 +73,15 @@ public class StatisticsMenu extends StackPane {
 			name = changeLog.getText();
 		}
 	}
-	private void SetUpReplay(GameWindow gameWindow) {	
+	private void SetUpReplay() {	
 		System.out.println(content);
 		String[] lines = content.split("\n");
 		
-		lineReader(lines,gameWindow);
+		lineReader(lines);
 	}
 
-	@SuppressWarnings("static-access")
-	private void lineReader(String[] lines, GameWindow gameWindow) {
+	
+	private void lineReader(String[] lines) {
 		boolean valuesSet = false;
 		boolean playersSet = false;
 		
@@ -104,12 +104,12 @@ public class StatisticsMenu extends StackPane {
 			}
 			if(!valuesSet){
 				if(line.contains("Small Blind: ")){
-					gameWindow.smallBlind = Integer.valueOf(line.substring(line.indexOf("Small")).replaceAll("\\D+",""));
-					System.out.println(gameWindow.smallBlind);
+					PokerApplication.small = Integer.valueOf(line.substring(line.indexOf("Small")).replaceAll("\\D+",""));
+					System.out.println(PokerApplication.small);
 				}
 				else if(line.contains("Big Blind: ")){
-					gameWindow.bigBlind = Integer.valueOf(line.substring(line.indexOf("Big")).replaceAll("\\D+",""));
-					System.out.println(gameWindow.bigBlind);
+					PokerApplication.big = Integer.valueOf(line.substring(line.indexOf("Big")).replaceAll("\\D+",""));
+					System.out.println(PokerApplication.big);
 				}
 				else if(line.contains("New Turn!  ")){
 					valuesSet = true;
@@ -177,13 +177,27 @@ public class StatisticsMenu extends StackPane {
 	}
 
 	private void playReplayGame(ArrayList<String> playerNames, ArrayList<Action> actions, String[] lines) {
-		// TODO Auto-generated method stub
+		PokerApplication.replayPlayers = playerNames;
+		
+		PokerApplication.numberOfBots = 0;
+		
+		GameWindow gameWindow = new GameWindow();
+		SceneController.setScene(gameWindow);	
 	}
+	
+
 	public ArrayList<String> getStatisticsForPlayer(Player player){
 		this.player = player;
 		setStasticsTest(name);
 		ArrayList<String> stats = new ArrayList<String>();
-		stats.add(String.valueOf(playerRoundsWon));
+		stats = addToStats(stats);
+		
+		return stats;
+	}
+
+	private ArrayList<String> addToStats(ArrayList<String> stats) {
+		stats.add(String.valueOf(playerRoundsWon)); //Index 1, won rounds
+		
 		return stats;
 	}
 }

@@ -5,6 +5,8 @@
 
 package org.gruppe2.ui.javafx;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,6 +27,7 @@ public class PokerApplication extends Application {
 														// scenes
 	public static boolean inGame = false;
 	public static boolean replayMode = false;
+	public static ArrayList<String> replayPlayers;
 	public static String name = "ME Player";
 	public static int small = 25;
 	public static int big = 50;

@@ -10,7 +10,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import org.gruppe2.game.old.GameBuilder;
-import org.gruppe2.game.old.GameBuilderAiDifficultyOptions;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
@@ -46,8 +45,6 @@ public class GameWindow extends BorderPane {
 
 	public GameWindow() {
 		Resources.loadFXML(this);
-
-		
 		communityCardsBox = table.communityCardsBox;
 		PokerApplication.inGame = true;
 		testGame();
@@ -108,23 +105,29 @@ public class GameWindow extends BorderPane {
 	 * Test game for watching game
 	 */
 	private void testGame() {
+		addYourSelf();
+		gameSession = new GameBuilder().ai(numberOfAIs).blinds(bigBlind, smallBlind)
+				.startMoney(startValue).mainClient(guiPlayer).aiDifficulty(PokerApplication.diff).build();
+		
 		if(PokerApplication.replayMode == false){
-			addYourSelf();
-			gameSession = new GameBuilder().ai(numberOfAIs).blinds(bigBlind, smallBlind)
-					.startMoney(startValue).mainClient(guiPlayer).aiDifficulty(PokerApplication.diff).build();
-			System.out.println(gameSession.getPlayers().size());
+			
 			choiceBar.setEvents(guiPlayer);
 			setUpPlayerBoxes();
 			((ChatBox) table.getChildren().get(2))
 			.setEventListeners((TextField) choiceBar.getChildren().get(0), gameSession.getPlayers().get(0));
 			
-	
-			th = new Thread(() -> gameSession.mainLoop());
-			th.start();
 		}
 		else{
+			for(String playerName : PokerApplication.replayPlayers){
+				GUIPlayer guiPlayer = new GUIPlayer(this);
+				guiPlayer.setName(playerName);
+				gameSession.addPlayer(guiPlayer, PokerApplication.bank);
+			}
+			setUpPlayerBoxes();
 			//---> Start replay
 		}
+		th = new Thread(() -> gameSession.mainLoop());
+		th.start();
 	}
 
 	public void updateGameWindow(Player player) {
