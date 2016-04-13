@@ -26,6 +26,7 @@ public class GameWindow extends BorderPane {
 	public static int bigBlind = PokerApplication.big;
 	public static int smallBlind = PokerApplication.small;
 	public static int startValue = PokerApplication.bank;
+	public static int numberOfAIs = PokerApplication.numberOfBots;
 	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
@@ -109,7 +110,7 @@ public class GameWindow extends BorderPane {
 	private void testGame() {
 		if(PokerApplication.replayMode == false){
 			addYourSelf();
-			gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
+			gameSession = new GameBuilder().ai(numberOfAIs).blinds(bigBlind, smallBlind)
 					.startMoney(startValue).mainClient(guiPlayer).aiDifficulty(PokerApplication.diff).build();
 			System.out.println(gameSession.getPlayers().size());
 			choiceBar.setEvents(guiPlayer);
