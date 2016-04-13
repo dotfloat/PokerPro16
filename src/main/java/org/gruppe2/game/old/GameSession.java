@@ -65,6 +65,7 @@ public class GameSession {
 
 	public void addPlayer(GameClient client, int startMoney) {
 		client.setSession(this);
+		String name = client.getName();
 		Player player = new Player(client.getName(), startMoney, client);
 		players.add(player);
 	}
@@ -96,9 +97,6 @@ public class GameSession {
 				for (Player p : activePlayers) {
 					if (p != null) {
 						winner = p;
-						logger.record(p.getName() + " won the pot!");
-						logger.record("Table Pot: " + table.getPot());
-						logger.done();
 						break;
 					}
 				}
@@ -110,6 +108,11 @@ public class GameSession {
 			winner = showdownEvaluator.getWinnerOfRound(table, activePlayers).get(0);
 
 		winner.addToBank(table.getPot());
+
+		logger.record(winner.getName() + " won the pot!");
+		logger.record("Table Pot: " + table.getPot());
+		logger.done();
+
 		table.resetPot();
 		notifyPlayerVictory(winner);
 
@@ -142,7 +145,9 @@ public class GameSession {
 			
 
 			notifyOtherPlayersAboutTurn(player);
-			Action action = player.getClient().onTurn(player);
+			Action action = new Action.Pass();
+			if (player.getBank() > 0)
+				action = player.getClient().onTurn(player);
 			logger.record(player, action);
 			
 			if (action instanceof Action.Fold) {
@@ -278,7 +283,6 @@ public class GameSession {
 				player.setBank(0);
 				player.setBet(player.getBet() + raise);
 				table.addToPot(raise);
-				highestBet = player.getBet();
 			} else if (action instanceof Action.PayBigBlind) {
 				player.setBank(player.getBank() - bigBlindAmount);
 				player.setBet(bigBlindAmount);
@@ -347,6 +351,9 @@ public class GameSession {
 		int maxRaise = player.getBank() + player.getBet() - highestBet;
 		if (maxRaise > 0)
 			actions.setRaise(1, maxRaise);
+
+		if (!actions.canCall() && !actions.canCheck() && !actions.canRaise())
+			actions.setAllIn();
 
 		return actions;
 	}

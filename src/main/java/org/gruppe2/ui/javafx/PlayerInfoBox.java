@@ -72,4 +72,9 @@ public class PlayerInfoBox extends GridPane {
 	public Player getPlayer(){
 		return player;
 	}
+
+	private void viewStatistic(){
+		System.out.println("halla");
+
+	}
 }

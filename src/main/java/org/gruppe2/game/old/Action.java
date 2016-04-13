@@ -37,4 +37,6 @@ public class Action {
 
     public static class PayBigBlind extends Action {
     }
+
+    public static class Pass extends Action {}
 }

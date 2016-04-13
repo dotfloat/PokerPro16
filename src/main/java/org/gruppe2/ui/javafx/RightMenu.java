@@ -3,6 +3,7 @@ package org.gruppe2.ui.javafx;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
@@ -15,14 +16,11 @@ import org.gruppe2.ui.Resources;
  */
 public class RightMenu extends VBox {
 
-	@FXML
-	private VBox innerBox;
-	@FXML
-	private ToggleButton showMenu;
-	@FXML
-	private Button viewLobby;
-	@FXML
-	private Button leaveTable;
+	@FXML private VBox innerBox;
+	@FXML private ToggleButton showMenu;
+	@FXML private Button viewLobby;
+	@FXML private Button leaveTable;
+	@FXML private Button viewStatistics;
 
 	public RightMenu() {
 		Resources.loadFXML(this);
@@ -54,6 +52,10 @@ public class RightMenu extends VBox {
 	public void viewLobby(ActionEvent actionEvent) {
 		SceneController.setModal(new Lobby());
 		menuAnimation();
+	}
+
+	public void viewStatistics(){
+		SceneController.setModal(new Statistic(true));
 	}
 
 	public void showMenu(ActionEvent actionEvent) {

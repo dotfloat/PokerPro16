@@ -7,6 +7,16 @@ public class PossibleActions {
     private boolean call;
     private boolean check;
     private boolean raise;
+
+    public boolean canAllIn() {
+        return allIn;
+    }
+
+    public void setAllIn() {
+        this.allIn = true;
+    }
+
+    private boolean allIn;
     private int minRaise;
     private int maxRaise;
 

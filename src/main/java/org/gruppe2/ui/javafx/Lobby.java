@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -14,6 +16,7 @@ import org.gruppe2.ui.Resources;
 /**
  * Created by Petter on 11/04/2016.
  */
+
 public class Lobby extends BorderPane {
 
 	@FXML private TextField search;
@@ -35,6 +38,7 @@ public class Lobby extends BorderPane {
 	public void friendBox() {
 		lobbyTiles.getChildren()
 				.add(new Label("Displaying table with friends"));
+		//TODO display tables with friends in
 	}
 
 	public void closeLobby() {
@@ -44,6 +48,10 @@ public class Lobby extends BorderPane {
 		else{
 			SceneController.removeModal(this);
 		}
+	}
+
+	public void keyPressed(KeyEvent event){
+		if (event.getCode() == KeyCode.ESCAPE) SceneController.removeModal(this);
 	}
 
 	private void setSize() {
@@ -56,6 +64,10 @@ public class Lobby extends BorderPane {
 				PokerApplication.getRoot().widthProperty().multiply(0.3));
 		submit.prefWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.1));
+	}
+
+	public void keyListener(KeyEvent event){
+		if (event.getCode() == KeyCode.ENTER) search();
 	}
 
 	@SuppressWarnings("unused")
