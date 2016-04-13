@@ -50,6 +50,7 @@ public class MainMenu extends BorderPane {
 	public void createNetWorkTable(){
 		SceneController.setScene(new GameWindow());
 	}
+
 	public void goToLobby(){
 		SceneController.setScene(new Lobby());
 	}
@@ -75,5 +76,6 @@ public class MainMenu extends BorderPane {
 		singlePlayer.setMaxWidth(Double.MAX_VALUE);
 		viewStatistics.setMaxWidth(Double.MAX_VALUE);
 		settings.setMaxWidth(Double.MAX_VALUE);
+
 	}
 }

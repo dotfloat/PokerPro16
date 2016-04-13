@@ -236,10 +236,6 @@
     -fx-effect: dropshadow(gaussian, black, 50, 0.08, 0, 0);
 }
 
-.hola {
-    -fx-background-color: red;
-}
-
 .communityCardsBox {
     -fx-spacing: 10;
 }
@@ -247,16 +243,12 @@
 .chatField {
     -fx-background-color: #1a1a1a;
     -fx-background-radius: 15px;
-    -fx-text-fill: white;
-    -fx-font-size: 20;
+    -fx-text-fill: #33adff;
     -fx-alignment: center-left;
-    -fx-prompt-text-fill: rgba(255,255,255,0.5);
 }
 .chatField:focused {
     -fx-background-color: black;
-    -fx-text-fill: white;
-    -fx-font-size: 20;
     -fx-alignment: center-left;
-    -fx-prompt-text-fill: rgba(255,255,255,0.5);
+    -fx-text-fill: #33adff;
     -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
 }
