@@ -133,13 +133,16 @@ public class ChoiceBar extends HBox {
      */
     private void betAction() {
         PossibleActions pa = client.getSession().getPlayerOptions(player);
-
+        
         if (pa.canRaise() && slider.getValue() > 1)
             raise(client, slider, player);
         else if (pa.canCheck())
             client.setAction(new Action.Check());
         else if (pa.canCall())
             client.setAction(new Action.Call());
+        else if(pa.canAllIn()){
+        	client.setAction(new Action.AllIn());
+        }
     }
 
     private void raise(GUIPlayer client, Slider raiseSlider, Player player) {

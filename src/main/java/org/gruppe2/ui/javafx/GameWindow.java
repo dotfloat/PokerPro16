@@ -40,7 +40,8 @@ public class GameWindow extends BorderPane {
 	private Table table;
 	@FXML
 	private ChoiceBar choiceBar;
-	
+	@FXML
+	public Pot pot;
 
 	public GameWindow() {
 		Resources.loadFXML(this);
@@ -119,7 +120,7 @@ public class GameWindow extends BorderPane {
 			setUpPlayerBoxes();
 			((ChatBox) table.getChildren().get(2))
 			.setEventListeners((TextField) choiceBar.getChildren().get(0), gameSession.getPlayers().get(0));
-			// mainFrame.drawPot();
+			
 	
 			th = new Thread(() -> gameSession.mainLoop());
 			th.start();
@@ -137,6 +138,7 @@ public class GameWindow extends BorderPane {
 					((PlayerInfoBox) playerInfoBox).updateInfoBox();
 				}
 				choiceBar.updatePossibleBarsToClick(player);
+				pot.updatePot(gameSession.getTable().getPot());
 			}
 		});
 	}

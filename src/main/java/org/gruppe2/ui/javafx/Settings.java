@@ -31,6 +31,10 @@ public class Settings extends StackPane {
 	
 
 	public void ok() {
+		setStartMoney();
+		setName();
+		setSmallBlind();
+		setBigBlind();
 		SceneController.setScene(new MainMenu());
 	}
 
@@ -50,13 +54,13 @@ public class Settings extends StackPane {
 		}
 	}
 	
-	public void setSmallBlind	(){
+	public void setSmallBlind(){
 		if(small.getText().matches("[0-9]+") && small.getText().length() > 1) {
 			PokerApplication.small = Integer.valueOf(small.getText());
 			
 		}
 	}	
-	public void setBigBlind	(){
+	public void setBigBlind(){
 		if(big.getText().matches("[0-9]+") && big.getText().length() > 1) {
 			PokerApplication.big = Integer.valueOf(big.getText());
 			

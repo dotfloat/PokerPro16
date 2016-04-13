@@ -153,7 +153,7 @@ public class GameSession {
 			if (action instanceof Action.Fold) {
 				activePlayers.set(currentPlayerIdx, null);
 			} else if (action instanceof Action.Raise) {
-				doPlayerAction(action, player);
+					doPlayerAction(action, player);
 				lastRaiserIndex = currentPlayerIdx;
 			} else if (action instanceof Action.Call) {
 				doPlayerAction(action, player);

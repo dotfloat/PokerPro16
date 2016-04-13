@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 public class AIClient extends GameClient {
-    private static final List<String> names = Arrays.asList("Anne", "Bob", "Chuck", "Dennis", "Emma");
+    private static final List<String> names = Arrays.asList("Anne", "Bob", "Chuck", "Dennis", "Emma", "McGyver","NEO","LINK","ZELDA","IRON MAN","Mario","MAO","STAIL","Putin");
     private Difficulty difficulty = Difficulty.RANDOM;
 
     public AIClient() {

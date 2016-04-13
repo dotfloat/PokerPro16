@@ -17,6 +17,7 @@ public class Table extends StackPane {
 	private RightMenu rightMenu;
 	@FXML
 	public CommunityCards communityCardsBox;
+	
 
 	@SuppressWarnings("static-access")
 	public Table() {
