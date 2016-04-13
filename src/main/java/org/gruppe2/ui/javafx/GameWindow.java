@@ -94,10 +94,6 @@ public class GameWindow extends BorderPane {
 
 		playerInfoBox.setLayoutX(x * width);
 		playerInfoBox.setLayoutY(y * height);
-		playerInfoBox.maxWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.05));
-		playerInfoBox.maxHeightProperty().bind(
-				PokerApplication.getRoot().heightProperty().multiply(0.05));
 
 		playerInfoBox.layoutXProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(x));

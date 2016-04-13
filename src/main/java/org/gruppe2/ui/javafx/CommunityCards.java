@@ -42,7 +42,7 @@ public class CommunityCards extends HBox {
 			List<Card> river = communalCards.subList(4, 5);
 			setCommunityCardLoop(river);
 		}
-		
+
 		this.setAlignment(Pos.CENTER);
 	}
 	
@@ -53,9 +53,8 @@ public class CommunityCards extends HBox {
 			this.getChildren().add(cardImage);
 			
 			cardImage.setPreserveRatio(true);
-			cardImage.setFitWidth(width * 0.05);
 			cardImage.fitWidthProperty().bind(
-					PokerApplication.getRoot().widthProperty().multiply(0.05));
+					PokerApplication.getRoot().widthProperty().multiply(0.04));
 			communityImageCards.add(cardImage);
 		}
 	}
