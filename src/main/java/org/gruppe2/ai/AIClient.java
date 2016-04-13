@@ -155,7 +155,7 @@ public class AIClient extends GameClient {
                     return new Action.Call();
             } else {
                 if (actions.canRaise()) {
-                    int numberOfBigBlinds = actions.getMaxRaise() / this.getSession().getBigBlindAmount());
+                    int numberOfBigBlinds = actions.getMaxRaise() / this.getSession().getBigBlindAmount();
                     int randomBlinds = r.nextInt(numberOfBigBlinds) + 1;
                     return new Action.Raise(this.getSession().getBigBlindAmount() * randomBlinds);
                 } else if (actions.canCall())
