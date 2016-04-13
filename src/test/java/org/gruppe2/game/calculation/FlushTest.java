@@ -26,7 +26,7 @@ public class FlushTest {
         cards.add(new Card(8, Card.Suit.HEARTS));
         cards.add(new Card(9, Card.Suit.HEARTS));
 
-        HashMap<Card.Suit, Integer> nt = GeneralCalculations.numberOfEachType(cards);
+        HashMap<Card.Suit, Integer> nt = GeneralCalculations.numberOfEachSuit(cards);
         assertEquals(3, (int) nt.get(Card.Suit.HEARTS));
         assertEquals(1, (int) nt.get(Card.Suit.CLUBS));
         assertEquals(1, (int) nt.get(Card.Suit.SPADES));

@@ -2,7 +2,6 @@ package org.gruppe2.game.calculation;
 
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
-import org.gruppe2.game.old.ShowdownEvaluator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,11 +16,9 @@ public class Flush implements HandCalculation{
         if (communityCards == null || communityCards.size() == 0)
             return true;
 
-        ArrayList<Card> allCards = new ArrayList<>(communityCards);
-        allCards.add(p.getCard1());
-        allCards.add(p.getCard2());
+        ArrayList<Card> allCards = GeneralCalculations.makeOneListOfCards(communityCards, p);
 
-        HashMap<Card.Suit, Integer> numTypes = GeneralCalculations.numberOfEachType(allCards);
+        HashMap<Card.Suit, Integer> numTypes = GeneralCalculations.numberOfEachSuit(allCards);
 
         for (Card.Suit suit : numTypes.keySet())
             if (numTypes.get(suit) >= communityCards.size())

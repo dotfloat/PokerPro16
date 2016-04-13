@@ -1,5 +1,6 @@
 package org.gruppe2.game.calculation;
 
+import com.sun.tools.javac.jvm.Gen;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 
@@ -15,9 +16,7 @@ public class Straight implements HandCalculation{
         if (communityCards == null || communityCards.size() == 0)
             return true;
 
-        ArrayList<Card> allCards = new ArrayList<>(communityCards);
-        allCards.add(p.getCard1());
-        allCards.add(p.getCard2());
+        ArrayList<Card> allCards = GeneralCalculations.makeOneListOfCards(communityCards, p);
 
         for (int i = 0; i < allCards.size(); i++){
             int length = checkWithOtherCards(allCards, i, allCards.get(i).getFaceValue(), sameSuit);
