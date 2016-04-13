@@ -115,11 +115,11 @@ public class ShowdownEvaluatorNewTest {
 	}
 	
 	@Test
-	public void testWinnersOfRoundComparedToDaniel() {
+	public void TestWinnersOfRoundIsTheSameWithTwoEvaluators() {
 		ArrayList<Player> players = new ArrayList<>();
 		
 		int amountOfPlayers = 6;
-		int N = 100;
+		int N = 10;
 		
 		for(int i = 0; i < N; i++) {
 		Deck d = new Deck();
