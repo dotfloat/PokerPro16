@@ -254,6 +254,10 @@ public class GameSession {
 			playerToNotify.getClient().onPlayerAction(player, action);
 	}
 
+	public void setHighestBet(int amount) {
+		//TODO: ADD
+	}
+	
 	private void notifyAllPlayersAboutCommunityCards(List<Card> communityCards) {
 		for (Player playersToNotify : players)
 			playersToNotify.getClient().onCommunalCards(communityCards);
