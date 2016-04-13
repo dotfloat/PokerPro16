@@ -18,7 +18,7 @@ public class NetworkServer implements Runnable {
     private String playerID = "Test Player";
     protected boolean notRunning = false;
 
-    private ArrayList<Thread> threads = new ArrayList<Thread>();
+    public static ArrayList<Thread> threads = new ArrayList<Thread>();
 
     protected Thread runningThread = null;
 
@@ -43,7 +43,9 @@ public class NetworkServer implements Runnable {
             t.start();
             threads.add(t);
             System.out.println("Connection received from: " +
-                    clientSocket.getRemoteSocketAddress());
+                    t.getName());
+            for(Thread thr : threads)
+                System.out.println(thr.getId() + " " + thr.getState().toString());
         }
     }
 
@@ -67,6 +69,10 @@ public class NetworkServer implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void removeThread(Thread t) {
+        threads.remove(t);
     }
 
     public static void main(String[] args) {

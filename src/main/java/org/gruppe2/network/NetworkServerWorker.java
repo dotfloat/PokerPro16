@@ -53,14 +53,17 @@ public class NetworkServerWorker implements Runnable{
 
                 input = in.readLine();
                 System.out.println("Data received: " + input);
+                if(input == null) {
+                    break;
+                }
                 String[] s = input.split(";");
-                if(s[1].equals("chat")) {
+                if(s[0].equals("chat")) {
                     output = "fikk chat";
                     out.println(output);
                     System.out.println("chat");
 
                 }
-                if(s[1].equals("bye")) {
+                else if(s[0].equals("bye")) {
                     break;
                 }
             }
@@ -68,8 +71,12 @@ public class NetworkServerWorker implements Runnable{
           //  out.close();
           //  in.close();
             clientSocket.close();
+            NetworkServer.removeThread(Thread.currentThread());
+            Thread.currentThread().interrupt();
+
 
         } catch (IOException e) {
+            System.out.println("Test");
             e.printStackTrace();
         }
 
