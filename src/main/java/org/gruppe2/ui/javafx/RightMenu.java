@@ -36,6 +36,8 @@ public class RightMenu extends VBox {
 		viewStatistics.setMaxWidth(Double.MAX_VALUE);
 		innerBox.setVisible(false);
 
+		viewLobby.textProperty();
+
 		this.maxWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.2));
 		this.maxHeightProperty().bind(
