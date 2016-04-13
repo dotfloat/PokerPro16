@@ -23,6 +23,8 @@ public abstract class AbstractController  implements Controller {
 
             getSession().registerMessage(method.getName());
         }
+
+        session.getSessionContext().registerAnnotatedHandlers(this);
     }
 
     @Override

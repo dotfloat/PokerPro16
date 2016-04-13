@@ -1,5 +1,6 @@
 package org.gruppe2.game.controller;
 
+import org.gruppe2.game.Handler;
 import org.gruppe2.game.Message;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.PlayerModel;
@@ -17,5 +18,10 @@ public class GameController extends AbstractController {
             players.add(model);
             addEvent(new PlayerJoinEvent(model));
         }
+    }
+
+    @Handler
+    public void testAddPlayer(PlayerJoinEvent event) {
+        System.out.println("Success!");
     }
 }
