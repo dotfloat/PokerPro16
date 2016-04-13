@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class RoyalFlush implements HandCalculation {
 
     public static boolean canGetRoyalFlush(Collection<Card> communityCards, Player p){
-        if (communityCards.size() == 0)
+        if (communityCards == null || communityCards.size() == 0)
             return true;
 
         ArrayList<Card> allRoyalCards = new ArrayList<>();

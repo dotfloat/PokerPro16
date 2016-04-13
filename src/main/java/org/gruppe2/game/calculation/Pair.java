@@ -11,6 +11,9 @@ import java.util.Collection;
  */
 public class Pair implements HandCalculation{
     public static Boolean canGetPair(Collection<Card> communityCards, Player p){
+        if (communityCards == null || communityCards.size() == 0)
+            return true;
+
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards, p);
         if(communityCards.size() == 5 &&  amountOfSameFace < 2)
             return false;

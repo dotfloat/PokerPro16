@@ -12,6 +12,8 @@ import java.util.Collection;
 public class FourOfAKind implements HandCalculation{
 
     public static boolean canGetFourOfAKind(Collection<Card> communityCards, Player p){
+        if (communityCards == null || communityCards.size() == 0)
+            return true;
 
         int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards, p);
 
