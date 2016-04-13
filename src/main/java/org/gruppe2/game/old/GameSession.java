@@ -68,6 +68,15 @@ public class GameSession {
 	}
 
 	public void addPlayer(GameClient client, int startMoney) {
+		int duplicates = 0;
+
+		for (Player player : players)
+            if (player.getName().matches("^" + client.getName() + "( \\(\\d+\\))?"))
+                duplicates++;
+
+		if (duplicates > 0)
+            client.setName(client.getName() + " (" + (duplicates + 1) + ")");
+
 		client.setSession(this);
 		Player player = new Player(client.getName(), startMoney, client);
 		players.add(player);
@@ -104,7 +113,7 @@ public class GameSession {
 
 		for (int i = 0; i < 4; i++) {
 			table.drawCommunityCards(i);
-			
+
 			notifyAllPlayersAboutCommunityCards(table.getCommunityCards());
 			logger.record("Betting Round: " + (i+1));
 			turnLoop();
@@ -156,6 +165,7 @@ public class GameSession {
 
 			if (numActivePlayers() == 1) 
 				break;
+			
 
 			notifyOtherPlayersAboutTurn(player);
 			Action action = new Action.Pass();
