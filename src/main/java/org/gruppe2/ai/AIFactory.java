@@ -11,9 +11,7 @@ public class AIFactory {
 
     public GameClient generateBot() {
         switch (difficulty) {
-            case EASY:
-            case MEDIUM:
-            case HARD:
+            case ADVANCED:
             case RANDOM:
             default:
                 return new AIClient();
