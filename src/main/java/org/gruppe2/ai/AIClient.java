@@ -12,10 +12,15 @@ import java.util.Random;
 
 public class AIClient extends GameClient {
     private static final List<String> names = Arrays.asList("Anne", "Bob", "Chuck", "Dennis", "Emma");
+    private Difficulty difficulty = Difficulty.RANDOM;
 
     public AIClient() {
         Random rand = new Random();
         setName(names.get(rand.nextInt(names.size())));
+    }
+    
+    public void setDifficulty(Difficulty difficulty){
+    	this.difficulty=difficulty;
     }
 
     @Override
@@ -38,7 +43,8 @@ public class AIClient extends GameClient {
 			rateOfReturn = handStrength / (toRaise / bank);
 			
 		}
-		return chooseAction(rateOfReturn,actions,bank,handStrength);
+		Action act = chooseAction(rateOfReturn,actions,bank,handStrength);
+		return act;
 		
 //
 //        if (actions.canCall()) {
@@ -87,6 +93,7 @@ public class AIClient extends GameClient {
     public Action chooseAction(double rateOfReturn, PossibleActions actions, double bank, double handStrength) {
         Random r = new Random();
         int random = r.nextInt(100) + 1;
+        
         if (rateOfReturn == 0) {
             if (handStrength > 0.5) {
                 if (actions.canRaise()) {
@@ -99,6 +106,8 @@ public class AIClient extends GameClient {
             }
             return new Action.Fold();
         }
+        
+        
         if (rateOfReturn < 0.8) {
             if (actions.canCheck())
                 return new Action.Check();
@@ -109,6 +118,8 @@ public class AIClient extends GameClient {
                 }
             } else
                 return new Action.Fold();
+            
+            
         } else if (rateOfReturn < 1) {
             if (actions.canCheck()) {
                 return new Action.Check();
@@ -123,12 +134,16 @@ public class AIClient extends GameClient {
                     return new Action.Call();
             }
             return new Action.Fold();
+            
+            
         } else if (rateOfReturn <= 1.3) {
             if (random <= 60 && actions.canCall()) {
                 return new Action.Call();
             } else if (actions.canRaise() && bank > this.getSession().getBigBlindAmount() * 3) {
                 return new Action.Raise(this.getSession().getBigBlindAmount() * 2);
             }
+            
+            
         } else if (rateOfReturn > 1.3) {
             if (random <= 30) {
                 if (actions.canCall())

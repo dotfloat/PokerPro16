@@ -4,6 +4,7 @@ import org.gruppe2.game.Message;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.model.Model;
 import org.gruppe2.game.session.Session;
+import org.gruppe2.game.session.SessionContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -65,9 +66,12 @@ public abstract class AbstractController  implements Controller {
         this.session = session;
     }
 
-    @Override
     public Session getSession() {
         return session;
+    }
+
+    public SessionContext getContext() {
+        return session.getSessionContext();
     }
 
     void addEvent(Event event) {

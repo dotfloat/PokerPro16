@@ -4,7 +4,6 @@ import org.gruppe2.game.session.Session;
 
 public interface Controller {
     void setSession(Session session);
-    Session getSession();
 
     void init();
     void update();

@@ -94,7 +94,7 @@ public class GeneralCalculations {
         return hands;
     }
 
-    public static HashMap<Card.Suit, Integer> numberOfEachType (Collection<Card> allCards){
+    public static HashMap<Card.Suit, Integer> numberOfEachSuit(Collection<Card> allCards){
         HashMap<Card.Suit, Integer> numTypes = new HashMap<>();
         numTypes.put(Card.Suit.CLUBS, 0);
         numTypes.put(Card.Suit.DIAMONDS, 0);
@@ -112,5 +112,13 @@ public class GeneralCalculations {
             if (hand.canGetHand(communityCards, p))
                 return hand.getType();
         return HandType.HIGHCARD;
+    }
+
+    public static ArrayList<Card> makeOneListOfCards(Collection<Card> communityCards, Player p){
+        ArrayList<Card> allCards = new ArrayList<>(communityCards);
+        allCards.add(p.getCard1());
+        allCards.add(p.getCard2());
+
+        return allCards;
     }
 }

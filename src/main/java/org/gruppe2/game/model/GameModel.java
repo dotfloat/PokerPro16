@@ -6,46 +6,38 @@ import java.util.List;
 import java.util.UUID;
 
 public class GameModel implements Model {
-    private final UUID uuid;
-    private final int maxPlayers;
-    private final List<PlayerModel> players;
+    public enum BotPolicy { FILL }
 
+    private final UUID uuid;
+    private final int minPlayers;
+    private final int maxPlayers;
+    private final List<UUID> players = Collections.synchronizedList(new ArrayList<>());
+    private final BotPolicy botPolicy;
+
+    private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
 
-    public GameModel(UUID uuid, int maxPlayers) {
+    public GameModel(UUID uuid, int minPlayers, int maxPlayers, BotPolicy botPolicy) {
         this.uuid = uuid;
+        this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
-        this.players = Collections.synchronizedList(new ArrayList<>());
+        this.botPolicy = botPolicy;
     }
 
     public UUID getUuid() {
         return uuid;
     }
 
-    public List<PlayerModel> getPlayers() {
+    public List<UUID> getPlayers() {
         return players;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
     }
 
     public int getMaxPlayers() {
         return maxPlayers;
-    }
-
-    public PlayerModel getPlayerByUUID(UUID uuid) {
-        for (PlayerModel player : players) {
-            if (player.getUUID().equals(uuid))
-                return player;
-        }
-
-        return null;
-    }
-
-    public PlayerModel getPlayerByName(String name) {
-        for (PlayerModel player : players) {
-            if (player.getName().equals(name))
-                return player;
-        }
-
-        return null;
     }
 
     public boolean isWaitingForPlayers() {
@@ -54,5 +46,13 @@ public class GameModel implements Model {
 
     public void setWaitingForPlayers(boolean waitingForPlayers) {
         this.waitingForPlayers = waitingForPlayers;
+    }
+
+    public int getButton() {
+        return button;
+    }
+
+    public void setButton(int button) {
+        this.button = button;
     }
 }
