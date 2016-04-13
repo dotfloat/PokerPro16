@@ -1,13 +1,9 @@
 package org.gruppe2.game.session;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.model.Model;
-import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.view.View;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class Session implements Runnable {

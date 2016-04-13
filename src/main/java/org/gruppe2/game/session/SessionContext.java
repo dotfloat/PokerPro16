@@ -3,7 +3,6 @@ package org.gruppe2.game.session;
 import org.gruppe2.game.Handler;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.model.Model;
-import org.gruppe2.game.view.View;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,7 +15,6 @@ public class SessionContext {
     private final Session session;
 
     private final ConcurrentEventQueue eventQueue = new ConcurrentEventQueue();
-    private final Map<Class<? extends View>, View> viewMap = Collections.synchronizedMap(new HashMap<>());
 
     SessionContext(Session session) {
         this.session = session;
@@ -34,24 +32,6 @@ public class SessionContext {
 
     public <M extends Model> M getModel(Class<M> klass) {
         return session.getModel(klass);
-    }
-
-    public <V extends View> V getView(Class<V> klass) {
-        View view = viewMap.get(klass);
-
-        if (view != null)
-            return (V) view;
-
-        try {
-            view = klass.newInstance();
-            view.setContext(this);
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        viewMap.put(klass, view);
-
-        return (V) view;
     }
 
     public void addEvent(Model model, Event event) {
