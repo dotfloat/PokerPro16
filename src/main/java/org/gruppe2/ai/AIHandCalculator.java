@@ -9,7 +9,6 @@ import org.gruppe2.game.old.GameClient;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.ShowdownEvaluator;
-import org.gruppe2.game.old.ShowdownEvaluatorNew;
 import org.gruppe2.game.old.Table;
 import org.gruppe2.game.old.Card.Suit;
 
@@ -37,7 +36,7 @@ public class AIHandCalculator {
 		cardsToRemove.add(player.getCard1());
 		cardsToRemove.add(player.getCard2());
 		int numberOfWins=0;
-		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ShowdownEvaluator se = new ShowdownEvaluator();
 		
 		for (int i = 0; i < 1000; i++){		
 			AIMockTable mockTable = new AIMockTable();

@@ -1,572 +1,578 @@
 package org.gruppe2.game.old;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-/**
- * A class for evaluating hands at showdown. Can be used to evaluate for
- * specific hands, or by the evaluate method which returns the best hand form
- * the cards.
- */
+import org.gruppe2.game.old.Card.Suit;
+
 public class ShowdownEvaluator {
-    Evaluated evaluated = null;
+	
+	public ArrayList<Player> getWinnerOfRound(List<Player> players) {
+		ArrayList<Player> winners = new ArrayList<>();
+		for(Player p : players)
+			winners.add(p);
+		
+		PlayerComparator comp = new PlayerComparator();
+		winners.sort(comp);
+		for(int i = winners.size()-1; i >= 1; i--) {
+			switch(comp.compare(winners.get(i), winners.get(i-1))) {
+			case -1:
+				winners.remove(i);
+				break;
+			case 1:
+				winners.remove(i-1);
+				break;
+			case 0:
+				break;
+			}
+		}
+		
+		return winners;
+	}
+	
+	public ArrayList<HandCollector> evaluateHands(List<Card> cards) {
+		ArrayList<HandCollector> hands = new ArrayList<>();
+		
+		// My little quick fix; because I messed up the poker rules to begin with.
+		// It looks terrible, but it works, I'll fix it later when brain functions again.
+		hands.addAll(royalFlush(cards));
+		if(hands.isEmpty())
+			hands.addAll(straightFlush(cards));
+		if(hands.isEmpty()) {
+			hands.addAll(fourOfAKind(cards));
+			if(!hands.isEmpty())
+				hands.add(new HandCollector(1, getBestHighCard(cards)));
+		}
+		if(hands.isEmpty())
+			hands.addAll(fullHouse(cards));
+		if(hands.isEmpty())
+			hands.addAll(flush(cards));
+		if(hands.isEmpty())
+			hands.addAll(straight(cards));
+		if(hands.isEmpty()) {
+			hands.addAll(threeOfAKind(cards));
+			if(!hands.isEmpty()) {
+				ArrayList<Card> pair = getBestOnePair(cards);
+				if(pair.isEmpty()) {
+					ArrayList<Card> bestCard = getBestHighCard(cards);
+					hands.add(new HandCollector(1, bestCard));
+					cards.removeAll(bestCard);
+					hands.add(new HandCollector(1, getBestHighCard(cards)));
+				}else
+					hands.add(new HandCollector(2,pair));
+			}
+		}
+		if(hands.isEmpty()) {
+			hands.addAll(twoPair(cards));
+			if(!hands.isEmpty())
+				hands.add(new HandCollector(1, getBestHighCard(cards)));
+		}
+		if(hands.isEmpty()) {
+			hands.addAll(onePair(cards));
+			if(!hands.isEmpty()) {
+				ArrayList<Card> bestCard = getBestHighCard(cards);
+				hands.add(new HandCollector(1, bestCard));
+				cards.removeAll(bestCard);
+				ArrayList<Card> bestCard_2 = getBestHighCard(cards);
+				hands.add(new HandCollector(1, bestCard_2));
+				cards.removeAll(bestCard_2);
+				hands.add(new HandCollector(1, getBestHighCard(cards)));
+			}
+		}
+		if(hands.isEmpty()) {
+			hands.addAll(highCard(cards));
+		}
+		
+		return hands;
+	}
+	
+	public List<Card> copy(List<Card> cards) {
+		ArrayList<Card> newC = new ArrayList<Card>();
+		for(int i = 0; i < cards.size(); i++)
+			newC.add(cards.get(i));
+		return newC;
+	}
+	
+	public int evaluateTest(List<Card> cards) {
+//		Collections.sort(cards);
+		if (!royalFlush(cards).isEmpty())
+			return 10;
+		else if (!straightFlush(cards).isEmpty())
+			return 9;
+		else if (!fourOfAKind(cards).isEmpty())
+			return 8;
+		else if (!fullHouse(cards).isEmpty())
+			return 7;
+		else if (!flush(cards).isEmpty())
+			return 6;
+		else if (!straight(cards).isEmpty())
+			return 5;
+		else if (!threeOfAKind(cards).isEmpty())
+			return 4;
+		else if (!twoPair(cards).isEmpty())
+			return 3;
+		else if (!onePair(cards).isEmpty())
+			return 2;
+		else if (!highCard(cards).isEmpty())
+			return 1;
+		else {
+			throw new IllegalArgumentException("Error, got an impossible hand!");
+		}
+	}
+	
+	public ArrayList<HandCollector> royalFlush(List<Card> cards) {
+		ArrayList<HandCollector> listRoyalFlushHands = new ArrayList<>();
 
-    /**
-     * Method used to evaluate cards. Evaluated from best to worst. Returns the
-     * best hand.
-     *
-     * @param cards cards to evaluate
-     * @return enum Hand, best hand
-     */
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestroyalFlush(cards)).isEmpty()) {
+			listRoyalFlushHands.add(new HandCollector(10, pair));
+			cards.removeAll(pair);
+		}
 
-    public Evaluated evaluate(List<Card> cards) {
-        Collections.sort(cards);
-        // done
-        if (royalFlush(cards)) {
-            evaluated.setHand(Hand.ROYALFLUSH);
-            return evaluated;
-        }
-        // done
-        else if (straightFlush(cards)) {
-            evaluated.setHand(Hand.STRAIGHTFLUSH);
-            return evaluated;
-        }
-        // done
-        else if (fourOfAKind(cards)) {
-            evaluated.setHand(Hand.FOUROFAKIND);
-            return evaluated;
-        }
-        // done
-        else if (fullHouse(cards)) {
-            evaluated.setHand(Hand.FULLHOUSE);
-            return evaluated;
-        }
-        // done
-        else if (flush(cards)) {
-            evaluated.setHand(Hand.FLUSH);
-            return evaluated;
-        }
-        // done
-        else if (straight(cards)) {
-            evaluated.setHand(Hand.STRAIGHT);
-            return evaluated;
-        }
-        // done
-        else if (threeOfAKind(cards)) {
-            evaluated.setHand(Hand.THREEOFAKIND);
-            return evaluated;
-        }
-        // done
-        else if (twoPair(cards)) {
-            evaluated.setHand(Hand.TWOPAIRS);
-            return evaluated;
-        }
-        // done
-        else if (onePair(cards)) {
-            evaluated.setHand(Hand.ONEPAIR);
-            return evaluated;
-        }
-        // done
-        else if (highCard(cards)) {
-            evaluated.setHand(Hand.HIGHCARD);
-            return evaluated;
-        }
-        // done
-        else {
-            System.out.println("Theses cards did not get evaluated correctly");
-            return evaluated;
-        }
-    }
+		return listRoyalFlushHands;
+	}
 
-    /**
-     * Check if given cards makes a royal flush. A straight from a ten to an ace
-     * with all five cards of the same suit.
-     *
-     * @param cards cards to check
-     * @return true if it is a royal flush, false if not
-     */
-    public boolean royalFlush(List<Card> cards) {
-        if (straightFlush(cards)) {
-            evaluated = new Evaluated();
-            Collections.sort(cards);
+	// TODO: This really needs a test!
+	public ArrayList<Card> getBestroyalFlush(List<Card> cards) {
+		ArrayList<Card> listOfCardsInRoyalFlush = getBestStraightFlush(cards);
 
-            // using a set to remove duplicates
-            Set<Integer> cardSet = new HashSet<>();
+		// Check if the straight flush has an Ace High
+		if (!listOfCardsInRoyalFlush.isEmpty()
+				&& getBestHighCard(listOfCardsInRoyalFlush).get(0).getFaceValue() != 14)
+			listOfCardsInRoyalFlush.clear();
 
-            for (Card card : cards) {
-                if (card.getFaceValue() >= 10)
-                    cardSet.add(card.getFaceValue());
-            }
+		return listOfCardsInRoyalFlush;
+	}
 
-            if (cardSet.size() == 5) {
-                // Start of evaluated objects
-                int i = Collections.max(cardSet);
-                int[] high = new int[1];
-                high[0] = i;
-                evaluated.addHand(Hand.ROYALFLUSH, high);
-                // end of evaluated objects
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
+	public ArrayList<HandCollector> straightFlush(
+			List<Card> cards) {
+		ArrayList<HandCollector> listStraightFlushHands = new ArrayList<>();
 
-    /**
-     * Check if given cards makes a straight flush. Any straight with all five
-     * cards of the same suit.
-     *
-     * @param cards cards to check
-     * @return true if it is a straight flush, false if not
-     */
-    public boolean straightFlush(List<Card> cards) {
-        if (flush(cards) && straight(cards)) {
-            evaluated = new Evaluated();
-            Card lastCard = null;
-            int count = 0;
-            Collections.sort(cards);
-            // checks if there is 5 cards with same suit and following numbers
-            // in the sorted list
-            for (Card c : cards) {
-                if (lastCard != null) {
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestStraightFlush(cards)).isEmpty()) {
+			listStraightFlushHands.add(new HandCollector(9, pair));
+			cards.removeAll(pair);
+		}
 
-                    if (c.getFaceValue() == lastCard.getFaceValue() + 1 && c.getSuit() == lastCard.getSuit()
-                            || c.getFaceValue() == 2 && lastCard.getFaceValue() == 14) {
-                        count++;
-                        lastCard = c;
-                        if (count == 5) {
-                            // Start of evaluated objects
-                            int[] high = new int[1];
-                            high[0] = lastCard.getFaceValue();
-                            evaluated.addHand(Hand.STRAIGHTFLUSH, high);
-                            // end of evaluated objects
-                            return true;
-                        }
-                        continue;
+		return listStraightFlushHands;
+	}
 
-                    } else if (c.getFaceValue() == lastCard.getFaceValue()) {
-                        continue;
+	public ArrayList<Card> getBestStraightFlush(List<Card> cards) {
+		ArrayList<Card> listOfCardsInStraightFlush = new ArrayList<>();
+		ArrayList<Card> listOfCardsWithHighestSuit = new ArrayList<>();
+		int diamonds = 0, hearts = 0, spades = 0, clubs = 0;
 
-                    } else {
-                        count = 1;
-                        lastCard = c;
-                    }
+		// Count all suits:
+		for (Card c : cards) {
+			//System.out.println(c);
+			switch (c.getSuit()) {
+			case DIAMONDS:
+				diamonds++;
+				break;
+			case HEARTS:
+				hearts++;
+				break;
+			case SPADES:
+				spades++;
+				break;
+			case CLUBS:
+				clubs++;
+				break;
+			}
+		}
 
-                } else {
-                    lastCard = c;
-                    count++;
-                }
-            }
-        }
-        return false;
-    }
+		// Check if any of the suits will result in a flush:
+		if (diamonds >= 5)
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.DIAMONDS);
+		else if (hearts >= 5)
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.HEARTS);
+		else if (spades >= 5)
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.SPADES);
+		else if (clubs >= 5)
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.CLUBS);
 
-    /**
-     * Check if given cards makes four of a kind. Any four cards of the same
-     * rank.
-     *
-     * @param cards cards to check
-     * @return true if four of a kind, false if not
-     */
-    public boolean fourOfAKind(List<Card> cards) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        evaluated = new Evaluated();
+		listOfCardsInStraightFlush = getBestStraight(listOfCardsWithHighestSuit);
 
-        for (Card card : cards) {
-            if (map.containsKey(card.getFaceValue())) {
-                int add = map.get(card.getFaceValue());
-                map.replace(card.getFaceValue(), add + 1);
-            } else {
-                map.put(card.getFaceValue(), 1);
-            }
-        }
+		return listOfCardsInStraightFlush;
+	}
 
-        boolean isFourOfAKind = false;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (entry.getValue() == 4) {
-                isFourOfAKind = true;
-            }
-        }
-        // Start of evaluated objects
-        if (isFourOfAKind) {
-            int[] high = new int[2];
-            int high1 = 0;
-            int high2 = 0;
-            for (int i = 1; i < 15; i++) {
-                if (map.get(i) == null)
-                    continue;
-                if (map.get(i) == 4) {
-                    high[0] = i;
-                }
-                if (map.get(i) != 0) {
-                    if (i > high1) {
-                        high2 = high1;
-                        high1 = i;
-                    } else if (i > high2 && i != high1) {
-                        high2 = i;
-                    }
-                }
-            }
-            if (high[0] == high1) {
-                high[1] = high2;
-            } else
-                high[1] = high1;
-            evaluated.addHand(Hand.FOUROFAKIND, high);
-        }
-        // end of evaluated objects
+	private ArrayList<Card> cardsOfOneSuit(List<Card> cards, Suit suit) {
+		ArrayList<Card> flushWithSuit = new ArrayList<>();
+		Collections.sort(cards);
 
-        return isFourOfAKind;
-    }
+		// Reversed loop, starts with highest value card.
+		for (int i = cards.size() - 1; i >= 0; i--) {
+			if (flushWithSuit.size() == 5)
+				break;
 
-    /**
-     * Check if given cards makes a full house. Any three cards of the same rank
-     * together with any two cards of the same rank.
-     *
-     * @param cards cards to check
-     * @return true for full house, false if not a full house
-     */
-    public boolean fullHouse(List<Card> cards) {
-        if (threeOfAKind(cards) && onePair(cards)) {
-            // Start of evaluated objects
-            evaluated = new Evaluated();
-            HashMap<Integer, Integer> map = new HashMap<>();
-            int[] high = new int[2];
-            for (Card card : cards) {
-                if (map.containsKey(card.getFaceValue())) {
-                    int add = map.get(card.getFaceValue());
-                    map.replace(card.getFaceValue(), add + 1);
-                } else {
-                    map.put(card.getFaceValue(), 1);
-                }
-            }
-            ArrayList<Integer> highs = new ArrayList<>();
-            int high3 = 0;
-            for (int i = 1; i < 15; i++) {
-                if (map.get(i) == null)
-                    continue;
-                if (map.get(i) == 3)
-                    high3 = map.get(i);
-                if (map.get(i) == 2)
-                    highs.add(map.get(i));
-            }
-            if (highs.size() > 1) {
-                Collections.sort(highs);
-            }
-            high[0] = high3;
-            if (high3 != highs.get(highs.size() - 1))
-                high[1] = highs.get(highs.size() - 1);
-            else
-                high[1] = highs.get(highs.size() - 2);
-            evaluated.addHand(Hand.FULLHOUSE, high);
-            // end of evaluated objects
-            return true;
-        }
-        return false;
-    }
+			if (cards.get(i).getSuit() == suit)
+				flushWithSuit.add(cards.get(i));
+		}
 
-    /**
-     * Check if given cards makes a flush. Any 5 cards of the same suit.
-     *
-     * @param cards list of cards to check
-     * @return true for flush, false if not flush
-     */
-    public boolean flush(List<Card> cards) {
-        boolean isFlush = false;
-        HashMap<Card.Suit, Integer> map = new HashMap<>();
-        evaluated = new Evaluated();
+		// Ignore this, it's never supposed to run, unless previous code has
+		// bugs!
+		if (flushWithSuit.size() < 5)
+			flushWithSuit.clear();
 
-        for (Card card : cards) {
-            if (map.containsKey(card.getSuit())) {
-                int add = map.get(card.getSuit());
-                map.replace(card.getSuit(), add + 1);
-            } else {
-                map.put(card.getSuit(), 1);
-            }
-        }
+		return flushWithSuit;
+	}
 
-        for (Map.Entry<Card.Suit, Integer> entry : map.entrySet()) {
-            if (entry.getValue() == 5) {
-                isFlush = true;
-            }
-        }
-        // Start of evaluated objects
-        if (isFlush) {
-            int[] high = new int[1];
-            high[0] = Collections.max(map.values());
-            evaluated.addHand(Hand.FLUSH, high);
-        }
-        // end of evaluated objects
+	public ArrayList<HandCollector> fourOfAKind(List<Card> cards) {
+		ArrayList<HandCollector> listFourOfAKindHands = new ArrayList<>();
 
-        return isFlush;
-    }
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestFourOfAKind(cards)).isEmpty()) {
+			listFourOfAKindHands.add(new HandCollector(8, pair));
+			cards.removeAll(pair);
+		}
+		
+		return listFourOfAKindHands;
+	}
 
-    /**
-     * Check if given cards makes a straight. Any 5 consecutive cards of
-     * different suites. Remember that Ace is 14.
-     *
-     * @param cards cards to check
-     * @return true for straight, false if not straight
-     */
-    public boolean straight(List<Card> cards) {
-        Collections.sort(cards);
-        evaluated = new Evaluated();
+	public ArrayList<Card> getBestFourOfAKind(List<Card> cards) {
+		Map<Integer, Suit[]> freq = cardFaceFrequencyTest(cards);
+		ArrayList<Card> listOfCardsInFourOfAKind = new ArrayList<>();
+		int highestCardValue = -1;
 
-        // using a set to remove duplicates
-        Set<Integer> cardSet = new HashSet<>();
+		for (Map.Entry<Integer, Suit[]> entry : freq.entrySet()) {
+			// Does the list of cards contain 2 equal cards of value X?
+			if (entry.getValue().length >= 4) {
+				// Is the new pair X higher than other pairs found?
+				if (entry.getKey() > highestCardValue) {
+					listOfCardsInFourOfAKind.clear(); // Clear the list of cards
+														// in old pair.
+					highestCardValue = entry.getKey();
+					for (Suit s : entry.getValue())
+						// Add all cards in new pair.
+						listOfCardsInFourOfAKind
+								.add(new Card(entry.getKey(), s));
+				}
+			}
+		}
 
-        for (Card card : cards) {
-            cardSet.add(card.getFaceValue());
-        }
+		return listOfCardsInFourOfAKind;
+	}
 
-        Integer[] cardValuesArray = cardSet.toArray(new Integer[cardSet.size()]);
+	public ArrayList<HandCollector> fullHouse(List<Card> cards) {
+		ArrayList<HandCollector> listFullHouseHands = new ArrayList<>();
 
-        int count = 0;
-        for (int i = 0; i < cardValuesArray.length - 1; i++) {
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestFullHouse(cards)).isEmpty()) {
+			listFullHouseHands.add(new HandCollector(7, pair));
+			cards.removeAll(pair);
+		}
 
-            // special case for Ace since Ace got the value 14 in this
-            // implementation
-            if (cardValuesArray[i] == 2 && cardValuesArray[cardValuesArray.length - 1] == 14) {
-                count = 2;
-                continue;
-            }
+		return listFullHouseHands;
+	}
 
-            if (cardValuesArray[i] + 1 == cardValuesArray[i + 1]) {
-                count++;
-                if (count == 4) {
-                    // Start of evaluated objects
-                    int[] high = new int[1];
-                    high[0] = cardValuesArray[i + 1];
-                    evaluated.addHand(Hand.STRAIGHT, high);
-                    // end of evaluated objects
-                    return true;
-                }
-            } else {
-                count = 0;
-            }
-        }
+	public ArrayList<Card> getBestFullHouse(List<Card> cards) {
+		ArrayList<Card> listOfCardsInFullHouse = new ArrayList<>();
 
-        return false;
-    }
+		ArrayList<Card> highestThreeOfAKind = getBestThreeOfAKind(cards);
+		ArrayList<Card> cardsExcludingThreeOfAKind = new ArrayList<>(); // Mostly
+																		// a
+																		// dummy
+																		// list
+		for (Card c : cards)
+			if (!highestThreeOfAKind.contains(c))
+				cardsExcludingThreeOfAKind.add(c);
+		ArrayList<Card> highestOnePair = getBestOnePair(cardsExcludingThreeOfAKind);
 
-    /**
-     * Check if given cards makes three of a kind. Any three cards of the same
-     * rank/faceValue.
-     *
-     * @param cards cards to check
-     * @return true for three of a kind, false if not
-     */
-    public boolean threeOfAKind(List<Card> cards) {
-        boolean three = false;
-        Map<Integer, Integer> freq = cardFaceFrequency(cards);
-        evaluated = new Evaluated();
-        int threeOf = 0;
-        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            if (entry.getValue() == 3) {
-                threeOf = entry.getKey();
-                three = true;
-            }
-        }
-        // Start of evaluated objects
-        if (three) {
-            ArrayList<Integer> highest = new ArrayList<Integer>();
-            for (Card c : cards) {
-                if (c.getFaceValue() != threeOf) {
-                    highest.add(c.getFaceValue());
-                }
-            }
-            Collections.sort(highest);
-            int length = highest.size();
-            int[] high = new int[3];
-            high[0] = threeOf;
-            high[1] = highest.get(length - 1);
-            high[2] = highest.get(length - 2);
-        }
-        // end of evaluated objects
-        return three;
-    }
+		// If we found a full house, add it, if not, then we return an empty
+		// list
+		if (!highestThreeOfAKind.isEmpty() && !highestOnePair.isEmpty()) {
+			listOfCardsInFullHouse.addAll(highestThreeOfAKind);
+			listOfCardsInFullHouse.addAll(highestOnePair);
+		}
 
-    /**
-     * Check if given cards makes two pairs. Any two cards of the same rank
-     * together with another two cards of the same rank.
-     *
-     * @param cards cards to check
-     * @return true for two pairs, false if not
-     */
-    public boolean twoPair(List<Card> cards) {
-        Map<Integer, Integer> freq = cardFaceFrequency(cards);
-        evaluated = new Evaluated();
-        ArrayList<Integer> pairValues = new ArrayList<>();
-        int numPairs = 0;
-        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            if (entry.getValue() == 2) {
-                pairValues.add(entry.getKey());
-                numPairs++;
-            }
-        }
-        // Start of evaluated objects
-        if (numPairs >= 2) {
-            Collections.sort(pairValues);
-            if (pairValues.size() == 3) {
-                pairValues.remove(0);
-            }
-            int highestCard = 0;
-            for (Card c : cards) {
-                if (!pairValues.contains(c.getFaceValue()) && c.getFaceValue() > highestCard) {
-                    highestCard = 0;
-                }
-            }
-            int[] high = new int[3];
-            high[0] = pairValues.get(1);
-            high[1] = pairValues.get(0);
-            high[2] = highestCard;
-            evaluated.addHand(Hand.TWOPAIRS, high);
-        }
-        // end of evaluated objects
-        return numPairs >= 2;
-    }
+		return listOfCardsInFullHouse;
+	}
 
-    /**
-     * Check if given cards makes a pair. Any two cards of the same rank.
-     *
-     * @param cards cards to check
-     * @return true if there is a pair, false if not
-     */
-    public boolean onePair(List<Card> cards) {
-        evaluated = new Evaluated();
-        Map<Integer, Integer> freq = cardFaceFrequency(cards);
-        boolean onePair = false;
-        int pairValue = 0;
-        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            if (entry.getValue() == 2) {
-                pairValue = entry.getKey();
-                onePair = true;
-            }
-        }
-        // Start of evaluated objects
-        if (onePair) {
-            ArrayList<Integer> highestCards = new ArrayList<>();
-            for (Card c : cards) {
-                if (c.getFaceValue() != pairValue)
-                    highestCards.add(c.getFaceValue());
-            }
-            Collections.sort(highestCards);
-            int length = highestCards.size();
-            int[] high = new int[4];
-            high[0] = pairValue;
-            high[1] = highestCards.get(length - 1);
-            high[2] = highestCards.get(length - 2);
-            high[3] = highestCards.get(length - 3);
-            evaluated.addHand(Hand.ONEPAIR, high);
-        }
-        // end of evaluated objects
-        return onePair;
-    }
+	public ArrayList<HandCollector> flush(List<Card> cards) {
+		ArrayList<HandCollector> listFlushHands = new ArrayList<>();
 
-    /**
-     * Will always return true. If no of the other checks pass then the hand is
-     * a highCard hand
-     *
-     * @param cards cards to check
-     * @return true, you should use the others tests first
-     */
-    public boolean highCard(List<Card> cards) {
-        evaluated = new Evaluated();
-        Collections.sort(cards);
-        int[] high = new int[5];
-        int length = cards.size();
-        for (int i = 0; i < 5; i++) {
-            high[i] = cards.get(length - 1 - i).getFaceValue();
-        }
-        evaluated.addHand(Hand.ONEPAIR, high);
-        return true;
-    }
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestFlush(cards)).isEmpty()) {
+			listFlushHands.add(new HandCollector(6, pair));
+			cards.removeAll(pair);
+		}
 
-    /**
-     * How often a value shows up
-     *
-     * @param cards cards to check
-     * @return A map with the key as faceValue and value as number of times the
-     * value shows up
-     */
-    private Map<Integer, Integer> cardFaceFrequency(List<Card> cards) {
-        HashMap<Integer, Integer> freq = new HashMap<>();
+		return listFlushHands;
+	}
 
-        for (Card c : cards) {
-            int face = c.getFaceValue();
-            int old_freq = freq.containsKey(face) ? freq.get(face) : 0;
+	// This code breaks if there are too many cards in hand or on table! (Hand >
+	// 2 or Table > 5)
+	public ArrayList<Card> getBestFlush(List<Card> cards) {
+		ArrayList<Card> listOfCardsInFlush = new ArrayList<>();
+		int diamonds = 0, hearts = 0, spades = 0, clubs = 0;
 
-            freq.put(face, old_freq + 1);
-        }
+		// Count all suits:
+		for (Card c : cards) {
+			switch (c.getSuit()) {
+			case DIAMONDS:
+				diamonds++;
+				break;
+			case HEARTS:
+				hearts++;
+				break;
+			case SPADES:
+				spades++;
+				break;
+			case CLUBS:
+				clubs++;
+				break;
+			}
+		}
 
-        return freq;
-    }
+		// Check if any of the suits will result in a flush:
+		if (diamonds >= 5)
+			listOfCardsInFlush = flushCardsFromSuit(cards, Suit.DIAMONDS);
+		else if (hearts >= 5)
+			listOfCardsInFlush = flushCardsFromSuit(cards, Suit.HEARTS);
+		else if (spades >= 5)
+			listOfCardsInFlush = flushCardsFromSuit(cards, Suit.SPADES);
+		else if (clubs >= 5)
+			listOfCardsInFlush = flushCardsFromSuit(cards, Suit.CLUBS);
 
-    /**
-     * check who wins of the players listed
-     *
-     * @param table
-     * @param players
-     * @return Player
-     */
-    public ArrayList<Player> getWinnerOfRound(Table table, ArrayList<Player> players) {
-        HashMap<Player, Evaluated> playersAndEvaluated = new HashMap<Player, Evaluated>();
-        HashMap<Evaluated, Player> evaluatedAndPlayers = new HashMap<Evaluated, Player>();
-        for (Player p : players) {
-            if (p == null) {
-                continue;
-            }
-            List<Card> cards = table.getCommunityCards();
-            cards.add(p.getCard1());
-            cards.add(p.getCard2());
-            Collections.sort(cards);
-            Evaluated evaluated = this.evaluate(cards);
-            playersAndEvaluated.put(p, evaluated);
-            evaluatedAndPlayers.put(evaluated, p);
-        }
-        ArrayList<Player> winners = new ArrayList<Player>();
-        ArrayList<Evaluated> evaluateds = new ArrayList<Evaluated>();
-        for (Evaluated ev : playersAndEvaluated.values())
-            evaluateds.add(ev);
-        Collections.sort(evaluateds);
-        winners.add(evaluatedAndPlayers.get(evaluateds.get(0)));
-        if (evaluateds.size() >= 2) {
-            for (int i = 1; i < evaluateds.size(); i++) {
-                if (evaluateds.get(i).compareTo(evaluateds.get(i - 1)) == 0) {
-                    winners.add(evaluatedAndPlayers.get(evaluateds.get(i)));
-                } else {
-                	
-                }
-            }
-        }
-        return winners;
-    }
+		return listOfCardsInFlush;
+	}
 
-    /**
-     * Reverse Enums for easier gtWinnerOfRound method
-     *
-     * @param values
-     * @return Hand[] values
-     */
-    public Hand[] reverse(Hand[] values) {
-        if (values != null) {
-            int length = values.length;
-            Hand[] temp = new Hand[length];
-            for (int i = 0; i < length; i++) {
-                temp[i] = values[length - i - 1];
-            }
-            return temp;
-        }
-        return null;
-    }
+	private ArrayList<Card> flushCardsFromSuit(List<Card> cards, Suit suit) {
+		ArrayList<Card> flushWithSuit = new ArrayList<>();
+		Collections.sort(cards);
 
-    /**
-     * Possible hands sorted from lowest to highest value.
-     * <p>
-     * This makes the comparison more idiomatic, ie:
-     * <code>Hand.HIGHCARD < Hand.ROYALFLUSH</code>
-     */
-    public enum Hand {
-        HIGHCARD, ONEPAIR, TWOPAIRS, THREEOFAKIND, STRAIGHT, FLUSH, FULLHOUSE, FOUROFAKIND, STRAIGHTFLUSH, ROYALFLUSH
-    }
+		// Reversed loop, starts with highest value card.
+		for (int i = cards.size() - 1; i >= 0; i--) {
+			if (flushWithSuit.size() == 5)
+				break;
 
+			if (cards.get(i).getSuit() == suit)
+				flushWithSuit.add(cards.get(i));
+		}
+
+		// Ignore this, it's never supposed to run, unless previous code has
+		// bugs!
+		if (flushWithSuit.size() < 5)
+			flushWithSuit.clear();
+
+		return flushWithSuit;
+	}
+
+	public ArrayList<HandCollector> straight(List<Card> cards) {
+		ArrayList<HandCollector> listStraightHands = new ArrayList<>();
+
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestStraight(cards)).isEmpty()) {
+			listStraightHands.add(new HandCollector(5, pair));
+			cards.removeAll(pair);
+		}
+
+		return listStraightHands;
+	}
+
+	// TODO: Method up for change!
+	public ArrayList<Card> getBestStraight(List<Card> cards) {
+		ArrayList<Card> listOfCardsInStraight = new ArrayList<>();
+		if (cards.size() >= 1) {
+			Collections.sort(cards);
+			int cardsInARow = 1; // Starter card always counts.
+
+			// Face value of highest card
+			int lastCardValue = cards.get(cards.size() - 1).getFaceValue();
+			listOfCardsInStraight.add(cards.get(cards.size() - 1));
+
+			// Simple reversed loop, skipping the highest card.
+			for (int i = (cards.size() - 2); (i + 1) > 0; i--) {
+				if (listOfCardsInStraight.size() == 5)
+					break;
+
+				// If the next card is 1 less than the previous, then it counts!
+				if ((cards.get(i).getFaceValue() + 1) == lastCardValue) {
+					cardsInARow++;
+					listOfCardsInStraight.add(cards.get(i));
+				} else if ((cards.get(i).getFaceValue() + 1) < lastCardValue) {
+					listOfCardsInStraight.clear();
+					cardsInARow = 1;
+					listOfCardsInStraight.add(cards.get(i));
+				}
+
+				lastCardValue = cards.get(i).getFaceValue();
+			}
+
+			// Special case for Ace as it can also count as a "1"
+			if (lastCardValue == 2 && cardsInARow == 4
+					&& cards.get(cards.size() - 1).getFaceValue() == 14)
+				listOfCardsInStraight.add(cards.get(cards.size() - 1));
+
+			if (listOfCardsInStraight.size() != 5)
+				listOfCardsInStraight.clear();
+
+		}
+
+		return listOfCardsInStraight;
+	}
+
+	public ArrayList<HandCollector> threeOfAKind(List<Card> cards) {
+		ArrayList<HandCollector> listThreeOfAKindHands = new ArrayList<>();
+
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestThreeOfAKind(cards)).isEmpty()) {
+			listThreeOfAKindHands.add(new HandCollector(4, pair));
+			cards.removeAll(pair);
+		}
+
+		return listThreeOfAKindHands;
+	}
+
+	public ArrayList<Card> getBestThreeOfAKind(List<Card> cards) {
+		Map<Integer, Suit[]> freq = cardFaceFrequencyTest(cards);
+		ArrayList<Card> listOfCardsInThreeOfAKind = new ArrayList<>();
+		int highestCardValue = -1;
+
+		for (Map.Entry<Integer, Suit[]> entry : freq.entrySet()) {
+			// Does the list of cards contain 2 equal cards of value X?
+			if (entry.getValue().length >= 3) {
+				// Is the new pair X higher than other pairs found?
+				if (entry.getKey() > highestCardValue) {
+					listOfCardsInThreeOfAKind.clear(); // Clear the list of
+														// cards in old pair.
+					highestCardValue = entry.getKey();
+					for (Suit s : entry.getValue())
+						// Add all cards in new pair.
+						listOfCardsInThreeOfAKind.add(new Card(entry.getKey(),
+								s));
+				}
+			}
+		}
+
+		return listOfCardsInThreeOfAKind;
+	}
+
+	public ArrayList<HandCollector> twoPair(List<Card> cards) {
+		ArrayList<HandCollector> listTwoPairHands = new ArrayList<>();
+
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestTwoPair(cards)).isEmpty()) {
+			listTwoPairHands.add(new HandCollector(3, pair));
+			cards.removeAll(pair);
+		}
+
+		return listTwoPairHands;
+	}
+
+	public ArrayList<Card> getBestTwoPair(List<Card> cards) {
+		ArrayList<Card> listOfCardsInTwoPair = new ArrayList<>();
+
+		ArrayList<Card> highestPair = getBestOnePair(cards); // Get the highest
+																// pair of cards
+		ArrayList<Card> cardsExcludingHighestPair = new ArrayList<>(); // Mostly
+																		// a
+																		// dummy
+																		// list
+		for (Card c : cards)
+			if (!highestPair.contains(c))
+				cardsExcludingHighestPair.add(c);
+		ArrayList<Card> lowestPair = getBestOnePair(cardsExcludingHighestPair);
+
+		// If we found two pairs, add them, if not, then we return an empty list
+		if (!highestPair.isEmpty() && !lowestPair.isEmpty()) {
+			listOfCardsInTwoPair.addAll(highestPair);
+			listOfCardsInTwoPair.addAll(lowestPair);
+		}
+
+		return listOfCardsInTwoPair;
+	}
+
+	// TODO: Bugfix, it returns too many cards.
+	public ArrayList<HandCollector> onePair(List<Card> cards) {
+		ArrayList<HandCollector> listPairHands = new ArrayList<>();
+
+		ArrayList<Card> pair = null;
+		while (!(pair = getBestOnePair(cards)).isEmpty()) {
+			listPairHands.add(new HandCollector(2, pair));
+			cards.removeAll(pair);
+		}
+
+		return listPairHands;
+	}
+
+	public ArrayList<Card> getBestOnePair(List<Card> cards) {
+		Map<Integer, Suit[]> freq = cardFaceFrequencyTest(cards);
+		ArrayList<Card> listOfCardsInPair = new ArrayList<>();
+
+		int highestCardValue = -1;
+
+		for (Map.Entry<Integer, Suit[]> entry : freq.entrySet()) {
+			// Does the list of cards contain 2 equal cards of value X?
+			if (entry.getValue().length >= 2) {
+				// Is the new pair X higher than other pairs found?
+				if (entry.getKey() > highestCardValue) {
+					listOfCardsInPair = new ArrayList<>(); // Clear the list of
+															// cards in old
+															// pair.
+					highestCardValue = entry.getKey();
+					for (Suit s : entry.getValue())
+						if(listOfCardsInPair.size() < 2)
+						// Add all cards in new pair.
+						listOfCardsInPair.add(new Card(entry.getKey(), s));
+				}
+			}
+		}
+
+		return listOfCardsInPair;
+	}
+
+	public ArrayList<HandCollector> highCard(List<Card> cards) {
+		ArrayList<HandCollector> listOfCardsInHighCard = new ArrayList<>();
+		Collections.sort(cards);
+		if (!cards.isEmpty())
+			for (int i = cards.size()-1; i >= 0; i--) {
+				ArrayList<Card> highCard = new ArrayList<>();
+				highCard.add(cards.get(i));
+				listOfCardsInHighCard.add(new HandCollector(1,
+						highCard));
+			}
+		return listOfCardsInHighCard;
+	}
+	
+	public ArrayList<Card> getBestHighCard(List<Card> cards) {
+		ArrayList<Card> highestCard = new ArrayList<>();
+		
+		Collections.sort(cards);
+		highestCard.add(cards.get(cards.size()-1));
+		
+		return highestCard;
+	}
+	
+	private Map<Integer, Suit[]> cardFaceFrequencyTest(List<Card> cards) {
+		HashMap<Integer, Suit[]> freq = new HashMap<>();
+
+		for (Card c : cards) {
+			if (c != null) {
+				int face = c.getFaceValue();
+
+				freq.put(face, addSuitToSuitArray(freq.get(face), c.getSuit()));
+			}
+		}
+
+		return freq;
+	}
+	
+	private Suit[] addSuitToSuitArray(Suit[] oldSuit, Suit s) {
+		if (oldSuit == null)
+			return new Suit[] { s };
+		else {
+			Suit[] newSuit = new Suit[oldSuit.length + 1];
+			for (int i = 0; i < oldSuit.length; i++) {
+				newSuit[i] = oldSuit[i];
+			}
+			newSuit[oldSuit.length] = s;
+			return newSuit;
+		}
+	}
 }
