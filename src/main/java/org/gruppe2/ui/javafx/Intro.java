@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -35,6 +37,12 @@ public class Intro extends BorderPane {
 	}
 
 	public void goToMenu() throws IOException {
+		SceneController.setScene(new MainMenu());
+	}
+
+	@FXML
+	public void proceed(KeyEvent event){
+		if (event.getCode() == KeyCode.ENTER) System.out.println("hola");
 		SceneController.setScene(new MainMenu());
 	}
 

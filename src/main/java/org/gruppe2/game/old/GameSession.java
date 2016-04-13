@@ -8,7 +8,7 @@ public class GameSession {
 	private ArrayList<Player> activePlayers = new ArrayList<>();
 	private ShowdownEvaluator showdownEvaluator = new ShowdownEvaluator();
 	private Table table = new Table();
-	Logger logger;
+	private Logger logger;
 	private int smallBlindAmount;
 	private int bigBlindAmount;
 	private int highestBet;
@@ -58,6 +58,7 @@ public class GameSession {
 	 * that players action and notifies all players about the action
 	 */
 	public void mainLoop() {
+		button = -1;
 		for (;;) {
 			startNewMatch();
 			if (activePlayers.size() <= 1)
@@ -67,6 +68,15 @@ public class GameSession {
 	}
 
 	public void addPlayer(GameClient client, int startMoney) {
+		int duplicates = 0;
+
+		for (Player player : players)
+            if (player.getName().matches("^" + client.getName() + "( \\(\\d+\\))?"))
+                duplicates++;
+
+		if (duplicates > 0)
+            client.setName(client.getName() + " (" + (duplicates + 1) + ")");
+
 		client.setSession(this);
 		Player player = new Player(client.getName(), startMoney, client);
 		players.add(player);
@@ -102,7 +112,7 @@ public class GameSession {
 
 		for (int i = 0; i < 4; i++) {
 			table.drawCommunityCards(i);
-			
+
 			notifyAllPlayersAboutCommunityCards(table.getCommunityCards());
 			logger.record("Betting Round: " + (i+1));
 			turnLoop();
@@ -134,9 +144,8 @@ public class GameSession {
 	}
 
 	private void turnLoop() {
-		int lastRaiserIndex = 0;
+		int lastRaiserIndex;
 
-		
 		for (int last = button; true; last--) {
 			if (last < 0)
 				last = activePlayers.size() - 1;
@@ -192,6 +201,7 @@ public class GameSession {
 		for (Player player : players)
 			if (player.getBank() > 0)
 				activePlayers.add(player);
+
 		highestBet = 0;
 		table.newDeck();
 		for (Player p : activePlayers) {

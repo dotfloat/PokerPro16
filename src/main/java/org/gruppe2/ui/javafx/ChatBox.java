@@ -19,7 +19,7 @@ public class ChatBox extends TextArea {
     public ChatBox() {
         Resources.loadFXML(this);
         setPositionsAndSettings();
-		setText("Welcome to PokerPro16. \n Type \"/help\" to get a list of valid commands.");
+		appendText("Welcome to PokerPro16. \n Type \"/help\" to get a list of valid commands.");
     }
 
 
@@ -42,8 +42,7 @@ public class ChatBox extends TextArea {
         	else if(checkForCommands(textField));
             
         	else{
-	                this.setText(this.getText() + "\n" + player + ": " + textField.getText());
-	                this.setScrollTop(Double.MAX_VALUE);
+	                this.appendText("\n" + player + ": " + textField.getText());
 	            }
         	textField.setText("");
         });
@@ -85,31 +84,39 @@ public class ChatBox extends TextArea {
 		if(command.equals("/besthand")){
 			 
 			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
-			this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
+			this.appendText("\n" + player + "s possible best hand is: " + answer);
 			return true;
 		}
 		else if(command.equals("/log")){
-			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			this.appendText("\n" + player + ": " + textField.getText()+"is epic");
 			//Print logs--->
 			return true;
 		}
 		else if(command.equals("/fuckoff")){
-			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			this.appendText("\n" + player + ": " + textField.getText()+"is epic");
 			//Print playFuckOfClip--->
 			return true;
 		}
 		else if(command.equals("/raidingparty")){
-			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
+			this.appendText("\n" + player + ": " + textField.getText()+"is epic");
 			//Print raidingPartyClip--->
 			return true;
 		}
+		else if(command.equals("/clear")){
+			this.setText("");
+			return true;
+		}
 		else if(command.equals("/help")) {
-			this.setText(this.getText() + "\n" + "Available commands: " + "\n /besthand - shows best possible hand \n" +
+			this.appendText("\n" + "Available commands: " + "\n /besthand - shows best possible hand \n" +
 					"/log - shows gamelog \n" +
+					"/clear - clears the chat window \n" +
 					"/help - shows available commands");
 			return true;
 		}
 		else
 			return false;
 	} 
+	public void postMessage(String message){
+		this.appendText(message);
+	}
 }

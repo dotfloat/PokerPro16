@@ -83,7 +83,6 @@ public class AIHandCalculator {
 			}
 			//System.out.println("Winners of round "+ i + ": " + winners.size() );
 		}
-		System.out.println(numberOfWins);
 		numberOfWins*=1.0;
 		handStrength=numberOfWins/1000.0;
 		return handStrength;

@@ -12,7 +12,7 @@ public class Table extends StackPane {
 	@FXML
 	private ImageView pokerTable;
 	@FXML
-	private ChatBox chatBox;
+	public ChatBox chatBox;
 	@FXML
 	private RightMenu rightMenu;
 	@FXML
