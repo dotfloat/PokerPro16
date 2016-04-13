@@ -143,7 +143,7 @@ public class StatisticsMenu extends StackPane {
 		for(String line : lines){
 			for(String player : playerNames){
 				if(line.contains(player)){
-					if(!line.contains("won the pot!")){
+					if(!line.contains("won the pot!") && !line.contains("Bank")){
 						String[] words = line.split("\\s+");
 						String action;
 						if(words[5].equals(":")){
