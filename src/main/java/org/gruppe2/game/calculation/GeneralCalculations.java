@@ -77,7 +77,7 @@ public class GeneralCalculations {
     /**
      * A list over all types of hands to check probability and/or possibility.
      * List is sorted by hand rank
-     * @return
+     * @return List over all hands possible
      */
     public static ArrayList<HandCalculation> getAllHandTypes(){
         ArrayList<HandCalculation> hands = new ArrayList<>();
@@ -94,6 +94,11 @@ public class GeneralCalculations {
         return hands;
     }
 
+    /**
+     * Looks at the cards and counts how many there are of each suit
+     * @param allCards Cards
+     * @return Map of suits as key and integer value of how may occurrences
+     */
     public static HashMap<Card.Suit, Integer> numberOfEachSuit(Collection<Card> allCards){
         HashMap<Card.Suit, Integer> numTypes = new HashMap<>();
         numTypes.put(Card.Suit.CLUBS, 0);
@@ -107,6 +112,13 @@ public class GeneralCalculations {
         return numTypes;
     }
 
+    /**
+     * Finds the best hand for a specific player
+     * (If there are no community cards, it will always return royal flush)
+     * @param communityCards Cards on the table
+     * @param p The player
+     * @return The best hand a player can get.
+     */
     public static HandType getBestHandForPlayer(Collection<Card> communityCards, Player p) {
         for (HandCalculation hand : getAllHandTypes())
             if (hand.canGetHand(communityCards, p))
@@ -114,33 +126,18 @@ public class GeneralCalculations {
         return HandType.HIGHCARD;
     }
 
-    public static HashMap<HandType, Boolean> getAllPossibleHandsForPlayer (Collection<Card> communityCards, Player p){
-        HashMap<HandType, Boolean> types = new HashMap<>();
-
-        return types;
-    }
-
+    /**
+     * This is a function designed to reduce redundancy.
+     * Makes a single list from the community cards and player cards.
+     * @param communityCards Cards on the table
+     * @param p Player
+     * @return Combined list
+     */
     public static ArrayList<Card> makeOneListOfCards(Collection<Card> communityCards, Player p){
         ArrayList<Card> allCards = new ArrayList<>(communityCards);
         allCards.add(p.getCard1());
         allCards.add(p.getCard2());
 
         return allCards;
-    }
-
-    public static double choose(int n, int k) {
-        if (k < 0 || k > n) return 0;
-        if (k > n/2) {
-            // choose(n,k) == choose(n,n-k),
-            // so this could save a little effort
-            k = n - k;
-        }
-
-        double denominator = 1.0, numerator = 1.0;
-        for (int i = 1; i <= k; i++) {
-            denominator *= i;
-            numerator *= (n + 1 - i);
-        }
-        return numerator / denominator;
     }
 }
