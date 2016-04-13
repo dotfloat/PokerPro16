@@ -94,7 +94,7 @@ public class AIHandCalculator {
 
 class AIMockPlayer extends Player {
 	MockGameSession mocksession;
-	AIMockGameClient mockclient = new AIMockGameClient();
+	AIClient mockclient = new AIClient();
 	
     public AIMockPlayer(String name) {
         super(name, 10000, new AIMockGameClient());

@@ -13,9 +13,7 @@ public class NetworkClient {
     private String host = "localhost";
 
 
-    public String start() {
-
-        String inMsg = null;
+    public void start() {
 
         try (
             Socket socket = new Socket(host, port);
@@ -27,14 +25,14 @@ public class NetworkClient {
             String fromServer;
             String fromUser;
 
-
-                fromUser = stdIn.readLine();
-                if(fromUser != null) {
+            while((fromUser = stdIn.readLine()) != null) {
+                if (fromUser != null) {
                     System.out.println("Client: " + fromUser);
-                    out.println(fromUser + System.lineSeparator());
+                    out.println(fromUser + "\n");
+                    out.flush();
                 }
 
-
+            }
 
         } catch (UnknownHostException h) {
             h.printStackTrace();
@@ -42,7 +40,6 @@ public class NetworkClient {
             e.printStackTrace();
         }
 
-        return inMsg;
     }
 
     public static void main(String[] args) {
