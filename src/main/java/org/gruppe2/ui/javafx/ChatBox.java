@@ -102,9 +102,14 @@ public class ChatBox extends TextArea {
 			//Print raidingPartyClip--->
 			return true;
 		}
+		else if(command.equals("/clear")){
+			this.setText("");
+			return true;
+		}
 		else if(command.equals("/help")) {
 			this.appendText("\n" + "Available commands: " + "\n /besthand - shows best possible hand \n" +
 					"/log - shows gamelog \n" +
+					"/clear - clears the chat window \n" +
 					"/help - shows available commands");
 			return true;
 		}
