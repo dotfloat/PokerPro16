@@ -37,9 +37,9 @@ public class PlayerCards extends HBox {
 	
 	private void setPaneStyle(){
 		this.layoutXProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.82));
+				PokerApplication.getRoot().widthProperty().multiply(0.80));
 		this.layoutYProperty().bind(
-				PokerApplication.getRoot().heightProperty().multiply(0.77));
+				PokerApplication.getRoot().heightProperty().multiply(0.78));
 
 	}
 	/**
@@ -48,17 +48,17 @@ public class PlayerCards extends HBox {
 	private void checkFirstSet(){
 		if(firstSet){
 			playerCard1.fitWidthProperty().bind(
-					PokerApplication.getRoot().widthProperty().multiply(0.10));
+					PokerApplication.getRoot().widthProperty().multiply(0.12));
 			playerCard1.setPreserveRatio(true);
 			playerCard1.setSmooth(true);
 			
 			
 			playerCard2.fitWidthProperty().bind(
-					PokerApplication.getRoot().widthProperty().multiply(0.10));
+					PokerApplication.getRoot().widthProperty().multiply(0.12));
 			playerCard2.setPreserveRatio(true);
 			playerCard2.setSmooth(true);
 			
-			
+			this.spacingProperty().bind(PokerApplication.getRoot().widthProperty().multiply(-0.07));
 			
 			playerCard1.setRotate(350);
 			playerCard2.setRotate(10);
