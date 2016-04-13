@@ -1,6 +1,5 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.model.Model;
 import org.gruppe2.game.session.Session;
 
 public interface Controller {
@@ -9,6 +8,4 @@ public interface Controller {
 
     void init();
     void update();
-
-    Class<? extends Model> getModelClass();
 }

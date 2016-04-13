@@ -3,13 +3,11 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" styleClass="hbox" spacing="20">
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" styleClass="hbox">
 	
-		<TextField fx:id="chatField"/>
+		<TextField fx:id="chatField" alignment="CENTER_LEFT"/>
 		<Button fx:id="FOLD" text="FOLD" id="button" />
-		<Slider fx:id="slider" id="slider" prefWidth="500" />
+		<Slider fx:id="slider" id="slider"/>
 		<Label fx:id="sliderValue" text="0 CHIPS" id="label"/>
 		<Button fx:id="BET" text="BET" id="button" />
-		<Label text="" id="label" prefWidth="200"/>
-		<Label /> 
 </fx:root>

@@ -62,10 +62,8 @@
 
 .hbox {
     -fx-background-color: black;
-    -fx-alignment: center;
-    -fx-spacing: 20px;
-    -fx-vgap: 20px;
-    -fx-padding:10px;
+    -fx-alignment: center-left;
+    -fx-padding: 10px;
 }
 
 .label {
