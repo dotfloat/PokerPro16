@@ -80,8 +80,8 @@ public class ChatBox extends TextArea {
      * @param textField
      */
 	private boolean checkForCommands(TextField textField) {
-		String command = textField.getText();
-		if(command.equals("bestHand")){
+		String command = textField.getText().toLowerCase();
+		if(command.equals("besthand")){
 			 
 			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
 			this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
