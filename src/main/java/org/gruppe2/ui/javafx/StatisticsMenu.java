@@ -65,7 +65,7 @@ public class StatisticsMenu extends StackPane {
 		SceneController.setScene(gameWindow);
 		Thread th = new Thread(() -> SetUpReplay(gameWindow));
 		th.start();
-		
+		PokerApplication.replayMode = false;
 		
 		
 		
