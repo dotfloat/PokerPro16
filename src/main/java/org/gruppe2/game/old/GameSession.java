@@ -8,7 +8,7 @@ public class GameSession {
 	private ArrayList<Player> activePlayers = new ArrayList<>();
 	private ShowdownEvaluator showdownEvaluator = new ShowdownEvaluator();
 	private Table table = new Table();
-	Logger logger;
+	private Logger logger;
 	private int smallBlindAmount;
 	private int bigBlindAmount;
 	private int highestBet;
@@ -58,6 +58,7 @@ public class GameSession {
 	 * that players action and notifies all players about the action
 	 */
 	public void mainLoop() {
+		button = -1;
 		for (;;) {
 			startNewMatch();
 			if (activePlayers.size() <= 1)
@@ -135,9 +136,8 @@ public class GameSession {
 	}
 
 	private void turnLoop() {
-		int lastRaiserIndex = 0;
+		int lastRaiserIndex;
 
-		
 		for (int last = button; true; last--) {
 			if (last < 0)
 				last = activePlayers.size() - 1;
@@ -156,7 +156,6 @@ public class GameSession {
 
 			if (numActivePlayers() == 1) 
 				break;
-			
 
 			notifyOtherPlayersAboutTurn(player);
 			Action action = new Action.Pass();
@@ -192,6 +191,7 @@ public class GameSession {
 		for (Player player : players)
 			if (player.getBank() > 0)
 				activePlayers.add(player);
+
 		highestBet = 0;
 		table.newDeck();
 		for (Player p : activePlayers) {

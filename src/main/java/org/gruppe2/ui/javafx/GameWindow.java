@@ -158,7 +158,20 @@ public class GameWindow extends BorderPane {
 		table.getChildren().add(screenText);
 		screenText.setLayoutX(width/2);
 		screenText.setLayoutY(height/2);
-		table.chatBox.postMessage("\n"+player.getName()+" won with "+player.getCard1().toString() +" and "+player.getCard2().toString());
+
+		if (gameSession.getActivePlayers().size() == 1) {
+			table.chatBox.postMessage("\n" + player.getName() + " won");
+		} else {
+			for (Player p : gameSession.getActivePlayers()) {
+				if (p == null)
+					continue;
+
+				table.chatBox.postMessage("\n" + p.getName() + " had " + p.getCard1().toString() + " and " + p.getCard2().toString());
+				if (p == player) {
+					table.chatBox.postMessage("(round winner)");
+				}
+			}
+		}
 	}
 
 	public void displayGameWon(Player player) {
