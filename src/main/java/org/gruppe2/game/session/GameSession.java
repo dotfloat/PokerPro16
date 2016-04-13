@@ -2,11 +2,10 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.controller.GameController;
 import org.gruppe2.game.controller.PlayerController;
-import org.gruppe2.game.event.EventHandler;
-import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.controller.RoundController;
 import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.model.RoundModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,9 +17,9 @@ public class GameSession extends Session {
 
     private boolean playing = true;
 
-    public GameSession(int maxPlayers) {
-        addModels(GameModel.class);
-        getModels(GameModel.class).add(new GameModel(UUID.randomUUID(), maxPlayers));
+    public GameSession(int minPlayers, int maxPlayers, GameModel.BotPolicy botPolicy) {
+        addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, botPolicy));
+        addModel(new RoundModel());
 
         addModels(PlayerModel.class);
     }
@@ -28,6 +27,7 @@ public class GameSession extends Session {
     @Override
     public void init() {
         addController(GameController.class);
+        addController(RoundController.class);
     }
 
     @Override

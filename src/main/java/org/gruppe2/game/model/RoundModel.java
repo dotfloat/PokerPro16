@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class RoundModel implements Model {
-    private final List<TablePlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
+    private final List<RoundPlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
 
+    private volatile boolean playing = false;
     private volatile int pot = 0;
 
-    public List<TablePlayerModel> getActivePlayers() {
+    public List<RoundPlayerModel> getActivePlayers() {
         return activePlayers;
     }
 
@@ -19,5 +20,13 @@ public class RoundModel implements Model {
 
     public void setPot(int pot) {
         this.pot = pot;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 }
