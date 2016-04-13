@@ -38,8 +38,20 @@ public class BotTest {
         }
         
         for(Player p : myPlayers) {
-        	if(p.getName().equals("TESTSUBJECT"))
+        	Action action = p.getClient().onTurn(p);
+        	if(action.getClass().equals(new Action.Raise(0).getClass())) {
+//        		System.out.println("Bank: " + p.getBank());
+//        		System.out.println("Betting: " + ((Action.Raise)action).getAmount());
+        		for(Player players : myPlayers) {
+        			((MockGameSession)players.getClient().getSession()).setHighestBet(((Action.Raise)action).getAmount());
+        		}
+        	}
+        	
+        	System.out.println("getHighestBet() = " + p.getClient().getSession().getHighestBet());
+        	
+        	if(p.getName().equals("TESTSUBJECT")) {
         		assertTrue(!p.getClient().onTurn(p).getClass().equals(new Action.Fold().getClass()));
+        	}
         }
     }
     
@@ -54,7 +66,7 @@ public class BotTest {
     	myPlayers.add(generateAIPlayer(new Card(2, Suit.CLUBS), new Card(5, Suit.SPADES), "TESTSUBJECT"));
     	
     	for(Player p : myPlayers) {
-    		System.out.println(p.getClient().onTurn(p));
+//    		System.out.println(p.getClient().onTurn(p));
     		if(p.getName().equals("TESTSUBJECT")) {
     			assertTrue(p.getClient().onTurn(p).getClass().equals(new Action.Fold().getClass()));
     		}

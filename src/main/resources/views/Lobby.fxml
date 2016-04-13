@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" fx:id="lobby" styleClass="lobby" onKeyPressed="#keyPressed">
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby" onKeyPressed="#keyPressed">
     <top>
         <HBox fx:id="searchBar" alignment="CENTER" style="-fx-background-color: black; -fx-alignment: center; -fx-padding: 10px">
             <TextField fx:id="search" promptText="Search here" onKeyPressed="#keyListener"/>

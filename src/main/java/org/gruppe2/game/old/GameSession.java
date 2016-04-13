@@ -112,7 +112,7 @@ public class GameSession {
 		}
 
 		if (winner == null)
-			winner = showdownEvaluator.getWinnerOfRound(table, activePlayers).get(0);
+			winner = showdownEvaluator.getWinnerOfRound(activePlayers).get(0);
 
 		winner.addToBank(table.getPot());
 
@@ -183,7 +183,7 @@ public class GameSession {
 	private void startNewMatch() {
 		activePlayers = new ArrayList<>();
 		for (Player player : players)
-			if (player.getBank() >= smallBlindAmount)
+			if (player.getBank() >= bigBlindAmount)
 				activePlayers.add(player);
 		highestBet = 0;
 		table.newDeck();
@@ -262,8 +262,6 @@ public class GameSession {
 		for (Player playersToNotify : players)
 			playersToNotify.getClient().onCommunalCards(communityCards);
 	}
-
-	// TODO: Code to perform actions
 
 	/**
 	 * Perform the action requested by the player

@@ -19,6 +19,7 @@ public class ChatBox extends TextArea {
     public ChatBox() {
         Resources.loadFXML(this);
         setPositionsAndSettings();
+		setText("Welcome to PokerPro16. \n Type \"/help\" to get a list of valid commands.");
     }
 
 
