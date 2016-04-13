@@ -58,7 +58,13 @@ public class StatisticsMenu extends StackPane {
 	
 	public void getStatistics(){
 		System.out.println("WHere are those GOD DAMN STATS! PRONTO!");
+		if(this.player != null){
+			getStatisticsForPlayer(player);
+		}
 	}	
+	/**
+	 * Entry point of replay
+	 */
 	public void replay(){
 		System.out.println("Replay STATS! PRONTO!");
 		
@@ -67,7 +73,9 @@ public class StatisticsMenu extends StackPane {
 		SetUpReplay();
 			
 	}
-	
+	/**
+	 * Changes the log to show
+	 */
 	public void changeLogFile(){
 		if(!changeLog.getText().equals("") && !changeLog.getText().equals("Change Logg") ){
 			name = changeLog.getText();
@@ -80,7 +88,10 @@ public class StatisticsMenu extends StackPane {
 		lineReader(lines);
 	}
 
-	
+	/**
+	 * Create a string of a log file.
+	 * @param lines
+	 */
 	private void lineReader(String[] lines) {
 		boolean valuesSet = false;
 		boolean playersSet = false;
@@ -122,7 +133,11 @@ public class StatisticsMenu extends StackPane {
 	}
 
 	
-	
+	/**
+	 * Reads out action etc from log
+	 * @param playerNames
+	 * @param lines
+	 */
 	private void getPlayerActions(ArrayList<String> playerNames, String[] lines) {
 		ArrayList<Action> actions = new ArrayList<Action>();
 		for(String line : lines){
@@ -154,7 +169,11 @@ public class StatisticsMenu extends StackPane {
 		
 		
 	}
-
+	/**
+	 * Sets the number of rounds won
+	 * @param playerNames2
+	 * @param lines
+	 */
 	private void getSpecificPlayerStatistics(ArrayList<String> playerNames2, String[] lines) {
 		for(String line : lines){
 			if(line.contains("won the pot!") && line.contains(player.getName().substring(0, player.getName().indexOf(" ")))){
@@ -162,7 +181,11 @@ public class StatisticsMenu extends StackPane {
 			}
 		}
 	}
-
+	/**
+	 * Get action of player
+	 * @param action
+	 * @return
+	 */
 	private Action setSpecificAction(String action) {
 		if(action.equals("Check"))
 			return new Action.Check();
@@ -178,7 +201,12 @@ public class StatisticsMenu extends StackPane {
 			return null;
 		}	
 	}
-
+	/**
+	 * The starter of the replay game
+	 * @param playerNames
+	 * @param actions
+	 * @param lines
+	 */
 	private void playReplayGame(ArrayList<String> playerNames, ArrayList<Action> actions, String[] lines) {
 		PokerApplication.replayPlayers = playerNames;
 		
@@ -189,7 +217,11 @@ public class StatisticsMenu extends StackPane {
 		
 	}
 	
-
+	/**
+	 * Used to get only ingame player statistics from logs.
+	 * @param player
+	 * @return
+	 */
 	public ArrayList<String> getStatisticsForPlayer(Player player){
 		this.player = player;
 		setStasticsTest(name);
@@ -198,7 +230,13 @@ public class StatisticsMenu extends StackPane {
 		
 		return stats;
 	}
-
+	
+	/**
+	 * Used to get only ingame player statistics from logs.
+	 * get the list of stats
+	 * @param player
+	 * @return
+	 */
 	private ArrayList<String> addToStats(ArrayList<String> stats) {
 		stats.add(String.valueOf(playerRoundsWon)); //Index 1, won rounds
 		
