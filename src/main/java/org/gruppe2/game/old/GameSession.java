@@ -68,7 +68,6 @@ public class GameSession {
 
 	public void addPlayer(GameClient client, int startMoney) {
 		client.setSession(this);
-		String name = client.getName();
 		Player player = new Player(client.getName(), startMoney, client);
 		players.add(player);
 	}
@@ -78,23 +77,30 @@ public class GameSession {
 		logger = new Logger();
 		logger.record("#New Game#");
 		logger.record("   Stakes   ");
-		logger.record("Small Blind: " + getSmallBlindAmount());
-		logger.record("Big Blind: " + getBigBlindAmount());
-		
+		logger.record("Bank: " + activePlayers.get(0));
 
-		doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
-		// notifyOtherPlayersAboutAction(smallBlindPayer, blind);
+		int currentBigBlind = bigBlindAmount;
+		int currentSmallBlind = smallBlindAmount;
+		Player bigBlindPlayer = getBigBlindPlayer();
+		Player smallBlindPlayer = getSmallBlindPlayer();
 
-		doPlayerAction(new Action.PayBigBlind(), getBigBlindPlayer());
-		// notifyOtherPlayersAboutAction(bigBlindPayer, blind);
+		if (bigBlindPlayer.getBank() < currentBigBlind) {
+			currentBigBlind = bigBlindPlayer.getBank();
+			currentSmallBlind = currentBigBlind/2;
+		}
+		if (smallBlindPlayer.getBank() < currentSmallBlind){
+			currentSmallBlind = smallBlindPlayer.getBank();
+		}
+
+		logger.record("Small Blind: " + currentSmallBlind);
+		logger.record("Big Blind: " + currentBigBlind);
+		doPlayerAction(new Action.Blind(currentSmallBlind), getSmallBlindPlayer());
+		doPlayerAction(new Action.Blind(currentBigBlind), getBigBlindPlayer());
 
 		notifyRoundStart();
 
 		for (int i = 0; i < 4; i++) {
 			table.drawCommunityCards(i);
-			
-			if(i==0)
-				logger.record("Bank: " + getSmallBlindPlayer().getBank());
 			
 			notifyAllPlayersAboutCommunityCards(table.getCommunityCards());
 			logger.record("Betting Round: " + (i+1));
@@ -183,7 +189,7 @@ public class GameSession {
 	private void startNewMatch() {
 		activePlayers = new ArrayList<>();
 		for (Player player : players)
-			if (player.getBank() >= bigBlindAmount)
+			if (player.getBank() > 0)
 				activePlayers.add(player);
 		highestBet = 0;
 		table.newDeck();
@@ -288,10 +294,9 @@ public class GameSession {
 			} else if (action instanceof Action.AllIn) {
 				raise = player.getBank();
 				moveChips(player, player.getBet() + raise, 0, raise);
-			} else if (action instanceof Action.PayBigBlind) {
-				moveChips(player, bigBlindAmount, player.getBank() - bigBlindAmount, bigBlindAmount);
-			} else if (action instanceof Action.PaySmallBlind) {
-				moveChips(player, smallBlindAmount, player.getBank() - smallBlindAmount, smallBlindAmount);
+			} else if (action instanceof Action.Blind) {
+				raise = ((Action.Blind) action).getAmount();
+				moveChips(player, raise, player.getBank() - raise, raise);
 			}
 		} else {
 			throw new IllegalArgumentException(player.getName() + " can't " + action + " , is active: " + activePlayers.contains(player));
@@ -330,8 +335,7 @@ public class GameSession {
 			return pa.canRaise();
 		} else if (action instanceof Action.Call)
 			return pa.canCall();
-		else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind
-				|| action instanceof Action.PaySmallBlind || action instanceof Action.AllIn || action instanceof Action.Pass)
+		else if (action instanceof Action.Fold || action instanceof Action.Blind|| action instanceof Action.AllIn || action instanceof Action.Pass)
 			return true;
 		else
 			throw new IllegalArgumentException("Not an action");
