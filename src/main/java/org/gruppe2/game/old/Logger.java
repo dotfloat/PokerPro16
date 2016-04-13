@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Logger class that needs better javadoc. Chiefly tested against console.
- * Please send help.
- *
+ * Simple logger that saves recorded actions to a .txt file.
  */
 public class Logger {
 
@@ -18,7 +16,7 @@ public class Logger {
 
 	/**
 	 * Upon invoking the constructor a set of folders are made at user.home,
-	 * then a .txt file is created with the following
+	 * and inside the folder a .txt file is created with the following
 	 * name format: Year.DayOfYear_Hours.Minutes.
 	 */
 	public Logger() {
@@ -30,13 +28,11 @@ public class Logger {
 				dateTime.getHour(), dateTime.getMinute());
 
 		new File(filePath).mkdirs();
-
 		logFile = new File(fileName);
 
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
 			// Unicode frame, please close your eyes while reading this.
 			writer.write(String.format("\u2554%50s%n", "").replace(' ', '\u2550'));
-			
 			writer.write(String.format("\u2551 %02d\u00b7%02d\u00b7%d%n", dateTime.getDayOfMonth(),
 					dateTime.getMonthValue(), dateTime.getYear()));
 		} catch (IOException e) {
@@ -45,8 +41,7 @@ public class Logger {
 	}
 
 	/**
-	 * Logs the String and adds a time of occurrence.
-	 *
+	 * Takes a String and adds it to the log along with a time of occurrence.
 	 * @param event
 	 */
 	public void record(String event) {
