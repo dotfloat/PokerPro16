@@ -23,9 +23,9 @@ public class GameWindow extends BorderPane {
 
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-	public static int bigBlind = 50;
-	public static int smallBlind = 25;
-	public static int startValue = 50;
+	public static int bigBlind = PokerApplication.big;
+	public static int smallBlind = PokerApplication.small;
+	public static int startValue = PokerApplication.bank;
 	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
@@ -33,7 +33,6 @@ public class GameWindow extends BorderPane {
 
 	GameSession gameSession;
 	CommunityCards communityCardsBox;
-	String playerName = "Me Player";
 
 	@FXML
 	public Pane playerCards;
@@ -144,7 +143,7 @@ public class GameWindow extends BorderPane {
 
 	private void addYourSelf() {
 		guiPlayer = new GUIPlayer(this);
-		guiPlayer.setName(playerName);
+		guiPlayer.setName(PokerApplication.name);
 	}
 
 	public Thread getThread() {

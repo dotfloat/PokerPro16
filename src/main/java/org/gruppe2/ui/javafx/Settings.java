@@ -36,32 +36,31 @@ public class Settings extends StackPane {
 	}
 	
 	public void setName(){
-		if(!startValue.getText().equals("")){
-			System.out.println("Not yet implemented");
-			//TODO
+		if(!name.getText().equals("")){
+			PokerApplication.name = name.getText();
 		}
 	}
 	public void setStartMoney(){
 		if(startValue.getText().matches("[0-9]+") && startValue.getText().length() > 1) {
-			System.out.println("Not yet implemented");
-			//TODO
+			PokerApplication.bank = Integer.valueOf(startValue.getText());
+			
 		}
 	}
 	
 	public void setSmallBlind	(){
-		if(startValue.getText().matches("[0-9]+") && startValue.getText().length() > 1) {
-			System.out.println("Not yet implemented");
-			//TODO
+		if(small.getText().matches("[0-9]+") && small.getText().length() > 1) {
+			PokerApplication.small = Integer.valueOf(small.getText());
+			
 		}
 	}	
 	public void setBigBlind	(){
-		if(startValue.getText().matches("[0-9]+") && startValue.getText().length() > 1) {
-			System.out.println("Not yet implemented");
-			//TODO
+		if(big.getText().matches("[0-9]+") && big.getText().length() > 1) {
+			PokerApplication.big = Integer.valueOf(big.getText());
+			
 		}	
 	}	
 	public void setAvatar(){
-		if(startValue.getText().contains(".png")){
+		if(avatar.getText().contains(".png")){
 			System.out.println("Not yet implemented");
 			//TODO
 		}
