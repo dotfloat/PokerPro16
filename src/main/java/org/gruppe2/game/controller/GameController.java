@@ -1,7 +1,6 @@
 package org.gruppe2.game.controller;
 
 import org.gruppe2.game.Message;
-import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.Model;
@@ -23,10 +22,5 @@ public class GameController extends AbstractController<GameModel> {
             getModel().getPlayers().add(model);
             addEvent(new PlayerJoinEvent(model));
         }
-    }
-
-    @Message
-    public void sayInChat(String name, String message) {
-        addEvent(new ChatEvent(name, message));
     }
 }

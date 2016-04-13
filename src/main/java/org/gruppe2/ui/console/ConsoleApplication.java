@@ -38,9 +38,6 @@ public class ConsoleApplication implements Runnable {
 
         sessionContext.message("addPlayer", playerModel);
 
-        sessionContext.message("sayInChat", "Zohar", "Dette er kult");
-        sessionContext.message("sayInChat", "Zohar", "Dette er kulest");
-
         while (true) {
             sessionContext.getEventQueue().process();
 
