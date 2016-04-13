@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import org.gruppe2.game.old.GameBuilder;
+import org.gruppe2.game.old.GameBuilderAiDifficultyOptions;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
@@ -113,7 +114,7 @@ public class GameWindow extends BorderPane {
 		if(PokerApplication.replayMode == false){
 			addYourSelf();
 			gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
-					.startMoney(startValue).mainClient(guiPlayer).build();
+					.startMoney(startValue).mainClient(guiPlayer).aiDifficulty(PokerApplication.diff).build();
 			System.out.println(gameSession.getPlayers().size());
 			choiceBar.setEvents(guiPlayer);
 			setUpPlayerBoxes();

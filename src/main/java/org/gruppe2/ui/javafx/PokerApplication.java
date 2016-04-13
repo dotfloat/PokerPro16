@@ -12,11 +12,12 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import org.gruppe2.Main;
+import org.gruppe2.game.old.GameBuilderAiDifficultyOptions;
 
 public class PokerApplication extends Application {
 	private static int width;
 	private static int height;
-
+	public static GameBuilderAiDifficultyOptions diff = GameBuilderAiDifficultyOptions.RANDOM;
 	private static int numberOfPlayers; // Should reside in model / game?
 	private Scene scene;
 	private static StackPane root = new StackPane(); // Setting global root.
