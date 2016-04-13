@@ -1,6 +1,5 @@
 package org.gruppe2.game.calculation;
 
-import com.sun.tools.javac.jvm.Gen;
 import org.gruppe2.game.old.Card;
 import org.gruppe2.game.old.Player;
 
