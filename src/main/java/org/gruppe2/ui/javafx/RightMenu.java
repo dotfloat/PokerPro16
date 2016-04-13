@@ -3,12 +3,13 @@ package org.gruppe2.ui.javafx;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
 /**

@@ -36,12 +36,15 @@ class SceneController {
 	public static void setStatistic(Node node, double x, double y){
 		StackPane stage = PokerApplication.getRoot();
 		Pane pane = new Pane(node);
-		if (false) {
-			System.out.println(PokerApplication.getWidth());
-			x = PokerApplication.getWidth() - pane.getWidth();
+		System.out.println(x);
+		if (x > PokerApplication.getRoot().getWidth()* 0.8) {
+			x *= 0.8;
+			System.out.println(x);
 		}
+
 		pane.getChildren().get(0).setLayoutX(x);
 		pane.getChildren().get(0).setLayoutY(y);
+
 		if (stage.getChildren().size() == 1) {
 			stage.getChildren().add(pane);
 			stage.getChildren().get(0).disableProperty().setValue(true);
@@ -49,10 +52,10 @@ class SceneController {
 			stage.getChildren().set(1, pane);
 		}
 	}
+
 	public static void removeStatistic(Node node){
 		StackPane stage = PokerApplication.getRoot();
 		stage.getChildren().remove(stage.getChildren().size()-1);
 		stage.getChildren().get(0).disableProperty().setValue(false);
 	}
-
 }
