@@ -21,7 +21,7 @@ class PlayerComparator implements Comparator<Player> {
 		p2_Cards.addAll(p2.getClient().getSession().getTable()
 				.getCommunityCards());
 
-		ShowdownEvaluatorNew evaluator = new ShowdownEvaluatorNew();
+		ShowdownEvaluator evaluator = new ShowdownEvaluator();
 		ArrayList<HandCollector> p1_hands = evaluator.evaluateHands(p1_Cards);
 		ArrayList<HandCollector> p2_hands = evaluator.evaluateHands(p2_Cards);
 		
@@ -94,7 +94,7 @@ class PlayerComparator implements Comparator<Player> {
 	}
 	
 	public int compareFullHouse(List<Card> hand_1, List<Card> hand_2) {
-		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ShowdownEvaluator se = new ShowdownEvaluator();
 		ArrayList<Card> bestHouse_1 = se.getBestThreeOfAKind(hand_1);
 		ArrayList<Card> bestHouse_2 = se.getBestThreeOfAKind(hand_2);
 		
@@ -133,7 +133,7 @@ class PlayerComparator implements Comparator<Player> {
 	}
 	
 	public int compareTwoPair(List<Card> hand_1, List<Card> hand_2) {
-		ShowdownEvaluatorNew se = new ShowdownEvaluatorNew();
+		ShowdownEvaluator se = new ShowdownEvaluator();
 		ArrayList<Card> bestTwoPair_1 = se.getBestOnePair(hand_1);
 		ArrayList<Card> bestTwoPair_2 = se.getBestOnePair(hand_2);
 		

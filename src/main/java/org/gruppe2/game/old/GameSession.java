@@ -108,7 +108,7 @@ public class GameSession {
 		}
 
 		if (winner == null)
-			winner = showdownEvaluator.getWinnerOfRound(table, activePlayers).get(0);
+			winner = showdownEvaluator.getWinnerOfRound(activePlayers).get(0);
 
 		winner.addToBank(table.getPot());
 
