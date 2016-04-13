@@ -28,9 +28,18 @@ public class GameController extends AbstractController {
     public void update() {
         super.update();
 
+        if(checkForPlayers())
         for (int i = getModel().getPlayers().size(); i < getModel().getMaxPlayers(); i++) {
             addBot();
         }
+    }
+
+    private boolean checkForPlayers(){
+        for(int i = 0; i < getModel().getPlayers().size(); i++){
+            if(!playerHelper.getPlayerByUUID(getModel().getPlayers().get(i)).isBot())
+                return true;
+        }
+        return false;
     }
 
     @Message
