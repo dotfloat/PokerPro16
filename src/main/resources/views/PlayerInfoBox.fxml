@@ -5,7 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="pane">
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="pane" style="-fx-background-color: black">
 
     <ImageView fx:id="playerPicture" fitWidth="100" preserveRatio="true"
                GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="3">
