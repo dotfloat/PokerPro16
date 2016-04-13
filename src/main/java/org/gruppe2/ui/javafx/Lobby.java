@@ -23,7 +23,7 @@ public class Lobby extends BorderPane {
 	@FXML private Button submit;
 	@FXML private CheckBox checkBoxFriends;
 	@FXML private TilePane lobbyTiles;
-	@FXML private BorderPane lobby;
+	@FXML private BorderPane lobby = this;
 	@FXML private HBox searchBar;
 
 	public Lobby() {

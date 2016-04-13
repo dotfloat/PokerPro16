@@ -26,9 +26,10 @@ public class GameWindow extends BorderPane {
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
 	Thread th;
-
+	
 	GameSession gameSession;
 	CommunityCards communityCardsBox;
+	public StatisticsMenu replayMenu;
 
 	@FXML
 	public Pane playerCards;
@@ -65,11 +66,14 @@ public class GameWindow extends BorderPane {
 			
 		}
 		else{
-//			for(String playerName : PokerApplication.replayPlayers){
-//				GUIPlayer guiPlayer = new GUIPlayer(this);
-//				guiPlayer.setName(playerName);
-//				gameSession.addPlayer(guiPlayer, PokerApplication.bank);
-//			}
+			for(String playerName : PokerApplication.replayPlayers){
+				GUIPlayer guiPlayer = new GUIPlayer(this);
+				guiPlayer.setName(playerName);
+				
+				if(!playerName.equals(PokerApplication.name)){
+					gameSession.addPlayer(guiPlayer, PokerApplication.bank);
+				}
+			}
 			setUpPlayerBoxes();
 			//---> Start replay
 		}
@@ -88,7 +92,7 @@ public class GameWindow extends BorderPane {
 				for (Pane playerInfoBox : playerInfoBoxes) {
 					((PlayerInfoBox) playerInfoBox).updateInfoBox();
 				}
-				if(!PokerApplication.replayMode)
+				if(!PokerApplication.replayMode && replayMenu == null)
 					choiceBar.updatePossibleBarsToClick(player);
 				pot.updatePot(gameSession.getTable().getPot());
 

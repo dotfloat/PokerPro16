@@ -40,6 +40,10 @@ public class GUIPlayer extends GameClient {
 	@Override
 	public Action onTurn(Player player) {
 		yourTurn = true;
+		Platform.runLater(() -> {
+			if(PokerApplication.replayMode)
+				gameWindow.replayMenu.setPlayerAction(this);
+		});
 		activateAndDeactivatePlayers(player);
 		gameWindow.updateGameWindow(player);
 		Action action = null;

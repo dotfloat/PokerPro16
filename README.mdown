@@ -7,28 +7,43 @@ PokerPro16 is an implementation of the poker game Texas Hold'em, written in Java
 ## Screenshots
 ![screen1.png](https://bitbucket.org/repo/gqBGk8/images/2048584988-screen1.png)
 
-## Installation
+## Running
 
-Download the PokerPro16.jar file from /bin and run it. This requires Java Runtime Environment 8. If you don't have an JRE already installed, you can find it [here](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html).
+Download:
+* [Poker-sprint1.jar](https://bitbucket.org/tha056/inf112v16-g2/downloads/Poker-sprint1.jar)
+* [Poker-sprint2.jar](nullpointerexception)
 
-## API Reference
+And run the jar the normal way
 
-TODO
+## Using Gradle
+
+After cloning this repo, use the bundled `gradlew` scripts to use the gradle build system.
+
+    $ ./gradlew build # Build and run tests
+	$ ./gradlew run # Build and run game
+	$ ./gradlew jar # Generate a jar and put it in build/libs/
+
+## Using Command line
+
+You can use the following command line options. These only work when executing a jar directly with `java -jar`.
+
+    --console: Start in console mode
+	--autostart: Bypass the main menu and start a game with four players
 
 ## Contributors
 
 ###The project was made possible by the following people:
 ..* Zohar Malamant
-..* Åsmund Hammer
-..* Håkon Tjeldnes
+..* Ã…smund Hammer
+..* HÃ¥kon Tjeldnes
 ..* Petter Thorgersen
 ..* Daniel Jensen
-..* Kjetil Kjørstad
+..* Kjetil KjÃ¸rstad
 ..* Andreas Ommundsen
-..* Håkon Knudsen
+..* HÃ¥kon Knudsen
 ..* Mikal Naustdal
 ..* Runar Serigstad
-..* Svein Høgemo
+..* Svein HÃ¸gemo
 ..* Cem Pedersen
 
 ## License

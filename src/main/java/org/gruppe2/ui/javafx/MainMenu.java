@@ -32,7 +32,9 @@ public class MainMenu extends BorderPane {
 	public MainMenu() {
 		Resources.loadFXML(this);
 		PokerApplication.replayMode = false;
-
+		if(PokerApplication.numberOfBots == 0)
+			PokerApplication.numberOfBots = 3;
+			
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
 		vBox.maxWidthProperty().bind(
@@ -40,7 +42,6 @@ public class MainMenu extends BorderPane {
 
 		setButtonSize();
 		fadeIn();
-		
 		
 	}
 
@@ -50,6 +51,7 @@ public class MainMenu extends BorderPane {
 	public void createNetWorkTable(){
 		SceneController.setScene(new GameWindow());
 	}
+
 	public void goToLobby(){
 		SceneController.setScene(new Lobby());
 	}
@@ -75,5 +77,6 @@ public class MainMenu extends BorderPane {
 		singlePlayer.setMaxWidth(Double.MAX_VALUE);
 		viewStatistics.setMaxWidth(Double.MAX_VALUE);
 		settings.setMaxWidth(Double.MAX_VALUE);
+
 	}
 }
