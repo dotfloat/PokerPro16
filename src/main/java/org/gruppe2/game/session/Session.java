@@ -76,6 +76,13 @@ public abstract class Session implements Runnable {
         modelMap.put(klass, Collections.synchronizedList(new ArrayList<>()));
     }
 
+    public void addModel(Model model) {
+        List<Model> list = new ArrayList<>();
+        list.add(model);
+
+        modelMap.put(model.getClass(), Collections.synchronizedList(list));
+    }
+
     public <C extends Controller> void addController(Class<C> klass) {
         C controller = null;
 

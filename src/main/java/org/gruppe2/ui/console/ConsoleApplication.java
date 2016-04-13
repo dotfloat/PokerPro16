@@ -5,6 +5,8 @@ import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Handler;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.session.SessionContext;
@@ -13,33 +15,29 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.UUID;
 
 public class ConsoleApplication implements Runnable {
-    private SessionContext sessionContext;
-    private PlayerModel playerModel = new PlayerModel(UUID.randomUUID(), "Thomas Lund Mathisen", "thomas");
+    private SessionContext context;
 
-    @Override
-    public void run() {
+    public void init() {
         GameBuilder gameBuilder = new GameBuilder();
 
         System.out.println("Welcome to PokerPro16 Console Edition");
 
-        if (Main.isAutostart()) {
-            gameBuilder.maxPlayers(10);
-        } else {
+        if (!Main.isAutostart()) {
             throw new NotImplementedException();
         }
 
-        sessionContext = gameBuilder.start();
+        context = gameBuilder.start();
+        context.registerAnnotatedHandlers(this);
+        context.waitReady();
+        context.message("addPlayer", UUID.randomUUID(), "Zohar", "zohar");
+    }
 
-        sessionContext.registerAnnotatedHandlers(this);
-
-        sessionContext.waitReady();
-
-        System.out.println();
-
-        sessionContext.message("addPlayer", playerModel);
+    @Override
+    public void run() {
+        init();
 
         while (true) {
-            sessionContext.getEventQueue().process();
+            context.getEventQueue().process();
 
             try {
                 Thread.sleep(50);
@@ -58,10 +56,20 @@ public class ConsoleApplication implements Runnable {
 
     @Handler
     void onPlayerJoin(PlayerJoinEvent event) {
-        System.out.println("Greetings from onPlayerJoin on " + Thread.currentThread().getName());
+        System.out.println(event.getPlayerModel().getName() + " has connected");
     }
 
-    public SessionContext getSessionContext() {
-        return sessionContext;
+    @Handler
+    void onPlayerLeave(PlayerLeaveEvent event) {
+        System.out.println(event.getPlayerModel().getName() + " has disconnected");
+    }
+
+    @Handler
+    void onRoundStart(RoundStartEvent event) {
+        System.out.println("A new round has started");
+    }
+
+    public SessionContext getContext() {
+        return context;
     }
 }
