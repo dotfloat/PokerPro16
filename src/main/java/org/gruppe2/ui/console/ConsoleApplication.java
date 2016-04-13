@@ -131,6 +131,11 @@ public class ConsoleApplication implements Runnable {
         System.out.println("A new round has started");
     }
 
+    @Handler
+    void onPlayerWon(PlayerWonEvent event){
+        System.out.println("Player " + event.getPlayerModel().getName()+" has won!");
+    }
+
     public SessionContext getContext() {
         return context;
     }

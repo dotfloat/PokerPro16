@@ -36,6 +36,12 @@ public class RoundController extends AbstractController {
                 start();
             }
         } else {
+            if(getModel().getActivePlayers().size() == 1){
+                getModel().setPlaying(false);
+                addEvent(new PlayerWonEvent(playerHelper.getPlayerByUUID(getModel().getActivePlayers().get(0).getUUID())));
+                return;
+            }
+
             if (actionQuery == null) {
                 nextPlayer();
                 return;
@@ -43,6 +49,11 @@ public class RoundController extends AbstractController {
 
             if (actionQuery.isDone()) {
                 addEvent(new PlayerPostActionEvent(playerHelper.getPlayerByUUID(actionPlayer.getUUID()), actionQuery.get()));
+
+                if(actionQuery.get() instanceof Action.Fold){
+                    getModel().getActivePlayers().remove(actionPlayer);
+                    getModel().setCurrent(getModel().getCurrent()-1);
+                }
                 actionPlayer = null;
                 actionQuery = null;
             }
@@ -52,6 +63,7 @@ public class RoundController extends AbstractController {
     private void start() {
         getModel().setPlaying(true);
         getModel().getActivePlayers().clear();
+        getModel().setCurrent(-1);
         getModel(GameModel.class).getPlayers().forEach((UUID uuid) -> getModel().getActivePlayers().add(new RoundPlayerModel(uuid)));
 
         addEvent(new RoundStartEvent());
@@ -62,6 +74,8 @@ public class RoundController extends AbstractController {
         getModel().setCurrent(current);
 
         addEvent(new PlayerPreActionEvent(playerHelper.getPlayerByUUID(getCurrentPlayer().getUUID())));
+
+
 
         actionQuery = new Query<>();
         actionPlayer = getCurrentPlayer();
