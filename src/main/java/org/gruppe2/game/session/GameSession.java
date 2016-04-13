@@ -15,33 +15,20 @@ import java.util.UUID;
 
 public class GameSession extends Session {
     private final List<PlayerController> players = Collections.synchronizedList(new ArrayList<>());
-    private final GameController gameController;
 
     private boolean playing = true;
 
     public GameSession(int maxPlayers) {
         addModels(GameModel.class);
-        getModels(GameModel.class).add(new GameModel(UUID.randomUUID(), 5));
+        getModels(GameModel.class).add(new GameModel(UUID.randomUUID(), maxPlayers));
 
         addModels(PlayerModel.class);
 
-        gameController = new GameController(getSessionContext());
-    }
-
-    @Override
-    public void update() {
-        this.gameController.update();
+        addController(GameController.class);
     }
 
     public boolean isPlaying() {
         return playing;
-    }
-
-    @Override
-    public boolean addPlayer(PlayerModel model) {
-        gameController.addPlayer(model);
-
-        return true;
     }
 
     @Override

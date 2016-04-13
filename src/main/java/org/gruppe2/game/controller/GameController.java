@@ -1,47 +1,38 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.game.view.GameView;
 
-import java.util.List;
+public class GameController extends AbstractController<GameModel> {
+    @Override
+    public void init() {
 
-public class GameController extends Controller<GameModel, GameView> {
-    private final RoundController roundController = new RoundController(getSessionContext());
-
-    public GameController(SessionContext sessionContext) {
-        super(sessionContext);
     }
 
     @Override
     public void update() {
-        roundController.update();
+        getSession().getMessages("addPlayer").forEach(this::addPlayer);
     }
 
-    public GameModel getModel() {
-        return (GameModel) getSessionContext().getModel(GameModel.class);
+    @Override
+    public Class<? extends Model> getModelClass() {
+        return GameModel.class;
     }
 
-    public GameView getView() {
-        return (GameView) getSessionContext().getView(GameView.class);
-    }
+    private void addPlayer(Object obj) {
+        if (!(obj instanceof PlayerModel))
+            return;
 
-    public boolean addPlayer(PlayerModel model) {
-        List<PlayerModel> players = getSessionContext().getModels(PlayerModel.class);
+        PlayerModel model = (PlayerModel) obj;
 
-        if (!(players.size() + 1 >= getModel().getMaxPlayers())) {
-            return false;
+        System.out.println("Greetings from GameController on " + Thread.currentThread().getName());
+
+        // Todo synchronize the entire model
+        if (getModel().getPlayers().size() + 1 < getModel().getMaxPlayers()) {
+            getModel().getPlayers().add(model);
+            addEvent(PlayerJoinEvent.class, new PlayerJoinEvent(model));
         }
-
-        players.add(model);
-
-        return true;
-    }
-
-    public RoundController getRoundController() {
-        return roundController;
     }
 }

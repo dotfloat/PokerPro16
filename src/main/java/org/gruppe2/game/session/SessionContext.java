@@ -52,15 +52,15 @@ public class SessionContext {
         return (V) view;
     }
 
-    public boolean addPlayer(PlayerModel model) {
-        return session.addPlayer(model);
-    }
-
     public <E extends Event, M extends Model> void addEvent(Class<E> klass, M model, E event) {
         session.getEventQueue().addEvent(klass, model, event);
     }
 
     public <E extends Event> void addEvent(Class<E> klass, E event) {
         session.getEventQueue().addEvent(klass, event);
+    }
+
+    public void addMessage(String name, Object object) {
+        session.addMessage(name, object);
     }
 }

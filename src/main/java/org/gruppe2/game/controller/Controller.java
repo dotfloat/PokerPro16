@@ -1,22 +1,14 @@
 package org.gruppe2.game.controller;
 
 import org.gruppe2.game.model.Model;
-import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.game.view.AbstractView;
+import org.gruppe2.game.session.Session;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+public interface Controller {
+    void setSession(Session session);
+    Session getSession();
 
-public abstract class Controller<M extends Model, V extends AbstractView<M>> {
-    private final SessionContext sessionContext;
+    void init();
+    void update();
 
-    public Controller(SessionContext sessionContext) {
-        this.sessionContext = sessionContext;
-    }
-
-    public SessionContext getSessionContext() {
-        return sessionContext;
-    }
-
-    public abstract void update();
+    Class<? extends Model> getModelClass();
 }
