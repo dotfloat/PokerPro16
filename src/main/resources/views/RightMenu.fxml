@@ -1,18 +1,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ToggleButton?>
-<fx:root type ="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml"
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml"
          stylesheets="/css/style.css" fx:id="rightMenu">
 
-
-        <ToggleButton fx:id="showMenu" onAction="#showMenu" styleClass="menuButton"/>
+    <ToggleButton fx:id="showMenu" onAction="#showMenu" styleClass="menuButton"/>
     <VBox fx:id="innerBox" styleClass="rightMenu">
+        <Button fx:id="viewStatistics" text="View statistics" onAction="#viewStatistics"/>
         <Button fx:id="viewLobby" text="View lobby" onAction="#viewLobby"/>
         <Button fx:id="leaveTable" text="Leave table" onAction="#leaveTable"/>
-        <Button fx:id="viewStatistics" text="View statistics" onAction="#viewStatistics"/>
     </VBox>
-
-
-
 
 </fx:root>

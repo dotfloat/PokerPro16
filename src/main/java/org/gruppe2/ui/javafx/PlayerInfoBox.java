@@ -82,9 +82,10 @@ public class PlayerInfoBox extends BorderPane {
     }
 
     @FXML
-    private void viewStatistic() {
+    private void viewStatistic(MouseEvent event) {
         SceneController.setStatistic(new Statistic(false),
-                MouseInfo.getPointerInfo().getLocation().getX(), MouseInfo.getPointerInfo().getLocation().getY());
+                event.getSceneX(), event.getSceneY());
+
 
     }
 }

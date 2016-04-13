@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
 /**
@@ -21,6 +22,7 @@ public class Statistic extends BorderPane {
     @FXML Label totalBet;
     @FXML Label averageBet;
     @FXML Label balance;
+
 
     public Statistic(boolean ifMenu){
         Resources.loadFXML(this);
