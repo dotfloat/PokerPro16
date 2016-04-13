@@ -51,7 +51,7 @@ public class Lobby extends BorderPane {
 	}
 
 	public void keyPressed(KeyEvent event){
-		if (event.getCode() == KeyCode.ESCAPE) SceneController.removeModal(this);
+		if (event.getCode() == KeyCode.ESCAPE) closeLobby();
 	}
 
 	private void setSize() {

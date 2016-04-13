@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="pane">
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" onMouseClicked="#viewStatistic">
 
-    <children>
-        <ImageView fx:id="playerPicture" preserveRatio="true"
-                   GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="3">
+    <left>
+        <ImageView fx:id="playerPicture" preserveRatio="true">
             <Image url="/images/avatars/default.png"/>
         </ImageView>
+    </left>
 
-        <Label fx:id="playerName" minWidth="100" maxWidth="250"
-               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-
-        <Label fx:id="stack" minWidth="100" maxWidth="250"
-               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-
-        <Label fx:id="currentBet" minWidth="100" maxWidth="250"
-               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-    </children>
+    <right>
+        <VBox>
+            <Label fx:id="playerName" minWidth="100" maxWidth="250"/>
+            <Label fx:id="stack" minWidth="100" maxWidth="250"/>
+            <Label fx:id="currentBet" minWidth="100" maxWidth="250"/>
+        </VBox>
+    </right>
 
 </fx:root>

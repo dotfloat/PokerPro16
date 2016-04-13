@@ -43,7 +43,7 @@ public class Settings extends StackPane {
 	}
 	
 	public void setName(){
-		if(!name.getText().equals("")){
+		if(!name.getText().equals("") && !name.getText().equals("Set player Name") ){
 			PokerApplication.name = name.getText();
 		}
 	}

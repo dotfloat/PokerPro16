@@ -1,6 +1,8 @@
 package org.gruppe2.ui.javafx;
 
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -31,9 +33,26 @@ class SceneController {
 		stage.getChildren().get(0).disableProperty().setValue(false);
 	}
 
-	public static void setMenuButton(Node node) {
+	public static void setStatistic(Node node, double x, double y){
 		StackPane stage = PokerApplication.getRoot();
-		stage.getChildren().add(node);
+		Pane pane = new Pane(node);
+		if (false) {
+			System.out.println(PokerApplication.getWidth());
+			x = PokerApplication.getWidth() - pane.getWidth();
+		}
+		pane.getChildren().get(0).setLayoutX(x);
+		pane.getChildren().get(0).setLayoutY(y);
+		if (stage.getChildren().size() == 1) {
+			stage.getChildren().add(pane);
+			stage.getChildren().get(0).disableProperty().setValue(true);
+		} else {
+			stage.getChildren().set(1, pane);
+		}
+	}
+	public static void removeStatistic(Node node){
+		StackPane stage = PokerApplication.getRoot();
+		stage.getChildren().remove(stage.getChildren().size()-1);
+		stage.getChildren().get(0).disableProperty().setValue(false);
 	}
 
 }

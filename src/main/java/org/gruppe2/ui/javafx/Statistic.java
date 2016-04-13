@@ -30,22 +30,21 @@ public class Statistic extends BorderPane {
 
     private void setWindowSize(boolean ifMenu) {
         if (ifMenu) {
-            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.6));
-            this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.6));
+            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.4));
+            this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.4));
         }
         else {
-            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
-            this.maxHeightProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
+            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.2));
+            this.maxHeightProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
         }
     }
 
     public void keyPressed(KeyEvent event){
-        System.out.println("hello");
-        if (event.getCode() == KeyCode.ESCAPE) SceneController.removeModal(this);
+        if (event.getCode() == KeyCode.ESCAPE) SceneController.removeStatistic(this);
     }
 
     public void close(){
-        SceneController.removeModal(this);
+        SceneController.removeStatistic(this);
     }
 
     private void setSizes() {

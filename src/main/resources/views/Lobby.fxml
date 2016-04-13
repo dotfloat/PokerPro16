@@ -9,7 +9,7 @@
             <TextField fx:id="search" promptText="Search here" onKeyPressed="#keyListener"/>
             <Button text="Search" fx:id="submit" onAction="#search"/>
             <CheckBox fx:id="checkBoxFriends" text="Show only friends" textFill="#0099ff" onAction="#friendBox"/>
-            <Button fx:id="close" text="close" onAction="#closeLobby"/>
+            <Button fx:id="close" text="Close" onAction="#closeLobby"/>
         </HBox>
     </top>
 
