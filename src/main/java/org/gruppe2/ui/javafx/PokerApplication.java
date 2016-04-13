@@ -31,7 +31,7 @@ public class PokerApplication extends Application {
 	public static String name = "ME Player";
 	public static int small = 25;
 	public static int big = 50;
-	public static int bank = 50;
+	public static int bank = 200;
 	public static int numberOfBots = 3;
 	
 

@@ -134,6 +134,5 @@ public class GUIPlayer extends GameClient {
 				gameWindow.displayGameWon(player);
 		});
 		onRoundEnd();
-		// gui.getMainFrame().playerWons(player);
 	}
 }
