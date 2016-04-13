@@ -21,9 +21,11 @@ public class StatisticsMenu extends StackPane {
 	private boolean onlyGetStatistics = false;
 	
 	private ArrayList<String> playerNames;
-	private ArrayList<Action> actions;
+	private ArrayList<Action> actions = new ArrayList<Action>();
 	private Player player;
 	private int playerRoundsWon;
+	private int listIndex = 0;
+	private GameWindow gameWindow ;
 	
 	@FXML private TextArea statistics;
 	@FXML private TextField changeLog;
@@ -212,8 +214,10 @@ public class StatisticsMenu extends StackPane {
 		
 		PokerApplication.numberOfBots = 0;
 		
-		GameWindow gameWindow = new GameWindow();
-		SceneController.setScene(gameWindow);	
+		gameWindow = new GameWindow();
+		SceneController.setScene(gameWindow);
+		gameWindow.replayMenu = this;
+		
 		
 	}
 	
@@ -239,7 +243,15 @@ public class StatisticsMenu extends StackPane {
 	 */
 	private ArrayList<String> addToStats(ArrayList<String> stats) {
 		stats.add(String.valueOf(playerRoundsWon)); //Index 1, won rounds
-		
 		return stats;
+	}
+	public void setPlayerAction(GUIPlayer guiPlayer){
+		if(listIndex == actions.size()){
+			gameWindow.displayGameWon(player);
+		}
+		else{
+			guiPlayer.setAction(actions.get(listIndex));
+			listIndex++;
+		}
 	}
 }

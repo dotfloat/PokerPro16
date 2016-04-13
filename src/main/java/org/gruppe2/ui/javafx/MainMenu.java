@@ -32,7 +32,9 @@ public class MainMenu extends BorderPane {
 	public MainMenu() {
 		Resources.loadFXML(this);
 		PokerApplication.replayMode = false;
-
+		if(PokerApplication.numberOfBots == 0)
+			PokerApplication.numberOfBots = 3;
+			
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
 		vBox.maxWidthProperty().bind(
@@ -40,7 +42,6 @@ public class MainMenu extends BorderPane {
 
 		setButtonSize();
 		fadeIn();
-		
 		
 	}
 
