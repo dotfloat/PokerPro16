@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * AI interface class with GameSession
+ */
 public class AIClient extends GameClient {
     private static final List<String> names = Arrays.asList("Anne", "Bob", "Chuck", "Dennis", "Emma", "McGyver","NEO","LINK","ZELDA","IRON MAN","Mario","MAO","STAIL","Putin");
     private Difficulty difficulty = Difficulty.ADVANCED;
@@ -23,6 +26,11 @@ public class AIClient extends GameClient {
     	this.difficulty=difficulty;
     }
 
+    /**
+     *
+     * @param player
+     * @return
+     */
     @Override
     public Action onTurn(Player player) {
 
