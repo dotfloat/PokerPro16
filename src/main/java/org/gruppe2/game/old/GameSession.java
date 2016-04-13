@@ -145,7 +145,9 @@ public class GameSession {
 			
 
 			notifyOtherPlayersAboutTurn(player);
-			Action action = player.getClient().onTurn(player);
+			Action action = new Action.Pass();
+			if (player.getBank() > 0)
+				action = player.getClient().onTurn(player);
 			logger.record(player, action);
 			
 			if (action instanceof Action.Fold) {
@@ -281,7 +283,6 @@ public class GameSession {
 				player.setBank(0);
 				player.setBet(player.getBet() + raise);
 				table.addToPot(raise);
-				highestBet = player.getBet();
 			} else if (action instanceof Action.PayBigBlind) {
 				player.setBank(player.getBank() - bigBlindAmount);
 				player.setBet(bigBlindAmount);
@@ -350,6 +351,9 @@ public class GameSession {
 		int maxRaise = player.getBank() + player.getBet() - highestBet;
 		if (maxRaise > 0)
 			actions.setRaise(1, maxRaise);
+
+		if (!actions.canCall() && !actions.canCheck() && !actions.canRaise())
+			actions.setAllIn();
 
 		return actions;
 	}
