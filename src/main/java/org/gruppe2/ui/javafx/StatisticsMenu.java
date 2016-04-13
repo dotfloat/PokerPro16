@@ -11,12 +11,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
 import org.gruppe2.game.old.Action;
+import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
 public class StatisticsMenu extends StackPane {
 	private String name = "src/main/resources/testLogs/2016.104_09.52.txt";
 	private String content;
-	
+	private boolean onlyGetStatistics = false;
+	private ArrayList<String> playerNames;
+	private ArrayList<Action> actions;
+	private Player player;
+	private int playerRoundsWon;
 	@FXML private TextArea statistics;
 	@FXML private TextField changeLog;
 	
@@ -53,14 +58,14 @@ public class StatisticsMenu extends StackPane {
 	}	
 	public void replay(){
 		System.out.println("Replay STATS! PRONTO!");
+		
+		
 		PokerApplication.replayMode = true;
 		GameWindow gameWindow = new GameWindow();
 		SceneController.setScene(gameWindow);
-		
 		Thread th = new Thread(() -> SetUpReplay(gameWindow));
 		th.start();
-		
-		
+		PokerApplication.replayMode = false;	
 	}
 	
 	public void changeLogFile(){
@@ -80,7 +85,7 @@ public class StatisticsMenu extends StackPane {
 		boolean valuesSet = false;
 		boolean playersSet = false;
 		
-		ArrayList<String> playerNames = new ArrayList<String>();
+		playerNames = new ArrayList<String>();
 		for(String line : lines){
 			if(valuesSet){
 				if(!playersSet){
@@ -135,10 +140,24 @@ public class StatisticsMenu extends StackPane {
 					}
 					break;
 				}
-			}
-			
+			}	
 		}
-		playReplayGame(playerNames,actions,lines);
+		if(onlyGetStatistics){
+			getSpecificPlayerStatistics(playerNames, lines);
+		}
+		else{
+			playReplayGame(playerNames,actions,lines);
+		}
+		
+		
+	}
+
+	private void getSpecificPlayerStatistics(ArrayList<String> playerNames2, String[] lines) {
+		for(String line : lines){
+			if(line.contains("won the pot!") && line.contains(player.getName().substring(0, player.getName().indexOf(" ")))){
+				playerRoundsWon++;
+			}
+		}
 	}
 
 	private Action setSpecificAction(String action) {
@@ -154,12 +173,17 @@ public class StatisticsMenu extends StackPane {
 			System.out.println("Error in log");
 			System.exit(1);
 			return null;
-		}
-			
+		}	
 	}
 
 	private void playReplayGame(ArrayList<String> playerNames, ArrayList<Action> actions, String[] lines) {
 		// TODO Auto-generated method stub
-		
+	}
+	public ArrayList<String> getStatisticsForPlayer(Player player){
+		this.player = player;
+		setStasticsTest(name);
+		ArrayList<String> stats = new ArrayList<String>();
+		stats.add(String.valueOf(playerRoundsWon));
+		return stats;
 	}
 }

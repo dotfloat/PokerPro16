@@ -13,13 +13,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextField?>
 
-<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml" >
+<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml"  >
 	<VBox spacing="20" alignment="CENTER" >
-		<TextField fx:id="name" text="Set player Name" onAction="#setName"/>	
+		<TextField fx:id="name" text="Set player Name" onAction="#setName" />	
 		<TextField fx:id="small" text="Set small Blind" onAction="#setSmallBlind"/>	
 		<TextField fx:id="big" text="Set big Blind" onAction="#setBigBlind"/>
 		<TextField fx:id="startValue" text="Set start money amount" onAction="#setStartMoney"/>
 		<TextField fx:id="avatar" text="Set Avatar" onAction="#setAvatar"/>
+		<Button fx:id="botButton" onAction="#setBotDificulty" />
 		<Button text="OK" onAction="#ok"/>
 		<Button text="CANCEL" onAction="#cancel"/>		
 	</VBox>

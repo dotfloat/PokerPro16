@@ -16,8 +16,8 @@ public class ScreenText extends Label {
 	    }
 	 
 	 public void setAnimationRoundWon(Player player){
-		this.setText(player+"won the round!");
-		
+		this.setText(player+" won the round!");
+
 		FadeTransition fader = createFader(this);
 		playAnimation(fader);
 		
@@ -41,7 +41,7 @@ public class ScreenText extends Label {
 
 	@SuppressWarnings("static-access")
 	public void setAnimationGameWon(Player player) {
-		this.setText(player+"won the game!");
+		this.setText(player+" won the game!");
 		PokerApplication.inGame = false;
 		FadeTransition fader = createFader(this);
 		playAnimation(fader);

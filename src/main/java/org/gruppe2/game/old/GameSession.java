@@ -65,6 +65,7 @@ public class GameSession {
 
 	public void addPlayer(GameClient client, int startMoney) {
 		client.setSession(this);
+		String name = client.getName();
 		Player player = new Player(client.getName(), startMoney, client);
 		players.add(player);
 	}
@@ -96,9 +97,6 @@ public class GameSession {
 				for (Player p : activePlayers) {
 					if (p != null) {
 						winner = p;
-						logger.record(p.getName() + " won the pot!");
-						logger.record("Table Pot: " + table.getPot());
-						logger.done();
 						break;
 					}
 				}
@@ -110,6 +108,11 @@ public class GameSession {
 			winner = showdownEvaluator.getWinnerOfRound(table, activePlayers).get(0);
 
 		winner.addToBank(table.getPot());
+
+		logger.record(winner.getName() + " won the pot!");
+		logger.record("Table Pot: " + table.getPot());
+		logger.done();
+
 		table.resetPot();
 		notifyPlayerVictory(winner);
 
@@ -142,7 +145,9 @@ public class GameSession {
 			
 
 			notifyOtherPlayersAboutTurn(player);
-			Action action = player.getClient().onTurn(player);
+			Action action = new Action.Pass();
+			if (player.getBank() > 0)
+				action = player.getClient().onTurn(player);
 			logger.record(player, action);
 			
 			if (action instanceof Action.Fold) {
@@ -259,39 +264,36 @@ public class GameSession {
 	 * @param player
 	 *            player performing
 	 */
-	void doPlayerAction(Action action, Player player) {
+	private void doPlayerAction(Action action, Player player) {
 		if (checkLegalAction(action, player)) {
+			int raise;
 			if (action instanceof Action.Raise) {
-				int raise = ((Action.Raise) action).getAmount();
+				raise = ((Action.Raise) action).getAmount();
 				int chipsToMove = (highestBet - player.getBet()) + raise;
-				player.setBet(highestBet + raise);
-				player.setBank(player.getBank() - chipsToMove);
-				table.addToPot(chipsToMove);
-				highestBet = player.getBet();
+				moveChips(player, highestBet + raise, player.getBank()-chipsToMove, chipsToMove);
 			} else if (action instanceof Action.Call) {
-				int raise = highestBet - player.getBet();
-				player.setBet(player.getBet() + raise);
-				player.setBank(player.getBank() - raise);
-				table.addToPot(raise);
+				raise = highestBet - player.getBet();
+				moveChips(player, player.getBet() + raise, player.getBank() - raise, raise);
 			} else if (action instanceof Action.AllIn) {
-				int raise = player.getBank();
-				player.setBank(0);
-				player.setBet(player.getBet() + raise);
-				table.addToPot(raise);
-				highestBet = player.getBet();
+				raise = player.getBank();
+				moveChips(player, player.getBet() + raise, 0, raise);
 			} else if (action instanceof Action.PayBigBlind) {
-				player.setBank(player.getBank() - bigBlindAmount);
-				player.setBet(bigBlindAmount);
-				table.addToPot(bigBlindAmount);
-				highestBet = bigBlindAmount;
+				moveChips(player, bigBlindAmount, player.getBank() - bigBlindAmount, bigBlindAmount);
 			} else if (action instanceof Action.PaySmallBlind) {
-				player.setBank(player.getBank() - smallBlindAmount);
-				player.setBet(smallBlindAmount);
-				table.addToPot(smallBlindAmount);
+				moveChips(player, smallBlindAmount, player.getBank() - smallBlindAmount, smallBlindAmount);
 			}
 		} else {
 			throw new IllegalArgumentException(player.getName() + " can't do that action");
 		}
+
+		if (player.getBet() > highestBet)
+			highestBet = player.getBet();
+	}
+
+	private void moveChips(Player player, int playerSetBet, int playerSetBank, int addToTablePot){
+		player.setBet(playerSetBet);
+		player.setBank(playerSetBank);
+		table.addToPot(addToTablePot);
 	}
 
 	/**
@@ -303,7 +305,7 @@ public class GameSession {
 	 *            player performing
 	 * @return true if it's legal, false if not
 	 */
-	boolean checkLegalAction(Action action, Player player) {
+	private boolean checkLegalAction(Action action, Player player) {
 		if (!activePlayers.contains(player))
 			return false;
 
@@ -342,11 +344,14 @@ public class GameSession {
 			actions.setCheck();
 		if (player.getBank() >= highestBet - player.getBet()) {
 			if (highestBet - player.getBet() != 0)
-				actions.setCall();
+				actions.setCall(highestBet - player.getBet());
 		}
 		int maxRaise = player.getBank() + player.getBet() - highestBet;
 		if (maxRaise > 0)
 			actions.setRaise(1, maxRaise);
+
+		if (!actions.canCall() && !actions.canCheck() && !actions.canRaise())
+			actions.setAllIn();
 
 		return actions;
 	}

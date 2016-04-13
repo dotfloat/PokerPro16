@@ -9,6 +9,7 @@
     <VBox fx:id="innerBox" styleClass="rightMenu">
         <Button fx:id="viewLobby" text="View lobby" onAction="#viewLobby"/>
         <Button fx:id="leaveTable" text="Leave table" onAction="#leaveTable"/>
+        <Button fx:id="viewStatistics" text="View statistics" onAction="#viewStatistics"/>
     </VBox>
 
 

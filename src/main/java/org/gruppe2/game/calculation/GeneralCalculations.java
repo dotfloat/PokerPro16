@@ -114,11 +114,33 @@ public class GeneralCalculations {
         return HandType.HIGHCARD;
     }
 
+    public static HashMap<HandType, Boolean> getAllPossibleHandsForPlayer (Collection<Card> communityCards, Player p){
+        HashMap<HandType, Boolean> types = new HashMap<>();
+
+        return types;
+    }
+
     public static ArrayList<Card> makeOneListOfCards(Collection<Card> communityCards, Player p){
         ArrayList<Card> allCards = new ArrayList<>(communityCards);
         allCards.add(p.getCard1());
         allCards.add(p.getCard2());
 
         return allCards;
+    }
+
+    public static double choose(int n, int k) {
+        if (k < 0 || k > n) return 0;
+        if (k > n/2) {
+            // choose(n,k) == choose(n,n-k),
+            // so this could save a little effort
+            k = n - k;
+        }
+
+        double denominator = 1.0, numerator = 1.0;
+        for (int i = 1; i <= k; i++) {
+            denominator *= i;
+            numerator *= (n + 1 - i);
+        }
+        return numerator / denominator;
     }
 }

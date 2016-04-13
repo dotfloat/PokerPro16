@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import org.gruppe2.game.old.GameBuilder;
+import org.gruppe2.game.old.GameBuilderAiDifficultyOptions;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
@@ -22,9 +23,9 @@ public class GameWindow extends BorderPane {
 
 	private int width = PokerApplication.getWidth();
 	private int height = PokerApplication.getHeight();
-	public static int bigBlind = 50;
-	public static int smallBlind = 25;
-	public static int startValue = 50;
+	public static int bigBlind = PokerApplication.big;
+	public static int smallBlind = PokerApplication.small;
+	public static int startValue = PokerApplication.bank;
 	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
 	GUIPlayer guiPlayer;
@@ -32,7 +33,6 @@ public class GameWindow extends BorderPane {
 
 	GameSession gameSession;
 	CommunityCards communityCardsBox;
-	String playerName = "Me Player";
 
 	@FXML
 	public Pane playerCards;
@@ -113,7 +113,7 @@ public class GameWindow extends BorderPane {
 		if(PokerApplication.replayMode == false){
 			addYourSelf();
 			gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
-					.startMoney(startValue).mainClient(guiPlayer).build();
+					.startMoney(startValue).mainClient(guiPlayer).aiDifficulty(PokerApplication.diff).build();
 			System.out.println(gameSession.getPlayers().size());
 			choiceBar.setEvents(guiPlayer);
 			setUpPlayerBoxes();
@@ -143,7 +143,7 @@ public class GameWindow extends BorderPane {
 
 	private void addYourSelf() {
 		guiPlayer = new GUIPlayer(this);
-		guiPlayer.setName(playerName);
+		guiPlayer.setName(PokerApplication.name);
 	}
 
 	public Thread getThread() {

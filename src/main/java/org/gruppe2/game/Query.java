@@ -1,6 +1,6 @@
-package org.gruppe2.game.event;
+package org.gruppe2.game;
 
-public class Query<T> implements Event {
+public class Query<T> {
     private volatile Status status = Status.RUNNING;
     private T result = null;
 
@@ -29,7 +29,7 @@ public class Query<T> implements Event {
     }
 
     public void set(T result) {
-        result = result;
+        this.result = result;
 
         status = Status.DONE;
     }

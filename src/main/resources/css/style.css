@@ -227,3 +227,10 @@
 .check-box:selected .mark {
     -fx-background-color: #33adff;
 }
+
+.statistics {
+    -fx-padding: 10px;
+    -fx-background-color: black;
+    -fx-background-radius: 20px;
+    -fx-effect: dropshadow(gaussian, black, 50, 0.08, 0, 0);
+}
