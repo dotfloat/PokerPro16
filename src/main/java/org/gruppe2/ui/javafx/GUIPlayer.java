@@ -41,7 +41,6 @@ public class GUIPlayer extends GameClient {
 		activateAndDeactivatePlayers(player);
 		gameWindow.updateGameWindow(player);
 		Action action = null;
-		System.out.println("your turn player");
 		while ((action = getAction()) == null) {
 			try {
 				Thread.sleep(500);
@@ -49,10 +48,7 @@ public class GUIPlayer extends GameClient {
 				Thread.currentThread().interrupt();
 			}
 		}
-
 		setAction(null);
-		System.out.println("Action: " + action);
-
 		return action;
 	}
 
