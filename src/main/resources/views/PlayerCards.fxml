@@ -3,7 +3,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" spacing="0">
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml">
    <ImageView fx:id="playerCard1" preserveRatio="true" />	
    <ImageView fx:id="playerCard2" preserveRatio="true" />
 </fx:root>
