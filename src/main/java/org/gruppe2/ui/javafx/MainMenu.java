@@ -31,6 +31,7 @@ public class MainMenu extends BorderPane {
 
 	public MainMenu() {
 		Resources.loadFXML(this);
+		PokerApplication.replayMode = false;
 
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));

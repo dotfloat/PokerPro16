@@ -46,8 +46,108 @@ public class GameWindow extends BorderPane {
 		testGame();
 	}
 
+	
+
 	/**
-	 * This is for testing
+	 * Test game for watching game
+	 */
+	private void testGame() {
+		addYourSelf();
+		gameSession = new GameBuilder().ai(PokerApplication.numberOfBots).blinds(PokerApplication.big, PokerApplication.small)
+				.startMoney(PokerApplication.bank).mainClient(guiPlayer).aiDifficulty(PokerApplication.diff).build();
+		
+		if(PokerApplication.replayMode == false){
+			
+			choiceBar.setEvents(guiPlayer);
+			setUpPlayerBoxes();
+			((ChatBox) table.getChildren().get(2))
+			.setEventListeners((TextField) choiceBar.getChildren().get(0), gameSession.getPlayers().get(0));
+			
+		}
+		else{
+//			for(String playerName : PokerApplication.replayPlayers){
+//				GUIPlayer guiPlayer = new GUIPlayer(this);
+//				guiPlayer.setName(playerName);
+//				gameSession.addPlayer(guiPlayer, PokerApplication.bank);
+//			}
+			setUpPlayerBoxes();
+			//---> Start replay
+		}
+		th = new Thread(() -> gameSession.mainLoop());
+		th.start();
+		
+		if(PokerApplication.replayMode == true){
+			
+		}
+	}
+
+	public void updateGameWindow(Player player) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for (Pane playerInfoBox : playerInfoBoxes) {
+					((PlayerInfoBox) playerInfoBox).updateInfoBox();
+				}
+				if(!PokerApplication.replayMode)
+					choiceBar.updatePossibleBarsToClick(player);
+				pot.updatePot(gameSession.getTable().getPot());
+			}
+		});
+	}
+	/**
+	 * Create yourself
+	 */
+	private void addYourSelf() {
+		guiPlayer = new GUIPlayer(this);
+		guiPlayer.setName(PokerApplication.name);
+	}
+	/**
+	 * Gets the game backend thread.
+	 * @return
+	 */
+	public Thread getThread() {
+		return th;
+	}
+	
+	/**
+	 * Show who won the round
+	 * @param player
+	 */
+	public void displayRoundWon(Player player) {
+		ScreenText screenText = new ScreenText();
+		screenText.setAnimationRoundWon(player);
+		table.getChildren().add(screenText);
+		screenText.setLayoutX(width/2);
+		screenText.setLayoutY(height/2);
+
+		if (gameSession.getActivePlayers().size() == 1) {
+			table.chatBox.postMessage("\n" + player.getName() + " won");
+		} else {
+			for (Player p : gameSession.getActivePlayers()) {
+				if (p == null)
+					continue;
+
+				table.chatBox.postMessage("\n" + p.getName() + " had " + p.getCard1().toString() + " and " + p.getCard2().toString());
+				if (p == player) {
+					table.chatBox.postMessage("(round winner)");
+				}
+			}
+		}
+	}
+	/**
+	 * Displays who won the entire game
+	 * @param player
+	 */
+	public void displayGameWon(Player player) {
+		ScreenText screenText = new ScreenText();
+		table.getChildren().add(screenText);
+		screenText.setLayoutX(width/2);
+		screenText.setLayoutY(height/2);
+		screenText.setAnimationGameWon(player);	
+	}
+	
+	/**
+	 * Sets up player boxes ingame
 	 */
 
 	public void setUpPlayerBoxes() {
@@ -95,91 +195,5 @@ public class GameWindow extends BorderPane {
 				PokerApplication.getRoot().heightProperty().multiply(y));
 
 		getChildren().add(playerInfoBox);
-	}
-
-	/**
-	 * Test game for watching game
-	 */
-	private void testGame() {
-		addYourSelf();
-		gameSession = new GameBuilder().ai(PokerApplication.numberOfBots).blinds(PokerApplication.big, PokerApplication.small)
-				.startMoney(PokerApplication.bank).mainClient(guiPlayer).aiDifficulty(PokerApplication.diff).build();
-		
-		if(PokerApplication.replayMode == false){
-			
-			choiceBar.setEvents(guiPlayer);
-			setUpPlayerBoxes();
-			((ChatBox) table.getChildren().get(2))
-			.setEventListeners((TextField) choiceBar.getChildren().get(0), gameSession.getPlayers().get(0));
-			
-		}
-		else{
-			for(String playerName : PokerApplication.replayPlayers){
-				GUIPlayer guiPlayer = new GUIPlayer(this);
-				guiPlayer.setName(playerName);
-				gameSession.addPlayer(guiPlayer, PokerApplication.bank);
-			}
-			setUpPlayerBoxes();
-			//---> Start replay
-		}
-		th = new Thread(() -> gameSession.mainLoop());
-		th.start();
-		
-		if(PokerApplication.replayMode == true){
-			
-		}
-	}
-
-	public void updateGameWindow(Player player) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for (Pane playerInfoBox : playerInfoBoxes) {
-					((PlayerInfoBox) playerInfoBox).updateInfoBox();
-				}
-				choiceBar.updatePossibleBarsToClick(player);
-				pot.updatePot(gameSession.getTable().getPot());
-			}
-		});
-	}
-
-	private void addYourSelf() {
-		guiPlayer = new GUIPlayer(this);
-		guiPlayer.setName(PokerApplication.name);
-	}
-
-	public Thread getThread() {
-		return th;
-	}
-
-	public void displayRoundWon(Player player) {
-		ScreenText screenText = new ScreenText();
-		screenText.setAnimationRoundWon(player);
-		table.getChildren().add(screenText);
-		screenText.setLayoutX(width/2);
-		screenText.setLayoutY(height/2);
-
-		if (gameSession.getActivePlayers().size() == 1) {
-			table.chatBox.postMessage("\n" + player.getName() + " won");
-		} else {
-			for (Player p : gameSession.getActivePlayers()) {
-				if (p == null)
-					continue;
-
-				table.chatBox.postMessage("\n" + p.getName() + " had " + p.getCard1().toString() + " and " + p.getCard2().toString());
-				if (p == player) {
-					table.chatBox.postMessage("(round winner)");
-				}
-			}
-		}
-	}
-
-	public void displayGameWon(Player player) {
-		ScreenText screenText = new ScreenText();
-		table.getChildren().add(screenText);
-		screenText.setLayoutX(width/2);
-		screenText.setLayoutY(height/2);
-		screenText.setAnimationGameWon(player);
-		
 	}
 }

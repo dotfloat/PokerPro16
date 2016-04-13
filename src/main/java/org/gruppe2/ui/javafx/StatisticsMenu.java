@@ -65,7 +65,7 @@ public class StatisticsMenu extends StackPane {
 		
 		PokerApplication.replayMode = true;
 		SetUpReplay();
-		PokerApplication.replayMode = false;	
+			
 	}
 	
 	public void changeLogFile(){
@@ -98,6 +98,9 @@ public class StatisticsMenu extends StackPane {
 					}
 					else if(!playerNames.contains(player)){
 						System.out.println("Added player");
+						if(playerNames.size() == 0){
+							PokerApplication.name = player;
+						}
 						playerNames.add(player);
 					}
 				}
