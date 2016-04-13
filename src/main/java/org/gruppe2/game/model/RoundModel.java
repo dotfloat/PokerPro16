@@ -8,6 +8,7 @@ public class RoundModel implements Model {
     private final List<RoundPlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
 
     private volatile boolean playing = false;
+    private volatile int current = 0;
     private volatile int pot = 0;
 
     public List<RoundPlayerModel> getActivePlayers() {
@@ -28,5 +29,13 @@ public class RoundModel implements Model {
 
     public void setPlaying(boolean playing) {
         this.playing = playing;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
     }
 }

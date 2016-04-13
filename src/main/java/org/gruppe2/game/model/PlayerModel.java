@@ -7,6 +7,7 @@ public class PlayerModel implements Model {
     private final String name;
     private final String avatar;
     private final boolean bot;
+
     private volatile int bank;
 
     public PlayerModel(UUID uuid, String name, String avatar, boolean bot) {
@@ -30,5 +31,13 @@ public class PlayerModel implements Model {
 
     public boolean isBot() {
         return bot;
+    }
+
+    public int getBank() {
+        return bank;
+    }
+
+    public void setBank(int bank) {
+        this.bank = bank;
     }
 }
