@@ -14,7 +14,9 @@ import org.gruppe2.ui.Resources;
 public class CommunityCards extends HBox {
 	private int width = PokerApplication.getWidth();
 	private ArrayList<ImageView> communityImageCards;
-
+	@SuppressWarnings("unused")
+	private List<Card> communityCards;
+	
 	public CommunityCards() {
 		Resources.loadFXML(this);
 
@@ -25,6 +27,7 @@ public class CommunityCards extends HBox {
 	 * is ready with playerCards.
 	 */
 	public void setCommunityCards(List<Card> communalCards) {
+		communityCards = communalCards;
 		if (communalCards == null || communalCards.size() == 0)
 			return;
 		if (communalCards.size() == 3){
@@ -100,6 +103,10 @@ public class CommunityCards extends HBox {
 			finalName += "0" + card.getFaceValue();
 
 		return finalName;
+	}
+	
+	public List<Card> getCommunityCards(){
+		return communityCards;	
 	}
 
 }
