@@ -27,12 +27,7 @@ public class GameBuilder {
      * @return this
      */
     public GameBuilder ai(int numAI) {
-        if(numAI > 9)
-            this.numAI = 9;
-        else if(numAI < 3)
-            this.numAI = 3;
-        else
-            this.numAI = numAI;
+        this.numAI = numAI;
 
         return this;
     }

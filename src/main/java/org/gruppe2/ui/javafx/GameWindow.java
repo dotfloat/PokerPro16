@@ -91,6 +91,7 @@ public class GameWindow extends BorderPane {
 				if(!PokerApplication.replayMode)
 					choiceBar.updatePossibleBarsToClick(player);
 				pot.updatePot(gameSession.getTable().getPot());
+
 			}
 		});
 	}

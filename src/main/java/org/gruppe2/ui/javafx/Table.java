@@ -30,6 +30,8 @@ public class Table extends StackPane {
 		this.setAlignment(rightMenu, Pos.TOP_RIGHT);
 		this.setAlignment(chatBox, Pos.BOTTOM_LEFT);
 		sizeTableBox();
+		//when pot gets updates, remove the line below
+		pot.visibleProperty().setValue(false);
 	}
 
 	private void sizeTableBox() {
@@ -45,4 +47,5 @@ public class Table extends StackPane {
 		nothing2.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 
 	}
+
 }
