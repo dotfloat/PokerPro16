@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public abstract class AbstractController<M extends Model>  implements Controller {
+public abstract class AbstractController  implements Controller {
     private Session session;
 
     @Override
@@ -68,15 +68,15 @@ public abstract class AbstractController<M extends Model>  implements Controller
         return session;
     }
 
-    public M getModel() {
-        return (M) session.getModel(getModelClass());
-    }
-
-    public List<M> getModels() {
-        return (List<M>) session.getModels(getModelClass());
-    }
-
-    public void addEvent(Event event) {
+    void addEvent(Event event) {
         getSession().addEvent(event);
+    }
+
+    <M extends Model> List<M> getModels(Class<M> klass) {
+        return getSession().getModels(klass);
+    }
+
+    <M extends Model> M getModel(Class<M> klass) {
+        return getSession().getModel(klass);
     }
 }

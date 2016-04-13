@@ -2,24 +2,19 @@ package org.gruppe2.game.controller;
 
 import org.gruppe2.game.Message;
 import org.gruppe2.game.event.PlayerJoinEvent;
-import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
 
-public class GameController extends AbstractController<GameModel> {
+import java.util.List;
 
-    @Override
-    public Class<? extends Model> getModelClass() {
-        return GameModel.class;
-    }
+public class GameController extends AbstractController {
 
     @Message
     public void addPlayer(PlayerModel model) {
         System.out.println("Greetings from GameController on " + Thread.currentThread().getName());
+        List<PlayerModel> players;
 
-        // Todo synchronize the entire model
-        if (getModel().getPlayers().size() + 1 < getModel().getMaxPlayers()) {
-            getModel().getPlayers().add(model);
+        synchronized (players = getModels(PlayerModel.class)) {
+            players.add(model);
             addEvent(new PlayerJoinEvent(model));
         }
     }
