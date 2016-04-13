@@ -238,3 +238,7 @@
 .hola {
     -fx-background-color: red;
 }
+
+.communityCardsBox {
+    -fx-spacing: 10;
+}
