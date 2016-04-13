@@ -115,6 +115,42 @@ public class ShowdownEvaluatorTest {
 	}
 	
 	@Test
+	public void allPlayersShouldWinIfCommunityCardsIsRoyalFlush() {
+		List<Player> players = new ArrayList<>();
+		
+		int amountOfPlayers = 10;
+		int N = 1000;
+		
+		for(int i = 1; i <= amountOfPlayers; i++) {
+			MockPlayer p = new MockPlayer("BOT " + i);
+			players.add(p);
+			Card pc1 = new Card(2, Suit.CLUBS);
+			Card pc2 = new Card(2, Suit.DIAMONDS);
+			p.setCards(pc1, pc2);
+		}
+		
+		for(int i = 0; i < N; i++) {
+		
+		Deck d = new Deck();
+		Card c1 = new Card(14, Suit.CLUBS);
+		Card c2 = new Card(13, Suit.CLUBS);
+		Card c3 = new Card(12, Suit.CLUBS);
+		Card c4 = new Card(11, Suit.CLUBS);
+		Card c5 = new Card(10, Suit.CLUBS);
+		
+		for(Player p : players) {
+			MockTable mt = (MockTable) p.getClient().getSession().getTable();
+			mt.setCards(c1, c2, c3, c4, c5);
+		}
+		
+		ShowdownEvaluator se = new ShowdownEvaluator();
+		ArrayList<Player> winners = se.getWinnerOfRound(players);
+		
+		assertTrue(winners.size() == amountOfPlayers);
+		}
+	}
+	
+	@Test
 	public void TestWinnersOfRoundIsTheSameWithTwoEvaluators() {
 		ArrayList<Player> players = new ArrayList<>();
 		
