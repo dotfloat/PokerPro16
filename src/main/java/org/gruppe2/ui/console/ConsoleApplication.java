@@ -2,12 +2,12 @@ package org.gruppe2.ui.console;
 
 import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.Handler;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.old.Action;
 import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.game.view.GameView;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.UUID;
@@ -29,16 +29,17 @@ public class ConsoleApplication implements Runnable {
         }
 
         sessionContext = gameBuilder.start();
-        sessionContext.waitReady();
 
-        sessionContext.getView(GameView.class).onPlayerJoin(System.out::println);
-        sessionContext.getView(GameView.class).onPlayerJoin((PlayerJoinEvent e) -> System.out.println("Greetings from a lambda on " + Thread.currentThread().getName()));
+        sessionContext.registerAnnotatedHandlers(this);
+
+        sessionContext.waitReady();
 
         System.out.println();
 
         sessionContext.message("addPlayer", playerModel);
 
-        sessionContext.getEventQueue().registerHandler(PlayerActionQuery.class, playerModel, this::action);
+        sessionContext.message("sayInChat", "Zohar", "Dette er kult");
+        sessionContext.message("sayInChat", "Zohar", "Dette er kulest");
 
         while (true) {
             sessionContext.getEventQueue().process();
@@ -51,10 +52,16 @@ public class ConsoleApplication implements Runnable {
         }
     }
 
-    void action(PlayerActionQuery query) {
+    @Handler
+    void onAction(PlayerActionQuery query) {
         System.out.println("Action");
 
         query.set(new Action.Fold());
+    }
+
+    @Handler
+    void onPlayerJoin(PlayerJoinEvent event) {
+        System.out.println("Greetings from onPlayerJoin on " + Thread.currentThread().getName());
     }
 
     public SessionContext getSessionContext() {

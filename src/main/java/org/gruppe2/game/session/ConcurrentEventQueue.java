@@ -23,7 +23,7 @@ public class ConcurrentEventQueue {
      * @param handler handler which will be called when the event occurs
      * @param model model to handle the event for or null to handle for any model
      */
-    public <E extends Event, M extends Model> void registerHandler(Class<E> klass, M model, EventHandler<E> handler) {
+    public void registerHandler(Class<?> klass, Model model, EventHandler<Event> handler) {
         List<EventMapEntry> list = handlerMap.get(klass);
 
         if (list == null) {
@@ -31,10 +31,10 @@ public class ConcurrentEventQueue {
             handlerMap.put(klass, list);
         }
 
-        list.add(new EventMapEntry(model, (EventHandler<Event>) handler));
+        list.add(new EventMapEntry(model, handler));
     }
 
-    public <E extends Event, M extends Model> void registerHandler(Class<E> klass, EventHandler<E> handler) {
+    public void registerHandler(Class<?> klass, EventHandler<Event> handler) {
         registerHandler(klass, null, handler);
     }
 

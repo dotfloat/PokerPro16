@@ -1,6 +1,6 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.SMessage;
+import org.gruppe2.game.Message;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.Model;
@@ -13,7 +13,7 @@ public class GameController extends AbstractController<GameModel> {
         return GameModel.class;
     }
 
-    @SMessage
+    @Message
     public void addPlayer(PlayerModel model) {
         System.out.println("Greetings from GameController on " + Thread.currentThread().getName());
 
@@ -22,5 +22,10 @@ public class GameController extends AbstractController<GameModel> {
             getModel().getPlayers().add(model);
             addEvent(PlayerJoinEvent.class, new PlayerJoinEvent(model));
         }
+    }
+
+    @Message
+    public void sayInChat(String name, String message) {
+        System.out.println(name + ": " + message);
     }
 }

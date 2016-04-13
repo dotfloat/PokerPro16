@@ -1,13 +1,12 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.SMessage;
+import org.gruppe2.game.Message;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.model.Model;
 import org.gruppe2.game.session.Session;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractController<M extends Model>  implements Controller {
@@ -16,7 +15,7 @@ public abstract class AbstractController<M extends Model>  implements Controller
     @Override
     public void init() {
         for (Method method : getClass().getDeclaredMethods()) {
-            if (method.getAnnotation(SMessage.class) == null)
+            if (method.getAnnotation(Message.class) == null)
                 continue;
 
             if (!method.getReturnType().equals(Void.TYPE))
@@ -29,7 +28,7 @@ public abstract class AbstractController<M extends Model>  implements Controller
     @Override
     public void update() {
         for (Method method : getClass().getDeclaredMethods()) {
-            if (method.getAnnotation(SMessage.class) == null)
+            if (method.getAnnotation(Message.class) == null)
                 continue;
 
             List<Object[]> argsList = getSession().getMessages(method.getName());

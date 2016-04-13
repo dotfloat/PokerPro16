@@ -1,10 +1,12 @@
 package org.gruppe2.game.session;
 
+import org.gruppe2.game.Handler;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.model.Model;
-import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.view.View;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +73,31 @@ public class SessionContext {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void registerAnnotatedHandlers(Object object) {
+        for (Method method : object.getClass().getDeclaredMethods()) {
+            if (method.getAnnotation(Handler.class) == null)
+                continue;
+
+            if (method.getParameterCount() != 1)
+                throw new RuntimeException("Handler " + method.getName() + " can only take one argument");
+
+            Class<?> eventClass = method.getParameterTypes()[0];
+
+            if (eventClass.isInstance(Event.class))
+                throw new RuntimeException("Handler " + method.getName() + " must handle an Event");
+
+            method.setAccessible(true);
+
+            getEventQueue().registerHandler(eventClass, (Event event) -> {
+                try {
+                    method.invoke(object, event);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 }

@@ -8,7 +8,6 @@ import org.gruppe2.game.session.SessionContext;
 public class GameView extends AbstractView<GameModel> {
 
     public void onPlayerJoin(EventHandler<PlayerJoinEvent> handler) {
-        getContext().getEventQueue().registerHandler(PlayerJoinEvent.class, handler);
     }
 
     public PlayerView getPlayerByName(String name) {
