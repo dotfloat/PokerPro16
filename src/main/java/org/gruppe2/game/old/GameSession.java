@@ -76,10 +76,11 @@ public class GameSession {
 	private void matchLoop() {
 		Player winner = null;
 		logger = new Logger();
-		logger.record("New Game!");
-		logger.record("--Stakes--");
+		logger.record("#New Game#");
+		logger.record("   Stakes   ");
 		logger.record("Small Blind: " + getSmallBlindAmount());
 		logger.record("Big Blind: " + getBigBlindAmount());
+		
 
 		doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
 		// notifyOtherPlayersAboutAction(smallBlindPayer, blind);
@@ -91,9 +92,12 @@ public class GameSession {
 
 		for (int i = 0; i < 4; i++) {
 			table.drawCommunityCards(i);
-
+			
+			if(i==0)
+				logger.record("Bank: " + getSmallBlindPlayer().getBank());
+			
 			notifyAllPlayersAboutCommunityCards(table.getCommunityCards());
-
+			logger.record("Betting Round: " + (i+1));
 			turnLoop();
 
 			if (numActivePlayers() == 1) {
@@ -108,7 +112,7 @@ public class GameSession {
 		}
 
 		if (winner == null)
-			winner = showdownEvaluator.getWinnerOfRound(table, activePlayers).get(0);
+			winner = showdownEvaluator.getWinnerOfRound(getActivePlayers()).get(0);
 
 		winner.addToBank(table.getPot());
 
@@ -126,7 +130,7 @@ public class GameSession {
 	private void turnLoop() {
 		int lastRaiserIndex = 0;
 
-		logger.record("New Turn!");
+		
 		for (int last = button; true; last--) {
 			if (last < 0)
 				last = activePlayers.size() - 1;
@@ -179,7 +183,7 @@ public class GameSession {
 	private void startNewMatch() {
 		activePlayers = new ArrayList<>();
 		for (Player player : players)
-			if (player.getBank() >= smallBlindAmount)
+			if (player.getBank() >= bigBlindAmount)
 				activePlayers.add(player);
 		highestBet = 0;
 		table.newDeck();
@@ -254,12 +258,14 @@ public class GameSession {
 			playerToNotify.getClient().onPlayerAction(player, action);
 	}
 
+	public void setHighestBet(int amount) {
+		//TODO: ADD
+	}
+	
 	private void notifyAllPlayersAboutCommunityCards(List<Card> communityCards) {
 		for (Player playersToNotify : players)
 			playersToNotify.getClient().onCommunalCards(communityCards);
 	}
-
-	// TODO: Code to perform actions
 
 	/**
 	 * Perform the action requested by the player
