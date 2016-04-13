@@ -11,7 +11,7 @@ PokerPro16 is an implementation of the poker game Texas Hold'em, written in Java
 
 Download:
 * [Poker-sprint1.jar](https://bitbucket.org/tha056/inf112v16-g2/downloads/Poker-sprint1.jar)
-* [Poker-sprint2.jar](nullpointerexception)
+* [Poker-sprint2.jar](https://bitbucket.org/tha056/inf112v16-g2/downloads/Poker-sprint2.jar)
 
 And run the jar the normal way
 
