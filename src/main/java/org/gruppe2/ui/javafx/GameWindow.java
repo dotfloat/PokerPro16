@@ -69,11 +69,11 @@ public class GameWindow extends BorderPane {
 
 		int numberOfPlayers = playerInfoBoxes.size();
 		if (numberOfPlayers > 4)
-			paintPlayerInfoBox(playerInfoBoxes.get(4), 0.3, 0.001);
+			paintPlayerInfoBox(playerInfoBoxes.get(4), 0.34, 0.001);
 		if (numberOfPlayers > 8)
 			paintPlayerInfoBox(playerInfoBoxes.get(8), 0.45, 0.001);
 		if (numberOfPlayers > 5)
-			paintPlayerInfoBox(playerInfoBoxes.get(5), 0.6, 0.002);
+			paintPlayerInfoBox(playerInfoBoxes.get(5), 0.58, 0.002);
 		if (numberOfPlayers > 2)
 			paintPlayerInfoBox(playerInfoBoxes.get(2), 0.19, 0.001);
 		if (numberOfPlayers > 3)
@@ -128,6 +128,10 @@ public class GameWindow extends BorderPane {
 		}
 		th = new Thread(() -> gameSession.mainLoop());
 		th.start();
+		
+		if(PokerApplication.replayMode == true){
+			
+		}
 	}
 
 	public void updateGameWindow(Player player) {

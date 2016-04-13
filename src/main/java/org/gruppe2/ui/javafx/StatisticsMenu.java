@@ -183,6 +183,7 @@ public class StatisticsMenu extends StackPane {
 		
 		GameWindow gameWindow = new GameWindow();
 		SceneController.setScene(gameWindow);	
+		
 	}
 	
 
