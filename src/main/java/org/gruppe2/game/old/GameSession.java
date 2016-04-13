@@ -264,38 +264,36 @@ public class GameSession {
 	 * @param player
 	 *            player performing
 	 */
-	void doPlayerAction(Action action, Player player) {
+	private void doPlayerAction(Action action, Player player) {
 		if (checkLegalAction(action, player)) {
+			int raise;
 			if (action instanceof Action.Raise) {
-				int raise = ((Action.Raise) action).getAmount();
+				raise = ((Action.Raise) action).getAmount();
 				int chipsToMove = (highestBet - player.getBet()) + raise;
-				player.setBet(highestBet + raise);
-				player.setBank(player.getBank() - chipsToMove);
-				table.addToPot(chipsToMove);
-				highestBet = player.getBet();
+				moveChips(player, highestBet + raise, player.getBank()-chipsToMove, chipsToMove);
 			} else if (action instanceof Action.Call) {
-				int raise = highestBet - player.getBet();
-				player.setBet(player.getBet() + raise);
-				player.setBank(player.getBank() - raise);
-				table.addToPot(raise);
+				raise = highestBet - player.getBet();
+				moveChips(player, player.getBet() + raise, player.getBank() - raise, raise);
 			} else if (action instanceof Action.AllIn) {
-				int raise = player.getBank();
-				player.setBank(0);
-				player.setBet(player.getBet() + raise);
-				table.addToPot(raise);
+				raise = player.getBank();
+				moveChips(player, player.getBet() + raise, 0, raise);
 			} else if (action instanceof Action.PayBigBlind) {
-				player.setBank(player.getBank() - bigBlindAmount);
-				player.setBet(bigBlindAmount);
-				table.addToPot(bigBlindAmount);
-				highestBet = bigBlindAmount;
+				moveChips(player, bigBlindAmount, player.getBank() - bigBlindAmount, bigBlindAmount);
 			} else if (action instanceof Action.PaySmallBlind) {
-				player.setBank(player.getBank() - smallBlindAmount);
-				player.setBet(smallBlindAmount);
-				table.addToPot(smallBlindAmount);
+				moveChips(player, smallBlindAmount, player.getBank() - smallBlindAmount, smallBlindAmount);
 			}
 		} else {
 			throw new IllegalArgumentException(player.getName() + " can't do that action");
 		}
+
+		if (player.getBet() > highestBet)
+			highestBet = player.getBet();
+	}
+
+	private void moveChips(Player player, int playerSetBet, int playerSetBank, int addToTablePot){
+		player.setBet(playerSetBet);
+		player.setBank(playerSetBank);
+		table.addToPot(addToTablePot);
 	}
 
 	/**
@@ -307,7 +305,7 @@ public class GameSession {
 	 *            player performing
 	 * @return true if it's legal, false if not
 	 */
-	boolean checkLegalAction(Action action, Player player) {
+	private boolean checkLegalAction(Action action, Player player) {
 		if (!activePlayers.contains(player))
 			return false;
 
@@ -346,7 +344,7 @@ public class GameSession {
 			actions.setCheck();
 		if (player.getBank() >= highestBet - player.getBet()) {
 			if (highestBet - player.getBet() != 0)
-				actions.setCall();
+				actions.setCall(highestBet - player.getBet());
 		}
 		int maxRaise = player.getBank() + player.getBet() - highestBet;
 		if (maxRaise > 0)
