@@ -3,13 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml"  >
+<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml" stylesheets="" >
 	<VBox spacing="20" alignment="CENTER" >
-		<TextField fx:id="name" text="Set player Name" onAction="#setName" />	
-		<TextField fx:id="small" text="Set small Blind" onAction="#setSmallBlind"/>	
-		<TextField fx:id="big" text="Set big Blind" onAction="#setBigBlind"/>
-		<TextField fx:id="startValue" text="Set start money amount" onAction="#setStartMoney"/>
-		<TextField fx:id="avatar" text="Set Avatar" onAction="#setAvatar"/>
+		<TextField fx:id="name" promptText="Set name" onAction="#setName" />
+		<TextField fx:id="small" promptText="Set small Blind" onAction="#setSmallBlind"/>
+		<TextField fx:id="big" promptText="Set big Blind" onAction="#setBigBlind"/>
+		<TextField fx:id="startValue" promptText="Set start money amount" onAction="#setStartMoney"/>
+		<TextField fx:id="avatar" promptText="Set Avatar" onAction="#setAvatar"/>
+		<TextField fx:id="numberBots" promptText="Number of Bots" onAction="#numberOfBots"/>
 		<Button fx:id="botButton" onAction="#setBotDificulty" />
 		<Button text="OK" onAction="#ok"/>
 		<Button text="CANCEL" onAction="#cancel"/>		

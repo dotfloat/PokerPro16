@@ -1,7 +1,6 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.event.TestEvent;
-import org.gruppe2.game.event.TestEventHandler;
+
 import org.junit.Before;
 import org.junit.Test;
 
