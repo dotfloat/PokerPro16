@@ -32,10 +32,16 @@ public class Action {
     public static class AllIn extends Action {
     }
 
-    public static class PaySmallBlind extends Action {
-    }
+    public static class Blind extends Action {
+        private int amount;
 
-    public static class PayBigBlind extends Action {
+        public Blind(int amount){
+            this.amount = amount;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
     }
 
     public static class Pass extends Action {}
