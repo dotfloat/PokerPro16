@@ -158,6 +158,7 @@ public class GameWindow extends BorderPane {
 		table.getChildren().add(screenText);
 		screenText.setLayoutX(width/2);
 		screenText.setLayoutY(height/2);
+		table.chatBox.postMessage("\n"+player.getName()+" won with "+player.getCard1().toString() +" and "+player.getCard2().toString());
 	}
 
 	public void displayGameWon(Player player) {
@@ -166,5 +167,6 @@ public class GameWindow extends BorderPane {
 		screenText.setLayoutX(width/2);
 		screenText.setLayoutY(height/2);
 		screenText.setAnimationGameWon(player);
+		
 	}
 }
