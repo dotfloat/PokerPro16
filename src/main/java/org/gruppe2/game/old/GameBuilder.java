@@ -1,6 +1,7 @@
 package org.gruppe2.game.old;
 
 import org.gruppe2.ai.AIBuilder;
+import org.gruppe2.ai.Difficulty;
 
 public class GameBuilder {
     private int numAI = 0;
@@ -8,10 +9,16 @@ public class GameBuilder {
     private int bigBlind = 0;
     private int smallBlind = 0;
     private int startMoney = 0;
+    private Difficulty aiDifficulty = Difficulty.ADVANCED;
 
     public GameBuilder ai(int numAI) {
         this.numAI = numAI;
 
+        return this;
+    }
+
+    public GameBuilder aiDifficulty(Difficulty difficulty) {
+        this.aiDifficulty = difficulty;
         return this;
     }
 
@@ -42,7 +49,7 @@ public class GameBuilder {
         }
 
         for (int i = 0; i < numAI; i++) {
-            session.addPlayer(new AIBuilder().build(), startMoney);
+            session.addPlayer(new AIBuilder().difficulty(aiDifficulty).build(), startMoney);
         }
 
         return session;
