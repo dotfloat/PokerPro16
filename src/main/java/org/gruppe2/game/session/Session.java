@@ -7,6 +7,7 @@ import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.view.View;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class Session implements Runnable {
@@ -14,9 +15,11 @@ public abstract class Session implements Runnable {
 
     private final Map<Class<? extends Model>, List<Model>> modelMap = Collections.synchronizedMap(new HashMap<>());
     private final Map<Class<? extends Controller>, Controller> controllerMap = Collections.synchronizedMap(new HashMap<>());
-    private final Map<String, List<Object>> messageMap = Collections.synchronizedMap(new HashMap<>());
+    private final Map<String, List<Object[]>> messageMap = Collections.synchronizedMap(new HashMap<>());
 
     private final SessionContext sessionContext = new SessionContext(this);
+
+    private volatile boolean ready = false;
 
     public static SessionContext start(Class<? extends Session> klass) {
         Session session;
@@ -42,11 +45,20 @@ public abstract class Session implements Runnable {
 
     @Override
     public void run() {
+        init();
+
+        controllerMap.values().forEach(Controller::init);
+
+        ready = true;
+
         while (true) {
 
             eventQueue.process();
 
             update();
+
+            controllerMap.values().forEach(Controller::update);
+
 
             try {
                 Thread.sleep(50);
@@ -56,9 +68,9 @@ public abstract class Session implements Runnable {
         }
     }
 
-    public void update() {
-        controllerMap.values().forEach(Controller::update);
-    }
+    public abstract void init();
+
+    public abstract void update();
 
     MainEventQueue getEventQueue() {
         return eventQueue;
@@ -79,8 +91,6 @@ public abstract class Session implements Runnable {
         }
 
         controllerMap.put(klass, controller);
-
-        controller.init();
     }
 
     public <M extends Model> List<M> getModels(Class<M> klass) {
@@ -101,29 +111,44 @@ public abstract class Session implements Runnable {
         return sessionContext;
     }
 
-    public void addMessage(String name, Object object) {
-        List<Object> list = messageMap.get(name);
+    public void registerMessage(String name) {
+        if (messageMap.containsKey(name))
+            throw new RuntimeException("Message by the name of " + name + " is already registered.");
 
-        if (list == null) {
-            list = Collections.synchronizedList(new ArrayList<>());
-            messageMap.put(name, list);
-        }
-
-        list.add(object);
+        messageMap.put(name, Collections.synchronizedList(new ArrayList<>()));
     }
 
-    public List<Object> getMessages(String name) {
-        List<Object> list = messageMap.get(name);
+    /**
+     * Add a message to a message queue
+     * @param name the name of the message
+     * @param args message arguments
+     */
+    public void addMessage(String name, Object... args) {
+        List<Object[]> list = messageMap.get(name);
 
-        if (list != null) {
-            messageMap.remove(name);
-            return list;
-        }
+        list.add(args);
+    }
 
-        return new ArrayList<>();
+    /**
+     * Get a list of messages for a given message
+     * @param name the name of the message
+     * @return a list of messages
+     * @throws NullPointerException if method doesn't exist
+     */
+    public List<Object[]> getMessages(String name) {
+        List<Object[]> list = messageMap.get(name);
+        List<Object[]> out = new ArrayList<>(list);
+
+        list.clear();
+
+        return out;
     }
 
     public <E extends Event> void addEvent(Class<E> klass, E event) {
         eventQueue.addEvent(klass, event);
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 }

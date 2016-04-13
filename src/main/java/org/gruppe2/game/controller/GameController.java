@@ -1,27 +1,20 @@
 package org.gruppe2.game.controller;
 
+import org.gruppe2.game.SMessage;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.Model;
 import org.gruppe2.game.model.PlayerModel;
 
 public class GameController extends AbstractController<GameModel> {
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void update() {
-        getSession().getMessages("addPlayer").forEach(this::addPlayer);
-    }
 
     @Override
     public Class<? extends Model> getModelClass() {
         return GameModel.class;
     }
 
-    private void addPlayer(Object obj) {
+    @SMessage
+    public void addPlayer(Object obj) {
         if (!(obj instanceof PlayerModel))
             return;
 

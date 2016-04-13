@@ -29,13 +29,14 @@ public class ConsoleApplication implements Runnable {
         }
 
         sessionContext = gameBuilder.start();
+        sessionContext.waitReady();
 
         sessionContext.getView(GameView.class).onPlayerJoin(System.out::println);
         sessionContext.getView(GameView.class).onPlayerJoin((PlayerJoinEvent e) -> System.out.println("Greetings from a lambda on " + Thread.currentThread().getName()));
 
         System.out.println();
 
-        sessionContext.addMessage("addPlayer", playerModel);
+        sessionContext.message("addPlayer", playerModel);
 
         sessionContext.getEventQueue().registerHandler(PlayerActionQuery.class, playerModel, this::action);
 

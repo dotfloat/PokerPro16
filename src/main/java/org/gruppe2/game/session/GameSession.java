@@ -23,8 +23,16 @@ public class GameSession extends Session {
         getModels(GameModel.class).add(new GameModel(UUID.randomUUID(), maxPlayers));
 
         addModels(PlayerModel.class);
+    }
 
+    @Override
+    public void init() {
         addController(GameController.class);
+    }
+
+    @Override
+    public void update() {
+
     }
 
     public boolean isPlaying() {

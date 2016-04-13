@@ -60,7 +60,17 @@ public class SessionContext {
         session.getEventQueue().addEvent(klass, event);
     }
 
-    public void addMessage(String name, Object object) {
-        session.addMessage(name, object);
+    public void message(String name, Object... args) {
+        session.addMessage(name, args);
+    }
+
+    public void waitReady() {
+        while (!session.isReady()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
