@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by �smund on 11/04/2016.
+ * This class is for evaluations concerning four of a kind
  */
 public class FourOfAKind implements HandCalculation{
 

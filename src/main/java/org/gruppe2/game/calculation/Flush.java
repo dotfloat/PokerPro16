@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 /**
  * Created by Mikal on 11.04.2016.
+ * This class is for evaluations concerning Flush
  */
 public class Flush implements HandCalculation{
 

@@ -15,7 +15,7 @@ public class GameSession {
 	private int button;
 
 	public GameSession() {
-		button = 0;
+		button = -1;
 	}
 
 	public GameSession(int smallBlind, int bigBlind) {
@@ -79,6 +79,8 @@ public class GameSession {
 		logger.record("   Stakes   ");
 		logger.record("Bank: " + activePlayers.get(0));
 
+		button = (button + 1) % activePlayers.size();
+
 		int currentBigBlind = bigBlindAmount;
 		int currentSmallBlind = smallBlindAmount;
 		Player bigBlindPlayer = getBigBlindPlayer();
@@ -130,7 +132,6 @@ public class GameSession {
 		notifyPlayerVictory(winner);
 
 		notifyRoundEnd();
-		button = (button + 1) % activePlayers.size();
 	}
 
 	private void turnLoop() {

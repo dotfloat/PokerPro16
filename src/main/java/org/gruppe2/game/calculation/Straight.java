@@ -8,6 +8,7 @@ import java.util.Collection;
 
 /**
  * Created by Mikal on 11.04.2016.
+ * This class is for evaluations concerning Straights
  */
 public class Straight implements HandCalculation{
 

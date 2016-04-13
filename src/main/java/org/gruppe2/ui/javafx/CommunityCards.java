@@ -14,7 +14,7 @@ import org.gruppe2.ui.Resources;
 public class CommunityCards extends HBox {
 	private int width = PokerApplication.getWidth();
 	private ArrayList<ImageView> communityImageCards;
-	@SuppressWarnings("unused")
+	
 	private List<Card> communityCards;
 	
 	public CommunityCards() {
@@ -66,7 +66,6 @@ public class CommunityCards extends HBox {
 			else{
 				this.getChildren().removeAll(communityImageCards);
 				communityImageCards = new ArrayList<ImageView>();
-				System.out.println("hello remove");
 			}
 
 		}
