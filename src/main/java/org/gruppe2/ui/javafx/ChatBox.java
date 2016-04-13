@@ -1,7 +1,13 @@
 package org.gruppe2.ui.javafx;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Control;
+import javafx.scene.control.Skin;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Region;
 
 import org.gruppe2.game.calculation.GeneralCalculations;
 import org.gruppe2.game.old.Player;
@@ -30,39 +36,73 @@ public class ChatBox extends TextArea {
     public void setEventListeners(TextField textField, Player player) {
     	this.player = player;
         textField.setOnAction(e -> { // Put text from textField to textArea
-            checkForCommands(textField);
         	if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
-            else {
-                this.setText(this.getText() + "\n" + player + ": " + textField.getText());
-                textField.setText("");
-                this.setScrollTop(Double.MAX_VALUE);
-            }
+        	
+        	else if(checkForCommands(textField));
+            
+        	else{
+	                this.setText(this.getText() + "\n" + player + ": " + textField.getText());
+	                this.setScrollTop(Double.MAX_VALUE);
+	            }
+        	textField.setText("");
         });
+        makeTransparent();
     }
 
-    /**
+    private void makeTransparent() {
+    	this.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+
+            @Override
+            public void changed(
+              ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
+                if (t1 != null && t1.getNode() instanceof Region) {
+                    Region r = (Region) t1.getNode();
+                    r.setBackground(Background.EMPTY);
+
+                    r.getChildrenUnmodifiable().stream().
+                            filter(n -> n instanceof Region).
+                            map(n -> (Region) n).
+                            forEach(n -> n.setBackground(Background.EMPTY));
+
+                    r.getChildrenUnmodifiable().stream().
+                            filter(n -> n instanceof Control).
+                            map(n -> (Control) n).
+                            forEach(c -> c.skinProperty().addListener(this)); // *
+                }
+            }
+        });
+		
+	}
+
+
+	/**
      * Method for doing commands
      * @param textField
      */
-	private void checkForCommands(TextField textField) {
+	private boolean checkForCommands(TextField textField) {
 		String command = textField.getText();
 		if(command.equals("bestHand")){
 			 
-//			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player);
-//			 this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
-			
+			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
+			this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
+			return true;
 		}
 		else if(command.equals("log")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print logs--->
+			return true;
 		}
 		else if(command.equals("fuck off")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print playFuckOfClip--->
+			return true;
 		}
 		else if(command.equals("raiding party")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print raidingPartyClip--->
+			return true;
 		}
+		else
+			return false;
 	} 
 }

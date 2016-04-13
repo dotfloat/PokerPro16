@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 import org.gruppe2.ui.Resources;
 
 public class Statistics extends StackPane {
-	String name = "src/main/resources/testLogs/2016.103_21.17.txt";
+	String name = "src/main/resources/testLogs/2016.104_09.52.txt";
 	
 	@FXML private TextArea statistics;
 	@FXML private TextField changeLog;
