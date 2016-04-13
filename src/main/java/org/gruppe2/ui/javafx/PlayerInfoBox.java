@@ -1,6 +1,7 @@
 package org.gruppe2.ui.javafx;
 
 
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -24,8 +25,10 @@ public class PlayerInfoBox extends GridPane {
 
 	public PlayerInfoBox() {
 		Resources.loadFXML(this);
-		playerPicture.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
-		playerName.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
+		playerPicture.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.06));
+		playerName.fontProperty().bind(ChoiceBar.fontTracking);
+		stack.fontProperty().bind(ChoiceBar.fontTracking);
+		currentBet.fontProperty().bind(ChoiceBar.fontTracking);
 
 	}
 
@@ -38,14 +41,12 @@ public class PlayerInfoBox extends GridPane {
 	}
 
 	public void updateInfoBox() {
-        System.out.println(player);
 		if (player == null) {
             setVisible(false);
             return;
         }
-
         playerName.setText(player.getName());
-        stack.setText("CHIPS: " + player.getBank());
+        stack.setText("$"+player.getBank());
         currentBet.setText("BET: " + player.getBet());
         updatePicture();
     }

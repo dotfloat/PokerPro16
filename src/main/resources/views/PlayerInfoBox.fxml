@@ -5,20 +5,22 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="pane" style="-fx-background-color: black">
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="pane">
 
-    <ImageView fx:id="playerPicture" fitWidth="100" preserveRatio="true"
-               GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="3">
-                    <Image url="/images/avatars/default.png"/>
-    </ImageView>
+    <children>
+        <ImageView fx:id="playerPicture" preserveRatio="true"
+                   GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="3">
+            <Image url="/images/avatars/default.png"/>
+        </ImageView>
 
-    <Label fx:id="playerName" text="Name" minWidth="150"
-           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label fx:id="playerName" minWidth="100" maxWidth="250"
+               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-    <Label fx:id="stack" text="Stack"
-           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label fx:id="stack" minWidth="100" maxWidth="250"
+               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-    <Label fx:id="currentBet" text="Current bet"
-           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label fx:id="currentBet" minWidth="100" maxWidth="250"
+               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </children>
 
 </fx:root>
