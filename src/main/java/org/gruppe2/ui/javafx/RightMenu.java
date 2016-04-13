@@ -8,8 +8,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import org.gruppe2.game.GameBuilder;
-import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
 /**
