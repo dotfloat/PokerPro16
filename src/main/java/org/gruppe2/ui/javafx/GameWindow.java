@@ -76,9 +76,9 @@ public class GameWindow extends BorderPane {
 		if (numberOfPlayers > 5)
 			paintPlayerInfoBox(playerInfoBoxes.get(5), 0.6, 0.002);
 		if (numberOfPlayers > 2)
-			paintPlayerInfoBox(playerInfoBoxes.get(2), 0.13, 0.001);
+			paintPlayerInfoBox(playerInfoBoxes.get(2), 0.19, 0.001);
 		if (numberOfPlayers > 3)
-			paintPlayerInfoBox(playerInfoBoxes.get(3), 0.77, 0.001);
+			paintPlayerInfoBox(playerInfoBoxes.get(3), 0.69, 0.001);
 		if (numberOfPlayers > 6)
 			paintPlayerInfoBox(playerInfoBoxes.get(6), 0.05, 0.2);
 		if (numberOfPlayers > 7)
@@ -110,19 +110,23 @@ public class GameWindow extends BorderPane {
 	 * Test game for watching game
 	 */
 	private void testGame() {
-
-		addYourSelf();
-		gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
-				.startMoney(startValue).mainClient(guiPlayer).build();
-		System.out.println(gameSession.getPlayers().size());
-		choiceBar.setEvents(guiPlayer);
-		setUpPlayerBoxes();
-		((ChatBox) table.getChildren().get(2))
-		.setEventListeners((TextField) choiceBar.getChildren().get(0), gameSession.getPlayers().get(0));
-		// mainFrame.drawPot();
-
-		th = new Thread(() -> gameSession.mainLoop());
-		th.start();
+		if(PokerApplication.replayMode == false){
+			addYourSelf();
+			gameSession = new GameBuilder().ai(3).blinds(bigBlind, smallBlind)
+					.startMoney(startValue).mainClient(guiPlayer).build();
+			System.out.println(gameSession.getPlayers().size());
+			choiceBar.setEvents(guiPlayer);
+			setUpPlayerBoxes();
+			((ChatBox) table.getChildren().get(2))
+			.setEventListeners((TextField) choiceBar.getChildren().get(0), gameSession.getPlayers().get(0));
+			// mainFrame.drawPot();
+	
+			th = new Thread(() -> gameSession.mainLoop());
+			th.start();
+		}
+		else{
+			//---> Start replay
+		}
 	}
 
 	public void updateGameWindow(Player player) {
@@ -160,6 +164,5 @@ public class GameWindow extends BorderPane {
 		screenText.setLayoutX(width/2);
 		screenText.setLayoutY(height/2);
 		screenText.setAnimationGameWon(player);
-		
 	}
 }

@@ -23,6 +23,7 @@ public class PokerApplication extends Application {
 														// Will only change
 														// scenes
 	public static boolean inGame = false;
+	public static boolean replayMode = false;
 
 	/**
 	 * Controllers will need to get current root to change scenes
@@ -63,8 +64,9 @@ public class PokerApplication extends Application {
 	private void setStartScene(Stage stage) {
 		if (Main.isAutostart())
 			root.getChildren().add(new GameWindow());
-		else
+		else if(replayMode == false)
 			root.getChildren().add(new Intro());
+		
 
 		scene = new Scene(root, width, height);
 		scene.getStylesheets().add(

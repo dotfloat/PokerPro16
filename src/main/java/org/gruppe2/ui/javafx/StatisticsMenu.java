@@ -11,13 +11,14 @@ import javafx.scene.layout.StackPane;
 
 import org.gruppe2.ui.Resources;
 
-public class Statistics extends StackPane {
-	String name = "src/main/resources/testLogs/2016.104_09.52.txt";
+public class StatisticsMenu extends StackPane {
+	private String name = "src/main/resources/testLogs/2016.104_09.52.txt";
+	private String content;
 	
 	@FXML private TextArea statistics;
 	@FXML private TextField changeLog;
 	
-	public Statistics() {
+	public StatisticsMenu() {
 		Resources.loadFXML(this);
 		setStasticsTest(name);
 		changeLog.setVisible(false);
@@ -25,7 +26,7 @@ public class Statistics extends StackPane {
 
 	private void setStasticsTest(String changedName) {
 		name = changedName;
-		String content = "";
+		content = "";
 		
 		try {
 			content = new String(Files.readAllBytes(Paths.get(name)));
@@ -50,12 +51,34 @@ public class Statistics extends StackPane {
 	}	
 	public void replay(){
 		System.out.println("Replay STATS! PRONTO!");
+		PokerApplication.replayMode = true;
+		GameWindow gameWindow = new GameWindow();
+		SceneController.setScene(gameWindow);
+		
+		Thread th = new Thread(() -> SetUpReplay(gameWindow));
+		th.start();
+		
+		
 	}
+	
 	public void changeLogFile(){
 		if(!changeLog.getText().equals("") && !changeLog.getText().equals("Change Logg") ){
 			name = changeLog.getText();
 		}
 	}
-	
+	private void SetUpReplay(GameWindow gameWindow) {	
+		System.out.println(content);
+		String[] lines = content.split("\n");
+		System.out.println(lines.length);
+		lineReader(lines,gameWindow);
+	}
+
+	private void lineReader(String[] lines, GameWindow gameWindow) {
+		for(String line : lines){
+			if(line.contains("Big Blind: ")){
+//				gameWindow;
+			}
+		}
+	}
 	
 }
