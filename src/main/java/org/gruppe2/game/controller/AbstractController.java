@@ -19,6 +19,9 @@ public abstract class AbstractController<M extends Model>  implements Controller
             if (method.getAnnotation(SMessage.class) == null)
                 continue;
 
+            if (!method.getReturnType().equals(Void.TYPE))
+                throw new RuntimeException("Message " + method.getName() + ": messages can only return void");
+
             getSession().registerMessage(method.getName());
         }
     }
@@ -32,6 +35,21 @@ public abstract class AbstractController<M extends Model>  implements Controller
             List<Object[]> argsList = getSession().getMessages(method.getName());
 
             for (Object[] args : argsList) {
+
+                // TODO: Move type checking to SessionContext
+                if (args.length != method.getParameterCount()) {
+                    throw new RuntimeException("Message " + method.getName() + ": expected " + method.getParameterCount() + ", got " + args.length);
+                }
+
+                for (int i = 0; i < args.length; i++) {
+                    Class<?> expected = method.getParameterTypes()[i];
+                    Object actual = args[i];
+
+                    if (!expected.isInstance(actual)) {
+                        throw new RuntimeException("Message " + method.getName() + ", argument " + i + ": expected " + expected.getName() + ", got " + actual.getClass().getName());
+                    }
+                }
+
                 try {
                     method.invoke(this, args);
                 } catch (IllegalAccessException | InvocationTargetException e) {

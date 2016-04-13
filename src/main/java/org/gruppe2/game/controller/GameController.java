@@ -14,12 +14,7 @@ public class GameController extends AbstractController<GameModel> {
     }
 
     @SMessage
-    public void addPlayer(Object obj) {
-        if (!(obj instanceof PlayerModel))
-            return;
-
-        PlayerModel model = (PlayerModel) obj;
-
+    public void addPlayer(PlayerModel model) {
         System.out.println("Greetings from GameController on " + Thread.currentThread().getName());
 
         // Todo synchronize the entire model
