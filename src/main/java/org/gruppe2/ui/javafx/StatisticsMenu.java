@@ -3,12 +3,14 @@ package org.gruppe2.ui.javafx;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
+import org.gruppe2.game.old.Action;
 import org.gruppe2.ui.Resources;
 
 public class StatisticsMenu extends StackPane {
@@ -69,16 +71,95 @@ public class StatisticsMenu extends StackPane {
 	private void SetUpReplay(GameWindow gameWindow) {	
 		System.out.println(content);
 		String[] lines = content.split("\n");
-		System.out.println(lines.length);
+		
 		lineReader(lines,gameWindow);
 	}
 
+	@SuppressWarnings("static-access")
 	private void lineReader(String[] lines, GameWindow gameWindow) {
+		boolean valuesSet = false;
+		boolean playersSet = false;
+		
+		ArrayList<String> playerNames = new ArrayList<String>();
 		for(String line : lines){
-			if(line.contains("Big Blind: ")){
-//				gameWindow;
+			if(valuesSet){
+				if(!playersSet){
+					String[] words = line.split("\\s+");
+					String player = words[3];
+					
+					if(player.equals("New")){
+						playersSet = true;
+						getPlayerActions(playerNames, lines);
+					}
+					else if(!playerNames.contains(player)){
+						System.out.println("Added player");
+						playerNames.add(player);
+					}
+				}
+			}
+			if(!valuesSet){
+				if(line.contains("Small Blind: ")){
+					gameWindow.smallBlind = Integer.valueOf(line.substring(line.indexOf("Small")).replaceAll("\\D+",""));
+					System.out.println(gameWindow.smallBlind);
+				}
+				else if(line.contains("Big Blind: ")){
+					gameWindow.bigBlind = Integer.valueOf(line.substring(line.indexOf("Big")).replaceAll("\\D+",""));
+					System.out.println(gameWindow.bigBlind);
+				}
+				else if(line.contains("New Turn!  ")){
+					valuesSet = true;
+				} 
 			}
 		}
 	}
+
 	
+	
+	private void getPlayerActions(ArrayList<String> playerNames, String[] lines) {
+		ArrayList<Action> actions = new ArrayList<Action>();
+		for(String line : lines){
+			for(String player : playerNames){
+				if(line.contains(player)){
+					if(!line.contains("won the pot!")){
+						String[] words = line.split("\\s+");
+						String action;
+						if(words[5].equals(":")){
+							action = words[6];
+						}
+						else
+							action = words[5];
+						
+						System.out.println(action);
+						Action actionObject = setSpecificAction(action);
+						actions.add(actionObject);
+					}
+					break;
+				}
+			}
+			
+		}
+		playReplayGame(playerNames,actions,lines);
+	}
+
+	private Action setSpecificAction(String action) {
+		if(action.equals("Check"))
+			return new Action.Check();
+		else if(action.equals("Call"))
+			return new Action.Call();
+		else if(action.equals("Fold"))
+			return new Action.Fold();
+		else if(action.equals("Raise"))
+			return new Action.Fold();
+		else{
+			System.out.println("Error in log");
+			System.exit(1);
+			return null;
+		}
+			
+	}
+
+	private void playReplayGame(ArrayList<String> playerNames, ArrayList<Action> actions, String[] lines) {
+		// TODO Auto-generated method stub
+		
+	}
 }
