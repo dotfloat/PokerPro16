@@ -25,8 +25,7 @@ public class AIHandCalculator {
 		if (table==null)
 			return 0;
 		double handStrength=0;
-		//int numActivePlayers = player.getClient().getSession().numActivePlayers();
-		int numActivePlayers = 4;
+		int numActivePlayers = player.getClient().getSession().numActivePlayers();
 		List<Card> cardsToRemove = new ArrayList<Card>();
 		if (table.getCommunityCards()!=null)
 		cardsToRemove.addAll(table.getCommunityCards());
@@ -64,7 +63,7 @@ public class AIHandCalculator {
 			
 			
 			ArrayList<Player> newPlayers = new ArrayList<Player>();
-			for (int j = 0; j<4;j++){
+			for (int j = 0; j<numActivePlayers;j++){
 				Player p = new AIMockPlayer(j+"");
 				p.setCards(d.drawCard(), d.drawCard());
 				p.getClient().setSession(ms);
