@@ -59,6 +59,9 @@ public class GameSession {
 	 */
 	public void mainLoop() {
 		for (;;) {
+			startNewMatch();
+			if (activePlayers.size() <= 1)
+				break;
 			matchLoop();
 		}
 	}
@@ -71,13 +74,13 @@ public class GameSession {
 	}
 
 	private void matchLoop() {
-		startNewMatch();
 		Player winner = null;
 		logger = new Logger();
 		logger.record("New Game!");
 		logger.record("--Stakes--");
 		logger.record("Small Blind: " + getSmallBlindAmount());
 		logger.record("Big Blind: " + getBigBlindAmount());
+
 		doPlayerAction(new Action.PaySmallBlind(), getSmallBlindPlayer());
 		// notifyOtherPlayersAboutAction(smallBlindPayer, blind);
 
@@ -117,7 +120,7 @@ public class GameSession {
 		notifyPlayerVictory(winner);
 
 		notifyRoundEnd();
-		button = (button + 1) % players.size();
+		button = (button + 1) % activePlayers.size();
 	}
 
 	private void turnLoop() {
@@ -175,7 +178,9 @@ public class GameSession {
 
 	private void startNewMatch() {
 		activePlayers = new ArrayList<>();
-		activePlayers.addAll(players);
+		for (Player player : players)
+			if (player.getBank() >= smallBlindAmount)
+				activePlayers.add(player);
 		highestBet = 0;
 		table.newDeck();
 		for (Player p : activePlayers) {
@@ -283,7 +288,7 @@ public class GameSession {
 				moveChips(player, smallBlindAmount, player.getBank() - smallBlindAmount, smallBlindAmount);
 			}
 		} else {
-			throw new IllegalArgumentException(player.getName() + " can't do that action");
+			throw new IllegalArgumentException(player.getName() + " can't " + action + " , is active: " + activePlayers.contains(player));
 		}
 
 		if (player.getBet() > highestBet)
@@ -320,7 +325,7 @@ public class GameSession {
 		} else if (action instanceof Action.Call)
 			return pa.canCall();
 		else if (action instanceof Action.Fold || action instanceof Action.PayBigBlind
-				|| action instanceof Action.PaySmallBlind || action instanceof Action.AllIn)
+				|| action instanceof Action.PaySmallBlind || action instanceof Action.AllIn || action instanceof Action.Pass)
 			return true;
 		else
 			throw new IllegalArgumentException("Not an action");
@@ -357,19 +362,19 @@ public class GameSession {
 	}
 
 	public int getSmallBlindIdx() {
-		return (button + 1) % players.size();
+		return (button + 1) % activePlayers.size();
 	}
 
 	public int getBigBlindIdx() {
-		return (button + 2) % players.size();
+		return (button + 2) % activePlayers.size();
 	}
 
 	public Player getSmallBlindPlayer() {
-		return players.get(getSmallBlindIdx());
+		return activePlayers.get(getSmallBlindIdx());
 	}
 
 	public Player getBigBlindPlayer() {
-		return players.get(getBigBlindIdx());
+		return activePlayers.get(getBigBlindIdx());
 	}
 
 	public boolean playerHasFolded(Player player) {
