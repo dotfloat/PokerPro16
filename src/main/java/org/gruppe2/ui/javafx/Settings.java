@@ -15,6 +15,7 @@ public class Settings extends StackPane {
 	@FXML private TextField  big; 
 	@FXML private TextField  startValue;
 	@FXML private TextField  avatar;
+	@FXML private TextField  numberBots;
 	@FXML private Button botButton;
 	
 	public Settings() {
@@ -35,6 +36,8 @@ public class Settings extends StackPane {
 		setName();
 		setSmallBlind();
 		setBigBlind();
+		setAvatar();
+		numberOfBots();
 		SceneController.setScene(new MainMenu());
 	}
 
@@ -70,6 +73,13 @@ public class Settings extends StackPane {
 		if(avatar.getText().contains(".png")){
 			System.out.println("Not yet implemented");
 			//TODO
+		}
+				
+	}
+	public void numberOfBots(){
+		if(numberBots.getText().matches("[0-9]+") && numberBots.getText().length() > 0) {
+			PokerApplication.numberOfBots = Integer.valueOf(numberBots.getText());
+			
 		}
 				
 	}

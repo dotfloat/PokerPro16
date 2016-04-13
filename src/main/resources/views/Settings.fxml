@@ -20,6 +20,7 @@
 		<TextField fx:id="big" text="Set big Blind" onAction="#setBigBlind"/>
 		<TextField fx:id="startValue" text="Set start money amount" onAction="#setStartMoney"/>
 		<TextField fx:id="avatar" text="Set Avatar" onAction="#setAvatar"/>
+		<TextField fx:id="numberBots" text="Number of Bots" onAction="#numberOfBots"/>
 		<Button fx:id="botButton" onAction="#setBotDificulty" />
 		<Button text="OK" onAction="#ok"/>
 		<Button text="CANCEL" onAction="#cancel"/>		

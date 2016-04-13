@@ -29,6 +29,7 @@ public class PokerApplication extends Application {
 	public static int small = 25;
 	public static int big = 50;
 	public static int bank = 50;
+	public static int numberOfBots = 3;
 	
 
 	/**
