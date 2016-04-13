@@ -25,7 +25,10 @@ public class Settings extends StackPane {
 			botButton.setText("Bot is MIXED");
 		else
 			botButton.setText("Bot is HARD");
+		
 	}
+
+	
 
 	public void ok() {
 		SceneController.setScene(new MainMenu());
