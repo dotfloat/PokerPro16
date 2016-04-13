@@ -1,23 +1,22 @@
 package org.gruppe2.game.event;
 
 import org.gruppe2.game.Action;
-import org.gruppe2.game.Query;
 import org.gruppe2.game.model.PlayerModel;
 
-public class PlayerActionQuery implements Event {
+public class PlayerPostActionEvent implements Event {
     private final PlayerModel playerModel;
-    private final Query<Action> query;
+    private final Action action;
 
-    public PlayerActionQuery(PlayerModel playerModel, Query<Action> query) {
+    public PlayerPostActionEvent(PlayerModel playerModel, Action action) {
         this.playerModel = playerModel;
-        this.query = query;
+        this.action = action;
     }
 
     public PlayerModel getPlayerModel() {
         return playerModel;
     }
 
-    public Query<Action> getQuery() {
-        return query;
+    public Action getAction() {
+        return action;
     }
 }

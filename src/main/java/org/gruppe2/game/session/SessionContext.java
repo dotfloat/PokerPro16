@@ -74,7 +74,10 @@ public class SessionContext {
             getEventQueue().registerHandler(eventClass, (Event event) -> {
                 try {
                     method.invoke(object, event);
-                } catch (IllegalAccessException | InvocationTargetException e) {
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    System.out.println(e.getTargetException());
                     e.printStackTrace();
                 }
             });
