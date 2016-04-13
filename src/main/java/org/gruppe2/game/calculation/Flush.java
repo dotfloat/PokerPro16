@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class Flush implements HandCalculation{
 
     public static boolean canGetFlush(Collection<Card> communityCards, Player p){
-        if (communityCards.size() == 0)
+        if (communityCards == null || communityCards.size() == 0)
             return true;
 
         ArrayList<Card> allCards = new ArrayList<>(communityCards);

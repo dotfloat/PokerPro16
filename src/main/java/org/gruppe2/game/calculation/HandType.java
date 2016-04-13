@@ -4,7 +4,7 @@ package org.gruppe2.game.calculation;
  * Created by Mikal on 12.04.2016.
  */
 public enum HandType {
-    ROYALFLUSH, STRAIGHTFLUSH, FOUROFAKIND, FULLHOUSE, FLUSH, STRAIGHT, THREEOFAKIND, TWOPAIRS, PAIR;
+    ROYALFLUSH, STRAIGHTFLUSH, FOUROFAKIND, FULLHOUSE, FLUSH, STRAIGHT, THREEOFAKIND, TWOPAIRS, PAIR, HIGHCARD;
 
     @Override
     public String toString() {
