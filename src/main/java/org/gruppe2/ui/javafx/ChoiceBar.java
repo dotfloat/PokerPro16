@@ -125,6 +125,8 @@ public class ChoiceBar extends HBox {
      * This will become fxml
      */
     private void foldAction() {
+    	if(!client.yourTurn)
+        	return;
         client.setAction(new Action.Fold());
     }
 
@@ -133,7 +135,8 @@ public class ChoiceBar extends HBox {
      */
     private void betAction() {
         PossibleActions pa = client.getSession().getPlayerOptions(player);
-        
+        if(!client.yourTurn)
+        	return;
         if (pa.canRaise() && slider.getValue() > 1)
             raise(client, slider, player);
         else if (pa.canCheck())

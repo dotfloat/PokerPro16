@@ -16,7 +16,7 @@ import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
 public class StatisticsMenu extends StackPane {
-	private String name = "src/main/resources/testLogs/2016.104_09.52.txt";
+	private String name = "src/main/resources/testLogs/2016.104_18.25.txt";
 	private String content;
 	private boolean onlyGetStatistics = false;
 	
@@ -103,7 +103,7 @@ public class StatisticsMenu extends StackPane {
 					String[] words = line.split("\\s+");
 					String player = words[3];
 					
-					if(player.equals("New")){
+					if(playerNames.size() != 0 && player.equals(playerNames.get(0))){
 						playersSet = true;
 						getPlayerActions(playerNames, lines);
 					}
@@ -125,7 +125,7 @@ public class StatisticsMenu extends StackPane {
 					PokerApplication.big = Integer.valueOf(line.substring(line.indexOf("Big")).replaceAll("\\D+",""));
 					System.out.println(PokerApplication.big);
 				}
-				else if(line.contains("New Turn!  ")){
+				else if(line.contains("Betting Round:")){
 					valuesSet = true;
 				} 
 			}

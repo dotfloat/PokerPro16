@@ -22,6 +22,7 @@ public class GUIPlayer extends GameClient {
 	private volatile Action action = null;
 	GameWindow gameWindow;
 	CommunityCards communityCards;
+	static boolean yourTurn = false;
 
 	public GUIPlayer(GameWindow gameWindow) {
 		this.gameWindow = gameWindow;
@@ -38,6 +39,7 @@ public class GUIPlayer extends GameClient {
 
 	@Override
 	public Action onTurn(Player player) {
+		yourTurn = true;
 		activateAndDeactivatePlayers(player);
 		gameWindow.updateGameWindow(player);
 		Action action = null;
@@ -49,6 +51,7 @@ public class GUIPlayer extends GameClient {
 			}
 		}
 		setAction(null);
+		yourTurn = false;
 		return action;
 	}
 
