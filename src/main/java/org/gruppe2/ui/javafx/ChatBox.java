@@ -30,39 +30,47 @@ public class ChatBox extends TextArea {
     public void setEventListeners(TextField textField, Player player) {
     	this.player = player;
         textField.setOnAction(e -> { // Put text from textField to textArea
-            checkForCommands(textField);
         	if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
-            else {
-                this.setText(this.getText() + "\n" + player + ": " + textField.getText());
-                textField.setText("");
-                this.setScrollTop(Double.MAX_VALUE);
-            }
+        	
+        	else if(checkForCommands(textField));
+            
+        	else{
+	                this.setText(this.getText() + "\n" + player + ": " + textField.getText());
+	                this.setScrollTop(Double.MAX_VALUE);
+	            }
+        	textField.setText("");
         });
+        
     }
 
     /**
      * Method for doing commands
      * @param textField
      */
-	private void checkForCommands(TextField textField) {
+	private boolean checkForCommands(TextField textField) {
 		String command = textField.getText();
 		if(command.equals("bestHand")){
 			 
-//			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player);
-//			 this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
-			
+			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
+			this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
+			return true;
 		}
 		else if(command.equals("log")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print logs--->
+			return true;
 		}
 		else if(command.equals("fuck off")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print playFuckOfClip--->
+			return true;
 		}
 		else if(command.equals("raiding party")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print raidingPartyClip--->
+			return true;
 		}
+		else
+			return false;
 	} 
 }
