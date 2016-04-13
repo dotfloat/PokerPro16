@@ -26,15 +26,16 @@ public class RoyalFlush implements HandCalculation {
         return c.getFaceValue() >= 10 && c.getFaceValue() <= 14;
     }
 
-    private static void royalCardFilter(ArrayList<Card> cards){
+    private static ArrayList<Card> royalCardFilter(ArrayList<Card> cards){
+        ArrayList<Card> newList = new ArrayList<>();
         for (Card c : cards)
-            if (!cardIsRoyal(c))
-                cards.remove(c);
+            if (cardIsRoyal(c))
+                newList.add(c);
+        return newList;
     }
 
     private static int getHighestAmountOfRoyalCardsInSameSuit(Collection<Card> communityCards, Player p){
-        ArrayList<Card> allCards = GeneralCalculations.makeOneListOfCards(communityCards, p);
-        royalCardFilter(allCards);
+        ArrayList<Card> allCards = royalCardFilter(GeneralCalculations.makeOneListOfCards(communityCards, p));
 
         int highest = 0;
 
@@ -47,7 +48,7 @@ public class RoyalFlush implements HandCalculation {
         return highest;
     }
 
-    public double royalFlushProbability(Collection<Card> communityCards, Player p) {
+    public static double royalFlushProbability(Collection<Card> communityCards, Player p) {
         if (communityCards.size() == 5) {
             if (canGetRoyalFlush(communityCards, p))
                 return 1;
