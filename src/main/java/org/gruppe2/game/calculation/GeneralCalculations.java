@@ -12,6 +12,14 @@ import java.util.HashMap;
  */
 public class GeneralCalculations {
 
+    /**
+     * returns a collection of face values that appear several times in hands and on the board
+     *
+     * @param communityCards
+     * @param p
+     * @return
+     */
+
     public static ArrayList<Integer> recurringFaceValues(Collection<Card> communityCards, Player p) {
         ArrayList<Integer> recurringFaceValues = new ArrayList<Integer>();
 
@@ -45,7 +53,13 @@ public class GeneralCalculations {
     }
 
 
-
+    /**
+     * returns the amount of the face value that appears the most in hand and on the board
+     *
+     * @param communityCards
+     * @param p
+     * @return
+     */
     public static int amountOfSameFace(Collection<Card> communityCards, Player p){
         HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
         int amountOfSameKind = 1;

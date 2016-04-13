@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Åsmund on 12/04/2016.
+ * This class is for evaluations concerning Full House
  */
 public class FullHouse implements HandCalculation{
 

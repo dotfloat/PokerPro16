@@ -7,6 +7,7 @@ import java.util.Collection;
 
 /**
  * Created by Mikal on 12.04.2016.
+ * This class is for evaluations concerning straight flushes
  */
 public class StraightFlush implements HandCalculation{
 

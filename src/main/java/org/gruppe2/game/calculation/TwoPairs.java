@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by �smund on 12/04/2016.
+ * This class is for evaluations concerning Two Pairs
  */
 public class TwoPairs implements HandCalculation{
 
