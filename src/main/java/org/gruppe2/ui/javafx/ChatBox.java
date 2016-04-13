@@ -81,25 +81,31 @@ public class ChatBox extends TextArea {
      */
 	private boolean checkForCommands(TextField textField) {
 		String command = textField.getText().toLowerCase();
-		if(command.equals("besthand")){
+		if(command.equals("/besthand")){
 			 
 			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
 			this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);
 			return true;
 		}
-		else if(command.equals("log")){
+		else if(command.equals("/log")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print logs--->
 			return true;
 		}
-		else if(command.equals("fuck off")){
+		else if(command.equals("/fuckoff")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print playFuckOfClip--->
 			return true;
 		}
-		else if(command.equals("raiding party")){
+		else if(command.equals("/raidingparty")){
 			this.setText(this.getText() + "\n" + player + ": " + textField.getText()+"is epic");
 			//Print raidingPartyClip--->
+			return true;
+		}
+		else if(command.equals("/help")) {
+			this.setText(this.getText() + "\n" + "Available commands: " + "\n /besthand - shows best possible hand \n" +
+					"/log - shows gamelog \n" +
+					"/help - shows available commands");
 			return true;
 		}
 		else
