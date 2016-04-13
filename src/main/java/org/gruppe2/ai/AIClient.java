@@ -40,9 +40,11 @@ public class AIClient extends GameClient {
         double handStrength = AIHandCalculator.getHandStrength(player.getClient().getSession().getTable(),player);
 		double bank = player.getBank();
 		double toRaise = player.getClient().getSession().getHighestBet() - player.getBet();
+		if (toRaise>bank)
+			toRaise=bank;
 		double rateOfReturn = 0;
 		if (toRaise != 0 && bank!=0) {
-			rateOfReturn = handStrength / (toRaise / bank);
+			rateOfReturn = handStrength / Math.max(0.2, toRaise / bank);
 			
 		}
 		Action act = chooseAction(rateOfReturn,actions,bank,handStrength,player);
@@ -100,11 +102,13 @@ public class AIClient extends GameClient {
         int random = r.nextInt(100) + 1;
         
         if (rateOfReturn == 0) {
-            if (handStrength > 0.5) {
+            if (handStrength > 0.6) {
                 if (actions.canRaise()) {
                     return new Action.Raise(this.getSession().getBigBlindAmount());
                 } else if (actions.canCall())
                     return new Action.Call();
+                else if (actions.canAllIn())
+                	return new Action.AllIn();
             } else {
                 if (actions.canCheck())
                     return new Action.Check();
