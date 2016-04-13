@@ -7,16 +7,8 @@ public class PossibleActions {
     private boolean call;
     private boolean check;
     private boolean raise;
-
-    public boolean canAllIn() {
-        return allIn;
-    }
-
-    public void setAllIn() {
-        this.allIn = true;
-    }
-
     private boolean allIn;
+    private int callAmount;
     private int minRaise;
     private int maxRaise;
 
@@ -26,7 +18,8 @@ public class PossibleActions {
         raise = false;
     }
 
-    public void setCall() {
+    public void setCall(int callAmount) {
+        this.callAmount = callAmount;
         call = true;
     }
 
@@ -34,10 +27,18 @@ public class PossibleActions {
         check = true;
     }
 
+    public void setAllIn() {
+        this.allIn = true;
+    }
+
     public void setRaise(int minRaise, int maxRaise) {
         raise = true;
         this.minRaise = minRaise;
         this.maxRaise = maxRaise;
+    }
+
+    public boolean canAllIn() {
+        return allIn;
     }
 
     public boolean canCall() {
@@ -60,6 +61,10 @@ public class PossibleActions {
         return maxRaise;
     }
 
+    public int getCallAmount() {
+        return callAmount;
+    }
+
     @Override
     public String toString() {
         String options = "> (fold";
@@ -70,6 +75,8 @@ public class PossibleActions {
             options += ", check";
         if (raise)
             options += ", raise";
+        if (allIn)
+            options += ", all in";
 
         options += ")";
 
