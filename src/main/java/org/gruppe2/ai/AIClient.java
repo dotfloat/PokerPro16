@@ -44,17 +44,28 @@ public class AIClient extends GameClient {
         PossibleActions actions = getSession().getPlayerOptions(player);
         
         if (difficulty == Difficulty.ADVANCED){
-       
+        double bank = player.getBank();
+        if (bank==0){
+        	if (actions.canCheck())
+        		return new Action.Check();
+        	else
+        		return new Action.Pass();
+        }
         double handStrength = AIHandCalculator.getHandStrength(player.getClient().getSession().getTable(),player);
-		double bank = player.getBank();
+		
 		double toRaise = player.getClient().getSession().getHighestBet() - player.getBet();
-		if (toRaise>bank)
-			toRaise=bank;
-		double rateOfReturn = 0;
-		if (toRaise != 0 && bank!=0) {
-			rateOfReturn = handStrength / Math.max(0.2, toRaise / bank);
-			
+		double raiseRatio =1;
+		if (player.getBet()!=0){
+			raiseRatio=Math.max(toRaise/player.getBet(),0.5);
 		}
+		double risk = Math.max(Math.min(toRaise/bank,0.9),0.1);
+		double exponentialMax = 1.1;
+		double exponentialMin=1-(exponentialMax-1.0);
+		double handStrengthExponential = (1/(exponentialMax-handStrength))-exponentialMin;
+		double rateOfReturn = 0;
+			rateOfReturn = handStrengthExponential /risk;
+			rateOfReturn*=(1/raiseRatio);
+			
 		Action act = chooseAction(rateOfReturn,actions,bank,handStrength,player);
 		return act;
         } else if (difficulty == Difficulty.RANDOM){
@@ -109,7 +120,7 @@ public class AIClient extends GameClient {
         Random r = new Random();
         int random = r.nextInt(100) + 1;
         
-        if (rateOfReturn == 0) {
+        if (rateOfReturn < 0.1) {
             if (handStrength > 0.6) {
                 if (actions.canRaise()) {
                     return new Action.Raise(this.getSession().getBigBlindAmount());
@@ -125,7 +136,7 @@ public class AIClient extends GameClient {
         }
         
         
-        if (rateOfReturn < 0.8) {
+        if (rateOfReturn < 2.5) {
             if (actions.canCheck())
                 return new Action.Check();
             if (random > 95) {
@@ -137,7 +148,7 @@ public class AIClient extends GameClient {
                 return new Action.Fold();
             
             
-        } else if (rateOfReturn < 1) {
+        } else if (rateOfReturn < 6.5) {
             if (actions.canCheck()) {
                 return new Action.Check();
             }
@@ -153,7 +164,7 @@ public class AIClient extends GameClient {
             return new Action.Fold();
             
             
-        } else if (rateOfReturn <= 1.3) {
+        } else if (rateOfReturn <= 12) {
             if (random <= 60 && actions.canCall()) {
                 return new Action.Call();
             } else if (actions.canRaise() && actions.getMaxRaise() > this.getSession().getBigBlindAmount() * 3) {
@@ -161,7 +172,7 @@ public class AIClient extends GameClient {
             }
             
             
-        } else if (rateOfReturn > 1.3) {
+        } else if (rateOfReturn > 12) {
             if (random <= 30) {
                 if (actions.canCall())
                     return new Action.Call();
