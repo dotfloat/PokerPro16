@@ -2,80 +2,68 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.event.EventHandler;
-import org.gruppe2.game.model.Model;
 
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *
  */
-public class ConcurrentEventQueue {
-    private Map<Class<?>, List<EventMapEntry>> handlerMap = Collections.synchronizedMap(new HashMap<>());
-    private ConcurrentLinkedQueue<EventQueueEntry> queue = new ConcurrentLinkedQueue<>();
+class ConcurrentEventQueue {
+    private final ConcurrentLinkedQueue<Event> eventQueue = new ConcurrentLinkedQueue<>();
+
+    /* Adding handlers only happens on a single thread, so we don't care about thread safety here */
+    private final Map<Class<?>, List<EventHandler<Event>>> handlerMap = new HashMap<>();
 
     /**
      * Register a new EventHandler to handle certain events
      *
-     * @param klass The Class object of the event class. ex: PlayerJoinEvent.class
+     * @param klass The Class object of a class that implements Event. ex: PlayerJoinEvent.class
      * @param handler handler which will be called when the event occurs
-     * @param model model to handle the event for or null to handle for any model
      */
-    public void registerHandler(Class<?> klass, Model model, EventHandler<Event> handler) {
-        List<EventMapEntry> list = handlerMap.get(klass);
+    void registerHandler(Class<Event> klass, EventHandler<Event> handler) {
+        List<EventHandler<Event>> list = handlerMap.get(klass);
 
         if (list == null) {
             list = new ArrayList<>();
             handlerMap.put(klass, list);
         }
 
-        list.add(new EventMapEntry(model, handler));
-    }
-
-    public void registerHandler(Class<?> klass, EventHandler<Event> handler) {
-        registerHandler(klass, null, handler);
+        list.add(handler);
     }
 
     /**
-     * Add a new event to the queue
-     *
-     * This method should be thread safe
-     *
-     * @param klass The Class object of the event class. ex: PlayerJoinEvent.class
-     * @param event An event object
+     * Add an event to be processed later
+     * @param event event to be added
      */
-    public void addEvent(Model model, Event event) {
-        queue.add(new EventQueueEntry(event.getClass(), model, event));
-    }
-
-    public void addEvent(Event event) {
-        addEvent(null, event);
+    void addEvent(Event event) {
+        eventQueue.add(event);
     }
 
     /**
      * Iterate over new events and send them out to their respective handlers
      */
-    public void process() {
-        EventQueueEntry queueEntry;
+    void process() {
+        Event event;
 
-        while ((queueEntry = queue.poll()) != null) {
-            List<EventMapEntry> handlerList = handlerMap.get(queueEntry.getEventClass());
+        while ((event = eventQueue.poll()) != null) {
+            List<EventHandler<Event>> list = handlerMap.get(event.getClass());
 
-            if (handlerList == null)
+            if (list == null)
                 continue;
 
-            for (EventMapEntry handlerEntry : handlerList) {
-                if (handlerEntry.getModel() != null && !queueEntry.getModel().equals(handlerEntry.getModel()))
-                    continue;
-
-                handlerEntry.getHandler().handle(queueEntry.getEvent());
-            }
+            for (EventHandler<Event> handler : list)
+                handler.handle(event);
         }
     }
 
-    int numPending() {
-        return queue.size();
+    /**
+     * @return number of pending events
+     */
+    int size() {
+        return eventQueue.size();
     }
 }

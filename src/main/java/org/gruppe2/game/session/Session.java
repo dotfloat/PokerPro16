@@ -4,16 +4,67 @@ import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.model.Model;
 
+import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Session is PokerPro16's MVC framework for game logic. I couldn't come up with a better name, so whenever I use the
+ * word 'Session', I mean this entire system.
+ *
+ * As an MVC framework, every piece of game logic can be split into the following components:
+ * - Model for storing data
+ * - View for using processed data
+ * - Controller for processing data
+ *
+ * To communicate between controllers and views, Session uses events and messages.
+ *
+ * Events are sent by controllers, and can be captured by both controllers and views. An event can be sent to any number
+ * of event handlers, and from any controller. Events are implemented as distinct immutable classes that implement the
+ * {@link Event} interface. Each thread gets its own event queue that it can process at its own leisure.
+ *
+ * Messages are registered by controllers, and can be used by views and other controllers. Unlike events, only one
+ * message handler can exist. (ie. only one controller can implement 'addPlayer'.) Messages are used as a way for views
+ * to communicate with controllers.
+ *
+ * It is important to note that Session's controllers are designed to be self-sufficient. From the point of view of a
+ * single controller, all other controllers are indistinguishable from views,and can't (well, shouldn't) be
+ * accessed directly.
+ *
+ *
+ * +--| Session Thread |--+       +--| Thread 1 |--+             M: Messages
+ * |                      |       |                |             E: Events
+ * |  +-| Controller |-+  |       |  +-| View |-+  |
+ * |  |                |<-----M-----<|          |  |
+ * |  |                |  |       |  |          |  |
+ * |  |                |>-----E----->|          |  |
+ * |  +----------------|  |       |  +----------+  |
+ * |         ^  ^         |       |                |
+ * |         |  |         |       +----------------+
+ * |         M  E         |
+ * |         |  |         |       +--| Thread 2 |--+
+ * |         v  v         |       |                |
+ * |  +-| Controller |-+  |       |  +-| View |-+  |
+ * |  |                |<-----M-----<|          |  |
+ * |  |                |  |       |  |          |  |
+ * |  |                |>-----E----->|          |  |
+ * |  +----------------+  |       |  +----------+  |
+ * |                      |       |                |
+ * +----------------------+       +----------------+
+ *
+ *
+ * Every controller lives in the main Session thread, while views run in whichever thread they want. For this to work,
+ * we give each thread their own {@link SessionContext} object, with, among other things, an event queue.
+ *
+ */
 public abstract class Session implements Runnable {
-    private final MainEventQueue eventQueue = new MainEventQueue();
+    private final SessionEventQueue eventQueue = new SessionEventQueue();
 
-    private final Map<Class<? extends Model>, List<Model>> modelMap = Collections.synchronizedMap(new HashMap<>());
-    private final Map<Class<? extends Controller>, Controller> controllerMap = Collections.synchronizedMap(new HashMap<>());
-    private final Map<String, List<Object[]>> messageMap = Collections.synchronizedMap(new HashMap<>());
+    private final Map<Class<Model>, Model> modelMap = new ConcurrentHashMap<>();
+    private final Map<Class<Controller>, Controller> controllerMap = new ConcurrentHashMap();
+    private final Map<Method, List<Object[]>> messageMap = new ConcurrentHashMap();
 
-    private final SessionContext sessionContext = new SessionContext(this);
+    private final SessionContext context = new SessionContext(this);
 
     private volatile boolean ready = false;
 
@@ -36,7 +87,7 @@ public abstract class Session implements Runnable {
     public SessionContext start() {
         new Thread(this).start();
 
-        return new SessionContext(this);
+        return this.getContext().createContext();
     }
 
     @Override
@@ -68,7 +119,7 @@ public abstract class Session implements Runnable {
 
     public abstract void update();
 
-    MainEventQueue getEventQueue() {
+    SessionEventQueue getEventQueue() {
         return eventQueue;
     }
 
@@ -110,8 +161,8 @@ public abstract class Session implements Runnable {
 
     // TODO: Move these to a "GameController" or something
 
-    public SessionContext getSessionContext() {
-        return sessionContext;
+    public SessionContext getContext() {
+        return context;
     }
 
     public void registerMessage(String name) {

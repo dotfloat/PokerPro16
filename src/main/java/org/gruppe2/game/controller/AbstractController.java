@@ -25,7 +25,7 @@ public abstract class AbstractController  implements Controller {
             getSession().registerMessage(method.getName());
         }
 
-        session.getSessionContext().registerAnnotatedHandlers(this);
+        session.getContext().registerAnnotatedHandlers(this);
     }
 
     @Override
@@ -71,7 +71,7 @@ public abstract class AbstractController  implements Controller {
     }
 
     public SessionContext getContext() {
-        return session.getSessionContext();
+        return session.getContext();
     }
 
     void addEvent(Event event) {

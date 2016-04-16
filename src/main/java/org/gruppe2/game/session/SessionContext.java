@@ -6,10 +6,7 @@ import org.gruppe2.game.model.Model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SessionContext {
     private final Session session;
@@ -19,7 +16,7 @@ public class SessionContext {
     SessionContext(Session session) {
         this.session = session;
 
-        session.getEventQueue().registerQueue(eventQueue);
+        session.getEventQueue().addQueue(eventQueue);
     }
 
     public ConcurrentEventQueue getEventQueue() {
@@ -82,5 +79,13 @@ public class SessionContext {
                 }
             });
         }
+    }
+
+    /**
+     * Create a brand new context for use in new threads
+     * @return A
+     */
+    public SessionContext createContext() {
+        return new SessionContext(session);
     }
 }
