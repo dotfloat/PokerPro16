@@ -1,7 +1,6 @@
 package org.gruppe2.game.session;
 
 import org.gruppe2.game.event.Event;
-import org.gruppe2.game.model.Model;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

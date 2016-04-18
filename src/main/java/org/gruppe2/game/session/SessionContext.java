@@ -1,12 +1,14 @@
 package org.gruppe2.game.session;
 
 import org.gruppe2.game.Handler;
+import org.gruppe2.game.Helper;
+import org.gruppe2.game.Model;
 import org.gruppe2.game.event.Event;
-import org.gruppe2.game.model.Model;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 public class SessionContext {
     private final Session session;
@@ -23,24 +25,20 @@ public class SessionContext {
         return eventQueue;
     }
 
-    public <M extends Model> List<M> getModels(Class<M> klass) {
-        return session.getModels(klass);
-    }
-
-    public <M extends Model> M getModel(Class<M> klass) {
-        return session.getModel(klass);
-    }
-
-    public void addEvent(Model model, Event event) {
-        session.getEventQueue().addEvent(model, event);
+    public <M> M getModel(Class<M> klass) {
+        return (M) session.getModel(klass);
     }
 
     public void addEvent(Event event) {
         session.getEventQueue().addEvent(event);
     }
 
+    public void sendMessage(String name, Object... args) {
+        session.sendMessage(name, args);
+    }
+
     public void message(String name, Object... args) {
-        session.addMessage(name, args);
+        session.sendMessage(name, args);
     }
 
     public void waitReady() {
@@ -53,31 +51,69 @@ public class SessionContext {
         }
     }
 
-    public void registerAnnotatedHandlers(Object object) {
-        for (Method method : object.getClass().getDeclaredMethods()) {
-            if (method.getAnnotation(Handler.class) == null)
+    public void setAnnotated(Object obj) {
+        setAnnotatedModels(obj);
+        setAnnotatedHelpers(obj);
+        setAnnotatedHandlers(obj);
+    }
+
+    public void setAnnotatedModels(Object obj) {
+        for (Field f : obj.getClass().getDeclaredFields()) {
+            if (f.getAnnotation(Model.class) == null)
                 continue;
 
-            if (method.getParameterCount() != 1)
-                throw new RuntimeException("Handler " + method.getName() + " can only take one argument");
+            try {
+                Class<?> klass = f.getDeclaringClass();
+                Constructor<?> ctor = klass.getConstructor(SessionContext.class);
 
-            Class<?> eventClass = method.getParameterTypes()[0];
+                f.set(obj, ctor.newInstance(this));
+            } catch (NoSuchMethodException e) {
+                System.out.printf("Field %s: must be a model", f.getName());
+                e.printStackTrace();
+            } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setAnnotatedHelpers(Object obj) {
+        for (Field f : obj.getClass().getDeclaredFields()) {
+            if (f.getAnnotation(Helper.class) == null)
+                continue;
+
+            try {
+                Class<?> klass = f.getDeclaringClass();
+                Constructor<?> ctor = klass.getConstructor(SessionContext.class);
+
+                f.set(obj, ctor.newInstance(this));
+            } catch (NoSuchMethodException e) {
+                System.out.printf("Field %s: must be a helper", f.getName());
+                e.printStackTrace();
+            } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setAnnotatedHandlers(Object obj) {
+        for (Method m : obj.getClass().getDeclaredMethods()) {
+            if (m.getAnnotation(Handler.class) == null)
+                continue;
+
+            if (m.getParameterCount() != 1)
+                throw new RuntimeException("Handler " + m.getName() + " can only take one argument");
+
+            if (!m.getReturnType().isInstance(Void.TYPE))
+                throw new RuntimeException(String.format("Handler %s: must return void", m.getName()));
+
+            Class<?> eventClass = m.getParameterTypes()[0];
 
             if (eventClass.isInstance(Event.class))
-                throw new RuntimeException("Handler " + method.getName() + " must handle an Event");
+                throw new RuntimeException("Handler " + m.getName() + " must handle an Event");
 
-            method.setAccessible(true);
+            m.setAccessible(true);
 
-            getEventQueue().registerHandler(eventClass, (Event event) -> {
-                try {
-                    method.invoke(object, event);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    System.out.println(e.getTargetException());
-                    e.printStackTrace();
-                }
-            });
+            getEventQueue().registerHandler(eventClass, (Event event) -> m.invoke(obj, event));
         }
     }
 

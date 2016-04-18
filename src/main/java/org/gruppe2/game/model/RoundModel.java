@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RoundModel implements Model {
+public class RoundModel {
     private final List<RoundPlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
 
     private volatile boolean playing = false;

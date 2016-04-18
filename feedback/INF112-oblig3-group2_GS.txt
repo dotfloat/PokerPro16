@@ -27,7 +27,7 @@ card<->board relation)
 * minutes are generally good but could have a common format to keep track of things more easily (e.g. structure according to Doc, code with subtasks, general discussion, etc.)
 
 # presentation [5/5]
-* started with project vision (good idea!)
+* waitingForPlayers with project vision (good idea!)
 * Domain model - Players hand is just 2 cards, but the current score of 5 hypothetical cards could be displayed (in future iterations)
 * The game demonstration was good in general, but sometimes a bit fast (hard to follow)
 I think you discussed to intregate some sort of delay for the showdown and that is definitely a good idea!

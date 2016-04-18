@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class GameModel implements Model {
+public class GameModel {
     public enum BotPolicy { FILL }
 
     private final UUID uuid;
     private final int minPlayers;
     private final int maxPlayers;
-    private final List<UUID> players = Collections.synchronizedList(new ArrayList<>());
+    private final List<PlayerModel> players = Collections.synchronizedList(new ArrayList<>());
     private final BotPolicy botPolicy;
 
     private volatile int button = 0;
@@ -24,11 +24,11 @@ public class GameModel implements Model {
         this.botPolicy = botPolicy;
     }
 
-    public UUID getUuid() {
+    public UUID getUUID() {
         return uuid;
     }
 
-    public List<UUID> getPlayers() {
+    public List<PlayerModel> getPlayers() {
         return players;
     }
 

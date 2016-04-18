@@ -4,10 +4,7 @@ import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Handler;
 import org.gruppe2.game.event.*;
-import org.gruppe2.game.helper.PlayerHelper;
 import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.model.RoundModel;
-import org.gruppe2.game.model.RoundPlayerModel;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.session.SessionContext;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -17,7 +14,6 @@ import java.util.UUID;
 
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
-    private PlayerHelper playerHelper;
     private UUID playerUUID;
 
     public void init() {
@@ -32,11 +28,9 @@ public class ConsoleApplication implements Runnable {
         playerUUID = UUID.randomUUID();
 
         context = gameBuilder.start();
-        context.registerAnnotatedHandlers(this);
+        context.setAnnotatedHandlers(this);
         context.waitReady();
         context.message("addPlayer", playerUUID, "Zohar", "zohar");
-
-        playerHelper = new PlayerHelper(context);
     }
 
     @Override
