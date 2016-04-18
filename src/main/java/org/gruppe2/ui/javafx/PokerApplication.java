@@ -2,19 +2,17 @@
  * Setting up the stage, and default start scene
  * May implement alt start...
  */
-
 package org.gruppe2.ui.javafx;
-
-import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import org.gruppe2.Main;
 import org.gruppe2.game.old.GameBuilderAiDifficultyOptions;
+
+import java.util.ArrayList;
 
 public class PokerApplication extends Application {
 	private static int width;
