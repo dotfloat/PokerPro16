@@ -10,6 +10,7 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.game.session.Model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RoundController extends AbstractController {
@@ -19,8 +20,21 @@ public class RoundController extends AbstractController {
     @Helper
     private GameHelper game;
 
+    private LocalDateTime timeToStart = null;
+
     @Override
     public void update() {
+        if (round.isPlaying() && timeToStart != null) {
+            if (LocalDateTime.now().isAfter(timeToStart)) {
+                timeToStart = null;
+
+                addEvent(new RoundStartEvent());
+                resetRound();
+            } else {
+                return;
+            }
+        }
+
         if (round.isPlaying()) {
             // Go to next player and do shit
             addEvent(new PlayerActionQuery(game.findPlayerByUUID(round.getCurrentUUID()).get()));
@@ -30,9 +44,8 @@ public class RoundController extends AbstractController {
     @Message
     public boolean roundStart() {
         if (!round.isPlaying()) {
-            addEvent(new RoundStartEvent());
-            resetRound();
             round.setPlaying(true);
+            timeToStart = LocalDateTime.now().plusSeconds(5);
             return true;
         }
 
