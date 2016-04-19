@@ -6,8 +6,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import org.gruppe2.ui.javafx.PlayerInfoBox?>
-
 <fx:root type="BorderPane" xmlns:fx="http://javafx.com/fxml">
         <top>
                 <StackPane alignment="CENTER" style="-fx-padding: 30px,0,0,0">

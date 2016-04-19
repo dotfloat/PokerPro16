@@ -119,6 +119,7 @@ public class GameWindow extends BorderPane {
 	 * @param player
 	 */
 	public void displayRoundWon(Player player) {
+		if (player.getName().equals(PokerApplication.name)) table.getChildren().add(new ConfettiOrMoney(500, true));
 		ScreenText screenText = new ScreenText();
 		screenText.setAnimationRoundWon(player);
 		table.getChildren().add(screenText);
