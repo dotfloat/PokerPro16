@@ -1,10 +1,13 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.event.PlayerWonEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.model.RoundPlayerModel;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
+
+import java.util.List;
 
 public class RoundController extends AbstractController {
     @Helper
@@ -23,10 +26,23 @@ public class RoundController extends AbstractController {
     @Message
     public boolean roundStart() {
         if (!round.isPlaying()) {
+            resetRound();
             round.setPlaying(true);
             return true;
         }
 
         return false;
+    }
+
+    private void resetRound(){
+        List<RoundPlayerModel> active = round.getModel().getActivePlayers();
+        active.clear();
+
+        for (PlayerModel p: game.getPlayers())
+            if (p.getBank() > 0 )
+                active.add(new RoundPlayerModel(p.getUUID()));
+
+        round.getModel().setPot(0);
+        round.getModel().setCurrent(game.getButton());
     }
 }

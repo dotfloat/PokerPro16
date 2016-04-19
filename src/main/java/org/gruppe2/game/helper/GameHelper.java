@@ -16,6 +16,10 @@ public class GameHelper {
         model = context.getModel(GameModel.class);
     }
 
+    public int getButton() {
+        return model.getButton();
+    }
+
     public PlayerModel getButtonPlayer() {
         return model.getPlayers().get(model.getButton());
     }
