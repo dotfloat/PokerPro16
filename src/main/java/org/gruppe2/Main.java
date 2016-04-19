@@ -40,10 +40,12 @@ public class Main {
                     entryPoint = EntryPoint.CONSOLE;
                     break;
 
+                case "-a":
                 case "--autostart":
                     autostart = true;
                     break;
 
+                case "-nc":
                 case "--new-console":
                     entryPoint = EntryPoint.NEW_CONSOLE;
                     break;

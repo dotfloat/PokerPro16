@@ -6,6 +6,7 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.Action;
+import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
     private UUID playerUUID;
+    private Query<Action> action;
 
     private void init() {
         GameBuilder gameBuilder = new GameBuilder();
@@ -27,12 +29,13 @@ public class ConsoleApplication implements Runnable {
         }
 
         playerUUID = UUID.randomUUID();
+        action = new Query<>();
 
         context = gameBuilder.start();
         context.setAnnotated(this);
         context.waitReady();
 
-        if (context.message("addPlayer", playerUUID, "Zohar", "zohar").get()) {
+        if (context.message("addPlayer", playerUUID, "Zohar", "zohar", action).get()) {
             System.out.println("Successfully added the player");
         } else {
             System.out.println("Unsuccessfully");

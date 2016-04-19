@@ -1,6 +1,7 @@
 package org.gruppe2.ai;
 
 import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.session.Query;
 
 import java.util.Random;
 import java.util.UUID;
@@ -18,6 +19,6 @@ public class NewDumbAI {
     public static PlayerModel generateModel() {
         Random rand = new Random();
 
-        return new PlayerModel(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", true);
+        return new PlayerModel(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", new Query<>(), false);
     }
 }
