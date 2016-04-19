@@ -41,4 +41,8 @@ public class GameHelper {
                 .filter(predicate)
                 .findFirst();
     }
+
+    public GameModel getModel() {
+        return model;
+    }
 }

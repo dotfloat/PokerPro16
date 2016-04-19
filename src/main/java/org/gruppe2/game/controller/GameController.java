@@ -2,6 +2,7 @@ package org.gruppe2.game.controller;
 
 import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.game.Action;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.game.helper.GameHelper;
@@ -13,6 +14,9 @@ import java.util.UUID;
 public class GameController extends AbstractController {
     @Helper
     private GameHelper game;
+
+    @Helper
+    private RoundHelper round;
 
     @Message
     public void addBot() {
@@ -29,5 +33,10 @@ public class GameController extends AbstractController {
     }
 
     private void addPlayerModel(PlayerModel model) {
+        game.getModel().getPlayers().add(model);
+
+        if (game.canStart()) {
+            getContext().message("roundStart");
+        }
     }
 }
