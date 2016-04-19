@@ -1,14 +1,12 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.Handler;
-import org.gruppe2.game.Helper;
-import org.gruppe2.game.Model;
 import org.gruppe2.game.event.Event;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.concurrent.Future;
 
 public class SessionContext {
     private final Session session;
@@ -37,8 +35,8 @@ public class SessionContext {
         session.sendMessage(name, args);
     }
 
-    public void message(String name, Object... args) {
-        session.sendMessage(name, args);
+    public Future<Boolean> message(String name, Object... args) {
+        return session.sendMessage(name, args);
     }
 
     public void waitReady() {
@@ -82,12 +80,13 @@ public class SessionContext {
                 continue;
 
             try {
-                Class<?> klass = f.getDeclaringClass();
-                Constructor<?> ctor = klass.getConstructor(SessionContext.class);
+                Class<?> type = f.getType();
+                Constructor<?> ctor = type.getConstructor(SessionContext.class);
 
+                f.setAccessible(true);
                 f.set(obj, ctor.newInstance(this));
             } catch (NoSuchMethodException e) {
-                System.out.printf("Field %s: must be a helper", f.getName());
+                System.err.printf("Field %s in %s: must be a helper\n", f.getName(), obj.getClass().getSimpleName());
                 e.printStackTrace();
             } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
                 e.printStackTrace();
@@ -103,8 +102,8 @@ public class SessionContext {
             if (m.getParameterCount() != 1)
                 throw new RuntimeException("Handler " + m.getName() + " can only take one argument");
 
-            if (!m.getReturnType().isInstance(Void.TYPE))
-                throw new RuntimeException(String.format("Handler %s: must return void", m.getName()));
+            if (!m.getReturnType().equals(Void.TYPE))
+                throw new RuntimeException(String.format("Handler %s return type: expected void, got %s", m.getName(), m.getReturnType()));
 
             Class<?> eventClass = m.getParameterTypes()[0];
 
@@ -119,6 +118,7 @@ public class SessionContext {
 
     /**
      * Create a brand new context for use in new threads
+     *
      * @return A
      */
     public SessionContext createContext() {

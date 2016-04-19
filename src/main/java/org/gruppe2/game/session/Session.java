@@ -1,6 +1,5 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.Message;
 import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
 
@@ -10,7 +9,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Future;
-import java.util.function.IntFunction;
 
 /**
  * Session is PokerPro16's MVC framework for game logic. I couldn't come up with a better name, so whenever I use the
@@ -82,6 +80,7 @@ public abstract class Session implements Runnable {
     public static SessionContext start(Class<? extends Session> klass, Object... args) {
         Session session;
         Class<?>[] argTypes;
+        Thread thread;
 
         try {
             argTypes = (Class<?>[]) Arrays.stream(args).map(Object::getClass).toArray(Class[]::new);
@@ -92,7 +91,9 @@ public abstract class Session implements Runnable {
             return null;
         }
 
-        new Thread(session).start();
+        thread = new Thread(session);
+        thread.setName("Session");
+        thread.start();
 
         return session.getContext().createContext();
     }
@@ -152,7 +153,7 @@ public abstract class Session implements Runnable {
     }
 
     void addController(Class<? extends Controller> klass) {
-        if (!isReady())
+        if (isReady())
             throw new RuntimeException("Can't add controller after session has started");
 
         Controller controller;
@@ -165,7 +166,7 @@ public abstract class Session implements Runnable {
             return;
         }
 
-        addAnnotatedMessages(controller);
+        setAnnotatedMessages(controller);
         getContext().setAnnotated(controller);
 
         controllerList.add(controller);
@@ -190,7 +191,7 @@ public abstract class Session implements Runnable {
      * Add all @Message-annotated methods to the list of messages
      * @param object An Object that might have methods with @Message
      */
-    void addAnnotatedMessages(Object object) {
+    private void setAnnotatedMessages(Object object) {
         MessageHandler handler;
 
         for (Method m : object.getClass().getDeclaredMethods()) {

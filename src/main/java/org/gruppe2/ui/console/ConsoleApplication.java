@@ -2,7 +2,7 @@ package org.gruppe2.ui.console;
 
 import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
-import org.gruppe2.game.Handler;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.Action;
@@ -11,12 +11,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
     private UUID playerUUID;
 
-    public void init() {
+    private void init() {
         GameBuilder gameBuilder = new GameBuilder();
 
         System.out.println("Welcome to PokerPro16 Console Edition");
@@ -28,9 +29,18 @@ public class ConsoleApplication implements Runnable {
         playerUUID = UUID.randomUUID();
 
         context = gameBuilder.start();
-        context.setAnnotatedHandlers(this);
+        context.setAnnotated(this);
         context.waitReady();
-        context.message("addPlayer", playerUUID, "Zohar", "zohar");
+
+        try {
+            if (context.message("addPlayer", playerUUID, "Zohar", "zohar").get()) {
+                System.out.println("Successfully added the player");
+            } else {
+                System.out.println("Unsuccessfully");
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class GameSession extends Session {
     private final List<PlayerController> players = Collections.synchronizedList(new ArrayList<>());
 
-    public GameSession(int minPlayers, int maxPlayers, GameModel.BotPolicy botPolicy) {
+    public GameSession(Integer minPlayers, Integer maxPlayers, GameModel.BotPolicy botPolicy) {
         addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, botPolicy));
         addModel(new RoundModel());
     }
