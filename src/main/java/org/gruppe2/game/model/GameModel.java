@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class GameModel {
+    public BotPolicy getBotPolicy() {
+        return botPolicy;
+    }
+
     public enum BotPolicy { FILL }
 
     private final UUID uuid;

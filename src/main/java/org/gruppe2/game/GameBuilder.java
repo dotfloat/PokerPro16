@@ -7,7 +7,7 @@ import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
 
 public class GameBuilder {
-    private int min = 0;
+    private int min = 2;
     private int max = 10;
     private Class<PlayerController> playerController = null;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
