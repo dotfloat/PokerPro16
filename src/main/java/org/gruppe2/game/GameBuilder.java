@@ -9,12 +9,19 @@ import org.gruppe2.game.session.SessionContext;
 public class GameBuilder {
     private int min = 2;
     private int max = 10;
+    private int buyIn = 100;
     private Class<PlayerController> playerController = null;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
 
     public GameBuilder playerRange(int min, int max) {
         this.min = min;
         this.max = max;
+
+        return this;
+    }
+
+    public GameBuilder buyIn(int buyIn) {
+        this.buyIn = buyIn;
 
         return this;
     }
@@ -26,6 +33,6 @@ public class GameBuilder {
     }
 
     public SessionContext start() {
-        return Session.start(HostSession.class, min, max, botPolicy);
+        return Session.start(HostSession.class, min, max, buyIn, botPolicy);
     }
 }

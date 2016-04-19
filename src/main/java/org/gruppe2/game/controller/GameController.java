@@ -54,6 +54,8 @@ public class GameController extends AbstractController {
             getContext().message("roundStart");
         }
 
+        model.setBank(game.getBuyIn());
+
         addEvent(new PlayerJoinEvent(model));
 
         return true;

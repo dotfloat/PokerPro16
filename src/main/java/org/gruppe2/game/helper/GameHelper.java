@@ -49,4 +49,8 @@ public class GameHelper {
     public GameModel getModel() {
         return model;
     }
+
+    public int getBuyIn() {
+        return model.getBuyIn();
+    }
 }

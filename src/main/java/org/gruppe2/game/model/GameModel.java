@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class GameModel {
-    public BotPolicy getBotPolicy() {
-        return botPolicy;
-    }
 
     public enum BotPolicy { FILL }
 
@@ -16,15 +13,17 @@ public class GameModel {
     private final int minPlayers;
     private final int maxPlayers;
     private final List<PlayerModel> players = Collections.synchronizedList(new ArrayList<>());
+    private final int buyIn;
     private final BotPolicy botPolicy;
 
     private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
 
-    public GameModel(UUID uuid, int minPlayers, int maxPlayers, BotPolicy botPolicy) {
+    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy) {
         this.uuid = uuid;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
+        this.buyIn = buyIn;
         this.botPolicy = botPolicy;
     }
 
@@ -58,5 +57,13 @@ public class GameModel {
 
     public void setButton(int button) {
         this.button = button;
+    }
+
+    public BotPolicy getBotPolicy() {
+        return botPolicy;
+    }
+
+    public int getBuyIn() {
+        return buyIn;
     }
 }
