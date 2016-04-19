@@ -3,6 +3,7 @@ package org.gruppe2.game.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class RoundModel {
     private final List<RoundPlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
@@ -37,5 +38,9 @@ public class RoundModel {
 
     public void setCurrent(int current) {
         this.current = current;
+    }
+
+    public UUID getCurrentUUID() {
+        return activePlayers.get(current).getUUID();
     }
 }

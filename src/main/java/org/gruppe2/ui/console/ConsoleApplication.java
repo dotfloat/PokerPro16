@@ -78,19 +78,19 @@ public class ConsoleApplication implements Runnable {
 
         switch (cmd) {
             case "fold":
-                query.getQuery().set(new Action.Fold());
+                query.getPlayerModel().getAction().set(new Action.Fold());
                 break;
 
             case "check":
-                query.getQuery().set(new Action.Check());
+                query.getPlayerModel().getAction().set(new Action.Check());
                 break;
 
             case "call":
-                query.getQuery().set(new Action.Call());
+                query.getPlayerModel().getAction().set(new Action.Call());
                 break;
 
             case "raise":
-                query.getQuery().set(new Action.Raise(ls.nextInt()));
+                query.getPlayerModel().getAction().set(new Action.Raise(ls.nextInt()));
                 break;
 
             default:

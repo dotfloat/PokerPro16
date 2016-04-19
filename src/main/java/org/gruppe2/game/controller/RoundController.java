@@ -1,7 +1,8 @@
 package org.gruppe2.game.controller;
 
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
-import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.model.RoundPlayerModel;
@@ -22,12 +23,14 @@ public class RoundController extends AbstractController {
     public void update() {
         if (round.isPlaying()) {
             // Go to next player and do shit
+            addEvent(new PlayerActionQuery(game.findPlayerByUUID(round.getCurrentUUID()).get()));
         }
     }
 
     @Message
     public boolean roundStart() {
         if (!round.isPlaying()) {
+            addEvent(new RoundStartEvent());
             resetRound();
             round.setPlaying(true);
             return true;
