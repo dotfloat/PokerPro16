@@ -5,7 +5,7 @@ class MessageEntry {
     private final Object[] args;
     private final Query<Boolean> returnVal;
 
-    public MessageEntry(String name, Object[] args) {
+    MessageEntry(String name, Object[] args) {
         this.name = name;
         this.args = args;
         returnVal = new Query<>();
@@ -15,11 +15,11 @@ class MessageEntry {
         return name;
     }
 
-    public Object[] getArgs() {
+    Object[] getArgs() {
         return args;
     }
 
-    public Query<Boolean> getReturnVal() {
+    Query<Boolean> getReturnVal() {
         return returnVal;
     }
 }

@@ -12,10 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class GameSession extends Session {
+public class HostSession extends Session {
     private final List<PlayerController> players = Collections.synchronizedList(new ArrayList<>());
 
-    public GameSession(Integer minPlayers, Integer maxPlayers, GameModel.BotPolicy botPolicy) {
+    public HostSession(Integer minPlayers, Integer maxPlayers, GameModel.BotPolicy botPolicy) {
         addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, botPolicy));
         addModel(new RoundModel());
     }

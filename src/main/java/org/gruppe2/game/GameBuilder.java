@@ -2,7 +2,7 @@ package org.gruppe2.game;
 
 import org.gruppe2.game.controller.PlayerController;
 import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.session.GameSession;
+import org.gruppe2.game.session.HostSession;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
 
@@ -26,6 +26,6 @@ public class GameBuilder {
     }
 
     public SessionContext start() {
-        return Session.start(GameSession.class, min, max, botPolicy);
+        return Session.start(HostSession.class, min, max, botPolicy);
     }
 }
