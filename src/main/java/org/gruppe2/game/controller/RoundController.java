@@ -1,6 +1,8 @@
 package org.gruppe2.game.controller;
 
+import org.gruppe2.game.Action;
 import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.model.PlayerModel;
@@ -21,6 +23,7 @@ public class RoundController extends AbstractController {
     private GameHelper game;
 
     private LocalDateTime timeToStart = null;
+    private PlayerModel player = null;
 
     @Override
     public void update() {
@@ -37,7 +40,17 @@ public class RoundController extends AbstractController {
 
         if (round.isPlaying()) {
             // Go to next player and do shit
-            addEvent(new PlayerActionQuery(game.findPlayerByUUID(round.getCurrentUUID()).get()));
+            if (player == null) {
+                round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
+                player = game.findPlayerByUUID(round.getCurrentUUID()).get();
+                addEvent(new PlayerActionQuery(player));
+            }
+            if (player.getAction().isDone()) {
+                handleAction(player);
+                player.getAction().reset();
+                player = null;
+            }
+            System.out.println(player.getName());
         }
     }
 
@@ -62,5 +75,15 @@ public class RoundController extends AbstractController {
 
         round.setPot(0);
         round.setCurrent(game.getButton());
+    }
+
+    private void handleAction (PlayerModel player){
+        Action action = player.getAction().get();
+        if (action instanceof Action.Fold)
+            round.getActivePlayers().remove(round.getCurrent());
+        if (action instanceof Action.Call)
+
+
+        addEvent(new PlayerPostActionEvent(player, action));
     }
 }
