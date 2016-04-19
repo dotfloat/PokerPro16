@@ -62,13 +62,10 @@ public class SessionContext {
 
             try {
                 Class<?> klass = f.getDeclaringClass();
-                Constructor<?> ctor = klass.getConstructor(SessionContext.class);
 
-                f.set(obj, ctor.newInstance(this));
-            } catch (NoSuchMethodException e) {
-                System.out.printf("Field %s: must be a model", f.getName());
-                e.printStackTrace();
-            } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                f.setAccessible(true);
+                f.set(obj, getModel(f.getType()));
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

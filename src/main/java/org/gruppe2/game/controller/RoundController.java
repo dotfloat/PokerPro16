@@ -3,15 +3,17 @@ package org.gruppe2.game.controller;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.model.RoundPlayerModel;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
+import org.gruppe2.game.session.Model;
 
 import java.util.List;
 
 public class RoundController extends AbstractController {
-    @Helper
-    private RoundHelper round;
+    @Model
+    private RoundModel round;
 
     @Helper
     private GameHelper game;
@@ -35,14 +37,14 @@ public class RoundController extends AbstractController {
     }
 
     private void resetRound(){
-        List<RoundPlayerModel> active = round.getModel().getActivePlayers();
+        List<RoundPlayerModel> active = round.getActivePlayers();
         active.clear();
 
         for (PlayerModel p: game.getPlayers())
             if (p.getBank() > 0 )
                 active.add(new RoundPlayerModel(p.getUUID()));
 
-        round.getModel().setPot(0);
-        round.getModel().setCurrent(game.getButton());
+        round.setPot(0);
+        round.setCurrent(game.getButton());
     }
 }
