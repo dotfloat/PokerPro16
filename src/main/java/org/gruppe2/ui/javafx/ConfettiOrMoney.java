@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Created by Petter on 18/04/2016. This class creates falling confetti! Oh joy.
+ * Created by Petter on 18/04/2016. This class creates falling confetti or money! Oh joy.
  */
 public class ConfettiOrMoney extends Pane {
 
@@ -58,11 +58,12 @@ public class ConfettiOrMoney extends Pane {
         double startX = Math.random() * 2000;
         double startY = -Math.random() * PokerApplication.getHeight();
         Path path = new Path(new MoveTo(startX, startY), new LineTo(startX, PokerApplication.getHeight()*2));
-        PathTransition pathTransition = new PathTransition(Duration.millis(Math.random() * 5000 + 2000), path, node);
+        PathTransition pathTransition = new PathTransition(Duration.millis(Math.random() * 8000 + 5000), path, node);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setInterpolator(Interpolator.EASE_IN);
         if (node instanceof Rectangle) {
             pathTransition.setCycleCount(1);
-            pathTransition.setOnFinished(finishHim -> {
+            pathTransition.setOnFinished(removeFromRoot -> {
                 getChildren().remove(node);
             });
         } else pathTransition.setCycleCount(Timeline.INDEFINITE);
