@@ -3,12 +3,12 @@ package org.gruppe2.game.session;
 class MessageEntry {
     private final String name;
     private final Object[] args;
-    private final SimpleFuture<Boolean> returnVal;
+    private final Query<Boolean> returnVal;
 
     public MessageEntry(String name, Object[] args) {
         this.name = name;
         this.args = args;
-        returnVal = new SimpleFuture<>();
+        returnVal = new Query<>();
     }
 
     public String getName() {
@@ -19,7 +19,7 @@ class MessageEntry {
         return args;
     }
 
-    public SimpleFuture<Boolean> getReturnVal() {
+    public Query<Boolean> getReturnVal() {
         return returnVal;
     }
 }

@@ -243,7 +243,7 @@ public abstract class Session implements Runnable {
      * @param args message arguments
      * @return a future of the return value
      */
-    Future<Boolean> sendMessage(String name, Object... args) {
+    Query<Boolean> sendMessage(String name, Object... args) {
         MessageEntry entry = new MessageEntry(name, args);
 
         messageQueue.add(entry);

@@ -31,11 +31,11 @@ public class SessionContext {
         session.getEventQueue().addEvent(event);
     }
 
-    public void sendMessage(String name, Object... args) {
-        session.sendMessage(name, args);
+    public Query<Boolean> sendMessage(String name, Object... args) {
+        return session.sendMessage(name, args);
     }
 
-    public Future<Boolean> message(String name, Object... args) {
+    public Query<Boolean> message(String name, Object... args) {
         return session.sendMessage(name, args);
     }
 

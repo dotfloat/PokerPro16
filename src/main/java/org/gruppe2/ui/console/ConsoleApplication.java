@@ -32,14 +32,10 @@ public class ConsoleApplication implements Runnable {
         context.setAnnotated(this);
         context.waitReady();
 
-        try {
-            if (context.message("addPlayer", playerUUID, "Zohar", "zohar").get()) {
-                System.out.println("Successfully added the player");
-            } else {
-                System.out.println("Unsuccessfully");
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        if (context.message("addPlayer", playerUUID, "Zohar", "zohar").get()) {
+            System.out.println("Successfully added the player");
+        } else {
+            System.out.println("Unsuccessfully");
         }
     }
 
@@ -136,8 +132,8 @@ public class ConsoleApplication implements Runnable {
     }
 
     @Handler
-    void onPlayerWon(PlayerWonEvent event){
-        System.out.println("Player " + event.getPlayerModel().getName()+" has won!");
+    void onPlayerWon(PlayerWonEvent event) {
+        System.out.println("Player " + event.getPlayerModel().getName() + " has won!");
     }
 
     public SessionContext getContext() {
