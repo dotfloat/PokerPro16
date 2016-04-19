@@ -17,4 +17,8 @@ public class RoundHelper {
     public void setPlaying(boolean playing) {
         model.setPlaying(playing);
     }
+
+    public RoundModel getModel() {
+        return model;
+    }
 }
