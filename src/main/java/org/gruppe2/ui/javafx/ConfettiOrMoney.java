@@ -55,9 +55,9 @@ public class ConfettiOrMoney extends Pane {
     }
 
     private void fallingAnimation(Node node) {
-        double startX = Math.random() * PokerApplication.getWidth();
+        double startX = Math.random() * 2000;
         double startY = -Math.random() * PokerApplication.getHeight();
-        Path path = new Path(new MoveTo(startX, startY), new LineTo(startX, PokerApplication.getHeight()));
+        Path path = new Path(new MoveTo(startX, startY), new LineTo(startX, PokerApplication.getHeight()*2));
         PathTransition pathTransition = new PathTransition(Duration.millis(Math.random() * 5000 + 2000), path, node);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         if (node instanceof Rectangle) {
