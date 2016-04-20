@@ -14,6 +14,7 @@ import org.gruppe2.game.session.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class RoundController extends AbstractController {
     @Model
@@ -50,7 +51,12 @@ public class RoundController extends AbstractController {
                 player.getAction().reset();
                 player = null;
             }
-            System.out.println(player.getName());
+            else if (player.isBot()) { //Make bots do something
+                player.getAction().set(new Action.Call());
+                handleAction(player);
+                player.getAction().reset();
+                player = null;
+            }
         }
     }
 
@@ -74,16 +80,25 @@ public class RoundController extends AbstractController {
                 active.add(new RoundPlayerModel(p.getUUID()));
 
         round.setPot(0);
+        round.setHighestBet(0);
         round.setCurrent(game.getButton());
     }
 
     private void handleAction (PlayerModel player){
         Action action = player.getAction().get();
+        if (!legalAction(player, action))
+            throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
+
+        System.out.println(action);
         if (action instanceof Action.Fold)
             round.getActivePlayers().remove(round.getCurrent());
         if (action instanceof Action.Call)
-
+            //Do stuff
 
         addEvent(new PlayerPostActionEvent(player, action));
+    }
+
+    private boolean legalAction(PlayerModel player, Action action) {
+        return true;
     }
 }

@@ -11,6 +11,7 @@ public class RoundModel {
     private volatile boolean playing = false;
     private volatile int current = 0;
     private volatile int pot = 0;
+    private volatile int highestBet = 0;
 
     public List<RoundPlayerModel> getActivePlayers() {
         return activePlayers;
@@ -42,5 +43,13 @@ public class RoundModel {
 
     public UUID getCurrentUUID() {
         return activePlayers.get(current).getUUID();
+    }
+
+    public int getHighestBet() {
+        return highestBet;
+    }
+
+    public void setHighestBet(int highestBet) {
+        this.highestBet = highestBet;
     }
 }
