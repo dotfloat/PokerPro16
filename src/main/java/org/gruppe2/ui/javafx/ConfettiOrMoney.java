@@ -57,7 +57,7 @@ public class ConfettiOrMoney extends Pane {
     private void fallingAnimation(Node node) {
         double startX = Math.random() * 2000;
         double startY = -Math.random() * PokerApplication.getHeight();
-        Path path = new Path(new MoveTo(startX, startY), new LineTo(startX, PokerApplication.getHeight()*2));
+        Path path = new Path(new MoveTo(startX, startY), new LineTo(Math.random()*2000, PokerApplication.getHeight()*2));
         PathTransition pathTransition = new PathTransition(Duration.millis(Math.random() * 8000 + 5000), path, node);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setInterpolator(Interpolator.EASE_IN);

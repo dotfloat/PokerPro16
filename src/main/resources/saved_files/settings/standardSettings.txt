@@ -3,4 +3,4 @@ Me Player
 50
 100
 src/main/resources/images/avatars/default.png
-5
+7

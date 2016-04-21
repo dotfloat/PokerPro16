@@ -159,7 +159,9 @@ public class GameWindow extends BorderPane {
 	public void setUpPlayerBoxes() {
 
 		for (Player player : gameSession.getPlayers()) {
-			
+			if (player.getName().equals(guiPlayer.getName())) {
+				continue;
+			}
 			PlayerInfoBox playerInfoBox = new PlayerInfoBox();
 			playerInfoBoxes.add(playerInfoBox);
 			playerInfoBox.setValues(player);

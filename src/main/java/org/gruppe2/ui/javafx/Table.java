@@ -16,6 +16,7 @@ public class Table extends StackPane {
 	@FXML private ImageView pokerTable;
 	@FXML private VBox tableItemsBox;
 	@FXML public ChatBox chatBox;
+	@FXML private ThisPlayerInfoBox thisPlayer;
 	@FXML private RightMenu rightMenu;
 	@FXML public CommunityCards communityCardsBox;
 	@FXML private Pot pot;
@@ -29,6 +30,7 @@ public class Table extends StackPane {
 				PokerApplication.getRoot().widthProperty().multiply(0.6));
 		this.setAlignment(rightMenu, Pos.TOP_RIGHT);
 		this.setAlignment(chatBox, Pos.BOTTOM_LEFT);
+		this.setAlignment(thisPlayer, Pos.BOTTOM_CENTER);
 		sizeTableBox();
 		//when pot gets updates, remove the line below
 		pot.visibleProperty().setValue(false);
