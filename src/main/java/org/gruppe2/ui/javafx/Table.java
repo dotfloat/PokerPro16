@@ -18,6 +18,7 @@ public class Table extends StackPane {
 	@FXML public ChatBox chatBox;
 	@FXML private ThisPlayerInfoBox thisPlayer;
 	@FXML private RightMenu rightMenu;
+	@FXML private HelperMenu helperMenu;
 	@FXML public CommunityCards communityCardsBox;
 	@FXML private Pot pot;
 	@FXML private Label nothing;
@@ -31,6 +32,7 @@ public class Table extends StackPane {
 		this.setAlignment(rightMenu, Pos.TOP_RIGHT);
 		this.setAlignment(chatBox, Pos.BOTTOM_LEFT);
 		this.setAlignment(thisPlayer, Pos.BOTTOM_CENTER);
+		this.setAlignment(helperMenu, Pos.TOP_LEFT);
 		sizeTableBox();
 		//when pot gets updates, remove the line below
 		pot.visibleProperty().setValue(false);

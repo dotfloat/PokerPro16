@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 <?import org.gruppe2.ui.javafx.ThisPlayerInfoBox?>
+<?import org.gruppe2.ui.javafx.HelperMenu?>
 <fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml">
     <ImageView fx:id="pokerTable" preserveRatio="true"
                style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 50, 0.3, 10, 10)">
@@ -23,6 +24,7 @@
     </VBox>
     <ChatBox fx:id="chatBox"/>
     <RightMenu fx:id="rightMenu" alignment="TOP_RIGHT"/>
+    <HelperMenu fx:id="helperMenu" alignment="TOP_LEFT"/>
     <ThisPlayerInfoBox fx:id="thisPlayer"/>
 
 </fx:root>

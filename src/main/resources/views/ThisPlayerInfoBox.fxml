@@ -10,8 +10,8 @@
             <Image url="/images/avatars/player.png"/>
         </ImageView>
     <VBox>
-        <Label text="Bet: 0$" fx:id="playerBet" alignment="CENTER"/>
-        <Label text="0$" fx:id="stack" alignment="CENTER"/>
+        <Label text="Bet: $0" fx:id="playerBet" alignment="CENTER"/>
+        <Label text=" $0" fx:id="stack" alignment="CENTER"/>
     </VBox>
 
 </fx:root>
