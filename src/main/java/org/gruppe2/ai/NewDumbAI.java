@@ -9,7 +9,7 @@ import org.gruppe2.game.session.Query;
 import java.util.Random;
 import java.util.UUID;
 
-public class NewDumbAI {
+public class NewDumbAI implements AI{
     private static final String[] names = { "Alpha", "Bravo", "Charlie", "Delta", "Echo",
                                             "Foxtrot", "Golf", "Hotel", "India", "Juliet",
                                             "Kilo", "Lima", "Mike", "November", "Oscar",
@@ -25,13 +25,11 @@ public class NewDumbAI {
         return new PlayerModel(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", new Query<>(), true);
     }
 
-    @Handler
-    public void onAction(PlayerActionQuery query) {
-        System.out.println("asd");
-        PlayerModel p = query.getPlayerModel();
-        if (!p.isBot())
+    @Override
+    public void doAction(PlayerModel model) {
+        if (!model.isBot())
             return;
 
-        p.getAction().set(new Action.Call());
+        model.getAction().set(new Action.Call());
     }
 }

@@ -1,5 +1,6 @@
 package org.gruppe2.game.session;
 
+import org.gruppe2.game.controller.AIController;
 import org.gruppe2.game.controller.GameController;
 import org.gruppe2.game.controller.PlayerController;
 import org.gruppe2.game.controller.RoundController;
@@ -24,6 +25,7 @@ public class HostSession extends Session {
     public void init() {
         addController(GameController.class);
         addController(RoundController.class);
+        addController(AIController.class);
     }
 
     @Override

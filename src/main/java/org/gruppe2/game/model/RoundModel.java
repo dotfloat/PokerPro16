@@ -41,10 +41,6 @@ public class RoundModel {
         this.current = current;
     }
 
-    public UUID getCurrentUUID() {
-        return activePlayers.get(current).getUUID();
-    }
-
     public int getHighestBet() {
         return highestBet;
     }

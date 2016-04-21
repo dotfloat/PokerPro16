@@ -5,26 +5,25 @@ import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.model.RoundPlayerModel;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
-import org.gruppe2.game.session.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public class RoundController extends AbstractController {
-    @Model
-    private RoundModel round;
+    @Helper
+    private RoundHelper round;
 
     @Helper
     private GameHelper game;
 
     private LocalDateTime timeToStart = null;
     private PlayerModel player = null;
+    private RoundPlayerModel rPlayer = null;
 
     @Override
     public void update() {
@@ -44,18 +43,14 @@ public class RoundController extends AbstractController {
             if (player == null) {
                 round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
                 player = game.findPlayerByUUID(round.getCurrentUUID()).get();
+                rPlayer = round.getCurrentPlayer();
                 addEvent(new PlayerActionQuery(player));
             }
             if (player.getAction().isDone()) {
                 handleAction(player);
                 player.getAction().reset();
                 player = null;
-            }
-            else if (player.isBot()) { //Make bots do something
-                player.getAction().set(new Action.Call());
-                handleAction(player);
-                player.getAction().reset();
-                player = null;
+                rPlayer = null;
             }
         }
     }
@@ -89,7 +84,8 @@ public class RoundController extends AbstractController {
         if (!legalAction(player, action))
             throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
 
-        System.out.println(action);
+        int bet = rPlayer.getBet();
+
         if (action instanceof Action.Fold)
             round.getActivePlayers().remove(round.getCurrent());
         if (action instanceof Action.Call)
