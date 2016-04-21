@@ -1,0 +1,17 @@
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml"
+         stylesheets="/css/style.css" fx:id="rightMenu" alignment="CENTER" style="-fx-background-color: black">
+    <Label text="Donald Trump" fx:id="playerName" alignment="CENTER"/>
+        <ImageView fx:id="profileImage" preserveRatio="true">
+            <Image url="/images/avatars/player.png"/>
+        </ImageView>
+    <VBox>
+        <Label text="Bet: 0$" fx:id="playerBet" alignment="CENTER"/>
+        <Label text="0$" fx:id="stack" alignment="CENTER"/>
+    </VBox>
+
+</fx:root>
