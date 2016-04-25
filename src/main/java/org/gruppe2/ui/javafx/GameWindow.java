@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import org.gruppe2.game.old.GameBuilder;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
+import org.gruppe2.network.NetworkTester;
 import org.gruppe2.ui.Resources;
 
 /**
@@ -24,10 +25,10 @@ public class GameWindow extends BorderPane {
 	private int height = PokerApplication.getHeight();
 	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
-	GUIPlayer guiPlayer;
+	public static GUIPlayer guiPlayer;
 	Thread th;
 	
-	GameSession gameSession;
+	public static GameSession gameSession;
 	CommunityCards communityCardsBox;
 	public StatisticsMenu replayMenu;
 
@@ -78,6 +79,7 @@ public class GameWindow extends BorderPane {
 		}
 		th = new Thread(() -> gameSession.mainLoop());
 		th.start();
+		NetworkTester.testNetwork();
 		
 		if(PokerApplication.replayMode == true){
 			
