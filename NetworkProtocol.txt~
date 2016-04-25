@@ -1,0 +1,36 @@
+				Network protocol for PokerPro 16
+
+					Gruppe2, INF112
+
+			Table of content:
+			
+			1. What does it need to do
+			2. Syntax and network protocol
+			3. Examples
+
+
+			
+	1. The protocol needs to be able to send information from client to server and server to client, this information must be written so that
+	   they understand each other. 
+
+	2. The protocol is using tcp connection from Java, the server will be a java tcp server and the clients are java clients. 
+		
+		Syntax: [playerID;action;message] 
+		This is currently used as a string, maybe we should use xml ?
+		
+		playerID: this is a uuid that defines a specific player for that table, it can also be the table itself, then you write [ table ].
+		
+		action: This is the action taken by the playerID, move is the standard command for bet, call raise, loose, stack, pot etc.
+		
+		message: This is the specific message of the action, 
+			bet xxx (bet value xxx)
+			Xxx (ig. h14 is hearts 14)
+			
+
+	3. Examples:
+		
+		3;move;bet 30 - means player 3 bets 30
+                3;move;h14 c2 - player 3 pocket is ace of hearts and 2 of clover
+                table;move;pot 0 - table removes pot
+                7;move;stack 300 - player 7 wins 300 chips
+                9;move;loose - player 9 loose
