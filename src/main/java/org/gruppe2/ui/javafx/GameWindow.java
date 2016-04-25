@@ -92,6 +92,7 @@ public class GameWindow extends BorderPane {
 				for (Pane playerInfoBox : playerInfoBoxes) {
 					((PlayerInfoBox) playerInfoBox).updateInfoBox();
 				}
+				table.thisPlayer.update();
 				if(!PokerApplication.replayMode && replayMenu == null)
 					choiceBar.updatePossibleBarsToClick(player);
 				pot.updatePot(gameSession.getTable().getPot());
@@ -160,7 +161,7 @@ public class GameWindow extends BorderPane {
 
 		for (Player player : gameSession.getPlayers()) {
 			if (player.getName().equals(guiPlayer.getName())) {
-				continue;
+				table.thisPlayer.setUp(this);
 			}
 			PlayerInfoBox playerInfoBox = new PlayerInfoBox();
 			playerInfoBoxes.add(playerInfoBox);

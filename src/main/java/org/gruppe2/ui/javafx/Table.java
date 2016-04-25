@@ -16,7 +16,7 @@ public class Table extends StackPane {
 	@FXML private ImageView pokerTable;
 	@FXML private VBox tableItemsBox;
 	@FXML public ChatBox chatBox;
-	@FXML private ThisPlayerInfoBox thisPlayer;
+	@FXML public ThisPlayerInfoBox thisPlayer;
 	@FXML private RightMenu rightMenu;
 	@FXML private HelperMenu helperMenu;
 	@FXML public CommunityCards communityCardsBox;
