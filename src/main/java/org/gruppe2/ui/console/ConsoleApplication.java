@@ -1,18 +1,18 @@
 package org.gruppe2.ui.console;
 
 import org.gruppe2.Main;
-import org.gruppe2.game.GameBuilder;
-import org.gruppe2.game.session.Handler;
-import org.gruppe2.game.event.*;
-import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.Action;
+import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.event.*;
+import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Scanner;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
@@ -62,13 +62,15 @@ public class ConsoleApplication implements Runnable {
         if (!query.getPlayerModel().getUUID().equals(playerUUID))
             return; // Query isn't for us :(
 
+        PlayerModel player = query.getPlayerModel();
 //        System.out.println("Highest bet: " + getSession().getHighestBet());
 //        System.out.println("Table pot: " + getSession().getTable().getPot());
-//        System.out.printf("Your cards: %s %s \n", player.getCard1(), player.getCard2());
-//        System.out.printf("Your chips: %d \n", player.getBank());
-//        System.out.printf("Current bet: %d \n", player.getBet());
+        System.out.println("Community cards: " + context.getModel(GameModel.class).getCommunityCards());
+        System.out.printf("Your cards: %s %s \n", player.getCard1(), player.getCard2());
+        System.out.printf("Your chips: %d \n", player.getBank());
+        System.out.printf("Current bet: %d \n", player.getBet());
         System.out.println("> Your turn, you can: ");
-        System.out.println(query.getPlayerModel().getOptions());
+        System.out.println(player.getOptions());
 
         System.out.println("> ");
 

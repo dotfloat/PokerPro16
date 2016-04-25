@@ -8,6 +8,7 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.model.RoundPlayerModel;
+import org.gruppe2.game.old.Player;
 import org.gruppe2.game.old.PossibleActions;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
@@ -26,6 +27,7 @@ public class RoundController extends AbstractController {
     private LocalDateTime timeToStart = null;
     private PlayerModel player = null;
     private UUID lastRaiserID = null;
+    private UUID lastPlayerInRound = null;
 
     @Override
     public void update() {
@@ -69,7 +71,6 @@ public class RoundController extends AbstractController {
 
     private void resetRound(){
         List<PlayerModel> active = round.getActivePlayers();
-
         active.clear();
 
         for (PlayerModel p: game.getPlayers())
@@ -79,6 +80,7 @@ public class RoundController extends AbstractController {
         round.setPot(0);
         round.setHighestBet(0);
         round.setCurrent(game.getButton());
+        lastPlayerInRound = round.getCurrentUUID();
     }
 
     private void handleAction (PlayerModel player){
@@ -86,18 +88,45 @@ public class RoundController extends AbstractController {
         if (!legalAction(player, action))
             throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
 
-        int bet = player.getBet();
+        int raise;
+        if (action instanceof Action.Call) {
+            raise = round.getHighestBet() - player.getBet();
+            moveChips(player, player.getBet() + raise, player.getBank() - raise, raise);
+        }
+
+        if (action instanceof Action.AllIn) {
+            raise = player.getBank();
+            moveChips(player, player.getBet() + raise, 0, raise);
+        }
+
+        if (action instanceof Action.Blind) {
+            int amount = ((Action.Blind) action).getAmount();
+            moveChips(player, amount, player.getBank() - amount, amount);
+        }
+
+        if (action instanceof Action.Raise) {
+            raise = ((Action.Raise) action).getAmount();
+            int chipsToMove = (round.getHighestBet() - player.getBet()) + raise;
+            moveChips(player, round.getHighestBet() + raise, player.getBank()-chipsToMove, chipsToMove);
+            lastRaiserID = player.getUUID();
+        }
+        else if (lastRaiserID == null && (player.getUUID().equals(lastPlayerInRound) || player.getUUID().equals(lastRaiserID))){
+            getContext().message("addCommunityCard", 1);
+        }
 
         if (action instanceof Action.Fold)
             round.getActivePlayers().remove(round.getCurrent());
-        if (action instanceof Action.Raise){
-            lastRaiserID = player.getUUID();
-        }
 
         if(player.getBet() > round.getHighestBet())
             round.setHighestBet(player.getBet());
 
         addEvent(new PlayerPostActionEvent(player, action));
+    }
+
+    private void moveChips(PlayerModel player, int playerSetBet, int playerSetBank, int addToTablePot){
+        player.setBet(playerSetBet);
+        player.setBank(playerSetBank);
+        round.addToPot(addToTablePot);
     }
 
     private boolean legalAction(PlayerModel player, Action action) {

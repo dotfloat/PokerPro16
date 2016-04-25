@@ -70,4 +70,8 @@ public class RoundHelper {
     public int getHighestBet() {
         return model.getHighestBet();
     }
+
+    public void addToPot(int addToTablePot) {
+        model.setPot(model.getPot() + addToTablePot);
+    }
 }
