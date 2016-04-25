@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.UUID;
 
 public class RoundModel {
-    private final List<RoundPlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
+    private final List<PlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
 
     private volatile boolean playing = false;
     private volatile int current = 0;
     private volatile int pot = 0;
     private volatile int highestBet = 0;
 
-    public List<RoundPlayerModel> getActivePlayers() {
+    public List<PlayerModel> getActivePlayers() {
         return activePlayers;
     }
 

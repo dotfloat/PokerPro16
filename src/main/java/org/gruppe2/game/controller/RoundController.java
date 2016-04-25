@@ -8,11 +8,13 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.model.RoundPlayerModel;
+import org.gruppe2.game.old.PossibleActions;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class RoundController extends AbstractController {
     @Helper
@@ -23,7 +25,7 @@ public class RoundController extends AbstractController {
 
     private LocalDateTime timeToStart = null;
     private PlayerModel player = null;
-    private RoundPlayerModel rPlayer = null;
+    private UUID lastRaiserID = null;
 
     @Override
     public void update() {
@@ -43,14 +45,13 @@ public class RoundController extends AbstractController {
             if (player == null) {
                 round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
                 player = game.findPlayerByUUID(round.getCurrentUUID()).get();
-                rPlayer = round.getCurrentPlayer();
+                updatePlayerOptions();
                 addEvent(new PlayerActionQuery(player));
             }
             if (player.getAction().isDone()) {
                 handleAction(player);
                 player.getAction().reset();
                 player = null;
-                rPlayer = null;
             }
         }
     }
@@ -67,12 +68,13 @@ public class RoundController extends AbstractController {
     }
 
     private void resetRound(){
-        List<RoundPlayerModel> active = round.getActivePlayers();
+        List<PlayerModel> active = round.getActivePlayers();
+
         active.clear();
 
         for (PlayerModel p: game.getPlayers())
             if (p.getBank() > 0 )
-                active.add(new RoundPlayerModel(p.getUUID()));
+                active.add(p);
 
         round.setPot(0);
         round.setHighestBet(0);
@@ -84,17 +86,43 @@ public class RoundController extends AbstractController {
         if (!legalAction(player, action))
             throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
 
-        int bet = rPlayer.getBet();
+        int bet = player.getBet();
 
         if (action instanceof Action.Fold)
             round.getActivePlayers().remove(round.getCurrent());
-        if (action instanceof Action.Call)
-            //Do stuff
+        if (action instanceof Action.Raise){
+            lastRaiserID = player.getUUID();
+        }
+
+        if(player.getBet() > round.getHighestBet())
+            round.setHighestBet(player.getBet());
 
         addEvent(new PlayerPostActionEvent(player, action));
     }
 
     private boolean legalAction(PlayerModel player, Action action) {
         return true;
+    }
+
+    private void updatePlayerOptions () {
+        PossibleActions options = new PossibleActions();
+
+        if (player.getBet() == round.getHighestBet())
+            options.setCheck();
+
+        if (player.getBank() >= round.getHighestBet() - player.getBet())
+            if (round.getHighestBet() - player.getBet() != 0)
+                options.setCall(round.getHighestBet() - player.getBet());
+
+        if (!player.getUUID().equals(lastRaiserID)) {
+            int maxRaise = player.getBank() + player.getBet() - round.getHighestBet();
+            if (maxRaise > 0)
+                options.setRaise(1, maxRaise);
+        }
+
+        if (!options.canCall() && !options.canCheck() && !options.canRaise())
+            options.setAllIn();
+
+        player.setOptions(options);
     }
 }

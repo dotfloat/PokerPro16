@@ -67,8 +67,8 @@ public class ConsoleApplication implements Runnable {
 //        System.out.printf("Your cards: %s %s \n", player.getCard1(), player.getCard2());
 //        System.out.printf("Your chips: %d \n", player.getBank());
 //        System.out.printf("Current bet: %d \n", player.getBet());
-//        System.out.println("> Your turn you can: ");
-//        System.out.println(getSession().getPlayerOptions(player));
+        System.out.println("> Your turn, you can: ");
+        System.out.println(query.getPlayerModel().getOptions());
 
         System.out.println("> ");
 

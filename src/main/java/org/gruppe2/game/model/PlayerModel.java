@@ -1,6 +1,7 @@
 package org.gruppe2.game.model;
 
 import org.gruppe2.game.Action;
+import org.gruppe2.game.old.PossibleActions;
 import org.gruppe2.game.session.Query;
 
 import java.util.UUID;
@@ -13,6 +14,8 @@ public class PlayerModel {
     private final boolean bot;
 
     private volatile int bank;
+    private volatile int bet;
+    private PossibleActions options;
 
     public PlayerModel(UUID uuid, String name, String avatar, Query<Action> action, boolean bot) {
         this.uuid = uuid;
@@ -48,5 +51,21 @@ public class PlayerModel {
 
     public Query<Action> getAction() {
         return action;
+    }
+
+    public int getBet() {
+        return bet;
+    }
+
+    public void setBet(int bet) {
+        this.bet = bet;
+    }
+
+    public PossibleActions getOptions() {
+        return options;
+    }
+
+    public void setOptions(PossibleActions options) {
+        this.options = options;
     }
 }

@@ -1,5 +1,6 @@
 package org.gruppe2.game.helper;
 
+import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.model.RoundPlayerModel;
 import org.gruppe2.game.session.SessionContext;
@@ -32,7 +33,7 @@ public class RoundHelper {
         return model.getCurrent();
     }
 
-    public List<RoundPlayerModel> getActivePlayers() {
+    public List<PlayerModel> getActivePlayers() {
         return model.getActivePlayers();
     }
 
@@ -44,7 +45,7 @@ public class RoundHelper {
         return getActivePlayers().get(getCurrent()).getUUID();
     }
 
-    public RoundPlayerModel getCurrentPlayer() {
+    public PlayerModel getCurrentPlayer() {
         return getActivePlayers().get(getCurrent());
     }
 
@@ -56,13 +57,17 @@ public class RoundHelper {
         model.setHighestBet(highestBet);
     }
 
-    public Optional<RoundPlayerModel> findPlayerByUUID(UUID uuid) {
+    public Optional<PlayerModel> findPlayerByUUID(UUID uuid) {
         return findPlayer(p -> p.getUUID().equals(uuid));
     }
 
-    public Optional<RoundPlayerModel> findPlayer(Predicate<RoundPlayerModel> predicate) {
+    public Optional<PlayerModel> findPlayer(Predicate<PlayerModel> predicate) {
         return model.getActivePlayers().stream()
                 .filter(predicate)
                 .findFirst();
+    }
+
+    public int getHighestBet() {
+        return model.getHighestBet();
     }
 }

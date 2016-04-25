@@ -1,6 +1,7 @@
 package org.gruppe2.game.event;
 
 import org.gruppe2.game.Action;
+import org.gruppe2.game.model.RoundPlayerModel;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.model.PlayerModel;
 
@@ -14,4 +15,5 @@ public class PlayerActionQuery implements Event {
     public PlayerModel getPlayerModel() {
         return playerModel;
     }
+
 }
