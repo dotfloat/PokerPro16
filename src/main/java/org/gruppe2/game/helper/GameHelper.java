@@ -2,6 +2,8 @@ package org.gruppe2.game.helper;
 
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.old.Card;
+import org.gruppe2.game.old.Deck;
 import org.gruppe2.game.session.SessionContext;
 
 import java.util.List;
@@ -53,4 +55,8 @@ public class GameHelper {
     public int getBuyIn() {
         return model.getBuyIn();
     }
+
+    public List<Card> getCommunityCards(){return model.getCommunityCards();}
+
+    public Deck getDeck(){return model.getDeck();}
 }

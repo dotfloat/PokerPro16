@@ -40,6 +40,18 @@ public class GameController extends AbstractController {
     }
 
     @Message
+    public void addCommunityCard(int round){
+        if(round == 0) {
+            game.getCommunityCards().clear();
+            game.getDeck().shuffle();
+        }
+        else if(round == 1)
+            game.getCommunityCards().addAll(game.getDeck().drawCards(3));
+        else if(round == 2 && round == 3)
+            game.getCommunityCards().add(game.getDeck().drawCard());
+    }
+
+    @Message
     public void kickPlayer(UUID uuid) {
     }
 
