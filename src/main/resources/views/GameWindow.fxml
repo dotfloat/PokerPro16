@@ -5,7 +5,6 @@
 <?import org.gruppe2.ui.javafx.ChoiceBar?>
 <?import org.gruppe2.ui.javafx.PlayerCards?>
 <?import org.gruppe2.ui.javafx.Table?>
-<?import org.gruppe2.ui.javafx.Pot?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
 
    <bottom>
