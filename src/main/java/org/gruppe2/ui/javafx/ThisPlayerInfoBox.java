@@ -47,9 +47,9 @@ public class ThisPlayerInfoBox extends HBox {
         }
     }
     public void setUp(GameWindow gamewindow){
-    	
+
     	player = gamewindow.gameSession.getPlayers().get(0);
-    	
+
     	 if (player == null) {
              setVisible(false);
              return;
@@ -58,7 +58,7 @@ public class ThisPlayerInfoBox extends HBox {
          stack.setText("$" + player.getBank());
          playerBet.setText("BET: " + player.getBet());
     }
-    
+
     public void update(){
     	 if (player == null) {
              setVisible(false);
