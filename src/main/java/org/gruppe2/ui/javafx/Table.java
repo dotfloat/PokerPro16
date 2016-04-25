@@ -42,8 +42,7 @@ public class Table extends StackPane {
 		tableItemsBox.spacingProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.002));
 		communityCardsBox.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 		communityCardsBox.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		pot.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		pot.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
+
 		nothing.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 		nothing.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 		nothing2.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));

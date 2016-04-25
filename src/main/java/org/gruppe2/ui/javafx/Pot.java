@@ -20,6 +20,8 @@ public class Pot extends Label {
 		setBindings();
 	}
 	private void setBindings() {
+		minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.075));
+		maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.075));
 		this.maxWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.2));
 		this.fontProperty().bind(fontTracking);

@@ -1,17 +1,21 @@
 package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
 /**
  * Created by Petter on 13/04/2016.
  */
-public class Statistic extends BorderPane {
+public class Statistic extends StackPane {
 
     @FXML Label name;
     @FXML Label gamesPlayed;
@@ -22,6 +26,7 @@ public class Statistic extends BorderPane {
     @FXML Label totalBet;
     @FXML Label averageBet;
     @FXML Label balance;
+    @FXML Button exit;
 
 
     public Statistic(boolean ifMenu){
@@ -59,5 +64,6 @@ public class Statistic extends BorderPane {
         totalBet.fontProperty().bind(ChoiceBar.fontTracking);
         averageBet.fontProperty().bind(ChoiceBar.fontTracking);
         balance.fontProperty().bind(ChoiceBar.fontTracking);
+
     }
 }
