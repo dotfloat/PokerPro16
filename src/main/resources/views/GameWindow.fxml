@@ -7,9 +7,7 @@
 <?import org.gruppe2.ui.javafx.Table?>
 <?import org.gruppe2.ui.javafx.Pot?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
-<top>
-    <Pot fx:id="pot"/>
-</top>
+
    <bottom>
    		<ChoiceBar fx:id="choiceBar"/>
    </bottom>

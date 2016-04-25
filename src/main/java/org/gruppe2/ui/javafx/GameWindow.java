@@ -37,8 +37,7 @@ public class GameWindow extends BorderPane {
 	private Table table;
 	@FXML
 	private ChoiceBar choiceBar;
-	@FXML
-	public Pot pot;
+	
 
 	public GameWindow() {
 		Resources.loadFXML(this);
@@ -95,7 +94,7 @@ public class GameWindow extends BorderPane {
 				table.thisPlayer.update();
 				if(!PokerApplication.replayMode && replayMenu == null)
 					choiceBar.updatePossibleBarsToClick(player);
-				pot.updatePot(gameSession.getTable().getPot());
+				table.pot.updatePot(gameSession.getTable().getPot());
 
 			}
 		});

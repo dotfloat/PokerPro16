@@ -7,8 +7,8 @@ import org.gruppe2.ui.Resources;
 
 public class Pot extends Label {
 
-	@FXML
-	private Label potLabel;
+//	@FXML
+//	private Label potLabel;
 
 	
 	public Pot() {
