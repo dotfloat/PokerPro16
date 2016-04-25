@@ -161,6 +161,7 @@ public class GameWindow extends BorderPane {
 		for (Player player : gameSession.getPlayers()) {
 			if (player.getName().equals(guiPlayer.getName())) {
 				table.thisPlayer.setUp(this);
+				continue;
 			}
 			PlayerInfoBox playerInfoBox = new PlayerInfoBox();
 			playerInfoBoxes.add(playerInfoBox);
