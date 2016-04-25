@@ -17,8 +17,8 @@
         <Image url="/images/ui/PokertableWithLogo.png"/>
     </ImageView>
     <VBox alignment="CENTER" fx:id="tableItemsBox">
-        <Pot fx:id="pot"/>
         <CommunityCards fx:id="communityCardsBox"/>
+        <Pot fx:id="pot"/>
         <Label fx:id="nothing"/>
         <Label fx:id="nothing2"/>
     </VBox>

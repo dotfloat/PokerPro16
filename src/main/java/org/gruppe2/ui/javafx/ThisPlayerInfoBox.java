@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
 /**
@@ -16,6 +18,7 @@ public class ThisPlayerInfoBox extends HBox {
     @FXML ImageView profileImage;
     @FXML Label playerBet;
     @FXML Label stack;
+    Player player;
 
     public ThisPlayerInfoBox(){
         Resources.loadFXML(this);
@@ -43,4 +46,42 @@ public class ThisPlayerInfoBox extends HBox {
             else if (n instanceof ImageView) ((ImageView) n).fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
         }
     }
+    public void setUp(GameWindow gamewindow){
+
+    	player = gamewindow.gameSession.getPlayers().get(0);
+
+    	 if (player == null) {
+             setVisible(false);
+             return;
+         }
+         playerName.setText(player.getName());
+         stack.setText("$" + player.getBank());
+         playerBet.setText("BET: " + player.getBet());
+    }
+
+    public void update(){
+    	 if (player == null) {
+             setVisible(false);
+             return;
+         }
+         playerName.setText(player.getName());
+         stack.setText("$" + player.getBank());
+         playerBet.setText("BET: " + player.getBet());
+         updatePicture();
+    }
+    
+    public void updatePicture() {
+		//TODO ----->
+	}
+
+	public void setActive() {
+        getStyleClass().clear();
+        getStyleClass().add("paneActive");
+    }
+
+    public void setInActive() {
+        getStyleClass().clear();
+        getStyleClass().add("pane");
+    }
+
 }

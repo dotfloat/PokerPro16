@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import org.gruppe2.game.old.GameBuilder;
 import org.gruppe2.game.old.GameSession;
 import org.gruppe2.game.old.Player;
+import org.gruppe2.network.NetworkTester;
 import org.gruppe2.ui.Resources;
 
 /**
@@ -24,21 +25,20 @@ public class GameWindow extends BorderPane {
 	private int height = PokerApplication.getHeight();
 	
 	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
-	GUIPlayer guiPlayer;
+	public static GUIPlayer guiPlayer;
 	Thread th;
 	
-	GameSession gameSession;
+	public static GameSession gameSession;
 	CommunityCards communityCardsBox;
 	public StatisticsMenu replayMenu;
 
 	@FXML
 	public Pane playerCards;
 	@FXML
-	private Table table;
+	public Table table;
 	@FXML
 	private ChoiceBar choiceBar;
-	@FXML
-	public Pot pot;
+	
 
 	public GameWindow() {
 		Resources.loadFXML(this);
@@ -79,6 +79,7 @@ public class GameWindow extends BorderPane {
 		}
 		th = new Thread(() -> gameSession.mainLoop());
 		th.start();
+		NetworkTester.testNetwork();
 		
 		if(PokerApplication.replayMode == true){
 			
@@ -92,9 +93,10 @@ public class GameWindow extends BorderPane {
 				for (Pane playerInfoBox : playerInfoBoxes) {
 					((PlayerInfoBox) playerInfoBox).updateInfoBox();
 				}
+				table.thisPlayer.update();
 				if(!PokerApplication.replayMode && replayMenu == null)
 					choiceBar.updatePossibleBarsToClick(player);
-				pot.updatePot(gameSession.getTable().getPot());
+				table.pot.updatePot(gameSession.getTable().getPot());
 
 			}
 		});
@@ -160,6 +162,7 @@ public class GameWindow extends BorderPane {
 
 		for (Player player : gameSession.getPlayers()) {
 			if (player.getName().equals(guiPlayer.getName())) {
+				table.thisPlayer.setUp(this);
 				continue;
 			}
 			PlayerInfoBox playerInfoBox = new PlayerInfoBox();

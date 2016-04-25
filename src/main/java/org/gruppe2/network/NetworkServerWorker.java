@@ -6,78 +6,152 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.gruppe2.game.old.Action;
+import org.gruppe2.game.old.GameSession;
+import org.gruppe2.ui.javafx.GUIPlayer;
+import org.gruppe2.ui.javafx.GameWindow;
+
 /**
  * Created by kjors on 11.04.2016.
  */
-public class NetworkServerWorker implements Runnable{
+public class NetworkServerWorker implements Runnable {
 
-    protected Socket clientSocket = null;
-    protected String serverName = null;
+	protected Socket clientSocket = null;
+	protected String serverName = null;
+	private GameSession gameSession = GameWindow.gameSession;
+	private GUIPlayer guiClient = GameWindow.guiPlayer;
 
-    public NetworkServerWorker(Socket clientSocket, String name) {
-        this.clientSocket = clientSocket;
-        this.serverName = name;
-    }
+	public NetworkServerWorker(Socket clientSocket, String name) {
+		this.clientSocket = clientSocket;
+		this.serverName = name;
+	}
 
-    @Override
-    public void run() {
+	/**
+	 * Message logic goes here. Returns based on protocoll
+	 * [playerID;action;message] as string
+	 *
+	 * action = chat, move
+	 *
+	 * ex 2;chat;this is a message - post message to chatwindow
+	 *
+	 * ex 3;move;call 30 - means player 3 bets 30 3;move;h14 c2 - player 3
+	 * pocket is ace of hearts and 2 of clover table;move;pot 0 - table removes
+	 * pot 7;move;stack 300 - player 7 wins 300 chips 9;move;loose - player 9
+	 * loose
+	 */
+	@Override
+	public void run() {
+		try {
+			String input;
 
-        try
-        {
+			while (true) {
+				PrintWriter out = new PrintWriter(
+						clientSocket.getOutputStream());
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						clientSocket.getInputStream()));
+				input = in.readLine();
+				System.out.println("Data received: " + input);
+				if (input == null) {
+					break;
+				}
+				String[] s = input.split(";");
 
-            //  OutputStream out = clientSocket.getOutputStream();
+				if (s[0].equals("bye")) {
+					System.out.println("Canceling connection");
+					break;
+				}
 
+				String playerID = getPlayerID(s);
+				String action = getAction(s);
+				String message = getMessage(s);
 
-            /**
-             * Message logic goes here. Returns based on protocoll
-             * [playerID;action;message] as string
-             *
-             * action = chat, move
-             *
-             * ex   2;chat;this is a message - post message to chatwindow
-             *
-             * ex   3;move;bet 30 - means player 3 bets 30
-             *      3;move;h14 c2 - player 3 pocket is ace of hearts and 2 of clover
-             *      table;move;pot 0 - table removes pot
-             *      7;move;stack 300 - player 7 wins 300 chips
-             *      9;move;loose - player 9 loose
-             */
-            String input, output;
+				if (action.equals("chat")) {
+					sendChatMessage(playerID, message, out);
+				} else if (action.equals("move")) {
+					sendMoveMessage(playerID, message, out);
+				}
+			}
+			clientSocket.close();
+			NetworkServer.removeThread(Thread.currentThread());
+			Thread.currentThread().interrupt();
 
+		} catch (IOException e) {
+			System.out.println("Test");
+			e.printStackTrace();
+		}
 
-            while(true) {
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	}
 
-                input = in.readLine();
-                System.out.println("Data received: " + input);
-                if(input == null) {
-                    break;
-                }
-                String[] s = input.split(";");
-                if(s[0].equals("chat")) {
-                    output = "fikk chat";
-                    out.println(output);
-                    System.out.println("chat");
+	/**
+	 * 
+	 * @param playerID
+	 * @param message
+	 * @param out
+	 */
+	private void sendMoveMessage(String playerID, String message,
+			PrintWriter out) {
+		String output = "move recieved";
+		int playerNumber = Integer.valueOf(playerID);
+		out.println(output);
+		
+		if (message.contains("raise")) {
+			int betValue = Integer.valueOf(message.substring(6));
+			System.out.println("Player: " + playerID + " raise" + betValue);
+			guiClient.setAction(new Action.Raise(betValue));
+		}
+		if (message.contains("call")) {
 
-                }
-                else if(s[0].equals("bye")) {
-                    break;
-                }
-            }
+			System.out.println("Player: " + playerID + " call");
+			guiClient.setAction(new Action.Call());
+		}
+		if (message.contains("check")) {
+			System.out.println("Player: " + playerID + " check");
+			guiClient.setAction(new Action.Check());
+		}
+		if (message.contains("fold")) {
+			System.out.println("Player: " + playerID + " folded");
+			guiClient.setAction(new Action.Fold());
+		}
+	}
 
-            //  out.close();
-            //  in.close();
-            clientSocket.close();
-            NetworkServer.removeThread(Thread.currentThread());
-            Thread.currentThread().interrupt();
+	/**
+	 * Send chat message
+	 * 
+	 * @param playerID
+	 * @param message
+	 * @param out
+	 */
+	private void sendChatMessage(String playerID, String message,
+			PrintWriter out) {
+		String output = "chat recieved";
+		out.println(output);
+		System.out.println("Player " + playerID + ": " + message);
+	}
 
+	private String getPlayerID(String[] s) {
+		if (s.length == 0) {
+			System.out.println("Error in net protocol");
+			System.exit(1);
+		}
+		return s[0];
+	}
 
-        } catch (IOException e) {
-            System.out.println("Test");
-            e.printStackTrace();
-        }
+	private String getAction(String[] s) {
+		if (s.length == 1) {
+			System.out.println("Error in net protocol");
+			System.exit(1);
+		}
+		return s[1];
+	}
 
-    }
+	private String getMessage(String[] s) {
+		if (s.length == 2) {
+			System.out.println("Error in net protocol");
+			System.exit(1);
+		}
+
+		return s[2];
+
+	}
 
 }

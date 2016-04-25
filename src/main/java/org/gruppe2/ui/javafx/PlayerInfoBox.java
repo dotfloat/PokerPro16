@@ -32,6 +32,7 @@ public class PlayerInfoBox extends BorderPane {
     public PlayerInfoBox() {
         Resources.loadFXML(this);
         playerPicture.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.06));
+        playerPicture.fitHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.08));
         playerName.fontProperty().bind(ChoiceBar.fontTracking);
         stack.fontProperty().bind(ChoiceBar.fontTracking);
         currentBet.fontProperty().bind(ChoiceBar.fontTracking);
@@ -85,7 +86,6 @@ public class PlayerInfoBox extends BorderPane {
     private void viewStatistic(MouseEvent event) {
         SceneController.setStatistic(new Statistic(false),
                 event.getSceneX(), event.getSceneY());
-
 
     }
 }

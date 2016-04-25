@@ -16,11 +16,11 @@ public class Table extends StackPane {
 	@FXML private ImageView pokerTable;
 	@FXML private VBox tableItemsBox;
 	@FXML public ChatBox chatBox;
-	@FXML private ThisPlayerInfoBox thisPlayer;
+	@FXML public ThisPlayerInfoBox thisPlayer;
 	@FXML private RightMenu rightMenu;
 	@FXML private HelperMenu helperMenu;
 	@FXML public CommunityCards communityCardsBox;
-	@FXML private Pot pot;
+	@FXML public Pot pot;
 	@FXML private Label nothing;
 	@FXML private Label nothing2;
 
@@ -34,8 +34,7 @@ public class Table extends StackPane {
 		this.setAlignment(thisPlayer, Pos.BOTTOM_CENTER);
 		this.setAlignment(helperMenu, Pos.TOP_LEFT);
 		sizeTableBox();
-		//when pot gets updates, remove the line below
-		pot.visibleProperty().setValue(false);
+		
 	}
 
 	private void sizeTableBox() {
@@ -43,13 +42,13 @@ public class Table extends StackPane {
 		tableItemsBox.spacingProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.002));
 		communityCardsBox.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 		communityCardsBox.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		pot.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		pot.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
+
 		nothing.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 		nothing.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 		nothing2.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
 		nothing2.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-
 	}
+	
+	
 
 }
