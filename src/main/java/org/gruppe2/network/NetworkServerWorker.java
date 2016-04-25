@@ -21,13 +21,9 @@ public class NetworkServerWorker implements Runnable{
 
     @Override
     public void run() {
-
         try
         {
-
             //  OutputStream out = clientSocket.getOutputStream();
-
-
             /**
              * Message logic goes here. Returns based on protocoll
              * [playerID;action;message] as string
@@ -79,5 +75,8 @@ public class NetworkServerWorker implements Runnable{
         }
 
     }
+    
+    
+    
 
 }
