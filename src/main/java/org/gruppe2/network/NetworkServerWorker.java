@@ -93,7 +93,7 @@ public class NetworkServerWorker implements Runnable {
 		String output = "move recieved";
 		int playerNumber = Integer.valueOf(playerID);
 		out.println(output);
-
+		
 		if (message.contains("raise")) {
 			int betValue = Integer.valueOf(message.substring(6));
 			System.out.println("Player: " + playerID + " raise" + betValue);

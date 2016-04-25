@@ -75,6 +75,10 @@ public class NetworkServer implements Runnable {
 		threads.remove(t);
 	}
 
+	/**
+	 * This might be used when game is finished to start server ?
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		NetworkServer server = new NetworkServer(8888);

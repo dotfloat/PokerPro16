@@ -42,9 +42,4 @@ public class NetworkClient extends GameClient implements Runnable {
 		}
 
 	}
-
-	public static void main(String[] args) {
-		NetworkClient client = new NetworkClient();
-		client.run();
-	}
 }

@@ -35,7 +35,7 @@ public class GameWindow extends BorderPane {
 	@FXML
 	public Pane playerCards;
 	@FXML
-	private Table table;
+	public Table table;
 	@FXML
 	private ChoiceBar choiceBar;
 	

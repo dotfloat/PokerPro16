@@ -67,7 +67,21 @@ public class ThisPlayerInfoBox extends HBox {
          playerName.setText(player.getName());
          stack.setText("$" + player.getBank());
          playerBet.setText("BET: " + player.getBet());
-//         updatePicture();
+         updatePicture();
+    }
+    
+    public void updatePicture() {
+		//TODO ----->
+	}
+
+	public void setActive() {
+        getStyleClass().clear();
+        getStyleClass().add("paneActive");
+    }
+
+    public void setInActive() {
+        getStyleClass().clear();
+        getStyleClass().add("pane");
     }
 
 }

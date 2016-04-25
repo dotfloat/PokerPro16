@@ -69,6 +69,13 @@ public class GUIPlayer extends GameClient {
 					} else
 						((PlayerInfoBox) playerInfoBox).setInActive();
 				}
+				if (gameWindow.gameSession.getPlayers().get(0) ==  player) {
+					gameWindow.table.thisPlayer.setActive();
+				}
+				else{
+					gameWindow.table.thisPlayer.setInActive();
+				}
+				
 			}
 		});
 	}
