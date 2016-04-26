@@ -4,11 +4,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-
 import javafx.scene.layout.VBox;
-import org.gruppe2.game.old.GameSession;
 import org.gruppe2.ui.Resources;
 
 public class Table extends StackPane {

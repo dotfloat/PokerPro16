@@ -4,12 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.gruppe2.game.old.GameClient;
-
-/**
- * Created by kjors on 11.04.2016.
- */
-public class NetworkClient extends GameClient implements Runnable {
+public class NetworkClient implements Runnable {
 
 	private int port = 8888;
 	private String host = "localhost";

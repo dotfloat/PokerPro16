@@ -6,22 +6,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.gruppe2.game.old.Action;
-import org.gruppe2.game.old.GameSession;
-import org.gruppe2.ui.javafx.GUIPlayer;
-import org.gruppe2.ui.javafx.GameWindow;
+import org.gruppe2.game.Action;
 
-/**
- * Created by kjors on 11.04.2016.
- */
-public class NetworkServerWorker implements Runnable {
+class NetworkServerWorker implements Runnable {
 
-	protected Socket clientSocket = null;
-	protected String serverName = null;
-	private GameSession gameSession = GameWindow.gameSession;
-	private GUIPlayer guiClient = GameWindow.guiPlayer;
+	private Socket clientSocket = null;
+	private String serverName = null;
 
-	public NetworkServerWorker(Socket clientSocket, String name) {
+	NetworkServerWorker(Socket clientSocket, String name) {
 		this.clientSocket = clientSocket;
 		this.serverName = name;
 	}
@@ -97,20 +89,20 @@ public class NetworkServerWorker implements Runnable {
 		if (message.contains("raise")) {
 			int betValue = Integer.valueOf(message.substring(6));
 			System.out.println("Player: " + playerID + " raise" + betValue);
-			guiClient.setAction(new Action.Raise(betValue));
+			//guiClient.setAction(new Action.Raise(betValue));
 		}
 		if (message.contains("call")) {
 
 			System.out.println("Player: " + playerID + " call");
-			guiClient.setAction(new Action.Call());
+			//guiClient.setAction(new Action.Call());
 		}
 		if (message.contains("check")) {
 			System.out.println("Player: " + playerID + " check");
-			guiClient.setAction(new Action.Check());
+			//guiClient.setAction(new Action.Check());
 		}
 		if (message.contains("fold")) {
 			System.out.println("Player: " + playerID + " folded");
-			guiClient.setAction(new Action.Fold());
+			//guiClient.setAction(new Action.Fold());
 		}
 	}
 

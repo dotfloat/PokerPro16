@@ -1,35 +1,36 @@
 package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
 
-/**
- * Created by Petter on 13/04/2016.
- */
-public class Statistic extends StackPane {
+class Statistic extends StackPane {
 
-    @FXML Label name;
-    @FXML Label gamesPlayed;
-    @FXML Label gamesWon;
-    @FXML Label folded;
-    @FXML Label call;
-    @FXML Label check;
-    @FXML Label totalBet;
-    @FXML Label averageBet;
-    @FXML Label balance;
-    @FXML Button exit;
+    @FXML
+    private Label name;
+    @FXML
+    private Label gamesPlayed;
+    @FXML
+    private Label gamesWon;
+    @FXML
+    private Label folded;
+    @FXML
+    private Label call;
+    @FXML
+    private Label check;
+    @FXML
+    private Label totalBet;
+    @FXML
+    private Label averageBet;
+    @FXML
+    private Label balance;
 
 
-    public Statistic(boolean ifMenu){
+    public Statistic(boolean ifMenu) {
         Resources.loadFXML(this);
         setWindowSize(ifMenu);
         setSizes();
@@ -39,18 +40,17 @@ public class Statistic extends StackPane {
         if (ifMenu) {
             this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.4));
             this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.4));
-        }
-        else {
+        } else {
             this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.2));
             this.maxHeightProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
         }
     }
 
-    public void keyPressed(KeyEvent event){
+    public void keyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) SceneController.removeStatistic(this);
     }
 
-    public void close(){
+    public void close() {
         SceneController.removeStatistic(this);
     }
 

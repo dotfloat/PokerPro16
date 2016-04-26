@@ -6,23 +6,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.gruppe2.game.old.Card;
+import org.gruppe2.game.Card;
 import org.gruppe2.ui.Resources;
 
-/**
- * Created by Petter on 21/04/2016.
- */
+import java.util.List;
+
 public class DifferentHandView extends VBox {
     @FXML private Label handName;
     @FXML private HBox cards;
 
-    public DifferentHandView(String name, Card... elements){
+    public DifferentHandView(String name, List<Card> elements){
         Resources.loadFXML(this);
-        System.out.println(elements.length);
+        System.out.println(elements.size());
         handName.setText(name);
         handName.fontProperty().bind(ChoiceBar.fontTracking);
         for (int i=4;i>=0;i--){
-            if (i < elements.length) this.cards.getChildren().add(createCardImage(elements[i]));
+            if (i < elements.size()) this.cards.getChildren().add(createCardImage(elements.get(i)));
             else {
                 ImageView placeHolderCard = createCardImage(new Card(2, Card.Suit.CLUBS));
                 placeHolderCard.setVisible(false);
