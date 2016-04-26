@@ -2,7 +2,9 @@ package org.gruppe2.ai;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
+import org.gruppe2.game.PossibleActions;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
@@ -23,11 +25,10 @@ public class NewDumbAI implements AI{
     }
 
     @Override
-    public void doAction(Player model) {
+    public void doAction(Player model, PossibleActions options) {
         if (!model.isBot())
             return;
 
-        /*
         final int call = 0;
         final int check = 1;
         final int raise = 2;
@@ -35,20 +36,18 @@ public class NewDumbAI implements AI{
 
         Random rand = new Random();
         ArrayList<Integer> types = new ArrayList<>();
-        PossibleActions actions = model.getOptions();
 
-
-        if (actions.canCall()) {
+        if (options.canCall()) {
             for (int i = 0; i < 8; i++)
                 types.add(call);
         }
 
-        if (actions.canCheck()) {
+        if (options.canCheck()) {
             for (int i = 0; i < 8; i++)
                 types.add(check);
         }
 
-        if (actions.canRaise()) {
+        if (options.canRaise()) {
             for (int i = 0; i < 3; i++)
                 types.add(raise);
         }
@@ -65,26 +64,25 @@ public class NewDumbAI implements AI{
                 return;
 
             case raise:
-                if (actions.getMinRaise() == actions.getMaxRaise())
-                    model.getAction().set(new Action.Raise(actions.getMaxRaise()));
-                int maxRaiseAmount = actions.getMaxRaise();
+                if (options.getMinRaise() == options.getMaxRaise())
+                    model.getAction().set(new Action.Raise(options.getMaxRaise()));
+                int maxRaiseAmount = options.getMaxRaise();
                 double smartRaise = rand.nextDouble();
                 if (smartRaise <= 0.90)
                     maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.05));
                 else if (smartRaise > 0.90 && smartRaise <= 0.999)
                     maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.20));
-                if (maxRaiseAmount == actions.getMaxRaise())
+                if (maxRaiseAmount == options.getMaxRaise())
                     model.getAction().set(new Action.Raise(maxRaiseAmount));
                 model.getAction().set(new Action.Raise(
-                        rand.nextInt(maxRaiseAmount - actions.getMinRaise()) + actions.getMinRaise()));
+                        rand.nextInt(maxRaiseAmount - options.getMinRaise()) + options.getMinRaise()));
                 return;
 
             default:
                 model.getAction().set(new Action.Fold());
                 return;
         }
-        */
 
-        model.getAction().set(new Action.Call());
+        //model.getAction().set(new Action.Call());
     }
 }

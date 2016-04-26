@@ -6,9 +6,11 @@ import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -19,6 +21,9 @@ import java.util.UUID;
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
     private UUID playerUUID;
+
+    @Helper
+    RoundHelper roundHelper;
 
     private void init() {
         GameBuilder gameBuilder = new GameBuilder();
@@ -71,7 +76,7 @@ public class ConsoleApplication implements Runnable {
         System.out.printf("Your chips: %d \n", player.getBank());
         System.out.printf("Current bet: %d \n", roundPlayer.getBet());
         System.out.println("> Your turn, you can: ");
-        //System.out.println(player.getOptions());
+        System.out.println(roundHelper.getPlayerOptions(player.getUUID()));
 
         System.out.println("> ");
 
