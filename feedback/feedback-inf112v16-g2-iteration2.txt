@@ -2,8 +2,7 @@ INF112 programming project iteration 2 - Feedback group 2
 =========================================================
 Note: The following refers to archive version: a9d53f3e60229cee679e8dfd6e7f895b278db236
 
-# Deliverables [37/45]
-- I couldn't find the glossary in the deliverables
+# Deliverables [38/45]
 - in the use case diagram: is "play against AI" = "Singleplayer" (not "heads up" but playing against >1 Player)?
 - new use case text for single player + extensions -> good!
 - I couldn't find an SSD for one of the alternative paths...
@@ -19,11 +18,9 @@ one another (does e.g. AIPlayer and/or GUIPlayer inherit from Player?). Some ass
 -- the player's bet is not shown (always zero - I assume it's just peanuts for Mr. Trump).
 
 
-# Project organization [8/10]
+# Project organization [10/10]
 - you have the biggest group so it is nice to see that you organize yourself in teams and try to include everyone. 
 - Make sure that after the last iteration everyone is up-to-date with the implementation of the latest game version (important for exam question)
-- It is not clear to me if the Sprint backlog was updated from iteration1? 
-I see some new use stories, but to which iteration do week1 week2 and week3 refer now?
 
 
 # Presentation [6/6]
@@ -38,10 +35,10 @@ I see some new use stories, but to which iteration do week1 week2 and week3 refe
 -- nice game layout 
 
 
-# Total score #1: 90	
+# Total score #1: 93	
 
 # Total score #2: 85
 
-# Final score: 87.5
+# Final score: 89
 
 
