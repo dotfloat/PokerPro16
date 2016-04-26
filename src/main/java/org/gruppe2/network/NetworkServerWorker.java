@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.gruppe2.game.Action;
-
 class NetworkServerWorker implements Runnable {
 
 	private Socket clientSocket = null;
@@ -59,7 +57,8 @@ class NetworkServerWorker implements Runnable {
 
 				if (action.equals("chat")) {
 					sendChatMessage(playerID, message, out);
-				} else if (action.equals("move")) {
+				}
+                else if (action.equals("move")) {
 					sendMoveMessage(playerID, message, out);
 				}
 			}
