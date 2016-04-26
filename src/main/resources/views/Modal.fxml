@@ -1,5 +1,4 @@
-<?import javafx.scene.layout.Pane?>
-<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" styleClass="modal"
-         onKeyPressed="#keyPressed" onMouseClicked="#close">
-
+<?import javafx.scene.layout.StackPane?>
+<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml"
+         onKeyPressed="#keyPressed" onMouseClicked="#close" alignment="CENTER">
 </fx:root>

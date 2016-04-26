@@ -87,6 +87,6 @@ public class PlayerInfoBox extends BorderPane {
     }
 
     public void viewStatistic() {
-        SceneController.setModal(this);
+        SceneController.setModal(new Modal(new Statistic(false)));
     }
 }
