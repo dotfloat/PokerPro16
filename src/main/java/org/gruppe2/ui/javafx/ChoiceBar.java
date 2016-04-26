@@ -13,13 +13,22 @@ import javafx.scene.text.Font;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.ui.Resources;
 
 public class ChoiceBar extends HBox {
     static ObjectProperty<Font> fontTracking = new SimpleObjectProperty<>(Font.getDefault());
-
+    
+    
+    @Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+    
     @FXML
     private TextField chatField;
     @FXML
@@ -102,7 +111,7 @@ public class ChoiceBar extends HBox {
 	                default:
 	                    break;
 	            }
-	            actionQuery = null;
+	            
         	}
         });
     }
