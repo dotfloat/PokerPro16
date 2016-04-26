@@ -1,7 +1,6 @@
 package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -46,10 +45,12 @@ class Statistic extends StackPane {
         }
     }
 
+    @FXML
     public void keyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ESCAPE) SceneController.removeStatistic(this);
+        if (event.getCode() == KeyCode.ESCAPE) close();
     }
 
+    @FXML
     public void close() {
         SceneController.removeStatistic(this);
     }

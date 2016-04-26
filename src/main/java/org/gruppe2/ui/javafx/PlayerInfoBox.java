@@ -86,7 +86,7 @@ public class PlayerInfoBox extends BorderPane {
         getStyleClass().add("pane");
     }
 
-    private void viewStatistic() {
-        System.out.println("halla");
+    public void viewStatistic() {
+        SceneController.setModal(this);
     }
 }
