@@ -1,10 +1,9 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.Action;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.*;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -12,6 +11,8 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +24,9 @@ public class RoundController extends AbstractController {
 
     private LocalDateTime timeToStart = null;
     private Player player = null;
-    private UUID lastRaiserID = null;
+    private RoundPlayer roundPlayer = null;
     private UUID lastPlayerInRound = null;
+    private List<Card> deck = Collections.synchronizedList(new ArrayList<>());
 
     @Override
     public void update() {
@@ -44,12 +46,14 @@ public class RoundController extends AbstractController {
             if (player == null) {
                 round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
                 player = game.findPlayerByUUID(round.getCurrentUUID());
-                addEvent(new PlayerActionQuery(player));
+                roundPlayer = round.findPlayerByUUID(round.getCurrentUUID());
+                addEvent(new PlayerActionQuery(player, roundPlayer));
             }
             if (player.getAction().isDone()) {
-                handleAction(player);
+                handleAction();
                 player.getAction().reset();
                 player = null;
+                roundPlayer = null;
             }
         }
     }
@@ -58,7 +62,7 @@ public class RoundController extends AbstractController {
     public boolean roundStart() {
         if (!round.isPlaying()) {
             round.setPlaying(true);
-            timeToStart = LocalDateTime.now().plusSeconds(5);
+            timeToStart = LocalDateTime.now().plusSeconds(3);
             return true;
         }
 
@@ -77,55 +81,93 @@ public class RoundController extends AbstractController {
         round.setHighestBet(0);
         round.setCurrent(game.getButton());
         lastPlayerInRound = round.getCurrentUUID();
+        resetDeck();
     }
 
-    private void handleAction (Player player){
+    private void handleAction (){
         Action action = player.getAction().get();
         if (!legalAction(player, action))
             throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
 
         int raise;
         if (action instanceof Action.Call) {
-            raise = round.getHighestBet() - player.getBet();
-            moveChips(player, player.getBet() + raise, player.getBank() - raise, raise);
+            raise = round.getHighestBet() - roundPlayer.getBet();
+            moveChips(roundPlayer.getBet() + raise, player.getBank() - raise, raise);
         }
 
         if (action instanceof Action.AllIn) {
             raise = player.getBank();
-            moveChips(player, player.getBet() + raise, 0, raise);
+            moveChips(roundPlayer.getBet() + raise, 0, raise);
         }
 
         if (action instanceof Action.Blind) {
             int amount = ((Action.Blind) action).getAmount();
-            moveChips(player, amount, player.getBank() - amount, amount);
+            moveChips(amount, player.getBank() - amount, amount);
+        }
+
+        if (action instanceof Action.Fold) {
+            round.getActivePlayers().remove(round.getCurrent());
+            round.setCurrent(round.getCurrent()-1);
+            if (!player.getUUID().equals(lastPlayerInRound))
+                lastPlayerInRound = round.getLastActivePlayerID();
         }
 
         if (action instanceof Action.Raise) {
             raise = ((Action.Raise) action).getAmount();
-            int chipsToMove = (round.getHighestBet() - player.getBet()) + raise;
-            moveChips(player, round.getHighestBet() + raise, player.getBank()-chipsToMove, chipsToMove);
-            lastRaiserID = player.getUUID();
-        }
-        else if (lastRaiserID == null && (player.getUUID().equals(lastPlayerInRound) || player.getUUID().equals(lastRaiserID))){
-            getContext().message("addCommunityCard", 1);
+            int chipsToMove = (round.getHighestBet() - roundPlayer.getBet()) + raise;
+            moveChips(round.getHighestBet() + raise, player.getBank()-chipsToMove, chipsToMove);
+            round.setLastRaiserID(player.getUUID());
         }
 
-        if (action instanceof Action.Fold)
-            round.getActivePlayers().remove(round.getCurrent());
-
-        if(player.getBet() > round.getHighestBet())
-            round.setHighestBet(player.getBet());
+        if(roundPlayer.getBet() > round.getHighestBet())
+            round.setHighestBet(roundPlayer.getBet());
 
         addEvent(new PlayerPostActionEvent(player, action));
+
+        if (!(action instanceof Action.Raise)
+                && ((round.getLastRaiserID() == null && player.getUUID().equals(lastPlayerInRound))
+                || player.getUUID().equals(round.getLastRaiserID()))) {
+            roundEnd();
+        }
     }
 
-    private void moveChips(Player player, int playerSetBet, int playerSetBank, int addToTablePot){
-        //player.setBet(playerSetBet);
+    private void moveChips(int playerSetBet, int playerSetBank, int addToTablePot){
+        roundPlayer.setBet(playerSetBet);
         player.setBank(playerSetBank);
         round.addToPot(addToTablePot);
     }
 
     private boolean legalAction(Player player, Action action) {
         return true;
+    }
+
+    private void roundEnd() {
+        if (round.getRoundNum() == 3){
+            System.out.println("All rounds ended");
+            round.setPlaying(false);
+            return;
+        }
+        round.nextRound();
+        round.setLastRaiserID(null);
+
+        if (round.getRoundNum() == 1) {
+            for (int i = 0; i < 3; i++)
+                round.getCommunityCards().add(deck.remove(0));
+        }
+        else if (round.getRoundNum() == 2 || round.getRoundNum() == 3)
+            round.getCommunityCards().add(deck.remove(0));
+
+        addEvent(new RoundEndEvent());
+    }
+
+    private void resetDeck() {
+        deck.clear();
+        for (Card.Suit suit : Card.Suit.values()) {
+            for (int face = 2; face <= 14; face++) {
+                deck.add(new Card(face, suit));
+            }
+        }
+
+        Collections.shuffle(deck);
     }
 }
