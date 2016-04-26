@@ -34,8 +34,8 @@ public class GameController extends AbstractController {
     }
 
     @Message
-    public boolean addPlayer(UUID uuid, String name, String avatar, Query<Action> action) {
-        return addPlayerModel(new Player(uuid, name, avatar, action, false));
+    public boolean addPlayer(UUID uuid, String name, String avatar) {
+        return addPlayerModel(new Player(uuid, name, avatar, false));
     }
 
     @Message

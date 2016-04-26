@@ -23,9 +23,6 @@ public class PokerApplication extends Application {
 														// Will only change
 														// scenes
 
-	private static SessionContext context = null;
-	private static UUID playerUUID = UUID.randomUUID();
-
 	/**
 	 * Controllers will need to get current root to change scenes
 	 * 
@@ -33,22 +30,6 @@ public class PokerApplication extends Application {
 	 */
 	public static StackPane getRoot() {
 		return root;
-	}
-
-	public static SessionContext getContext() {
-		return context;
-	}
-
-	public static void setSessionContext(SessionContext context) {
-		PokerApplication.context = context;
-	}
-
-	public static UUID getPlayerUUID() {
-		return playerUUID;
-	}
-
-	public static void setPlayerUUID(UUID playerUUID) {
-		PokerApplication.playerUUID = playerUUID;
 	}
 
 	@Override

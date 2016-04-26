@@ -20,7 +20,7 @@ public class NewDumbAI implements AI{
     public static Player generateModel() {
         Random rand = new Random();
 
-        return new Player(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", new Query<>(), true);
+        return new Player(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", true);
     }
 
     @Override

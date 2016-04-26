@@ -8,16 +8,15 @@ public class Player {
     private final UUID uuid;
     private final String name;
     private final String avatar;
-    private final Query<Action> action;
+    private final Query<Action> action = new Query<>();
     private final boolean bot;
 
     private volatile int bank;
 
-    public Player(UUID uuid, String name, String avatar, Query<Action> action, boolean bot) {
+    public Player(UUID uuid, String name, String avatar, boolean bot) {
         this.uuid = uuid;
         this.name = name;
         this.avatar = avatar;
-        this.action = action;
         this.bot = bot;
     }
 

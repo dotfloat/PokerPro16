@@ -34,7 +34,7 @@ public class PlayerInfoBox extends GridPane {
 
     PlayerInfoBox() {
         Resources.loadFXML(this);
-        PokerApplication.getContext().setAnnotated(this);
+        InGame.getContext().setAnnotated(this);
         playerPicture.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.06));
         playerName.fontProperty().bind(ChoiceBar.fontTracking);
         stack.fontProperty().bind(ChoiceBar.fontTracking);

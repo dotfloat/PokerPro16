@@ -22,7 +22,7 @@ public class PlayerCards extends HBox {
 
     public PlayerCards() {
         Resources.loadFXML(this);
-        PokerApplication.getContext().setAnnotated(this);
+        InGame.getContext().setAnnotated(this);
     }
 
     /**
@@ -30,7 +30,7 @@ public class PlayerCards extends HBox {
      * is ready with playerCards.
      */
     public void setPlayerCards(CommunityCards communityCardsBox) {
-        Card[] cards = roundHelper.findPlayerByUUID(PokerApplication.getPlayerUUID()).getCards();
+        Card[] cards = roundHelper.findPlayerByUUID(InGame.getPlayerUUID()).getCards();
         setPaneStyle();
 
         playerCard1.setImage(new Image(("/images/cards/"
