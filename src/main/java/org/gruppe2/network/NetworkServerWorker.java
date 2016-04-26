@@ -20,6 +20,7 @@ class NetworkServerWorker implements Runnable {
 	NetworkServerWorker(Socket clientSocket, String name) {
 		this.clientSocket = clientSocket;
 		this.serverName = name;
+		System.out.println("hei");
 		
 	}
 
