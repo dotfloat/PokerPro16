@@ -112,7 +112,8 @@ class InGame extends BorderPane {
                 PokerApplication.getRoot().widthProperty().multiply(x));
         playerInfoBox.layoutYProperty().bind(
                 PokerApplication.getRoot().heightProperty().multiply(y));
-
+        if(getChildren().contains(playerInfoBox))
+        	getChildren().remove(playerInfoBox);
         getChildren().add(playerInfoBox);
     }
 
