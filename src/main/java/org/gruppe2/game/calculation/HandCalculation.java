@@ -39,4 +39,13 @@ interface HandCalculation extends Comparator<Collection<Card>> {
      * @return The hand type
      */
     Hand getType();
+
+    /**
+     * Compare two hands of the same type
+     * @param cards
+     * @param t1
+     * @return returns 1 if cards is better than ti, returns -1 if ti is better than cards. 0 if they are equally good.
+     */
+    @Override
+    int compare(Collection<Card> cards, Collection<Card> t1);
 }
