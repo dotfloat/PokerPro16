@@ -9,6 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import org.gruppe2.game.Card;
+import org.gruppe2.game.event.CommunityCardsEvent;
+import org.gruppe2.game.event.RoundEndEvent;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.ui.Resources;
 
 public class CommunityCards extends HBox {
@@ -67,7 +70,6 @@ public class CommunityCards extends HBox {
 				this.getChildren().removeAll(communityImageCards);
 				communityImageCards = new ArrayList<ImageView>();
 			}
-
 		}
 	}
 	/**
@@ -105,6 +107,16 @@ public class CommunityCards extends HBox {
 	
 	public List<Card> getCommunityCards(){
 		return communityCards;	
+	}
+	
+	@Handler
+	public void getCommunityCardsHandler(CommunityCardsEvent communityCardsEvent){
+		communityCards = communityCardsEvent.getCards();
+		setCommunityCards(communityCards);
+	}
+	@Handler
+	public void removeCommunityCardsHandler(RoundEndEvent roundEndEvent){
+		clearCommunityCards();
 	}
 
 }
