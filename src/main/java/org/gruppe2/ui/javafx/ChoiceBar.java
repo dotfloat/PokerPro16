@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
 import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
 import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.helper.GameHelper;
@@ -165,8 +166,8 @@ PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
      * @param player
      */
     void updatePossibleBarsToClick() {
-    	
-        slider.setMax(1000);
+    	Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        slider.setMax(player.getBank());
         slider.setMin(0);
         slider.setValue(0);
     }

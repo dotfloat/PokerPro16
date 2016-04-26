@@ -1,24 +1,26 @@
 package org.gruppe2.ui.javafx;
 
 
+import java.util.UUID;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.event.PlayerPreActionEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
 
-import java.util.UUID;
-
 public class PlayerInfoBox extends BorderPane {
     private UUID playerUUID = null;
-
+    Player player;
     @Helper
     private RoundHelper roundHelper;
     @Helper
@@ -56,14 +58,15 @@ public class PlayerInfoBox extends BorderPane {
             setVisible(false);
             return;
         }
-
-        Player player = gameHelper.findPlayerByUUID(playerUUID);
-        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
-
-        playerName.setText(player.getName());
-        stack.setText("$" + player.getBank());
-        currentBet.setText("BET: " + roundPlayer.getBet());
-        updatePicture();
+        if(player.getUUID().equals(playerUUID)){
+	        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
+	
+	        playerName.setText(player.getName());
+	        stack.setText("$" + player.getBank());
+	        currentBet.setText("BET: " + roundPlayer.getBet());
+	        updatePicture();
+	        player = null;
+        }
     }
 
     private void updatePicture() {
@@ -88,5 +91,9 @@ public class PlayerInfoBox extends BorderPane {
 
     public void viewStatistic() {
         SceneController.setModal(new Modal(new Statistic(false)));
+    }
+    @Handler
+    public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
+    	player = playerPreActionEvent.getPlayer();
     }
 }
