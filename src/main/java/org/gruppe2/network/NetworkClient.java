@@ -19,16 +19,36 @@ public class NetworkClient implements Runnable {
 				BufferedReader stdIn = new BufferedReader(
 						new InputStreamReader(System.in));) {
 			// create socket-object ?
-			String fromServer;
-			String fromUser;
+			String initialMessage = "master";
+            String secondMessage = "ok";
+            String joinMessage = "join";
 
-			while ((fromUser = stdIn.readLine()) != null) {
-				if (fromUser != null) {
-					System.out.println("Client: " + fromUser);
-					out.println(fromUser + "\n");
-					out.flush();
-				}
-			}
+            while (true) {
+                String fromServer = in.readLine();
+                if (fromServer == null) {
+                    System.out.println("Client: " + initialMessage);
+                    out.println(initialMessage + "\n");
+                    out.flush();
+                }
+                else if(fromServer.equals("yes")) {
+                    System.out.println("Client: " + secondMessage);
+                    out.println(secondMessage + "\n");
+                    out.flush();
+                }
+                else if(fromServer.contains("table")){
+                    String[] s = fromServer.split(";");
+                    joinMessage = joinMessage + " " + s[0];
+                    System.out.println("Client: " + joinMessage);
+                    out.println(joinMessage + "\n");
+                    out.flush();
+                }
+                else if(fromServer.contains("ok") && fromServer.contains("join")) {
+                    String[] s = fromServer.split(";");
+                    join(Integer.parseInt(s[2]));
+                    break;
+                }
+            }
+
 
 		} catch (UnknownHostException h) {
 			h.printStackTrace();
@@ -37,4 +57,16 @@ public class NetworkClient implements Runnable {
 		}
 
 	}
+
+    public void onServerConnect() {
+
+    }
+
+    public void onGameStart() {
+
+    }
+
+    public void join(int table) {
+
+    }
 }
