@@ -25,17 +25,4 @@ class SessionEventQueue {
                 .filter(q -> q != null)
                 .forEach(q -> q.addEvent(event));
     }
-
-    void process() {
-        for (int i = 0; i < queueList.size(); i++) {
-            ConcurrentEventQueue queue = queueList.get(i).get();
-
-            if (queue == null) {
-                queueList.remove(i--);
-                continue;
-            }
-
-            queue.process();
-        }
-    }
 }
