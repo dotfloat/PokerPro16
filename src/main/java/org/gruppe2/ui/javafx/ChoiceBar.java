@@ -46,6 +46,7 @@ public class ChoiceBar extends HBox {
 
     public ChoiceBar() {
         Resources.loadFXML(this);
+        InGame.getContext().setAnnotated(this);
         setSizes();
     }
 
@@ -84,7 +85,6 @@ public class ChoiceBar extends HBox {
 
     @FXML
     public void setEvents() {
-
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderValue.textProperty().setValue(checkMaxBid(slider));
         });
@@ -105,10 +105,10 @@ public class ChoiceBar extends HBox {
 	                    slider.setValue(slider.getValue() / 2);
 	                    break;
 	                case LEFT:
-	                    foldAction();
+	                	onFoldAction();
 	                    break;
 	                case RIGHT:
-	                    betAction();
+	                	onBetAction();
 	                    break;
 	                default:
 	                    break;
@@ -119,7 +119,7 @@ public class ChoiceBar extends HBox {
     }
 
     @FXML
-    private void foldAction() {
+    private void onFoldAction() {
     	if(actionQuery != null){
     		actionQuery.set( new Action.Fold());
     		actionQuery = null;
@@ -127,18 +127,22 @@ public class ChoiceBar extends HBox {
     }
 
     @FXML
-    private void betAction() {
+    private void onBetAction() {
+    	System.out.println("start");
     	if(actionQuery != null){
-PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
-    		
+    		PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
+    		System.out.println("inside");
     		if(pa.canCheck()){
     			actionQuery.set( new Action.Check());
+    			System.out.println("Check");
     		}
     		else if(pa.canCall()){
     			actionQuery.set( new Action.Call());
+    			System.out.println("Call");
     		}
     		else if(pa.canRaise()){
     			if(slider.getValue() > 0){
+    				System.out.println("Raise");
     				actionQuery.set( new Action.Raise( (int)slider.getValue()));
     			}
     		}
@@ -180,7 +184,8 @@ PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
     
     @Handler
     public void setActionHandler(PlayerActionQuery playerActionQuery){
-    	if(playerActionQuery.getPlayer().getUUID().equals(InGame.getPlayerUUID()))
+    	if(playerActionQuery.getPlayer().getUUID().equals(InGame.getPlayerUUID())){
     		actionQuery = playerActionQuery.getPlayer().getAction();
+    	}
     }
 }

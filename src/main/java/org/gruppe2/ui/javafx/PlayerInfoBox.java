@@ -66,8 +66,11 @@ public class PlayerInfoBox extends BorderPane {
 	        stack.setText("$" + player.getBank());
 	        currentBet.setText("BET: " + roundPlayer.getBet());
 	        updatePicture();
+	        setActive();
 	        player = null;
         }
+        else
+        	setInActive();
     }
 
     private void updatePicture() {
@@ -97,5 +100,6 @@ public class PlayerInfoBox extends BorderPane {
     @Handler
     public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
     	player = playerPreActionEvent.getPlayer();
+    	updateInfoBox();
     }
 }

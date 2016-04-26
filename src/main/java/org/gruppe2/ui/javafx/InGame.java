@@ -68,18 +68,17 @@ class InGame extends BorderPane {
     @Handler
     public void setUpPlayer(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-
-        PlayerInfoBox playerInfoBox = new PlayerInfoBox();
-        playerInfoBoxes.add(playerInfoBox);
-        playerInfoBox.setValues(player.getUUID());
+        if(!player.getUUID().equals(playerUUID)){
+	        PlayerInfoBox playerInfoBox = new PlayerInfoBox();
+	        playerInfoBoxes.add(playerInfoBox);
+	        playerInfoBox.setValues(player.getUUID());
+        }
 
         paintAllPlayers(playerInfoBoxes);
     }
 
     private void paintAllPlayers(List<Pane> playerInfoBoxes) {
-    	for(int i = 0;i<9;i++){
-    		playerInfoBoxes.add(new PlayerInfoBox());
-    	}
+    	
         int numberOfPlayers = playerInfoBoxes.size();
         if (numberOfPlayers > 4)
             paintPlayerInfoBox(playerInfoBoxes.get(4), 0.3, 0.001);

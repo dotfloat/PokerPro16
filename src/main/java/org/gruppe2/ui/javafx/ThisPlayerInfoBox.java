@@ -1,21 +1,31 @@
 package org.gruppe2.ui.javafx;
 
+import java.util.UUID;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
 
-import static sun.audio.AudioPlayer.player;
+
 
 public class ThisPlayerInfoBox extends HBox {
+	private UUID playerUUID;
+    RoundPlayer roundPlayer;
+    Player player;
+    
     @Helper
     private GameHelper gameHelper;
     @Helper
@@ -33,7 +43,9 @@ public class ThisPlayerInfoBox extends HBox {
     public ThisPlayerInfoBox() {
         Resources.loadFXML(this);
         InGame.getContext().setAnnotated(this);
-
+        playerUUID = InGame.getPlayerUUID();
+        
+        player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
     }
@@ -71,18 +83,22 @@ public class ThisPlayerInfoBox extends HBox {
         playerBet.setText("BET: " + roundPlayer.getBet());
     }
 
-    public void update() {
-        Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
-        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(InGame.getPlayerUUID());
+    public void update(Player currentPlayer) {
 
         if (player == null) {
             setVisible(false);
             return;
         }
-        playerName.setText(player.getName());
-        stack.setText("$" + player.getBank());
-        playerBet.setText("BET: " + roundPlayer.getBet());
-        updatePicture();
+        if(currentPlayer.getUUID().equals(playerUUID)){
+	        playerName.setText(player.getName());
+	        stack.setText("$" + player.getBank());
+	        playerBet.setText("BET: " + roundPlayer.getBet());
+	        updatePicture();
+	        setActive();
+        }
+        else{
+        	setInActive();
+        }
     }
 
     public void updatePicture() {
@@ -97,6 +113,18 @@ public class ThisPlayerInfoBox extends HBox {
     public void setInActive() {
         getStyleClass().clear();
         getStyleClass().add("pane");
+    }
+    
+    @Handler
+    public void roundStartBoxSetupHandler(RoundStartEvent roundStartEvent){
+    	roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
+    }
+    
+    @Handler
+    public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
+    	Player currentPlayer = playerPreActionEvent.getPlayer();
+    	
+    	update(currentPlayer);
     }
 
 }
