@@ -3,22 +3,23 @@ package org.gruppe2.game.calculation;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Hand;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.List;
 
 class TwoPairs implements HandCalculation {
 
     @Override
-    public boolean isHand(Collection<Card> cards) {
+    public boolean isHand(List<Card> cards) {
         return false;
     }
 
     @Override
-    public Collection<Card> getBestCards(Collection<Card> cards) {
+    public List<Card> getBestCards(List<Card> cards) {
         return null;
     }
 
     @Override
-    public boolean canGet(Collection<Card> cards) {
+    public boolean canGet(List<Card> cards) {
         if (cards == null || cards.size() == 2)
             return true;
 
@@ -37,7 +38,7 @@ class TwoPairs implements HandCalculation {
     }
 
     @Override
-    public double probability(Collection<Card> cards) {
+    public double probability(List<Card> cards) {
         return 0;
     }
 
@@ -47,7 +48,7 @@ class TwoPairs implements HandCalculation {
     }
 
     @Override
-    public int compare(Collection<Card> cards, Collection<Card> t1) {
+    public int compare(List<Card> cards, List<Card> t1) {
         return 0;
     }
 }

@@ -4,29 +4,30 @@ import org.gruppe2.game.Card;
 import org.gruppe2.game.Hand;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.List;
 
 class Straight implements HandCalculation{
 
     @Override
-    public boolean isHand(Collection<Card> cards) {
+    public boolean isHand(List<Card> cards) {
         return false;
     }
 
     @Override
-    public Collection<Card> getBestCards(Collection<Card> cards) {
+    public List<Card> getBestCards(List<Card> cards) {
         return null;
     }
 
     @Override
-    public boolean canGet(Collection<Card> cards) {
+    public boolean canGet(List<Card> cards) {
         if (cards == null || cards.size() == 2)
             return true;
 
         return canGetStraight(cards, false);
     }
 
-    public static boolean canGetStraight(Collection<Card> cards, boolean sameSuit){
+    public static boolean canGetStraight(List<Card> cards, boolean sameSuit){
         ArrayList<Card> cardArray = new ArrayList<Card>();
         cardArray.addAll(cards);
 
@@ -86,7 +87,7 @@ class Straight implements HandCalculation{
     }
 
     @Override
-    public double probability(Collection<Card> cards) {
+    public double probability(List<Card> cards) {
         return 0;
     }
 
@@ -96,7 +97,7 @@ class Straight implements HandCalculation{
     }
 
     @Override
-    public int compare(Collection<Card> cards, Collection<Card> t1) {
+    public int compare(List<Card> cards, List<Card> t1) {
         return 0;
     }
 }
