@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
 import org.gruppe2.game.Action;
+import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -119,7 +120,7 @@ public class ChoiceBar extends HBox {
     @FXML
     private void foldAction() {
     	if(actionQuery != null){
-    		
+    		actionQuery.set( new Action.Fold());
     		actionQuery = null;
     	}
     }
@@ -127,7 +128,19 @@ public class ChoiceBar extends HBox {
     @FXML
     private void betAction() {
     	if(actionQuery != null){
-//        	InGame.getContext().message("chat", textField.getText());
+PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
+    		
+    		if(pa.canCheck()){
+    			actionQuery.set( new Action.Check());
+    		}
+    		else if(pa.canCall()){
+    			actionQuery.set( new Action.Call());
+    		}
+    		else if(pa.canRaise()){
+    			if(slider.getValue() > 0){
+    				actionQuery.set( new Action.Raise( (int)slider.getValue()));
+    			}
+    		}
     		actionQuery = null;
     	}
     }
