@@ -1,13 +1,15 @@
 package org.gruppe2.ui;
 
-import java.io.File;
-import java.io.IOException;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class Resources {
-    private final static String pokerProDir = "PokerPro16" + File.pathSeparator;
+    private final static String pokerProDir = "PokerPro16" + File.separator;
 
     /**
      * Get the user-writable directory for PokerPro16
@@ -36,6 +38,21 @@ public class Resources {
     }
 
     /**
+     *
+     */
+    public static File getProperties() throws IOException {
+        createUserDirs();
+
+        File file = new File(getUserDir() + "properties.cfg");
+
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        return file;
+    }
+
+    /**
      * Get the
      * @param node
      */
@@ -57,5 +74,9 @@ public class Resources {
 
     private static String getDefaultUserDir() {
         return System.getProperty("user.home") + File.pathSeparator + pokerProDir;
+    }
+
+    private static void createUserDirs() {
+        new File(getUserDir()).mkdirs();
     }
 }
