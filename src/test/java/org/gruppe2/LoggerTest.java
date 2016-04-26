@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Scanner;
 
-import org.gruppe2.game.old.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

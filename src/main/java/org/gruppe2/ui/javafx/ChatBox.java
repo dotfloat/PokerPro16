@@ -8,20 +8,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Region;
-
-import org.gruppe2.game.calculation.GeneralCalculations;
-import org.gruppe2.game.old.Player;
 import org.gruppe2.ui.Resources;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ChatBox extends TextArea {
-	Player player;
-	
     public ChatBox() {
         Resources.loadFXML(this);
         setPositionsAndSettings();
-		appendText("Welcome to PokerPro16. \n Type \"/help\" to get a list of valid commands.");
     }
-
 
     private void setPositionsAndSettings() {
         double chatScale = 0.22;
@@ -34,27 +28,27 @@ public class ChatBox extends TextArea {
         setWrapText(true);
     }
 
-    public void setEventListeners(TextField textField, Player player) {
-    	this.player = player;
+    public void setEventListeners(TextField textField) {
         textField.setOnAction(e -> { // Put text from textField to textArea
-        	if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
-        	
-        	else if(checkForCommands(textField));
-            
-        	else{
-	                this.appendText("\n" + player + ": " + textField.getText());
-	            }
-        	textField.setText("");
+            if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
+
+            else if (checkForCommands(textField)) ;
+
+            else {
+                this.setText(this.getText() + "\n: " + textField.getText());
+                this.setScrollTop(Double.MAX_VALUE);
+            }
+            textField.setText("");
         });
         makeTransparent();
     }
 
     private void makeTransparent() {
-    	this.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+        this.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
             @Override
             public void changed(
-              ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
+                    ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
                 if (t1 != null && t1.getNode() instanceof Region) {
                     Region r = (Region) t1.getNode();
                     r.setBackground(Background.EMPTY);
@@ -71,52 +65,37 @@ public class ChatBox extends TextArea {
                 }
             }
         });
-		
-	}
+
+    }
 
 
-	/**
+    /**
      * Method for doing commands
+     *
      * @param textField
      */
-	private boolean checkForCommands(TextField textField) {
-		String command = textField.getText().toLowerCase();
-		if(command.equals("/besthand")){
-			 
-			String answer = GeneralCalculations.getBestHandForPlayer(((GameWindow)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
-			this.appendText("\n" + player + "s possible best hand is: " + answer);
-			return true;
-		}
-		else if(command.equals("/log")){
-			this.appendText("\n" + player + ": " + textField.getText()+"is epic");
-			//Print logs--->
-			return true;
-		}
-		else if(command.equals("/fuckoff")){
-			this.appendText("\n" + player + ": " + textField.getText()+"is epic");
-			//Print playFuckOfClip--->
-			return true;
-		}
-		else if(command.equals("/raidingparty")){
-			this.appendText("\n" + player + ": " + textField.getText()+"is epic");
-			//Print raidingPartyClip--->
-			return true;
-		}
-		else if(command.equals("/clear")){
-			this.setText("");
-			return true;
-		}
-		else if(command.equals("/help")) {
-			this.appendText("\n" + "Available commands: " + "\n /besthand - shows best possible hand \n" +
-					"/log - shows gamelog \n" +
-					"/clear - clears the chat window \n" +
-					"/help - shows available commands");
-			return true;
-		}
-		else
-			return false;
-	} 
-	public void postMessage(String message){
-		this.appendText(message);
-	}
+    private boolean checkForCommands(TextField textField) {
+        String command = textField.getText().toLowerCase();
+
+        switch (command) {
+            case "besthand":
+                throw new NotImplementedException();
+                //String answer = GeneralCalculations.getBestHandForPlayer(((InGame)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
+                //this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);S
+            case "log":
+                this.setText(this.getText() + "\n: " + textField.getText() + "is epic");
+                //Print logs--->
+                return true;
+            case "fuck off":
+                this.setText(this.getText() + "\n: " + textField.getText() + "is epic");
+                //Print playFuckOfClip--->
+                return true;
+            case "raiding party":
+                this.setText(this.getText() + "\n: " + textField.getText() + "is epic");
+                //Print raidingPartyClip--->
+                return true;
+            default:
+                return false;
+        }
+    }
 }

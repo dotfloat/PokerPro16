@@ -1,6 +1,5 @@
 package org.gruppe2;
 
-import org.gruppe2.game.old.Table;
 import org.junit.Before;
 import org.junit.Test;
 

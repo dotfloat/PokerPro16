@@ -1,6 +1,9 @@
 package org.gruppe2.game.old;
 
 import static org.junit.Assert.*;
+
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Cards;
 import org.junit.Test;
 
 import java.util.List;
