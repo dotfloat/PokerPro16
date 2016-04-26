@@ -48,5 +48,5 @@ interface HandCalculation extends Comparator<List<Card>> {
      * @return returns 1 if cards is better than ti, returns -1 if ti is better than cards. 0 if they are equally good.
      */
     @Override
-    int compare(Collection<Card> cards, Collection<Card> t1);
+    int compare(List<Card> cards, List<Card> t1);
 }
