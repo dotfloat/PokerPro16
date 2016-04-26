@@ -1,5 +1,6 @@
 package org.gruppe2.ui.javafx;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,13 +54,13 @@ public class RightMenu extends VBox {
 	}
 
 	public void viewLobby(ActionEvent actionEvent) {
-		SceneController.setModal(new Lobby());
+		SceneController.setModal(new Modal(new Lobby()));
 		menuAnimation();
 	}
 
 	public void viewStatistics(){
-		SceneController.setModal(new Modal(new Statistic(true)));
-		this.menuAnimation();
+		SceneController.setModal((new Modal(new Statistic(true))));
+		menuAnimation();
 	}
 
 	public void showMenu(ActionEvent actionEvent) {

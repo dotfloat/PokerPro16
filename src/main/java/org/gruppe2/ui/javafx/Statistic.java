@@ -29,14 +29,23 @@ class Statistic extends BorderPane {
 
     public Statistic(boolean ifMenu) {
         Resources.loadFXML(this);
+        initialize(ifMenu);
+    }
+
+    private void initialize(boolean ifMenu) {
         setWindowSize(ifMenu);
         setSizes();
+        getStatistics();
+    }
+
+    private void getStatistics() {
+        //TODO query statistics from backend
     }
 
     private void setWindowSize(boolean ifMenu) {
         if (ifMenu) {
-            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.4));
-            this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.4));
+            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
+            this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.2));
         } else {
             this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.2));
             this.maxHeightProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
@@ -53,6 +62,5 @@ class Statistic extends BorderPane {
         totalBet.fontProperty().bind(ChoiceBar.fontTracking);
         averageBet.fontProperty().bind(ChoiceBar.fontTracking);
         balance.fontProperty().bind(ChoiceBar.fontTracking);
-
     }
 }
