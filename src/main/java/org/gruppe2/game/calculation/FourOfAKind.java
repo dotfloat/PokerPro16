@@ -19,6 +19,21 @@ class FourOfAKind implements HandCalculation {
 
     @Override
     public boolean canGet(Collection<Card> cards) {
+
+        if (cards == null || cards.size() == 2)
+            return true;
+
+        int amountOfSameFace = Generic.amountOfSameFace(cards);
+
+        if(cards.size() < 5)
+            return true;
+        if(cards.size() == 5 &&  amountOfSameFace >=2)
+            return true;
+        if(cards.size() == 6 && amountOfSameFace >=3)
+            return true;
+        if (cards.size() == 7 && amountOfSameFace == 4)
+            return true;
+
         return false;
     }
 

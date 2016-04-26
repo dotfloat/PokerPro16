@@ -19,6 +19,20 @@ class TwoPairs implements HandCalculation {
 
     @Override
     public boolean canGet(Collection<Card> cards) {
+        if (cards == null || cards.size() == 2)
+            return true;
+
+        int amountOfSameFace = Generic.amountOfSameFace(cards);
+
+        if(cards.size() <=5)
+            return true;
+        if(cards.size() == 6 && amountOfSameFace >=2)
+            return true;
+        if(cards.size() == 7)
+            if(Generic.recurringFaceValues(cards).size() >=4)
+                return true;
+
+
         return false;
     }
 

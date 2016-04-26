@@ -19,7 +19,13 @@ class Pair implements HandCalculation {
 
     @Override
     public boolean canGet(Collection<Card> cards) {
-        return false;
+        if (cards == null || cards.size() == 2)
+            return true;
+
+        int amountOfSameFace = Generic.amountOfSameFace(cards);
+        if(cards.size() == 7 &&  amountOfSameFace < 2)
+            return false;
+        return true;
     }
 
     @Override

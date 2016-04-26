@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import org.gruppe2.game.Action;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;

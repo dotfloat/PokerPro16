@@ -3,6 +3,7 @@ package org.gruppe2.game.calculation;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Hand;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 class ThreeOfAKind implements HandCalculation {
@@ -19,6 +20,21 @@ class ThreeOfAKind implements HandCalculation {
 
     @Override
     public boolean canGet(Collection<Card> cards) {
+
+        if (cards == null || cards.size() == 2)
+            return true;
+
+        int amountOfSameFace = Generic.amountOfSameFace(cards);
+
+        if(amountOfSameFace >= 3)
+            return true;
+        if (cards.size() <= 5)
+            return true;
+        if(cards.size() == 6){
+            if(amountOfSameFace == 2)
+                return true;
+        }
+
         return false;
     }
 

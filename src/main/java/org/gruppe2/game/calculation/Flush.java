@@ -3,7 +3,9 @@ package org.gruppe2.game.calculation;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Hand;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 class Flush implements HandCalculation {
 
@@ -19,6 +21,16 @@ class Flush implements HandCalculation {
 
     @Override
     public boolean canGet(Collection<Card> cards) {
+
+        if (cards == null || cards.size() == 0)
+            return true;
+
+        HashMap<Card.Suit, Integer> numTypes = Generic.numberOfEachSuit(cards);
+
+        for (Card.Suit suit : numTypes.keySet())
+            if (numTypes.get(suit) >= cards.size() -2)
+                return true;
+
         return false;
     }
 
