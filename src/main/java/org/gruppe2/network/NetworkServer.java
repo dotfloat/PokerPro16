@@ -83,6 +83,5 @@ public class NetworkServer implements Runnable {
 
 		NetworkServer server = new NetworkServer(8888);
 		server.run();
-
 	}
 }

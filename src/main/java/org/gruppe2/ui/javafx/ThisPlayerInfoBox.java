@@ -126,7 +126,9 @@ public class ThisPlayerInfoBox extends HBox {
     @Handler
     public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
     	Player currentPlayer = playerPreActionEvent.getPlayer();
-    	update(currentPlayer);
+    	if(currentPlayer.getUUID().equals(playerUUID)){
+    		setActive();
+    	}
     }
     @Handler
     public void currentPlayerHandler(PlayerPostActionEvent playerPreActionEvent){

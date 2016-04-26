@@ -15,7 +15,7 @@ public class NetworkClient implements Runnable {
 	private String host = "localhost";
 	boolean firstMessage = true;
 	boolean inGame = false;
-	
+	boolean notifiedGameStart = false;
 	String initialMessage = "master";
     String secondMessage = "ok";
     String joinMessage = "join";
@@ -81,7 +81,11 @@ public class NetworkClient implements Runnable {
     }
 
     public void onGameStart() {
-    	System.out.println("client ingame jippi!");
+    	if(!notifiedGameStart){
+    		System.out.println("client ingame jippi!");
+    		notifiedGameStart = true;
+    	}
+    	
     	
     }
 

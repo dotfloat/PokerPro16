@@ -14,6 +14,7 @@ import javafx.scene.layout.TilePane;
 
 import org.gruppe2.game.event.NetworkClientEvent;
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.network.NetworkTester;
 import org.gruppe2.ui.Resources;
 
 /**
@@ -59,6 +60,7 @@ public class Lobby extends BorderPane {
 	private void createGame(){
 		System.out.println("starting network game");
 		PokerApplication.networkStart = true;
+		NetworkTester.testNetwork();
 		SceneController.setScene(new InGame());
 		
 	}

@@ -2,12 +2,18 @@ package org.gruppe2.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.UUID;
+
+import org.gruppe2.Main;
+import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.session.SessionContext;
+import org.gruppe2.ui.javafx.InGame;;
 
 public class NetworkServerGameSession {
+	private static SessionContext context = null;
 	
 	private Socket clientSocket = null;
 	private String serverGameName = null;
@@ -30,6 +36,8 @@ public class NetworkServerGameSession {
 	}
 
 	public void startGame(){
+		
+		startGameLoop();
 		try {
 			String input;
 
@@ -71,6 +79,22 @@ public class NetworkServerGameSession {
 		}
 		System.out.println("game ended");
 	}
+	private void startGameLoop() {
+		context = new GameBuilder().networkStart();
+		UUID player1UUID = UUID.randomUUID();
+		InGame.setPlayerUUID(player1UUID);
+		InGame.setContext(context);
+		
+        context.waitReady();
+        
+        
+        context.message("addPlayer", player1UUID, "TestPlayer", "default");
+        context.message("addPlayerStatistics", UUID.randomUUID(), Main.loadPlayerStatistics());
+       
+//        context.setAnnotated(this);
+		
+	}
+
 	/**
 	 * Send chat message
 	 * 

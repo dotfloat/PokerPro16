@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+
 import org.gruppe2.Main;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.GameBuilder;
@@ -18,7 +19,7 @@ import org.gruppe2.ui.Resources;
 
 import java.util.*;
 
-class InGame extends BorderPane {
+public class InGame extends BorderPane {
     private static SessionContext context = null;
     private static UUID playerUUID = UUID.randomUUID();
 
@@ -45,18 +46,24 @@ class InGame extends BorderPane {
     }
     
     private void contextSetup(){
-    	if(PokerApplication.networkStart == false)
+    	if(PokerApplication.networkStart == false){
     	 context = new GameBuilder().start();
-    	else{
-    		context = new GameBuilder().networkStart();
-    		context.message("networkclient");
-    	}
-    		
          context.waitReady();
-
          context.message("addPlayer", playerUUID, "TestPlayer", "default");
          context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
          context.setAnnotated(this);
+    	}
+    	else{
+    		while(context == null){
+    			try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    		};
+    		System.out.println("context recived");
+    	}
+    	
     }
     
     private void setUpViewItems(){
@@ -74,9 +81,15 @@ class InGame extends BorderPane {
     public static UUID getPlayerUUID() {
         return playerUUID;
     }
+    public static void setPlayerUUID(UUID uuid) {
+        playerUUID = uuid;
+    }
 
     public static SessionContext getContext() {
         return context;
+    }
+    public static void setContext(SessionContext context2) {
+        context = context2;
     }
 
     @Handler

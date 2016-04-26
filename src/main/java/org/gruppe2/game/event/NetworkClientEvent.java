@@ -6,7 +6,7 @@ public class NetworkClientEvent implements Event {
 	
 	
 	
-	public NetworkClientEvent(){
+	public NetworkClientEvent(String joinOrCreate){
 		//TODO -->
 	}
 	

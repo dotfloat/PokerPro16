@@ -60,9 +60,8 @@ public class PlayerInfoBox extends BorderPane {
             setVisible(false);
             return;
         }
-        if(player.getUUID().equals(playerUUID)){
+        if(player.getUUID().equals(playerUUID) && isPlayerActive()){
 	        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
-
 	        playerName.setText(player.getName());
 	        stack.setText("$" + player.getBank());
 	        currentBet.setText("BET: " + roundPlayer.getBet());
@@ -101,11 +100,20 @@ public class PlayerInfoBox extends BorderPane {
     @Handler
     public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
     	player = playerPreActionEvent.getPlayer();
-    	updateInfoBox();
+    	if(player.getUUID().equals(playerUUID)){
+    		setActive();
+    	}
     }
     @Handler
     public void currentPlayerHandler(PlayerPostActionEvent playerPreActionEvent){
     	player = playerPreActionEvent.getPlayer();
     	updateInfoBox();
+    }
+    public boolean isPlayerActive(){
+    	for(RoundPlayer roundPlayer : roundHelper.getActivePlayers()){
+    		if(roundPlayer.getUUID().equals(player.getUUID()))
+    			return true;
+    	}
+    	return false;
     }
 }
