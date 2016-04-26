@@ -2,6 +2,7 @@ package org.gruppe2.ui.javafx;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,6 +10,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+
 import org.gruppe2.ui.Resources;
 
 public class ChoiceBar extends HBox {
@@ -136,4 +138,10 @@ public class ChoiceBar extends HBox {
         slider.setMin(0);
         slider.setValue(0);
     }
+    
+    @FXML
+    public void onChatAction(ActionEvent event) {
+    	InGame.getContext().message("chat", chatField.getText());
+    }
+    
 }

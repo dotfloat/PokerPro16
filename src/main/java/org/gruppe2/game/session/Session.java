@@ -107,7 +107,7 @@ public abstract class Session implements Runnable {
         state = RunState.RUNNING;
 
         while (state != RunState.STOPPED) {
-            eventQueue.process();
+            context.getEventQueue().process();
             messageQueueProcess();
 
             update();

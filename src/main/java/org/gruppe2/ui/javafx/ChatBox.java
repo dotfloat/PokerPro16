@@ -8,12 +8,18 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Region;
+
+import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.ui.Resources;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ChatBox extends TextArea {
-    public ChatBox() {
+    
+	public ChatBox() {
         Resources.loadFXML(this);
+        InGame.getContext().setAnnotated(this);
         setPositionsAndSettings();
     }
 
@@ -35,8 +41,8 @@ public class ChatBox extends TextArea {
             else if (checkForCommands(textField)) ;
 
             else {
-                this.setText(this.getText() + "\n: " + textField.getText());
-                this.setScrollTop(Double.MAX_VALUE);
+            	System.out.println("heo");
+            	InGame.getContext().message("chat", textField.getText());
             }
             textField.setText("");
         });
@@ -67,13 +73,6 @@ public class ChatBox extends TextArea {
         });
 
     }
-
-
-    /**
-     * Method for doing commands
-     *
-     * @param textField
-     */
     private boolean checkForCommands(TextField textField) {
         String command = textField.getText().toLowerCase();
 
@@ -97,5 +96,10 @@ public class ChatBox extends TextArea {
             default:
                 return false;
         }
+    }
+    @Handler
+    public void chatHandler(ChatEvent chatEvent){
+    	System.out.println(chatEvent.getMessage());
+    	  this.setText(this.getText() + "\n: " + chatEvent.getMessage());
     }
 }
