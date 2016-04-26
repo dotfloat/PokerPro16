@@ -173,7 +173,8 @@ PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
     
     @FXML
     public void onChatAction(ActionEvent event) {
-    	InGame.getContext().message("chat", chatField.getText());
+    	InGame.getContext().message("chat", chatField.getText(), InGame.getPlayerUUID());
+    	chatField.setText("");
     }
     
     @Handler

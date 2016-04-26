@@ -9,13 +9,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Region;
 
+import org.gruppe2.game.Player;
 import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ChatBox extends TextArea {
+	
+	@Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+    
     
 	public ChatBox() {
         Resources.loadFXML(this);
@@ -99,6 +109,8 @@ public class ChatBox extends TextArea {
     }
     @Handler
     public void chatHandler(ChatEvent chatEvent){
-    	this.appendText("\n"+": "+chatEvent.getMessage());
+    	Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID());
+    	
+    	this.appendText("\n"+player.getName()+": "+chatEvent.getMessage());
     }
 }
