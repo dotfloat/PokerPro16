@@ -11,6 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
+import org.gruppe2.game.Action;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Query;
 import org.gruppe2.ui.Resources;
 
 public class ChoiceBar extends HBox {
@@ -26,6 +30,8 @@ public class ChoiceBar extends HBox {
     private Label sliderValue;
     @FXML
     private Button btnBet;
+    
+    private Query<Action> actionQuery = null;
 
     public ChoiceBar() {
         Resources.loadFXML(this);
@@ -54,7 +60,6 @@ public class ChoiceBar extends HBox {
         btnBet.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
 
-
     }
 
     private void setFontListener() {
@@ -68,8 +73,6 @@ public class ChoiceBar extends HBox {
 
     @FXML
     public void setEvents() {
-        btnFold.setOnAction(e -> foldAction());
-        btnBet.setOnAction(e -> betAction());
 
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderValue.textProperty().setValue(checkMaxBid(slider));
@@ -82,36 +85,42 @@ public class ChoiceBar extends HBox {
      */
     private void setKeyListener() {
         chatField.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case UP:
-                    slider.setValue(slider.getValue() * 2);
-                    break;
-                case DOWN:
-                    slider.setValue(slider.getValue() / 2);
-                    break;
-                case LEFT:
-                    foldAction();
-                    break;
-                case RIGHT:
-                    betAction();
-                    break;
-                default:
-                    break;
-            }
+        	if(actionQuery != null){
+	            switch (event.getCode()) {
+	                case UP:
+	                    slider.setValue(slider.getValue() * 2);
+	                    break;
+	                case DOWN:
+	                    slider.setValue(slider.getValue() / 2);
+	                    break;
+	                case LEFT:
+	                    foldAction();
+	                    break;
+	                case RIGHT:
+	                    betAction();
+	                    break;
+	                default:
+	                    break;
+	            }
+	            actionQuery = null;
+        	}
         });
     }
 
-    /**
-     * This will become fxml
-     */
+    @FXML
     private void foldAction() {
-        //client.setAction(new Action.Fold());
+    	if(actionQuery != null){
+    		
+    		actionQuery = null;
+    	}
     }
 
-    /**
-     * This will become fxml
-     */
+    @FXML
     private void betAction() {
+    	if(actionQuery != null){
+//        	InGame.getContext().message("chat", textField.getText());
+    		actionQuery = null;
+    	}
     }
 
     /**
@@ -134,6 +143,7 @@ public class ChoiceBar extends HBox {
      * @param player
      */
     void updatePossibleBarsToClick() {
+    	
         slider.setMax(1000);
         slider.setMin(0);
         slider.setValue(0);
@@ -144,4 +154,9 @@ public class ChoiceBar extends HBox {
     	InGame.getContext().message("chat", chatField.getText());
     }
     
+    @Handler
+    public void setActionHandler(PlayerActionQuery playerActionQuery){
+    	if(playerActionQuery.getPlayer().getUUID().equals(InGame.getPlayerUUID()))
+    		actionQuery = playerActionQuery.getPlayer().getAction();
+    }
 }

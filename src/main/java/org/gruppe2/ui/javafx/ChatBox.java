@@ -99,7 +99,6 @@ public class ChatBox extends TextArea {
     }
     @Handler
     public void chatHandler(ChatEvent chatEvent){
-    	System.out.println(chatEvent.getMessage());
-    	  this.setText(this.getText() + "\n: " + chatEvent.getMessage());
+        this.setText(this.getText() + "\n: " + chatEvent.getMessage());
     }
 }

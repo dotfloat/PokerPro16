@@ -6,8 +6,8 @@
 <fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" styleClass="hbox">
 	
 		<TextField fx:id="chatField" alignment="CENTER_LEFT" styleClass="chatField" onAction="#onChatAction"/>
-		<Button fx:id="btnFold" text="FOLD" id="button" />
+		<Button fx:id="btnFold" text="FOLD" id="button" onAction="#foldAction"/>
 		<Slider fx:id="slider" id="slider"/>
 		<Label fx:id="sliderValue" text="0 CHIPS" id="label"/>
-		<Button fx:id="btnBet" text="BET" id="button" />
+		<Button fx:id="btnBet" text="BET" id="button" onAction="#betAction"/>
 </fx:root>
