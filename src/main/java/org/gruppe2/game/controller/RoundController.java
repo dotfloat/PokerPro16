@@ -72,16 +72,16 @@ public class RoundController extends AbstractController {
     private void resetRound(){
         List<RoundPlayer> active = round.getActivePlayers();
         active.clear();
+        resetDeck();
 
         for (Player p: game.getPlayers())
             if (p.getBank() > 0 )
-                active.add(new RoundPlayer(p.getUUID(), null, null));
+                active.add(new RoundPlayer(p.getUUID(), deck.remove(0), deck.remove(0)));
 
         round.setPot(0);
         round.setHighestBet(0);
         round.setCurrent(game.getButton());
         lastPlayerInRound = round.getCurrentUUID();
-        resetDeck();
     }
 
     private void handleAction (){

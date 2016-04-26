@@ -68,7 +68,7 @@ public class ConsoleApplication implements Runnable {
 //        System.out.println("Highest bet: " + getSession().getHighestBet());
 //        System.out.println("Table pot: " + getSession().getTable().getPot());
         System.out.println("Community cards: " + context.getModel(RoundModel.class).getCommunityCards());
-        //System.out.printf("Your cards: %s %s \n", player.(), player.getCard2());
+        System.out.printf("Your cards: %s %s \n", roundPlayer.getCards()[0], roundPlayer.getCards()[1]);
         System.out.printf("Your chips: %d \n", player.getBank());
         System.out.printf("Current bet: %d \n", roundPlayer.getBet());
         System.out.println("> Your turn, you can: ");

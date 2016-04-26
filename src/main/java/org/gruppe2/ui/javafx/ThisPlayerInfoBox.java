@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Helper;
@@ -59,6 +60,7 @@ public class ThisPlayerInfoBox extends HBox {
 
     public void setUp() {
         Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(InGame.getPlayerUUID());
 
         if (player == null) {
             setVisible(false);
@@ -66,11 +68,12 @@ public class ThisPlayerInfoBox extends HBox {
         }
         playerName.setText(player.getName());
         stack.setText("$" + player.getBank());
-        playerBet.setText("BET: " + player.getBet());
+        playerBet.setText("BET: " + roundPlayer.getBet());
     }
 
     public void update() {
         Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(InGame.getPlayerUUID());
 
         if (player == null) {
             setVisible(false);
@@ -78,7 +81,7 @@ public class ThisPlayerInfoBox extends HBox {
         }
         playerName.setText(player.getName());
         stack.setText("$" + player.getBank());
-        playerBet.setText("BET: " + player.getBet());
+        playerBet.setText("BET: " + roundPlayer.getBet());
         updatePicture();
     }
 
