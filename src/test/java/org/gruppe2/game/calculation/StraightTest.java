@@ -1,7 +1,6 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.Card;
 import org.junit.Test;
 
 import java.util.ArrayList;

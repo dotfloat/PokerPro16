@@ -5,19 +5,24 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import org.gruppe2.game.old.Player;
+import javafx.scene.layout.GridPane;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
 
-import java.awt.*;
-import java.io.IOException;
+import java.util.UUID;
 
-/**
- * Created by kjors on 07.04.2016.
- */
 public class PlayerInfoBox extends BorderPane {
-    Player player;
+    private UUID playerUUID = null;
+
+    @Helper
+    private RoundHelper roundHelper;
+    @Helper
+    private GameHelper gameHelper;
 
     @FXML
     private Label playerName;
@@ -27,10 +32,10 @@ public class PlayerInfoBox extends BorderPane {
     private Label currentBet;
     @FXML
     private ImageView playerPicture;
-//    Position pos;
 
-    public PlayerInfoBox() {
+    PlayerInfoBox() {
         Resources.loadFXML(this);
+        InGame.getContext().setAnnotated(this);
         playerPicture.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.06));
         playerName.fontProperty().bind(ChoiceBar.fontTracking);
         stack.fontProperty().bind(ChoiceBar.fontTracking);
@@ -38,27 +43,31 @@ public class PlayerInfoBox extends BorderPane {
 
     }
 
-    public void setValues(Player player) {
-        this.player = player;
-        playerName.setText(player.getName());
-        currentBet.setText("0");
-        stack.setText(String.valueOf(player.getBank()));
+    void setValues(UUID playerUUID) {
+        this.playerUUID = playerUUID;
 
+        playerName.setText(gameHelper.findPlayerByUUID(playerUUID).getName());
+        currentBet.setText("0");
+        stack.setText(String.valueOf(gameHelper.findPlayerByUUID(playerUUID).getBank()));
     }
 
-    public void updateInfoBox() {
-        if (player == null) {
+    void updateInfoBox() {
+        if (playerUUID == null) {
             setVisible(false);
             return;
         }
+
+        Player player = gameHelper.findPlayerByUUID(playerUUID);
+        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
+
         playerName.setText(player.getName());
         stack.setText("$" + player.getBank());
-        currentBet.setText("BET: " + player.getBet());
+        currentBet.setText("BET: " + roundPlayer.getBet());
         updatePicture();
     }
 
     private void updatePicture() {
-        if (player.getClient().getSession().playerHasFolded(player))
+        if (roundHelper.findPlayerByUUID(playerUUID) == null)
             playerPicture.setImage(new Image
                     (getClass().getResourceAsStream("/images/avatars/defaultFolded.png")));
         else
@@ -77,15 +86,7 @@ public class PlayerInfoBox extends BorderPane {
         getStyleClass().add("pane");
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    @FXML
-    private void viewStatistic(MouseEvent event) {
-        SceneController.setStatistic(new Statistic(false),
-                event.getSceneX(), event.getSceneY());
-
-
+    public void viewStatistic() {
+        SceneController.setModal(this);
     }
 }

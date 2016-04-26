@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import org.gruppe2.ui.Resources;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -31,9 +32,6 @@ public class MainMenu extends BorderPane {
 
 	public MainMenu() {
 		Resources.loadFXML(this);
-		PokerApplication.replayMode = false;
-		if(PokerApplication.numberOfBots == 0)
-			PokerApplication.numberOfBots = 3;
 			
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
@@ -46,21 +44,21 @@ public class MainMenu extends BorderPane {
 	}
 
 	public void goToSinglePlayer() throws InterruptedException {
-		SceneController.setScene(new GameWindow());
+		SceneController.setScene(new InGame());
 	}
 	public void createNetWorkTable(){
-		SceneController.setScene(new GameWindow());
+		SceneController.setScene(new InGame());
 	}
 
 	public void goToLobby(){
 		SceneController.setScene(new Lobby());
 	}
 	public void goToStatistics(){
-		SceneController.setScene(new StatisticsMenu());
+		throw new NotImplementedException();
 	}
 	
 	public void goToSettings(){
-		SceneController.setScene(new Settings());
+		throw new NotImplementedException();
 	}
 
 	private void fadeIn() {

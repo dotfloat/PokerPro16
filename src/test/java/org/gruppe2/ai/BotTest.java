@@ -6,13 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.Card;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.gruppe2.game.old.Action;
-import org.gruppe2.game.old.Card.Suit;
+import org.gruppe2.game.Card.Suit;
 
 public class BotTest {
 	

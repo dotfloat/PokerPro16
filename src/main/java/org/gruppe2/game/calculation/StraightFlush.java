@@ -1,32 +1,39 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Hand;
 
 import java.util.Collection;
 
-/**
- * Created by Mikal on 12.04.2016.
- * This class is for evaluations concerning straight flushes
- */
-public class StraightFlush implements HandCalculation{
+class StraightFlush implements HandCalculation{
 
-    public static boolean canGetStraightFlush(Collection<Card> communityCards, Player p){
-        return Straight.canGetStraight(communityCards, p, true);
+    @Override
+    public boolean isHand(Collection<Card> cards) {
+        return false;
     }
 
     @Override
-    public boolean canGetHand(Collection<Card> communityCards, Player p) {
-        return canGetStraightFlush(communityCards, p);
+    public Collection<Card> getBestCards(Collection<Card> cards) {
+        return null;
     }
 
     @Override
-    public double handProbability(Collection<Card> communityCards, Player p) {
+    public boolean canGet(Collection<Card> cards) {
+        return false;
+    }
+
+    @Override
+    public double probability(Collection<Card> cards) {
         return 0;
     }
 
     @Override
-    public HandType getType() {
-        return HandType.STRAIGHTFLUSH;
+    public Hand getType() {
+        return Hand.STRAIGHTFLUSH;
+    }
+
+    @Override
+    public int compare(Collection<Card> cards, Collection<Card> t1) {
+        return 0;
     }
 }

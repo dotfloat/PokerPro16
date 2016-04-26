@@ -1,45 +1,39 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Hand;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
-/**
- * Created by Mikal on 11.04.2016.
- * This class is for evaluations concerning Flush
- */
-public class Flush implements HandCalculation{
+class Flush implements HandCalculation {
 
-    public static boolean canGetFlush(Collection<Card> communityCards, Player p){
-        if (communityCards == null || communityCards.size() == 0)
-            return true;
-
-        ArrayList<Card> allCards = GeneralCalculations.makeOneListOfCards(communityCards, p);
-
-        HashMap<Card.Suit, Integer> numTypes = GeneralCalculations.numberOfEachSuit(allCards);
-
-        for (Card.Suit suit : numTypes.keySet())
-            if (numTypes.get(suit) >= communityCards.size())
-                return true;
-
+    @Override
+    public boolean isHand(Collection<Card> cards) {
         return false;
     }
 
     @Override
-    public boolean canGetHand(Collection<Card> communityCards, Player p) {
-        return canGetFlush(communityCards, p);
+    public Collection<Card> getBestCards(Collection<Card> cards) {
+        return null;
     }
 
     @Override
-    public double handProbability(Collection<Card> communityCards, Player p) {
+    public boolean canGet(Collection<Card> cards) {
+        return false;
+    }
+
+    @Override
+    public double probability(Collection<Card> cards) {
         return 0;
     }
 
     @Override
-    public HandType getType() {
-        return HandType.FLUSH;
+    public Hand getType() {
+        return Hand.FLUSH;
+    }
+
+    @Override
+    public int compare(Collection<Card> cards, Collection<Card> t1) {
+        return 0;
     }
 }

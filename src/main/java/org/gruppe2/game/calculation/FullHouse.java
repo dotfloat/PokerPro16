@@ -1,46 +1,39 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Hand;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * This class is for evaluations concerning Full House
- */
-public class FullHouse implements HandCalculation{
+class FullHouse implements HandCalculation {
 
-    public static boolean canGetFullHouse(Collection<Card> communityCards, Player p){
-        if (communityCards == null || communityCards.size() == 0)
-            return true;
-
-        int amountSameFace = GeneralCalculations.amountOfSameFace(communityCards,p);
-        ArrayList<Integer> recurringCards = GeneralCalculations.recurringFaceValues(communityCards, p);
-        if(communityCards.size() <3)
-            return true;
-        if(communityCards.size() == 3 && amountSameFace >=2)
-            return true;
-        if(communityCards.size() == 4 && recurringCards.size() >=3)
-            return true;
-        if(communityCards.size() == 5 && recurringCards.size() >=5)
-            return true;
-
+    @Override
+    public boolean isHand(Collection<Card> cards) {
         return false;
     }
 
     @Override
-    public boolean canGetHand(Collection<Card> communityCards, Player p) {
-        return canGetFullHouse(communityCards, p);
+    public Collection<Card> getBestCards(Collection<Card> cards) {
+        return null;
     }
 
     @Override
-    public double handProbability(Collection<Card> communityCards, Player p) {
+    public boolean canGet(Collection<Card> cards) {
+        return false;
+    }
+
+    @Override
+    public double probability(Collection<Card> cards) {
         return 0;
     }
 
     @Override
-    public HandType getType() {
-        return HandType.FULLHOUSE;
+    public Hand getType() {
+        return Hand.FULLHOUSE;
+    }
+
+    @Override
+    public int compare(Collection<Card> cards, Collection<Card> t1) {
+        return 0;
     }
 }

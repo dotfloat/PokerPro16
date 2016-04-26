@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.BorderPane?>
+<?import org.gruppe2.ui.javafx.ChoiceBar?>
+<?import org.gruppe2.ui.javafx.PlayerCards?>
+<?import org.gruppe2.ui.javafx.Table?>
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
+
+   <bottom>
+   		<ChoiceBar fx:id="choiceBar"/>
+   </bottom>
+
+    <center>
+   		<Table fx:id="table"/>
+   </center>
+
+   <PlayerCards fx:id="playerCards"/>
+   
+
+</fx:root>

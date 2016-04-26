@@ -6,41 +6,94 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
 
-/**
- * Created by Petter on 21/04/2016.
- */
-public class ThisPlayerInfoBox extends HBox {
-    @FXML Label playerName;
-    @FXML ImageView profileImage;
-    @FXML Label playerBet;
-    @FXML Label stack;
+import static sun.audio.AudioPlayer.player;
 
-    public ThisPlayerInfoBox(){
+public class ThisPlayerInfoBox extends HBox {
+    @Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+
+    @FXML
+    private Label playerName;
+    @FXML
+    private ImageView profileImage;
+    @FXML
+    private Label playerBet;
+    @FXML
+    private Label stack;
+
+    public ThisPlayerInfoBox() {
         Resources.loadFXML(this);
+        InGame.getContext().setAnnotated(this);
+
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
-
     }
 
-    private void setSize(){
+    private void setSize() {
         double boxScale = 0.35;
-        this.paddingProperty().setValue(new Insets(10,10,10,10));
+        this.paddingProperty().setValue(new Insets(10, 10, 10, 10));
         this.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(boxScale));
-        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(boxScale*0.2));
+        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(boxScale * 0.2));
         this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(boxScale));
-        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(boxScale*0.2));
+        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(boxScale * 0.2));
         this.spacingProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.02));
     }
 
-    private void bindToStage(Node... nodes){
-        for(Node n : nodes) {
+    private void bindToStage(Node... nodes) {
+        for (Node n : nodes) {
             if (n instanceof Label) {
                 ((Label) n).fontProperty().bind(ChoiceBar.fontTracking);
                 ((Label) n).prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
-            }
-            else if (n instanceof ImageView) ((ImageView) n).fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
+            } else if (n instanceof ImageView)
+                ((ImageView) n).fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
         }
     }
+
+    public void setUp() {
+        Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+
+        if (player == null) {
+            setVisible(false);
+            return;
+        }
+        playerName.setText(player.getName());
+        stack.setText("$" + player.getBank());
+        playerBet.setText("BET: " + player.getBet());
+    }
+
+    public void update() {
+        Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+
+        if (player == null) {
+            setVisible(false);
+            return;
+        }
+        playerName.setText(player.getName());
+        stack.setText("$" + player.getBank());
+        playerBet.setText("BET: " + player.getBet());
+        updatePicture();
+    }
+
+    public void updatePicture() {
+        //TODO ----->
+    }
+
+    public void setActive() {
+        getStyleClass().clear();
+        getStyleClass().add("paneActive");
+    }
+
+    public void setInActive() {
+        getStyleClass().clear();
+        getStyleClass().add("pane");
+    }
+
 }
