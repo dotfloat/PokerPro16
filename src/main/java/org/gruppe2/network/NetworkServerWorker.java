@@ -27,17 +27,16 @@ class NetworkServerWorker implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("jeg er i server");
 		try {
 			String input;
-
+			
 			while (true) {
 				PrintWriter out = new PrintWriter(
 						clientSocket.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						clientSocket.getInputStream()));
 				input = in.readLine();
-				
-				
 				
 				if (input == null) {
 					break;
@@ -53,7 +52,8 @@ class NetworkServerWorker implements Runnable {
 				if(masterGreetingOK == true && masterGreetingOK== true){ //Thrid print starts game
 					if(s[0].equals("join")){
 						if(s[1].equals("1"))
-							out.print("ok;join;1");
+							out.print("ok;join;1\n");
+							out.flush();
 							System.out.println("ok;join;1");
 							ArrayList<Socket> clients = new ArrayList<Socket>();
 							clients.add(clientSocket);
@@ -63,15 +63,17 @@ class NetworkServerWorker implements Runnable {
 				}
 				
 				if(masterGreetingOK == false && masterGreeting== true && input.equals("ok")){ //Second print gives tables
-					out.print("table;1;4;6");
+					out.print("table;1;4;6\n");
+					out.flush();
 					System.out.println("table;1;4;6");
 					masterGreetingOK = true;
 				}
 				
 				if(masterGreeting== false && input.equals("master")){ //First print on master request
 					masterGreeting = true;
-					System.out.println("yes");
-					out.print("yes");
+					System.out.println("yes i server");
+					out.print("yes\n");
+					out.flush();
 				}
 
 			}

@@ -12,7 +12,8 @@ public class NetworkServerGameSession {
 	private Socket clientSocket = null;
 	private String serverGameName = null;
 	ArrayList<Socket> clients = null;
-	
+	ArrayList<PrintWriter> outs;
+	ArrayList<BufferedReader> ins;
 	NetworkServerGameSession(Socket clientSocket, String name, ArrayList<Socket> clients ) {
 		this.clientSocket = clientSocket;
 		this.serverGameName = name;

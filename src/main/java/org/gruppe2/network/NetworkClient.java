@@ -8,7 +8,7 @@ public class NetworkClient implements Runnable {
 
 	private int port = 8888;
 	private String host = "localhost";
-
+	boolean firstMessage = true;
 	@Override
 	public void run() {
 
@@ -24,31 +24,34 @@ public class NetworkClient implements Runnable {
             String joinMessage = "join";
 
             while (true) {
-                String fromServer = in.readLine();
-                if (fromServer == null) {
+                
+                if (firstMessage) {
                     System.out.println("Client: " + initialMessage);
                     out.println(initialMessage + "\n");
                     out.flush();
+                    firstMessage = false;
                 }
-                else if(fromServer.equals("yes")) {
+                String fromServer = in.readLine();
+                
+                if(fromServer.equals("yes")) {
                     System.out.println("Client: " + secondMessage);
                     out.println(secondMessage + "\n");
                     out.flush();
                 }
                 else if(fromServer.contains("table")){
                     String[] s = fromServer.split(";");
-                    joinMessage = joinMessage + " " + s[0];
+                    joinMessage = joinMessage + ";" + s[1];
                     System.out.println("Client: " + joinMessage);
                     out.println(joinMessage + "\n");
                     out.flush();
                 }
                 else if(fromServer.contains("ok") && fromServer.contains("join")) {
                     String[] s = fromServer.split(";");
+                    System.out.println("spillet er klart!");
                     join(Integer.parseInt(s[2]));
                     break;
                 }
             }
-
 
 		} catch (UnknownHostException h) {
 			h.printStackTrace();
