@@ -6,15 +6,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
+import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.Resources;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 class InGame extends BorderPane {
     private static SessionContext context = null;
@@ -34,6 +34,8 @@ class InGame extends BorderPane {
     @FXML
     private ChoiceBar choiceBar;
 
+    private Timer sessionTimer = new Timer();
+
     InGame() {
         // TODO: Move this out of the constructor
         context = new GameBuilder().start();
@@ -43,6 +45,13 @@ class InGame extends BorderPane {
 
         Resources.loadFXML(this);
         context.setAnnotated(this);
+
+        sessionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> InGame.getContext().getEventQueue().process());
+            }
+        }, 0, 50);
     }
 
     public static UUID getPlayerUUID() {
@@ -53,16 +62,13 @@ class InGame extends BorderPane {
         return context;
     }
 
-    /**
-     * This is for testing
-     */
+    @Handler
+    public void setUpPlayer(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
 
-    public void setUpPlayerBoxes() {
-        for (Player player : gameHelper.getPlayers()) {
-            PlayerInfoBox playerInfoBox = new PlayerInfoBox();
-            playerInfoBoxes.add(playerInfoBox);
-            playerInfoBox.setValues(player.getUUID());
-        }
+        PlayerInfoBox playerInfoBox = new PlayerInfoBox();
+        playerInfoBoxes.add(playerInfoBox);
+        playerInfoBox.setValues(player.getUUID());
 
         paintAllPlayers(playerInfoBoxes);
     }
@@ -92,12 +98,6 @@ class InGame extends BorderPane {
 
     private void paintPlayerInfoBox(Pane playerInfoBox, double x, double y) {
 
-        // TODO: Is everything ugly when you resize the window?
-        // It's probably because I hardcoded the width and height values.
-        // Un-hardcode them and receive an ice cream.
-
-        playerInfoBox.setLayoutX(x * 1280);
-        playerInfoBox.setLayoutY(y * 768);
         playerInfoBox.maxWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.05));
         playerInfoBox.maxHeightProperty().bind(
