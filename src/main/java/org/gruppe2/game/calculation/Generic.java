@@ -6,14 +6,14 @@ import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 
 /**
  * Created by Åsmund on 26/04/2016.
  */
 public class Generic {
-    public static ArrayList<Integer> recurringFaceValues(Collection<Card> cards) {
+    public static ArrayList<Integer> recurringFaceValues(List<Card> cards) {
         ArrayList<Integer> recurringFaceValues = new ArrayList<Integer>();
 
         HashMap<Integer, Integer> hashMapCards = new HashMap<Integer, Integer>();
@@ -39,7 +39,7 @@ public class Generic {
 
 
 
-    public static int amountOfSameFace(Collection<Card> cards){
+    public static int amountOfSameFace(List<Card> cards){
         HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
         int amountOfSameKind = 1;
 
@@ -80,7 +80,7 @@ public class Generic {
         return hands;
     }
 
-    public static HashMap<Card.Suit, Integer> numberOfEachSuit(Collection<Card> cards){
+    public static HashMap<Card.Suit, Integer> numberOfEachSuit(List<Card> cards){
         HashMap<Card.Suit, Integer> numTypes = new HashMap<>();
         numTypes.put(Card.Suit.CLUBS, 0);
         numTypes.put(Card.Suit.DIAMONDS, 0);
@@ -93,14 +93,14 @@ public class Generic {
         return numTypes;
     }
 
-    public static Hand getBestHandForPlayer(Collection<Card> cards) {
+    public static Hand getBestHandForPlayer(List<Card> cards) {
         for (HandCalculation hand : getAllHandTypes())
             if (hand.canGet(cards))
                 return hand.getType();
         return Hand.HIGHCARD;
     }
 
-    public static HashMap<Hand, Boolean> getAllPossibleHandsForPlayer (Collection<Card> cards){
+    public static HashMap<Hand, Boolean> getAllPossibleHandsForPlayer (List<Card> cards){
         HashMap<Hand, Boolean> types = new HashMap<>();
 
         return types;
