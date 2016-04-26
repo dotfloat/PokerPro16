@@ -1,9 +1,7 @@
 package org.gruppe2.ai;
 
 import org.gruppe2.game.Action;
-import org.gruppe2.game.event.PlayerActionQuery;
-import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.Player;
 import org.gruppe2.game.session.Query;
 
 import java.util.Random;
@@ -19,14 +17,14 @@ public class NewDumbAI implements AI{
 
     private final Random rand = new Random();
 
-    public static PlayerModel generateModel() {
+    public static Player generateModel() {
         Random rand = new Random();
 
-        return new PlayerModel(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", new Query<>(), true);
+        return new Player(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", new Query<>(), true);
     }
 
     @Override
-    public void doAction(PlayerModel model) {
+    public void doAction(Player model) {
         if (!model.isBot())
             return;
 

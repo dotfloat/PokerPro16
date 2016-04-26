@@ -1,15 +1,15 @@
 package org.gruppe2.game.event;
 
-import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.Player;
 
 public class PlayerPreActionEvent implements Event {
-    private final PlayerModel playerModel;
+    private final Player player;
 
-    public PlayerPreActionEvent(PlayerModel playerModel) {
-        this.playerModel = playerModel;
+    public PlayerPreActionEvent(Player player) {
+        this.player = player;
     }
 
-    public PlayerModel getPlayerModel() {
-        return playerModel;
+    public Player getPlayer() {
+        return player;
     }
 }

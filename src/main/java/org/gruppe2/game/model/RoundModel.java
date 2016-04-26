@@ -1,20 +1,27 @@
 package org.gruppe2.game.model;
 
+import org.gruppe2.game.Card;
+import org.gruppe2.game.RoundPlayer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class RoundModel {
-    private final List<PlayerModel> activePlayers = Collections.synchronizedList(new ArrayList<>());
+    private final List<RoundPlayer> activePlayers = Collections.synchronizedList(new ArrayList<>());
+    private final List<Card> communityCards = Collections.synchronizedList(new ArrayList<>());
 
     private volatile boolean playing = false;
     private volatile int current = 0;
     private volatile int pot = 0;
     private volatile int highestBet = 0;
 
-    public List<PlayerModel> getActivePlayers() {
+    public List<RoundPlayer> getActivePlayers() {
         return activePlayers;
+    }
+
+    public List<Card> getCommunityCards() {
+        return communityCards;
     }
 
     public int getPot() {

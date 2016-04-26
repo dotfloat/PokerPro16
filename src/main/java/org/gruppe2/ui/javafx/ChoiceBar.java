@@ -1,41 +1,29 @@
 package org.gruppe2.ui.javafx;
 
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-
-import org.gruppe2.game.old.Action;
-import org.gruppe2.game.old.Player;
-import org.gruppe2.game.old.PossibleActions;
 import org.gruppe2.ui.Resources;
 
 public class ChoiceBar extends HBox {
-    private int width = PokerApplication.getWidth();
-    private int height = PokerApplication.getHeight();
-    private GUIPlayer client;
-    private Player player;
-    static ObjectProperty<Font> fontTracking = new SimpleObjectProperty<Font>(Font.getDefault());
+    static ObjectProperty<Font> fontTracking = new SimpleObjectProperty<>(Font.getDefault());
 
     @FXML
     private TextField chatField;
     @FXML
-    private Button FOLD;
+    private Button btnFold;
     @FXML
     private Slider slider;
     @FXML
     private Label sliderValue;
     @FXML
-    private Button BET;
+    private Button btnBet;
 
     public ChoiceBar() {
         Resources.loadFXML(this);
@@ -50,7 +38,7 @@ public class ChoiceBar extends HBox {
 
         slider.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.2));
-        slider.setMinWidth(width * 0.05);
+        slider.minWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
         chatField.minWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.21));
         chatField.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.22));
@@ -59,39 +47,30 @@ public class ChoiceBar extends HBox {
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
         chatField.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.10));
-        FOLD.prefWidthProperty().bind(
+        btnFold.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
-        BET.prefWidthProperty().bind(
+        btnBet.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
 
 
     }
 
     private void setFontListener() {
-        BET.fontProperty().bind(fontTracking);
-        FOLD.fontProperty().bind(fontTracking);
+        btnBet.fontProperty().bind(fontTracking);
+        btnFold.fontProperty().bind(fontTracking);
         chatField.fontProperty().bind(fontTracking);
-        this.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldWidth, Number newWidth) {
-                fontTracking.set(Font.font(newWidth.doubleValue() / 70));
-            }
+        this.widthProperty().addListener((observableValue, oldWidth, newWidth) -> {
+            fontTracking.set(Font.font(newWidth.doubleValue() / 70));
         });
     }
 
     @FXML
-    public void setEvents(GUIPlayer client) {
-        this.client = client;
-        this.player = client.getSession().getPlayers().get(0);
-        FOLD.setOnAction(e -> foldAction());
-        BET.setOnAction(e -> betAction());
+    public void setEvents() {
+        btnFold.setOnAction(e -> foldAction());
+        btnBet.setOnAction(e -> betAction());
 
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                                Number oldValue, Number newValue) {
-                sliderValue.textProperty().setValue(checkMaxBid(slider));
-            }
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            sliderValue.textProperty().setValue(checkMaxBid(slider));
         });
         setKeyListener();
     }
@@ -99,9 +78,6 @@ public class ChoiceBar extends HBox {
     /**
      * Makes it possible to use keys to play, instead of mouse
      */
-
-    @SuppressWarnings("incomplete-switch")
-
     private void setKeyListener() {
         chatField.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -117,6 +93,8 @@ public class ChoiceBar extends HBox {
                 case RIGHT:
                     betAction();
                     break;
+                default:
+                    break;
             }
         });
     }
@@ -125,33 +103,13 @@ public class ChoiceBar extends HBox {
      * This will become fxml
      */
     private void foldAction() {
-        client.setAction(new Action.Fold());
+        //client.setAction(new Action.Fold());
     }
 
     /**
      * This will become fxml
      */
     private void betAction() {
-        PossibleActions pa = client.getSession().getPlayerOptions(player);
-        
-        if (pa.canRaise() && slider.getValue() > 1)
-            raise(client, slider, player);
-        else if (pa.canCheck())
-            client.setAction(new Action.Check());
-        else if (pa.canCall())
-            client.setAction(new Action.Call());
-        else if(pa.canAllIn()){
-        	client.setAction(new Action.AllIn());
-        }
-    }
-
-    private void raise(GUIPlayer client, Slider raiseSlider, Player player) {
-        if (client.getSession().getPlayerOptions(player).getMinRaise() <= raiseSlider
-                .getValue()) {
-            if (client.getSession().getPlayerOptions(player).getMaxRaise() >= raiseSlider
-                    .getValue())
-                client.setAction(new Action.Raise((int) raiseSlider.getValue()));
-        }
     }
 
     /**
@@ -162,9 +120,9 @@ public class ChoiceBar extends HBox {
      */
     private String checkMaxBid(Slider slider) {
         if (slider.getValue() == slider.getMax())
-            BET.setText("ALL IN");
+            btnBet.setText("ALL IN");
         else
-            BET.setText("RAISE");
+            btnBet.setText("RAISE");
         return (int) slider.getValue() + " CHIPS";
     }
 
@@ -173,19 +131,9 @@ public class ChoiceBar extends HBox {
      *
      * @param player
      */
-    public void updatePossibleBarsToClick(Player player) {
-        PossibleActions pa = client.getSession().getPlayerOptions(player);
-        if (pa.canCall())
-            BET.setText("CALL");
-
-        if (pa.canRaise() && slider.getValue() > 1) {
-            BET.getStyleClass().add("button");
-            BET.setText("RAISE");
-        } else if (pa.canCheck())
-            BET.setText("CHECK");
-
-        slider.setMax(pa.getMaxRaise());
-        slider.setMin(pa.getMinRaise());
-        slider.setValue(pa.getMinRaise());
+    void updatePossibleBarsToClick() {
+        slider.setMax(1000);
+        slider.setMin(0);
+        slider.setValue(0);
     }
 }

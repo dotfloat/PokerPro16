@@ -1,33 +1,42 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Hand;
 
 import java.util.Collection;
+import java.util.Comparator;
 
-/**
- * Created by Mikal on 12.04.2016.
- */
-public interface HandCalculation {
+interface HandCalculation extends Comparator<Collection<Card>> {
+    /**
+     * Check if the given list of cards is a certain hand (ie. if it's a Pair)
+     * @param cards a collection of 7 cards
+     * @return true if it's a valid hand, false otherwise
+     */
+    boolean isHand(Collection<Card> cards);
 
     /**
-     * Checks if its possible to get a certain hand
-     * @param communityCards Cards on the table
-     * @param p The player
-     * @return True if a hand is possible to get
+     * Get the best 5 cards out of the 7 available
+     * @param cards a list with 7 cards
+     * @return A list with 5 elements or null if it's impossible to get the hand
      */
-    boolean canGetHand(Collection<Card> communityCards, Player p);
+    Collection<Card> getBestCards(Collection<Card> cards);
+
+    /**
+     * Checks if its possible to get a certain hand when there are < 7 cards
+     * @param cards a collection of [5, 7) cards to evaluate
+     * @return true if a hand is possible to get, false otherwise
+     */
+    boolean canGet(Collection<Card> cards);
 
     /**
      * Calculates the probability that player p gets a specific hand
-     * @param communityCards Cards on the table
-     * @param p The player
-     * @return The probability in the form of a double
+     * @param player The player model for the round
+     * @return The probability as a double in the range 0..1
      */
-    double handProbability(Collection<Card> communityCards, Player p);
+    double probability(Collection<Card> cards);
 
     /**
      * @return The hand type
      */
-    HandType getType();
+    Hand getType();
 }

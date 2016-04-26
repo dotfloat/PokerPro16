@@ -3,7 +3,6 @@ package org.gruppe2.ui.javafx;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
@@ -41,12 +40,6 @@ public class RightMenu extends VBox {
 
 	public void leaveTable(ActionEvent actionEvent) {
 		SceneController.setScene(new MainMenu());
-		PokerApplication.inGame = false;
-		
-		if (((GameWindow) this.getParent().getParent()).getThread() != null) {
-			((GameWindow) this.getParent().getParent()).getThread().interrupt();
-		}
-
 	}
 
 	public void viewLobby(ActionEvent actionEvent) {

@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-import org.gruppe2.game.old.Card;
+import org.gruppe2.game.Card;
 import org.gruppe2.ui.Resources;
 
 public class CommunityCards extends HBox {

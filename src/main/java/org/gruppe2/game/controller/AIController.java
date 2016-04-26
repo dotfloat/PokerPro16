@@ -9,10 +9,10 @@ import org.gruppe2.game.session.Handler;
  * Created by Mikal on 21.04.2016.
  */
 public class AIController extends AbstractController {
-    private AI dumbAI = new NewDumbAI();
+    private AI ai = new NewDumbAI();
 
     @Handler
     public void onAction (PlayerActionQuery query) {
-        dumbAI.doAction(query.getPlayerModel());
+        ai.doAction(query.getPlayer());
     }
 }

@@ -3,9 +3,10 @@ package org.gruppe2.ui.console;
 import org.gruppe2.Main;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.Player;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
@@ -59,18 +60,18 @@ public class ConsoleApplication implements Runnable {
 
     @Handler
     public void onAction(PlayerActionQuery query) {
-        if (!query.getPlayerModel().getUUID().equals(playerUUID))
+        if (!query.getPlayer().getUUID().equals(playerUUID))
             return; // Query isn't for us :(
 
-        PlayerModel player = query.getPlayerModel();
+        Player player = query.getPlayer();
 //        System.out.println("Highest bet: " + getSession().getHighestBet());
 //        System.out.println("Table pot: " + getSession().getTable().getPot());
-        System.out.println("Community cards: " + context.getModel(GameModel.class).getCommunityCards());
-        System.out.printf("Your cards: %s %s \n", player.getCard1(), player.getCard2());
+        System.out.println("Community cards: " + context.getModel(RoundModel.class).getCommunityCards());
+        //System.out.printf("Your cards: %s %s \n", player.(), player.getCard2());
         System.out.printf("Your chips: %d \n", player.getBank());
         System.out.printf("Current bet: %d \n", player.getBet());
         System.out.println("> Your turn, you can: ");
-        System.out.println(player.getOptions());
+        //System.out.println(player.getOptions());
 
         System.out.println("> ");
 
@@ -80,19 +81,19 @@ public class ConsoleApplication implements Runnable {
 
         switch (cmd) {
             case "fold":
-                query.getPlayerModel().getAction().set(new Action.Fold());
+                query.getPlayer().getAction().set(new Action.Fold());
                 break;
 
             case "check":
-                query.getPlayerModel().getAction().set(new Action.Check());
+                query.getPlayer().getAction().set(new Action.Check());
                 break;
 
             case "call":
-                query.getPlayerModel().getAction().set(new Action.Call());
+                query.getPlayer().getAction().set(new Action.Call());
                 break;
 
             case "raise":
-                query.getPlayerModel().getAction().set(new Action.Raise(ls.nextInt()));
+                query.getPlayer().getAction().set(new Action.Raise(ls.nextInt()));
                 break;
 
             default:
@@ -103,7 +104,7 @@ public class ConsoleApplication implements Runnable {
 
     @Handler
     public void onPostAction(PlayerPostActionEvent event) {
-        PlayerModel player = event.getPlayerModel();
+        Player player = event.getPlayer();
         Action action = event.getAction();
 
         System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), 0 /* getBet */);
@@ -123,12 +124,12 @@ public class ConsoleApplication implements Runnable {
 
     @Handler
     void onPlayerJoin(PlayerJoinEvent event) {
-        System.out.println(event.getPlayerModel().getName() + " has connected");
+        System.out.println(event.getPlayer().getName() + " has connected");
     }
 
     @Handler
     void onPlayerLeave(PlayerLeaveEvent event) {
-        System.out.println(event.getPlayerModel().getName() + " has disconnected");
+        System.out.println(event.getPlayer().getName() + " has disconnected");
     }
 
     @Handler
@@ -138,7 +139,7 @@ public class ConsoleApplication implements Runnable {
 
     @Handler
     void onPlayerWon(PlayerWonEvent event) {
-        System.out.println("Player " + event.getPlayerModel().getName() + " has won!");
+        System.out.println("Player " + event.getPlayer().getName() + " has won!");
     }
 
     public SessionContext getContext() {

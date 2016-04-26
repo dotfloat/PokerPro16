@@ -1,12 +1,11 @@
 package org.gruppe2.game.helper;
 
-import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.model.RoundModel;
-import org.gruppe2.game.model.RoundPlayerModel;
 import org.gruppe2.game.session.SessionContext;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -33,7 +32,7 @@ public class RoundHelper {
         return model.getCurrent();
     }
 
-    public List<PlayerModel> getActivePlayers() {
+    public List<RoundPlayer> getActivePlayers() {
         return model.getActivePlayers();
     }
 
@@ -45,7 +44,7 @@ public class RoundHelper {
         return getActivePlayers().get(getCurrent()).getUUID();
     }
 
-    public PlayerModel getCurrentPlayer() {
+    public RoundPlayer getCurrentPlayer() {
         return getActivePlayers().get(getCurrent());
     }
 
@@ -57,14 +56,15 @@ public class RoundHelper {
         model.setHighestBet(highestBet);
     }
 
-    public Optional<PlayerModel> findPlayerByUUID(UUID uuid) {
+    public RoundPlayer findPlayerByUUID(UUID uuid) {
         return findPlayer(p -> p.getUUID().equals(uuid));
     }
 
-    public Optional<PlayerModel> findPlayer(Predicate<PlayerModel> predicate) {
+    public RoundPlayer findPlayer(Predicate<RoundPlayer> predicate) {
         return model.getActivePlayers().stream()
                 .filter(predicate)
-                .findFirst();
+                .findFirst()
+                .get();
     }
 
     public int getHighestBet() {

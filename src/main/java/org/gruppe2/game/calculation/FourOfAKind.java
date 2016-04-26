@@ -1,46 +1,39 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Player;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Hand;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by �smund on 11/04/2016.
- */
-public class FourOfAKind implements HandCalculation{
+class FourOfAKind implements HandCalculation {
 
-    public static boolean canGetFourOfAKind(Collection<Card> communityCards, Player p){
-        if (communityCards == null || communityCards.size() == 0)
-            return true;
-
-        int amountOfSameFace = GeneralCalculations.amountOfSameFace(communityCards, p);
-
-        if(communityCards.size() < 3)
-            return true;
-        if(communityCards.size() == 3 &&  amountOfSameFace >=2)
-            return true;
-        if(communityCards.size() == 4 && amountOfSameFace >=3)
-            return true;
-        if (communityCards.size() == 5 && amountOfSameFace == 4)
-            return true;
-
+    @Override
+    public boolean isHand(Collection<Card> cards) {
         return false;
     }
 
     @Override
-    public boolean canGetHand(Collection<Card> communityCards, Player p) {
-        return canGetFourOfAKind(communityCards, p);
+    public Collection<Card> getBestCards(Collection<Card> cards) {
+        return null;
     }
 
     @Override
-    public double handProbability(Collection<Card> communityCards, Player p) {
+    public boolean canGet(Collection<Card> cards) {
+        return false;
+    }
+
+    @Override
+    public double probability(Collection<Card> cards) {
         return 0;
     }
 
     @Override
-    public HandType getType() {
-        return HandType.FOUROFAKIND;
+    public Hand getType() {
+        return Hand.FOUROFAKIND;
+    }
+
+    @Override
+    public int compare(Collection<Card> cards, Collection<Card> t1) {
+        return 0;
     }
 }

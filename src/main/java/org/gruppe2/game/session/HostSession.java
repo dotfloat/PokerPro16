@@ -5,7 +5,6 @@ import org.gruppe2.game.controller.GameController;
 import org.gruppe2.game.controller.PlayerController;
 import org.gruppe2.game.controller.RoundController;
 import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.PlayerModel;
 import org.gruppe2.game.model.RoundModel;
 
 import java.util.ArrayList;

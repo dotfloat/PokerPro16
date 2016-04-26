@@ -1,7 +1,6 @@
 package org.gruppe2.game.model;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Deck;
+import org.gruppe2.game.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,14 +14,12 @@ public class GameModel {
     private final UUID uuid;
     private final int minPlayers;
     private final int maxPlayers;
-    private final List<PlayerModel> players = Collections.synchronizedList(new ArrayList<>());
+    private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
     private final int buyIn;
     private final BotPolicy botPolicy;
-    private final Deck deck;
 
     private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
-    private volatile List<Card> communityCards = Collections.synchronizedList(new ArrayList<>());
 
     public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy) {
         this.uuid = uuid;
@@ -30,14 +27,13 @@ public class GameModel {
         this.maxPlayers = maxPlayers;
         this.buyIn = buyIn;
         this.botPolicy = botPolicy;
-        this.deck = new Deck();
     }
 
     public UUID getUUID() {
         return uuid;
     }
 
-    public List<PlayerModel> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -72,8 +68,4 @@ public class GameModel {
     public int getBuyIn() {
         return buyIn;
     }
-
-    public List<Card> getCommunityCards(){return communityCards;}
-
-    public Deck getDeck(){return deck;}
 }

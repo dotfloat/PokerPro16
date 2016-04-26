@@ -1,19 +1,19 @@
 package org.gruppe2.game.event;
 
 import org.gruppe2.game.Action;
-import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.Player;
 
 public class PlayerPostActionEvent implements Event {
-    private final PlayerModel playerModel;
+    private final Player player;
     private final Action action;
 
-    public PlayerPostActionEvent(PlayerModel playerModel, Action action) {
-        this.playerModel = playerModel;
+    public PlayerPostActionEvent(Player player, Action action) {
+        this.player = player;
         this.action = action;
     }
 
-    public PlayerModel getPlayerModel() {
-        return playerModel;
+    public Player getPlayer() {
+        return player;
     }
 
     public Action getAction() {

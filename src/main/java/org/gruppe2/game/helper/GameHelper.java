@@ -1,13 +1,10 @@
 package org.gruppe2.game.helper;
 
+import org.gruppe2.game.Player;
 import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.PlayerModel;
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Deck;
 import org.gruppe2.game.session.SessionContext;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -22,7 +19,7 @@ public class GameHelper {
         return model.getButton();
     }
 
-    public PlayerModel getButtonPlayer() {
+    public Player getButtonPlayer() {
         return model.getPlayers().get(model.getButton());
     }
 
@@ -30,22 +27,23 @@ public class GameHelper {
         return model.getPlayers().size() > model.getMinPlayers();
     }
 
-    public List<PlayerModel> getPlayers() {
+    public List<Player> getPlayers() {
         return model.getPlayers();
     }
 
-    public Optional<PlayerModel> findPlayerByUUID(UUID uuid) {
+    public Player findPlayerByUUID(UUID uuid) {
         return findPlayer(p -> p.getUUID().equals(uuid));
     }
 
-    public Optional<PlayerModel> findPlayerByName(String name) {
+    public Player findPlayerByName(String name) {
         return findPlayer(p -> p.getName().equals(name));
     }
 
-    public Optional<PlayerModel> findPlayer(Predicate<PlayerModel> predicate) {
+    public Player findPlayer(Predicate<Player> predicate) {
         return model.getPlayers().stream()
                 .filter(predicate)
-                .findFirst();
+                .findFirst()
+                .get();
     }
 
     public GameModel getModel() {
@@ -55,8 +53,4 @@ public class GameHelper {
     public int getBuyIn() {
         return model.getBuyIn();
     }
-
-    public List<Card> getCommunityCards(){return model.getCommunityCards();}
-
-    public Deck getDeck(){return model.getDeck();}
 }

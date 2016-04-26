@@ -1,15 +1,15 @@
 package org.gruppe2.game.event;
 
-import org.gruppe2.game.model.PlayerModel;
+import org.gruppe2.game.Player;
 
 public class PlayerLeaveEvent implements Event {
-    private final PlayerModel playerModel;
+    private final Player player;
 
-    public PlayerLeaveEvent(PlayerModel playerModel) {
-        this.playerModel = playerModel;
+    public PlayerLeaveEvent(Player player) {
+        this.player = player;
     }
 
-    public PlayerModel getPlayerModel() {
-        return playerModel;
+    public Player getPlayer() {
+        return player;
     }
 }

@@ -5,15 +5,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gruppe2.game.old.Card;
-import org.gruppe2.game.old.Card.Suit;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Card.Suit;
 import org.gruppe2.game.old.Deck;
-import org.gruppe2.game.old.GameClient;
-import org.gruppe2.game.old.HandCollector;
-import org.gruppe2.game.old.Player;
-import org.gruppe2.game.old.ShowdownEvaluator;
-import org.gruppe2.game.old.ShowdownEvaluatorNew;
-import org.gruppe2.game.old.Table;
 import org.junit.Test;
 
 public class ShowdownEvaluatorNewTest {

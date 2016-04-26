@@ -1,4 +1,4 @@
-package org.gruppe2.game.old;
+package org.gruppe2.game;
 
 public class Card implements Comparable<Card> {
 

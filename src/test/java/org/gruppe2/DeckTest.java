@@ -1,6 +1,6 @@
 package org.gruppe2;
 
-import org.gruppe2.game.old.Card;
+import org.gruppe2.game.Card;
 import org.gruppe2.game.old.Deck;
 import org.junit.Before;
 import org.junit.Test;
