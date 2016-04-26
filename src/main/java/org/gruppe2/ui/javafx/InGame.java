@@ -52,6 +52,9 @@ class InGame extends BorderPane {
                 Platform.runLater(() -> InGame.getContext().getEventQueue().process());
             }
         }, 0, 50);
+        
+        List<Pane> playerInfoBoxes = new ArrayList<Pane>();
+        paintAllPlayers(playerInfoBoxes);
     }
 
     public static UUID getPlayerUUID() {
@@ -74,7 +77,9 @@ class InGame extends BorderPane {
     }
 
     private void paintAllPlayers(List<Pane> playerInfoBoxes) {
-
+    	for(int i = 0;i<9;i++){
+    		playerInfoBoxes.add(new PlayerInfoBox());
+    	}
         int numberOfPlayers = playerInfoBoxes.size();
         if (numberOfPlayers > 4)
             paintPlayerInfoBox(playerInfoBoxes.get(4), 0.3, 0.001);
