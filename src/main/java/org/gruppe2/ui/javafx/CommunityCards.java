@@ -22,6 +22,7 @@ public class CommunityCards extends HBox {
 	
 	public CommunityCards() {
 		Resources.loadFXML(this);
+		InGame.getContext().setAnnotated(this);
 
 	}
 

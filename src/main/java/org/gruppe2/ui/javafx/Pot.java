@@ -4,19 +4,27 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
 
 public class Pot extends Label {
 
 	static ObjectProperty<Font> fontTracking = new SimpleObjectProperty<Font>(Font.getDefault());
-	
+	@Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+    
 	public Pot() {
 		Resources.loadFXML(this);
-		
+		InGame.getContext().setAnnotated(this);
 		setBindings();
 	}
 	private void setBindings() {
@@ -35,5 +43,10 @@ public class Pot extends Label {
 }
 	public void updatePot(int value){
 		this.setText("Total Pot: "+String.valueOf(value)+" CHIPS");
+	}
+	
+	@Handler
+	public void getPotHander(PlayerPostActionEvent playerPostActionEvent){
+		updatePot(roundHelper.getModel().getPot());
 	}
 }
