@@ -18,18 +18,8 @@ public class StatisticsController extends AbstractController {
     private StatisticsModel model;
 
     @Message
-    public boolean addPlayerStatistics(UUID playerUUID, PlayerStatistics stats) {
-        Map<UUID, PlayerStatistics> map = model.getPlayerStatistics();
-
-        synchronized (map) {
-            if (!map.containsKey(playerUUID)) {
-                return false;
-            }
-
-            map.put(playerUUID, stats);
-        }
-
-        return true;
+    public void addPlayerStatistics(UUID playerUUID, PlayerStatistics stats) {
+        model.getPlayerStatistics().put(playerUUID, stats);
     }
 
     @Handler
@@ -52,7 +42,9 @@ public class StatisticsController extends AbstractController {
 
     @Handler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        model.getPlayerStatistics().put(e.getPlayer().getUUID(), new PlayerStatistics());
+        if (!model.getPlayerStatistics().containsKey(e.getPlayer().getUUID())) {
+            model.getPlayerStatistics().put(e.getPlayer().getUUID(), new PlayerStatistics());
+        }
     }
 
     @Handler

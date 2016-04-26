@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import org.gruppe2.Main;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
@@ -42,7 +43,8 @@ class InGame extends BorderPane {
         context = new GameBuilder().start();
         context.waitReady();
 
-        context.sendMessage("addPlayer", playerUUID, "TestPlayer", "default");
+        context.message("addPlayer", playerUUID, "TestPlayer", "default");
+        context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
 
         Resources.loadFXML(this);
         context.setAnnotated(this);
