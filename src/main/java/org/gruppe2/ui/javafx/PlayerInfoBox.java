@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 import org.gruppe2.game.Player;
@@ -60,7 +61,7 @@ public class PlayerInfoBox extends BorderPane {
         }
         if(player.getUUID().equals(playerUUID)){
 	        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
-	
+
 	        playerName.setText(player.getName());
 	        stack.setText("$" + player.getBank());
 	        currentBet.setText("BET: " + roundPlayer.getBet());
@@ -89,8 +90,9 @@ public class PlayerInfoBox extends BorderPane {
         getStyleClass().add("pane");
     }
 
-    public void viewStatistic() {
-        SceneController.setModal(new Modal(new Statistic(false)));
+    @FXML
+    public void viewStatistic(MouseEvent event) {
+        SceneController.setModal(new Modal(new Statistic(false)),event.getSceneX(), event.getSceneY());
     }
     @Handler
     public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){

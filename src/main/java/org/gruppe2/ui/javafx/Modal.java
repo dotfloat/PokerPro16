@@ -13,6 +13,7 @@ import org.gruppe2.ui.Resources;
  */
 
 public class Modal extends StackPane {
+    StackPane stage = PokerApplication.getRoot();
 
     public Modal(Node node){
         Resources.loadFXML(this);
@@ -30,6 +31,7 @@ public class Modal extends StackPane {
 
     @FXML
     public void close() {
-        SceneController.removeStatistic(this);
+        stage.getChildren().remove(this);
     }
+
 }
