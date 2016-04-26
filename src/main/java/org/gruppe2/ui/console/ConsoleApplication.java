@@ -67,7 +67,6 @@ public class ConsoleApplication implements Runnable {
 
 //        System.out.println("Highest bet: " + getSession().getHighestBet());
 //        System.out.println("Table pot: " + getSession().getTable().getPot());
-        System.out.println("Community cards: " + context.getModel(RoundModel.class).getCommunityCards());
         System.out.printf("Your cards: %s %s \n", roundPlayer.getCards()[0], roundPlayer.getCards()[1]);
         System.out.printf("Your chips: %d \n", player.getBank());
         System.out.printf("Current bet: %d \n", roundPlayer.getBet());
@@ -140,7 +139,12 @@ public class ConsoleApplication implements Runnable {
 
     @Handler
     void onRoundEnd(RoundEndEvent event) {
-        System.out.println("Round ended");
+        System.out.println("Rounds ended");
+    }
+
+    @Handler
+    void onCommunialCards(CommunityCardsEvent event) {
+        System.out.println("Community cards: " + event.getCards());
     }
 
     @Handler
