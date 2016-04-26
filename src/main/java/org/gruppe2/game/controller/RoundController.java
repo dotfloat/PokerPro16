@@ -147,6 +147,7 @@ public class RoundController extends AbstractController {
         }
         round.nextRound();
         round.setLastRaiserID(null);
+        lastPlayerInRound = round.getLastActivePlayerID();
 
         if (round.getRoundNum() == 1) {
             for (int i = 0; i < 3; i++)

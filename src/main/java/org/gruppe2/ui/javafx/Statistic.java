@@ -3,9 +3,20 @@ package org.gruppe2.ui.javafx;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.PlayerStatistics;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.model.StatisticsModel;
+import org.gruppe2.game.session.Helper;
+import org.gruppe2.game.session.Model;
 import org.gruppe2.ui.Resources;
 
 class Statistic extends BorderPane {
+
+    @Model
+    private StatisticsModel model;
+    @Helper
+    private GameHelper gameHelper;
 
     @FXML
     private Label name;
@@ -29,6 +40,7 @@ class Statistic extends BorderPane {
 
     public Statistic(boolean ifMenu) {
         Resources.loadFXML(this);
+        InGame.getContext().setAnnotated(this);
         initialize(ifMenu);
     }
 
@@ -39,7 +51,15 @@ class Statistic extends BorderPane {
     }
 
     private void getStatistics() {
-        //TODO query statistics from backend
+        PlayerStatistics stats = model.getPlayerStatistics().get(InGame.getPlayerUUID());
+        Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+
+        name.setText(player.getName());
+        gamesPlayed.setText(String.valueOf(stats.getGamesPlayed()));
+        gamesWon.setText(String.valueOf(stats.getGamesWon()));
+        folded.setText(String.valueOf(stats.getTimesFolded()));
+        call.setText(String.valueOf(stats.getTimesCalled()));
+        check.setText(String.valueOf(stats.getTimesChecked()));
     }
 
     private void setWindowSize(boolean ifMenu) {
