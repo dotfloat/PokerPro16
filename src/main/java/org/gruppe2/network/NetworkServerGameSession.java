@@ -11,26 +11,34 @@ public class NetworkServerGameSession {
 	
 	private Socket clientSocket = null;
 	private String serverGameName = null;
+	int maxPlayers;
 	ArrayList<Socket> clients = null;
 	ArrayList<PrintWriter> outs;
 	ArrayList<BufferedReader> ins;
-	NetworkServerGameSession(Socket clientSocket, String name, ArrayList<Socket> clients ) {
+	BufferedReader FromOrganizerIn;
+	PrintWriter ToOrganizerOut;
+	
+	NetworkServerGameSession(Socket clientSocket, BufferedReader in, PrintWriter out, String name, ArrayList<Socket> clients, int maxPlayers) {
 		this.clientSocket = clientSocket;
 		this.serverGameName = name;
 		this.clients = clients;
+		this.maxPlayers = maxPlayers;
+		FromOrganizerIn = in;
+		ToOrganizerOut = out;
+		
 		startGame();
 	}
 	
-	
+
 	public void startGame(){
 		try {
+			
+			
 			String input;
 
 			while (true) {
-				PrintWriter out = new PrintWriter(
-						clientSocket.getOutputStream());
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						clientSocket.getInputStream()));
+				BufferedReader in = FromOrganizerIn;
+				PrintWriter out = ToOrganizerOut;
 				input = in.readLine();
 				System.out.println("Data received: " + input);
 				if (input == null) {
@@ -133,9 +141,11 @@ public class NetworkServerGameSession {
 			System.out.println("Error in net protocol");
 			System.exit(1);
 		}
-
 		return s[2];
 
+	}
+	public String getServerGameName(){
+		return serverGameName;
 	}
 
 }

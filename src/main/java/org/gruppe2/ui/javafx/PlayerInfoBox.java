@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -99,6 +100,11 @@ public class PlayerInfoBox extends BorderPane {
     }
     @Handler
     public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
+    	player = playerPreActionEvent.getPlayer();
+    	updateInfoBox();
+    }
+    @Handler
+    public void currentPlayerHandler(PlayerPostActionEvent playerPreActionEvent){
     	player = playerPreActionEvent.getPlayer();
     	updateInfoBox();
     }

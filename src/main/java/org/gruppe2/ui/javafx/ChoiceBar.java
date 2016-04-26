@@ -48,6 +48,7 @@ public class ChoiceBar extends HBox {
         Resources.loadFXML(this);
         InGame.getContext().setAnnotated(this);
         setSizes();
+        setEvents();
     }
 
     @FXML
@@ -136,7 +137,7 @@ public class ChoiceBar extends HBox {
     			actionQuery.set( new Action.Check());
     			System.out.println("Check");
     		}
-    		else if(pa.canCall()){
+    		else if(pa.canCall() && slider.getValue() == 0 ){
     			actionQuery.set( new Action.Call());
     			System.out.println("Call");
     		}
@@ -157,10 +158,15 @@ public class ChoiceBar extends HBox {
      * @return
      */
     private String checkMaxBid(Slider slider) {
+    	PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
         if (slider.getValue() == slider.getMax())
             btnBet.setText("ALL IN");
-        else
+        else if(slider.getValue() > 0)
             btnBet.setText("RAISE");
+        else if(pa.canCall())
+        	 btnBet.setText("Call");
+        else
+        	 btnBet.setText("Check");
         return (int) slider.getValue() + " CHIPS";
     }
 
@@ -186,6 +192,7 @@ public class ChoiceBar extends HBox {
     public void setActionHandler(PlayerActionQuery playerActionQuery){
     	if(playerActionQuery.getPlayer().getUUID().equals(InGame.getPlayerUUID())){
     		actionQuery = playerActionQuery.getPlayer().getAction();
+    		updatePossibleBarsToClick();
     	}
     }
 }

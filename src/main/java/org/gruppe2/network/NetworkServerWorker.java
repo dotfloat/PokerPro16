@@ -58,7 +58,7 @@ class NetworkServerWorker implements Runnable {
 							ArrayList<Socket> clients = new ArrayList<Socket>();
 							clients.add(clientSocket);
 							gameStarted = true;
-							new NetworkServerGameSession(clientSocket,"new Game",clients);
+							new NetworkServerGameSession(clientSocket,in,out,"new Game",clients,6);
 					}
 				}
 				

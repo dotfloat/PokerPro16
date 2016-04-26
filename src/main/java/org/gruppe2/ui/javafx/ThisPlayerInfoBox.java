@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
@@ -92,7 +93,9 @@ public class ThisPlayerInfoBox extends HBox {
         if(currentPlayer.getUUID().equals(playerUUID)){
 	        playerName.setText(player.getName());
 	        stack.setText("$" + player.getBank());
-	        playerBet.setText("BET: " + roundPlayer.getBet());
+	        if(roundPlayer != null){
+	        	playerBet.setText("BET: " + roundPlayer.getBet());
+	        }
 	        updatePicture();
 	        setActive();
         }
@@ -123,7 +126,11 @@ public class ThisPlayerInfoBox extends HBox {
     @Handler
     public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
     	Player currentPlayer = playerPreActionEvent.getPlayer();
-    	
+    	update(currentPlayer);
+    }
+    @Handler
+    public void currentPlayerHandler(PlayerPostActionEvent playerPreActionEvent){
+    	Player currentPlayer = playerPreActionEvent.getPlayer();
     	update(currentPlayer);
     }
 
