@@ -2,12 +2,7 @@ package org.gruppe2.ai;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
-import org.gruppe2.game.event.PlayerActionQuery;
-import org.gruppe2.game.old.PossibleActions;
-import org.gruppe2.game.session.Handler;
-import org.gruppe2.game.session.Query;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
@@ -24,7 +19,7 @@ public class NewDumbAI implements AI{
     public static Player generateModel() {
         Random rand = new Random();
 
-        return new Player(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", new Query<>(), true);
+        return new Player(UUID.randomUUID(), names[rand.nextInt(names.length)], "ai", true);
     }
 
     @Override
@@ -32,6 +27,7 @@ public class NewDumbAI implements AI{
         if (!model.isBot())
             return;
 
+        /*
         final int call = 0;
         final int check = 1;
         final int raise = 2;
@@ -87,7 +83,8 @@ public class NewDumbAI implements AI{
                 model.getAction().set(new Action.Fold());
                 return;
         }
+        */
 
-        //model.getAction().set(new Action.Call());
+        model.getAction().set(new Action.Call());
     }
 }

@@ -47,8 +47,4 @@ public class Player {
     public Query<Action> getAction() {
         return action;
     }
-
-    public int getBet() {
-        return 0;
-    }
 }

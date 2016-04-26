@@ -4,6 +4,7 @@ import org.gruppe2.Main;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
@@ -18,7 +19,6 @@ import java.util.UUID;
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
     private UUID playerUUID;
-    private Query<Action> action;
 
     private void init() {
         GameBuilder gameBuilder = new GameBuilder();
@@ -30,13 +30,12 @@ public class ConsoleApplication implements Runnable {
         }
 
         playerUUID = UUID.randomUUID();
-        action = new Query<>();
 
         context = gameBuilder.start();
         context.setAnnotated(this);
         context.waitReady();
 
-        if (context.message("addPlayer", playerUUID, "Zohar", "zohar", action).get()) {
+        if (context.message("addPlayer", playerUUID, "Zohar", "zohar").get()) {
             System.out.println("Successfully added the player");
         } else {
             System.out.println("Unsuccessfully");
@@ -64,12 +63,14 @@ public class ConsoleApplication implements Runnable {
             return; // Query isn't for us :(
 
         Player player = query.getPlayer();
+        RoundPlayer roundPlayer = query.getRoundPlayer();
+
 //        System.out.println("Highest bet: " + getSession().getHighestBet());
 //        System.out.println("Table pot: " + getSession().getTable().getPot());
         System.out.println("Community cards: " + context.getModel(RoundModel.class).getCommunityCards());
         //System.out.printf("Your cards: %s %s \n", player.(), player.getCard2());
         System.out.printf("Your chips: %d \n", player.getBank());
-        System.out.printf("Current bet: %d \n", player.getBet());
+        System.out.printf("Current bet: %d \n", roundPlayer.getBet());
         System.out.println("> Your turn, you can: ");
         //System.out.println(player.getOptions());
 
