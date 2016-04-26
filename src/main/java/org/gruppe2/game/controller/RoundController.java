@@ -1,10 +1,7 @@
 package org.gruppe2.game.controller;
 
 import org.gruppe2.game.*;
-import org.gruppe2.game.event.PlayerActionQuery;
-import org.gruppe2.game.event.PlayerPostActionEvent;
-import org.gruppe2.game.event.RoundEndEvent;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Helper;
@@ -47,6 +44,7 @@ public class RoundController extends AbstractController {
                 round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
                 player = game.findPlayerByUUID(round.getCurrentUUID());
                 roundPlayer = round.findPlayerByUUID(round.getCurrentUUID());
+                addEvent(new PlayerPreActionEvent(player));
                 addEvent(new PlayerActionQuery(player, roundPlayer));
             }
             if (player.getAction().isDone()) {
@@ -143,8 +141,8 @@ public class RoundController extends AbstractController {
 
     private void roundEnd() {
         if (round.getRoundNum() == 3){
-            System.out.println("All rounds ended");
             round.setPlaying(false);
+            addEvent(new RoundEndEvent());
             return;
         }
         round.nextRound();
@@ -157,7 +155,7 @@ public class RoundController extends AbstractController {
         else if (round.getRoundNum() == 2 || round.getRoundNum() == 3)
             round.getCommunityCards().add(deck.remove(0));
 
-        addEvent(new RoundEndEvent());
+        addEvent(new CommunityCardsEvent(round.getCommunityCards()));
     }
 
     private void resetDeck() {
