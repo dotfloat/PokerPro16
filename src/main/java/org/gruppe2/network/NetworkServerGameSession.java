@@ -25,15 +25,12 @@ public class NetworkServerGameSession {
 		this.maxPlayers = maxPlayers;
 		FromOrganizerIn = in;
 		ToOrganizerOut = out;
-		
+		NetworkServer.gamesOnServer.add(this);
 		startGame();
 	}
-	
 
 	public void startGame(){
 		try {
-			
-			
 			String input;
 
 			while (true) {
@@ -50,6 +47,8 @@ public class NetworkServerGameSession {
 					System.out.println("Canceling connection");
 					break;
 				}
+				if(s.length == 1)
+					continue;
 				
 
 				String playerID = getPlayerID(s);
@@ -70,6 +69,7 @@ public class NetworkServerGameSession {
 			System.out.println("Test");
 			e.printStackTrace();
 		}
+		System.out.println("game ended");
 	}
 	/**
 	 * Send chat message
@@ -122,7 +122,7 @@ public class NetworkServerGameSession {
 
 	private String getPlayerID(String[] s) {
 		if (s.length == 0) {
-			System.out.println("Error in net protocol");
+			System.out.println("Error in net protocol size 0");
 			System.exit(1);
 		}
 		return s[0];
@@ -130,7 +130,7 @@ public class NetworkServerGameSession {
 
 	private String getAction(String[] s) {
 		if (s.length == 1) {
-			System.out.println("Error in net protocol");
+			System.out.println("Error in net protocol size 1");
 			System.exit(1);
 		}
 		return s[1];
@@ -138,11 +138,10 @@ public class NetworkServerGameSession {
 
 	private String getMessage(String[] s) {
 		if (s.length == 2) {
-			System.out.println("Error in net protocol");
+			System.out.println("Error in net protocol size 2");
 			System.exit(1);
 		}
 		return s[2];
-
 	}
 	public String getServerGameName(){
 		return serverGameName;

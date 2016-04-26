@@ -39,24 +39,35 @@ class InGame extends BorderPane {
     private Timer sessionTimer = new Timer();
 
     InGame() {
-        // TODO: Move this out of the constructor
-        context = new GameBuilder().start();
-        context.waitReady();
-
-        context.message("addPlayer", playerUUID, "TestPlayer", "default");
-        context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
-
+    	contextSetup();
         Resources.loadFXML(this);
-        context.setAnnotated(this);
+        setUpViewItems();
+    }
+    
+    private void contextSetup(){
+    	if(PokerApplication.networkStart == false)
+    	 context = new GameBuilder().start();
+    	else{
+    		context = new GameBuilder().networkStart();
+    		context.message("networkclient");
+    	}
+    		
+         context.waitReady();
 
-        sessionTimer.schedule(new TimerTask() {
+         context.message("addPlayer", playerUUID, "TestPlayer", "default");
+         context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
+         context.setAnnotated(this);
+    }
+    
+    private void setUpViewItems(){
+    	
+    	sessionTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> InGame.getContext().getEventQueue().process());
             }
         }, 0, 50);
-        
-        List<Pane> playerInfoBoxes = new ArrayList<Pane>();
+    	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
         paintAllPlayers(playerInfoBoxes);
     }
 

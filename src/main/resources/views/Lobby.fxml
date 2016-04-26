@@ -3,6 +3,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby" onKeyPressed="#keyPressed">
     <top>
         <HBox fx:id="searchBar" alignment="CENTER" style="-fx-background-color: black; -fx-alignment: center; -fx-padding: 10px">
@@ -15,6 +17,11 @@
 
     <center>
         <TilePane fx:id="lobbyTiles" styleClass="lobbyTiles">
+        	<Button onAction="#createGame">
+	        	<ImageView fx:id="createGame" >
+	        		<Image url="/images/ui/CreateNewGame.png"/>
+	        	</ImageView>
+	        </Button>
         </TilePane>
     </center>
 </fx:root>

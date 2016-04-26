@@ -18,7 +18,7 @@ public class NetworkServer implements Runnable {
 	protected boolean notRunning = false;
 
 	public static ArrayList<Thread> threads = new ArrayList<Thread>();
-
+	public static ArrayList<NetworkServerGameSession> gamesOnServer = new ArrayList<NetworkServerGameSession>();
 	protected Thread runningThread = null;
 
 	public NetworkServer(int port) {

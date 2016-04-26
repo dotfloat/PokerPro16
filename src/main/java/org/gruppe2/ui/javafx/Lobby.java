@@ -5,12 +5,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 
+import org.gruppe2.game.event.NetworkClientEvent;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.ui.Resources;
 
 /**
@@ -25,6 +28,7 @@ public class Lobby extends BorderPane {
 	@FXML private TilePane lobbyTiles;
 	@FXML private BorderPane lobby = this;
 	@FXML private HBox searchBar;
+	@FXML private ImageView createGame;
 
 	public Lobby() {
 		Resources.loadFXML(this);
@@ -33,6 +37,10 @@ public class Lobby extends BorderPane {
 
 	public void search() {
 		lobbyTiles.getChildren().add(new Label(search.getText()));
+	}
+	@Handler
+	public void startNetworkGame(NetworkClientEvent networkClientEvent){
+		SceneController.setScene(new InGame());
 	}
 
 	public void friendBox() {
@@ -46,6 +54,13 @@ public class Lobby extends BorderPane {
 
 	public void keyPressed(KeyEvent event){
 		if (event.getCode() == KeyCode.ESCAPE) closeLobby();
+	}
+	@FXML
+	private void createGame(){
+		System.out.println("starting network game");
+		PokerApplication.networkStart = true;
+		SceneController.setScene(new InGame());
+		
 	}
 
 	private void setSize() {

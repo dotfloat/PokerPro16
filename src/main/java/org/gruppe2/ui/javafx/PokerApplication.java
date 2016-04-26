@@ -20,9 +20,9 @@ public class PokerApplication extends Application {
 	private static int width;
 	private static int height;
 	private static StackPane root = new StackPane(); // Setting global root.
-														// Will only change
+													// Will only change
 														// scenes
-
+	public static boolean networkStart = false;
 	/**
 	 * Controllers will need to get current root to change scenes
 	 * 
