@@ -11,11 +11,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
+import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.PossibleActions;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
+import org.gruppe2.game.session.Query;
 import org.gruppe2.ui.Resources;
 
 public class ChoiceBar extends HBox {
     static ObjectProperty<Font> fontTracking = new SimpleObjectProperty<>(Font.getDefault());
-
+    
+    
+    @Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+    
     @FXML
     private TextField chatField;
     @FXML
@@ -26,6 +41,8 @@ public class ChoiceBar extends HBox {
     private Label sliderValue;
     @FXML
     private Button btnBet;
+    
+    private Query<Action> actionQuery = null;
 
     public ChoiceBar() {
         Resources.loadFXML(this);
@@ -54,7 +71,6 @@ public class ChoiceBar extends HBox {
         btnBet.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
 
-
     }
 
     private void setFontListener() {
@@ -68,8 +84,6 @@ public class ChoiceBar extends HBox {
 
     @FXML
     public void setEvents() {
-        btnFold.setOnAction(e -> foldAction());
-        btnBet.setOnAction(e -> betAction());
 
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderValue.textProperty().setValue(checkMaxBid(slider));
@@ -82,36 +96,54 @@ public class ChoiceBar extends HBox {
      */
     private void setKeyListener() {
         chatField.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case UP:
-                    slider.setValue(slider.getValue() * 2);
-                    break;
-                case DOWN:
-                    slider.setValue(slider.getValue() / 2);
-                    break;
-                case LEFT:
-                    foldAction();
-                    break;
-                case RIGHT:
-                    betAction();
-                    break;
-                default:
-                    break;
-            }
+        	if(actionQuery != null){
+	            switch (event.getCode()) {
+	                case UP:
+	                    slider.setValue(slider.getValue() * 2);
+	                    break;
+	                case DOWN:
+	                    slider.setValue(slider.getValue() / 2);
+	                    break;
+	                case LEFT:
+	                    foldAction();
+	                    break;
+	                case RIGHT:
+	                    betAction();
+	                    break;
+	                default:
+	                    break;
+	            }
+	            
+        	}
         });
     }
 
-    /**
-     * This will become fxml
-     */
+    @FXML
     private void foldAction() {
-        //client.setAction(new Action.Fold());
+    	if(actionQuery != null){
+    		actionQuery.set( new Action.Fold());
+    		actionQuery = null;
+    	}
     }
 
-    /**
-     * This will become fxml
-     */
+    @FXML
     private void betAction() {
+    	if(actionQuery != null){
+PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
+    		
+    		if(pa.canCheck()){
+    			actionQuery.set( new Action.Check());
+    		}
+    		else if(pa.canCall()){
+    			actionQuery.set( new Action.Call());
+    		}
+    		else if(pa.canRaise()){
+    			if(slider.getValue() > 0){
+    				actionQuery.set( new Action.Raise( (int)slider.getValue()));
+    			}
+    		}
+    		actionQuery = null;
+    	}
     }
 
     /**
@@ -134,14 +166,21 @@ public class ChoiceBar extends HBox {
      * @param player
      */
     void updatePossibleBarsToClick() {
-        slider.setMax(1000);
+    	Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        slider.setMax(player.getBank());
         slider.setMin(0);
         slider.setValue(0);
     }
     
     @FXML
     public void onChatAction(ActionEvent event) {
-    	InGame.getContext().message("chat", chatField.getText());
+    	InGame.getContext().message("chat", chatField.getText(), InGame.getPlayerUUID());
+    	chatField.setText("");
     }
     
+    @Handler
+    public void setActionHandler(PlayerActionQuery playerActionQuery){
+    	if(playerActionQuery.getPlayer().getUUID().equals(InGame.getPlayerUUID()))
+    		actionQuery = playerActionQuery.getPlayer().getAction();
+    }
 }

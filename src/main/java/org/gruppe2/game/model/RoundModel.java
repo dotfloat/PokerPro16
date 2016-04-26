@@ -6,6 +6,7 @@ import org.gruppe2.game.RoundPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class RoundModel {
     private final List<RoundPlayer> activePlayers = Collections.synchronizedList(new ArrayList<>());
@@ -15,6 +16,8 @@ public class RoundModel {
     private volatile int current = 0;
     private volatile int pot = 0;
     private volatile int highestBet = 0;
+    private volatile int roundNumber = 0;
+    private volatile UUID lastRaiserID = null;
 
     public List<RoundPlayer> getActivePlayers() {
         return activePlayers;
@@ -54,5 +57,25 @@ public class RoundModel {
 
     public void setHighestBet(int highestBet) {
         this.highestBet = highestBet;
+    }
+
+    public int getNumberOfActivePlayers() {
+        return activePlayers.size();
+    }
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
+    public UUID getLastRaiserID() {
+        return lastRaiserID;
+    }
+
+    public void setLastRaiserID(UUID lastRaiserID) {
+        this.lastRaiserID = lastRaiserID;
     }
 }
