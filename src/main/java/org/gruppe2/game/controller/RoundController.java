@@ -84,7 +84,7 @@ public class RoundController extends AbstractController {
 
     private void handleAction (){
         Action action = player.getAction().get();
-        if (!legalAction(player, action))
+        if (!legalAction(action))
             throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
 
         int raise;
@@ -135,8 +135,24 @@ public class RoundController extends AbstractController {
         round.addToPot(addToTablePot);
     }
 
-    private boolean legalAction(Player player, Action action) {
-        return true;
+    private boolean legalAction(Action action) {
+        if (!round.getActivePlayers().contains(roundPlayer))
+            return false;
+
+        PossibleActions pa = round.getPlayerOptions(player.getUUID());
+        if (action instanceof Action.Check)
+            return pa.canCheck();
+        else if (action instanceof Action.Raise) {
+            int raise = ((Action.Raise) action).getAmount();
+            if (raise < 1 || raise > player.getBank() + roundPlayer.getBet() - round.getHighestBet())
+                return false;
+            return pa.canRaise();
+        } else if (action instanceof Action.Call)
+            return pa.canCall();
+        else if (action instanceof Action.Fold || action instanceof Action.Blind || action instanceof Action.AllIn || action instanceof Action.Pass)
+            return true;
+        else
+            throw new IllegalArgumentException("Not an action");
     }
 
     private void roundEnd() {

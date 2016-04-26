@@ -4,8 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
 import org.gruppe2.game.Card;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
 
@@ -71,5 +74,10 @@ public class PlayerCards extends HBox {
 
             firstSet = false;
         }
+    }
+    @Handler
+    public void getPlayerCardsHandler(RoundStartEvent roundStartEvent){
+    	
+    	setPlayerCards(new CommunityCards());
     }
 }
