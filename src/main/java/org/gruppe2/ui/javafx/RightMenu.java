@@ -3,6 +3,7 @@ package org.gruppe2.ui.javafx;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
@@ -57,7 +58,8 @@ public class RightMenu extends VBox {
 	}
 
 	public void viewStatistics(){
-		SceneController.setModal(new Statistic(true));
+		SceneController.setModal(new Modal(new Statistic(true)));
+		this.menuAnimation();
 	}
 
 	public void showMenu(ActionEvent actionEvent) {

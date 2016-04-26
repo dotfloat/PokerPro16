@@ -36,10 +36,8 @@ class SceneController {
 	public static void setStatistic(Node node, double x, double y){
 		StackPane stage = PokerApplication.getRoot();
 		Pane pane = new Pane(node);
-		System.out.println(x);
 		if (x > PokerApplication.getRoot().getWidth()* 0.8) {
 			x *= 0.8;
-			System.out.println(x);
 		}
 
 		pane.getChildren().get(0).setLayoutX(x);

@@ -2,12 +2,10 @@ package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
 import org.gruppe2.ui.Resources;
 
-class Statistic extends StackPane {
+class Statistic extends BorderPane {
 
     @FXML
     private Label name;
@@ -43,16 +41,6 @@ class Statistic extends StackPane {
             this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.2));
             this.maxHeightProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
         }
-    }
-
-    @FXML
-    public void keyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ESCAPE) close();
-    }
-
-    @FXML
-    public void close() {
-        SceneController.removeStatistic(this);
     }
 
     private void setSizes() {
