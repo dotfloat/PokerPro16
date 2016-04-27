@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -38,12 +39,16 @@ public class NetworkClient implements Runnable {
 				else
             		onGameStart();
             }
-
-		} catch (UnknownHostException h) {
+		}
+        catch(ConnectException e){
+			System.out.println("Cound not find an online server ");
+		}
+		 catch (UnknownHostException h) {
 			h.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +82,7 @@ public class NetworkClient implements Runnable {
     	}
     	else if(!lobbyChoosing){
 	    	String fromServer = in.readLine();
-	    	System.out.println("lobby false");
+	    	System.out.println("Recieved from server:" +fromServer);
 	        
 	        if(fromServer.equals("yes")) {
 	            System.out.println("Client: " + secondMessage);
@@ -85,17 +90,16 @@ public class NetworkClient implements Runnable {
 	            out.flush();
 	        }
 	        else if(fromServer.contains("table")){
-	            String[] s = fromServer.split(";");
-	            
+//	            String[] s = fromServer.split(";");
+	            System.out.println("Got table from server: "+ fromServer);
 	            showTablesInLobby(fromServer);
 	            lobbyChoosing = true;
 	            
 	        }
 	        else if(fromServer.contains("ok") && fromServer.contains("join")) {
 	            String[] s = fromServer.split(";");
-	            System.out.println("spillet er klart!");
 	            join(Integer.parseInt(s[2]));
-	            inGame = true;
+	            
         	}
         }
     }
@@ -106,23 +110,27 @@ public class NetworkClient implements Runnable {
 		
 	}
 	public void onGameStart() {
+		
     	if(!notifiedGameStart){
     		System.out.println("client ingame jippi!");
     		notifiedGameStart = true;
     	}
-    	
-    	
+    	else{
+    		System.out.println("game waiting to start,  add players etc..");
+    	}
+    		
     }
-	
 	public static void setJoinMessage(String messageFromGUI){
 		joinMessage = messageFromGUI;
 		System.out.println("message set to: "+messageFromGUI);
 	}
 
     public void join(int table) {
-
+    	System.out.println("spillet er klart!");
+    	inGame = true;
     }
     private void sleepNowDearThread() throws InterruptedException{
+    	System.out.println("waiting for player to choose what to do");
     	Thread.sleep(30);
     }
 }

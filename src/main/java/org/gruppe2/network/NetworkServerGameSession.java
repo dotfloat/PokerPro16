@@ -80,13 +80,14 @@ public class NetworkServerGameSession {
 		System.out.println("game ended");
 	}
 	private void startGameLoop() {
+		System.out.println("setting server game session");
 		context = new GameBuilder().networkStart();
 		UUID player1UUID = UUID.randomUUID();
 		InGame.setPlayerUUID(player1UUID);
 		InGame.setContext(context);
 		
         context.waitReady();
-        
+        System.out.println("Server gamesession init finished");
         
         context.message("addPlayer", player1UUID, "TestPlayer", "default");
         context.message("addPlayerStatistics", UUID.randomUUID(), Main.loadPlayerStatistics());

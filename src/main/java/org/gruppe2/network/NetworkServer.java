@@ -29,48 +29,10 @@ public class NetworkServer implements Runnable {
 	public NetworkServer(int port) {
 		this.port = port;
 		getIpofLocalComputerTest();
-		getIpOfThisComputerReal();
+		getIpOfThisServerReal();
 	}
 
-	private void getIpOfThisComputerReal() {
-			try {
-				System.out.println("Host addr: " + InetAddress.getLocalHost().getHostAddress());
-				Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
-				 for (; n.hasMoreElements();)
-			        {
-			                NetworkInterface e = n.nextElement();
-			                System.out.println("Interface: " + e.getName());
-			                Enumeration<InetAddress> a = e.getInetAddresses();
-			                for (; a.hasMoreElements();)
-			                {
-			                        InetAddress addr = a.nextElement();
-			                        System.out.println("  " + addr.getHostAddress());
-			                }
-			        }
-			} catch (UnknownHostException e1) {
-				e1.printStackTrace();
-			}  // often returns "127.0.0.1"
-			catch (SocketException e1) {
-				e1.printStackTrace();
-			}
-	        
-	       
-	}
-		
 	
-
-	private void getIpofLocalComputerTest() {
-		InetAddress ip;
-		  try {
-
-			ip = InetAddress.getLocalHost();
-			System.out.println("Current IP address : " + ip.getHostAddress());
-
-		  } catch (UnknownHostException e) {
-			e.printStackTrace();
-		  }
-		
-	}
 
 	@Override
 	public void run() {
@@ -120,6 +82,45 @@ public class NetworkServer implements Runnable {
 
 	public static void removeThread(Thread t) {
 		threads.remove(t);
+	}
+
+	
+	private void getIpOfThisServerReal() {
+		try {
+			System.out.println("Host addr: " + InetAddress.getLocalHost().getHostAddress());
+			Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
+			 for (; n.hasMoreElements();)
+		        {
+		                NetworkInterface e = n.nextElement();
+		                System.out.println("Interface: " + e.getName());
+		                Enumeration<InetAddress> a = e.getInetAddresses();
+		                for (; a.hasMoreElements();)
+		                {
+		                        InetAddress addr = a.nextElement();
+		                        System.out.println("  " + addr.getHostAddress());
+		                }
+		        }
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}  // often returns "127.0.0.1"
+		catch (SocketException e1) {
+			e1.printStackTrace();
+		}
+}
+	
+
+
+	private void getIpofLocalComputerTest() {
+		InetAddress ip;
+		  try {
+	
+			ip = InetAddress.getLocalHost();
+			System.out.println("Current IP address : " + ip.getHostAddress());
+	
+		  } catch (UnknownHostException e) {
+			e.printStackTrace();
+		  }
+		
 	}
 
 	/**
