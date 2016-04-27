@@ -48,7 +48,7 @@ public class ChatBox extends TextArea {
         textField.setOnAction(e -> { // Put text from textField to textArea
             if (textField.getText().equals(null) || textField.getText().equals("")) setScrollTop(Double.MAX_VALUE);
 
-            else if (checkForCommands(textField)) ;
+            else if (checkForCommands(textField.getText())) ;
 
             else {
             	System.out.println("heo");
@@ -83,24 +83,25 @@ public class ChatBox extends TextArea {
         });
 
     }
-    private boolean checkForCommands(TextField textField) {
-        String command = textField.getText().toLowerCase();
+    private boolean checkForCommands(String text) {
+        String command = text.toLowerCase();
 
         switch (command) {
-            case "besthand":
-                throw new NotImplementedException();
+            case "/besthand":
+//                throw new NotImplementedException();
+                System.out.println("Not implemented yet");
                 //String answer = GeneralCalculations.getBestHandForPlayer(((InGame)this.getParent().getParent()).communityCardsBox.getCommunityCards(), player).toString();
                 //this.setText(this.getText() + "\n" + player + "s possible best hand is: " + answer);S
-            case "log":
-                this.setText(this.getText() + "\n: " + textField.getText() + "is epic");
+            case "/log":
+                this.setText(this.getText() + "\n: " + command + "is epic");
                 //Print logs--->
                 return true;
-            case "fuck off":
-                this.setText(this.getText() + "\n: " + textField.getText() + "is epic");
+            case "/fuck off":
+                this.setText(this.getText() + "\n: " + command + "is epic");
                 //Print playFuckOfClip--->
                 return true;
-            case "raiding party":
-                this.setText(this.getText() + "\n: " + textField.getText() + "is epic");
+            case "/raiding party":
+                this.setText(this.getText() + "\n: " + command + "is epic");
                 //Print raidingPartyClip--->
                 return true;
             default:
@@ -110,7 +111,7 @@ public class ChatBox extends TextArea {
     @Handler
     public void chatHandler(ChatEvent chatEvent){
     	Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID());
-    	
-    	this.appendText("\n"+player.getName()+": "+chatEvent.getMessage());
+    	if(!checkForCommands(chatEvent.getMessage()))
+    		this.appendText("\n"+player.getName()+": "+chatEvent.getMessage());
     }
 }

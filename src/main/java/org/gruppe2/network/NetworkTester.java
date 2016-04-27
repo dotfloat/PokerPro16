@@ -9,7 +9,7 @@ import org.gruppe2.ui.javafx.Lobby;
  */
 public class NetworkTester {
 	public static Lobby lobby; //Remove this when handler is ready!
-	public static boolean lanTest = false;
+	public static boolean lanTest = true;
 	
 	public static void main(String[] args) {
 		testNetwork(null);
