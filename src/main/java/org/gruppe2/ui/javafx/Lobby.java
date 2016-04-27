@@ -1,15 +1,14 @@
 package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
 import org.gruppe2.game.event.NetworkClientEvent;
@@ -30,18 +29,18 @@ public class Lobby extends BorderPane {
 	@FXML private TilePane lobbyTiles;
 	@FXML private BorderPane lobby = this;
 	@FXML private HBox searchBar;
-	@FXML private Button createGameBtn;
+	@FXML private ImageView createGame;
+	@FXML private ScrollPane scrollPane;
 
 	public Lobby() {
 		Resources.loadFXML(this);
 		setSize();
-		createGameBtn.setVisible(false);
 		PokerApplication.networkStart = true;
 		NetworkTester.testNetwork(this);
 	}
 
 	public void search() {
-		lobbyTiles.getChildren().add(new Label(search.getText()));
+		lobbyTiles.getChildren().add(new LobbyTable());
 	}
 	@Handler
 	public void startNetworkGame(NetworkClientEvent networkClientEvent){
@@ -52,14 +51,6 @@ public class Lobby extends BorderPane {
 		lobbyTiles.getChildren()
 				.add(new Label("Displaying table with friends"));
 		//TODO display tables with friends in
-	}
-
-	public void closeLobby() {
-		SceneController.setScene(new MainMenu());
-	}
-
-	public void keyPressed(KeyEvent event){
-		if (event.getCode() == KeyCode.ESCAPE) closeLobby();
 	}
 	@FXML
 	private void createGame(){
@@ -74,10 +65,18 @@ public class Lobby extends BorderPane {
 				PokerApplication.getRoot().widthProperty().multiply(0.7));
 		lobby.maxHeightProperty().bind(
 				PokerApplication.getRoot().heightProperty().multiply(0.7));
+		scrollPane.maxWidthProperty().bind(
+				PokerApplication.getRoot().widthProperty().multiply(0.7));
+		scrollPane.maxHeightProperty().bind(
+				PokerApplication.getRoot().heightProperty().multiply(0.7));
 		search.prefWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.3));
 		submit.prefWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.1));
+		lobbyTiles.hgapProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.02));
+		lobbyTiles.vgapProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.02));
+		createGame.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.13));
+		createGame.preserveRatioProperty().setValue(true);
 	}
 
 	public void keyListener(KeyEvent event){
@@ -92,8 +91,9 @@ public class Lobby extends BorderPane {
 		}
 		// TODO query for all tables and add them as child to lobbyTiles
 		if(search.contains("table")){
-			createGameBtn.setVisible(true);
+			//createGameBtn.setVisible(true);
 		}
+
 	}
 	
 }

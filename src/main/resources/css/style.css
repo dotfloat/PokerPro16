@@ -257,14 +257,3 @@
     -fx-text-fill: #33adff;
     -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
 }
-
-.exit {
-    -fx-background-color: red;
-    -fx-min-width: 20px;
-    -fx-min-height: 20px;
-    -fx-background-radius: 1000px;
-    -fx-background-image: url("/images/ui/exit.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-size: 40px;
-}
