@@ -158,6 +158,7 @@ public abstract class Session implements Runnable {
 				break;
 			try {
 				Thread.sleep(300);
+				System.out.println(NetworkServerGameSession.playerHasStartedGame);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

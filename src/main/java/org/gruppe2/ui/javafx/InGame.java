@@ -25,14 +25,16 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.network.NetworkClient;
+import org.gruppe2.network.NetworkServerGameSession;
 import org.gruppe2.ui.Resources;
 
 public class InGame extends BorderPane {
     private static SessionContext context = null;
     private static UUID playerUUID = UUID.randomUUID();
-
     private List<Pane> playerInfoBoxes = new ArrayList<>();
     public static boolean UUIDSet = false;
+    
+    
     @Helper
     private GameHelper gameHelper;
     @Helper
@@ -113,6 +115,7 @@ public class InGame extends BorderPane {
 		        @Override
 		        public void handle(MouseEvent mouseEvent) { //Change to message when ready
 		        	NetworkClient.clientPressedStart = true;
+		        	NetworkServerGameSession.playerHasStartedGame = true;
 		        	System.out.println("pressed start");
 		        }
 		    });
@@ -122,12 +125,10 @@ public class InGame extends BorderPane {
 	}
 
 	public static UUID getPlayerUUID() {
-		System.out.println("getting uuid");
         return playerUUID;
     }
     public static void setPlayerUUID(UUID uuid) {
         playerUUID = uuid;
-        System.out.println("uuid set");
         UUIDSet = true;
     }
 

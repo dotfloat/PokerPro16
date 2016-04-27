@@ -7,9 +7,14 @@ import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
+import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.session.Handler;
-import org.gruppe2.game.session.Message;
+import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.javafx.InGame;
 
@@ -35,6 +40,8 @@ public class NetworkClient implements Runnable {
 	public int playerNumber = 1;
 	public static boolean onlineGame = false;
 	private static SessionContext context = null;
+	ArrayList<Player> players = new ArrayList<Player>();
+	
     
 	@Override
 	public void run() {
@@ -120,7 +127,7 @@ public class NetworkClient implements Runnable {
         }
     }
     @Handler
-    private void disconnectMe(){
+    private void disconnectMe(QuitEvent quitEvent){
     	outPrinter.print(playerNumber+";bye");
     	System.out.println("disconnecting me");
     } 
@@ -141,7 +148,7 @@ public class NetworkClient implements Runnable {
     	}
     	else{
     		sleepNowDearThread();
-    		System.out.println("gameStarted");
+    		
     		setContext();
     		String fromServer = in.readLine();
     		String[] s = fromServer.split(";");
@@ -157,6 +164,9 @@ public class NetworkClient implements Runnable {
     			String message = s[2];
     			if(event.equals("chat")){
     				setChat(playerNumber,message);
+    			}
+    			if(event.equals("move")){
+    				sendMoveMessageToGui(playerNumber,message);
     			}
     		}
     		
@@ -188,8 +198,38 @@ public class NetworkClient implements Runnable {
     }
     
     public void setChat(String playerNumber,String message){
+    	System.out.println("client recieved chat");
     	context.message("chat", message, InGame.getPlayerUUID());
     }
-    
+    private void sendMoveMessageToGui(String playerID, String message) {
+    	
+		int playerNumber = Integer.valueOf(playerID);
+//		Player player = players.get(playerNumber);
+		
+		if (message.contains("raise")) {
+			int betValue = Integer.valueOf(message.substring(6));
+			System.out.println("Player: " + playerID + " raise" + betValue);
+			PlayerActionQuery playerActionQuery = new PlayerActionQuery(null, null);
+			Query<Action> actionQuery = playerActionQuery.getPlayer().getAction();
+			actionQuery.set(new Action.Raise(betValue));
+			context.message("sendMessageToClients", "join","1;move;raise "+betValue);//for each player(send 1;move;raise value)
+
+		}
+		if (message.contains("call")) {	
+			System.out.println("Player: " + playerID + " call");
+			context.message("sendMessageToClients", "join","1;move;call");
+			//guiClient.setAction(new Action.Call());
+		}
+		if (message.contains("check")) {
+			System.out.println("Player: " + playerID + " check");
+			context.message("sendMessageToClients", "join","1;move;check");
+			//guiClient.setAction(new Action.Check());
+		}
+		if (message.contains("fold")) {
+			System.out.println("Player: " + playerID + " folded");
+			context.message("sendMessageToClients", "join","1;move;fold");
+			//guiClient.setAction(new Action.Fold());
+		}
+	}
     
 }

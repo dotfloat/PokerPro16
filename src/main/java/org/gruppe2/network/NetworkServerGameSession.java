@@ -42,12 +42,12 @@ public class NetworkServerGameSession {
 		startGameLoop();
 		try {
 			String input;
-
+			System.out.println("server inside gameloop, ready");
 			while (true) {
-				System.out.println("server inside gameloop, ready");
+				
 				BufferedReader in = FromOrganizerIn;
 				PrintWriter out = ToOrganizerOut;
-				sendChatMessage("1","hei fra server",out);
+				sendChatMessage("1","hei fra server",out); //Test send to see if it works
 				input = in.readLine();
 				System.out.println("Data received: " + input);
 				if (input == null) {
@@ -55,7 +55,7 @@ public class NetworkServerGameSession {
 				}
 				String[] s = input.split(";");
 
-				if (s[0].equals("bye")) {
+				if (input.contains("bye")) {
 					sendPlayerDisconnect(s);
 					
 					break;
@@ -85,10 +85,12 @@ public class NetworkServerGameSession {
 		System.out.println("game ended");
 	}
 	private void sendPlayerDisconnect(String[] s) {
-		System.out.println("Canceling connection for player XX");
-		context.message("sendMessageToClients", "join","XX;bye");
+		System.out.println("Canceling connection for player: "+s[0]);
+		context.message("sendMessageToClients", "join",s[0]+";bye");
 	}
-
+	/**
+	 * This is only temporary, now the server must send a context to the client, but client will have own context
+	 */
 	private void startGameLoop() {
 		System.out.println("setting server game session");
 		context = new GameBuilder().networkStart();
@@ -108,11 +110,6 @@ public class NetworkServerGameSession {
 		 System.out.println("Server gamesession init started");
         context.waitReady();
         System.out.println("Server gamesession init finished");
-        
-        
-       
-        
-		
 	}
 
 	/**
@@ -126,7 +123,8 @@ public class NetworkServerGameSession {
 			PrintWriter out) {
 		String output = playerID+";chat;"+message;
 		out.println(output);
-		System.out.println("server sent a message");
+		out.flush();
+		System.out.println("server sent a Chat message");
 	}
 	
 	/**
@@ -140,12 +138,12 @@ public class NetworkServerGameSession {
 		String output = "move recieved";
 		int playerNumber = Integer.valueOf(playerID);
 		out.println(output);
+		out.flush();
 		
 		if (message.contains("raise")) {
 			int betValue = Integer.valueOf(message.substring(6));
 			System.out.println("Player: " + playerID + " raise" + betValue);
-			context.message("sendMessageToClients", "join","1;move;raise 30");//for each player(send 1;move;raise value)
-			
+			context.message("sendMessageToClients", "join","1;move;raise "+betValue);//for each player(send 1;move;raise value)
 
 		}
 		if (message.contains("call")) {	
