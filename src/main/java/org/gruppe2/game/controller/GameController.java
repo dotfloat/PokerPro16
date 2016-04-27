@@ -44,7 +44,6 @@ public class GameController extends AbstractController {
 
     private boolean addPlayerModel(Player model) {
         game.getModel().getPlayers().add(model);
-
         if (game.getPlayers().size() >= game.getModel().getMaxPlayers()) {
             return false;
         }

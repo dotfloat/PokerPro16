@@ -13,5 +13,9 @@ public class NetworkClientController extends AbstractController{
 	public void sendMessageToServer(String joinOrCreate, String message){
 		addEvent(new NetworkClientEvent(joinOrCreate,message ));
 	}
+	@Message
+	public void sendClientPressedStart(String joinOrCreate, String message){
+		addEvent(new NetworkClientEvent(joinOrCreate,message ));
+	}
 	
 }

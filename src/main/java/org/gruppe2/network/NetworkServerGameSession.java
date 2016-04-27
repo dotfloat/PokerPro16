@@ -23,7 +23,8 @@ public class NetworkServerGameSession {
 	ArrayList<BufferedReader> ins;
 	BufferedReader FromOrganizerIn;
 	PrintWriter ToOrganizerOut;
-	public static boolean playerHasStartedGame = true;
+	public static boolean playerHasStartedGame = false;
+	public static UUID player1UUID;
 	
 	NetworkServerGameSession(Socket clientSocket, BufferedReader in, PrintWriter out, String name, ArrayList<Socket> clients, int maxPlayers) {
 		this.clientSocket = clientSocket;
@@ -46,6 +47,7 @@ public class NetworkServerGameSession {
 				System.out.println("server inside gameloop, ready");
 				BufferedReader in = FromOrganizerIn;
 				PrintWriter out = ToOrganizerOut;
+				sendChatMessage("1","hei fra server",out);
 				input = in.readLine();
 				System.out.println("Data received: " + input);
 				if (input == null) {
@@ -90,17 +92,26 @@ public class NetworkServerGameSession {
 	private void startGameLoop() {
 		System.out.println("setting server game session");
 		context = new GameBuilder().networkStart();
-		UUID player1UUID = UUID.randomUUID();
+		player1UUID = UUID.randomUUID();
+		context.setAnnotated(this);
+		context.message("addPlayer", player1UUID, "TestPlayer", "default");
+        context.message("addPlayerStatistics", player1UUID, Main.loadPlayerStatistics());
+        
+        try {
+			Thread.sleep(400);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		InGame.setPlayerUUID(player1UUID);
 		InGame.setContext(context);
-		
+		 System.out.println("Server gamesession init started");
         context.waitReady();
         System.out.println("Server gamesession init finished");
         
-        context.message("addPlayer", player1UUID, "TestPlayer", "default");
-        context.message("addPlayerStatistics", UUID.randomUUID(), Main.loadPlayerStatistics());
+        
        
-        context.setAnnotated(this);
+        
 		
 	}
 
@@ -113,10 +124,9 @@ public class NetworkServerGameSession {
 	 */
 	private void sendChatMessage(String playerID, String message,
 			PrintWriter out) {
-		String output = "chat recieved";
+		String output = playerID+";chat;"+message;
 		out.println(output);
-		context.message("sendMessageToClients", "join","1;chat;halla gutta");
-		System.out.println("Player " + playerID + ": " + message);
+		System.out.println("server sent a message");
 	}
 	
 	/**

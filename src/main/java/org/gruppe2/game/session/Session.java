@@ -2,6 +2,7 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
+import org.gruppe2.network.NetworkClient;
 import org.gruppe2.network.NetworkServerGameSession;
 
 import java.lang.reflect.InvocationTargetException;
@@ -132,7 +133,7 @@ public abstract class Session implements Runnable {
         controllerList.forEach(Controller::init);
         preNetworkStart();
         state = RunState.RUNNING;
-
+        
         while (state != RunState.STOPPED) {
             context.getEventQueue().process();
             messageQueueProcess();
@@ -153,7 +154,7 @@ public abstract class Session implements Runnable {
      */
     private void preNetworkStart() {
 		while(true){
-			if(NetworkServerGameSession.playerHasStartedGame)
+			if(NetworkServerGameSession.playerHasStartedGame || !NetworkClient.onlineGame)
 				break;
 			try {
 				Thread.sleep(300);
@@ -162,6 +163,7 @@ public abstract class Session implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("Backend game now running");
 		
 	}
 	private void messageQueueProcess() {

@@ -9,9 +9,16 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Message;
+import org.gruppe2.game.session.SessionContext;
+import org.gruppe2.ui.javafx.InGame;
 
 
-
+/**
+ * This class will be divided in netclient and clientSession I guess
+ * @author htj063
+ *
+ */
 public class NetworkClient implements Runnable {
 
 	private int port = 8888;
@@ -19,16 +26,19 @@ public class NetworkClient implements Runnable {
 	boolean firstMessage = true;
 	boolean inGame = false;
 	boolean notifiedGameStart = false;
+	public static boolean clientPressedStart = false;
 	String initialMessage = "master";
     String secondMessage = "ok";
     private static String joinMessage = null;
 	private boolean lobbyChoosing = false;
 	public PrintWriter outPrinter = null;
 	public int playerNumber = 1;
+	public static boolean onlineGame = false;
+	private static SessionContext context = null;
     
 	@Override
 	public void run() {
-
+		onlineGame = true;
 		try (Socket socket = new Socket("129.177.121.72", port);
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -122,16 +132,45 @@ public class NetworkClient implements Runnable {
 	public void onGameStart(PrintWriter out, BufferedReader in) throws InterruptedException, IOException {
 		
     	if(!notifiedGameStart){
-    		System.out.println("client ingame jippi!");
-    		notifiedGameStart = true;
+    		System.out.println("game waiting to start,  add players etc..");
+    		if(clientPressedStart){
+	    		out.print("start");
+	    		notifiedGameStart = true;
+    		}
+    		sleepNowDearThread();
     	}
     	else{
     		sleepNowDearThread();
-    		System.out.println("game waiting to start,  add players etc..");
+    		System.out.println("gameStarted");
+    		setContext();
     		String fromServer = in.readLine();
+    		String[] s = fromServer.split(";");
+    		if(s.length == 1){
+    			
+    		}
+    		else if(s.length == 2){
+    			
+    		}
+    		else if(s.length == 3){
+    			String playerNumber = s[0];
+    			String event = s[1];
+    			String message = s[2];
+    			if(event.equals("chat")){
+    				setChat(playerNumber,message);
+    			}
+    		}
+    		
     		//TODO create server setup, so that when all players are ready, a signal is given to start game for client.
     	}	
     }
+	private void setContext() {
+		if(context == null){
+			context=InGame.getContext();
+			context.setAnnotated(this);
+		}
+		
+		
+	}
 	public static void setJoinMessage(String messageFromGUI){
 		joinMessage = messageFromGUI;
 		System.out.println("message set to: "+messageFromGUI);
@@ -141,12 +180,16 @@ public class NetworkClient implements Runnable {
     	System.out.println("spillet er klart!");
     	inGame = true;
     }
-    private void sleepNowDearThread() throws InterruptedException{
-    	if(!notifiedGameStart)
-    		System.out.println("choose join or create?");
+    private void sleepNowDearThread() throws InterruptedException{	
     	Thread.sleep(100);
     }
     public void setInSocket(PrintWriter out){
     	this.outPrinter = out;
     }
+    
+    public void setChat(String playerNumber,String message){
+    	context.message("chat", message, InGame.getPlayerUUID());
+    }
+    
+    
 }

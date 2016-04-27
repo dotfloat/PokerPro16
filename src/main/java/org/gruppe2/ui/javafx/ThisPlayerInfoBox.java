@@ -18,6 +18,7 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
+import org.gruppe2.network.NetworkServerGameSession;
 import org.gruppe2.ui.Resources;
 
 
@@ -44,9 +45,12 @@ public class ThisPlayerInfoBox extends HBox {
     public ThisPlayerInfoBox() {
         Resources.loadFXML(this);
         InGame.getContext().setAnnotated(this);
-        playerUUID = InGame.getPlayerUUID();
         
-        player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        playerUUID = InGame.getPlayerUUID();
+//        System.out.println("compare uuid is: "+ playerUUID.equals(NetworkServerGameSession.player1UUID));
+        
+        if(!PokerApplication.networkStart)
+        	player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
     }

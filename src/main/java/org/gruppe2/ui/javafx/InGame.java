@@ -1,12 +1,21 @@
 package org.gruppe2.ui.javafx;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
+
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import org.gruppe2.Main;
-import org.gruppe2.game.Action;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
@@ -15,16 +24,15 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.SessionContext;
+import org.gruppe2.network.NetworkClient;
 import org.gruppe2.ui.Resources;
-
-import java.util.*;
 
 public class InGame extends BorderPane {
     private static SessionContext context = null;
     private static UUID playerUUID = UUID.randomUUID();
 
     private List<Pane> playerInfoBoxes = new ArrayList<>();
-
+    public static boolean UUIDSet = false;
     @Helper
     private GameHelper gameHelper;
     @Helper
@@ -40,7 +48,23 @@ public class InGame extends BorderPane {
     private Timer sessionTimer = new Timer();
 
     InGame() {
+    	while(!UUIDSet){
+    		if(!NetworkClient.onlineGame)
+    			UUIDSet = true;
+    		else{
+    			try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
     	contextSetup();
+    	try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
         Resources.loadFXML(this);
         setUpViewItems();
     }
@@ -49,9 +73,10 @@ public class InGame extends BorderPane {
     	if(PokerApplication.networkStart == false){
     	 context = new GameBuilder().start();
          context.waitReady();
+         context.setAnnotated(this);
          context.message("addPlayer", playerUUID, "TestPlayer", "default");
          context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
-         context.setAnnotated(this);
+         
     	}
     	else{ //Set context only on server, and wait for it to give inGame a context reference, I think this is the wrong way to do it..
     		while(context == null){
@@ -76,13 +101,34 @@ public class InGame extends BorderPane {
         }, 0, 50);
     	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
         paintAllPlayers(playerInfoBoxes);
+        onelinePressStart();
+        
+        
     }
 
-    public static UUID getPlayerUUID() {
+    private void onelinePressStart() {
+    	if(NetworkClient.onlineGame){
+			Label pressStart =  new Label(" Click to Start game");
+		    pressStart.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+		        @Override
+		        public void handle(MouseEvent mouseEvent) { //Change to message when ready
+		        	NetworkClient.clientPressedStart = true;
+		        	System.out.println("pressed start");
+		        }
+		    });
+		    
+		    SceneController.setModal((new Modal(pressStart)));
+    	}
+	}
+
+	public static UUID getPlayerUUID() {
+		System.out.println("getting uuid");
         return playerUUID;
     }
     public static void setPlayerUUID(UUID uuid) {
         playerUUID = uuid;
+        System.out.println("uuid set");
+        UUIDSet = true;
     }
 
     public static SessionContext getContext() {
