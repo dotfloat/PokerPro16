@@ -17,10 +17,7 @@
 
     <center>
         <TilePane fx:id="lobbyTiles" styleClass="lobbyTiles">
-        	<Button onAction="#createGame">
-	        	<ImageView fx:id="createGame" >
-	        		<Image url="/images/ui/CreateNewGame.png"/>
-	        	</ImageView>
+        	<Button fx:id="createGameBtn" onAction="#createGame" styleClass="createNetworkButton">
 	        </Button>
         </TilePane>
     </center>

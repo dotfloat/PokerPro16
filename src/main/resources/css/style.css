@@ -29,6 +29,11 @@
     -fx-alignment: center;
 }
 
+.createNetworkButton {
+	-fx-background-image: url("/images/ui/CreateNewGame.png");
+	-fx-background-radius: 15px;
+}
+
 .choice-box {
     -fx-position-shape: false;
     -fx-text-fill: #0099ff;

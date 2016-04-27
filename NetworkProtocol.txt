@@ -33,6 +33,17 @@
 			stack xxx ( player playerID wins xxx chips )
 
 		special cases:
+
+			HandShake:
+				Client -> master
+				Server -> yes (if master)/ no (else)
+				Client -> ok
+				Server -> table;1;4;6  (There is 1 table with 4 / 6 players max
+				Client -> join 1 (join table 1)
+				Server -> ok join 1( confirmed you are part of game 1
+				
+			Handshake finished.
+
 			if messsage is only one of these:
 				bye (Player disconnect)
 			

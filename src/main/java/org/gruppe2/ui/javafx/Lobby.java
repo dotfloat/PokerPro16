@@ -14,6 +14,7 @@ import javafx.scene.layout.TilePane;
 
 import org.gruppe2.game.event.NetworkClientEvent;
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.network.NetworkClient;
 import org.gruppe2.network.NetworkTester;
 import org.gruppe2.ui.Resources;
 
@@ -29,11 +30,14 @@ public class Lobby extends BorderPane {
 	@FXML private TilePane lobbyTiles;
 	@FXML private BorderPane lobby = this;
 	@FXML private HBox searchBar;
-	@FXML private ImageView createGame;
+	@FXML private Button createGameBtn;
 
 	public Lobby() {
 		Resources.loadFXML(this);
 		setSize();
+		createGameBtn.setVisible(false);
+		PokerApplication.networkStart = true;
+		NetworkTester.testNetwork(this);
 	}
 
 	public void search() {
@@ -51,6 +55,7 @@ public class Lobby extends BorderPane {
 	}
 
 	public void closeLobby() {
+		SceneController.setScene(new MainMenu());
 	}
 
 	public void keyPressed(KeyEvent event){
@@ -59,10 +64,8 @@ public class Lobby extends BorderPane {
 	@FXML
 	private void createGame(){
 		System.out.println("starting network game");
-		PokerApplication.networkStart = true;
-		NetworkTester.testNetwork();
+		NetworkClient.setJoinMessage("join;1");
 		SceneController.setScene(new InGame());
-		
 	}
 
 	private void setSize() {
@@ -81,11 +84,16 @@ public class Lobby extends BorderPane {
 		if (event.getCode() == KeyCode.ENTER) search();
 	}
 
-	@SuppressWarnings("unused")
-	private void updateTables(String search) {
+
+//	@Handler
+	public void updateTables(String search) {
 		if (checkBoxFriends.selectedProperty().get()) {
 			// check for tables with friends on
 		}
 		// TODO query for all tables and add them as child to lobbyTiles
+		if(search.contains("table")){
+			createGameBtn.setVisible(true);
+		}
 	}
+	
 }

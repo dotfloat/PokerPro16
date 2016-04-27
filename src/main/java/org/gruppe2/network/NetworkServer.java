@@ -1,9 +1,14 @@
 package org.gruppe2.network;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 /**
  * Created by kjors on 11.04.2016.
@@ -23,6 +28,48 @@ public class NetworkServer implements Runnable {
 
 	public NetworkServer(int port) {
 		this.port = port;
+		getIpofLocalComputerTest();
+		getIpOfThisComputerReal();
+	}
+
+	private void getIpOfThisComputerReal() {
+			try {
+				System.out.println("Host addr: " + InetAddress.getLocalHost().getHostAddress());
+				Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
+				 for (; n.hasMoreElements();)
+			        {
+			                NetworkInterface e = n.nextElement();
+			                System.out.println("Interface: " + e.getName());
+			                Enumeration<InetAddress> a = e.getInetAddresses();
+			                for (; a.hasMoreElements();)
+			                {
+			                        InetAddress addr = a.nextElement();
+			                        System.out.println("  " + addr.getHostAddress());
+			                }
+			        }
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			}  // often returns "127.0.0.1"
+			catch (SocketException e1) {
+				e1.printStackTrace();
+			}
+	        
+	       
+	}
+		
+	
+
+	private void getIpofLocalComputerTest() {
+		InetAddress ip;
+		  try {
+
+			ip = InetAddress.getLocalHost();
+			System.out.println("Current IP address : " + ip.getHostAddress());
+
+		  } catch (UnknownHostException e) {
+			e.printStackTrace();
+		  }
+		
 	}
 
 	@Override

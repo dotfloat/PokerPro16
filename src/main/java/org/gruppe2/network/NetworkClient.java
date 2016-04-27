@@ -18,12 +18,13 @@ public class NetworkClient implements Runnable {
 	boolean notifiedGameStart = false;
 	String initialMessage = "master";
     String secondMessage = "ok";
-    String joinMessage = "join";
+    private static String joinMessage = null;
+	private boolean lobbyChoosing = false;
     
 	@Override
 	public void run() {
 
-		try (Socket socket = new Socket(host, port);
+		try (Socket socket = new Socket("129.177.121.72", port);
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						socket.getInputStream()));
@@ -33,14 +34,18 @@ public class NetworkClient implements Runnable {
 			
             while (true) {
             	if(!inGame)
-            		onServerConnect(out,in);
-            	else
+					onServerConnect(out,in);
+				else
             		onGameStart();
             }
 
 		} catch (UnknownHostException h) {
 			h.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -50,37 +55,57 @@ public class NetworkClient implements Runnable {
 	 * @param out
 	 * @param in
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-    public void onServerConnect(PrintWriter out, BufferedReader in) throws IOException {
+    public void onServerConnect(PrintWriter out, BufferedReader in) throws IOException, InterruptedException {
+    	
+    	
     	if (firstMessage) {
             System.out.println("Client: " + initialMessage);
             out.println(initialMessage + "\n");
             out.flush();
             firstMessage = false;
-        }
-        String fromServer = in.readLine();
-        
-        if(fromServer.equals("yes")) {
-            System.out.println("Client: " + secondMessage);
-            out.println(secondMessage + "\n");
-            out.flush();
-        }
-        else if(fromServer.contains("table")){
-            String[] s = fromServer.split(";");
-            joinMessage = joinMessage + ";" + s[1];
+        }   	
+    	sleepNowDearThread();
+		
+    	if(lobbyChoosing && joinMessage != null){
+    		
             System.out.println("Client: " + joinMessage);
             out.println(joinMessage + "\n");
             out.flush();
-        }
-        else if(fromServer.contains("ok") && fromServer.contains("join")) {
-            String[] s = fromServer.split(";");
-            System.out.println("spillet er klart!");
-            join(Integer.parseInt(s[2]));
-            inGame = true;
+            lobbyChoosing = false;
+    	}
+    	else if(!lobbyChoosing){
+	    	String fromServer = in.readLine();
+	    	System.out.println("lobby false");
+	        
+	        if(fromServer.equals("yes")) {
+	            System.out.println("Client: " + secondMessage);
+	            out.println(secondMessage + "\n");
+	            out.flush();
+	        }
+	        else if(fromServer.contains("table")){
+	            String[] s = fromServer.split(";");
+	            
+	            showTablesInLobby(fromServer);
+	            lobbyChoosing = true;
+	            
+	        }
+	        else if(fromServer.contains("ok") && fromServer.contains("join")) {
+	            String[] s = fromServer.split(";");
+	            System.out.println("spillet er klart!");
+	            join(Integer.parseInt(s[2]));
+	            inGame = true;
+        	}
         }
     }
-
-    public void onGameStart() {
+    
+    private void showTablesInLobby(String fromServer) { // Change to message when ready
+    	if(NetworkTester.lobby != null)
+    		NetworkTester.lobby.updateTables(fromServer);
+		
+	}
+	public void onGameStart() {
     	if(!notifiedGameStart){
     		System.out.println("client ingame jippi!");
     		notifiedGameStart = true;
@@ -88,8 +113,16 @@ public class NetworkClient implements Runnable {
     	
     	
     }
+	
+	public static void setJoinMessage(String messageFromGUI){
+		joinMessage = messageFromGUI;
+		System.out.println("message set to: "+messageFromGUI);
+	}
 
     public void join(int table) {
 
+    }
+    private void sleepNowDearThread() throws InterruptedException{
+    	Thread.sleep(30);
     }
 }

@@ -49,7 +49,7 @@ class NetworkServerWorker implements Runnable {
 					break;
 				}
 				
-				if(masterGreetingOK == true && masterGreetingOK== true){ //Thrid print starts game
+				if(masterGreeting == true && masterGreetingOK== true){ //Thrid print starts game
 					if(s[0].equals("join")){
 						if(s[1].equals("1"))
 							out.print("ok;join;1\n");
@@ -88,8 +88,5 @@ class NetworkServerWorker implements Runnable {
 
 	}
 
-	
-
-	
 
 }
