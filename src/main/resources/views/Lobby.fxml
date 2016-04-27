@@ -1,24 +1,26 @@
-<?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.image.ImageView?>
-<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby" onKeyPressed="#keyPressed">
+<?import javafx.scene.image.Image?>
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby">
     <top>
-        <HBox fx:id="searchBar" alignment="CENTER" style="-fx-background-color: black; -fx-alignment: center; -fx-padding: 10px">
+        <HBox fx:id="searchBar" alignment="CENTER"
+              style="-fx-background-color: black; -fx-alignment: center; -fx-padding: 10px">
             <TextField fx:id="search" promptText="Search here" onKeyPressed="#keyListener"/>
             <Button text="Search" fx:id="submit" onAction="#search"/>
             <CheckBox fx:id="checkBoxFriends" text="Show only friends" textFill="#0099ff" onAction="#friendBox"/>
-            <Button fx:id="close" text="Close" onAction="#closeLobby"/>
         </HBox>
     </top>
 
     <center>
-        <TilePane fx:id="lobbyTiles" styleClass="lobbyTiles">
-        	<Button fx:id="createGameBtn" onAction="#createGame" styleClass="createNetworkButton">
-	        </Button>
-        </TilePane>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true">
+            <TilePane fx:id="lobbyTiles" styleClass="lobbyTiles">
+                <ImageView fx:id="createGame" onMouseClicked="#createGame">
+                    <Image url="/images/ui/addTable.png"/>
+                </ImageView>
+            </TilePane>
+        </ScrollPane>
     </center>
 </fx:root>
