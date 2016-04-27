@@ -36,6 +36,6 @@ public class GameBuilder {
         return Session.start(HostSession.class, min, max, buyIn, botPolicy);
     }
     public SessionContext networkStart(){
-    	return Session.start(HostSession.class, min, max, buyIn, botPolicy);
+    	return Session.startServerGame(HostSession.class, min, max, buyIn, botPolicy);
     }
 }

@@ -23,6 +23,7 @@ public class NetworkServerGameSession {
 	ArrayList<BufferedReader> ins;
 	BufferedReader FromOrganizerIn;
 	PrintWriter ToOrganizerOut;
+	public static boolean playerHasStartedGame = false;
 	
 	NetworkServerGameSession(Socket clientSocket, BufferedReader in, PrintWriter out, String name, ArrayList<Socket> clients, int maxPlayers) {
 		this.clientSocket = clientSocket;
@@ -53,7 +54,8 @@ public class NetworkServerGameSession {
 				String[] s = input.split(";");
 
 				if (s[0].equals("bye")) {
-					System.out.println("Canceling connection");
+					sendPlayerDisconnect(s);
+					
 					break;
 				}
 				if(s.length == 1)
@@ -80,6 +82,11 @@ public class NetworkServerGameSession {
 		}
 		System.out.println("game ended");
 	}
+	private void sendPlayerDisconnect(String[] s) {
+		System.out.println("Canceling connection for player XX");
+		context.message("sendMessageToClients", "join","XX;bye");
+	}
+
 	private void startGameLoop() {
 		System.out.println("setting server game session");
 		context = new GameBuilder().networkStart();
