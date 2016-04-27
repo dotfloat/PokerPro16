@@ -57,14 +57,13 @@ public class InGame extends BorderPane {
     		while(context == null){
     			try {
     				System.out.println("Ingame waiting for context from server");
-					Thread.sleep(100);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
     		};
     		System.out.println("context recived from server");
     	}
-    	
     }
     
     private void setUpViewItems(){

@@ -37,7 +37,7 @@ public class NetworkClient implements Runnable {
             	if(!inGame)
 					onServerConnect(out,in);
 				else
-            		onGameStart();
+            		onGameStart(out,in);
             }
 		}
         catch(ConnectException e){
@@ -109,16 +109,18 @@ public class NetworkClient implements Runnable {
     		NetworkTester.lobby.updateTables(fromServer);
 		
 	}
-	public void onGameStart() {
+	public void onGameStart(PrintWriter out, BufferedReader in) throws InterruptedException, IOException {
 		
     	if(!notifiedGameStart){
     		System.out.println("client ingame jippi!");
     		notifiedGameStart = true;
     	}
     	else{
+    		sleepNowDearThread();
     		System.out.println("game waiting to start,  add players etc..");
-    	}
-    		
+    		String fromServer = in.readLine();
+    		//TODO create server setup, so that when all players are ready, a signal is given to start game for client.
+    	}	
     }
 	public static void setJoinMessage(String messageFromGUI){
 		joinMessage = messageFromGUI;
@@ -131,6 +133,6 @@ public class NetworkClient implements Runnable {
     }
     private void sleepNowDearThread() throws InterruptedException{
     	System.out.println("waiting for player to choose what to do");
-    	Thread.sleep(30);
+    	Thread.sleep(100);
     }
 }

@@ -9,7 +9,8 @@ import org.gruppe2.ui.javafx.Lobby;
  */
 public class NetworkTester {
 	public static Lobby lobby; //Remove this when handler is ready!
-
+	public static boolean lanTest = true;
+	
 	public static void main(String[] args) {
 		testNetwork(null);
 	}
@@ -18,11 +19,12 @@ public class NetworkTester {
 		lobby = lobbyFrom;
 		System.out
 				.println("Read network protocol.txt in git folder for description");
-
-//		NetworkServer server = new NetworkServer(8888);
-//		Thread serverThread = new Thread(server);
-//		System.out.println("server start");
-//		serverThread.start();
+		if(lanTest){
+			NetworkServer server = new NetworkServer(8888);
+			Thread serverThread = new Thread(server);
+			System.out.println("server start");
+			serverThread.start();
+		}
 		
 		NetworkClient client = new NetworkClient();
 		Thread clientThread = new Thread(client);

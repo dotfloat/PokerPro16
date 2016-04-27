@@ -42,6 +42,7 @@ public class NetworkServerGameSession {
 			String input;
 
 			while (true) {
+				System.out.println("server inside gameloop, ready");
 				BufferedReader in = FromOrganizerIn;
 				PrintWriter out = ToOrganizerOut;
 				input = in.readLine();
@@ -92,7 +93,7 @@ public class NetworkServerGameSession {
         context.message("addPlayer", player1UUID, "TestPlayer", "default");
         context.message("addPlayerStatistics", UUID.randomUUID(), Main.loadPlayerStatistics());
        
-//        context.setAnnotated(this);
+        context.setAnnotated(this);
 		
 	}
 
@@ -107,6 +108,7 @@ public class NetworkServerGameSession {
 			PrintWriter out) {
 		String output = "chat recieved";
 		out.println(output);
+		context.message("sendMessageToClients", "join","1;chat;halla gutta");
 		System.out.println("Player " + playerID + ": " + message);
 	}
 	
@@ -125,22 +127,23 @@ public class NetworkServerGameSession {
 		if (message.contains("raise")) {
 			int betValue = Integer.valueOf(message.substring(6));
 			System.out.println("Player: " + playerID + " raise" + betValue);
+			context.message("sendMessageToClients", "join","1;move;raise 30");//for each player(send 1;move;raise value)
 			
-			//guiClient.setAction(new Action.Raise(betValue));
-//			for each player(send 1;move;raise value)
-		}
-		if (message.contains("call")) {
 
+		}
+		if (message.contains("call")) {	
 			System.out.println("Player: " + playerID + " call");
+			context.message("sendMessageToClients", "join","1;move;call");
 			//guiClient.setAction(new Action.Call());
 		}
 		if (message.contains("check")) {
 			System.out.println("Player: " + playerID + " check");
+			context.message("sendMessageToClients", "join","1;move;check");
 			//guiClient.setAction(new Action.Check());
 		}
 		if (message.contains("fold")) {
 			System.out.println("Player: " + playerID + " folded");
-			
+			context.message("sendMessageToClients", "join","1;move;fold");
 			//guiClient.setAction(new Action.Fold());
 		}
 	}

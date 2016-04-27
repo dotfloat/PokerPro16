@@ -6,6 +6,7 @@ public class ChatEvent implements Event {
 	
 	private final String message;
 	private final UUID playerUUID;
+	
 	public ChatEvent(String message, UUID playerUUID){
 		this.message = message;
 		this.playerUUID = playerUUID;
