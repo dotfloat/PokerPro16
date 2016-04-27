@@ -21,10 +21,11 @@ public class NetworkServer implements Runnable {
 	protected String msg = null;
 	private String playerID = "Test Player";
 	protected boolean notRunning = false;
-
+	
 	public static ArrayList<Thread> threads = new ArrayList<Thread>();
 	public static ArrayList<NetworkServerGameSession> gamesOnServer = new ArrayList<NetworkServerGameSession>();
 	protected Thread runningThread = null;
+	
 
 	public NetworkServer(int port) {
 		this.port = port;
@@ -109,7 +110,6 @@ public class NetworkServer implements Runnable {
 }
 	
 
-
 	private void getIpofLocalComputerTest() {
 		InetAddress ip;
 		  try {
@@ -122,7 +122,6 @@ public class NetworkServer implements Runnable {
 		  }
 		
 	}
-
 	/**
 	 * This might be used when game is finished to start server ?
 	 * @param args

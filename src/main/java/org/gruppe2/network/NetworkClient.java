@@ -8,6 +8,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.gruppe2.game.session.Handler;
+
 
 
 public class NetworkClient implements Runnable {
@@ -21,6 +23,8 @@ public class NetworkClient implements Runnable {
     String secondMessage = "ok";
     private static String joinMessage = null;
 	private boolean lobbyChoosing = false;
+	public PrintWriter outPrinter = null;
+	public int playerNumber = 1;
     
 	@Override
 	public void run() {
@@ -29,9 +33,11 @@ public class NetworkClient implements Runnable {
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						socket.getInputStream()));
+				
+				
 				BufferedReader stdIn = new BufferedReader(
 						new InputStreamReader(System.in));) {
-
+				setInSocket(out);
 			
             while (true) {
             	if(!inGame)
@@ -103,11 +109,15 @@ public class NetworkClient implements Runnable {
         	}
         }
     }
+    @Handler
+    private void disconnectMe(){
+    	outPrinter.print(playerNumber+";bye");
+    	System.out.println("disconnecting me");
+    } 
     
     private void showTablesInLobby(String fromServer) { // Change to message when ready
     	if(NetworkTester.lobby != null)
     		NetworkTester.lobby.updateTables(fromServer);
-		
 	}
 	public void onGameStart(PrintWriter out, BufferedReader in) throws InterruptedException, IOException {
 		
@@ -132,7 +142,11 @@ public class NetworkClient implements Runnable {
     	inGame = true;
     }
     private void sleepNowDearThread() throws InterruptedException{
-    	System.out.println("waiting for player to choose what to do");
+    	if(!notifiedGameStart)
+    		System.out.println("choose join or create?");
     	Thread.sleep(100);
+    }
+    public void setInSocket(PrintWriter out){
+    	this.outPrinter = out;
     }
 }

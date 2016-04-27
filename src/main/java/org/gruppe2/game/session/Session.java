@@ -2,6 +2,7 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
+import org.gruppe2.network.NetworkServerGameSession;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -91,6 +92,41 @@ public abstract class Session implements Runnable {
             return null;
         }
 
+        thread = new Thread(session);
+        thread.setName("Session");
+        thread.start();
+
+        return session.getContext().createContext();
+    }
+    /**
+     * Network style start method.
+     *
+     * @param klass
+     * @return
+     */
+    public static SessionContext startServerGame(Class<? extends Session> klass, Object... args) {
+        Session session;
+        Class<?>[] argTypes;
+        Thread thread;
+
+        try {
+            argTypes = (Class<?>[]) Arrays.stream(args).map(Object::getClass).toArray(Class[]::new);
+
+            session = klass.getConstructor(argTypes).newInstance(args);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+//        while(true){
+//        	try {
+//				Thread.sleep(400);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//        	System.out.println("waiting for all player to join");
+//        	if(NetworkServerGameSession.playerHasStartedGame)
+//        		break;
+//        }
         thread = new Thread(session);
         thread.setName("Session");
         thread.start();
