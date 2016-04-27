@@ -23,7 +23,7 @@ public class NetworkServerGameSession {
 	ArrayList<BufferedReader> ins;
 	BufferedReader FromOrganizerIn;
 	PrintWriter ToOrganizerOut;
-	public static boolean playerHasStartedGame = false;
+	public static boolean playerHasStartedGame = true;
 	
 	NetworkServerGameSession(Socket clientSocket, BufferedReader in, PrintWriter out, String name, ArrayList<Socket> clients, int maxPlayers) {
 		this.clientSocket = clientSocket;

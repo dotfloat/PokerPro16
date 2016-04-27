@@ -103,7 +103,7 @@ public class NetworkServer implements Runnable {
 		        }
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
-		}  // often returns "127.0.0.1"
+		}  
 		catch (SocketException e1) {
 			e1.printStackTrace();
 		}

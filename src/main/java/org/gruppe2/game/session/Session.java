@@ -117,16 +117,7 @@ public abstract class Session implements Runnable {
             e.printStackTrace();
             return null;
         }
-//        while(true){
-//        	try {
-//				Thread.sleep(400);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//        	System.out.println("waiting for all player to join");
-//        	if(NetworkServerGameSession.playerHasStartedGame)
-//        		break;
-//        }
+
         thread = new Thread(session);
         thread.setName("Session");
         thread.start();
@@ -139,7 +130,7 @@ public abstract class Session implements Runnable {
         init();
 
         controllerList.forEach(Controller::init);
-
+        preNetworkStart();
         state = RunState.RUNNING;
 
         while (state != RunState.STOPPED) {
@@ -157,8 +148,23 @@ public abstract class Session implements Runnable {
             }
         }
     }
-
-    private void messageQueueProcess() {
+    /**
+     * Before organizer has started game, just wait.
+     */
+    private void preNetworkStart() {
+		while(true){
+			if(NetworkServerGameSession.playerHasStartedGame)
+				break;
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	private void messageQueueProcess() {
         MessageEntry entry;
         while ((entry = messageQueue.poll()) != null) {
             MessageHandler handler;
