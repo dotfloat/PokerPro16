@@ -11,9 +11,13 @@ import java.util.ArrayList;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
+import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.QuitEvent;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.javafx.InGame;
@@ -42,6 +46,11 @@ public class NetworkClient implements Runnable {
 	private static SessionContext context = null;
 	ArrayList<Player> players = new ArrayList<Player>();
 	
+	@Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+
     
 	@Override
 	public void run() {
@@ -54,7 +63,7 @@ public class NetworkClient implements Runnable {
 				
 				BufferedReader stdIn = new BufferedReader(
 						new InputStreamReader(System.in));) {
-				setInSocket(out);
+			setOutSocket(out);
 			
             while (true) {
             	if(!inGame)
@@ -193,13 +202,18 @@ public class NetworkClient implements Runnable {
     private void sleepNowDearThread() throws InterruptedException{	
     	Thread.sleep(100);
     }
-    public void setInSocket(PrintWriter out){
+    public void setOutSocket(PrintWriter out){
     	this.outPrinter = out;
     }
     
     public void setChat(String playerNumber,String message){
     	System.out.println("client recieved chat");
     	context.message("chat", message, InGame.getPlayerUUID());
+    }
+    public void sendChat(String message){
+    	System.out.println("sending chat");
+    	outPrinter.println(message);
+    	outPrinter.flush();
     }
     private void sendMoveMessageToGui(String playerID, String message) {
     	
@@ -231,5 +245,10 @@ public class NetworkClient implements Runnable {
 			//guiClient.setAction(new Action.Fold());
 		}
 	}
-    
+    @Handler
+    public void chatHandler(ChatEvent chatEvent){
+    	Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID());
+    	
+    	sendChat("1;chat;"+chatEvent.getMessage());
+    }
 }
