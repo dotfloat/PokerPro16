@@ -20,6 +20,9 @@ class StraightFlush implements HandCalculation{
 
     @Override
     public boolean canGet(List<Card> cards) {
+        if (cards == null || cards.size() == 2)
+            return true;
+
         return Straight.canGetStraight(cards,true);
     }
 

@@ -76,6 +76,7 @@ public class Generic {
         hands.add(new ThreeOfAKind());
         hands.add(new TwoPairs());
         hands.add(new Pair());
+        hands.add(new HighCard());
 
         return hands;
     }
@@ -97,7 +98,7 @@ public class Generic {
         for (HandCalculation hand : getAllHandTypes())
             if (hand.canGet(cards))
                 return hand.getType();
-        return Hand.HIGHCARD;
+       return Hand.HIGHCARD;
     }
 
     public static HashMap<Hand, Boolean> getAllPossibleHandsForPlayer (List<Card> cards){

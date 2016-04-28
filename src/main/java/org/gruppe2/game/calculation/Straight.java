@@ -27,17 +27,14 @@ class Straight implements HandCalculation{
         return canGetStraight(cards, false);
     }
 
-    public static boolean canGetStraight(List<Card> cards, boolean sameSuit){
-        ArrayList<Card> cardArray = new ArrayList<Card>();
-        cardArray.addAll(cards);
-
+    static boolean canGetStraight(List<Card> cards, boolean sameSuit){
         for (int i = 0; i < cards.size(); i++){
-            int length = checkWithOtherCards(cardArray, i,cardArray.get(i).getFaceValue(), false);
+            int length = checkWithOtherCards(cards, i,cards.get(i).getFaceValue(), sameSuit);
 
             if (length >= cards.size()-2)
                 return true;
-            else if (cardArray.get(i).getFaceValue() == 14){
-                length = checkWithOtherCards(cardArray, i, 1, false);
+            else if (cards.get(i).getFaceValue() == 14){
+                length = checkWithOtherCards(cards, i, 1, sameSuit);
                 if (length >= cards.size()-2)
                     return true;
             }
@@ -46,7 +43,7 @@ class Straight implements HandCalculation{
         return false;
     }
 
-    private static int checkWithOtherCards(ArrayList<Card> allCards, int i, int faceValue, boolean sameSuit){
+    private static int checkWithOtherCards(List<Card> allCards, int i, int faceValue, boolean sameSuit){
         ArrayList<Integer> straight = new ArrayList<>();
         straight.add(faceValue);
         int high = faceValue + 4;
