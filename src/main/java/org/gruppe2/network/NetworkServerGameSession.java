@@ -99,14 +99,11 @@ public class NetworkServerGameSession {
 		context.message("addPlayer", player1UUID, "TestPlayer", "default");
         context.message("addPlayerStatistics", player1UUID, Main.loadPlayerStatistics());
         
-        try {
-			Thread.sleep(400);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		InGame.setPlayerUUID(player1UUID);
-		InGame.setContext(context);
+        
+
+//		InGame.setPlayerUUID(player1UUID);
+//		InGame.setContext(context);
+        
 		 System.out.println("Server gamesession init started");
         context.waitReady();
         System.out.println("Server gamesession init finished");
