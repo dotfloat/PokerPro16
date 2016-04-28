@@ -131,4 +131,8 @@ public class RoundHelper {
     public List<Card> getCommunityCards() {
         return model.getCommunityCards();
     }
+
+    public int getPot() {
+        return model.getPot();
+    }
 }

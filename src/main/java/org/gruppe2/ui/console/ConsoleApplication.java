@@ -70,8 +70,8 @@ public class ConsoleApplication implements Runnable {
         Player player = query.getPlayer();
         RoundPlayer roundPlayer = query.getRoundPlayer();
 
-//        System.out.println("Highest bet: " + getSession().getHighestBet());
-//        System.out.println("Table pot: " + getSession().getTable().getPot());
+        System.out.println("Highest bet: " + roundHelper.getHighestBet());
+        System.out.println("Table pot: " + roundHelper.getPot());
         System.out.printf("Your cards: %s %s \n", roundPlayer.getCards()[0], roundPlayer.getCards()[1]);
         System.out.printf("Your chips: %d \n", player.getBank());
         System.out.printf("Current bet: %d \n", roundPlayer.getBet());
@@ -101,6 +101,10 @@ public class ConsoleApplication implements Runnable {
                 query.getPlayer().getAction().set(new Action.Raise(ls.nextInt()));
                 break;
 
+            case "allin":
+                query.getPlayer().getAction().set(new Action.AllIn());
+                break;
+
             default:
                 System.out.println("Unknown command");
                 break;
@@ -122,6 +126,8 @@ public class ConsoleApplication implements Runnable {
             System.out.println("checked");
         } else if (action instanceof Action.Raise) {
             System.out.println("raised by " + ((Action.Raise) action).getAmount());
+        } else if (action instanceof Action.Pass) {
+            System.out.println("passed");
         } else {
             System.out.println("!!! " + action);
         }

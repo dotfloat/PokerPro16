@@ -16,6 +16,7 @@ public class PossibleActions {
         call = false;
         check = false;
         raise = false;
+        allIn = false;
     }
 
     public void setCall(int callAmount) {
@@ -70,13 +71,13 @@ public class PossibleActions {
         String options = "> (fold";
 
         if (call)
-            options += ", call";
+            options += String.format(", call (%d)", callAmount);
         if (check)
             options += ", check";
         if (raise)
-            options += ", raise";
+            options += String.format(", raise (%d to %d)", minRaise, maxRaise);
         if (allIn)
-            options += ", all in";
+            options += ", allin";
 
         options += ")";
 

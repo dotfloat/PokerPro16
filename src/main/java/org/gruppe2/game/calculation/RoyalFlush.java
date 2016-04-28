@@ -21,7 +21,7 @@ class RoyalFlush implements HandCalculation {
 
     @Override
     public boolean canGet(List<Card> cards) {
-        if (cards == null || cards.size() == 0)
+        if (cards == null || cards.size() == 2)
             return true;
 
         if (getHighestAmountOfRoyalCardsInSameSuit(cards) >= cards.size() -2)

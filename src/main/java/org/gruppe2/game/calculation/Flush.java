@@ -22,8 +22,7 @@ class Flush implements HandCalculation {
 
     @Override
     public boolean canGet(List<Card> cards) {
-
-        if (cards == null || cards.size() == 0)
+        if (cards == null || cards.size() == 2)
             return true;
 
         HashMap<Card.Suit, Integer> numTypes = Generic.numberOfEachSuit(cards);

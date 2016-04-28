@@ -45,7 +45,13 @@ public class RoundController extends AbstractController {
                 player = game.findPlayerByUUID(round.getCurrentUUID());
                 roundPlayer = round.findPlayerByUUID(round.getCurrentUUID());
                 addEvent(new PlayerPreActionEvent(player));
-                addEvent(new PlayerActionQuery(player, roundPlayer));
+
+                if (player.getBank() > 0)
+                    addEvent(new PlayerActionQuery(player, roundPlayer));
+                else if (player.getBank() == 0)
+                    player.getAction().set(new Action.Pass());
+                else
+                    throw new IllegalStateException("Player: " + player.getName() + " has less than 0 chips");
             }
             if (player.getAction().isDone()) {
                 handleAction();
@@ -80,6 +86,8 @@ public class RoundController extends AbstractController {
         round.setHighestBet(0);
         round.setCurrent(game.getButton());
         lastPlayerInRound = round.getCurrentUUID();
+        round.resetRound();
+        round.getCommunityCards().clear();
     }
 
     private void handleAction (){
@@ -159,20 +167,24 @@ public class RoundController extends AbstractController {
         if (round.getRoundNum() == 3){
             round.setPlaying(false);
             addEvent(new RoundEndEvent());
-            return;
+            //if (round.getActivePlayers().size() == 1)
+                //player.setBank(player.getBank() + round.getPot());
+            //Get winner and add chips to player bank
+            roundStart();
         }
-        round.nextRound();
-        round.setLastRaiserID(null);
-        lastPlayerInRound = round.getLastActivePlayerID();
+        else {
+            round.nextRound();
+            round.setLastRaiserID(null);
+            lastPlayerInRound = round.getLastActivePlayerID();
 
-        if (round.getRoundNum() == 1) {
-            for (int i = 0; i < 3; i++)
+            if (round.getRoundNum() == 1) {
+                for (int i = 0; i < 3; i++)
+                    round.getCommunityCards().add(deck.remove(0));
+            } else if (round.getRoundNum() == 2 || round.getRoundNum() == 3)
                 round.getCommunityCards().add(deck.remove(0));
-        }
-        else if (round.getRoundNum() == 2 || round.getRoundNum() == 3)
-            round.getCommunityCards().add(deck.remove(0));
 
-        addEvent(new CommunityCardsEvent(round.getCommunityCards()));
+            addEvent(new CommunityCardsEvent(new ArrayList<>(round.getCommunityCards())));
+        }
     }
 
     private void resetDeck() {
