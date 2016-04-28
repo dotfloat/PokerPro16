@@ -6,6 +6,7 @@ import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
+import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
@@ -21,6 +22,9 @@ import java.util.UUID;
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
     private UUID playerUUID;
+
+    @Helper
+    GameHelper gameHelper;
 
     @Helper
     RoundHelper roundHelper;
@@ -155,12 +159,23 @@ public class ConsoleApplication implements Runnable {
 
     @Handler
     void onCommunialCards(CommunityCardsEvent event) {
+        String s = "Active players left: ";
+        for (RoundPlayer p : roundHelper.getActivePlayers()) {
+            Player p2 = gameHelper.findPlayerByUUID(p.getUUID());
+            s += " " + p2.getName();
+        }
+        System.out.println(s);
         System.out.println("Community cards: " + event.getCards());
     }
 
     @Handler
     void onPlayerWon(PlayerWonEvent event) {
         System.out.println("Player " + event.getPlayer().getName() + " has won!");
+    }
+
+    @Handler
+    void onGameQuit(QuitEvent event) {
+        System.exit(0);
     }
 
     public SessionContext getContext() {
