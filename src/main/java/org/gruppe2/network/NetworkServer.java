@@ -49,7 +49,7 @@ public class NetworkServer implements Runnable {
 				e.printStackTrace();
 			}
 			Thread t = new Thread(new NetworkServerWorker(clientSocket,
-					playerID));
+					playerID,this));
 			t.start();
 			threads.add(t);
 			System.out.println("Connection received from: " + t.getName());
@@ -121,6 +121,10 @@ public class NetworkServer implements Runnable {
 			e.printStackTrace();
 		  }
 		
+	}
+	
+	public ArrayList<NetworkServerGameSession> getTables(){
+		return gamesOnServer;
 	}
 	/**
 	 * This might be used when game is finished to start server ?

@@ -16,12 +16,13 @@ class NetworkServerWorker implements Runnable {
 	boolean masterGreeting = false;
 	boolean masterGreetingOK = false;
 	boolean gameStarted = false;
-
-	NetworkServerWorker(Socket clientSocket, String name) {
+	NetworkServer networkServer = null;
+	
+	NetworkServerWorker(Socket clientSocket, String name, NetworkServer networkServer) {
+		this.networkServer = networkServer;
 		this.clientSocket = clientSocket;
 		this.serverName = name;
 		System.out.println("hei");
-		
 	}
 
 	
@@ -51,21 +52,23 @@ class NetworkServerWorker implements Runnable {
 				
 				if(masterGreeting == true && masterGreetingOK== true){ //Thrid print starts game
 					if(s[0].equals("join")){
-						if(s[1].equals("1"))
-							out.print("ok;join;1\n");
+						if(tableIsJoinable(s)){
+							out.println("ok;join;"+s[1]);
 							out.flush();
-							System.out.println("ok;join;1");
-							ArrayList<Socket> clients = new ArrayList<Socket>();
-							clients.add(clientSocket);
+							System.out.println("ok;join;"+s[1]);
+							networkServer.getTables().get(Integer.valueOf(s[1]));
 							gameStarted = true;
-							new NetworkServerGameSession(clientSocket,in,out,"new Game",clients,6);
+							
+						}
+						
 					}
 				}
 				
 				if(masterGreetingOK == false && masterGreeting== true && input.equals("ok")){ //Second print gives tables
-					out.print("table;1;4;6\n");
+					
+					out.print(createTablesString());
 					out.flush();
-					System.out.println("table;1;4;6");
+					System.out.println(createTablesString());
 					masterGreetingOK = true;
 				}
 				
@@ -86,6 +89,31 @@ class NetworkServerWorker implements Runnable {
 			e.printStackTrace();
 		}
 
+	}
+
+
+	private boolean tableIsJoinable(String[] s) {
+		int tableNumber = Integer.valueOf(s[1]);
+		
+		if (networkServer.getTables().size() >= tableNumber){
+			if(networkServer.getTables().get(tableNumber).ins.size() < networkServer.getTables().get(tableNumber).maxPlayers){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	private String createTablesString() {
+		String tableString = "";
+		int tableNumber = 1;
+		for(NetworkServerGameSession table : networkServer.getTables()){
+			if(tableNumber>1)
+				tableString.concat(";");
+			tableString.concat("table;"+tableNumber+";"+table.ins.size()+";"+table.maxPlayers);
+			tableNumber++;
+		}
+		return tableString;
 	}
 
 

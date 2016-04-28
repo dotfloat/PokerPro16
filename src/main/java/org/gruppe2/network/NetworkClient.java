@@ -251,4 +251,5 @@ public class NetworkClient implements Runnable {
     	
     	sendChat("1;chat;"+chatEvent.getMessage());
     }
+    
 }
