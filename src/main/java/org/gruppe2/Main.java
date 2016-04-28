@@ -1,7 +1,9 @@
 package org.gruppe2;
 
 import javafx.application.Application;
+
 import org.gruppe2.game.PlayerStatistics;
+import org.gruppe2.network.NetworkServer;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.javafx.PokerApplication;
@@ -13,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     private enum EntryPoint {
-        CONSOLE, JAVAFX
+        CONSOLE, JAVAFX, SERVER
     }
 
     private static Properties properties = new Properties();
@@ -39,6 +41,9 @@ public class Main {
             case JAVAFX:
                 Application.launch(PokerApplication.class, args);
                 break;
+            case SERVER:
+                new NetworkServer(8888).run();;
+                break;
         }
     }
 
@@ -55,6 +60,11 @@ public class Main {
                 case "--autostart":
                     autostart = true;
                     break;
+                    
+                case "-s":
+                case "--server":
+                	entryPoint = EntryPoint.SERVER;
+                	break;
 
                 default:
                     System.out.println("Unknown argument: " + arg);

@@ -55,12 +55,11 @@ public class NetworkClient implements Runnable {
 	@Override
 	public void run() {
 		onlineGame = true;
-		try (Socket socket = new Socket("129.177.121.72", port);
+		try (Socket socket = new Socket("zohar.no", port);
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						socket.getInputStream()));
-				
-				
+
 				BufferedReader stdIn = new BufferedReader(
 						new InputStreamReader(System.in));) {
 			setOutSocket(out);
@@ -126,7 +125,6 @@ public class NetworkClient implements Runnable {
 	            System.out.println("Got table from server: "+ fromServer);
 	            showTablesInLobby(fromServer);
 	            lobbyChoosing = true;
-	            
 	        }
 	        else if(fromServer.contains("ok") && fromServer.contains("join")) {
 	            String[] s = fromServer.split(";");
