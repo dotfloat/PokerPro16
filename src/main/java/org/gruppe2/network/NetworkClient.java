@@ -1,14 +1,5 @@
 package org.gruppe2.network;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.ChatEvent;
@@ -21,6 +12,15 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.javafx.InGame;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 
 /**
@@ -128,10 +128,10 @@ public class NetworkClient implements Runnable {
 	        }
 	        else if(fromServer.contains("ok") && fromServer.contains("join")) {
 	            String[] s = fromServer.split(";");
-	            join(Integer.parseInt(s[2]));
+	            join(Integer.parseInt(s[2]), out, in);
 	            
         	}
-        }
+      }
     }
     @Handler
     private void disconnectMe(QuitEvent quitEvent){
@@ -193,10 +193,6 @@ public class NetworkClient implements Runnable {
 		System.out.println("message set to: "+messageFromGUI);
 	}
 
-    public void join(int table) {
-    	System.out.println("spillet er klart!");
-    	inGame = true;
-    }
     private void sleepNowDearThread() throws InterruptedException{	
     	Thread.sleep(100);
     }
@@ -248,6 +244,27 @@ public class NetworkClient implements Runnable {
     	Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID());
     	
     	sendChat("1;chat;"+chatEvent.getMessage());
+    }
+
+    public void create(PrintWriter out, BufferedReader in) {
+        String createMessage = "create";
+        out.println(createMessage);
+        out.flush();
+    }
+
+    public void join(int table, PrintWriter out, BufferedReader in) {
+        String message = Integer.toString(table);
+        out.println("join;" + message);
+        out.flush();
+        System.out.println("spillet er klart!");
+        inGame = true;
+    }
+
+    public void spectate(int table, PrintWriter out, BufferedReader in) {
+        String message = Integer.toString(table);
+        out.println("spectate;" + message);
+        out.flush();
+        System.out.println("spillet spectate'es!");
     }
     
 }
