@@ -22,6 +22,7 @@
             <Button fx:id="createTable" text="Create Table" onAction="#createNetWorkTable"/>
             <Button fx:id="joinTable" text="Join Table" onAction="#goToLobby"/>
             <Button fx:id="singlePlayer" text="Singleplayer" onAction="#goToSinglePlayer"/>
+            <Button text="Network Test Client" onAction="#goToTestClient"/>
             <Button fx:id="viewStatistics" text="View Statistics" onAction="#goToStatistics"/>
             <Button fx:id="settings" text="Settings" onAction="#goToSettings"/>
         </VBox>

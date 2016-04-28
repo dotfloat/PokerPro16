@@ -168,6 +168,9 @@ public abstract class Session implements Runnable {
 
             handler = messageNameMap.get(entry.getName());
 
+            if (handler == null)
+                continue;
+
             try {
                 ret = handler.call(entry.getArgs());
             } catch (IllegalAccessException | InvocationTargetException e) {

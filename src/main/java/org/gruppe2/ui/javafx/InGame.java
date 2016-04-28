@@ -51,7 +51,7 @@ public class InGame extends BorderPane {
     private ChoiceBar choiceBar;
 
     InGame() {
-        
+
         contextSetup();
         try {
             Thread.sleep(500);
@@ -63,15 +63,15 @@ public class InGame extends BorderPane {
     }
 
     private void contextSetup() {
-    	if(!PokerApplication.networkStart){
-	    	context = new GameBuilder().start();
-	        context.waitReady();
-	        context.message("listen");
-    	}
-    	else{
-    		context = Session.start(ClientSession.class, "localhost");
+        if (!PokerApplication.networkStart) {
+            context = new GameBuilder().start();
             context.waitReady();
-    	}
+            context.message("listen");
+        } else {
+            context = Session.start(ClientSession.class, "localhost");
+            context.waitReady();
+            context.message("connect");
+        }
         context.setAnnotated(this);
         context.message("addPlayer", playerUUID, "TestPlayer", "default");
         context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
@@ -202,6 +202,7 @@ public class InGame extends BorderPane {
             sessionTimer = null;
         }
     }
+
     PathTransition pathTransition = new PathTransition();
 
     @Handler
