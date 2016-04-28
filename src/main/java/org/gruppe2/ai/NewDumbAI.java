@@ -72,7 +72,7 @@ public class NewDumbAI implements AI{
                     maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.05));
                 else if (smartRaise > 0.90 && smartRaise <= 0.999)
                     maxRaiseAmount = (int) (Math.ceil(maxRaiseAmount * 0.20));
-                if (maxRaiseAmount == options.getMaxRaise() || maxRaiseAmount-options.getMinRaise() <= 0)
+                if (maxRaiseAmount == options.getMaxRaise() || maxRaiseAmount-options.getMinRaise() <= 1)
                     model.getAction().set(new Action.Raise(maxRaiseAmount));
                 model.getAction().set(new Action.Raise(
                         rand.nextInt(maxRaiseAmount - options.getMinRaise()) + options.getMinRaise()));

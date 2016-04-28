@@ -12,19 +12,22 @@ public class HighCard implements HandCalculation {
 
 	@Override
 	public boolean isHand(List<Card> cards) {
-		if(cards == null || cards.isEmpty())
+		if (cards == null || cards.isEmpty())
 			return false;
-		
+
 		return true;
 	}
 
 	@Override
 	public List<Card> getBestCards(List<Card> cards) {
 		ArrayList<Card> highestCard = new ArrayList<>();
-		
+
 		Collections.sort(cards);
-		highestCard.add(cards.get(cards.size()-1));
-		
+		for (int i = 0; i < 5; i++) {
+			if ((cards.size() - i) > 0)
+				highestCard.add(cards.get(cards.size() - 1 - i));
+		}
+
 		return highestCard;
 	}
 
@@ -43,9 +46,18 @@ public class HighCard implements HandCalculation {
 		return Hand.HIGHCARD;
 	}
 
+	/**
+	 * Assumes both o1 and o2 are already sorted!
+	 * @return int (1, 0, -1).
+	 */
 	@Override
 	public int compare(List<Card> o1, List<Card> o2) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < o1.size() && i < o2.size(); i++) {
+			int comp = o1.get(i).compareTo(o2.get(i));
+			if (comp != 0)
+				return comp;
+		}
+
 		return 0;
 	}
 

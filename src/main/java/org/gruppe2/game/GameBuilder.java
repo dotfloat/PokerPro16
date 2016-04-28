@@ -10,6 +10,8 @@ public class GameBuilder {
     private int min = 2;
     private int max = 10;
     private int buyIn = 100;
+    private int smallBlind = 10;
+    private int bigBlind = 20;
     private Class<PlayerController> playerController = null;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
 
@@ -32,7 +34,14 @@ public class GameBuilder {
         return this;
     }
 
+    public GameBuilder blinds(int smallBlind, int bigBlind){
+        this.smallBlind = smallBlind;
+        this.bigBlind = bigBlind;
+
+        return this;
+    }
+
     public SessionContext start() {
-        return Session.start(HostSession.class, min, max, buyIn, botPolicy);
+        return Session.start(HostSession.class, min, max, buyIn, botPolicy, smallBlind, bigBlind);
     }
 }

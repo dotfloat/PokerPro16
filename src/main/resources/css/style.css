@@ -253,13 +253,28 @@
 }
 
 .createGame {
-    -fx-background-color: rgba(0, 153, 255, 0.15);
+    /*-fx-background-color: rgba(0, 153, 255, 0.15);*/
 }
 
 .createGame:hover {
-    -fx-background-color: rgba(0, 153, 255, 0.4);
+    -fx-border-radius: 10px;
+    -fx-border-width: 3px;
+    -fx-effect: innershadow(gaussian, #0099ff, 10, 2, 0, 0);;
 }
 .createGame:pressed {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 153, 255, 0.4);
 }
+.table {
+    /*-fx-background-color: rgba(0, 153, 255, 0.15);*/
+}
+
+.table:hover {
+    -fx-border-radius: 10px;
+    -fx-border-width: 3px;
+    -fx-effect: innershadow(gaussian, #0099ff, 3, 2, 0, 0);
+}
+.table:pressed {
+    -fx-effect: innershadow(gaussian, #007acc, 3, 2, 0, 0);
+}
+
 

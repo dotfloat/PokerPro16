@@ -33,10 +33,15 @@ public class RoundController extends AbstractController {
                 resetRound();
                 addEvent(new RoundStartEvent());
 
-                RoundPlayer blind = round.getSmallBlindPlayer(game.getButton());
-                handleAction(game.findPlayerByUUID(blind.getUUID()), blind, new Action.Blind(game.getSmallBlind()));
-                blind = round.getBigBlindPlayer(game.getButton());
-                handleAction(game.findPlayerByUUID(blind.getUUID()), blind, new Action.Blind(game.getBigBlind()));
+                RoundPlayer roundPlayer = round.getSmallBlindPlayer(game.getButton());
+                Player player = game.findPlayerByUUID(roundPlayer.getUUID());
+                handleAction(player, roundPlayer, new Action.Blind(game.getSmallBlind()));
+                addEvent(new PlayerPaysBlind(player, roundPlayer, game.getSmallBlind()));
+
+                roundPlayer = round.getBigBlindPlayer(game.getButton());
+                player = game.findPlayerByUUID(roundPlayer.getUUID());
+                handleAction(player, roundPlayer, new Action.Blind(game.getBigBlind()));
+                addEvent(new PlayerPaysBlind(player, roundPlayer, game.getBigBlind()));
             } else {
                 return;
             }

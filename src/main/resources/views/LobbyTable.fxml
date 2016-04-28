@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml">
-    <StackPane fx:id="table" alignment="CENTER" maxWidth="50" maxHeight="50">
+    <StackPane fx:id="table" alignment="CENTER" styleClass="table">
         <ImageView fx:id="tableImage">
             <Image url="/images/ui/LobbyTable.png"/>
         </ImageView>
