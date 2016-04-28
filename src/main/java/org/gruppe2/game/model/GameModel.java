@@ -20,13 +20,17 @@ public class GameModel {
 
     private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
+    private volatile int smallBlind;
+    private volatile int bigBlind;
 
-    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy) {
+    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind) {
         this.uuid = uuid;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.buyIn = buyIn;
         this.botPolicy = botPolicy;
+        this.smallBlind = smallBlind;
+        this.bigBlind = bigBlind;
     }
 
     public UUID getUUID() {
@@ -67,5 +71,21 @@ public class GameModel {
 
     public int getBuyIn() {
         return buyIn;
+    }
+
+    public int getBigBlind() {
+        return bigBlind;
+    }
+
+    public void setBigBlind(int bigBlind) {
+        this.bigBlind = bigBlind;
+    }
+
+    public int getSmallBlind() {
+        return smallBlind;
+    }
+
+    public void setSmallBlind(int smallBlind) {
+        this.smallBlind = smallBlind;
     }
 }

@@ -20,7 +20,7 @@ public class AIController extends AbstractController {
         if (!query.getPlayer().isBot())
             return;
 
-        setTask(1000, () -> {
+        setTask(5, () -> {
             ai.doAction(query.getPlayer(), roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
         });
     }
