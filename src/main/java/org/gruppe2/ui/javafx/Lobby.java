@@ -36,7 +36,7 @@ public class Lobby extends BorderPane {
 		Resources.loadFXML(this);
 		setSize();
 		PokerApplication.networkStart = true;
-		NetworkTester.testNetwork(this);
+//		NetworkTester.testNetwork(this);
 	}
 
 	public void search() {
@@ -54,7 +54,14 @@ public class Lobby extends BorderPane {
 	}
 	@FXML
 	private void createGame(){
-		System.out.println("starting network game");
+		System.out.println("LOBBY: starting new network game");
+		
+		NetworkClient.setCreateMessage("create");
+		SceneController.setScene(new InGame());
+	}
+	@FXML
+	private void joinGame(){
+		System.out.println("LOBBY: joining network game");
 		NetworkClient.setJoinMessage("join;1");
 		SceneController.setScene(new InGame());
 	}

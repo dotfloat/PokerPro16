@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -16,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-import javafx.util.Duration;
 import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
@@ -24,8 +22,10 @@ import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.ClientSession;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
+import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.network.NetworkClient;
 import org.gruppe2.network.NetworkServerGameSession;
@@ -51,17 +51,7 @@ public class InGame extends BorderPane {
     private ChoiceBar choiceBar;
 
     InGame() {
-        while (!UUIDSet) {
-            if (!NetworkClient.onlineGame)
-                UUIDSet = true;
-            else {
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        
         contextSetup();
         try {
             Thread.sleep(500);
@@ -73,13 +63,18 @@ public class InGame extends BorderPane {
     }
 
     private void contextSetup() {
-        context = new GameBuilder().start();
-        context.waitReady();
+    	if(!PokerApplication.networkStart){
+	    	context = new GameBuilder().start();
+	        context.waitReady();
+	        context.message("listen");
+    	}
+    	else{
+    		context = Session.start(ClientSession.class, "localhost");
+            context.waitReady();
+    	}
         context.setAnnotated(this);
         context.message("addPlayer", playerUUID, "TestPlayer", "default");
         context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
-        if(PokerApplication.networkStart)
-        	context.message("listen");
     }
 
     private void setUpViewItems() {

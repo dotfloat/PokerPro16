@@ -135,4 +135,12 @@ public class RoundHelper {
     public int getPot() {
         return model.getPot();
     }
+
+    public RoundPlayer getSmallBlindPlayer(int button) {
+        return model.getActivePlayers().get((button + 1) % model.getNumberOfActivePlayers());
+    }
+
+    public RoundPlayer getBigBlindPlayer(int button) {
+        return model.getActivePlayers().get((button + 2) % model.getNumberOfActivePlayers());
+    }
 }

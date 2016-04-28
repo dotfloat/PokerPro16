@@ -53,4 +53,16 @@ public class GameHelper {
     public int getBuyIn() {
         return model.getBuyIn();
     }
+
+    public int getSmallBlind() {
+        return model.getSmallBlind();
+    }
+
+    public int getBigBlind() {
+        return model.getBigBlind();
+    }
+
+    public void setButton(int button) {
+        model.setButton(button);
+    }
 }

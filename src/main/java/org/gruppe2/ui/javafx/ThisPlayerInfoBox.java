@@ -45,12 +45,11 @@ public class ThisPlayerInfoBox extends HBox {
     public ThisPlayerInfoBox() {
         Resources.loadFXML(this);
         InGame.getContext().setAnnotated(this);
-        
         playerUUID = InGame.getPlayerUUID();
-//        System.out.println("compare uuid is: "+ playerUUID.equals(NetworkServerGameSession.player1UUID));
+
         
         if(!PokerApplication.networkStart)
-        	player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        	player = gameHelper.findPlayerByUUID(playerUUID);
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
     }
