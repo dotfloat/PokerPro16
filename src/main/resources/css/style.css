@@ -28,11 +28,6 @@
     -fx-alignment: center;
 }
 
-.createNetworkButton {
-	-fx-background-image: url("/images/ui/CreateNewGame.png");
-	-fx-background-radius: 15px;
-}
-
 .choice-box {
     -fx-position-shape: false;
     -fx-text-fill: #0099ff;
@@ -256,3 +251,15 @@
     -fx-text-fill: #33adff;
     -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
 }
+
+.createGame {
+    -fx-background-color: rgba(0, 153, 255, 0.15);
+}
+
+.createGame:hover {
+    -fx-background-color: rgba(0, 153, 255, 0.4);
+}
+.createGame:pressed {
+    -fx-background-color: transparent;
+}
+

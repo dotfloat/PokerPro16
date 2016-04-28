@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Pane?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby">
     <top>
         <HBox fx:id="searchBar" alignment="CENTER"
@@ -17,9 +18,11 @@
     <center>
         <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true">
             <TilePane fx:id="lobbyTiles" styleClass="lobbyTiles">
-                <ImageView fx:id="createGame" onMouseClicked="#createGame">
-                    <Image url="/images/ui/addTable.png"/>
-                </ImageView>
+                <Pane styleClass="createGame">
+                    <ImageView fx:id="createGame" onMouseClicked="#createGame">
+                        <Image url="/images/ui/addTable.png"/>
+                    </ImageView>
+                </Pane>
             </TilePane>
         </ScrollPane>
     </center>
