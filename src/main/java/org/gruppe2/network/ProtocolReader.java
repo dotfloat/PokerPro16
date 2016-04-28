@@ -1,5 +1,10 @@
 package org.gruppe2.network;
 
+import java.util.UUID;
+
+import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.Event;
+
 
 /**
  * Reader or writer for net protocol
@@ -24,12 +29,26 @@ public class ProtocolReader {
 				else
 					listOfCommands[i] = s[i];
 			}
-
 		}
 		else{
 			listOfCommands = msg.split(";");
 		}
 		return listOfCommands;
+	}
+	
+	public static Event parseEvent(String[] listOfCommands){
+		
+		if(listOfCommands.length > 0){
+			switch(listOfCommands[0]){
+				case "CHAT":
+					UUID playerUUID = UUID.fromString(listOfCommands[1]);
+					String message = listOfCommands[2];
+					return new ChatEvent(message,playerUUID);
+				case "ACTION":
+					break;	
+			}
+		}
+		return null;
 	}
 	
 	
