@@ -126,13 +126,4 @@ public class NetworkServer implements Runnable {
 	public ArrayList<NetworkServerGameSession> getTables(){
 		return gamesOnServer;
 	}
-	/**
-	 * This might be used when game is finished to start server ?
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		NetworkServer server = new NetworkServer(8888);
-		server.run();
-	}
 }

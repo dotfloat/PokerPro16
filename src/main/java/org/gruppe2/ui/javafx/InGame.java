@@ -71,24 +71,13 @@ public class InGame extends BorderPane {
     }
 
     private void contextSetup() {
-        if (PokerApplication.networkStart == false) {
-            context = new GameBuilder().start();
-            context.waitReady();
-            context.setAnnotated(this);
-            context.message("addPlayer", playerUUID, "TestPlayer", "default");
-            context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
-
-        } else { //Set context only on server, and wait for it to give inGame a context reference, I think this is the wrong way to do it..
-            while (context == null) {
-                try {
-                    System.out.println("Ingame waiting for context from server");
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            System.out.println("context recived from server");
-        }
+        context = new GameBuilder().start();
+        context.waitReady();
+        context.setAnnotated(this);
+        context.message("addPlayer", playerUUID, "TestPlayer", "default");
+        context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
+        if(PokerApplication.networkStart)
+        	context.message("listen");
     }
 
     private void setUpViewItems() {

@@ -28,6 +28,7 @@ public class HostSession extends Session {
         addController(AIController.class);
         addController(ChatController.class);
         addController(StatisticsController.class);
+        addController(NetworkServerController.class);
     }
 
     @Override
