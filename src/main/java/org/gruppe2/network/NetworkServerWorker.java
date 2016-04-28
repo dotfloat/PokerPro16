@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import org.gruppe2.game.Action;
-
 class NetworkServerWorker implements Runnable {
 
 	private Socket clientSocket = null;
@@ -17,8 +15,10 @@ class NetworkServerWorker implements Runnable {
 	boolean masterGreetingOK = false;
 	boolean gameStarted = false;
 	NetworkServer networkServer = null;
-	
-	NetworkServerWorker(Socket clientSocket, String name, NetworkServer networkServer) {
+    private PrintWriter outWriter;
+    private BufferedReader inReader;
+
+    NetworkServerWorker(Socket clientSocket, String name, NetworkServer networkServer) {
 		this.networkServer = networkServer;
 		this.clientSocket = clientSocket;
 		this.serverName = name;
@@ -37,6 +37,8 @@ class NetworkServerWorker implements Runnable {
 						clientSocket.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						clientSocket.getInputStream()));
+                setIn(out, in);
+
 				input = in.readLine();
 				
 				if (input == null) {
@@ -62,6 +64,10 @@ class NetworkServerWorker implements Runnable {
 						}
 						
 					}
+                    else if(s[0].equals("create")) {
+                        createTable(clientSocket, in, out);
+                    }
+
 				}
 				
 				if(masterGreetingOK == false && masterGreeting== true && input.equals("ok")){ //Second print gives tables
@@ -91,8 +97,13 @@ class NetworkServerWorker implements Runnable {
 
 	}
 
+    private void setIn(PrintWriter out, BufferedReader in) {
+        this.outWriter = out;
+        this.inReader = in;
+    }
 
-	private boolean tableIsJoinable(String[] s) {
+
+    private boolean tableIsJoinable(String[] s) {
 		int tableNumber = Integer.valueOf(s[1]);
 		
 		if (networkServer.getTables().size() >= tableNumber){
@@ -117,4 +128,9 @@ class NetworkServerWorker implements Runnable {
 	}
 
 
+    public void createTable(Socket clientSocket, BufferedReader in, PrintWriter out) {
+        String name = "table";
+        ArrayList<Socket> clients = new ArrayList<Socket>();
+        NetworkServerGameSession table = new NetworkServerGameSession(clientSocket, in, out, name, clients, 6);
+    }
 }
