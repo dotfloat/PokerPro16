@@ -32,7 +32,7 @@ abstract class AbstractController  implements Controller {
     }
 
     void addEvent(Event event) {
-        getContext().addEvent(event);
+        getSession().addEvent(event);
     }
 
     TimerTask setTask(long ms, Runnable runnable) {

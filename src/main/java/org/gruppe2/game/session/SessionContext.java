@@ -27,10 +27,6 @@ public class SessionContext {
         return (M) session.getModel(klass);
     }
 
-    public void addEvent(Event event) {
-        session.getEventQueue().addEvent(event);
-    }
-
     public Query<Boolean> sendMessage(String name, Object... args) {
         return session.sendMessage(name, args);
     }

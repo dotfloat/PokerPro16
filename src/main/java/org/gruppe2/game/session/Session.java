@@ -286,7 +286,7 @@ public abstract class Session implements Runnable {
      * Add an event to the event queue
      * @param event event to be added
      */
-    void addEvent(Event event) {
+    public void addEvent(Event event) {
         eventQueue.addEvent(event);
     }
 
