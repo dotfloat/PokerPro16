@@ -39,8 +39,12 @@ class Pair implements HandCalculation {
         return Hand.PAIR;
     }
 
+    /**
+	 * Assumes both o1 and o2 are pairs.
+	 * @return int (1, 0, -1).
+	 */
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+        return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
     }
 }

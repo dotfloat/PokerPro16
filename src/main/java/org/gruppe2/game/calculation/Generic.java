@@ -106,6 +106,14 @@ public class Generic {
 
         return types;
     }
+    
+    public static int calculateFacevalueOfAllCards(List<Card> list) {
+    	int value = 0;
+    	for(Card c : list)
+    		value += c.getFaceValue();
+    	
+    	return value;
+    }
 
     public static double choose(int n, int k) {
         if (k < 0 || k > n) return 0;
