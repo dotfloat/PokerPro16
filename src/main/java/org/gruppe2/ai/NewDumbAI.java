@@ -83,6 +83,6 @@ public class NewDumbAI implements AI{
                 return;
         }
 
-        //model.getAction().set(new Action.Call());
+        //model.getAction().set(new Action.Fold());
     }
 }

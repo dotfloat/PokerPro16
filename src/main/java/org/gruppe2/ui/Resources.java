@@ -73,7 +73,7 @@ public class Resources {
     }
 
     private static String getDefaultUserDir() {
-        return System.getProperty("user.home") + File.pathSeparator + pokerProDir;
+        return System.getProperty("user.home") + File.separator + pokerProDir;
     }
 
     private static void createUserDirs() {
