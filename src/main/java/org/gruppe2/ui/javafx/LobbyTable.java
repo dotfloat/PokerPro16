@@ -15,8 +15,9 @@ public class LobbyTable extends StackPane {
     @FXML private StackPane table;
     @FXML private Label players;
 
-    public LobbyTable(){
+    public LobbyTable(String players){
         Resources.loadFXML(this);
+        this.players.setText(players);
         setSize();
     }
 

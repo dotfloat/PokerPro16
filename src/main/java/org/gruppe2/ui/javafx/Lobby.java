@@ -17,6 +17,8 @@ import org.gruppe2.network.NetworkClient;
 import org.gruppe2.network.NetworkTester;
 import org.gruppe2.ui.Resources;
 
+import java.util.Random;
+
 /**
  * Created by Petter on 11/04/2016.
  */
@@ -31,6 +33,7 @@ public class Lobby extends BorderPane {
 	@FXML private HBox searchBar;
 	@FXML private ImageView createGame;
 	@FXML private ScrollPane scrollPane;
+	@FXML private Pane tile;
 
 	public Lobby() {
 		Resources.loadFXML(this);
@@ -40,7 +43,14 @@ public class Lobby extends BorderPane {
 	}
 
 	public void search() {
-		lobbyTiles.getChildren().add(new LobbyTable());
+		lobbyTiles.getChildren().remove(1, lobbyTiles.getChildren().size());
+		for (int i=0;i<Math.random()*10;i++) {
+			Random random = new Random();
+			int max = random.nextInt(7)+3;
+			int current = random.nextInt(max-1) + 1;
+			String players = current+"/"+max;
+			lobbyTiles.getChildren().add(new LobbyTable(players));
+		}
 	}
 	@Handler
 	public void startNetworkGame(NetworkClientEvent networkClientEvent){
