@@ -23,8 +23,8 @@ public class ProtocolReader {
 			int size = s.length+1;
 			listOfCommands = new String[size];
 			
-			for(int i=0;i<=size;i++){
-				if(i==size)
+			for(int i=0;i<size;i++){
+				if(i==size-1)
 					listOfCommands[i] = postColon;
 				else
 					listOfCommands[i] = s[i];
@@ -35,7 +35,11 @@ public class ProtocolReader {
 		}
 		return listOfCommands;
 	}
-	
+	/**
+	 * Creates an event from the list of commands given by the protocol reader method
+	 * @param listOfCommands
+	 * @return
+	 */
 	public static Event parseEvent(String[] listOfCommands){
 		
 		if(listOfCommands.length > 0){
