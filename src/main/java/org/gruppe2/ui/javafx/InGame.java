@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import javafx.util.Duration;
 import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
@@ -71,24 +73,13 @@ public class InGame extends BorderPane {
     }
 
     private void contextSetup() {
-        if (PokerApplication.networkStart == false) {
-            context = new GameBuilder().start();
-            context.waitReady();
-            context.setAnnotated(this);
-            context.message("addPlayer", playerUUID, "TestPlayer", "default");
-            context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
-
-        } else { //Set context only on server, and wait for it to give inGame a context reference, I think this is the wrong way to do it..
-            while (context == null) {
-                try {
-                    System.out.println("Ingame waiting for context from server");
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            System.out.println("context recived from server");
-        }
+        context = new GameBuilder().start();
+        context.waitReady();
+        context.setAnnotated(this);
+        context.message("addPlayer", playerUUID, "TestPlayer", "default");
+        context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
+        if(PokerApplication.networkStart)
+        	context.message("listen");
     }
 
     private void setUpViewItems() {
@@ -216,6 +207,7 @@ public class InGame extends BorderPane {
             sessionTimer = null;
         }
     }
+    PathTransition pathTransition = new PathTransition();
 
     @Handler
     public void ohNo(QuitEvent e) {

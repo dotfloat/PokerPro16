@@ -58,11 +58,9 @@ class NetworkServerWorker implements Runnable {
 							out.println("ok;join;"+s[1]);
 							out.flush();
 							System.out.println("ok;join;"+s[1]);
-							networkServer.getTables().get(Integer.valueOf(s[1]));
+							networkServer.getTables().get(Integer.valueOf(s[1])).clients.add(clientSocket);
 							gameStarted = true;
-							
 						}
-						
 					}
                     else if(s[0].equals("create")) {
                         createTable(clientSocket, in, out);
