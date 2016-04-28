@@ -15,7 +15,7 @@ public class Cards {
             char charVal = individualCards[i].charAt(0);
 
             if (charVal >= '2' && charVal <= '9') {
-                value = charVal - '2';
+                value = Character.getNumericValue(charVal);
             } else if (charVal == '1') {
                 value = 10;
             } else if (charVal == 'J') {

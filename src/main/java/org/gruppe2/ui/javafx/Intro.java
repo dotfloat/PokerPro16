@@ -4,28 +4,19 @@ package org.gruppe2.ui.javafx;
  * Created by Petter on 04/04/2016.
  */
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.animation.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
 import org.gruppe2.ui.Resources;
+
+import java.io.IOException;
 
 public class Intro extends StackPane {
 

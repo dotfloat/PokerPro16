@@ -15,22 +15,15 @@ public class DifferentHandView extends VBox {
     @FXML private Label handName;
     @FXML private HBox cards;
 
-    public DifferentHandView(String name, List<Card> elements){
+    public DifferentHandView(String name, List<Card> hand, List<Card> notHand){
         Resources.loadFXML(this);
-        System.out.println(elements.size());
         handName.setText(name);
         handName.fontProperty().bind(ChoiceBar.fontTracking);
-        for (int i=4;i>=0;i--){
-            if (i < elements.size()) this.cards.getChildren().add(createCardImage(elements.get(i)));
-            else {
-                ImageView placeHolderCard = createCardImage(new Card(2, Card.Suit.CLUBS));
-                placeHolderCard.setVisible(false);
-                this.cards.getChildren().add(placeHolderCard);
-            }
-        }
+        if (notHand != null) for (Card card : notHand) this.cards.getChildren().add(createCardImage(card, false));
+        for (Card card : hand) this.cards.getChildren().add(createCardImage(card, true));
     }
 
-    public ImageView createCardImage(Card card) {
+    public ImageView createCardImage(Card card, boolean hand) {
         String name = "/images/cards/" + getCardName(card) + ".png";
 
         Image image = new Image(getClass().getResourceAsStream(name), 200, 0, true, true);
@@ -39,6 +32,7 @@ public class DifferentHandView extends VBox {
         cardPic.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.025));
         cardPic.preserveRatioProperty().setValue(true);
 
+        if (!hand) cardPic.opacityProperty().setValue(0.5);
         return cardPic;
     }
 
