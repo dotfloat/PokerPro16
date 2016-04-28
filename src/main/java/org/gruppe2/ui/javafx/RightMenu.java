@@ -48,8 +48,8 @@ public class RightMenu extends VBox {
 				PokerApplication.getRoot().heightProperty().multiply(0.2));
 	}
 
-
 	public void leaveTable(ActionEvent actionEvent) {
+		InGame.quit();
 		SceneController.setScene(new MainMenu());
 	}
 

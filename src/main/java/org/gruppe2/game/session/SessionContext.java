@@ -35,6 +35,10 @@ public class SessionContext {
         return session.sendMessage(name, args);
     }
 
+    public void quit() {
+        message("quit");
+    }
+
     public void waitReady() {
         while (!session.isReady()) {
             try {

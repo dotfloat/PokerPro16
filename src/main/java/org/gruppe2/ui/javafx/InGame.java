@@ -19,6 +19,7 @@ import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -33,8 +34,8 @@ public class InGame extends BorderPane {
     private static UUID playerUUID = UUID.randomUUID();
     private List<Pane> playerInfoBoxes = new ArrayList<>();
     public static boolean UUIDSet = false;
-    
-    
+    private static Timer sessionTimer = new Timer();
+
     @Helper
     private GameHelper gameHelper;
     @Helper
@@ -47,86 +48,84 @@ public class InGame extends BorderPane {
     @FXML
     private ChoiceBar choiceBar;
 
-    private Timer sessionTimer = new Timer();
-
     InGame() {
-    	while(!UUIDSet){
-    		if(!NetworkClient.onlineGame)
-    			UUIDSet = true;
-    		else{
-    			try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-    		}
-    	}
-    	contextSetup();
-    	try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        while (!UUIDSet) {
+            if (!NetworkClient.onlineGame)
+                UUIDSet = true;
+            else {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        contextSetup();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Resources.loadFXML(this);
         setUpViewItems();
     }
-    
-    private void contextSetup(){
-    	if(PokerApplication.networkStart == false){
-    	 context = new GameBuilder().start();
-         context.waitReady();
-         context.setAnnotated(this);
-         context.message("addPlayer", playerUUID, "TestPlayer", "default");
-         context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
-         
-    	}
-    	else{ //Set context only on server, and wait for it to give inGame a context reference, I think this is the wrong way to do it..
-    		while(context == null){
-    			try {
-    				System.out.println("Ingame waiting for context from server");
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-    		};
-    		System.out.println("context recived from server");
-    	}
+
+    private void contextSetup() {
+        if (PokerApplication.networkStart == false) {
+            context = new GameBuilder().start();
+            context.waitReady();
+            context.setAnnotated(this);
+            context.message("addPlayer", playerUUID, "TestPlayer", "default");
+            context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
+
+        } else { //Set context only on server, and wait for it to give inGame a context reference, I think this is the wrong way to do it..
+            while (context == null) {
+                try {
+                    System.out.println("Ingame waiting for context from server");
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("context recived from server");
+        }
     }
-    
-    private void setUpViewItems(){
-    	
-    	sessionTimer.schedule(new TimerTask() {
+
+    private void setUpViewItems() {
+
+        sessionTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> InGame.getContext().getEventQueue().process());
             }
         }, 0, 50);
-    	List<Pane> playerInfoBoxes = new ArrayList<Pane>();
+        List<Pane> playerInfoBoxes = new ArrayList<Pane>();
         paintAllPlayers(playerInfoBoxes);
         onelinePressStart();
-        
-        
+
+
     }
 
     private void onelinePressStart() {
-    	if(NetworkClient.onlineGame){
-			Label pressStart =  new Label(" Click to Start game");
-		    pressStart.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-		        @Override
-		        public void handle(MouseEvent mouseEvent) { //Change to message when ready
-		        	NetworkClient.clientPressedStart = true;
-		        	NetworkServerGameSession.playerHasStartedGame = true;
-		        	System.out.println("pressed start");
-		        }
-		    });
-		    
-		    SceneController.setModal((new Modal(pressStart)));
-    	}
-	}
+        if (NetworkClient.onlineGame) {
+            Label pressStart = new Label(" Click to Start game");
+            pressStart.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) { //Change to message when ready
+                    NetworkClient.clientPressedStart = true;
+                    NetworkServerGameSession.playerHasStartedGame = true;
+                    System.out.println("pressed start");
+                }
+            });
 
-	public static UUID getPlayerUUID() {
+            SceneController.setModal((new Modal(pressStart)));
+        }
+    }
+
+    public static UUID getPlayerUUID() {
         return playerUUID;
     }
+
     public static void setPlayerUUID(UUID uuid) {
         playerUUID = uuid;
         UUIDSet = true;
@@ -135,6 +134,7 @@ public class InGame extends BorderPane {
     public static SessionContext getContext() {
         return context;
     }
+
     public static void setContext(SessionContext context2) {
         context = context2;
     }
@@ -142,17 +142,17 @@ public class InGame extends BorderPane {
     @Handler
     public void setUpPlayer(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if(!player.getUUID().equals(playerUUID)){
-	        PlayerInfoBox playerInfoBox = new PlayerInfoBox();
-	        playerInfoBoxes.add(playerInfoBox);
-	        playerInfoBox.setValues(player.getUUID());
+        if (!player.getUUID().equals(playerUUID)) {
+            PlayerInfoBox playerInfoBox = new PlayerInfoBox();
+            playerInfoBoxes.add(playerInfoBox);
+            playerInfoBox.setValues(player.getUUID());
         }
 
         paintAllPlayers(playerInfoBoxes);
     }
 
     private void paintAllPlayers(List<Pane> playerInfoBoxes) {
-    	
+
         int numberOfPlayers = playerInfoBoxes.size();
         if (numberOfPlayers > 4)
             paintPlayerInfoBox(playerInfoBoxes.get(4), 0.3, 0.001);
@@ -185,8 +185,8 @@ public class InGame extends BorderPane {
                 PokerApplication.getRoot().widthProperty().multiply(x));
         playerInfoBox.layoutYProperty().bind(
                 PokerApplication.getRoot().heightProperty().multiply(y));
-        if(getChildren().contains(playerInfoBox))
-        	getChildren().remove(playerInfoBox);
+        if (getChildren().contains(playerInfoBox))
+            getChildren().remove(playerInfoBox);
         getChildren().add(playerInfoBox);
     }
 
@@ -198,5 +198,27 @@ public class InGame extends BorderPane {
             choiceBar.updatePossibleBarsToClick();
             pot.updatePot(roundHelper.getModel().getPot());
         });
+    }
+
+    public static void quit() {
+        if (context != null) {
+            context.quit();
+            sessionTimer.cancel();
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            context.getEventQueue().process();
+            context = null;
+            sessionTimer = null;
+        }
+    }
+
+    @Handler
+    public void ohNo(QuitEvent e) {
+        System.out.println("Oh no, we are quiittingg");
     }
 }

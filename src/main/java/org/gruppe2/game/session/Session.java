@@ -2,6 +2,7 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.QuitEvent;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -101,6 +102,12 @@ public abstract class Session implements Runnable {
 
     @Override
     public void run() {
+        addMessage("quit", args -> {
+            state = RunState.STOPPED;
+            addEvent(new QuitEvent());
+            return true;
+        });
+
         init();
 
         controllerList.forEach(Controller::init);
@@ -306,5 +313,5 @@ public abstract class Session implements Runnable {
         return context;
     }
 
-    private enum RunState {STARTING, RUNNING, QUITTING, STOPPED}
+    private enum RunState {STARTING, RUNNING, STOPPED}
 }
