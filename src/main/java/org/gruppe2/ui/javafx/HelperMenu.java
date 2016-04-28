@@ -27,6 +27,16 @@ public class HelperMenu extends VBox {
 
     //Create all hands possible
     private void addAllHands() {
+        innerBox.getChildren().addAll(new DifferentHandView("High Card", Cards.asList("AS"), Cards.asList("7H 4C 2S JD")));
+        innerBox.getChildren().addAll(new DifferentHandView("One Pair", Cards.asList("AD AC"), Cards.asList("7H 4C 2S")));
+        innerBox.getChildren().addAll(new DifferentHandView("Two Pair", Cards.asList("QD QC"), Cards.asList("9H KC 3S")));
+        innerBox.getChildren().addAll(new DifferentHandView("Three of a Kind", Cards.asList("JD JC JS"), Cards.asList("4D 8S")));
+        innerBox.getChildren().addAll(new DifferentHandView("Straight", Cards.asList("7D 8S 9H 1D JC"), null));
+        innerBox.getChildren().addAll(new DifferentHandView("Flush", Cards.asList("3D 5D 7D 8D QD"), null));
+        innerBox.getChildren().addAll(new DifferentHandView("Full House", Cards.asList("AS AH JD JC JH"), null));
+        innerBox.getChildren().addAll(new DifferentHandView("Four of a Kind", Cards.asList("KS KD KC KH"), Cards.asList("QD")));
+        innerBox.getChildren().addAll(new DifferentHandView("Straight Flush", Cards.asList("5S 6S 7S 8S 9S"), null));
+        innerBox.getChildren().addAll(new DifferentHandView("Royal Flush", Cards.asList("1S JS QS KS AS"), null));
 
     }
 

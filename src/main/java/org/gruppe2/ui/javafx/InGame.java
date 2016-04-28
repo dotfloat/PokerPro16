@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import javafx.util.Duration;
 import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
@@ -216,6 +218,7 @@ public class InGame extends BorderPane {
             sessionTimer = null;
         }
     }
+    PathTransition pathTransition = new PathTransition();
 
     @Handler
     public void ohNo(QuitEvent e) {

@@ -7,25 +7,28 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <fx:root type="BorderPane" xmlns:fx="http://javafx.com/fxml">
-        <top>
-                <StackPane alignment="CENTER" style="-fx-padding: 30px,0,0,0">
-                        <ImageView fx:id="logo" preserveRatio="true">
-                                <Image url="/images/ui/pokerWhite.png"/>
-                        </ImageView>
-                </StackPane>
-        </top>
-        <left>
+    <top>
+        <StackPane alignment="CENTER" style="-fx-padding: 30px,0,0,0">
+            <ImageView fx:id="logo" preserveRatio="true">
+                <Image url="/images/ui/pokerWhite.png"/>
+            </ImageView>
+        </StackPane>
+    </top>
+    <left>
 
-        </left>
-        <center>
-                <VBox fx:id="vBox" alignment="CENTER" styleClass="vbox" spacing="10">
-                        <Button fx:id = "createTable" text = "Create Table" onAction="#createNetWorkTable"/>
-                        <Button fx:id = "joinTable" text = "Join Table" onAction="#goToLobby"/>
-                        <Button fx:id ="singlePlayer" text = "Singleplayer" onAction="#goToSinglePlayer"/>
-                        <Button fx:id = "viewStatistics" text = "View Statistics" onAction="#goToStatistics"/>
-                        <Button fx:id = "settings" text = "Settings" onAction="#goToSettings"/>
-                </VBox>
-        </center>
+    </left>
+    <center>
+        <VBox fx:id="vBox" alignment="CENTER" styleClass="vbox" spacing="10">
+            <Button fx:id="createTable" text="Create Table" onAction="#createNetWorkTable"/>
+            <Button fx:id="joinTable" text="Join Table" onAction="#goToLobby"/>
+            <Button fx:id="singlePlayer" text="Singleplayer" onAction="#goToSinglePlayer"/>
+            <Button fx:id="viewStatistics" text="View Statistics" onAction="#goToStatistics"/>
+            <Button fx:id="settings" text="Settings" onAction="#goToSettings"/>
+        </VBox>
+    </center>
+    <bottom>
+        <Label text="heisann" alignment="CENTER"/>
+    </bottom>
 
 </fx:root>
 
