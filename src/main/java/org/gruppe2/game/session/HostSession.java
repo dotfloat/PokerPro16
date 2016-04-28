@@ -14,8 +14,8 @@ import org.gruppe2.game.model.StatisticsModel;
 public class HostSession extends Session {
     private final List<PlayerController> players = Collections.synchronizedList(new ArrayList<>());
 
-    public HostSession(Integer minPlayers, Integer maxPlayers, Integer buyIn, GameModel.BotPolicy botPolicy) {
-        addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, buyIn, botPolicy, 10, 20));
+    public HostSession(Integer minPlayers, Integer maxPlayers, Integer buyIn, GameModel.BotPolicy botPolicy, Integer smallBlind, Integer bigBlind) {
+        addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, buyIn, botPolicy, smallBlind, bigBlind));
         addModel(new RoundModel());
         addModel(new ChatModel());
         addModel(new StatisticsModel());
