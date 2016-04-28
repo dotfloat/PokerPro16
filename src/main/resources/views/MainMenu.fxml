@@ -26,10 +26,6 @@
             <Button fx:id="settings" text="Settings" onAction="#goToSettings"/>
         </VBox>
     </center>
-    <bottom>
-        <Label text="heisann" alignment="CENTER"/>
-    </bottom>
-
 </fx:root>
 
 	
