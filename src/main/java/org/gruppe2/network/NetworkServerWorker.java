@@ -38,10 +38,11 @@ class NetworkServerWorker implements Runnable {
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						clientSocket.getInputStream()));
                 setIn(out, in);
-
+                System.out.println("waiting for input");
 				input = in.readLine();
 				
 				if (input == null) {
+					System.out.println("break input from client");
 					break;
 				}
 				String[] s = input.split(";");
@@ -67,7 +68,7 @@ class NetworkServerWorker implements Runnable {
                     }
 
 				}
-				
+				System.out.println("ok="+masterGreetingOK+"master="+masterGreeting+"input="+input.equals("ok"));
 				if(masterGreetingOK == false && masterGreeting== true && input.equals("ok")){ //Second print gives tables
 					
 					out.print(createTablesString());
@@ -79,11 +80,12 @@ class NetworkServerWorker implements Runnable {
 				if(masterGreeting== false && input.equals("master")){ //First print on master request
 					masterGreeting = true;
 					System.out.println("yes i server");
-					out.print("yes\n");
+					out.println("yes");
 					out.flush();
 				}
 
 			}
+			System.out.println("ended");
 			clientSocket.close();
 			NetworkServer.removeThread(Thread.currentThread());
 			Thread.currentThread().interrupt();
@@ -103,7 +105,7 @@ class NetworkServerWorker implements Runnable {
 
     private boolean tableIsJoinable(String[] s) {
 		int tableNumber = Integer.valueOf(s[1]);
-		
+		System.out.println("in check for table size");
 		if (networkServer.getTables().size() >= tableNumber){
 			if(networkServer.getTables().get(tableNumber).ins.size() < networkServer.getTables().get(tableNumber).maxPlayers){
 				return true;
@@ -114,6 +116,7 @@ class NetworkServerWorker implements Runnable {
 
 
 	private String createTablesString() {
+		System.out.println("creating tables");
 		String tableString = "";
 		int tableNumber = 1;
 		for(NetworkServerGameSession table : networkServer.getTables()){

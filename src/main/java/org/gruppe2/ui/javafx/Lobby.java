@@ -54,7 +54,14 @@ public class Lobby extends BorderPane {
 	}
 	@FXML
 	private void createGame(){
-		System.out.println("starting network game");
+		System.out.println("starting new network game");
+		
+		NetworkClient.setCreateMessage("create");
+		SceneController.setScene(new InGame());
+	}
+	@FXML
+	private void joinGame(){
+		System.out.println("joining network game");
 		NetworkClient.setJoinMessage("join;1");
 		SceneController.setScene(new InGame());
 	}

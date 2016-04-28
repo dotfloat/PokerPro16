@@ -38,7 +38,7 @@ public class NetworkClient implements Runnable {
 	public static boolean clientPressedStart = false;
 	String initialMessage = "master";
     String secondMessage = "ok";
-    private static String joinMessage = null;
+    private static String lobbyJoinMessage = null;
 	private boolean lobbyChoosing = false;
 	public PrintWriter outPrinter = null;
 	public int playerNumber = 1;
@@ -55,7 +55,7 @@ public class NetworkClient implements Runnable {
 	@Override
 	public void run() {
 		onlineGame = true;
-		try (Socket socket = new Socket("zohar.no", port);
+		try (Socket socket = new Socket(host, port);
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						socket.getInputStream()));
@@ -98,16 +98,16 @@ public class NetworkClient implements Runnable {
     	
     	if (firstMessage) {
             System.out.println("Client: " + initialMessage);
-            out.println(initialMessage + "\n");
+            out.println(initialMessage);
             out.flush();
             firstMessage = false;
         }   	
     	sleepNowDearThread();
 		
-    	if(lobbyChoosing && joinMessage != null){
+    	if(lobbyChoosing && lobbyJoinMessage != null){
     		
-            System.out.println("Client: " + joinMessage);
-            out.println(joinMessage + "\n");
+            System.out.println("Client: " + lobbyJoinMessage);
+            out.println(lobbyJoinMessage);
             out.flush();
             lobbyChoosing = false;
     	}
@@ -117,7 +117,7 @@ public class NetworkClient implements Runnable {
 	        
 	        if(fromServer.equals("yes")) {
 	            System.out.println("Client: " + secondMessage);
-	            out.println(secondMessage + "\n");
+	            out.println(secondMessage);
 	            out.flush();
 	        }
 	        else if(fromServer.contains("table")){
@@ -188,11 +188,15 @@ public class NetworkClient implements Runnable {
 		
 		
 	}
-	public static void setJoinMessage(String messageFromGUI){
-		joinMessage = messageFromGUI;
+	public static void setCreateMessage(String messageFromGUI) {
+		lobbyJoinMessage = messageFromGUI;
 		System.out.println("message set to: "+messageFromGUI);
 	}
-
+	public static void setJoinMessage(String messageFromGUI){
+		lobbyJoinMessage = messageFromGUI;
+		System.out.println("message set to: "+messageFromGUI);
+	}
+	
     private void sleepNowDearThread() throws InterruptedException{	
     	Thread.sleep(100);
     }
@@ -266,5 +270,6 @@ public class NetworkClient implements Runnable {
         out.flush();
         System.out.println("spillet spectate'es!");
     }
+	
     
 }
