@@ -2,15 +2,12 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
-import org.gruppe2.network.NetworkClient;
-import org.gruppe2.network.NetworkServerGameSession;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Future;
 
 /**
  * Session is PokerPro16's MVC framework for game logic. I couldn't come up with a better name, so whenever I use the
@@ -71,6 +68,8 @@ public abstract class Session implements Runnable {
     private final ConcurrentLinkedQueue<MessageEntry> messageQueue = new ConcurrentLinkedQueue<>();
     private final Map<String, MessageHandler> messageNameMap = new ConcurrentHashMap<>();
 
+    private final List<TimerTask> taskList = new ArrayList<>();
+
     private volatile RunState state = RunState.STARTING;
 
     /**
@@ -99,44 +98,19 @@ public abstract class Session implements Runnable {
 
         return session.getContext().createContext();
     }
-    /**
-     * Network style start method.
-     *
-     * @param klass
-     * @return
-     */
-    public static SessionContext startServerGame(Class<? extends Session> klass, Object... args) {
-        Session session;
-        Class<?>[] argTypes;
-        Thread thread;
-
-        try {
-            argTypes = (Class<?>[]) Arrays.stream(args).map(Object::getClass).toArray(Class[]::new);
-
-            session = klass.getConstructor(argTypes).newInstance(args);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        thread = new Thread(session);
-        thread.setName("Session");
-        thread.start();
-
-        return session.getContext().createContext();
-    }
 
     @Override
     public void run() {
         init();
 
         controllerList.forEach(Controller::init);
-        preNetworkStart();
+
         state = RunState.RUNNING;
         
         while (state != RunState.STOPPED) {
             context.getEventQueue().process();
-            messageQueueProcess();
+            processMessageQueue();
+            processTaskList();
 
             update();
 
@@ -149,25 +123,37 @@ public abstract class Session implements Runnable {
             }
         }
     }
-    /**
-     * Before organizer has started game, just wait.
-     */
-    private void preNetworkStart() {
-		while(true){
-			if(NetworkServerGameSession.playerHasStartedGame || !NetworkClient.onlineGame)
-				break;
-			try {
-				Thread.sleep(300);
-				System.out.println(NetworkServerGameSession.playerHasStartedGame);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		System.out.println("Backend game now running");
-		
-	}
-	private void messageQueueProcess() {
+
+    public TimerTask setTask(long ms, Runnable runnable) {
+        if (ms <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        TimerTask task = new TimerTask(System.currentTimeMillis() + ms, runnable);
+
+        taskList.add(task);
+
+        return task;
+    }
+
+    public void cancelTask(TimerTask task) {
+        taskList.remove(task);
+    }
+
+    private void processTaskList() {
+        long curTime = System.currentTimeMillis();
+
+        for (int i = 0; i < taskList.size(); i++) {
+            TimerTask task = taskList.get(i);
+
+            if (task.getExpireTimeMs() <= curTime) {
+                task.run();
+                taskList.remove(i--);
+            }
+        }
+    }
+
+	private void processMessageQueue() {
         MessageEntry entry;
         while ((entry = messageQueue.poll()) != null) {
             MessageHandler handler;

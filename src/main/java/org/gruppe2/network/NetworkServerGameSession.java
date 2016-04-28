@@ -93,7 +93,7 @@ public class NetworkServerGameSession {
 	 */
 	private void startGameLoop() {
 		System.out.println("setting server game session");
-		context = new GameBuilder().networkStart();
+		context = new GameBuilder().start();
 		player1UUID = UUID.randomUUID();
 		context.setAnnotated(this);
 		context.message("addPlayer", player1UUID, "TestPlayer", "default");

@@ -7,9 +7,8 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 
-/**
- * Created by Mikal on 21.04.2016.
- */
+import java.time.LocalDateTime;
+
 public class AIController extends AbstractController {
     private AI ai = new NewDumbAI();
 
@@ -17,7 +16,12 @@ public class AIController extends AbstractController {
     private RoundHelper roundHelper;
 
     @Handler
-    public void onAction (PlayerActionQuery query) {
-        ai.doAction(query.getPlayer(), roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
+    public void onAction(PlayerActionQuery query) {
+        if (!query.getPlayer().isBot())
+            return;
+
+        setTask(1000, () -> {
+            ai.doAction(query.getPlayer(), roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
+        });
     }
 }
