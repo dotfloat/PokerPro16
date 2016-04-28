@@ -178,6 +178,11 @@ public class ConsoleApplication implements Runnable {
         System.exit(0);
     }
 
+    @Handler
+    void onBlind(PlayerPaysBlind event) {
+        System.out.println(event.getPlayer().getName() + " payed " + event.getBlindAmount());
+    }
+
     public SessionContext getContext() {
         return context;
     }
