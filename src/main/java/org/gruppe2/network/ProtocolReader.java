@@ -68,7 +68,7 @@ public class ProtocolReader {
 				
 			}
 		}
-		return new QuitEvent();
+		return null;
 	}
 	
 	

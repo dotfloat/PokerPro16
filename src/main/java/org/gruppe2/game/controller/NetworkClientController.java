@@ -19,27 +19,37 @@ public class NetworkClientController extends AbstractController {
     @Override
     public void update() {
         if (socket != null && socket.isConnected()) {
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-            buffer.flip();
-            buffer.clear();
-            int bytesRead = 0;
-
-            try {
-                if ((bytesRead = socket.read(buffer)) == 0)
-                    return;
-            } catch (IOException e) {
-                onDisconnect(e);
-            }
-            
+        	ByteBuffer buffer = null;
+        	buffer = putServerMsgInBuffer(buffer);
+        	
+        	if(buffer == null) return;
+        	
             String serverMSG = new String(buffer.array());
             Event event = ProtocolReader.parseEvent(ProtocolReader.reader(serverMSG));
+            if(event != null)
+            	addEvent(event);
+            
             System.out.println(event.getClass());
             System.out.println(serverMSG);
             addEvent(new ChatEvent(serverMSG, UUID.randomUUID()));
         }
     }
 
-    @Message
+    private ByteBuffer putServerMsgInBuffer(ByteBuffer buffer) {
+    	 buffer = ByteBuffer.allocate(1024);
+         buffer.flip();
+         buffer.clear();
+
+         try {
+             if ((socket.read(buffer)) == 0)
+                 return null;
+         } catch (IOException e) {
+             onDisconnect(e);
+         }
+         return buffer;
+	}
+
+	@Message
     public void connect() {
         try {
             socket = SocketChannel.open();
@@ -54,6 +64,8 @@ public class NetworkClientController extends AbstractController {
 
         System.out.println("Connected");
     }
+    
+    
     private void sendHandShake() {
 		boolean handShakeFinished = true; //Lets pretend handshake and lobby choosing is finished
 		
