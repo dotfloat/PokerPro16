@@ -1,16 +1,14 @@
 package org.gruppe2.game.controller;
 
+import java.util.UUID;
+
 import org.gruppe2.ai.NewDumbAI;
-import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
-import org.gruppe2.game.helper.GameHelper;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.session.Query;
-
-import java.util.UUID;
 
 public class GameController extends AbstractController {
     @Helper

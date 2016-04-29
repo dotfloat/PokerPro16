@@ -5,7 +5,11 @@ import java.io.Serializable;
 public class Card implements Comparable<Card>, Serializable {
 
 
-    //to simplify things
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4393004343420861807L;
+	//to simplify things
     public static final int JACK = 11;
     public static final int QUEEN = 12;
     public static final int KING = 13;

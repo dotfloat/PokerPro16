@@ -1,6 +1,5 @@
 package org.gruppe2.game;
 
-import org.gruppe2.game.controller.PlayerController;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.session.HostSession;
 import org.gruppe2.game.session.Session;
@@ -12,7 +11,6 @@ public class GameBuilder {
     private int buyIn = 100;
     private int smallBlind = 10;
     private int bigBlind = 20;
-    private Class<PlayerController> playerController = null;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
 
     public GameBuilder playerRange(int min, int max) {
@@ -28,12 +26,7 @@ public class GameBuilder {
         return this;
     }
 
-    public GameBuilder playerController(Class<PlayerController> playerController) {
-        this.playerController = playerController;
-
-        return this;
-    }
-
+    
     public GameBuilder blinds(int smallBlind, int bigBlind){
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;

@@ -1,13 +1,11 @@
 package org.gruppe2.game.calculation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Hand;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.RoundPlayer;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
 
 /**
  * Created by Åsmund on 26/04/2016.

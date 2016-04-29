@@ -1,12 +1,10 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.Card;
-import org.gruppe2.game.Hand;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import java.util.List;
+
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Hand;
 
 class Flush implements HandCalculation {
 

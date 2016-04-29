@@ -6,7 +6,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class Player implements Serializable {
-    private final UUID uuid;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6346624233994406345L;
+	private final UUID uuid;
     private final String name;
     private final String avatar;
     private final Query<Action> action = new Query<>();

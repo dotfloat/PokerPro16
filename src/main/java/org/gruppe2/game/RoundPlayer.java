@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class RoundPlayer implements Serializable {
-    private final UUID uuid;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5367497435950538244L;
+	private final UUID uuid;
     private final Card[] cards = new Card[2];
 
     private volatile int bet = 0;
