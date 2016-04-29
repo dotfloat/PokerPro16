@@ -1,4 +1,4 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.menu;
 
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -6,9 +6,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import org.gruppe2.game.Card;
+
 import org.gruppe2.game.Cards;
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.javafx.ingame.ChoiceBar;
+import org.gruppe2.ui.javafx.ingame.DifferentHandView;
 
 public class HelperMenu extends VBox {
     @FXML
@@ -26,7 +29,8 @@ public class HelperMenu extends VBox {
     }
 
     //Create all hands possible
-    private void addAllHands() {
+    @SuppressWarnings("unchecked")
+	private void addAllHands() {
         innerBox.getChildren().addAll(new DifferentHandView("High Card", Cards.asList("AS"), Cards.asList("7H 4C 2S JD")));
         innerBox.getChildren().addAll(new DifferentHandView("One Pair", Cards.asList("AD AC"), Cards.asList("7H 4C 2S")));
         innerBox.getChildren().addAll(new DifferentHandView("Two Pair", Cards.asList("QD QC"), Cards.asList("9H KC 3S")));
@@ -42,7 +46,7 @@ public class HelperMenu extends VBox {
 
     private void setSizes() {
 
-        title.fontProperty().bind(ChoiceBar.fontTracking);
+        title.fontProperty().bind(ChoiceBar.getFontTracking());
         entirePane.prefWidthProperty().bind(this.prefWidthProperty().multiply(0.9));
         entirePane.maxWidthProperty().bind(this.maxWidthProperty().multiply(0.9));
         entirePane.setVisible(false);

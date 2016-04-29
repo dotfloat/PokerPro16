@@ -1,8 +1,9 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.ingame;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+
 import org.gruppe2.game.Player;
 import org.gruppe2.game.PlayerStatistics;
 import org.gruppe2.game.helper.GameHelper;
@@ -10,6 +11,7 @@ import org.gruppe2.game.model.StatisticsModel;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Model;
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.PokerApplication;
 
 class Statistic extends BorderPane {
 

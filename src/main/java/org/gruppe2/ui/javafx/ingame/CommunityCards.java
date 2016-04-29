@@ -1,4 +1,4 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.ingame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,10 @@ import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.PokerApplication;
 
 public class CommunityCards extends HBox {
-	private int width = PokerApplication.getWidth();
+	
 	private ArrayList<ImageView> communityImageCards;
 	
 	private List<Card> communityCards;

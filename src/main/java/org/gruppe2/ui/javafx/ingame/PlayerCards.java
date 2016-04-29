@@ -1,4 +1,4 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.ingame;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -11,6 +11,7 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.PokerApplication;
 
 public class PlayerCards extends HBox {
     private boolean firstSet = true;
@@ -33,15 +34,18 @@ public class PlayerCards extends HBox {
      * is ready with playerCards.
      */
     public void setPlayerCards(CommunityCards communityCardsBox) {
-    	Card[] cards = roundHelper.findPlayerByUUID(InGame.getPlayerUUID()).getCards();
-        setPaneStyle();
-
-        playerCard1.setImage(new Image(("/images/cards/"
-                + communityCardsBox.getCardName(cards[0]) + ".png")));
-        playerCard2.setImage(new Image(("/images/cards/"
-                + communityCardsBox.getCardName(cards[1]) + ".png")));
-
-        checkFirstSet();
+    	
+    	if(roundHelper.getActivePlayers().contains(roundHelper.findPlayerByUUID(InGame.getPlayerUUID()))){
+	    	Card[] cards = roundHelper.findPlayerByUUID(InGame.getPlayerUUID()).getCards();
+	        setPaneStyle();
+	
+	        playerCard1.setImage(new Image(("/images/cards/"
+	                + communityCardsBox.getCardName(cards[0]) + ".png")));
+	        playerCard2.setImage(new Image(("/images/cards/"
+	                + communityCardsBox.getCardName(cards[1]) + ".png")));
+	
+	        checkFirstSet();
+    	}
     }
 
     private void setPaneStyle() {

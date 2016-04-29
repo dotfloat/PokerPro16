@@ -10,7 +10,7 @@ import java.util.UUID;
 import org.gruppe2.Main;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.ui.javafx.InGame;;
+import org.gruppe2.ui.javafx.ingame.InGame;
 
 public class NetworkServerGameSession {
 	private static SessionContext context = null;

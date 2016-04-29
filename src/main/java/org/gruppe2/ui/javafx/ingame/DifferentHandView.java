@@ -1,4 +1,4 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.ingame;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -6,8 +6,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.util.List;
 

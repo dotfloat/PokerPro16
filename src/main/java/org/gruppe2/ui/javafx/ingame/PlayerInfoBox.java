@@ -1,16 +1,14 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.ingame;
 
 
 import java.util.UUID;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
-import javafx.scene.layout.StackPane;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerPostActionEvent;
@@ -20,6 +18,9 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.javafx.SceneController;
+import org.gruppe2.ui.javafx.ToolTip;
 
 public class PlayerInfoBox extends BorderPane {
     private UUID playerUUID = null;

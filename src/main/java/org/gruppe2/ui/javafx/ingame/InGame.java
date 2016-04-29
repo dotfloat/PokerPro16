@@ -1,4 +1,4 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.ingame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,9 @@ import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.network.NetworkClient;
 import org.gruppe2.network.NetworkServerGameSession;
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.Modal;
+import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.javafx.SceneController;
 
 public class InGame extends BorderPane {
     private static SessionContext context = null;
@@ -50,7 +53,7 @@ public class InGame extends BorderPane {
     @FXML
     private ChoiceBar choiceBar;
 
-    InGame() {
+    public InGame() {
 
         contextSetup();
         try {

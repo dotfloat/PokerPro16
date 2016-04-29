@@ -1,4 +1,4 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.menu;
 
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;

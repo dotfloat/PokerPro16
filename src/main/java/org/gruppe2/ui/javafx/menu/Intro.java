@@ -1,11 +1,12 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.menu;
 
 /*
  * Created by Petter on 04/04/2016.
  */
 
+import java.io.IOException;
+
 import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -14,9 +15,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.gruppe2.ui.Resources;
 
-import java.io.IOException;
+import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.javafx.SceneController;
+import org.gruppe2.ui.javafx.ingame.ConfettiOrMoney;
 
 public class Intro extends StackPane {
 
@@ -28,7 +31,7 @@ public class Intro extends StackPane {
 
 	public Intro() {
 		Resources.loadFXML(this);
-//		SoundPlayer.playIntroMusic();   IF YOU WANT MUSIC PUT THIS ON
+		// SoundPlayer.playIntroMusic(); IF YOU WANT MUSIC PUT THIS ON
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
 		clickToContinueFading(clickToContinue);
@@ -41,11 +44,11 @@ public class Intro extends StackPane {
 	}
 
 	@FXML
-	public void proceed(KeyEvent event){
-		if (event.getCode() == KeyCode.ENTER) System.out.println("hola");
+	public void proceed(KeyEvent event) {
+		if (event.getCode() == KeyCode.ENTER)
+			System.out.println("hola");
 		SceneController.setScene(new MainMenu());
 	}
-
 
 	private void clickToContinueFading(Node node) {
 		fadeTransition = new FadeTransition(Duration.millis(700), node);

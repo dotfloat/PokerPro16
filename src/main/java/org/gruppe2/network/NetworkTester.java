@@ -2,7 +2,7 @@ package org.gruppe2.network;
 
 import org.gruppe2.network.NetworkClient;
 import org.gruppe2.network.NetworkServer;
-import org.gruppe2.ui.javafx.Lobby;
+import org.gruppe2.ui.javafx.menu.Lobby;
 
 /**
  * Tester for lan server

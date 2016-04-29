@@ -11,7 +11,7 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.ui.javafx.InGame;
+import org.gruppe2.ui.javafx.ingame.InGame;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -12,9 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import org.gruppe2.Main;
-import org.gruppe2.game.session.SessionContext;
-
-import java.util.UUID;
+import org.gruppe2.ui.javafx.ingame.InGame;
+import org.gruppe2.ui.javafx.menu.Intro;
 
 public class PokerApplication extends Application {
 	private static int width;

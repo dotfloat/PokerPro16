@@ -1,10 +1,6 @@
 package org.gruppe2.ui.javafx;
 
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -14,7 +10,7 @@ import javafx.scene.layout.StackPane;
  * Changes scene in PokerApplication main root BorderPane #url = URL to
  * fxml-file
  */
-class SceneController {
+public class SceneController {
     public static StackPane stage = PokerApplication.getRoot();
 
     public static void setScene(Node node) {

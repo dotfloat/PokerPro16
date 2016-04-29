@@ -1,16 +1,20 @@
-package org.gruppe2.ui.javafx;
+package org.gruppe2.ui.javafx.menu;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.javafx.Modal;
+import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.javafx.SceneController;
+import org.gruppe2.ui.javafx.ingame.ChoiceBar;
+import org.gruppe2.ui.javafx.ingame.InGame;
+
 
 /**
  * Created by Petter on 11/04/2016.
@@ -38,9 +42,9 @@ public class RightMenu extends VBox {
 		viewStatistics.setMaxWidth(Double.MAX_VALUE);
 		innerBox.setVisible(false);
 
-		viewLobby.fontProperty().bind(ChoiceBar.fontTracking);
-		leaveTable.fontProperty().bind(ChoiceBar.fontTracking);
-		viewStatistics.fontProperty().bind(ChoiceBar.fontTracking);
+		viewLobby.fontProperty().bind(ChoiceBar.getFontTracking());
+		leaveTable.fontProperty().bind(ChoiceBar.getFontTracking());
+		viewStatistics.fontProperty().bind(ChoiceBar.getFontTracking());
 
 		this.maxWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.2));
@@ -59,7 +63,7 @@ public class RightMenu extends VBox {
 	}
 
 	public void viewStatistics(){
-		SceneController.setModal((new Modal(new Statistic(true))));
+//		SceneController.setModal((new Modal(new Statistic(true))));
 		menuAnimation();
 	}
 
