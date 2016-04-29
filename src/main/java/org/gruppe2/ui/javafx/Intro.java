@@ -24,6 +24,7 @@ public class Intro extends StackPane {
 	private ImageView logo;
 	@FXML
 	private Label clickToContinue;
+	private FadeTransition fadeTransition;
 
 	public Intro() {
 		Resources.loadFXML(this);
@@ -33,6 +34,8 @@ public class Intro extends StackPane {
 	}
 
 	public void goToMenu() throws IOException {
+		fadeTransition.stop();
+		ConfettiOrMoney.stopAllAnimations();
 		SceneController.setScene(new MainMenu());
 	}
 
@@ -44,13 +47,11 @@ public class Intro extends StackPane {
 
 
 	private void clickToContinueFading(Node node) {
-		FadeTransition fadeTransition = new FadeTransition(
-				Duration.millis(700), node);
+		fadeTransition = new FadeTransition(Duration.millis(700), node);
 		fadeTransition.setFromValue(1.0);
 		fadeTransition.setToValue(0.1);
-		fadeTransition.setCycleCount(Timeline.INDEFINITE);
+		fadeTransition.setCycleCount(100);
 		fadeTransition.setAutoReverse(true);
 		fadeTransition.play();
-
 	}
 }

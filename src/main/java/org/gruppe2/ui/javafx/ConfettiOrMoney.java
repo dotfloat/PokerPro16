@@ -16,6 +16,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import org.gruppe2.ui.Resources;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,6 +25,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by Petter on 18/04/2016. This class creates falling confetti or money! Oh joy.
  */
 public class ConfettiOrMoney extends Pane {
+
+    public static ArrayList<PathTransition> pathTransitionArrayList = new ArrayList<>();
+    public static ArrayList<RotateTransition> rotateTransitionArrayList = new ArrayList<>();
+    public static ArrayList<RotateTransition> flipTransitionArrayList = new ArrayList<>();
 
     public ConfettiOrMoney(@NamedArg("size") int size, @NamedArg("isConfetti") boolean value) {
         Resources.loadFXML(this);
@@ -36,10 +41,10 @@ public class ConfettiOrMoney extends Pane {
         ArrayList<Node> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             ImageView money = createMoney();
-            fallingAnimation(money);
-            setFlipAnimation(money);
             list.add(money);
         }
+        fallingAnimation(list);
+        setFlipAnimation(list);
         return list;
     }
 
@@ -47,27 +52,30 @@ public class ConfettiOrMoney extends Pane {
         ArrayList<Node> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             Node node = drawRectangle();
-            fallingAnimation(node);
             list.add(node);
         }
+        fallingAnimation(list);
         setRotateAnimation(list);
         return list;
     }
 
-    private void fallingAnimation(Node node) {
-        double startX = Math.random() * 2000;
-        double startY = -Math.random() * PokerApplication.getHeight();
-        Path path = new Path(new MoveTo(startX, startY), new LineTo(Math.random()*2000, PokerApplication.getHeight()*2));
-        PathTransition pathTransition = new PathTransition(Duration.millis(Math.random() * 8000 + 5000), path, node);
-        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pathTransition.setInterpolator(Interpolator.EASE_IN);
-        if (node instanceof Rectangle) {
-            pathTransition.setCycleCount(1);
-            pathTransition.setOnFinished(removeFromRoot -> {
-                getChildren().remove(node);
-            });
-        } else pathTransition.setCycleCount(Timeline.INDEFINITE);
-        pathTransition.play();
+    private void fallingAnimation(List<Node> nodes) {
+        for (Node node : nodes) {
+            double startX = Math.random() * 2000;
+            double startY = -Math.random() * PokerApplication.getHeight();
+            Path path = new Path(new MoveTo(startX, startY), new LineTo(Math.random() * 2000, PokerApplication.getHeight() * 2));
+            PathTransition pathTransition = new PathTransition(Duration.millis(Math.random() * 8000 + 5000), path, node);
+            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            pathTransition.setInterpolator(Interpolator.EASE_IN);
+            if (node instanceof Rectangle) {
+                pathTransition.setCycleCount(1);
+                pathTransition.setOnFinished(removeFromRoot -> {
+                    getChildren().remove(node);
+                });
+            } else pathTransition.setCycleCount(Timeline.INDEFINITE);
+            pathTransitionArrayList.add(pathTransition);
+            pathTransition.play();
+        }
     }
 
     private void setRotateAnimation(List<Node> nodes) {
@@ -77,18 +85,22 @@ public class ConfettiOrMoney extends Pane {
             else rt.setByAngle(360);
             rt.setDelay(Duration.ZERO);
             rt.setCycleCount(Animation.INDEFINITE);
+            rotateTransitionArrayList.add(rt);
             rt.play();
         }
     }
 
-    private void setFlipAnimation(Node node) {
-        RotateTransition rotator = new RotateTransition(Duration.millis(node.opacityProperty().get() * 3700 + 300), node);
-        rotator.setAxis(Rotate.X_AXIS);
-        rotator.setFromAngle(0);
-        rotator.setToAngle(360);
-        rotator.setInterpolator(Interpolator.LINEAR);
-        rotator.setCycleCount(Timeline.INDEFINITE);
-        rotator.play();
+    private void setFlipAnimation(List<Node> nodes) {
+        for (Node node : nodes) {
+            RotateTransition rotator = new RotateTransition(Duration.millis(node.opacityProperty().get() * 3700 + 300), node);
+            rotator.setAxis(Rotate.X_AXIS);
+            rotator.setFromAngle(0);
+            rotator.setToAngle(360);
+            rotator.setInterpolator(Interpolator.LINEAR);
+            rotator.setCycleCount(Timeline.INDEFINITE);
+            flipTransitionArrayList.add(rotator);
+            rotator.play();
+        }
     }
 
     private Rectangle drawRectangle() {
@@ -109,5 +121,11 @@ public class ConfettiOrMoney extends Pane {
         money.preserveRatioProperty().setValue(true);
         money.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1 * opacity));
         return money;
+    }
+
+    public static void stopAllAnimations() {
+        for (PathTransition pathTransition : pathTransitionArrayList) pathTransition.stop();
+        for (RotateTransition rotateTransition : rotateTransitionArrayList) rotateTransition.stop();
+        for (RotateTransition flipTransition : flipTransitionArrayList) flipTransition.stop();
     }
 }
