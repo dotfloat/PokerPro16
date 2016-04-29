@@ -1,17 +1,18 @@
 package org.gruppe2;
 
-import javafx.application.Application;
-
-import org.gruppe2.game.PlayerStatistics;
-import org.gruppe2.network.NetworkServer;
-import org.gruppe2.ui.Resources;
-import org.gruppe2.ui.console.ConsoleApplication;
-import org.gruppe2.ui.javafx.PokerApplication;
-
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javafx.application.Application;
+
+import org.gruppe2.game.PlayerStatistics;
+import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.console.ConsoleApplication;
+import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Main {
     private enum EntryPoint {
@@ -42,7 +43,7 @@ public class Main {
                 Application.launch(PokerApplication.class, args);
                 break;
             case SERVER:
-                new NetworkServer(8888).run();;
+                //TODO LEGG TIL SERVER
                 break;
         }
     }

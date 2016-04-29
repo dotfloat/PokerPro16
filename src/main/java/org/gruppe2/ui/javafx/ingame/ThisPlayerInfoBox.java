@@ -18,7 +18,6 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-import org.gruppe2.network.NetworkServerGameSession;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 

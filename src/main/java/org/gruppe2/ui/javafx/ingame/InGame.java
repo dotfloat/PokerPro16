@@ -27,12 +27,12 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.network.NetworkClient;
-import org.gruppe2.network.NetworkServerGameSession;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
+
+import sun.net.NetworkClient;
 
 public class InGame extends BorderPane {
     private static SessionContext context = null;
@@ -98,19 +98,7 @@ public class InGame extends BorderPane {
     }
 
     private void onelinePressStart() {
-        if (NetworkClient.onlineGame) {
-            Label pressStart = new Label(" Click to Start game");
-            pressStart.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) { //Change to message when ready
-                    NetworkClient.clientPressedStart = true;
-                    NetworkServerGameSession.playerHasStartedGame = true;
-                    System.out.println("pressed start");
-                }
-            });
-
-            SceneController.setModal((new Modal(pressStart)));
-        }
+        
     }
 
     public static UUID getPlayerUUID() {

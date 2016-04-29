@@ -17,7 +17,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
 import org.gruppe2.ai.NewDumbAI;
-import org.gruppe2.network.NetworkClient;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
@@ -82,14 +81,13 @@ public class Lobby extends BorderPane {
 	private void createGame() {
 		System.out.println("LOBBY: starting new network game");
 
-		NetworkClient.setCreateMessage("create");
+		//TODO SEND CREATE;
 		SceneController.setScene(new InGame());
 	}
 
 	@FXML
 	private void joinGame() {
-		System.out.println("LOBBY: joining network game");
-		NetworkClient.setJoinMessage("join;1");
+		//TODO SEND join
 		SceneController.setScene(new InGame());
 	}
 
