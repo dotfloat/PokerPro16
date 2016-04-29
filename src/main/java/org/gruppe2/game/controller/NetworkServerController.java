@@ -61,7 +61,7 @@ public class NetworkServerController extends AbstractController {
 
     @Handler
     public void onChat(ChatEvent event) {
-        sendToAll("CHAT;" + event.getPlayerUUID() + " :" + event.getMessage() + "\r\n");
+        sendToAll("CHAT;" + event.getPlayerUUID() + ":" + event.getMessage() + "\r\n");
     }
     
     @Handler

@@ -25,7 +25,7 @@ public class ClientSession extends Session {
 
     @Override
     public void update() {
-
+    	
     }
 
 }

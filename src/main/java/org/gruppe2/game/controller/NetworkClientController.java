@@ -9,7 +9,9 @@ import java.nio.channels.SocketChannel;
 import java.util.UUID;
 
 import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.Event;
 import org.gruppe2.game.session.Message;
+import org.gruppe2.network.ProtocolReader;
 
 public class NetworkClientController extends AbstractController {
     private SocketChannel socket = null;
@@ -26,15 +28,14 @@ public class NetworkClientController extends AbstractController {
                 if ((bytesRead = socket.read(buffer)) == 0)
                     return;
             } catch (IOException e) {
-                e.printStackTrace();
-                socket = null;
-                getContext().quit();
+                onDisconnect(e);
             }
-
-            String string = new String(buffer.array());
-
-            System.out.println(string);
-            addEvent(new ChatEvent(string, UUID.randomUUID()));
+            
+            String serverMSG = new String(buffer.array());
+            Event event = ProtocolReader.parseEvent(ProtocolReader.reader(serverMSG));
+            System.out.println(event.getClass());
+            System.out.println(serverMSG);
+            addEvent(new ChatEvent(serverMSG, UUID.randomUUID()));
         }
     }
 
@@ -44,20 +45,51 @@ public class NetworkClientController extends AbstractController {
             socket = SocketChannel.open();
             socket.connect(new InetSocketAddress(8888));
             socket.configureBlocking(false);
+            
+            sendHandShake();
+            
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Connection failed");
-            getContext().quit();
+            onDisconnect(e);
         }
 
         System.out.println("Connected");
     }
-    /**
-     * Used to recieve objects over socket channel
-     * @param bytes
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
+    private void sendHandShake() {
+		boolean handShakeFinished = true; //Lets pretend handshake and lobby choosing is finished
+		
+    	if(handShakeFinished){
+    		sendPlayerInfo();
+    	}
+	}
+    
+    private void sendPlayerInfo() {
+		// TODO Auto-generated method stub
+	}
+
+	private void sendToServer(String mesg){
+    	
+    	ByteBuffer buf = ByteBuffer.allocate(mesg.length());
+        buf.clear();
+        buf.put(mesg.getBytes());
+        buf.flip();
+
+        try {
+        	socket.write(buf);
+        } catch (IOException e) {
+            onDisconnect(e);
+        }
+    }
+
+	private void onDisconnect(IOException e) {
+		e.printStackTrace();
+		if(socket != null)
+			socket = null;
+		System.out.println("Connection failed");
+        getContext().quit();
+	}
+
+	/**
+     * Used to receive objects over socket channel
      */
     public static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
         try(ByteArrayInputStream b = new ByteArrayInputStream(bytes)){

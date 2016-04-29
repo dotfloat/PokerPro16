@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.QuitEvent;
 
 
 /**
@@ -49,10 +50,25 @@ public class ProtocolReader {
 					String message = listOfCommands[2];
 					return new ChatEvent(message,playerUUID);
 				case "ACTION":
-					break;	
+					break;
+				case "DISCONNECTED":
+					break;
+				case "CONNECTED":
+					break;
+				case "COMMUNITYCARDS":
+					break;
+				case "PLAYERCARDS":
+					break;
+				case "ROUNDWON":
+					break;
+				case "GAMEWON":
+					break;
+				case "ROUNDSTART":
+					break;
+				
 			}
 		}
-		return null;
+		return new QuitEvent();
 	}
 	
 	
