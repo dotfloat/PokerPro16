@@ -242,8 +242,11 @@ public class RoundController extends AbstractController {
     private void roundEnd() {
         round.setPlaying(false);
         addEvent(new RoundEndEvent());
-        if (round.getActivePlayers().size() == 1)
-            addEvent(new PlayerWonEvent(game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID())));
+        if (round.getActivePlayers().size() == 1){
+        	Player winningPlayer = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
+            addEvent(new PlayerWonEvent(winningPlayer));
+//            winningPlayer.setBank(winningPlayer.getBank()+round.getPot());
+        }
         //Get winner and add chips to player bank
         game.setButton(game.getButton() + 1);
         roundStart();

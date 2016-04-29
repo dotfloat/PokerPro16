@@ -12,7 +12,9 @@ import java.util.Base64;
 import java.util.UUID;
 
 import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
@@ -91,6 +93,15 @@ public class NetworkServerController extends AbstractController {
     public void onPlayerAction(PlayerPostActionEvent actionEvent) {
         sendToAll("ACTION;" + actionEvent.getPlayer().getUUID() + ":" + actionEvent.getAction() + "\r\n");
     }
+    @Handler
+    public void onCommunityCards(CommunityCardsEvent communityCardsEvent){
+    	communityCardsEvent.getCards();
+    	sendToAll("COMMUNITYCARDS;" + "c02;c03;c04" + "\r\n");
+    }
+    @Handler
+    public void onPlayerCards(RoundStartEvent roundStartEvent){
+    	sendToAll("PLAYERCARDS;" + "c02;c03" + "\r\n");
+    }
 
 
     public void onPlayerConnect() {
@@ -113,6 +124,7 @@ public class NetworkServerController extends AbstractController {
 
         connection.sendMessage(String.format("SYNC;%s:%s\r\n", modelClass.getSimpleName(), new String(Base64.getEncoder().encode(byteObject))));
     }
+    
 
     private void sendToAll(String mesg) {
         for (int i = 0; i < clients.size(); i++) {

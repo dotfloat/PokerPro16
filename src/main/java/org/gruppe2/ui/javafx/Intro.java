@@ -28,6 +28,7 @@ public class Intro extends StackPane {
 
 	public Intro() {
 		Resources.loadFXML(this);
+//		SoundPlayer.playIntroMusic();   IF YOU WANT MUSIC PUT THIS ON
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
 		clickToContinueFading(clickToContinue);
