@@ -1,14 +1,12 @@
 package org.gruppe2.game.controller;
 
 import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.NetworkClientEvent;
 import org.gruppe2.game.session.Message;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class NetworkClientController extends AbstractController {

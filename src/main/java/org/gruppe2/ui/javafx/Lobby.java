@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
-import org.gruppe2.game.event.NetworkClientEvent;
+import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.network.NetworkClient;
 import org.gruppe2.network.NetworkTester;
@@ -49,13 +49,14 @@ public class Lobby extends BorderPane {
 			int max = random.nextInt(7)+3;
 			int current = random.nextInt(max-1) + 1;
 			String players = current+"/"+max;
-			lobbyTiles.getChildren().add(new LobbyTable(players));
+			String name = NewDumbAI.randomName()+"'s table";
+			lobbyTiles.getChildren().add(new LobbyTable(players, name));
 		}
 	}
-	@Handler
+	/*@Handler
 	public void startNetworkGame(NetworkClientEvent networkClientEvent){
 		SceneController.setScene(new InGame());
-	}
+	}*/
 
 	public void friendBox() {
 		lobbyTiles.getChildren()

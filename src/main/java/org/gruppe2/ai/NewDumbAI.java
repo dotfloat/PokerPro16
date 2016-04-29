@@ -85,4 +85,7 @@ public class NewDumbAI implements AI{
 
         //model.getAction().set(new Action.Fold());
     }
+    public static String randomName(){
+        return names[(int) (Math.random()*names.length)];
+    }
 }

@@ -14,10 +14,12 @@ public class LobbyTable extends StackPane {
     @FXML private ImageView tableImage;
     @FXML private StackPane table;
     @FXML private Label players;
+    @FXML private Label name;
 
-    public LobbyTable(String players){
+    public LobbyTable(String players, String name){
         Resources.loadFXML(this);
         this.players.setText(players);
+        this.name.setText(name);
         setSize();
     }
 
@@ -26,5 +28,6 @@ public class LobbyTable extends StackPane {
         tableImage.preserveRatioProperty().setValue(true);
         tableImage.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(size));
         players.fontProperty().bind(ChoiceBar.fontTracking);
+        name.fontProperty().bind(ChoiceBar.fontTracking);
     }
 }
