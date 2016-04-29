@@ -1,21 +1,19 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.Player;
-import org.gruppe2.game.controller.NetworkClientController;
-import org.gruppe2.game.event.PlayerJoinEvent;
-import org.gruppe2.game.model.ChatModel;
-import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.NetworkClientModel;
-import org.gruppe2.game.model.StatisticsModel;
-import org.gruppe2.network.ProtocolConnection;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
-import java.util.Arrays;
 import java.util.Base64;
+
+import org.gruppe2.game.Player;
+import org.gruppe2.game.controller.NetworkClientController;
+import org.gruppe2.game.model.ChatModel;
+import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.NetworkClientModel;
+import org.gruppe2.game.model.StatisticsModel;
+import org.gruppe2.network.ProtocolConnection;
 
 public class ClientSession extends Session {
 

@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.QuitEvent;
 
 
@@ -88,7 +89,9 @@ public class ProtocolConnection {
                     String message = listOfCommands[2];
                     return new ChatEvent(message, playerUUID);
                 case "ACTION":
-                    break;
+                	
+//                  return new PlayerPostActionEvent();
+                	break;
                 case "DISCONNECTED":
                     break;
                 case "CONNECTED":
