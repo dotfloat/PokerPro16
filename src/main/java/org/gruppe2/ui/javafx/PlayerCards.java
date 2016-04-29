@@ -33,7 +33,7 @@ public class PlayerCards extends HBox {
      * is ready with playerCards.
      */
     public void setPlayerCards(CommunityCards communityCardsBox) {
-        Card[] cards = roundHelper.findPlayerByUUID(InGame.getPlayerUUID()).getCards();
+    	Card[] cards = roundHelper.findPlayerByUUID(InGame.getPlayerUUID()).getCards();
         setPaneStyle();
 
         playerCard1.setImage(new Image(("/images/cards/"
@@ -77,7 +77,6 @@ public class PlayerCards extends HBox {
     }
     @Handler
     public void getPlayerCardsHandler(RoundStartEvent roundStartEvent){
-    	
     	setPlayerCards(new CommunityCards());
     }
 }
