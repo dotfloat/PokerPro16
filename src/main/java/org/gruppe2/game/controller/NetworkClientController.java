@@ -21,17 +21,13 @@ public class NetworkClientController extends AbstractController {
         if (socket != null && socket.isConnected()) {
         	ByteBuffer buffer = null;
         	buffer = putServerMsgInBuffer(buffer);
-        	
+
         	if(buffer == null) return;
-        	
+
             String serverMSG = new String(buffer.array());
             Event event = ProtocolReader.parseEvent(ProtocolReader.reader(serverMSG));
             if(event != null)
             	addEvent(event);
-            
-            System.out.println(event.getClass());
-            System.out.println(serverMSG);
-            addEvent(new ChatEvent(serverMSG, UUID.randomUUID()));
         }
     }
 
@@ -64,8 +60,12 @@ public class NetworkClientController extends AbstractController {
 
         System.out.println("Connected");
     }
-    
-    
+
+    @Message
+    public void chat(String message, UUID playerUUID) {
+        sendToServer("SAY:" + message);
+    }
+
     private void sendHandShake() {
 		boolean handShakeFinished = true; //Lets pretend handshake and lobby choosing is finished
 		
@@ -80,7 +80,7 @@ public class NetworkClientController extends AbstractController {
 
 	private void sendToServer(String mesg){
     	
-    	ByteBuffer buf = ByteBuffer.allocate(mesg.length());
+    	ByteBuffer buf = ByteBuffer.allocate(mesg.length() * 2);
         buf.clear();
         buf.put(mesg.getBytes());
         buf.flip();
