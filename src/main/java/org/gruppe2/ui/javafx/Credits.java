@@ -50,8 +50,8 @@ public class Credits extends StackPane{
 
     private void addObject(SequentialTransition sequence, Node node){
 
-        Path path = new Path(new MoveTo(-2000, 0), new LineTo(0, 0));
-        Path path1 = new Path(new MoveTo(0, 0), new LineTo(2000, 0));
+        Path path = new Path(new MoveTo(-2000, 0), new LineTo(60, 0));
+        Path path1 = new Path(new MoveTo(60, 0), new LineTo(2000, 0));
 
         PathTransition transition = createPathTranition(path, node);
         PathTransition transition1 = createPathTranition(path1, node);
