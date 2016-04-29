@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
+import javafx.scene.layout.StackPane;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerPostActionEvent;
@@ -36,11 +37,14 @@ public class PlayerInfoBox extends BorderPane {
     private Label currentBet;
     @FXML
     private ImageView playerPicture;
+    @FXML
+    private ImageView folded;
 
     PlayerInfoBox() {
         Resources.loadFXML(this);
         InGame.getContext().setAnnotated(this);
         playerPicture.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.06));
+        folded.fitWidthProperty().bind(playerPicture.fitWidthProperty());
         playerName.fontProperty().bind(ChoiceBar.fontTracking);
         stack.fontProperty().bind(ChoiceBar.fontTracking);
         currentBet.fontProperty().bind(ChoiceBar.fontTracking);
@@ -75,11 +79,9 @@ public class PlayerInfoBox extends BorderPane {
 
     private void updatePicture() {
         if (roundHelper.findPlayerByUUID(playerUUID) == null)
-            playerPicture.setImage(new Image
-                    (getClass().getResourceAsStream("/images/avatars/defaultFolded.png")));
+            folded.visibleProperty().setValue(true);
         else
-            playerPicture.setImage(new Image
-                    (getClass().getResourceAsStream("/images/avatars/default.png")));
+            folded.visibleProperty().setValue(false);
 
     }
 

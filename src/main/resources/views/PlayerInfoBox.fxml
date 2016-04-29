@@ -7,9 +7,14 @@
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" onMouseClicked="#viewStatistic">
 
     <left>
-        <ImageView fx:id="playerPicture" preserveRatio="true">
-            <Image url="/images/avatars/default.png"/>
-        </ImageView>
+        <StackPane>
+            <ImageView fx:id="playerPicture" preserveRatio="true">
+                <Image url="/images/avatars/default.png"/>
+            </ImageView>
+            <ImageView fx:id="folded" visible="false" preserveRatio="true">
+                <Image url="/images/ui/folded.png"/>
+            </ImageView>
+        </StackPane>
     </left>
 
     <right>
