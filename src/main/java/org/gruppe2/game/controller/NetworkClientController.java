@@ -1,128 +1,47 @@
 package org.gruppe2.game.controller;
 
 import org.gruppe2.game.event.Event;
+import org.gruppe2.game.model.NetworkClientModel;
 import org.gruppe2.game.session.Message;
-import org.gruppe2.network.ProtocolReader;
+import org.gruppe2.game.session.Model;
+import org.gruppe2.network.ProtocolConnection;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.UUID;
 
 public class NetworkClientController extends AbstractController {
-    private SocketChannel socket = null;
-    private StringBuffer readBuffer = new StringBuffer();
+    @Model
+    private NetworkClientModel model;
 
     @Override
     public void update() {
-        if (socket != null && socket.isConnected()) {
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-            byteBuffer.flip();
-            byteBuffer.clear();
+        try {
+            String[] message = model.getConnection().readMessage();
 
-            try {
-                if (socket.read(byteBuffer) <= 0)
-                    return;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            readBuffer.append(new String(byteBuffer.array(), 0, byteBuffer.position()));
-
-            int indexOfCLRF = readBuffer.indexOf("\r\n");
-
-            if (indexOfCLRF == -1)
+            if (message == null)
                 return;
 
-            String serverMessage = readBuffer.substring(0, indexOfCLRF);
-            readBuffer.delete(0, indexOfCLRF + 2);
+            Event event = ProtocolConnection.parseEvent(message);
 
-            String[] args = ProtocolReader.reader(serverMessage);
-
-            System.out.println("Received: " + Arrays.toString(args));
-
-            if (args[0].equals("SYNC")) {
-                try {
-                    Object obj = deserialize(Base64.getDecoder().decode(args[2].getBytes()));
-
-                    System.out.println(obj);
-                    System.out.println(obj.getClass());
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            Event event = ProtocolReader.parseEvent(args);
-            if(event != null)
-            	addEvent(event);
-        }
-    }
-
-	@Message
-    public void connect() {
-        try {
-            socket = SocketChannel.open();
-            socket.connect(new InetSocketAddress(8888));
-            socket.configureBlocking(false);
-
+            if (event != null)
+                addEvent(event);
         } catch (IOException e) {
-            onDisconnect(e);
+            e.printStackTrace();
+            getContext().quit();
         }
-
-        System.out.println("Connected");
     }
 
     @Message
     public void chat(String message, UUID playerUUID) {
-        sendToServer("SAY:" + message);
+        sendMessage(String.format("SAY:%s\r\n", message));
     }
 
-    private void sendHandShake() {
-		boolean handShakeFinished = true; //Lets pretend handshake and lobby choosing is finished
-		
-    	if(handShakeFinished){
-    		sendPlayerInfo();
-    	}
-	}
-    
-    private void sendPlayerInfo() {
-		// TODO Auto-generated method stub
-	}
-
-	private void sendToServer(String mesg){
-    	ByteBuffer buf = ByteBuffer.allocate(mesg.length() * 2);
-        buf.clear();
-        buf.put(mesg.getBytes());
-        buf.flip();
-
+    private void sendMessage(String message) {
         try {
-        	socket.write(buf);
+            model.getConnection().sendMessage(message);
         } catch (IOException e) {
-            onDisconnect(e);
-        }
-    }
-
-	private void onDisconnect(IOException e) {
-		e.printStackTrace();
-		if(socket != null)
-			socket = null;
-		System.out.println("Connection failed");
-        getContext().quit();
-	}
-
-	/**
-     * Used to receive objects over socket channel
-     */
-    public static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
-        try(ByteArrayInputStream b = new ByteArrayInputStream(bytes)){
-            try(ObjectInputStream o = new ObjectInputStream(b)){
-                return o.readObject();
-            }
+            e.printStackTrace();
+            getContext().quit();
         }
     }
 }

@@ -189,7 +189,7 @@ public abstract class Session implements Runnable {
         return eventQueue;
     }
 
-    void addModel(Object model) {
+    public void addModel(Object model) {
         modelMap.put(model.getClass(), model);
     }
 

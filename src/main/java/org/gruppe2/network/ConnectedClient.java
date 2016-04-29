@@ -1,14 +1,13 @@
 package org.gruppe2.network;
 
-import java.nio.channels.SocketChannel;
 import java.util.UUID;
 
 public class ConnectedClient {
-    private final SocketChannel channel;
+    private final ProtocolConnection connection;
     private UUID playerUUID = null;
 
-    public ConnectedClient(SocketChannel channel) {
-        this.channel = channel;
+    public ConnectedClient(ProtocolConnection connection) {
+        this.connection = connection;
     }
 
     public UUID getPlayerUUID() {
@@ -19,7 +18,7 @@ public class ConnectedClient {
         this.playerUUID = playerUUID;
     }
 
-    public SocketChannel getChannel() {
-        return channel;
+    public ProtocolConnection getConnection() {
+        return connection;
     }
 }
