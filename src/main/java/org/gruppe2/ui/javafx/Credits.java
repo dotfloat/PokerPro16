@@ -4,7 +4,6 @@ import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
  */
 public class Credits extends StackPane{
     public static ArrayList<Node> nodes = new ArrayList<Node>();
+    public static SequentialTransition sequence = new SequentialTransition();
 
     public Credits(){
         Resources.loadFXML(this);
@@ -37,7 +37,6 @@ public class Credits extends StackPane{
         nodes.add(new Label("Bernie Sanders"));
 
         addObjectsToCreditSequence(sequence, nodes);
-        System.out.println(sequence.getTotalDuration().toString());
         sequence.play();
 
     }
@@ -50,11 +49,11 @@ public class Credits extends StackPane{
 
     private void addObject(SequentialTransition sequence, Node node){
 
-        Path path = new Path(new MoveTo(-2000, 0), new LineTo(0, 0));
-        Path path1 = new Path(new MoveTo(0, 0), new LineTo(2000, 0));
+        Path path = new Path(new MoveTo(-2000, 0), new LineTo(60, 0));
+        Path path1 = new Path(new MoveTo(60, 0), new LineTo(2000, 0));
 
-        PathTransition transition = createPathTranition(path, node);
-        PathTransition transition1 = createPathTranition(path1, node);
+        PathTransition transition = createPathTransition(path, node);
+        PathTransition transition1 = createPathTransition(path1, node);
 
         sequence.getChildren().add(transition);
         sequence.getChildren().add(new PauseTransition(Duration.millis(2000)));
@@ -65,7 +64,7 @@ public class Credits extends StackPane{
 
     }
 
-    private PathTransition createPathTranition(Path path, Node node){
+    private PathTransition createPathTransition(Path path, Node node){
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(2000));
         pathTransition.setCycleCount(1);
@@ -77,4 +76,8 @@ public class Credits extends StackPane{
         return pathTransition;
     }
 
+    public static void stop(){
+        sequence.stop();
+        nodes.clear();
+    }
 }
