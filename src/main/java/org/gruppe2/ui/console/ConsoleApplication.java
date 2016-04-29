@@ -118,9 +118,10 @@ public class ConsoleApplication implements Runnable {
     @Handler
     public void onPostAction(PlayerPostActionEvent event) {
         Player player = event.getPlayer();
+        RoundPlayer roundPlayer = event.getRoundPlayer();
         Action action = event.getAction();
 
-        System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), 0 /* getBet */);
+        System.out.printf("  %s (%d : %d) ", player.getName(), player.getBank(), roundPlayer.getBet());
 
         if (action instanceof Action.Fold) {
             System.out.println("folded");

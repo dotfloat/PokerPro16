@@ -31,28 +31,21 @@ public class RoundController extends AbstractController {
             if (LocalDateTime.now().isAfter(timeToStart)) {
                 timeToStart = null;
                 resetRound();
+
+                payBlinds();
                 addEvent(new RoundStartEvent());
-
-                RoundPlayer roundPlayer = round.getSmallBlindPlayer(game.getButton());
-                Player player = game.findPlayerByUUID(roundPlayer.getUUID());
-                handleAction(player, roundPlayer, new Action.Blind(game.getSmallBlind()));
-                addEvent(new PlayerPaysBlind(player, roundPlayer, game.getSmallBlind()));
-
-                roundPlayer = round.getBigBlindPlayer(game.getButton());
-                player = game.findPlayerByUUID(roundPlayer.getUUID());
-                handleAction(player, roundPlayer, new Action.Blind(game.getBigBlind()));
-                addEvent(new PlayerPaysBlind(player, roundPlayer, game.getBigBlind()));
             } else {
                 return;
             }
         }
 
         if (round.isPlaying()) {
-            if (round.getActivePlayers().size() == 1)
+            if (round.getActivePlayers().size() == 1) {
                 roundEnd();
+                return;
+            }
             // Go to next player and do shit
             if (player == null) {
-                round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
                 player = game.findPlayerByUUID(round.getCurrentUUID());
                 roundPlayer = round.findPlayerByUUID(round.getCurrentUUID());
                 addEvent(new PlayerPreActionEvent(player));
@@ -76,6 +69,7 @@ public class RoundController extends AbstractController {
                     nextRound();
                 }
                 else {
+                    round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
                     player.getAction().reset();
                     player = null;
                     roundPlayer = null;
@@ -100,9 +94,14 @@ public class RoundController extends AbstractController {
         active.clear();
         resetDeck();
 
-        for (Player p: game.getPlayers())
-            if (p.getBank() > 0 )
+        boolean done = false;
+        for (int i = game.getButton(); !done; i++) {
+            int j = (i+1) % game.getPlayers().size();
+            Player p = game.getPlayers().get(j);
+            if (p.getBank() > 0)
                 active.add(new RoundPlayer(p.getUUID(), deck.remove(0), deck.remove(0)));
+            done = j == game.getButton();
+        }
 
         if (active.size() <= 1) {
             addEvent(new QuitEvent());
@@ -112,10 +111,34 @@ public class RoundController extends AbstractController {
 
         round.setPot(0);
         round.setHighestBet(0);
-        round.setCurrent(game.getButton());
-        lastPlayerInRound = round.getCurrentUUID();
+        round.setCurrent(0);
+        lastPlayerInRound = round.getLastActivePlayerID();
         round.resetRound();
         round.getCommunityCards().clear();
+    }
+
+    private void payBlinds() {
+        int currentBigBlind = game.getBigBlind();
+        int currentSmallBlind = game.getSmallBlind();
+
+        RoundPlayer roundPlayer = round.getBigBlindPlayer(game.getButton());
+        Player player = game.findPlayerByUUID(roundPlayer.getUUID());
+
+        if (player.getBank() < currentBigBlind) {
+            currentBigBlind = player.getBank();
+            currentSmallBlind = currentBigBlind / 2;
+            if (currentSmallBlind <= 0)
+                currentSmallBlind = 1;
+        }
+        handleAction(player, roundPlayer, new Action.Blind(currentBigBlind));
+        addEvent(new PlayerPaysBlind(player, roundPlayer, currentBigBlind));
+
+        roundPlayer = round.getSmallBlindPlayer(game.getButton());
+        player = game.findPlayerByUUID(roundPlayer.getUUID());
+        if (player.getBank() < currentSmallBlind)
+            currentSmallBlind = player.getBank();
+        handleAction(player, roundPlayer, new Action.Blind(currentSmallBlind));
+        addEvent(new PlayerPaysBlind(player, roundPlayer, currentSmallBlind));
     }
 
     private void handleAction (Player player, RoundPlayer roundPlayer, Action action){
@@ -136,7 +159,7 @@ public class RoundController extends AbstractController {
         if (action instanceof Action.Fold) {
             round.getActivePlayers().remove(round.getCurrent());
             round.setCurrent(round.getCurrent()-1);
-            if (!player.getUUID().equals(lastPlayerInRound))
+            if (player.getUUID().equals(lastPlayerInRound))
                 lastPlayerInRound = round.getLastActivePlayerID();
         }
 
@@ -156,7 +179,7 @@ public class RoundController extends AbstractController {
             round.setHighestBet(roundPlayer.getBet());
 
         if (!(action instanceof Action.Blind))
-            addEvent(new PlayerPostActionEvent(player, action));
+            addEvent(new PlayerPostActionEvent(player,roundPlayer ,action));
     }
 
     private void moveChips(Player player, RoundPlayer roundPlayer, int playerSetBet, int playerSetBank, int addToTablePot){
@@ -175,7 +198,7 @@ public class RoundController extends AbstractController {
         else if (action instanceof Action.Raise) {
             int raise = ((Action.Raise) action).getAmount();
             if (raise < 1 || raise > player.getBank() + roundPlayer.getBet() - round.getHighestBet())
-                return false;
+                throw new IllegalArgumentException(player.getName() + " cant raise with " + ((Action.Raise) action).getAmount());
             return pa.canRaise();
         } else if (action instanceof Action.Call)
             return pa.canCall();
@@ -200,7 +223,7 @@ public class RoundController extends AbstractController {
                 UUID id = game.getPlayers().get(firstPlayer).getUUID();
                 for (RoundPlayer rp : round.getActivePlayers())
                     if (rp.getUUID().equals(id)) {
-                        round.setCurrent(round.getActivePlayers().indexOf(rp)-1);
+                        round.setCurrent(round.getActivePlayers().indexOf(rp));
                         foundNewCurrent = true;
                         break;
                     }
