@@ -2,9 +2,9 @@
 
 
 <?import javafx.scene.layout.BorderPane?>
-<?import org.gruppe2.ui.javafx.ChoiceBar?>
-<?import org.gruppe2.ui.javafx.PlayerCards?>
-<?import org.gruppe2.ui.javafx.Table?>
+<?import org.gruppe2.ui.javafx.ingame.ChoiceBar?>
+<?import org.gruppe2.ui.javafx.ingame.PlayerCards?>
+<?import org.gruppe2.ui.javafx.ingame.Table?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
 
    <bottom>

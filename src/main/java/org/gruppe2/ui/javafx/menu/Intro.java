@@ -19,7 +19,7 @@ import javafx.util.Duration;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
-import org.gruppe2.ui.javafx.ingame.ConfettiOrMoney;
+import org.gruppe2.ui.javafx.ConfettiOrMoney;
 
 public class Intro extends StackPane {
 
