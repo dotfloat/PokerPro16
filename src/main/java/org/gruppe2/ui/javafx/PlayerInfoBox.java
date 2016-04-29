@@ -103,6 +103,9 @@ public class PlayerInfoBox extends BorderPane {
     	if(player.getUUID().equals(playerUUID)){
     		setActive();
     	}
+    	else{
+    		setInActive();
+    	}
     }
     @Handler
     public void currentPlayerHandler(PlayerPostActionEvent playerPreActionEvent){

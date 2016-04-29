@@ -1,23 +1,31 @@
 package org.gruppe2.game.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.UUID;
 
 import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 
 
 public class NetworkServerController extends AbstractController {
     ServerSocketChannel serverSocket;
     ArrayList<SocketChannel> clients = new ArrayList<SocketChannel>();
-
+    @Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+    
     @Override
     public void update() {
         if (serverSocket != null) {
@@ -26,7 +34,7 @@ public class NetworkServerController extends AbstractController {
                 if (client != null) {
                     client.configureBlocking(false);
                     clients.add(client);
-
+                    onPlayerConnect();
                     System.out.println("Someone connected");
                 }
 
@@ -53,9 +61,50 @@ public class NetworkServerController extends AbstractController {
 
     @Handler
     public void onChat(ChatEvent event) {
-        sendToAll("CHAT " + event.getPlayerUUID() + " :" + event.getMessage() + "\r\n");
+        sendToAll("CHAT;" + event.getPlayerUUID() + " :" + event.getMessage() + "\r\n");
     }
-
+    
+    @Handler
+    public void onPlayerAction(PlayerPostActionEvent actionEvent){
+    	sendToAll("ACTION;" + actionEvent.getPlayer().getUUID() + ":" + actionEvent.getAction() + "\r\n");
+    }
+    
+    
+    public void onPlayerConnect(){
+    	sendToAll("CONNECTED;" + "PLAYER UUID"+ "\r\n");
+    }
+    public void onPlayerDisconnect(){
+    	sendToAll("DISCONNECTED;" + "PLAYER UUID"+ "\r\n");
+    }
+    
+    /**
+     * To send objects over tcp socket channel
+     * @param object
+     */
+    private void sendToAll(Object object) {
+    	for (int i = 0; i < clients.size(); i++) {
+    		byte[] byteObject = null;
+			
+    		try {
+				byteObject = serialize(object);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+    		
+    		SocketChannel client = clients.get(i);
+    		 ByteBuffer buf = ByteBuffer.allocate(byteObject.length);
+             buf.clear();
+             buf.put(byteObject);
+             buf.flip();
+             try {
+                 client.write(buf);
+             } catch (IOException e) {
+                 clients.remove(i--);
+                 onPlayerDisconnect();
+             }
+    	}
+    }
+    
     private void sendToAll(String mesg) {
         for (int i = 0; i < clients.size(); i++) {
             SocketChannel client = clients.get(i);
@@ -69,7 +118,22 @@ public class NetworkServerController extends AbstractController {
                 client.write(buf);
             } catch (IOException e) {
                 clients.remove(i--);
+                onPlayerDisconnect();
             }
+        }
+    }
+    /**
+     * Used to send objects over socket channel
+     * @param obj
+     * @return
+     * @throws IOException
+     */
+    public static byte[] serialize(Object obj) throws IOException {
+        try(ByteArrayOutputStream b = new ByteArrayOutputStream()){
+            try(ObjectOutputStream o = new ObjectOutputStream(b)){
+                o.writeObject(obj);
+            }
+            return b.toByteArray();
         }
     }
 }

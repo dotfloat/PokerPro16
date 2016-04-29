@@ -1,13 +1,15 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.session.Message;
-
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.UUID;
+
+import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.session.Message;
 
 public class NetworkClientController extends AbstractController {
     private SocketChannel socket = null;
@@ -49,5 +51,19 @@ public class NetworkClientController extends AbstractController {
         }
 
         System.out.println("Connected");
+    }
+    /**
+     * Used to recieve objects over socket channel
+     * @param bytes
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
+        try(ByteArrayInputStream b = new ByteArrayInputStream(bytes)){
+            try(ObjectInputStream o = new ObjectInputStream(b)){
+                return o.readObject();
+            }
+        }
     }
 }
