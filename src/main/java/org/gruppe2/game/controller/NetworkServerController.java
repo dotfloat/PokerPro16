@@ -23,7 +23,7 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.network.ConnectedClient;
-import org.gruppe2.network.ProtocolReader;
+import org.gruppe2.network.ProtocolConnection;
 
 
 public class NetworkServerController extends AbstractController {
@@ -41,12 +41,12 @@ public class NetworkServerController extends AbstractController {
             try {
                 SocketChannel client = serverSocket.accept();
                 if (client != null) {
+                    ProtocolConnection connection = new ProtocolConnection(client);
                     client.configureBlocking(false);
-                    clients.add(new ConnectedClient(client));
-                    onPlayerConnect();
+                    clients.add(new ConnectedClient(connection));
 
-                    syncModel(client, GameModel.class);
-                    syncModel(client, RoundModel.class);
+                    syncModel(connection, GameModel.class);
+                    syncModel(connection, RoundModel.class);
                 }
 
             } catch (IOException e) {
@@ -55,25 +55,20 @@ public class NetworkServerController extends AbstractController {
         }
 
         for (int i = 0; i < clients.size(); i++) {
-            SocketChannel channel = clients.get(i).getChannel();
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-            buffer.flip();
-            buffer.clear();
-
             try {
-                if (channel.read(buffer) <= 0)
+                String[] args = clients.get(i).getConnection().readMessage();
+
+                if (args == null)
                     continue;
+
+                switch (args[0]) {
+                    case "SAY":
+                        sendToAll("CHAT;" + UUID.randomUUID() + ":" + args[1] + "\r\n");
+                        addEvent(new ChatEvent(args[1], UUID.randomUUID()));
+                        break;
+                }
             } catch (IOException e) {
                 clients.remove(i--);
-            }
-
-            String[] args = ProtocolReader.reader(new String(buffer.array()));
-
-            switch (args[0]) {
-                case "SAY":
-                    sendToAll("CHAT;" + UUID.randomUUID() + ":" + args[1]);
-                    addEvent(new ChatEvent(args[1], UUID.randomUUID()));
-                    break;
             }
         }
     }
@@ -117,7 +112,7 @@ public class NetworkServerController extends AbstractController {
         sendToAll("DISCONNECTED;" + "PLAYER UUID" + "\r\n");
     }
 
-    private void syncModel(SocketChannel channel, Class<?> modelClass) throws IOException {
+    private void syncModel(ProtocolConnection connection, Class<?> modelClass) throws IOException {
         byte[] byteObject = null;
 
         try {
@@ -127,28 +122,16 @@ public class NetworkServerController extends AbstractController {
             return;
         }
 
-        sendString(channel, String.format("SYNC;%s:%s\r\n", modelClass.getSimpleName(), new String(Base64.getEncoder().encode(byteObject))));
-    }
-
-    private void sendString(SocketChannel channel, String mesg) throws IOException {
-        System.out.printf("[[%s]]", mesg);
-
-        ByteBuffer buf = ByteBuffer.allocate(mesg.length() * 2);
-        buf.clear();
-        buf.put(mesg.getBytes());
-        buf.flip();
-
-        channel.write(buf);
+        connection.sendMessage(String.format("SYNC;%s:%s\r\n", modelClass.getSimpleName(), new String(Base64.getEncoder().encode(byteObject))));
     }
     
 
     private void sendToAll(String mesg) {
         for (int i = 0; i < clients.size(); i++) {
             try {
-                sendString(clients.get(i).getChannel(), mesg);
+                clients.get(i).getConnection().sendMessage(mesg);
             } catch (IOException e) {
                 clients.remove(i--);
-                onPlayerDisconnect();
             }
         }
     }
