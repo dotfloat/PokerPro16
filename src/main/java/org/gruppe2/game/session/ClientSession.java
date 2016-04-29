@@ -20,7 +20,6 @@ public class ClientSession extends Session {
     @Override
     public void init() {
 		addController(NetworkClientController.class);
-        sendMessage("connect");
     }
 
     @Override

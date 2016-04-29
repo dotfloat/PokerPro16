@@ -1,6 +1,8 @@
 package org.gruppe2.game;
 
-public class Card implements Comparable<Card> {
+import java.io.Serializable;
+
+public class Card implements Comparable<Card>, Serializable {
 
 
     //to simplify things

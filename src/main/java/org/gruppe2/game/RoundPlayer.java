@@ -1,8 +1,9 @@
 package org.gruppe2.game;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class RoundPlayer {
+public class RoundPlayer implements Serializable {
     private final UUID uuid;
     private final Card[] cards = new Card[2];
 

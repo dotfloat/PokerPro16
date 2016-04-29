@@ -1,49 +1,67 @@
 package org.gruppe2.game.controller;
 
+import org.gruppe2.game.event.Event;
+import org.gruppe2.game.session.Message;
+import org.gruppe2.network.ProtocolReader;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.UUID;
-
-import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.Event;
-import org.gruppe2.game.session.Message;
-import org.gruppe2.network.ProtocolReader;
 
 public class NetworkClientController extends AbstractController {
     private SocketChannel socket = null;
+    private StringBuffer readBuffer = new StringBuffer();
 
     @Override
     public void update() {
         if (socket != null && socket.isConnected()) {
-        	ByteBuffer buffer = null;
-        	buffer = putServerMsgInBuffer(buffer);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+            byteBuffer.flip();
+            byteBuffer.clear();
 
-        	if(buffer == null) return;
+            try {
+                if (socket.read(byteBuffer) <= 0)
+                    return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            String serverMSG = new String(buffer.array());
-            Event event = ProtocolReader.parseEvent(ProtocolReader.reader(serverMSG));
+            readBuffer.append(new String(byteBuffer.array()));
+
+            int indexOfCLRF = readBuffer.indexOf("\r\n");
+
+            if (indexOfCLRF == -1)
+                return;
+
+            String serverMessage = readBuffer.substring(0, indexOfCLRF);
+            readBuffer.replace(0, indexOfCLRF + 2, "");
+
+            String[] args = ProtocolReader.reader(serverMessage);
+
+            System.out.println("Received: " + Arrays.toString(args));
+
+            if (args[0].equals("SYNC")) {
+                try {
+                    Object obj = deserialize(Base64.getDecoder().decode(args[2].getBytes()));
+
+                    System.out.println(obj);
+                    System.out.println(obj.getClass());
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Event event = ProtocolReader.parseEvent(args);
             if(event != null)
             	addEvent(event);
         }
     }
-
-    private ByteBuffer putServerMsgInBuffer(ByteBuffer buffer) {
-    	 buffer = ByteBuffer.allocate(1024);
-         buffer.flip();
-         buffer.clear();
-
-         try {
-             if ((socket.read(buffer)) == 0)
-                 return null;
-         } catch (IOException e) {
-             onDisconnect(e);
-         }
-         return buffer;
-	}
 
 	@Message
     public void connect() {
@@ -51,9 +69,7 @@ public class NetworkClientController extends AbstractController {
             socket = SocketChannel.open();
             socket.connect(new InetSocketAddress(8888));
             socket.configureBlocking(false);
-            
-            sendHandShake();
-            
+
         } catch (IOException e) {
             onDisconnect(e);
         }
@@ -79,7 +95,6 @@ public class NetworkClientController extends AbstractController {
 	}
 
 	private void sendToServer(String mesg){
-    	
     	ByteBuffer buf = ByteBuffer.allocate(mesg.length() * 2);
         buf.clear();
         buf.put(mesg.getBytes());

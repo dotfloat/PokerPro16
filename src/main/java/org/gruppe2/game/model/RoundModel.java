@@ -3,12 +3,13 @@ package org.gruppe2.game.model;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.RoundPlayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class RoundModel {
+public class RoundModel implements Serializable {
     private final List<RoundPlayer> activePlayers = Collections.synchronizedList(new ArrayList<>());
     private final List<Card> communityCards = Collections.synchronizedList(new ArrayList<>());
 

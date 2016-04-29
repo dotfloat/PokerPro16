@@ -1,10 +1,11 @@
 package org.gruppe2.game.session;
 
+import java.io.Serializable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class Query<T> {
+public class Query<T> implements Serializable {
     private enum State { WAIT, DONE, CANCELLED }
 
     private volatile State state = State.WAIT;

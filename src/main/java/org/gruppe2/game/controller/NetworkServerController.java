@@ -8,12 +8,15 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.UUID;
 
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
@@ -39,7 +42,9 @@ public class NetworkServerController extends AbstractController {
                     client.configureBlocking(false);
                     clients.add(new ConnectedClient(client));
                     onPlayerConnect();
-                    System.out.println("Someone connected");
+
+                    syncModel(client, GameModel.class);
+                    syncModel(client, RoundModel.class);
                 }
 
             } catch (IOException e) {
@@ -101,46 +106,32 @@ public class NetworkServerController extends AbstractController {
         sendToAll("DISCONNECTED;" + "PLAYER UUID" + "\r\n");
     }
 
-    /**
-     * To send objects over tcp socket channel
-     *
-     * @param object
-     */
-    private void sendToAll(Object object) {
-        for (int i = 0; i < clients.size(); i++) {
-            byte[] byteObject = null;
+    private void syncModel(SocketChannel channel, Class<?> modelClass) throws IOException {
+        byte[] byteObject = null;
 
-            try {
-                byteObject = serialize(object);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-            SocketChannel client = clients.get(i).getChannel();
-            ByteBuffer buf = ByteBuffer.allocate(byteObject.length);
-            buf.clear();
-            buf.put(byteObject);
-            buf.flip();
-            try {
-                client.write(buf);
-            } catch (IOException e) {
-                clients.remove(i--);
-                onPlayerDisconnect();
-            }
+        try {
+            byteObject = serialize(getModel(modelClass));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            return;
         }
+
+        sendString(channel, String.format("SYNC;%s:%s\r\n", modelClass.getSimpleName(), new String(Base64.getEncoder().encode(byteObject))));
+    }
+
+    private void sendString(SocketChannel channel, String mesg) throws IOException {
+        ByteBuffer buf = ByteBuffer.allocate(mesg.length() * 2);
+        buf.clear();
+        buf.put(mesg.getBytes());
+        buf.flip();
+
+        channel.write(buf);
     }
 
     private void sendToAll(String mesg) {
         for (int i = 0; i < clients.size(); i++) {
-            SocketChannel client = clients.get(i).getChannel();
-
-            ByteBuffer buf = ByteBuffer.allocate(mesg.length());
-            buf.clear();
-            buf.put(mesg.getBytes());
-            buf.flip();
-
             try {
-                client.write(buf);
+                sendString(clients.get(i).getChannel(), mesg);
             } catch (IOException e) {
                 clients.remove(i--);
                 onPlayerDisconnect();

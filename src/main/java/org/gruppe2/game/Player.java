@@ -2,9 +2,10 @@ package org.gruppe2.game;
 
 import org.gruppe2.game.session.Query;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Player {
+public class Player implements Serializable {
     private final UUID uuid;
     private final String name;
     private final String avatar;
