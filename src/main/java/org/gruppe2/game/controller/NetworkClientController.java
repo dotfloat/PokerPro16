@@ -32,7 +32,7 @@ public class NetworkClientController extends AbstractController {
                 e.printStackTrace();
             }
 
-            readBuffer.append(new String(byteBuffer.array()));
+            readBuffer.append(new String(byteBuffer.array(), 0, byteBuffer.position()));
 
             int indexOfCLRF = readBuffer.indexOf("\r\n");
 
@@ -40,7 +40,7 @@ public class NetworkClientController extends AbstractController {
                 return;
 
             String serverMessage = readBuffer.substring(0, indexOfCLRF);
-            readBuffer.replace(0, indexOfCLRF + 2, "");
+            readBuffer.delete(0, indexOfCLRF + 2);
 
             String[] args = ProtocolReader.reader(serverMessage);
 

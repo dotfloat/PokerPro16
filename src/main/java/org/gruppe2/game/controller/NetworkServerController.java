@@ -120,6 +120,8 @@ public class NetworkServerController extends AbstractController {
     }
 
     private void sendString(SocketChannel channel, String mesg) throws IOException {
+        System.out.printf("[[%s]]", mesg);
+
         ByteBuffer buf = ByteBuffer.allocate(mesg.length() * 2);
         buf.clear();
         buf.put(mesg.getBytes());
