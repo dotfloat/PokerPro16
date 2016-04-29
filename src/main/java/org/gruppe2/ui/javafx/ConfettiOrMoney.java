@@ -1,4 +1,4 @@
-package org.gruppe2.ui.javafx.ingame;
+package org.gruppe2.ui.javafx;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.StackPane?>
-<?import org.gruppe2.ui.javafx.ChatBox?>
-<?import org.gruppe2.ui.javafx.CommunityCards?>
-<?import org.gruppe2.ui.javafx.RightMenu?>
-<?import javafx.scene.control.*?>
 
-
+<?import javafx.scene.control.Label?>
 <fx:root type="javafx.scene.control.Label" xmlns:fx="http://javafx.com/fxml" fx:id="potLabel" text="Total Pot: 0 CHIPS" id="label">
 </fx:root>
 
