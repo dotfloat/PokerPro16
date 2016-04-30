@@ -6,11 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.gruppe2.game.Action;
-import org.gruppe2.game.Card;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.PossibleActions;
-import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.*;
 import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerPaysBlind;
@@ -36,6 +32,7 @@ public class RoundController extends AbstractController {
     private RoundPlayer roundPlayer = null;
     private UUID lastPlayerInRound = null;
     private List<Card> deck = Collections.synchronizedList(new ArrayList<>());
+    private PokerLog logger = null;
 
     @Override
     public void update() {
@@ -94,6 +91,7 @@ public class RoundController extends AbstractController {
     public boolean roundStart() {
         if (!round.isPlaying()) {
             round.setPlaying(true);
+            logger = new PokerLog();
             timeToStart = LocalDateTime.now().plusSeconds(3);
             return true;
         }
@@ -105,6 +103,7 @@ public class RoundController extends AbstractController {
         List<RoundPlayer> active = round.getActivePlayers();
         active.clear();
         resetDeck();
+        logger = new PokerLog();
 
         boolean done = false;
         for (int i = game.getButton(); !done; i++) {
@@ -156,6 +155,8 @@ public class RoundController extends AbstractController {
     private void handleAction (Player player, RoundPlayer roundPlayer, Action action){
         if (!legalAction(player, roundPlayer, action))
             throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
+
+        logger.recordPlayerAction(player, roundPlayer, action);
 
         int raise;
         if (action instanceof Action.Call) {
@@ -249,6 +250,7 @@ public class RoundController extends AbstractController {
 
             addEvent(new CommunityCardsEvent(new ArrayList<>(round.getCommunityCards())));
         }
+        logger.incrementRound(round.getCommunityCards());
     }
 
     private void roundEnd() {
@@ -259,6 +261,7 @@ public class RoundController extends AbstractController {
             addEvent(new PlayerWonEvent(winningPlayer));
 //            winningPlayer.setBank(winningPlayer.getBank()+round.getPot());
         }
+        logger.writeToFile();
         //Get winner and add chips to player bank
         game.setButton(game.getButton() + 1);
         roundStart();
