@@ -22,15 +22,15 @@ public class MainMenu extends BorderPane {
 	@FXML
 	private ImageView logo;
 	@FXML
-	private Button createTable;
-	@FXML
-	private Button joinTable;
+	private Button online;
 	@FXML
 	private Button singlePlayer;
 	@FXML
 	private Button viewStatistics;
 	@FXML
 	private Button settings;
+	@FXML
+	private Button testClient;
 	@FXML
 	private VBox vBox;
 
@@ -81,11 +81,10 @@ public class MainMenu extends BorderPane {
 	}
 
 	private void setButtonSize() {
-		createTable.setMaxWidth(Double.MAX_VALUE);
-		joinTable.setMaxWidth(Double.MAX_VALUE);
+		online.setMaxWidth(Double.MAX_VALUE);
 		singlePlayer.setMaxWidth(Double.MAX_VALUE);
 		viewStatistics.setMaxWidth(Double.MAX_VALUE);
 		settings.setMaxWidth(Double.MAX_VALUE);
-
+		testClient.setMaxWidth(Double.MAX_VALUE);
 	}
 }

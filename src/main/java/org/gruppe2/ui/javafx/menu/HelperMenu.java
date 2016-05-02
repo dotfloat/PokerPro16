@@ -23,7 +23,7 @@ public class HelperMenu extends VBox {
 
     public HelperMenu() {
         Resources.loadFXML(this);
-//        setSizes();
+        setSizes();
         innerBox.setLayoutX(-innerBox.getWidth());
 //        addAllHands();
     }
