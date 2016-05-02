@@ -1,6 +1,7 @@
 package org.gruppe2.game.calculation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.gruppe2.game.Card;
@@ -104,7 +105,44 @@ class Straight implements HandCalculation{
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Card> listOfCardsInStraight = new ArrayList<>();
+		if (cards.size() >= 1) {
+			Collections.sort(cards);
+			int cardsInARow = 1; // Starter card always counts.
+
+			// Face value of highest card
+			int lastCardValue = cards.get(cards.size() - 1).getFaceValue();
+			listOfCardsInStraight.add(cards.get(cards.size() - 1));
+
+			// Simple reversed loop, skipping the highest card.
+			for (int i = (cards.size() - 2); (i + 1) > 0; i--) {
+				if (listOfCardsInStraight.size() == 5)
+					break;
+
+				// If the next card is 1 less than the previous, then it counts!
+				if ((cards.get(i).getFaceValue() + 1) == lastCardValue) {
+					cardsInARow++;
+					listOfCardsInStraight.add(cards.get(i));
+				} else if ((cards.get(i).getFaceValue() + 1) < lastCardValue) {
+					listOfCardsInStraight.clear();
+					cardsInARow = 1;
+					listOfCardsInStraight.add(cards.get(i));
+				}
+
+				lastCardValue = cards.get(i).getFaceValue();
+			}
+
+			// Special case for Ace as it can also count as a "1"
+			if (lastCardValue == 2 && cardsInARow == 4
+					&& cards.get(cards.size() - 1).getFaceValue() == 14)
+				listOfCardsInStraight.add(cards.get(cards.size() - 1));
+
+			if (listOfCardsInStraight.size() != 5)
+				listOfCardsInStraight.clear();
+
+		}
+
+		return listOfCardsInStraight;
+
 	}
 }
