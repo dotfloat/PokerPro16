@@ -75,7 +75,27 @@ class FullHouse implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Card> listOfCardsInFullHouse = new ArrayList<>();
+		ThreeOfAKind threeOfAKind = new ThreeOfAKind();
+		Pair pair = new Pair();
+
+		List<Card> highestThreeOfAKind = threeOfAKind.getBestHandCards(cards);
+		ArrayList<Card> cardsExcludingThreeOfAKind = new ArrayList<>(); // Mostly
+																		// a
+																		// dummy
+																		// list
+		for (Card c : cards)
+			if (!highestThreeOfAKind.contains(c))
+				cardsExcludingThreeOfAKind.add(c);
+		List<Card> highestOnePair = pair.getBestHandCards(cardsExcludingThreeOfAKind);
+
+		// If we found a full house, add it, if not, then we return an empty
+		// list
+		if (!highestThreeOfAKind.isEmpty() && !highestOnePair.isEmpty()) {
+			listOfCardsInFullHouse.addAll(highestThreeOfAKind);
+			listOfCardsInFullHouse.addAll(highestOnePair);
+		}
+
+		return listOfCardsInFullHouse;
 	}
 }
