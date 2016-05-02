@@ -61,6 +61,26 @@ public class Generic {
     }
 
     /**
+     * Method to get a hashmap with the amount of the different facevalues.
+     * @param cards
+     * @return hashmap with different facevalues and their amount in the given list
+     */
+    public static HashMap<Integer, Integer> amountOfSameFaceHashMap(List<Card> cards) {
+        HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
+
+        for(Card card: cards){
+            int faceValue = card.getFaceValue();
+            if(amountCards.containsKey(faceValue)){
+                int amountOfCard = amountCards.get(faceValue) +1;
+                amountCards.put(faceValue, amountOfCard);
+            }
+            else
+                amountCards.put(faceValue, 1);
+        }
+        return amountCards;
+    }
+
+    /**
      * A list over all types of hands to check probability and/or possibility.
      * List is sorted by hand rank
      * @return
