@@ -1,5 +1,7 @@
 package org.gruppe2.game.calculation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.gruppe2.game.Card;
@@ -57,7 +59,31 @@ class FourOfAKind implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Card> listOfCardsInFourOfAKind = new ArrayList<>();
+
+		HashMap<Integer, Integer> recurringFaceValues = Generic.recurringFaceValuesMap(cards);
+		int highestCardValue = -1;
+		
+		for(int i= Card.ACE; i >= 2; i--){
+            if(recurringFaceValues.containsKey(i)){
+                if(recurringFaceValues.get(i) > 3) {
+                	highestCardValue = i;
+                	break;
+                }
+                    
+            }
+        }
+		
+		if(highestCardValue > 1) {
+			for(Card c : cards) {
+				if(c.getFaceValue() == highestCardValue) {
+					listOfCardsInFourOfAKind.add(c);
+					if(listOfCardsInFourOfAKind.size() >= 4)
+						break;
+				}
+			}
+		}
+
+		return listOfCardsInFourOfAKind;
 	}
 }
