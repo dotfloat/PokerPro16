@@ -1,7 +1,9 @@
 package org.gruppe2.ui.javafx.menu;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -17,6 +19,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
 import org.gruppe2.ai.NewDumbAI;
+import org.gruppe2.network.MasterClient;
+import org.gruppe2.network.TableEntry;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
@@ -27,7 +31,7 @@ import org.gruppe2.ui.javafx.ingame.InGame;
  */
 
 public class Lobby extends BorderPane {
-
+	MasterClient masterClient;
 	@FXML
 	private TextField search;
 	@FXML
@@ -51,7 +55,7 @@ public class Lobby extends BorderPane {
 		Resources.loadFXML(this);
 		setSize();
 //		PokerApplication.networkStart = true;
-		// NetworkTester.testNetwork(this);
+		masterClient = new MasterClient(this);
 	}
 
 	public void search() {
@@ -120,16 +124,22 @@ public class Lobby extends BorderPane {
 			search();
 	}
 
-	// @Handler
-	public void updateTables(String search) {
-		if (checkBoxFriends.selectedProperty().get()) {
-			// check for tables with friends on
-		}
-		// TODO query for all tables and add them as child to lobbyTiles
-		if (search.contains("table")) {
-			// createGameBtn.setVisible(true);
-		}
-
+	
+	public void updateTables(ArrayList<TableEntry> tablesInLobby) {
+		Platform.runLater(() -> {
+			if(tablesInLobby.size() == 0 )return;
+			
+			if (checkBoxFriends.selectedProperty().get()) {
+				// check for tables with friends on
+			}
+			// TODO query for all tables and add them as child to lobbyTiles
+			for(TableEntry table : tablesInLobby){
+				String players = table.getCurrentPlayers()+"/"+table.getMaxPlayers();
+				String name = table.getUUID().toString();
+				lobbyTiles.getChildren().add(new LobbyTable(players, name));
+			}
+	
+		});
 	}
 
 }

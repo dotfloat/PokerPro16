@@ -10,13 +10,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Application;
 
 import org.gruppe2.game.PlayerStatistics;
+import org.gruppe2.network.MasterServer;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Main {
     private enum EntryPoint {
-        CONSOLE, JAVAFX, SERVER
+        CONSOLE, JAVAFX, SERVER,MASTER
     }
 
     private static Properties properties = new Properties();
@@ -43,7 +44,10 @@ public class Main {
                 Application.launch(PokerApplication.class, args);
                 break;
             case SERVER:
-                //TODO LEGG TIL SERVER
+                break;
+            case MASTER:
+            	System.out.println("starting master server");
+            	new MasterServer();
                 break;
         }
     }
@@ -65,6 +69,10 @@ public class Main {
                 case "-s":
                 case "--server":
                 	entryPoint = EntryPoint.SERVER;
+                	break;
+                case "-m":
+                case "--master":
+                	entryPoint = EntryPoint.MASTER;
                 	break;
 
                 default:
