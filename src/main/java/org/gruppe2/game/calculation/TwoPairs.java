@@ -49,12 +49,26 @@ class TwoPairs implements HandCalculation {
 
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-		return 0;
+    	Pair pair = new Pair();
+		
+		List<Card> bestTwoPair_1 = pair.getBestHandCards(o1);
+		List<Card> bestTwoPair_2 = pair.getBestHandCards(o2);
+		
+		int compareBestPair = pair.compare(bestTwoPair_1, bestTwoPair_2);
+		if(compareBestPair != 0) // If they have the same top pair, continue...
+			return compareBestPair;
+		
+		o1.removeAll(bestTwoPair_1);
+		o2.removeAll(bestTwoPair_2);
+		
+		List<Card> copy_hand_1 = Generic.copyListOfCards(o1);
+		List<Card> copy_hand_2 = Generic.copyListOfCards(o2);
+		
+		return pair.compare(copy_hand_1, copy_hand_2);
     }
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
