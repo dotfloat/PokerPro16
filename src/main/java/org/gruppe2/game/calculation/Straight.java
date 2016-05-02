@@ -92,9 +92,14 @@ class Straight implements HandCalculation{
         return Hand.STRAIGHT;
     }
 
+    /**
+     * Assumes o1 and o2 are already sorted and only includes the 5 Straight cards!
+     */
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+    	HighCard highCard = new HighCard();
+    	
+    	return highCard.compare(o1, o2);
     }
 
 	@Override
