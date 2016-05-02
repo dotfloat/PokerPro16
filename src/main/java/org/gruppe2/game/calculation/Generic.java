@@ -14,16 +14,8 @@ public class Generic {
     public static ArrayList<Integer> recurringFaceValues(List<Card> cards) {
         ArrayList<Integer> recurringFaceValues = new ArrayList<Integer>();
 
-        HashMap<Integer, Integer> hashMapCards = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> hashMapCards = recurringFaceValuesMap(cards);
 
-        for (Card card: cards) {
-            int faceValue = card.getFaceValue();
-            if (hashMapCards.containsKey(faceValue))
-                hashMapCards.put(faceValue, hashMapCards.get(faceValue) + 1);
-
-            else hashMapCards.put(faceValue, 1);
-
-        }
         for(int i= 2; i < Card.ACE +1; i++){
             if(hashMapCards.containsKey(i)){
                 if(hashMapCards.get(i) > 1)
@@ -36,8 +28,6 @@ public class Generic {
     }
 
     public static HashMap<Integer, Integer> recurringFaceValuesMap(List<Card> cards) {
-        ArrayList<Integer> recurringFaceValues = new ArrayList<Integer>();
-
         HashMap<Integer, Integer> hashMapCards = new HashMap<Integer, Integer>();
 
         for (Card card: cards) {
@@ -48,15 +38,12 @@ public class Generic {
             else hashMapCards.put(faceValue, 1);
 
         }
-        
         return hashMapCards;
     }
 
     public static int amountOfSameFace(List<Card> cards){
         HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
         int amountOfSameKind = 1;
-
-
 
         for(Card card: cards){
             int faceValue = card.getFaceValue();
