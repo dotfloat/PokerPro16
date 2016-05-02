@@ -17,5 +17,5 @@ public class HyperGeometricCalculatorTest {
 	public void testIfExceptionIsThrown(){
 		HypergeometricCalculator.hypergeometricDistribution(-1, 8, 100, -10);
 	}
-
+	
 }

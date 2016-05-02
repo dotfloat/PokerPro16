@@ -40,7 +40,21 @@ class Flush implements HandCalculation {
 
     @Override
     public double probability(List<Card> cards) {
-        return 0;
+        if (isHand(cards))
+        	return 1;
+        if (!canGet(cards))
+        	return 0;
+        int drawsLeft = 7-cards.size();
+        double probability = 0;
+        int number;
+        HashMap<Card.Suit, Integer> numberOfEachSuit = Generic.numberOfEachSuit(cards);
+        for (Card.Suit suit : numberOfEachSuit.keySet()){
+        	number=numberOfEachSuit.get(suit);
+        	if (drawsLeft+number>=5){
+        		probability+=HypergeometricCalculator.hypergeometricDistribution(52-cards.size(), 13-number, drawsLeft, 5-number);
+        	}
+        }
+        return probability;
     }
 
     @Override
