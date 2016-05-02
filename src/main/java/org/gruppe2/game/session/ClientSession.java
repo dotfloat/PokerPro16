@@ -23,6 +23,18 @@ public class ClientSession extends Session {
         addModel(new ChatModel());
         addModel(new StatisticsModel());
     }
+    
+    public ClientSession(ProtocolConnection connection) {
+    	try {
+			waitForSync(connection);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        addModel(new ChatModel());
+        addModel(new StatisticsModel());
+    }
 
     @Override
     public void init() {
@@ -36,34 +48,37 @@ public class ClientSession extends Session {
 
     private void connect(String ip) {
         try {
-            int numSyncs = 0;
             SocketChannel channel = SocketChannel.open(new InetSocketAddress(ip, 8888));
             ProtocolConnection connection = new ProtocolConnection(channel);
             channel.configureBlocking(false);
-
-            while (numSyncs < 2) {
-                String[] args = connection.readMessage();
-
-                if (args == null || !args[0].equals("SYNC"))
-                    continue;
-
-                Object model = deserializeModel(args[2]);
-
-                addModel(model);
-
-                numSyncs++;
-            }
-
-            addModel(new NetworkClientModel(connection));
-
-            GameModel gameModel = (GameModel) getModel(GameModel.class);
-
-            for (Player p : gameModel.getPlayers()) {
-                System.out.println("Player: " + p.getName());
-            }
-
+            
+            waitForSync(connection);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void waitForSync(ProtocolConnection connection) throws IOException, ClassNotFoundException {
+        int numSyncs = 0;
+        while (numSyncs < 2) {
+            String[] args = connection.readMessage();
+
+            if (args == null || !args[0].equals("SYNC"))
+                continue;
+
+            Object model = deserializeModel(args[2]);
+
+            addModel(model);
+
+            numSyncs++;
+        }
+
+        addModel(new NetworkClientModel(connection));
+
+        GameModel gameModel = (GameModel) getModel(GameModel.class);
+
+        for (Player p : gameModel.getPlayers()) {
+            System.out.println("Player: " + p.getName());
         }
     }
 

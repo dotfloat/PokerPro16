@@ -43,10 +43,7 @@ public class NetworkServerController extends AbstractController {
                 if (client != null) {
                     ProtocolConnection connection = new ProtocolConnection(client);
                     client.configureBlocking(false);
-                    clients.add(new ConnectedClient(connection));
-
-                    syncModel(connection, GameModel.class);
-                    syncModel(connection, RoundModel.class);
+                    addClient(connection);
                 }
 
             } catch (IOException e) {
@@ -97,6 +94,14 @@ public class NetworkServerController extends AbstractController {
     @Message
     public void addClient(ProtocolConnection connection) {
     	clients.add(new ConnectedClient(connection));
+
+        try {
+			syncModel(connection, GameModel.class);
+	        syncModel(connection, RoundModel.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     @Handler
