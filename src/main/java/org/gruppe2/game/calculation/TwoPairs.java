@@ -73,20 +73,22 @@ class TwoPairs implements HandCalculation {
 	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
+    	List<Card> o1Copy = Generic.copyListOfCards(o1);
+    	List<Card> o2Copy = Generic.copyListOfCards(o2);
     	Pair pair = new Pair();
 		
-		List<Card> bestTwoPair_1 = pair.getBestHandCards(o1);
-		List<Card> bestTwoPair_2 = pair.getBestHandCards(o2);
+		List<Card> bestTwoPair_1 = pair.getBestHandCards(o1Copy);
+		List<Card> bestTwoPair_2 = pair.getBestHandCards(o2Copy);
 		
 		int compareBestPair = pair.compare(bestTwoPair_1, bestTwoPair_2);
 		if(compareBestPair != 0) // If they have the same top pair, continue...
 			return compareBestPair;
 		
-		o1.removeAll(bestTwoPair_1);
-		o2.removeAll(bestTwoPair_2);
+		o1Copy.removeAll(bestTwoPair_1);
+		o2Copy.removeAll(bestTwoPair_2);
 		
-		List<Card> copy_hand_1 = Generic.copyListOfCards(o1);
-		List<Card> copy_hand_2 = Generic.copyListOfCards(o2);
+		List<Card> copy_hand_1 = Generic.copyListOfCards(o1Copy);
+		List<Card> copy_hand_2 = Generic.copyListOfCards(o2Copy);
 		
 		return pair.compare(copy_hand_1, copy_hand_2);
     }

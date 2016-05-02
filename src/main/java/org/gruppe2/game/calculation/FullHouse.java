@@ -55,10 +55,12 @@ class FullHouse implements HandCalculation {
      */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
+    	List<Card> o1Copy = Generic.copyListOfCards(o1);
+    	List<Card> o2Copy = Generic.copyListOfCards(o2);
     	ThreeOfAKind threeOfAKind = new ThreeOfAKind();
     	
-		List<Card> bestHouse_1 = threeOfAKind.getBestHandCards(o1);
-		List<Card> bestHouse_2 = threeOfAKind.getBestHandCards(o2);
+		List<Card> bestHouse_1 = threeOfAKind.getBestHandCards(o1Copy);
+		List<Card> bestHouse_2 = threeOfAKind.getBestHandCards(o2Copy);
 		
 		int compareThreeCards = threeOfAKind.compare(bestHouse_1, bestHouse_2);
 		if(compareThreeCards != 0)
@@ -66,11 +68,11 @@ class FullHouse implements HandCalculation {
 		else{
 			TwoPairs twoPair = new TwoPairs();
 			
-			o1.removeAll(bestHouse_1);
-			List<Card> copy_hand_1 = Generic.copyListOfCards(o1);
+			o1Copy.removeAll(bestHouse_1);
+			List<Card> copy_hand_1 = Generic.copyListOfCards(o1Copy);
 			
-			o2.removeAll(bestHouse_2);
-			List<Card> copy_hand_2 = Generic.copyListOfCards(o2);
+			o2Copy.removeAll(bestHouse_2);
+			List<Card> copy_hand_2 = Generic.copyListOfCards(o2Copy);
 			
 			return twoPair.compare(copy_hand_1, copy_hand_2);
 		}
@@ -78,16 +80,18 @@ class FullHouse implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
+		List<Card> cardsCopy = Generic.copyListOfCards(cards);
+		
 		ArrayList<Card> listOfCardsInFullHouse = new ArrayList<>();
 		ThreeOfAKind threeOfAKind = new ThreeOfAKind();
 		Pair pair = new Pair();
 
-		List<Card> highestThreeOfAKind = threeOfAKind.getBestHandCards(cards);
+		List<Card> highestThreeOfAKind = threeOfAKind.getBestHandCards(cardsCopy);
 		ArrayList<Card> cardsExcludingThreeOfAKind = new ArrayList<>(); // Mostly
 																		// a
 																		// dummy
 																		// list
-		for (Card c : cards)
+		for (Card c : cardsCopy)
 			if (!highestThreeOfAKind.contains(c))
 				cardsExcludingThreeOfAKind.add(c);
 		List<Card> highestOnePair = pair.getBestHandCards(cardsExcludingThreeOfAKind);

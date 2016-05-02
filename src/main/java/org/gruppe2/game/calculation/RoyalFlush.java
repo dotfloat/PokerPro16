@@ -68,14 +68,25 @@ class RoyalFlush implements HandCalculation {
         return Hand.ROYALFLUSH;
     }
 
+    /**
+     * Assumes o1 and o2 are both RoyalFlush.
+     */
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+        return 1;
     }
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		// TODO Auto-generated method stub
-		return null;
+		StraightFlush straightFlush = new StraightFlush();
+		HighCard highCard = new HighCard();
+		List<Card> listOfCardsInRoyalFlush = straightFlush.getBestHandCards(cards);
+
+		// Check if the straight flush has an Ace High
+		if (!listOfCardsInRoyalFlush.isEmpty()
+				&& highCard.getBestHandCards(listOfCardsInRoyalFlush).get(0).getFaceValue() != 14)
+			listOfCardsInRoyalFlush.clear();
+
+		return listOfCardsInRoyalFlush;
 	}
 }
