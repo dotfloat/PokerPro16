@@ -11,7 +11,7 @@ public class GameBuilder {
     private int buyIn = 100;
     private int smallBlind = 10;
     private int bigBlind = 20;
-    private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
+    private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.NONE;
 
     public GameBuilder playerRange(int min, int max) {
         this.min = min;

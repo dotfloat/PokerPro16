@@ -66,9 +66,9 @@ public class Resources {
             fxmlLoader.setRoot(node);
             fxmlLoader.setController(node);
 
-            long lastTiem = System.currentTimeMillis();
+//            long lastTiem = System.currentTimeMillis();
             fxmlLoader.load();
-            System.out.println(node.getClass().getSimpleName() + ": " + (System.currentTimeMillis() - lastTiem));
+//            System.out.println(node.getClass().getSimpleName() + ": " + (System.currentTimeMillis() - lastTiem));
             
         } catch (IOException e) {
             // TODO Auto-generated catch block

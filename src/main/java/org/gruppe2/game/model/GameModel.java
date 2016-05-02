@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class GameModel implements Serializable {
 
-    public enum BotPolicy { FILL }
+    public enum BotPolicy { FILL, NONE }
 
     private final UUID uuid;
     private final int minPlayers;

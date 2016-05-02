@@ -8,8 +8,8 @@ import org.gruppe2.game.session.Message;
 public class ChatController extends AbstractController {
 
 	@Message
-	public void chat(String message, UUID playerUUID){
+	public void chat(String message, UUID playerUUID) {
 		addEvent(new ChatEvent(message, playerUUID));
 	}
-	
+
 }

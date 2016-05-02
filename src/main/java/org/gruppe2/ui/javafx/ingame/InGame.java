@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import org.gruppe2.Main;
+import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
@@ -76,7 +77,7 @@ public class InGame extends BorderPane {
             context.message("connect");
         }
         context.setAnnotated(this);
-        context.message("addPlayer", playerUUID, "TestPlayer", "default");
+        context.message("addPlayer", playerUUID, "TestPlayer " + NewDumbAI.randomName(), "default");
         context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
     }
 

@@ -33,6 +33,7 @@ public class GameController extends AbstractController {
 
     @Message
     public boolean addPlayer(UUID uuid, String name, String avatar) {
+    	System.out.println(name+ " "+ uuid);
         return addPlayerModel(new Player(uuid, name, avatar, false));
     }
 

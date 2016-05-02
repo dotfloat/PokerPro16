@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.CommunityCardsEvent;
+import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
@@ -62,9 +63,19 @@ public class NetworkServerController extends AbstractController {
 
                 switch (args[0]) {
                     case "SAY":
-                        sendToAll("CHAT;" + UUID.randomUUID() + ":" + args[1] + "\r\n");
-                        addEvent(new ChatEvent(args[1], UUID.randomUUID()));
+                    	UUID uuid = clients.get(i).getPlayerUUID();
+                    	if (uuid == null)
+                    		continue;
+                    	
+                        addEvent(new ChatEvent(args[1], uuid));
                         break;
+                    case "JOIN":
+                    	System.out.println("join event"+args[1]);
+                    	
+                    	clients.get(i).setPlayerUUID(UUID.fromString(args[1]));
+                    	
+                    	getContext().message("addPlayer", clients.get(i).getPlayerUUID(), args[3], args[2]);
+                    	break;
                 }
             } catch (IOException e) {
                 clients.remove(i--);
@@ -82,7 +93,16 @@ public class NetworkServerController extends AbstractController {
             e.printStackTrace();
         }
     }
-
+    
+    @Message
+    public void addClient(ProtocolConnection connection) {
+    	clients.add(new ConnectedClient(connection));
+    }
+    
+    @Handler
+    public void onPlayerJoin(PlayerJoinEvent playerJoinEvent){
+    	sendToAll("PLAYER JOINED;" + playerJoinEvent.getPlayer().getUUID() + ";" + playerJoinEvent.getPlayer().getAvatar() + ":"+playerJoinEvent.getPlayer().getName()+"\r\n");
+    }
     @Handler
     public void onChat(ChatEvent event) {
         sendToAll("CHAT;" + event.getPlayerUUID() + ":" + event.getMessage() + "\r\n");
@@ -134,6 +154,8 @@ public class NetworkServerController extends AbstractController {
             }
         }
     }
+    
+    
 
     /**
      * Used to send objects over socket channel

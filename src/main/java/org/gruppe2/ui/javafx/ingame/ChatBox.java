@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Region;
 
+import org.gruppe2.game.Player;
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -122,9 +123,8 @@ public class ChatBox extends TextArea {
 
 	@Handler
 	public void chatHandler(ChatEvent chatEvent) {
-		// Player player =
-		// gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID());
+		Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID());
 		if (!checkForCommands(chatEvent.getMessage()))
-			this.appendText("\n" + "BÆSJMANN" + ": " + chatEvent.getMessage());
+			this.appendText("\n" + player.getName() + ": " + chatEvent.getMessage());
 	}
 }

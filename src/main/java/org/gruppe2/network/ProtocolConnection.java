@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
-import org.gruppe2.game.Card;
 import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.Event;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.PlayerJoinEvent;
 
 
 /**
@@ -90,23 +87,6 @@ public class ProtocolConnection {
                     UUID playerUUID = UUID.fromString(listOfCommands[1]);
                     String message = listOfCommands[2];
                     return new ChatEvent(message, playerUUID);
-                case "ACTION":
-                	break;
-                case "DISCONNECTED":
-                    break;
-                case "CONNECTED":
-                    break;
-                case "COMMUNITYCARDS":
-                	break;
-                case "PLAYERCARDS":
-                	break;
-                case "ROUNDWON":
-                    break;
-                case "GAMEWON":
-                    break;
-                case "ROUNDSTART":
-                    break;
-
             }
         }
         return null;
