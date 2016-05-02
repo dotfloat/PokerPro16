@@ -39,7 +39,7 @@ class Pair implements HandCalculation {
     }
 
     /**
-	 * Assumes both o1 and o2 are pairs.
+	 * Assumes both o1 and o2 are pairs excluding Highcards.
 	 * @return int (1, 0, -1).
 	 */
     @Override
