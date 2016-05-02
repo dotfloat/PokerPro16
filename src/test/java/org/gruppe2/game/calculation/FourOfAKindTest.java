@@ -3,10 +3,11 @@ package org.gruppe2.game.calculation;
 import org.gruppe2.game.Card;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Random;
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by �smund on 12/04/2016.
@@ -160,5 +161,41 @@ public class FourOfAKindTest {
 
 			assertEquals(true, fourOfAKind.compare(commCards, commCardsCompare) == -1);
 		}
+	}
+	
+	@Test
+	public void probabilityIsCorrectTest(){
+		List<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.SPADES));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(3, Card.Suit.CLUBS));
+		commCards.add(new Card(5, Card.Suit.CLUBS));
+		FourOfAKind fk = new FourOfAKind();
+		double prob = fk.probability(commCards);
+		System.out.println(prob);
+		assertTrue(prob==0.000925069380204);
+	}
+	@Test
+	public void probabilityReturnsZeroWhenFourOfAKindIsUnaviable(){
+		List<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(7, Card.Suit.SPADES));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(3, Card.Suit.CLUBS));
+		commCards.add(new Card(5, Card.Suit.CLUBS));
+		FourOfAKind fk = new FourOfAKind();
+		assertTrue(fk.probability(commCards)==0);
+	}
+	@Test
+	public void probabilityReturnsOneWhenAlreadyHavingFourOfAKind(){
+		List<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.SPADES));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(4, Card.Suit.DIAMONDS));
+		commCards.add(new Card(4, Card.Suit.HEARTS));
+		FourOfAKind fk = new FourOfAKind();
+		assertTrue(fk.probability(commCards)==1);
 	}
 }
