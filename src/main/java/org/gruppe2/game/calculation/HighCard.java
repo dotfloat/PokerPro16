@@ -17,6 +17,9 @@ public class HighCard implements HandCalculation {
 		return true;
 	}
 
+	/**
+	 * Returns a list of 5 highcards in sorted order where list.get(0) = lowest card.
+	 */
 	@Override
 	public List<Card> getBestCards(List<Card> cards) {
 		ArrayList<Card> highestCard = new ArrayList<>();
