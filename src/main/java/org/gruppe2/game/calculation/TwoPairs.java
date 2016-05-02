@@ -73,6 +73,22 @@ class TwoPairs implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		return null;
+		ArrayList<Card> listOfCardsInTwoPair = new ArrayList<>();
+
+		Pair pair = new Pair();
+		
+		List<Card> highestPair = pair.getBestHandCards(cards); // Get the highest
+																// pair of cards
+		cards.removeAll(highestPair);
+		
+		List<Card> lowestPair = pair.getBestHandCards(cards);
+				
+		// If we found two pairs, add them, if not, then we return an empty list
+		if (!highestPair.isEmpty() && !lowestPair.isEmpty()) {
+			listOfCardsInTwoPair.addAll(highestPair);
+			listOfCardsInTwoPair.addAll(lowestPair);
+		}
+
+		return listOfCardsInTwoPair;
 	}
 }
