@@ -75,7 +75,15 @@ class RoyalFlush implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		// TODO Auto-generated method stub
-		return null;
+		StraightFlush straightFlush = new StraightFlush();
+		HighCard highCard = new HighCard();
+		List<Card> listOfCardsInRoyalFlush = straightFlush.getBestHandCards(cards);
+
+		// Check if the straight flush has an Ace High
+		if (!listOfCardsInRoyalFlush.isEmpty()
+				&& highCard.getBestHandCards(listOfCardsInRoyalFlush).get(0).getFaceValue() != 14)
+			listOfCardsInRoyalFlush.clear();
+
+		return listOfCardsInRoyalFlush;
 	}
 }
