@@ -18,11 +18,10 @@ public class GeneralCalculationsTest{
         commCards.add(new Card(4, Card.Suit.HEARTS));
         commCards.add(new Card(7, Card.Suit.SPADES));
         commCards.add(new Card(8, Card.Suit.CLUBS));
+        commCards.add(new Card(4, Card.Suit.CLUBS));
+        commCards.add(new Card(4, Card.Suit.CLUBS));
 
-        Player p = new Player("test-guy", 50, null);
-        p.setCards(new Card(4, Card.Suit.CLUBS), new Card(4, Card.Suit.SPADES));
-
-        assertEquals(3, GeneralCalculations.amountOfSameFace(commCards, p));
+        assertEquals(3, Generic.amountOfSameFace(commCards));
     }
 
     @Test
@@ -31,18 +30,17 @@ public class GeneralCalculationsTest{
         commCards.add(new Card(2, Card.Suit.HEARTS));
         commCards.add(new Card(4, Card.Suit.SPADES));
         commCards.add(new Card(8, Card.Suit.CLUBS));
+        commCards.add(new Card(4, Card.Suit.CLUBS));
+        commCards.add(new Card(5, Card.Suit.SPADES));
 
-        Player p = new Player("test-guy", 50, null);
-        p.setCards(new Card(4, Card.Suit.CLUBS), new Card(5, Card.Suit.SPADES));
-
-        ArrayList<Integer> recurringValues = GeneralCalculations.recurringFaceValues(commCards, p);
+        ArrayList<Integer> recurringValues = Generic.recurringFaceValues(commCards);
 
         assertEquals(4, recurringValues.get(0).intValue());
         assertEquals(2, recurringValues.size());
 
         commCards.add(new Card(5, Card.Suit.HEARTS));
 
-        recurringValues = GeneralCalculations.recurringFaceValues(commCards,p);
+        recurringValues = Generic.recurringFaceValues(commCards);
 
         assertEquals(5, recurringValues.get(3).intValue());
         assertEquals(4, recurringValues.size());
