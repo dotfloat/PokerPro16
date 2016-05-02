@@ -35,7 +35,22 @@ public class Generic {
         return recurringFaceValues;
     }
 
+    public static HashMap<Integer, Integer> recurringFaceValuesMap(List<Card> cards) {
+        ArrayList<Integer> recurringFaceValues = new ArrayList<Integer>();
 
+        HashMap<Integer, Integer> hashMapCards = new HashMap<Integer, Integer>();
+
+        for (Card card: cards) {
+            int faceValue = card.getFaceValue();
+            if (hashMapCards.containsKey(faceValue))
+                hashMapCards.put(faceValue, hashMapCards.get(faceValue) + 1);
+
+            else hashMapCards.put(faceValue, 1);
+
+        }
+        
+        return hashMapCards;
+    }
 
     public static int amountOfSameFace(List<Card> cards){
         HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
