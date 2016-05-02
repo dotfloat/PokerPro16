@@ -60,7 +60,21 @@ class FourOfAKind implements HandCalculation {
 
     @Override
     public double probability(List<Card> cards) {
-        return 0;
+    	if (isHand(cards))
+        	return 1;
+        if (!canGet(cards))
+        	return 0;
+        int drawsLeft = 7-cards.size();
+        double probability = 0;
+        int number;
+        HashMap<Integer, Integer> numberOfNumbers = Generic.recurringFaceValuesMap(cards);
+        for (Integer i : numberOfNumbers.keySet()){
+        	number = numberOfNumbers.get(i);
+        	if (drawsLeft+number>=4){
+        		probability+=HypergeometricCalculator.hypergeometricDistribution(52-cards.size(), 4-number, drawsLeft, 4-number);
+        	}
+        }
+    	return probability;
     }
 
     @Override
