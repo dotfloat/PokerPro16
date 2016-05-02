@@ -74,7 +74,7 @@ public class MasterServer {
                 		
                 		if(canJoinTable(args[1])){
                 			clients.get(i).sendMessage("JOINED;"+args[1]+"\r\n");
-                			connectClientToTable();
+                			connectClientToTable(clients.get(i),args[1]);
                 		}
                 		else{
                 			clients.get(i).sendMessage("NO\r\n");
@@ -134,9 +134,10 @@ public class MasterServer {
 		return -1;
 	}
 
-	private void connectClientToTable() {
-		// TODO Auto-generated method stub
+	private void connectClientToTable(ProtocolConnection client, String tableUUID) {
+		int tableNumber = getTableNumberFromUUID(tableUUID);
 		
+		activeTables.get(tableNumber).message("addClient", client);
 	}
 
 
@@ -159,7 +160,6 @@ public class MasterServer {
 			tableNumber++;
 		}
 		System.out.println("Server tableString is: "+tableString+"number of tables: "+activeTables.size());
-		
 		return tableString;
 	}
 	
