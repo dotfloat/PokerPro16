@@ -19,13 +19,15 @@ class Pair implements HandCalculation {
 
     @Override
     public List<Card> getBestCards(List<Card> cards) {
+    	List<Card> cardsCopy = Generic.copyListOfCards(cards);
+    	
         ArrayList<Card> getBestCards = new ArrayList<>();
         HighCard highCard = new HighCard();
-        List<Card> purePairCards = getBestHandCards(cards);
+        List<Card> purePairCards = getBestHandCards(cardsCopy);
         
-        cards.removeAll(purePairCards);
+        cardsCopy.removeAll(purePairCards);
         
-        List<Card> highCards = highCard.getBestCards(cards);
+        List<Card> highCards = highCard.getBestCards(cardsCopy);
         
         getBestCards.addAll(purePairCards);
         for(int i = highCards.size()-1; i >= 0; i--) {
@@ -69,9 +71,11 @@ class Pair implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
+		List<Card> cardsCopy = Generic.copyListOfCards(cards);
+		
 		ArrayList<Card> listOfCardsInPair = new ArrayList<>();
 
-		HashMap<Integer, Integer> recurringFaceValues = Generic.recurringFaceValuesMap(cards);
+		HashMap<Integer, Integer> recurringFaceValues = Generic.recurringFaceValuesMap(cardsCopy);
 		int highestCardValue = -1;
 		
 		for(int i= Card.ACE; i >= 2; i--){
@@ -85,7 +89,7 @@ class Pair implements HandCalculation {
         }
 		
 		if(highestCardValue > 1) {
-			for(Card c : cards) {
+			for(Card c : cardsCopy) {
 				if(c.getFaceValue() == highestCardValue) {
 					listOfCardsInPair.add(c);
 					if(listOfCardsInPair.size() >= 2)

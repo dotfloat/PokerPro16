@@ -20,13 +20,15 @@ class ThreeOfAKind implements HandCalculation {
 
     @Override
     public List<Card> getBestCards(List<Card> cards) {
+    	List<Card> cardsCopy = Generic.copyListOfCards(cards);
+    	
     	ArrayList<Card> getBestCards = new ArrayList<>();
         HighCard highCard = new HighCard();
-        List<Card> pureThreeOfAKindCards = getBestHandCards(cards);
+        List<Card> pureThreeOfAKindCards = getBestHandCards(cardsCopy);
         
-        cards.removeAll(pureThreeOfAKindCards);
+        cardsCopy.removeAll(pureThreeOfAKindCards);
         
-        List<Card> highCards = highCard.getBestCards(cards);
+        List<Card> highCards = highCard.getBestCards(cardsCopy);
         
         getBestCards.addAll(pureThreeOfAKindCards);
         for(int i = highCards.size()-1; i >= 0; i--) {
@@ -78,9 +80,11 @@ class ThreeOfAKind implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
+		List<Card> cardsCopy = Generic.copyListOfCards(cards);
+		
 		ArrayList<Card> listOfCardsInThreeOfAKind = new ArrayList<>();
 
-		HashMap<Integer, Integer> recurringFaceValues = Generic.recurringFaceValuesMap(cards);
+		HashMap<Integer, Integer> recurringFaceValues = Generic.recurringFaceValuesMap(cardsCopy);
 		int highestCardValue = -1;
 		
 		for(int i= Card.ACE; i >= 2; i--){
@@ -94,7 +98,7 @@ class ThreeOfAKind implements HandCalculation {
         }
 		
 		if(highestCardValue > 1) {
-			for(Card c : cards) {
+			for(Card c : cardsCopy) {
 				if(c.getFaceValue() == highestCardValue) {
 					listOfCardsInThreeOfAKind.add(c);
 					if(listOfCardsInThreeOfAKind.size() >= 3)

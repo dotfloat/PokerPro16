@@ -18,13 +18,15 @@ class TwoPairs implements HandCalculation {
 
     @Override
     public List<Card> getBestCards(List<Card> cards) {
+    	List<Card> cardsCopy = Generic.copyListOfCards(cards);
+    	
     	ArrayList<Card> getBestCards = new ArrayList<>();
         HighCard highCard = new HighCard();
-        List<Card> pureTwoPairsCards = getBestHandCards(cards);
+        List<Card> pureTwoPairsCards = getBestHandCards(cardsCopy);
         
-        cards.removeAll(pureTwoPairsCards);
+        cardsCopy.removeAll(pureTwoPairsCards);
         
-        List<Card> highCards = highCard.getBestCards(cards);
+        List<Card> highCards = highCard.getBestCards(cardsCopy);
         
         getBestCards.addAll(pureTwoPairsCards);
         for(int i = highCards.size()-1; i >= 0; i--) {
@@ -91,15 +93,17 @@ class TwoPairs implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
+		List<Card> cardsCopy = Generic.copyListOfCards(cards);
+		
 		ArrayList<Card> listOfCardsInTwoPair = new ArrayList<>();
 
 		Pair pair = new Pair();
 		
-		List<Card> highestPair = pair.getBestHandCards(cards); // Get the highest
+		List<Card> highestPair = pair.getBestHandCards(cardsCopy); // Get the highest
 																// pair of cards
-		cards.removeAll(highestPair);
+		cardsCopy.removeAll(highestPair);
 		
-		List<Card> lowestPair = pair.getBestHandCards(cards);
+		List<Card> lowestPair = pair.getBestHandCards(cardsCopy);
 				
 		// If we found two pairs, add them, if not, then we return an empty list
 		if (!highestPair.isEmpty() && !lowestPair.isEmpty()) {

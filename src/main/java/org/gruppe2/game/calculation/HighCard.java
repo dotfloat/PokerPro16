@@ -22,12 +22,14 @@ public class HighCard implements HandCalculation {
 	 */
 	@Override
 	public List<Card> getBestCards(List<Card> cards) {
+		List<Card> cardsCopy = Generic.copyListOfCards(cards);
+		
 		ArrayList<Card> highestCard = new ArrayList<>();
 
-		Collections.sort(cards);
+		Collections.sort(cardsCopy);
 		for (int i = 0; i < 5; i++) {
-			if ((cards.size() - i) > 0)
-				highestCard.add(cards.get(cards.size() - 1 - i));
+			if ((cardsCopy.size() - i) > 0)
+				highestCard.add(cardsCopy.get(cardsCopy.size() - 1 - i));
 		}
 
 		return highestCard;

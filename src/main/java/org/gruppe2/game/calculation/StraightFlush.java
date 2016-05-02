@@ -52,13 +52,15 @@ class StraightFlush implements HandCalculation{
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
+		List<Card> cardsCopy = Generic.copyListOfCards(cards);
+		
 		List<Card> listOfCardsInStraightFlush = new ArrayList<>();
 		ArrayList<Card> listOfCardsWithHighestSuit = new ArrayList<>();
 		Straight straight = new Straight();
 		int diamonds = 0, hearts = 0, spades = 0, clubs = 0;
 
 		// Count all suits:
-		for (Card c : cards) {
+		for (Card c : cardsCopy) {
 			switch (c.getSuit()) {
 			case DIAMONDS:
 				diamonds++;
@@ -77,13 +79,13 @@ class StraightFlush implements HandCalculation{
 
 		// Check if any of the suits will result in a flush:
 		if (diamonds >= 5)
-			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.DIAMONDS);
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cardsCopy, Suit.DIAMONDS);
 		else if (hearts >= 5)
-			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.HEARTS);
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cardsCopy, Suit.HEARTS);
 		else if (spades >= 5)
-			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.SPADES);
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cardsCopy, Suit.SPADES);
 		else if (clubs >= 5)
-			listOfCardsWithHighestSuit = cardsOfOneSuit(cards, Suit.CLUBS);
+			listOfCardsWithHighestSuit = cardsOfOneSuit(cardsCopy, Suit.CLUBS);
 
 		listOfCardsInStraightFlush = straight.getBestHandCards(listOfCardsWithHighestSuit);
 
