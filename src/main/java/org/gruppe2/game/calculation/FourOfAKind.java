@@ -11,7 +11,10 @@ class FourOfAKind implements HandCalculation {
 
     @Override
     public boolean isHand(List<Card> cards) {
-        return false;
+    	if(cards == null || getBestHandCards(cards).isEmpty())
+    		return false;
+    	
+    	return true;
     }
 
     @Override
