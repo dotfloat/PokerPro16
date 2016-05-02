@@ -10,7 +10,9 @@ import java.util.UUID;
 
 import javafx.application.Platform;
 
-import org.gruppe2.ui.javafx.ingame.InGame;
+import org.gruppe2.game.session.ClientSession;
+import org.gruppe2.game.session.Session;
+import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.javafx.menu.Lobby;
 
 public class MasterClient {
@@ -25,6 +27,7 @@ public class MasterClient {
 		connect("localhost");
 		sendFirstHello();
 		SetTimerTask();
+		
 	}
 
 	private void SetTimerTask() {
@@ -35,14 +38,12 @@ public class MasterClient {
 				Platform.runLater(() -> THIS.update());
 			}
 		}, 0, 50);
-
 	}
 
 	private void connect(String ip) {
 		try {
 			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
 					ip, 8888));
-			System.out.println("I found a server");
 			connection = new ProtocolConnection(channel);
 			channel.configureBlocking(false);
 
@@ -54,24 +55,30 @@ public class MasterClient {
 	public void update() {
 		try {
 			String[] message = connection.readMessage();
-			System.out.println("recieved " + message);
+			
 			if (message == null)
 				return;
-
+			System.out.println("recieved " + message[0]);
 			switch (message[0]) {
-			case "HELLO":
-				if (message[1].equals("MASTER")) {
-
-				}
-				break;
-			case "TABLE":
-				System.out.println("Server sent me tables");
-				createTables(message);
-				lobby.updateTables(tablesInLobby);
+				case "HELLO":
+					if (message[1].equals("MASTER")) {
+	
+					}
+					break;
+				case "TABLE":
+					System.out.println("Server sent me tables"+message);
+					createTables(message);
+					lobby.updateTables(tablesInLobby);
+					
+				case "CREATED":
+					System.out.println("Client now starting context");
+//					SessionContext context = Session.start(ClientSession.class, connection);
+//					context.waitReady();
+					
+					break;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-
 		}
 	}
 
@@ -93,17 +100,32 @@ public class MasterClient {
 				tablesInLobby.add(new TableEntry(uuid, currentPlayers,
 						maxPlayers));
 			}
-
+			
+			i++;
 		}
 
 	}
 
 	private void sendFirstHello() {
 		try {
-			System.out.println("sending hello");
-			connection.sendMessage("HELLO");
+			connection.sendMessage("HELLO\r\n");
 		} catch (IOException e) {
 			
+			e.printStackTrace();
+		}
+	}
+
+	public void createNewTable() {
+		try {
+			connection.sendMessage("CREATE\r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void joinTable(UUID uuid) {
+		try {
+			connection.sendMessage("Join;"+uuid+"\r\n");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

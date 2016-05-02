@@ -7,11 +7,13 @@ import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.session.HostSession;
+import org.gruppe2.game.session.SessionContext;
 
 public class MasterServer {
-	ArrayList<HostSession> activeTables = new ArrayList<HostSession>();
+	ArrayList<SessionContext> activeTables = new ArrayList<SessionContext>();
 	ServerSocketChannel serverSocket;
 	private ArrayList<ProtocolConnection> clients = new ArrayList<>();
 	
@@ -25,7 +27,6 @@ public class MasterServer {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 		}
 	}
 	
@@ -43,7 +44,9 @@ public class MasterServer {
         if (serverSocket != null) {
             try {
                 SocketChannel client = serverSocket.accept();
+               
                 if (client != null) {
+                	System.out.println("adding client to list");
                     ProtocolConnection connection = new ProtocolConnection(client);
                     client.configureBlocking(false);
                     clients.add(connection);
@@ -51,6 +54,7 @@ public class MasterServer {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                
             }
         }
 
@@ -63,21 +67,33 @@ public class MasterServer {
                 System.out.println("server recieved message");
                 switch (args[0]) {
                 	case "HELLO":
-                		System.out.println("Client said hello to me");
                 		clients.get(i).sendMessage("HELLO;MASTER\r\n");
                 		clients.get(i).sendMessage(createTableString()+"\r\n");
                 		break;
                 	case "JOIN TABLE":
                 		
                 		if(canJoinTable(args[1])){
-                			clients.get(i).sendMessage("JOINED;"+args[1]);
+                			clients.get(i).sendMessage("JOINED;"+args[1]+"\r\n");
                 			connectClientToTable();
                 		}
                 		else{
-                			clients.get(i).sendMessage("NO");
+                			clients.get(i).sendMessage("NO\r\n");
                 		}
                 		break;
-                    
+                	case "CREATE":
+                		System.out.println("player pressed create, this is from server");
+                		clients.get(i).sendMessage("CREATED\r\n");
+                		
+                		SessionContext context = new GameBuilder().start();
+                		
+                		context.waitReady();
+                		context.message("addClient", clients.get(i));
+                		
+                		activeTables.add(context);
+                		
+                		break;
+                		
+                		
                     
                 }
             } catch (IOException e) {
@@ -97,8 +113,8 @@ public class MasterServer {
 		}
 		
 		if(activeTables.size() >= tableNumber){
-			int maxPlayers = activeTables.get(tableNumber).getContext().getModel(GameModel.class).getMaxPlayers();
-			int currentPlayers = activeTables.get(tableNumber).getContext().getModel(GameModel.class).getPlayers().size();
+			int maxPlayers = activeTables.get(tableNumber).getModel(GameModel.class).getMaxPlayers();
+			int currentPlayers = activeTables.get(tableNumber).getModel(GameModel.class).getPlayers().size();
 			if(currentPlayers < maxPlayers){
 				return true;
 			}
@@ -108,8 +124,8 @@ public class MasterServer {
 	
 	private int getTableNumberFromUUID(String tableUUID) {
 		int index = 0;
-		for(HostSession table : activeTables){
-			UUID uuid = table.getContext().getModel(GameModel.class).getUUID();
+		for(SessionContext table : activeTables){
+			UUID uuid = table.getModel(GameModel.class).getUUID();
 			if(uuid.toString().equals(tableUUID)){
 				return index;
 			}
@@ -128,27 +144,23 @@ public class MasterServer {
 	public String createTableString(){
 		String tableString = "";
 		int tableNumber = 0;
-		for(HostSession table : activeTables){
+		for(SessionContext table : activeTables){
+			System.out.println("there should now be at least 1 table!");
 			if(tableNumber == 0)
-				tableString.concat("TABLE;");
+				tableString = tableString.concat("TABLE;");
 			else
-				tableString.concat(";TABLE;");
+				tableString = tableString.concat(";TABLE;");
 			
-			UUID uuid = table.getContext().getModel(GameModel.class).getUUID();
-			String maxPlayers =  String.valueOf(table.getContext().getModel(GameModel.class).getMaxPlayers());
-			String currentPlayers =  String.valueOf(table.getContext().getModel(GameModel.class).getPlayers().size());
-			tableString.concat(uuid.toString()+";"+currentPlayers+";"+maxPlayers);
+			UUID uuid = table.getModel(GameModel.class).getUUID();
+			String maxPlayers =  String.valueOf(table.getModel(GameModel.class).getMaxPlayers());
+			String currentPlayers =  String.valueOf(table.getModel(GameModel.class).getPlayers().size());
+			tableString = tableString.concat(uuid.toString()+";"+currentPlayers+";"+maxPlayers);
 			
 			tableNumber++;
 		}
+		System.out.println("Server tableString is: "+tableString+"number of tables: "+activeTables.size());
 		
 		return tableString;
 	}
 	
-	public void addTable(HostSession session){
-		activeTables.add(session);
-	}
-	public ArrayList<HostSession> getTables(){
-		return activeTables;
-	}
 }

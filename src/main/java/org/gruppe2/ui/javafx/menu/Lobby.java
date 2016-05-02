@@ -2,6 +2,7 @@ package org.gruppe2.ui.javafx.menu;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -66,14 +67,11 @@ public class Lobby extends BorderPane {
 			int current = random.nextInt(max - 1) + 1;
 			String players = current + "/" + max;
 			String name = NewDumbAI.randomName() + "'s table";
-			lobbyTiles.getChildren().add(new LobbyTable(players, name));
+			lobbyTiles.getChildren().add(new LobbyTable(players, name, this));
 		}
 	}
 
-	/*
-	 * @Handler public void startNetworkGame(NetworkClientEvent
-	 * networkClientEvent){ SceneController.setScene(new InGame()); }
-	 */
+	
 
 	public void friendBox() {
 		lobbyTiles.getChildren()
@@ -83,16 +81,15 @@ public class Lobby extends BorderPane {
 
 	@FXML
 	private void createGame() {
-		System.out.println("LOBBY: starting new network game");
-		
-		//TODO SEND CREATE;
-		SceneController.setScene(new InGame());
+		System.out.println("LOBBY: pressed starting new network game");
+		masterClient.createNewTable();
+//		SceneController.setScene(new InGame());
 	}
 
-	@FXML
-	private void joinGame() {
-		//TODO SEND join
-		SceneController.setScene(new InGame());
+	
+	public void joinGame(UUID uuid) {
+		masterClient.joinTable(uuid);
+//		SceneController.setScene(new InGame());
 	}
 
 	private void setSize() {
@@ -126,20 +123,19 @@ public class Lobby extends BorderPane {
 
 	
 	public void updateTables(ArrayList<TableEntry> tablesInLobby) {
-		Platform.runLater(() -> {
-			if(tablesInLobby.size() == 0 )return;
-			
-			if (checkBoxFriends.selectedProperty().get()) {
-				// check for tables with friends on
-			}
-			// TODO query for all tables and add them as child to lobbyTiles
-			for(TableEntry table : tablesInLobby){
-				String players = table.getCurrentPlayers()+"/"+table.getMaxPlayers();
-				String name = table.getUUID().toString();
-				lobbyTiles.getChildren().add(new LobbyTable(players, name));
-			}
-	
-		});
+		System.out.println("updating tables in lobby");
+		if(tablesInLobby.size() == 0 )return;
+		
+		if (checkBoxFriends.selectedProperty().get()) {
+			// check for tables with friends on
+		}
+		System.out.println("now updating tables");
+		for(TableEntry table : tablesInLobby){
+			String players = table.getCurrentPlayers()+"/"+table.getMaxPlayers();
+			String name = table.getUUID().toString();
+			System.out.println("create lobby table");
+			lobbyTiles.getChildren().add(new LobbyTable(players, name, this));
+			System.out.println("created lobby table");
+		}
 	}
-
 }
