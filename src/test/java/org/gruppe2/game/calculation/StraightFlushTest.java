@@ -4,7 +4,9 @@ import org.gruppe2.game.Card;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -13,31 +15,142 @@ import static org.junit.Assert.assertTrue;
  */
 public class StraightFlushTest {
 
-    @Test
-    public void cantGetStraightFlushTest() throws Exception {
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(new Card(9, Card.Suit.CLUBS));
-        cards.add(new Card(2, Card.Suit.DIAMONDS));
-        cards.add(new Card(5, Card.Suit.DIAMONDS));
-        cards.add(new Card(7, Card.Suit.SPADES));
+	public final StraightFlush straightFlush = new StraightFlush();
+	public final int N = 10000;
 
-        Player p = new Player("TestPlayer", 0, null);
-        p.setCards(new Card(8, Card.Suit.DIAMONDS), new Card(6, Card.Suit.DIAMONDS));
+	@Test
+	public void canGetStraightFlushReturnsTrueWhenItShould() {
+		ArrayList<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.CLUBS));
+		commCards.add(new Card(3, Card.Suit.CLUBS));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(5, Card.Suit.CLUBS));
+		commCards.add(new Card(12, Card.Suit.HEARTS));
+		commCards.add(new Card(10, Card.Suit.SPADES));
 
-        assertFalse(StraightFlush.canGetStraightFlush(cards, p));
-    }
+		assertEquals(true, straightFlush.canGet(commCards));
+	}
 
-    @Test
-    public void canGetStraightFlushTest() throws Exception {
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(new Card(9, Card.Suit.CLUBS));
-        cards.add(new Card(2, Card.Suit.DIAMONDS));
-        cards.add(new Card(5, Card.Suit.DIAMONDS));
-        cards.add(new Card(9, Card.Suit.DIAMONDS));
+	@Test
+	public void canGetStraightFlushReturnsFalseWhenItShould() {
+		ArrayList<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(3, Card.Suit.SPADES));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(5, Card.Suit.CLUBS));
+		commCards.add(new Card(10, Card.Suit.CLUBS));
+		commCards.add(new Card(12, Card.Suit.CLUBS));
 
-        Player p = new Player("TestPlayer", 0, null);
-        p.setCards(new Card(8, Card.Suit.DIAMONDS), new Card(6, Card.Suit.DIAMONDS));
+		assertEquals(true, !straightFlush.canGet(commCards));
+	}
 
-        assertTrue(StraightFlush.canGetStraightFlush(cards, p));
-    }
+	@Test
+	public void isHandReturnsTrueWhenHandIsStraightFlush() {
+		ArrayList<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(3, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.HEARTS));
+		commCards.add(new Card(5, Card.Suit.HEARTS));
+		commCards.add(new Card(14, Card.Suit.HEARTS));
+		commCards.add(new Card(10, Card.Suit.SPADES));
+		commCards.add(new Card(7, Card.Suit.CLUBS));
+		commCards.add(new Card(9, Card.Suit.CLUBS));
+
+		assertEquals(true, straightFlush.isHand(commCards));
+	}
+
+	@Test
+	public void isHandReturnsFalseWhenHandIsNotStraight() {
+		ArrayList<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(3, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.HEARTS));
+		commCards.add(new Card(6, Card.Suit.HEARTS));
+		commCards.add(new Card(10, Card.Suit.CLUBS));
+		commCards.add(new Card(12, Card.Suit.CLUBS));
+		commCards.add(new Card(14, Card.Suit.CLUBS));
+
+		assertEquals(true, !straightFlush.isHand(commCards));
+	}
+
+	@Test
+	public void compareShouldReturnNullWhenComparingSameHand() {
+		Random random = new Random();
+
+		for (int i = 0; i < N; i++) {
+			ArrayList<Card> commCards = new ArrayList<Card>();
+			commCards.add(new Card(2, Card.Suit.HEARTS));
+			commCards.add(new Card(3, Card.Suit.HEARTS));
+			commCards.add(new Card(4, Card.Suit.HEARTS));
+			commCards.add(new Card(5, Card.Suit.HEARTS));
+			commCards.add(new Card(6, Card.Suit.HEARTS));
+			commCards.add(new Card(10, Card.Suit.CLUBS));
+			
+			commCards.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
+
+			assertEquals(true, straightFlush.compare(commCards, commCards) == 0);
+		}
+	}
+
+	@Test
+	public void compareShouldReturnPositiveWhenComparingHigherHandWithLower() {
+		Random random = new Random();
+
+		for (int i = 0; i < N; i++) {
+		ArrayList<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(3, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.HEARTS));
+		commCards.add(new Card(5, Card.Suit.HEARTS));
+		commCards.add(new Card(6, Card.Suit.HEARTS));
+		commCards.add(new Card(10, Card.Suit.CLUBS));
+		commCards.add(new Card(12, Card.Suit.CLUBS));
+		
+		commCards.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
+
+		ArrayList<Card> commCardsCompare = new ArrayList<Card>();
+		commCardsCompare.add(new Card(2, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(3, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(4, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(5, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(14, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(10, Card.Suit.CLUBS));
+		commCardsCompare.add(new Card(12, Card.Suit.CLUBS));
+		
+		commCardsCompare.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
+
+		assertEquals(true,
+				straightFlush.compare(commCards, commCardsCompare) == 1);
+		}
+	}
+
+	@Test
+	public void compareShouldReturnNegativeWhenComparingLowerHandWithHigher() {
+		Random random = new Random();
+
+		for (int i = 0; i < N; i++) {
+		ArrayList<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(3, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.HEARTS));
+		commCards.add(new Card(5, Card.Suit.HEARTS));
+		commCards.add(new Card(6, Card.Suit.HEARTS));
+		commCards.add(new Card(10, Card.Suit.CLUBS));
+		
+		commCards.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
+
+		ArrayList<Card> commCardsCompare = new ArrayList<Card>();
+		commCardsCompare.add(new Card(4, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(5, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(6, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(7, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(8, Card.Suit.HEARTS));
+		commCardsCompare.add(new Card(10, Card.Suit.CLUBS));
+		
+		commCardsCompare.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
+
+		assertEquals(true,
+				straightFlush.compare(commCards, commCardsCompare) == -1);
+		}
+	}
 }
