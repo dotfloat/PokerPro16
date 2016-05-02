@@ -47,6 +47,10 @@ class TwoPairs implements HandCalculation {
         return Hand.TWOPAIRS;
     }
 
+    /**
+	 * Assumes both o1 and o2 are TwoPairs excluding Highcards.
+	 * @return int (1, 0, -1).
+	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
     	Pair pair = new Pair();
