@@ -47,9 +47,30 @@ class FullHouse implements HandCalculation {
         return Hand.FULLHOUSE;
     }
 
+    /**
+     * Assumes o1 and o2 are only includes the 5 FullHouse cards!
+     */
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+    	ThreeOfAKind threeOfAKind = new ThreeOfAKind();
+    	
+		List<Card> bestHouse_1 = threeOfAKind.getBestHandCards(o1);
+		List<Card> bestHouse_2 = threeOfAKind.getBestHandCards(o2);
+		
+		int compareThreeCards = threeOfAKind.compare(bestHouse_1, bestHouse_2);
+		if(compareThreeCards != 0)
+			return compareThreeCards;
+		else{
+			TwoPairs twoPair = new TwoPairs();
+			
+			o1.removeAll(bestHouse_1);
+			List<Card> copy_hand_1 = Generic.copyListOfCards(o1);
+			
+			o2.removeAll(bestHouse_2);
+			List<Card> copy_hand_2 = Generic.copyListOfCards(o2);
+			
+			return twoPair.compare(copy_hand_1, copy_hand_2);
+		}
     }
 
 	@Override
