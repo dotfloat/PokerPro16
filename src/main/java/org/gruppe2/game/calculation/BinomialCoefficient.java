@@ -13,7 +13,7 @@ public class BinomialCoefficient {
 		if (n<k){
 			throw new IllegalArgumentException("Value of k can not be larger than n");
 		}
-		if (n<=0 || k<=0){
+		if (n<=0 || k<0){
 			throw new IllegalArgumentException("Values of k and n must be larger than zero");
 		}
 		BigInteger result=BigInteger.valueOf(1);
