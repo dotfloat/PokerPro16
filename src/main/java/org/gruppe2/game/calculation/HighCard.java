@@ -67,7 +67,11 @@ public class HighCard implements HandCalculation {
 
 	@Override
 	public List<Card> getBestHandCards(List<Card> cards) {
-		return getBestCards(cards);
+		List<Card> getBestCards = getBestCards(cards);
+		ArrayList<Card> getBestHandCards = new ArrayList<>();
+		getBestHandCards.add(getBestCards.get(0));
+		
+		return getBestHandCards;
 	}
 
 }
