@@ -27,6 +27,11 @@ public class Generic {
         return recurringFaceValues;
     }
 
+    /**
+     * Method to get a hashmap with the amount of the different facevalues.
+     * @param cards
+     * @return hashmap with different facevalues and their amount in the given list
+     */
     public static HashMap<Integer, Integer> recurringFaceValuesMap(List<Card> cards) {
         HashMap<Integer, Integer> hashMapCards = new HashMap<Integer, Integer>();
 
@@ -58,26 +63,6 @@ public class Generic {
                 amountCards.put(faceValue, 1);
         }
         return amountOfSameKind;
-    }
-
-    /**
-     * Method to get a hashmap with the amount of the different facevalues.
-     * @param cards
-     * @return hashmap with different facevalues and their amount in the given list
-     */
-    public static HashMap<Integer, Integer> amountOfSameFaceHashMap(List<Card> cards) {
-        HashMap<Integer, Integer> amountCards = new HashMap<Integer, Integer>();
-
-        for(Card card: cards){
-            int faceValue = card.getFaceValue();
-            if(amountCards.containsKey(faceValue)){
-                int amountOfCard = amountCards.get(faceValue) +1;
-                amountCards.put(faceValue, amountOfCard);
-            }
-            else
-                amountCards.put(faceValue, 1);
-        }
-        return amountCards;
     }
 
     /**
