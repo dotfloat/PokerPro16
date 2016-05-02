@@ -35,7 +35,6 @@ public class Table extends StackPane {
 		this.setAlignment(thisPlayer, Pos.BOTTOM_CENTER);
 		this.setAlignment(helperMenu, Pos.TOP_LEFT);
 		sizeTableBox();
-		
 	}
 
 	private void sizeTableBox() {

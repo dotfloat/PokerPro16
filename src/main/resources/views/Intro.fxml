@@ -21,5 +21,5 @@
             <Label fx:id="clickToContinue" text="Click to continue"/>
         </center>
     </BorderPane>
-    <ConfettiOrMoney size="30" isConfetti="false"/>
+    <ConfettiOrMoney size="0" isConfetti="false"/>
 </fx:root>

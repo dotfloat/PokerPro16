@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 public class Resources {
     private final static String pokerProDir = "PokerPro16" + File.separator;
+    private static long totalFXMLTime = 0;
 
     /**
      * Get the user-writable directory for PokerPro16
@@ -58,14 +59,17 @@ public class Resources {
      */
 
     public static void loadFXML(Node node) {
-        try {
+    	try {
             String name = "/views/" + node.getClass().getSimpleName() + ".fxml";
             FXMLLoader fxmlLoader = new FXMLLoader(Resources.class.getResource(name));
 
             fxmlLoader.setRoot(node);
             fxmlLoader.setController(node);
 
+            long lastTiem = System.currentTimeMillis();
             fxmlLoader.load();
+            System.out.println(node.getClass().getSimpleName() + ": " + (System.currentTimeMillis() - lastTiem));
+            
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
