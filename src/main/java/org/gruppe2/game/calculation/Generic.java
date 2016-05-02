@@ -27,6 +27,11 @@ public class Generic {
         return recurringFaceValues;
     }
 
+    /**
+     * Method to get a hashmap with the amount of the different facevalues.
+     * @param cards
+     * @return hashmap with different facevalues and their amount in the given list
+     */
     public static HashMap<Integer, Integer> recurringFaceValuesMap(List<Card> cards) {
         HashMap<Integer, Integer> hashMapCards = new HashMap<Integer, Integer>();
 
