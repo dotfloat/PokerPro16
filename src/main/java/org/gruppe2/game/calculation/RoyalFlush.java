@@ -68,9 +68,12 @@ class RoyalFlush implements HandCalculation {
         return Hand.ROYALFLUSH;
     }
 
+    /**
+     * Assumes o1 and o2 are both RoyalFlush.
+     */
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+        return 1;
     }
 
 	@Override
