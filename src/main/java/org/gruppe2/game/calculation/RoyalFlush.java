@@ -15,7 +15,7 @@ class RoyalFlush implements HandCalculation {
 
     @Override
     public List<Card> getBestCards(List<Card> cards) {
-        return null;
+    	return getBestHandCards(cards);
     }
 
     @Override
