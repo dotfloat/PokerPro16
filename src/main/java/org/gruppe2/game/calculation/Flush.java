@@ -42,8 +42,19 @@ class Flush implements HandCalculation {
         return Hand.FLUSH;
     }
 
+    /**
+     * Assumes o1 and o2 are already sorted and only includes the 5 Flush cards!
+     */
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+    	HighCard highCard = new HighCard();
+    	
+    	return highCard.compare(o1, o2);
     }
+
+	@Override
+	public List<Card> getBestHandCards(List<Card> cards) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

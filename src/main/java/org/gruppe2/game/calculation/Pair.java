@@ -1,5 +1,7 @@
 package org.gruppe2.game.calculation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.gruppe2.game.Card;
@@ -39,11 +41,41 @@ class Pair implements HandCalculation {
     }
 
     /**
-	 * Assumes both o1 and o2 are pairs.
+	 * Assumes both o1 and o2 are pairs excluding Highcards.
 	 * @return int (1, 0, -1).
 	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
         return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
     }
+
+	@Override
+	public List<Card> getBestHandCards(List<Card> cards) {
+		ArrayList<Card> listOfCardsInPair = new ArrayList<>();
+
+		HashMap<Integer, Integer> recurringFaceValues = Generic.recurringFaceValuesMap(cards);
+		int highestCardValue = -1;
+		
+		for(int i= Card.ACE; i >= 2; i--){
+            if(recurringFaceValues.containsKey(i)){
+                if(recurringFaceValues.get(i) > 1) {
+                	highestCardValue = i;
+                	break;
+                }
+                    
+            }
+        }
+		
+		if(highestCardValue > 1) {
+			for(Card c : cards) {
+				if(c.getFaceValue() == highestCardValue) {
+					listOfCardsInPair.add(c);
+					if(listOfCardsInPair.size() >= 2)
+						break;
+				}
+			}
+		}
+
+		return listOfCardsInPair;
+	}
 }

@@ -1,5 +1,6 @@
 package org.gruppe2.game.calculation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gruppe2.game.Card;
@@ -46,8 +47,48 @@ class TwoPairs implements HandCalculation {
         return Hand.TWOPAIRS;
     }
 
+    /**
+	 * Assumes both o1 and o2 are TwoPairs excluding Highcards.
+	 * @return int (1, 0, -1).
+	 */
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+    	Pair pair = new Pair();
+		
+		List<Card> bestTwoPair_1 = pair.getBestHandCards(o1);
+		List<Card> bestTwoPair_2 = pair.getBestHandCards(o2);
+		
+		int compareBestPair = pair.compare(bestTwoPair_1, bestTwoPair_2);
+		if(compareBestPair != 0) // If they have the same top pair, continue...
+			return compareBestPair;
+		
+		o1.removeAll(bestTwoPair_1);
+		o2.removeAll(bestTwoPair_2);
+		
+		List<Card> copy_hand_1 = Generic.copyListOfCards(o1);
+		List<Card> copy_hand_2 = Generic.copyListOfCards(o2);
+		
+		return pair.compare(copy_hand_1, copy_hand_2);
     }
+
+	@Override
+	public List<Card> getBestHandCards(List<Card> cards) {
+		ArrayList<Card> listOfCardsInTwoPair = new ArrayList<>();
+
+		Pair pair = new Pair();
+		
+		List<Card> highestPair = pair.getBestHandCards(cards); // Get the highest
+																// pair of cards
+		cards.removeAll(highestPair);
+		
+		List<Card> lowestPair = pair.getBestHandCards(cards);
+				
+		// If we found two pairs, add them, if not, then we return an empty list
+		if (!highestPair.isEmpty() && !lowestPair.isEmpty()) {
+			listOfCardsInTwoPair.addAll(highestPair);
+			listOfCardsInTwoPair.addAll(lowestPair);
+		}
+
+		return listOfCardsInTwoPair;
+	}
 }
