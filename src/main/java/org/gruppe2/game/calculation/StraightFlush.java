@@ -39,4 +39,10 @@ class StraightFlush implements HandCalculation{
     public int compare(List<Card> cards, List<Card> t1) {
         return 0;
     }
+
+	@Override
+	public List<Card> getBestHandCards(List<Card> cards) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

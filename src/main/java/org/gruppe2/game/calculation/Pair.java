@@ -46,4 +46,10 @@ class Pair implements HandCalculation {
     public int compare(List<Card> o1, List<Card> o2) {
         return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
     }
+
+	@Override
+	public List<Card> getBestHandCards(List<Card> cards) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

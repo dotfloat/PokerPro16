@@ -1,5 +1,6 @@
 package org.gruppe2.game.calculation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gruppe2.game.Card;
@@ -47,7 +48,13 @@ class TwoPairs implements HandCalculation {
     }
 
     @Override
-    public int compare(List<Card> cards, List<Card> t1) {
-        return 0;
+    public int compare(List<Card> o1, List<Card> o2) {
+		return 0;
     }
+
+	@Override
+	public List<Card> getBestHandCards(List<Card> cards) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -60,4 +60,10 @@ public class HighCard implements HandCalculation {
 		return 0;
 	}
 
+	@Override
+	public List<Card> getBestHandCards(List<Card> cards) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -16,11 +16,18 @@ interface HandCalculation extends Comparator<List<Card>> {
     boolean isHand(List<Card> cards);
 
     /**
-     * Get the best 5 cards out of the 7 available
+     * Get the best 5 cards out of the 7 available (including Highcards).
+     * @param cards
+     * @return
+     */
+    List<Card> getBestCards(List<Card> cards);
+    
+    /**
+     * Get the best 5 cards out of the 7 available (excluding Highcards)
      * @param cards a list with 7 cards
      * @return A list with 5 elements or null if it's impossible to get the hand
      */
-    Collection<Card> getBestCards(List<Card> cards);
+    List<Card> getBestHandCards(List<Card> cards);
 
     /**
      * Checks if its possible to get a certain hand when there are < 7 cards
