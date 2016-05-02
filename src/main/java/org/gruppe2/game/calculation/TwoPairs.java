@@ -15,7 +15,22 @@ class TwoPairs implements HandCalculation {
 
     @Override
     public List<Card> getBestCards(List<Card> cards) {
-        return null;
+    	ArrayList<Card> getBestCards = new ArrayList<>();
+        HighCard highCard = new HighCard();
+        List<Card> pureTwoPairsCards = getBestHandCards(cards);
+        
+        cards.removeAll(pureTwoPairsCards);
+        
+        List<Card> highCards = highCard.getBestCards(cards);
+        
+        getBestCards.addAll(pureTwoPairsCards);
+        for(int i = highCards.size()-1; i >= 0; i--) {
+        	getBestCards.add(highCards.get(i));
+        	if(getBestCards.size() >= 5)
+        		break;
+        }
+        
+        return getBestCards;
     }
 
     @Override
