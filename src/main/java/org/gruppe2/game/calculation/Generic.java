@@ -112,6 +112,15 @@ public class Generic {
     	
     	return value;
     }
+    
+    public static List<Card> copyListOfCards(List<Card> cards) {
+    	ArrayList<Card> copy = new ArrayList<>();
+    	
+    	for(Card c : cards)
+    		copy.add(c);
+    	
+    	return copy;
+    }
 
     public static double choose(int n, int k) {
         if (k < 0 || k > n) return 0;
