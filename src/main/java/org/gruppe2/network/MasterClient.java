@@ -72,9 +72,11 @@ public class MasterClient {
 					
 				case "CREATED":
 					System.out.println("Client now starting context");
-//					SessionContext context = Session.start(ClientSession.class, connection);
-//					context.waitReady();
-					
+					createClientSessionContext();
+
+					break;
+				case "JOINED":
+					createClientSessionContext();
 					break;
 			}
 		} catch (IOException e) {
@@ -104,6 +106,10 @@ public class MasterClient {
 			i++;
 		}
 
+	}
+	private void createClientSessionContext(){
+//		SessionContext context = Session.start(ClientSession.class, connection);
+//		context.waitReady();
 	}
 
 	private void sendFirstHello() {
