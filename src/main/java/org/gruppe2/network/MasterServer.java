@@ -80,6 +80,7 @@ public class MasterServer {
 						clients.get(i)
 								.sendMessage("JOINED;" + args[1] + "\r\n");
 						connectClientToTable(clients.get(i), args[1]);
+						clients.remove(i--);
 					} else
 						clients.get(i).sendMessage("NO\r\n");
 
