@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import javafx.application.Platform;
 
@@ -22,13 +21,16 @@ public class MasterClient {
 	ArrayList<TableEntry> tablesInLobby = new ArrayList<TableEntry>();
 	Lobby lobby;
 	private static Timer sessionTimer = new Timer();
-
+	private static String ip = "localhost";
+	
 	public MasterClient(Lobby lobby) {
 		this.lobby = lobby;
-		connect("localhost");
-		sendFirstHello();
-		SetTimerTask();
-		
+		connect(ip);
+		System.out.println(connection);
+		if(connection != null){
+			sendFirstHello();
+			SetTimerTask();
+		}
 	}
 
 	private void SetTimerTask() {
@@ -46,9 +48,10 @@ public class MasterClient {
 			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
 					ip, 8888));
 			connection = new ProtocolConnection(channel);
+			
 			channel.configureBlocking(false);
 
-		} catch (IOException e) {
+		} catch ( IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -56,29 +59,31 @@ public class MasterClient {
 	public void update() {
 		try {
 			String[] message = connection.readMessage();
-			
+
 			if (message == null)
 				return;
-			System.out.println("recieved " + message[0]);
+			System.out.println("Client recieved " + message[0]);
+			
 			switch (message[0]) {
-				case "HELLO":
-					if (message[1].equals("MASTER")) {
-	
-					}
-					break;
-				case "TABLE":
-					System.out.println("Server sent me tables"+message);
-					createTables(message);
-					lobby.updateTables(tablesInLobby);
-					
-				case "CREATED":
-					System.out.println("Client now starting context");
-					createClientSessionContext();
+			case "HELLO":
+				if (message[1].equals("MASTER")) {
+					System.out.println("You are now connected to master server");
+				}
+				break;
+			case "TABLE":
+				System.out.println("table is:"+ message[0]+" "+message[1]);
+				createTables(message);
+				lobby.updateTables(tablesInLobby);
+				break;
+			case "CREATED":
+				lobby.createGame();
 
-					break;
-				case "JOINED":
-					createClientSessionContext();
-					break;
+				break;
+			case "JOINED":
+				lobby.joinGame();
+				break;
+			case "NO":
+				System.out.println("could not join that table");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,43 +108,79 @@ public class MasterClient {
 				tablesInLobby.add(new TableEntry(uuid, currentPlayers,
 						maxPlayers));
 			}
-			
+
 			i++;
 		}
+	}
 
-	}
-	private void createClientSessionContext(){
-		SessionContext context = Session.start(ClientSession.class, connection);
-		context.waitReady();
-	}
 
 	private void sendFirstHello() {
 		try {
 			connection.sendMessage("HELLO\r\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
-
-	public SessionContext createNewTable() {
+	/**
+	 * Asks server if you can create new table
+	 * @param uuid
+	 */
+	public void requestCreateGame() {
 		try {
 			connection.sendMessage("CREATE\r\n");
-
-			sessionTimer.cancel();
-
-			return Session.start(ClientSession.class, connection);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		return null;
+		}	
 	}
-	public void joinTable(UUID uuid) {
+	/**
+	 * Joins table that was asked to be created
+	 * @return
+	 */
+	public SessionContext createNewTable() {
+		sessionTimer.cancel();
+
+		return Session.start(ClientSession.class, connection);
+	}
+	
+	/**
+	 * Asks server if you can join table with specific uuid
+	 * @param uuid
+	 */
+	public void requestJoinTable(UUID uuid) {
 		try {
-			connection.sendMessage("Join;"+uuid+"\r\n");
+			connection.sendMessage("JOIN TABLE;" + uuid + "\r\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Joins table that was asked to be joined
+	 * @return
+	 */
+	public SessionContext joinTable(){
+		sessionTimer.cancel();
+		
+		return Session.start(ClientSession.class, connection);
+	}
+	/**
+	 * Test if server is up, so we dont need to start lobby if it is not.
+	 * creates a client, and instantly remove it, to check
+	 * @return
+	 */
+	public static boolean masterServerIsUp(){
+		try {
+			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
+					ip, 8888));
+			ProtocolConnection testConnection = new ProtocolConnection(channel);
+			testConnection.sendMessage("BYE\r\n");
+			return true;
+
+		} catch ( IOException e) {
+			return false;
+		}
+	}
+
+	
 
 }

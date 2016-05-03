@@ -63,6 +63,7 @@ public class InGame extends BorderPane {
 
     public InGame(SessionContext context) {
         InGame.context = context;
+        context.waitReady(); //Added this, is it needed ?
         context.setAnnotated(this);
         context.message("addPlayer", playerUUID, "TestPlayer" + NewDumbAI.randomName(), "default");
         context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());

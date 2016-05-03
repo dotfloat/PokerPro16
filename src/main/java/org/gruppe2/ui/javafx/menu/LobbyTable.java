@@ -45,9 +45,7 @@ public class LobbyTable extends StackPane {
 	@FXML
 	private void joinTable(){
 		if(lobby != null){
-			System.out.println("joining table in PHOTO!!!");
-			lobby.joinGame(UUID.fromString(name.getText()));
-			System.out.println("FINISHEDjoining table in PHOTO!!!");
+			lobby.requestJoinGame(UUID.fromString(name.getText()));
 		}
 	}
 }

@@ -18,8 +18,8 @@
     <center>
         <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true">
             <TilePane fx:id="lobbyTiles" styleClass="lobbyTiles">
-                <Pane styleClass="createGame">
-                    <ImageView fx:id="createGame" onMouseClicked="#createGame">
+                <Pane styleClass="createGame" onMouseClicked="#requestCreateGame">
+                    <ImageView fx:id="createGame" >
                         <Image url="/images/ui/addTable.png"/>
                     </ImageView>
                 </Pane>

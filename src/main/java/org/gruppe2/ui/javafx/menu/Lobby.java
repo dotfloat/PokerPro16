@@ -53,10 +53,11 @@ public class Lobby extends BorderPane {
 	private Pane tile;
 
 	public Lobby() {
+		PokerApplication.networkStart = true;
+		masterClient = new MasterClient(this);
 		Resources.loadFXML(this);
 		setSize();
-//		PokerApplication.networkStart = true;
-		masterClient = new MasterClient(this);
+		
 	}
 
 	public void search() {
@@ -80,15 +81,20 @@ public class Lobby extends BorderPane {
 	}
 
 	@FXML
-	private void createGame() {
-		System.out.println("LOBBY: pressed starting new network game");
+	private void requestCreateGame() {
+		masterClient.requestCreateGame();
+		
+	}
+	public void createGame(){
 		SceneController.setScene(new InGame(masterClient.createNewTable()));
 	}
 
 	
-	public void joinGame(UUID uuid) {
-		masterClient.joinTable(uuid);
-//		SceneController.setScene(new InGame());
+	public void requestJoinGame(UUID uuid) {
+		masterClient.requestJoinTable(uuid);
+	}
+	public void joinGame(){
+		SceneController.setScene(new InGame(masterClient.joinTable()));
 	}
 
 	private void setSize() {
@@ -122,7 +128,6 @@ public class Lobby extends BorderPane {
 
 	
 	public void updateTables(ArrayList<TableEntry> tablesInLobby) {
-		System.out.println("updating tables in lobby");
 		if(tablesInLobby.size() == 0 )return;
 		
 		if (checkBoxFriends.selectedProperty().get()) {
@@ -132,9 +137,7 @@ public class Lobby extends BorderPane {
 		for(TableEntry table : tablesInLobby){
 			String players = table.getCurrentPlayers()+"/"+table.getMaxPlayers();
 			String name = table.getUUID().toString();
-			System.out.println("create lobby table");
 			lobbyTiles.getChildren().add(new LobbyTable(players, name, this));
-			System.out.println("created lobby table");
 		}
 	}
 }
