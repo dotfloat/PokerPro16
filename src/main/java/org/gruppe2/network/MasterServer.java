@@ -90,6 +90,7 @@ public class MasterServer {
                 		context.message("addClient", clients.get(i));
                 		
                 		activeTables.add(context);
+						clients.remove(i--);
                 		
                 		break;
                 		

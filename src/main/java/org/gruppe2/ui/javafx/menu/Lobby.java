@@ -82,8 +82,7 @@ public class Lobby extends BorderPane {
 	@FXML
 	private void createGame() {
 		System.out.println("LOBBY: pressed starting new network game");
-		masterClient.createNewTable();
-//		SceneController.setScene(new InGame());
+		SceneController.setScene(new InGame(masterClient.createNewTable()));
 	}
 
 	

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import javafx.application.Platform;
 
@@ -108,8 +109,8 @@ public class MasterClient {
 
 	}
 	private void createClientSessionContext(){
-//		SessionContext context = Session.start(ClientSession.class, connection);
-//		context.waitReady();
+		SessionContext context = Session.start(ClientSession.class, connection);
+		context.waitReady();
 	}
 
 	private void sendFirstHello() {
@@ -121,12 +122,17 @@ public class MasterClient {
 		}
 	}
 
-	public void createNewTable() {
+	public SessionContext createNewTable() {
 		try {
 			connection.sendMessage("CREATE\r\n");
+
+			sessionTimer.cancel();
+
+			return Session.start(ClientSession.class, connection);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 	public void joinTable(UUID uuid) {
 		try {

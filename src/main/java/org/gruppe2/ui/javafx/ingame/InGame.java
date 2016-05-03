@@ -57,11 +57,15 @@ public class InGame extends BorderPane {
     public InGame() {
 
         contextSetup();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Resources.loadFXML(this);
+        setUpViewItems();
+    }
+
+    public InGame(SessionContext context) {
+        InGame.context = context;
+        context.setAnnotated(this);
+        context.message("addPlayer", playerUUID, "TestPlayer" + NewDumbAI.randomName(), "default");
+        context.message("addPlayerStatistics", playerUUID, Main.loadPlayerStatistics());
         Resources.loadFXML(this);
         setUpViewItems();
     }
