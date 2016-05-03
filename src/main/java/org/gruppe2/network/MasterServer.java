@@ -11,6 +11,11 @@ import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.session.SessionContext;
 
+/**
+ * Class for handling lobby requests from clients, server gives controll to ServerController when the game starts.
+ * @author htj063
+ *
+ */
 public class MasterServer {
 	ArrayList<SessionContext> activeTables = new ArrayList<SessionContext>();
 	ServerSocketChannel serverSocket;

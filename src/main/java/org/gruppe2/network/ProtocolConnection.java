@@ -6,9 +6,16 @@ import java.nio.channels.SocketChannel;
 import java.util.Arrays;
 import java.util.UUID;
 
+import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.Event;
-import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.session.Helper;
+import org.gruppe2.game.session.Query;
 
 
 /**
@@ -18,6 +25,9 @@ public class ProtocolConnection {
     private final SocketChannel channel;
     private final StringBuffer readBuffer = new StringBuffer();
 
+    @Helper
+    private GameHelper game;
+    
     public ProtocolConnection(SocketChannel channel) {
         this.channel = channel;
     }
@@ -87,10 +97,43 @@ public class ProtocolConnection {
                     UUID playerUUID = UUID.fromString(listOfCommands[1]);
                     String message = listOfCommands[2];
                     return new ChatEvent(message, playerUUID);
+                case "ACTION":
+                	return actionParser(listOfCommands);
+                	
             }
         }
         return null;
     }
+    /**
+     * Returns a PlayerPostActionEvent, and sets the players action, so that it happens ingame for each client
+     * @param listOfCommands
+     * @return
+     */
+	private static Event actionParser(String[] listOfCommands) {
+		UUID playerUUID = UUID.fromString(listOfCommands[1]);
+		Player player = null; //USE uuid to find player
+		RoundPlayer roundPlayer = null; // Same here
+		Action action = specificActionParser(listOfCommands[2], player, roundPlayer);
+		
+		return new PlayerPostActionEvent(player,roundPlayer,action);
+	}
+	/**
+	 * This is a test for showing how action parses might be, but something is missing.
+	 */
+	private static Action specificActionParser(String actionString, Player player, RoundPlayer roundPlayer) {
+		PlayerActionQuery playerActionQuery = new PlayerActionQuery(player,roundPlayer);
+		Query<Action> actionQuery = null;
+		
+		switch (actionString) {
+		case "CALL":
+			Action call = new Action.Call();
+			actionQuery.set(call);
+			return call;
+		}
+		return null;
+	}
+    
+    
 
 
 }

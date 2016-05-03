@@ -27,29 +27,34 @@ public class NetworkClientController extends AbstractController {
 
             if (message == null)
                 return;
-
-            switch (message[0]) {
-            case "PLAYER JOINED":
-            	UUID uuid = UUID.fromString(message[1]);
-            	String name = message[3];
-            	String avatar = message[2];
-            	
-            	Player player = new Player(uuid, name, avatar, false);
-            	
-            	game.getModel().getPlayers().add(player);
-            	addEvent(new PlayerJoinEvent(player));
-            	
-            	break;
-            default:
-                Event event = ProtocolConnection.parseEvent(message);
-
-                if (event != null)
-                    addEvent(event);
-                break;
-            }
+            
+            messageSwitch(message);
+            
         } catch (IOException e) {
             e.printStackTrace();
             getContext().quit();
+        }
+    }
+    
+    private void messageSwitch(String[] message){
+    	switch (message[0]) {
+        case "PLAYER JOINED":
+        	UUID uuid = UUID.fromString(message[1]);
+        	String name = message[3];
+        	String avatar = message[2];
+        	
+        	Player player = new Player(uuid, name, avatar, false);
+        	
+        	game.getModel().getPlayers().add(player);
+        	addEvent(new PlayerJoinEvent(player));
+        	
+        	break;
+        default:
+            Event event = ProtocolConnection.parseEvent(message);
+
+            if (event != null)
+                addEvent(event);
+            break;
         }
     }
 

@@ -133,7 +133,6 @@ public class ChoiceBar extends HBox {
     	System.out.println("start");
     	if(actionQuery != null){
     		PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
-    		System.out.println("inside");
     		if(pa.canCheck()){
     			actionQuery.set( new Action.Check());
     			System.out.println("Check");

@@ -15,6 +15,11 @@ import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.javafx.menu.Lobby;
 
+/**
+ * Class for client handling in lobby, controll is given to ClientController when the game starts
+ * @author htj063
+ *
+ */
 public class MasterClient {
 
 	ProtocolConnection connection;

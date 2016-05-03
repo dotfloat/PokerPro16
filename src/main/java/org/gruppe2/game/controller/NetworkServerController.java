@@ -127,7 +127,7 @@ public class NetworkServerController extends AbstractController {
     	sendToAll("PLAYERCARDS;" + "c02;c03" + "\r\n");
     }
 
-
+    
     public void onPlayerConnect() {
         sendToAll("CONNECTED;" + "PLAYER UUID" + "\r\n");
     }
