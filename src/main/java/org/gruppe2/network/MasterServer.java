@@ -117,8 +117,8 @@ public class MasterServer {
 		if (activeTables.size() >= tableNumber) {
 			int maxPlayers = activeTables.get(tableNumber)
 					.getModel(GameModel.class).getMaxPlayers();
-			int currentPlayers = activeTables.get(tableNumber)
-					.getModel(GameModel.class).getPlayers().size();
+			int currentPlayers = (int) activeTables.get(tableNumber)
+					.getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count();
 			if (currentPlayers < maxPlayers) {
 				return true;
 			}
@@ -164,7 +164,7 @@ public class MasterServer {
 			String maxPlayers = String.valueOf(table.getModel(GameModel.class)
 					.getMaxPlayers());
 			String currentPlayers = String.valueOf(table
-					.getModel(GameModel.class).getPlayers().size());
+					.getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count());
 			tableString = tableString.concat(uuid.toString() + ";"
 					+ currentPlayers + ";" + maxPlayers);
 

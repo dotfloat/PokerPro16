@@ -98,9 +98,7 @@ public class InGame extends BorderPane {
         paintAllPlayers(playerInfoBoxes);
         onelinePressStart();
 
-        for (Player p : gameHelper.getPlayers()) {
-            setUpPlayer(new PlayerJoinEvent(p));
-        }
+        gameHelper.getPlayers().forEach(p -> setUpPlayer(new PlayerJoinEvent(p)));
     }
 
     private void onelinePressStart() {

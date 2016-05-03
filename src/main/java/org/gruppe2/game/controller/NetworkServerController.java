@@ -10,11 +10,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.UUID;
 
-import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.CommunityCardsEvent;
-import org.gruppe2.game.event.PlayerJoinEvent;
-import org.gruppe2.game.event.PlayerPostActionEvent;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
@@ -108,6 +104,12 @@ public class NetworkServerController extends AbstractController {
     public void onPlayerJoin(PlayerJoinEvent playerJoinEvent){
     	sendToAll("PLAYER JOINED;" + playerJoinEvent.getPlayer().getUUID() + ";" + playerJoinEvent.getPlayer().getAvatar() + ":"+playerJoinEvent.getPlayer().getName()+"\r\n");
     }
+
+    @Handler
+    public void onPlayerLeave(PlayerLeaveEvent playerLeaveEvent) {
+        sendToAll(String.format("PLAYER LEFT;%s\r\n", playerLeaveEvent.getPlayer().getUUID()));
+    }
+
     @Handler
     public void onChat(ChatEvent event) {
         sendToAll("CHAT;" + event.getPlayerUUID() + ":" + event.getMessage() + "\r\n");
