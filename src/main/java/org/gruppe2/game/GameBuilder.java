@@ -34,6 +34,12 @@ public class GameBuilder {
         return this;
     }
 
+    public GameBuilder botPolicy (GameModel.BotPolicy policy) {
+        botPolicy = policy;
+
+        return this;
+    }
+
     public SessionContext start() {
         return Session.start(HostSession.class, min, max, buyIn, botPolicy, smallBlind, bigBlind);
     }

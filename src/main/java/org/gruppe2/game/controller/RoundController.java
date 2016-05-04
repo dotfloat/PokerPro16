@@ -131,8 +131,8 @@ public class RoundController extends AbstractController {
     }
 
     private void payBlinds() {
-        int currentBigBlind = game.getBigBlind();
-        int currentSmallBlind = game.getSmallBlind();
+        int currentBigBlind = game.getBigBlind() + ((int) (game.getRoundsCompleted() * game.getBigBlind() * 0.1));
+        int currentSmallBlind = game.getSmallBlind() + ((int) (game.getRoundsCompleted() * game.getSmallBlind() * 0.1));
 
         RoundPlayer roundPlayer = round.getActivePlayers().get(1);
         Player player = game.findPlayerByUUID(roundPlayer.getUUID());
@@ -259,6 +259,8 @@ public class RoundController extends AbstractController {
         logger.writeToFile();
         //Get winner and add chips to player bank
         game.setButton(game.getButton() + 1);
+        game.setRoundsCompleted(game.getRoundsCompleted() + 1);
+
         roundStart();
     }
 

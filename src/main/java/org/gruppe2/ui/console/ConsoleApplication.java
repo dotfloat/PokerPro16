@@ -30,7 +30,7 @@ public class ConsoleApplication implements Runnable {
     RoundHelper roundHelper;
 
     private void init() {
-        GameBuilder gameBuilder = new GameBuilder();
+        GameBuilder gameBuilder = new GameBuilder().botPolicy(GameModel.BotPolicy.FILL);
 
         System.out.println("Welcome to PokerPro16 Console Edition");
 
