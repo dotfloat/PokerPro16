@@ -1,51 +1,152 @@
 package org.gruppe2.ui.javafx.ingame;
 
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
+import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.session.Helper;
 
-import org.gruppe2.ui.Resources;
-import org.gruppe2.ui.javafx.PokerApplication;
-import org.gruppe2.ui.javafx.menu.HelperMenu;
-import org.gruppe2.ui.javafx.menu.RightMenu;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Table extends StackPane {
+public class Table extends Pane {
+    @Helper
+    private GameHelper game;
 
-	@FXML private ImageView pokerTable;
-	@FXML private VBox tableItemsBox;
-	@FXML public ChatBox chatBox;
-	@FXML public ThisPlayerInfoBox thisPlayer;
-	@FXML private RightMenu rightMenu;
-	@FXML private HelperMenu helperMenu;
-	@FXML public CommunityCards communityCardsBox;
-	@FXML public Pot pot;
-	@FXML private Label nothing;
-	@FXML private Label nothing2;
+    private final double ratio = 2464.0 / 1368.0;
+    private final double logicalWidth = 308;
+    private final double logicalHeight = 171;
+    private final double tableScale = 0.6;
 
-	@SuppressWarnings("static-access")
+    private DoubleProperty scale = new SimpleDoubleProperty();
+
+    private DoubleProperty fitWidth = new SimpleDoubleProperty();
+    private DoubleProperty fitHeight = new SimpleDoubleProperty();
+
+    private List<PlayerInfoBox> players = new ArrayList<>();
+
 	public Table() {
-		Resources.loadFXML(this);
-		pokerTable.fitWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.6));
-		this.setAlignment(thisPlayer, Pos.BOTTOM_CENTER);
-		sizeTableBox();
+        Game.setAnnotated(this);
+
+        fitWidth.addListener((o, oldVal, newVal) -> {
+            double width = newVal.doubleValue();
+            double height = fitHeight.get();
+
+            if (width / ratio < height) {
+                setMaxWidth(width);
+                setMaxHeight(width / ratio);
+            } else {
+                setMaxWidth(height * ratio);
+                setMaxHeight(height);
+            }
+        });
+
+        fitHeight.addListener((o, oldVal, newVal) -> {
+            double width = fitWidth.get();
+            double height = newVal.doubleValue();
+
+            if (height * ratio < width) {
+                setMaxWidth(height * ratio);
+                setMaxHeight(height);
+            } else {
+                setMaxWidth(width);
+                setMaxHeight(width / ratio);
+            }
+        });
+
+        scale.bind(maxWidthProperty().divide(logicalWidth));
+
+        ImageView tableImage = new ImageView("/images/ui/PokertableWithLogo.png");
+        tableImage.fitWidthProperty().bind(maxWidthProperty().multiply(tableScale));
+        tableImage.fitHeightProperty().bind(maxHeightProperty().multiply(tableScale));
+        tableImage.layoutXProperty().bind(translateX(tableImage.fitWidthProperty(), 0));
+        tableImage.layoutYProperty().bind(translateY(tableImage.fitHeightProperty(), 0));
+        getChildren().add(tableImage);
+
+        for (int i = 1; i < game.getModel().getMaxPlayers(); i++) {
+            double n = game.getModel().getMaxPlayers();
+
+            PlayerInfoBox p = new PlayerInfoBox();
+            p.maxWidthProperty().bind(scale.multiply(15));
+            p.maxHeightProperty().bind(scale.multiply(15));
+            setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), i / n, 1.2);
+            getChildren().add(p);
+        }
+
+
+        ThisPlayerInfoBox thisPlayer = new ThisPlayerInfoBox();
+        thisPlayer.maxHeightProperty().bind(scale.multiply(20));
+        thisPlayer.maxWidthProperty().bind(scale.multiply(20));
+        thisPlayer.layoutXProperty().bind(translateX(thisPlayer.widthProperty(), 0));
+        thisPlayer.layoutYProperty().bind(translateY(thisPlayer.heightProperty(), logicalHeight));
+        getChildren().add(thisPlayer);
 	}
 
-	private void sizeTableBox() {
-		double scale = 0.075;
-		tableItemsBox.spacingProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.002));
-		communityCardsBox.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		communityCardsBox.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
+    public double getFitWidth() {
+        return fitWidth.get();
+    }
 
-		nothing.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		nothing.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		nothing2.minHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-		nothing2.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(scale));
-	}
-	
-	
+    public DoubleProperty fitWidthProperty() {
+        return fitWidth;
+    }
 
+    public void setFitWidth(double fitWidth) {
+        this.fitWidth.set(fitWidth);
+    }
+
+    public double getFitHeight() {
+        return fitHeight.get();
+    }
+
+    public DoubleProperty fitHeightProperty() {
+        return fitHeight;
+    }
+
+    public void setFitHeight(double fitHeight) {
+        this.fitHeight.set(fitHeight);
+    }
+
+    private DoubleBinding translateX(ReadOnlyDoubleProperty width, double x) {
+        return scale.multiply(tableScale * x / 2.0).add(maxWidthProperty().divide(2)).subtract(width.divide(2));
+    }
+
+    private DoubleBinding translateY(ReadOnlyDoubleProperty height, double y) {
+        return scale.multiply(tableScale * y / 2.0).add(maxHeightProperty().divide(2)).subtract(height.divide(2));
+    }
+
+    private void setPositionAroundTable(Node node, ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height, double x, double dist) {
+        final double rectWidth = (logicalWidth - logicalHeight) * 2.0;
+        final double rectHeight = logicalHeight * 2.0;
+        final double theta = Math.PI;
+
+        dist *= rectHeight / 2.0;
+
+        double arcLength = theta * dist;
+        double circumference = rectWidth + 2.0 * arcLength;
+
+        double position = x * circumference;
+
+        if (position < arcLength) {
+            double angle = (position / arcLength) * theta - theta;
+
+            node.layoutXProperty().bind(translateX(width, Math.sin(angle) * dist - rectWidth / 2.0));
+            node.layoutYProperty().bind(translateY(height, -Math.cos(angle) * dist));
+        } else if (position > rectWidth + arcLength) {
+            double angle = (position - rectWidth) / arcLength * theta - theta;
+
+            node.layoutXProperty().bind(translateX(width, Math.sin(angle) * dist + rectWidth / 2.0));
+            node.layoutYProperty().bind(translateY(height, -Math.cos(angle) * dist));
+        } else {
+            double offsetX = position - arcLength;
+
+            node.layoutXProperty().bind(translateX(width, offsetX - rectWidth / 2.0));
+            node.layoutYProperty().bind(translateY(height, -dist));
+        }
+    }
 }

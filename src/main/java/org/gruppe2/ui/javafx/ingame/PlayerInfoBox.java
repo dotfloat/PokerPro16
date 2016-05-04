@@ -62,7 +62,7 @@ public class PlayerInfoBox extends BorderPane {
 
     void updateInfoBox() {
         if (playerUUID == null || player == null) {
-            setVisible(false);
+            setVisible(true); // TODO: set to false after testing
             return;
         }
         if(player.getUUID().equals(playerUUID) && isPlayerActive()){
