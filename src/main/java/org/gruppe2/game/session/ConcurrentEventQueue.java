@@ -25,7 +25,7 @@ public class ConcurrentEventQueue {
      * @param klass The Class object of a class that implements Event. ex: PlayerJoinEvent.class
      * @param handler handler which will be called when the event occurs
      */
-    void registerHandler(Class<?> klass, EventHandler<Event> handler) {
+    public void registerHandler(Class<?> klass, EventHandler<Event> handler) {
         List<EventHandler<Event>> list = handlerMap.get(klass);
 
         if (list == null) {

@@ -12,7 +12,8 @@ import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
-import org.gruppe2.ui.javafx.ingame.InGame;
+import org.gruppe2.ui.javafx.ingame.Game;
+import org.gruppe2.ui.javafx.ingame.GameScene;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -49,16 +50,17 @@ public class MainMenu extends BorderPane {
 	}
 
 	public void goToSinglePlayer() throws InterruptedException {
-		SceneController.setScene(new InGame());
+		Game.autostart();
+		SceneController.setScene(new GameScene());
 	}
 
 	public void goToTestClient() {
 		PokerApplication.networkStart = true;
-		SceneController.setScene(new InGame());
+		SceneController.setScene(new GameScene());
 	}
 
 	public void createNetWorkTable() {
-		SceneController.setScene(new InGame());
+		SceneController.setScene(new GameScene());
 	}
 
 	public void goToLobby() {

@@ -44,10 +44,9 @@ public class ThisPlayerInfoBox extends HBox {
 
     public ThisPlayerInfoBox() {
         Resources.loadFXML(this);
-        InGame.getContext().setAnnotated(this);
-        playerUUID = InGame.getPlayerUUID();
+        Game.setAnnotated(this);
+        playerUUID = Game.getPlayerUUID();
 
-        
         if(!PokerApplication.networkStart)
         	player = gameHelper.findPlayerByUUID(playerUUID);
         bindToStage(playerName, profileImage, playerBet, stack);
@@ -75,8 +74,8 @@ public class ThisPlayerInfoBox extends HBox {
     }
 
     public void setUp() {
-        Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
-        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
+        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(Game.getPlayerUUID());
 
         if (player == null) {
             setVisible(false);

@@ -30,10 +30,7 @@ public class Table extends StackPane {
 		Resources.loadFXML(this);
 		pokerTable.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.6));
-		this.setAlignment(rightMenu, Pos.TOP_RIGHT);
-		this.setAlignment(chatBox, Pos.BOTTOM_LEFT);
 		this.setAlignment(thisPlayer, Pos.BOTTOM_CENTER);
-		this.setAlignment(helperMenu, Pos.TOP_LEFT);
 		sizeTableBox();
 	}
 

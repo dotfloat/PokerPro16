@@ -43,7 +43,7 @@ public class PlayerInfoBox extends BorderPane {
 
     PlayerInfoBox() {
         Resources.loadFXML(this);
-        InGame.getContext().setAnnotated(this);
+        Game.setAnnotated(this);
         playerPicture.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.06));
         folded.fitWidthProperty().bind(playerPicture.fitWidthProperty());
         playerName.fontProperty().bind(ChoiceBar.fontTracking);

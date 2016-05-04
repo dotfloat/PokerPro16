@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -25,7 +24,8 @@ import org.gruppe2.network.TableEntry;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
-import org.gruppe2.ui.javafx.ingame.InGame;
+import org.gruppe2.ui.javafx.ingame.Game;
+import org.gruppe2.ui.javafx.ingame.GameScene;
 
 /**
  * Created by Petter on 11/04/2016.
@@ -86,7 +86,8 @@ public class Lobby extends BorderPane {
 		
 	}
 	public void createGame(){
-		SceneController.setScene(new InGame(masterClient.createNewTable()));
+		Game.setContext(masterClient.createNewTable());
+		SceneController.setScene(new GameScene());
 	}
 
 	
@@ -94,7 +95,8 @@ public class Lobby extends BorderPane {
 		masterClient.requestJoinTable(uuid);
 	}
 	public void joinGame(){
-		SceneController.setScene(new InGame(masterClient.joinTable()));
+		Game.setContext(masterClient.joinTable());
+		SceneController.setScene(new GameScene());
 	}
 
 	private void setSize() {

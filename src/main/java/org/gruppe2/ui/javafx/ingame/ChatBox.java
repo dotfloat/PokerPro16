@@ -27,7 +27,7 @@ public class ChatBox extends TextArea {
 
 	public ChatBox() {
 		Resources.loadFXML(this);
-		InGame.getContext().setAnnotated(this);
+		Game.setAnnotated(this);
 		setPositionsAndSettings();
 	}
 
@@ -59,8 +59,7 @@ public class ChatBox extends TextArea {
 
 					else {
 						System.out.println("heo");
-						InGame.getContext()
-								.message("chat", textField.getText());
+						Game.message("chat", textField.getText());
 					}
 					textField.setText("");
 				});
@@ -100,7 +99,7 @@ public class ChatBox extends TextArea {
 			// throw new NotImplementedException();
 			System.out.println("Not implemented yet");
 			// String answer =
-			// GeneralCalculations.getBestHandForPlayer(((InGame)this.getParent().getParent()).communityCardsBox.getCommunityCards(),
+			// GeneralCalculations.getBestHandForPlayer(((GameScene)this.getParent().getParent()).communityCardsBox.getCommunityCards(),
 			// player).toString();
 			// this.setText(this.getText() + "\n" + player +
 			// "s possible best hand is: " + answer);S

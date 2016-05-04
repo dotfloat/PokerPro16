@@ -13,7 +13,8 @@ import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.ChoiceBar;
-import org.gruppe2.ui.javafx.ingame.InGame;
+import org.gruppe2.ui.javafx.ingame.Game;
+import org.gruppe2.ui.javafx.ingame.GameScene;
 
 
 /**
@@ -53,7 +54,7 @@ public class RightMenu extends VBox {
 	}
 
 	public void leaveTable(ActionEvent actionEvent) {
-		InGame.quit();
+		Game.getContext().quit();
 		SceneController.setScene(new MainMenu());
 	}
 

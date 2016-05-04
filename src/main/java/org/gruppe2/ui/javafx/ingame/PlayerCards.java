@@ -26,7 +26,7 @@ public class PlayerCards extends HBox {
 
     public PlayerCards() {
         Resources.loadFXML(this);
-        InGame.getContext().setAnnotated(this);
+        Game.setAnnotated(this);
     }
 
     /**
@@ -35,8 +35,8 @@ public class PlayerCards extends HBox {
      */
     public void setPlayerCards(CommunityCards communityCardsBox) {
     	
-    	if(roundHelper.getActivePlayers().contains(roundHelper.findPlayerByUUID(InGame.getPlayerUUID()))){
-	    	Card[] cards = roundHelper.findPlayerByUUID(InGame.getPlayerUUID()).getCards();
+    	if(roundHelper.getActivePlayers().contains(roundHelper.findPlayerByUUID(Game.getPlayerUUID()))){
+	    	Card[] cards = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).getCards();
 	        setPaneStyle();
 	
 	        playerCard1.setImage(new Image(("/images/cards/"

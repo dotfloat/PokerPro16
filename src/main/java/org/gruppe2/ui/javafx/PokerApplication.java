@@ -12,7 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import org.gruppe2.Main;
-import org.gruppe2.ui.javafx.ingame.InGame;
+import org.gruppe2.ui.javafx.ingame.Game;
+import org.gruppe2.ui.javafx.ingame.GameScene;
 import org.gruppe2.ui.javafx.menu.Intro;
 
 public class PokerApplication extends Application {
@@ -59,7 +60,12 @@ public class PokerApplication extends Application {
 	 * stage, only on every scene
 	 */
 	private void setStartScene(Stage stage) {
-		root.getChildren().add(Main.isAutostart() ? new InGame() : new Intro());
+		if (Main.isAutostart()) {
+			Game.autostart();
+			root.getChildren().add(new GameScene());
+		} else {
+			root.getChildren().add(new Intro());
+		}
 
 		Scene scene = new Scene(root, width, height);
 		scene.getStylesheets().add(
