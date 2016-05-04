@@ -91,6 +91,7 @@ public class MasterServer {
 					SessionContext context = new GameBuilder().start();
 
 					context.waitReady();
+					Thread.sleep(100);
 					context.message("addClient", clients.get(i));
 
 					activeTables.add(context);
@@ -104,6 +105,9 @@ public class MasterServer {
 				}
 			} catch (IOException e) {
 				clients.remove(i--);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

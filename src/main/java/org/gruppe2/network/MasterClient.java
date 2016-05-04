@@ -173,8 +173,22 @@ public class MasterClient {
 	 * creates a client, and instantly remove it, to check
 	 * @return
 	 */
-	public static boolean masterServerIsUp(){
+	public static boolean localMasterServerIsUp(){
 		try {
+			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
+					ip, 8888));
+			ProtocolConnection testConnection = new ProtocolConnection(channel);
+			testConnection.sendMessage("BYE\r\n");
+			return true;
+
+		} catch ( IOException e) {
+			return false;
+		}
+	}
+
+	public static boolean onlineMasterServerIsUp() {
+		try {
+			ip = "zohar.no";
 			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
 					ip, 8888));
 			ProtocolConnection testConnection = new ProtocolConnection(channel);

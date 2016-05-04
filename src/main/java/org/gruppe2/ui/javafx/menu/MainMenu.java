@@ -63,10 +63,12 @@ public class MainMenu extends BorderPane {
 
 	public void goToLobby() {
 		
-		if(MasterClient.masterServerIsUp())
+		if(MasterClient.localMasterServerIsUp())
+			SceneController.setScene(new Lobby());
+		else if(MasterClient.onlineMasterServerIsUp())
 			SceneController.setScene(new Lobby());
 		else
-			System.out.println("master server is not up");
+			System.out.println("no master server is up");
 	}
 
 	public void goToStatistics() {

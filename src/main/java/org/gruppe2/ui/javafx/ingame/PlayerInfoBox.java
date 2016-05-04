@@ -61,7 +61,7 @@ public class PlayerInfoBox extends BorderPane {
     }
 
     void updateInfoBox() {
-        if (playerUUID == null) {
+        if (playerUUID == null || player == null) {
             setVisible(false);
             return;
         }
