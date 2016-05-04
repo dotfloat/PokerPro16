@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import org.gruppe2.ui.javafx.ingame.ChoiceBar?>
+<?import org.gruppe2.ui.javafx.ingame.PlayerCards?>
+<?import org.gruppe2.ui.javafx.ingame.Table?>
+<?import org.gruppe2.ui.javafx.ingame.ChatBox?>
+<?import org.gruppe2.ui.javafx.menu.HelperMenu?>
+<?import org.gruppe2.ui.javafx.menu.RightMenu?>
+<fx:root type="AnchorPane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
+    <HelperMenu AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"/>
+
+    <Table AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+
+    <RightMenu AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+
+    <ChatBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+
+    <ChoiceBar AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
+    <PlayerCards AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+</fx:root>

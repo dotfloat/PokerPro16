@@ -42,7 +42,7 @@ class Statistic extends BorderPane {
 
     public Statistic(boolean ifMenu) {
         Resources.loadFXML(this);
-        InGame.getContext().setAnnotated(this);
+        Game.setAnnotated(this);
         initialize(ifMenu);
     }
 
@@ -53,8 +53,8 @@ class Statistic extends BorderPane {
     }
 
     private void getStatistics() {
-        PlayerStatistics stats = model.getPlayerStatistics().get(InGame.getPlayerUUID());
-        Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+        PlayerStatistics stats = model.getPlayerStatistics().get(Game.getPlayerUUID());
+        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
 
         name.setText(player.getName());
         gamesPlayed.setText(String.valueOf(stats.getGamesPlayed()));

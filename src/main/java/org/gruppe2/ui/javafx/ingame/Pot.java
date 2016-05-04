@@ -25,7 +25,7 @@ public class Pot extends Label {
     
 	public Pot() {
 		Resources.loadFXML(this);
-		InGame.getContext().setAnnotated(this);
+		Game.setAnnotated(this);
 		setBindings();
 	}
 	private void setBindings() {

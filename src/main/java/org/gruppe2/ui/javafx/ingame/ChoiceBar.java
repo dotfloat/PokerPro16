@@ -47,7 +47,7 @@ public class ChoiceBar extends HBox {
 
     public ChoiceBar() {
         Resources.loadFXML(this);
-        InGame.getContext().setAnnotated(this);
+        Game.setAnnotated(this);
         setSizes();
         setEvents();
     }
@@ -132,7 +132,7 @@ public class ChoiceBar extends HBox {
     private void onBetAction() {
     	System.out.println("start");
     	if(actionQuery != null){
-    		PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
+    		PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
     		if(pa.canCheck()){
     			actionQuery.set( new Action.Check());
     			System.out.println("Check");
@@ -158,7 +158,7 @@ public class ChoiceBar extends HBox {
      * @return
      */
     private String checkMaxBid(Slider slider) {
-    	PossibleActions pa = roundHelper.getPlayerOptions(InGame.getPlayerUUID());
+    	PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
         if (slider.getValue() == slider.getMax())
             btnBet.setText("ALL IN");
         else if(slider.getValue() > 0)
@@ -176,7 +176,7 @@ public class ChoiceBar extends HBox {
      * @param player
      */
     void updatePossibleBarsToClick() {
-    	Player player = gameHelper.findPlayerByUUID(InGame.getPlayerUUID());
+    	Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
         slider.setMax(player.getBank());
         slider.setMin(0);
         slider.setValue(0);
@@ -184,13 +184,13 @@ public class ChoiceBar extends HBox {
     
     @FXML
     public void onChatAction(ActionEvent event) {
-    	InGame.getContext().message("chat", chatField.getText(), InGame.getPlayerUUID());
+        Game.message("chat", chatField.getText(), Game.getPlayerUUID());
     	chatField.setText("");
     }
     
     @Handler
     public void setActionHandler(PlayerActionQuery playerActionQuery){
-    	if(playerActionQuery.getPlayer().getUUID().equals(InGame.getPlayerUUID())){
+    	if(playerActionQuery.getPlayer().getUUID().equals(Game.getPlayerUUID())){
     		actionQuery = playerActionQuery.getPlayer().getAction();
     		updatePossibleBarsToClick();
     	}
