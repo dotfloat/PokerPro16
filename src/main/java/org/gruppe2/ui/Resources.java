@@ -2,18 +2,18 @@ package org.gruppe2.ui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class Resources {
     private final static String pokerProDir = "PokerPro16" + File.separator;
-    private static long totalFXMLTime = 0;
+    private final static String uiPackageString = PokerApplication.class.getPackage().getName();
 
     /**
      * Get the user-writable directory for PokerPro16
+     *
      * @return Path to the user directory with a trailing slash
      */
     public static String getUserDir() {
@@ -55,23 +55,22 @@ public class Resources {
 
     /**
      * Get the
+     *
      * @param node
      */
 
     public static void loadFXML(Node node) {
-    	try {
-            String name = "/views/" + node.getClass().getSimpleName() + ".fxml";
-            FXMLLoader fxmlLoader = new FXMLLoader(Resources.class.getResource(name));
+        try {
+            String path = node.getClass().getName().substring(uiPackageString.length()).replace('.', '/');
+
+            FXMLLoader fxmlLoader = new FXMLLoader(Resources.class.getResource("/views" + path + ".fxml"));
 
             fxmlLoader.setRoot(node);
             fxmlLoader.setController(node);
 
-//            long lastTiem = System.currentTimeMillis();
             fxmlLoader.load();
-//            System.out.println(node.getClass().getSimpleName() + ": " + (System.currentTimeMillis() - lastTiem));
-            
+
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
