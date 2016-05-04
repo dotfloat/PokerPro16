@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
@@ -61,7 +62,11 @@ public class MainMenu extends BorderPane {
 	}
 
 	public void goToLobby() {
-		SceneController.setScene(new Lobby());
+		
+		if(MasterClient.masterServerIsUp())
+			SceneController.setScene(new Lobby());
+		else
+			System.out.println("master server is not up");
 	}
 
 	public void goToStatistics() {

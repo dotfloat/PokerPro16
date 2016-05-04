@@ -7,17 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.gruppe2.game.*;
-import org.gruppe2.game.event.CommunityCardsEvent;
-import org.gruppe2.game.event.PlayerActionQuery;
-import org.gruppe2.game.event.PlayerPaysBlind;
-import org.gruppe2.game.event.PlayerPostActionEvent;
-import org.gruppe2.game.event.PlayerPreActionEvent;
-import org.gruppe2.game.event.PlayerWonEvent;
-import org.gruppe2.game.event.QuitEvent;
-import org.gruppe2.game.event.RoundEndEvent;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 
@@ -97,6 +90,16 @@ public class RoundController extends AbstractController {
         }
 
         return false;
+    }
+
+    @Handler
+    public void onPlayerLeave(PlayerLeaveEvent event) {
+        RoundPlayer player = round.findPlayerByUUID(event.getPlayer().getUUID());
+
+        if (player == null)
+            return;
+
+        round.getActivePlayers().remove(player);
     }
 
     private void resetRound(){
