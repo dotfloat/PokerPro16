@@ -65,4 +65,12 @@ public class GameHelper {
     public void setButton(int button) {
         model.setButton(button);
     }
+
+    public int getRoundsCompleted() {
+        return model.getRoundsCompleted();
+    }
+
+    public void setRoundsCompleted(int rounds) {
+        model.setRoundsCompleted(rounds);
+    }
 }

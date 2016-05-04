@@ -123,6 +123,8 @@ public class RoundController extends AbstractController {
             return;
         }
 
+        round.addPlayersToMap(active);
+
         round.setPot(0);
         round.setHighestBet(0);
         round.setCurrent(0);
@@ -132,10 +134,10 @@ public class RoundController extends AbstractController {
     }
 
     private void payBlinds() {
-        int currentBigBlind = game.getBigBlind();
-        int currentSmallBlind = game.getSmallBlind();
+        int currentBigBlind = game.getBigBlind() + ((int) (game.getRoundsCompleted() * game.getBigBlind() * 0.1));
+        int currentSmallBlind = game.getSmallBlind() + ((int) (game.getRoundsCompleted() * game.getSmallBlind() * 0.1));
 
-        RoundPlayer roundPlayer = round.getBigBlindPlayer(game.getButton());
+        RoundPlayer roundPlayer = round.getActivePlayers().get(1);
         Player player = game.findPlayerByUUID(roundPlayer.getUUID());
 
         if (player.getBank() < currentBigBlind) {
@@ -147,7 +149,7 @@ public class RoundController extends AbstractController {
         handleAction(player, roundPlayer, new Action.Blind(currentBigBlind));
         addEvent(new PlayerPaysBlind(player, roundPlayer, currentBigBlind));
 
-        roundPlayer = round.getSmallBlindPlayer(game.getButton());
+        roundPlayer = round.getActivePlayers().get(0);
         player = game.findPlayerByUUID(roundPlayer.getUUID());
         if (player.getBank() < currentSmallBlind)
             currentSmallBlind = player.getBank();
@@ -175,7 +177,7 @@ public class RoundController extends AbstractController {
         if (action instanceof Action.Fold) {
             round.getActivePlayers().remove(round.getCurrent());
             round.setCurrent(round.getCurrent()-1);
-            if (player.getUUID().equals(lastPlayerInRound))
+            if (!player.getUUID().equals(lastPlayerInRound))
                 lastPlayerInRound = round.getLastActivePlayerID();
         }
 
@@ -184,6 +186,7 @@ public class RoundController extends AbstractController {
             int chipsToMove = (round.getHighestBet() - roundPlayer.getBet()) + raise;
             moveChips(player, roundPlayer, round.getHighestBet() + raise, player.getBank()-chipsToMove, chipsToMove);
             round.setLastRaiserID(player.getUUID());
+            round.playerRaise(player.getUUID());
         }
 
         if (action instanceof Action.Blind) {
@@ -232,18 +235,8 @@ public class RoundController extends AbstractController {
             round.nextRound();
             round.setLastRaiserID(null);
             lastPlayerInRound = round.getLastActivePlayerID();
-
-            boolean foundNewCurrent = false;
-            for (int i = game.getButton(); !foundNewCurrent; i++) {
-                int firstPlayer = i % game.getPlayers().size();
-                UUID id = game.getPlayers().get(firstPlayer).getUUID();
-                for (RoundPlayer rp : round.getActivePlayers())
-                    if (rp.getUUID().equals(id)) {
-                        round.setCurrent(round.getActivePlayers().indexOf(rp));
-                        foundNewCurrent = true;
-                        break;
-                    }
-            }
+            round.resetRaiseMap();
+            round.setCurrent(0);
 
             if (round.getRoundNum() == 1) {
                 for (int i = 0; i < 3; i++)
@@ -252,8 +245,9 @@ public class RoundController extends AbstractController {
                 round.getCommunityCards().add(deck.remove(0));
 
             addEvent(new CommunityCardsEvent(new ArrayList<>(round.getCommunityCards())));
+
+            logger.incrementRound(round.getCommunityCards());
         }
-        logger.incrementRound(round.getCommunityCards());
     }
 
     private void roundEnd() {
@@ -261,12 +255,15 @@ public class RoundController extends AbstractController {
         addEvent(new RoundEndEvent());
         if (round.getActivePlayers().size() == 1){
         	Player winningPlayer = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
+            winningPlayer.setBank(winningPlayer.getBank()+round.getPot());
+            round.setPot(0);
             addEvent(new PlayerWonEvent(winningPlayer));
-//            winningPlayer.setBank(winningPlayer.getBank()+round.getPot());
         }
         logger.writeToFile();
         //Get winner and add chips to player bank
         game.setButton(game.getButton() + 1);
+        game.setRoundsCompleted(game.getRoundsCompleted() + 1);
+
         roundStart();
     }
 

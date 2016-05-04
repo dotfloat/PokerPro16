@@ -4,14 +4,12 @@ import org.gruppe2.game.Card;
 import org.gruppe2.game.RoundPlayer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class RoundModel implements Serializable {
     private final List<RoundPlayer> activePlayers = Collections.synchronizedList(new ArrayList<>());
     private final List<Card> communityCards = Collections.synchronizedList(new ArrayList<>());
+    private final Map<UUID, Integer> raiseMap = Collections.synchronizedMap(new HashMap<>());
 
     private volatile boolean playing = false;
     private volatile int current = 0;
@@ -78,5 +76,9 @@ public class RoundModel implements Serializable {
 
     public void setLastRaiserID(UUID lastRaiserID) {
         this.lastRaiserID = lastRaiserID;
+    }
+
+    public Map<UUID, Integer> getRaiseMap() {
+        return raiseMap;
     }
 }
