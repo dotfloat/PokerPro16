@@ -9,6 +9,7 @@ import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.SessionContext;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -108,7 +109,7 @@ public class RoundHelper {
             if (getHighestBet() - roundPlayer.getBet() != 0)
                 options.setCall(getHighestBet() - roundPlayer.getBet());
 
-        if (!player.getUUID().equals(getLastRaiserID())) {
+        if (!player.getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3) {
             int maxRaise = player.getBank() + roundPlayer.getBet() - getHighestBet();
             if (maxRaise > 0)
                 options.setRaise(1, maxRaise);
@@ -136,11 +137,26 @@ public class RoundHelper {
         return model.getPot();
     }
 
-    public RoundPlayer getSmallBlindPlayer(int button) {
-        return model.getActivePlayers().get((button + 1) % model.getNumberOfActivePlayers());
+    public Map<UUID, Integer> getRaiseMap() {
+        return model.getRaiseMap();
     }
 
-    public RoundPlayer getBigBlindPlayer(int button) {
-        return model.getActivePlayers().get((button + 2) % model.getNumberOfActivePlayers());
+    public void addPlayersToMap(List<RoundPlayer> players) {
+        Map<UUID, Integer> map = model.getRaiseMap();
+        map.clear();
+        for (RoundPlayer p : players) {
+            map.put(p.getUUID(), 0);
+        }
+    }
+
+    public void playerRaise(UUID id) {
+        model.getRaiseMap().put(id, model.getRaiseMap().get(id) + 1);
+    }
+
+    public void resetRaiseMap() {
+        Map<UUID, Integer> map = model.getRaiseMap();
+        for (UUID id : map.keySet()){
+            map.put(id, 0);
+        }
     }
 }
