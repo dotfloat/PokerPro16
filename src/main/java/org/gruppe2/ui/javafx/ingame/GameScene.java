@@ -1,28 +1,18 @@
 package org.gruppe2.ui.javafx.ingame;
 
-import javafx.animation.PathTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.gruppe2.Main;
 import org.gruppe2.ai.NewDumbAI;
-import org.gruppe2.game.GameBuilder;
-import org.gruppe2.game.Player;
 import org.gruppe2.game.PlayerStatistics;
-import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.StatisticsModel;
 import org.gruppe2.game.session.*;
-import org.gruppe2.ui.Resources;
-import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.UIResources;
 
 import java.util.*;
-import java.util.TimerTask;
 
 public class GameScene extends Pane {
     @Helper
@@ -45,7 +35,7 @@ public class GameScene extends Pane {
         }
 
         if (Main.getProperty("avatar").isEmpty()) {
-            String[] avatars = Resources.listAvatars();
+            String[] avatars = UIResources.listAvatars();
             Random random = new Random();
 
             Main.setProperty("avatar", avatars[random.nextInt(avatars.length)]);
@@ -55,7 +45,7 @@ public class GameScene extends Pane {
             Game.message("addPlayerStatistics", Game.getPlayerUUID(), Main.loadPlayerStatistics());
         }
 
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         Game.setAnnotated(this);
     }
 

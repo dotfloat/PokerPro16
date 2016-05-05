@@ -11,7 +11,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class Credits extends StackPane{
     public static SequentialTransition sequence = new SequentialTransition();
 
     public Credits(){
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         playCredits();
     }
 

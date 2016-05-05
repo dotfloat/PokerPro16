@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.PossibleActions;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.Resources;
 
 public class NewDumbAI implements AI {
     private static final String[] names = {"Alpha", "Bravo", "Charlie",

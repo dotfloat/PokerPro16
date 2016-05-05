@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import org.gruppe2.game.Card;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class DifferentHandView extends VBox {
     @FXML private HBox cards;
 
     public DifferentHandView(String name, List<Card> hand, List<Card> notHand){
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         handName.setText(name);
         if (notHand != null) for (Card card : notHand) this.cards.getChildren().add(createCardImage(card, false));
         for (Card card : hand) this.cards.getChildren().add(createCardImage(card, true));

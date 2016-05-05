@@ -7,9 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
-import org.gruppe2.ui.javafx.ingame.ChoiceBar;
 
 /**
  * Created by Petter on 27/04/2016.
@@ -27,7 +26,7 @@ public class LobbyTable extends StackPane {
 	Lobby lobby;
 
 	public LobbyTable(String players, String name, Lobby lobby) {
-		Resources.loadFXML(this);
+		UIResources.loadFXML(this);
 		this.players.setText(players);
 		this.name.setText(name);
 		this.lobby = lobby;

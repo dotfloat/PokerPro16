@@ -5,14 +5,14 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 
 /**
  * Created by Petter on 26/04/2016.
  */
 public class ToolTip extends Pane {
     public ToolTip(Node node){
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         getChildren().add(node);
     }
     @FXML

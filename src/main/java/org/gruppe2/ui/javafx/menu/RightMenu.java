@@ -8,13 +8,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
-import org.gruppe2.ui.javafx.ingame.ChoiceBar;
 import org.gruppe2.ui.javafx.ingame.Game;
-import org.gruppe2.ui.javafx.ingame.GameScene;
 
 
 /**
@@ -29,7 +27,7 @@ public class RightMenu extends VBox {
 	@FXML private Button viewStatistics;
 
 	public RightMenu() {
-		Resources.loadFXML(this);
+		UIResources.loadFXML(this);
 		setSizes();
 	}
 

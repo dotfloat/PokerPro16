@@ -88,4 +88,8 @@ public class PokerApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    public static void launch(String []args) {
+        Application.launch(PokerApplication.class, args);
+    }
 }

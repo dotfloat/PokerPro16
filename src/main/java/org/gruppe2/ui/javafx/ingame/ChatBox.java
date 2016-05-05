@@ -15,7 +15,7 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class ChatBox extends TextArea {
@@ -26,7 +26,7 @@ public class ChatBox extends TextArea {
 	private RoundHelper roundHelper;
 
 	public ChatBox() {
-		Resources.loadFXML(this);
+		UIResources.loadFXML(this);
 		Game.setAnnotated(this);
 		setPositionsAndSettings();
 	}

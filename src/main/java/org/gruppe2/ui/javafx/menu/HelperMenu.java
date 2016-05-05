@@ -8,9 +8,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import org.gruppe2.game.Cards;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
-import org.gruppe2.ui.javafx.ingame.ChoiceBar;
 import org.gruppe2.ui.javafx.ingame.DifferentHandView;
 
 public class HelperMenu extends VBox {
@@ -22,7 +21,7 @@ public class HelperMenu extends VBox {
     Label title;
 
     public HelperMenu() {
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         setSizes();
         innerBox.setLayoutX(-innerBox.getWidth());
 //        addAllHands();

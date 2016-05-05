@@ -1,6 +1,6 @@
 package org.gruppe2.game;
 
-import org.gruppe2.ui.Resources;
+import org.gruppe2.Resources;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
