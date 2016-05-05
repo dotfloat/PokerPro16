@@ -72,14 +72,9 @@ public class PlayerInfoBox extends BorderPane {
         avatar.setImage(UIResources.getAvatar(player.getAvatar()));
     }
 
-    private void setActive() {
+    private void setActive(boolean active) {
         getStyleClass().clear();
-        getStyleClass().add("paneActive");
-    }
-
-    private void setInActive() {
-        getStyleClass().clear();
-        getStyleClass().add("pane");
+        getStyleClass().add(active ? "paneActive" : "pane");
     }
 
 
@@ -93,9 +88,9 @@ public class PlayerInfoBox extends BorderPane {
         if (event.getPlayer().getUUID().equals(playerUUID)) {
             fold.setVisible(false);
             lastAction.setVisible(false);
-            setActive();
+            setActive(true);
         } else {
-            setInActive();
+            setActive(false);
         }
     }
 
@@ -110,7 +105,7 @@ public class PlayerInfoBox extends BorderPane {
         if (event.getAction() instanceof Action.Fold) {
             fold.setVisible(true);
         } else {
-            lastAction.setText(event.getAction().getClass().getSimpleName());
+            lastAction.setText(event.getAction().toString());
             lastAction.setVisible(true);
         }
     }
