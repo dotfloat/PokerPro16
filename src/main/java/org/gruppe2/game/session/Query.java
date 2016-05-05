@@ -6,7 +6,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class Query<T> implements Serializable {
-    private enum State { WAIT, DONE, CANCELLED }
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2750291921582809866L;
+
+	private enum State { WAIT, DONE, CANCELLED }
 
     private volatile State state = State.WAIT;
     private volatile T obj = null;
