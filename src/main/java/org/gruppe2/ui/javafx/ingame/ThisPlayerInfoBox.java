@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerPostActionEvent;
@@ -38,6 +39,8 @@ public class ThisPlayerInfoBox extends HBox {
     private Label playerName;
     @FXML
     private ImageView profileImage;
+	@FXML 
+	private ImageView fold;
     @FXML
     private Label playerBet;
     @FXML
@@ -50,7 +53,7 @@ public class ThisPlayerInfoBox extends HBox {
         player = gameHelper.findPlayerByUUID(playerUUID);
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
-
+        System.out.println(profileImage);
         profileImage.setImage(UIResources.getAvatar(player.get().getAvatar()));
     }
 
@@ -107,7 +110,14 @@ public class ThisPlayerInfoBox extends HBox {
     }
 
     public void updatePicture() {
-        //TODO ----->
+    	if(roundPlayer != null){
+    		if(roundHelper.getActivePlayers().contains(roundPlayer))
+    			fold.setVisible(true);
+    		else
+    			fold.setVisible(false);
+    	}
+    	
+    		
     }
 
     public void setActive() {
