@@ -1,9 +1,8 @@
 package org.gruppe2.game.controller;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
+import org.gruppe2.Resources;
 import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
@@ -16,6 +15,15 @@ import org.gruppe2.game.session.Message;
 public class GameController extends AbstractController {
     @Helper
     private GameHelper game;
+
+    private List<Integer> availableTablePositions = new ArrayList<>();
+
+    @Override
+    public void init() {
+        for (int i = 0; i < game.getModel().getMaxPlayers(); i++) {
+            availableTablePositions.add(i);
+        }
+    }
 
     @Override
     public void update() {
@@ -31,12 +39,16 @@ public class GameController extends AbstractController {
 
     @Message
     public boolean addBot() {
-        return addPlayerModel(NewDumbAI.generateModel());
+        Random random = new Random();
+        String[] avatars = Resources.listAvatars();
+        String avatar = avatars[random.nextInt(avatars.length)];
+
+        return addPlayerModel(UUID.randomUUID(), NewDumbAI.randomName(), avatar, true);
     }
 
     @Message
     public boolean addPlayer(UUID uuid, String name, String avatar) {
-        return addPlayerModel(new Player(uuid, name, avatar, false));
+        return addPlayerModel(uuid, name, avatar, false);
     }
 
     @Message
@@ -50,12 +62,13 @@ public class GameController extends AbstractController {
                 return;
 
             game.getPlayers().remove(player.get());
+            availableTablePositions.add(player.get().getTablePosition());
 
             addEvent(new PlayerLeaveEvent(player.get()));
         }
     }
 
-    private boolean addPlayerModel(Player model) {
+    private boolean addPlayerModel(UUID uuid, String name, String avatar, boolean isBot) {
         List<Player> players;
 
         synchronized (players = game.getPlayers()) {
@@ -71,18 +84,21 @@ public class GameController extends AbstractController {
                 }
             }
 
-            players.add(model);
+            int pos = availableTablePositions.get(0);
+            Player player = new Player(uuid, name, avatar, isBot, pos);
+
+            players.add(player);
 
             if (game.canStart()) {
                 getContext().message("roundStart");
             }
 
-            model.setBank(game.getBuyIn());
+            player.setBank(game.getBuyIn());
 
-            addEvent(new PlayerJoinEvent(model));
+            addEvent(new PlayerJoinEvent(player));
 
             if (game.getModel().getName() == null) {
-                game.getModel().setName(model.getName() + "'s table");
+                game.getModel().setName(player.getName() + "'s table");
             }
 
             return true;

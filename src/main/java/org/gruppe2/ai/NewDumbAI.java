@@ -18,14 +18,6 @@ public class NewDumbAI implements AI {
 
     private static final Random rand = new Random();
 
-    public static Player generateModel() {
-        String[] avatars = Resources.listAvatars();
-
-        return new Player(UUID.randomUUID(),
-                "BOT " + names[rand.nextInt(names.length)],
-                avatars[rand.nextInt(avatars.length)], true);
-    }
-
     @Override
     public void doAction(Player model, PossibleActions options) {
         if (!model.isBot())
@@ -93,6 +85,6 @@ public class NewDumbAI implements AI {
     }
 
     public static String randomName() {
-        return names[(int) (Math.random() * names.length)];
+        return names[rand.nextInt(names.length)];
     }
 }

@@ -115,8 +115,9 @@ public class NetworkServerController extends AbstractController {
     }
 
     @Handler
-    public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
-        sendToAll("CONNECTED;" + playerJoinEvent.getPlayer().getUUID() + ";" + playerJoinEvent.getPlayer().getAvatar() + ":" + playerJoinEvent.getPlayer().getName() + "\r\n");
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        sendToAll(String.format("CONNECTED;%s;%s;%d:%s\r\n", e.getPlayer().getUUID(),
+                e.getPlayer().getAvatar(), e.getPlayer().getTablePosition(), e.getPlayer().getName()));
     }
 
     @Handler
