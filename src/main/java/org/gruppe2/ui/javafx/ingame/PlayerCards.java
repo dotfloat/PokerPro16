@@ -10,7 +10,7 @@ import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class PlayerCards extends HBox {
@@ -25,7 +25,7 @@ public class PlayerCards extends HBox {
     private ImageView playerCard2;
 
     public PlayerCards() {
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         Game.setAnnotated(this);
     }
 

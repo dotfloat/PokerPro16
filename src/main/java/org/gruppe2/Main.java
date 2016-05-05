@@ -7,11 +7,8 @@ import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javafx.application.Application;
-
 import org.gruppe2.game.PlayerStatistics;
 import org.gruppe2.network.MasterServer;
-import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.javafx.PokerApplication;
 
@@ -41,7 +38,7 @@ public class Main {
                 break;
 
             case JAVAFX:
-                Application.launch(PokerApplication.class, args);
+                PokerApplication.launch(args);
                 break;
             case SERVER:
                 break;
@@ -86,6 +83,7 @@ public class Main {
         try {
             FileInputStream stream = new FileInputStream(Resources.getProperties());
 
+            properties.load(Resources.getDefaultProperties());
             properties.load(stream);
 
             stream.close();

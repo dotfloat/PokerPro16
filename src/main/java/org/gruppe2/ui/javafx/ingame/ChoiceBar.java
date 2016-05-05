@@ -1,7 +1,5 @@
 package org.gruppe2.ui.javafx.ingame;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
@@ -20,7 +17,7 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class ChoiceBar extends HBox {
@@ -45,7 +42,7 @@ public class ChoiceBar extends HBox {
     private Query<Action> actionQuery = null;
 
     public ChoiceBar() {
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         Game.setAnnotated(this);
         setSizes();
         setEvents();

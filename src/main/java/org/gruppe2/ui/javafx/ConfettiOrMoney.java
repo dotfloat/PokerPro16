@@ -22,8 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-import org.gruppe2.ui.Resources;
-import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.UIResources;
 
 /**
  * Created by Petter on 18/04/2016. This class creates falling confetti or money! Oh joy.
@@ -35,7 +34,7 @@ public class ConfettiOrMoney extends Pane {
     public static ArrayList<RotateTransition> flipTransitionArrayList = new ArrayList<>();
 
     public ConfettiOrMoney(@NamedArg("size") int size, @NamedArg("isConfetti") boolean value) {
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         if (value) getChildren().addAll(fallingNodes(size));
         else getChildren().addAll(fallingMoney(size));
     }

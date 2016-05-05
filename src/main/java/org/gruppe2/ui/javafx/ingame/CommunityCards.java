@@ -12,7 +12,7 @@ import org.gruppe2.game.Card;
 import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.session.Handler;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class CommunityCards extends HBox {
@@ -22,7 +22,7 @@ public class CommunityCards extends HBox {
 	private List<Card> communityCards;
 	
 	public CommunityCards() {
-		Resources.loadFXML(this);
+		UIResources.loadFXML(this);
 		Game.setAnnotated(this);
 
 	}

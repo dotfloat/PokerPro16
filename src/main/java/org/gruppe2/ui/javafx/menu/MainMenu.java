@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import org.gruppe2.network.MasterClient;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.Game;
@@ -37,7 +37,7 @@ public class MainMenu extends BorderPane {
 	private VBox vBox;
 
 	public MainMenu() {
-		Resources.loadFXML(this);
+		UIResources.loadFXML(this);
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
 		vBox.maxWidthProperty().bind(

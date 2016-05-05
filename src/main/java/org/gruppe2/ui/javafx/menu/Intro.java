@@ -16,7 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ConfettiOrMoney;
@@ -30,7 +30,7 @@ public class Intro extends StackPane {
 	private FadeTransition fadeTransition;
 
 	public Intro() {
-		Resources.loadFXML(this);
+		UIResources.loadFXML(this);
 		// SoundPlayer.playIntroMusic(); IF YOU WANT MUSIC PUT THIS ON
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));

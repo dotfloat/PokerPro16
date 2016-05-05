@@ -6,7 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 
 /**
  * Created by Petter on 26/04/2016.
@@ -16,7 +16,7 @@ public class Modal extends StackPane {
     StackPane stage = PokerApplication.getRoot();
 
     public Modal(Node node){
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         addChildren(node);
     }
 

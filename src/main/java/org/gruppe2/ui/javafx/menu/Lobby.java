@@ -21,7 +21,7 @@ import javafx.scene.layout.TilePane;
 import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.network.TableEntry;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.Game;
@@ -54,7 +54,7 @@ public class Lobby extends BorderPane {
 
 	public Lobby() {
 		masterClient = new MasterClient(this);
-		Resources.loadFXML(this);
+		UIResources.loadFXML(this);
 		setSize();
 		
 	}

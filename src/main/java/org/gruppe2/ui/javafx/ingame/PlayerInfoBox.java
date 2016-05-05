@@ -21,7 +21,7 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ToolTip;
 
@@ -51,7 +51,7 @@ public class PlayerInfoBox extends BorderPane {
     private Label lastAction;
 
     PlayerInfoBox() {
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         Game.setAnnotated(this);
     }
 
@@ -69,7 +69,7 @@ public class PlayerInfoBox extends BorderPane {
         name.setText(player.getName());
         bank.setText(String.valueOf(player.getBank()));
         bet.setText("0");
-        avatar.setImage(Resources.getAvatar(player.getAvatar()));
+        avatar.setImage(UIResources.getAvatar(player.getAvatar()));
     }
 
     private void setActive() {

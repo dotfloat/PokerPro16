@@ -18,7 +18,7 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-import org.gruppe2.ui.Resources;
+import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 
@@ -43,14 +43,14 @@ public class ThisPlayerInfoBox extends HBox {
     private Label stack;
 
     public ThisPlayerInfoBox() {
-        Resources.loadFXML(this);
+        UIResources.loadFXML(this);
         Game.setAnnotated(this);
         
 //        player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
 
-//        profileImage.setImage(Resources.getAvatar(player.getAvatar()));
+//        profileImage.setImage(UIResources.getAvatar(player.getAvatar()));
     }
 
     private void setSize() {
