@@ -69,23 +69,15 @@ public class Table extends Pane {
         tableImage.layoutYProperty().bind(translateY(tableImage.fitHeightProperty(), 0));
         getChildren().add(tableImage);
 
-        for (int i = 1; i < game.getModel().getMaxPlayers(); i++) {
+        for (int i = 0; i < game.getModel().getMaxPlayers(); i++) {
             double n = game.getModel().getMaxPlayers();
 
             PlayerInfoBox p = new PlayerInfoBox();
             p.maxWidthProperty().bind(scale.multiply(15));
             p.maxHeightProperty().bind(scale.multiply(15));
-            setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), i / n, 1.2);
+            setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
             getChildren().add(p);
         }
-
-
-        ThisPlayerInfoBox thisPlayer = new ThisPlayerInfoBox();
-        thisPlayer.maxHeightProperty().bind(scale.multiply(20));
-        thisPlayer.maxWidthProperty().bind(scale.multiply(20));
-        thisPlayer.layoutXProperty().bind(translateX(thisPlayer.widthProperty(), 0));
-        thisPlayer.layoutYProperty().bind(translateY(thisPlayer.heightProperty(), logicalHeight));
-        getChildren().add(thisPlayer);
 	}
 
     public double getFitWidth() {

@@ -22,7 +22,7 @@ import org.gruppe2.ui.javafx.PokerApplication;
 import java.util.*;
 import java.util.TimerTask;
 
-public class GameScene extends AnchorPane {
+public class GameScene extends Pane {
     @Helper
     private GameHelper gameHelper;
     @Helper
