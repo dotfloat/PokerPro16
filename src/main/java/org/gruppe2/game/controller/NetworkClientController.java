@@ -64,9 +64,10 @@ public class NetworkClientController extends AbstractController {
 
     private void checkForAction() {
     	
-    	if(actionQuery != null){
+    	if(actionQuery != null && actionQuery.isDone()){
 	    	Action action = actionQuery.get();
 	    	
+	    	System.out.println(action.toNetworkString());
 	    	sendMessage(String.format("ACTION;%s\r\n", action.toNetworkString()));
 	    	actionQuery = null;
     	}	
@@ -84,13 +85,7 @@ public class NetworkClientController extends AbstractController {
                 break;
         }
     }
-    @Handler
-    public void setActionHandler(PlayerActionQuery playerActionQuery){
-    	if(playerActionQuery.getPlayer().getUUID().equals(Game.getPlayerUUID())){
-    		actionQuery = playerActionQuery.getPlayer().getAction();
-    	}
-    }
-
+	
     @Message
     public void addPlayer(UUID uuid, String name, String avatar) {
         try {
@@ -103,11 +98,6 @@ public class NetworkClientController extends AbstractController {
 
     @Message
     public void chat(String message, UUID playerUUID) {
-        sendMessage(String.format("SAY:%s\r\n", message));
-    }
-
-    @Message
-    public void action(String message, UUID playerUUID) {
         sendMessage(String.format("SAY:%s\r\n", message));
     }
 
@@ -168,12 +158,15 @@ public class NetworkClientController extends AbstractController {
                     break;
 
                 case "YOUR TURN":
+                	System.out.println("its my turn");
                     UUID playerUUID1 = UUID.fromString(listOfCommands[1]);
                     optionalPlayer = game.findPlayerByUUID(playerUUID1);
                     optionalRoundPlayer = round.findPlayerByUUID(playerUUID1);
 
-                    if (optionalPlayer.isPresent() || optionalRoundPlayer.isPresent())
+                    if (optionalPlayer.isPresent() && optionalRoundPlayer.isPresent()) {
+                    	actionQuery = optionalPlayer.get().getAction();
                         return new PlayerActionQuery(optionalPlayer.get(), optionalRoundPlayer.get());
+                    }
 
                     break;
 
@@ -218,6 +211,7 @@ public class NetworkClientController extends AbstractController {
                     return new PlayerWonEvent(optionalPlayer.get());
 
                 case "ROUND START":
+                	System.out.println("received round start");
                     List<RoundPlayer> active = round.getActivePlayers();
                     active.clear();
 
@@ -297,8 +291,6 @@ public class NetworkClientController extends AbstractController {
     private Action specificActionParser(String[] listOfCommands, Player player,
                                         RoundPlayer roundPlayer) {
         String actionString = listOfCommands[2];
-        // PlayerActionQuery playerActionQuery = new
-        // PlayerActionQuery(player,roundPlayer);
 
         switch (actionString) {
             case "Call":

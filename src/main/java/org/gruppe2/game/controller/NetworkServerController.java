@@ -90,12 +90,10 @@ public class NetworkServerController extends AbstractController {
                         clients.remove(i--);
                         break;
                     case "ACTION":
+                    	System.out.println("server recieved action");
                     	uuid = clients.get(i).getPlayerUUID();
                     	
                     	setPlayerActionFromMessage(uuid,args);
-                    	
-                    	
-                    	
                 }
             } catch (IOException e) {
                 clients.remove(i--);
@@ -153,11 +151,12 @@ public class NetworkServerController extends AbstractController {
     @Handler
     public void onPlayerActionQuery(PlayerActionQuery query) {
         clients.stream()
-                .filter(c -> query.equals(c.getPlayerUUID()))
+                .filter(c -> query.getPlayer().getUUID().equals(c.getPlayerUUID()))
                 .findFirst()
                 .ifPresent(c -> {
                     try {
-                        c.getConnection().sendMessage("YOUR TURN\r\n");
+                    	System.out.println("server sending turn");
+                        c.getConnection().sendMessage("YOUR TURN;"+query.getPlayer().getUUID()+"\r\n");
                         action = query.getPlayer().getAction();
                     } catch (IOException e) {
                         e.printStackTrace();
