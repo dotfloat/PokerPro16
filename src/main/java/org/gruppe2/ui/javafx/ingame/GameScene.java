@@ -29,8 +29,6 @@ public class GameScene extends Pane {
     private RoundHelper roundHelper;
 
     @FXML
-    private Pot pot;
-    @FXML
     private Table table;
     @FXML
     private ChoiceBar choiceBar;

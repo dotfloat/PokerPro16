@@ -5,12 +5,15 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 
@@ -20,6 +23,8 @@ import java.util.List;
 public class Table extends Pane {
     @Helper
     private GameHelper game;
+    @Helper
+    private RoundHelper round;
 
     private final double ratio = 2464.0 / 1368.0;
     private final double logicalWidth = 308;
@@ -34,6 +39,7 @@ public class Table extends Pane {
     private DoubleProperty fitHeight = new SimpleDoubleProperty();
 
     private List<PlayerInfoBox> players = new ArrayList<>();
+    private Label pot = new Label();
 
 	public Table() {
         Game.setAnnotated(this);
@@ -86,6 +92,12 @@ public class Table extends Pane {
             getChildren().add(p);
             players.add(p);
         }
+
+        pot.setText("Total pot: $0");
+        pot.fontProperty().bind(font);
+        pot.layoutXProperty().bind(translateX(pot.widthProperty(), 0));
+        pot.layoutYProperty().bind(translateY(pot.heightProperty(), 50));
+        getChildren().add(pot);
 	}
 
     @Handler
@@ -101,6 +113,11 @@ public class Table extends Pane {
                 }
             }
         }
+    }
+
+    @Handler
+    public void onPostAction(PlayerPostActionEvent event) {
+        pot.setText("Total pot: $" + round.getPot());
     }
 
     public double getFitWidth() {
