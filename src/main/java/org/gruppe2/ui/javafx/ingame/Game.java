@@ -15,17 +15,17 @@ import java.util.UUID;
 public class Game {
     private final static Game instance = new Game();
 
-    private UUID playerUUID;
+    private UUID playerUUID = UUID.randomUUID();
     private SessionContext context = null;
     private Timer sessionTimer = new Timer();
 
     private Game() {
-        try {
+        /*try {
             playerUUID = UUID.fromString(Main.getProperty("playerUUID"));
         } catch (Exception e) {
             playerUUID = UUID.randomUUID();
             Main.setProperty("playerUUID", playerUUID.toString());
-        }
+        }*/
     }
 
     public static UUID getPlayerUUID() {
