@@ -60,15 +60,6 @@ public class Lobby extends BorderPane {
 	}
 
 	public void search() {
-		lobbyTiles.getChildren().remove(1, lobbyTiles.getChildren().size());
-		for (int i = 0; i < Math.random() * 10; i++) {
-			Random random = new Random();
-			int max = random.nextInt(7) + 3;
-			int current = random.nextInt(max - 1) + 1;
-			String players = current + "/" + max;
-			String name = NewDumbAI.randomName() + "'s table";
-			lobbyTiles.getChildren().add(new LobbyTable(players, name, this));
-		}
 	}
 
 	
@@ -137,8 +128,8 @@ public class Lobby extends BorderPane {
 		System.out.println("now updating tables");
 		for(TableEntry table : tablesInLobby){
 			String players = table.getCurrentPlayers()+"/"+table.getMaxPlayers();
-			String name = table.getUUID().toString();
-			lobbyTiles.getChildren().add(new LobbyTable(players, name, this));
+			String name = table.getName().isEmpty() ? table.getUUID().toString() : table.getName();
+			lobbyTiles.getChildren().add(new LobbyTable(players, table.getUUID(), name, this));
 		}
 	}
 }

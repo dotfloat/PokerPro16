@@ -10,6 +10,14 @@ import java.util.UUID;
 
 public class GameModel implements Serializable {
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public enum BotPolicy { FILL, NONE }
 
     private final UUID uuid;
@@ -19,6 +27,7 @@ public class GameModel implements Serializable {
     private final int buyIn;
     private final BotPolicy botPolicy;
 
+    private volatile String name = null;
     private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
     private volatile int smallBlind;

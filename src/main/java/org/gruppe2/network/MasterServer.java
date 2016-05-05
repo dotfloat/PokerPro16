@@ -13,170 +13,173 @@ import org.gruppe2.game.session.SessionContext;
 
 /**
  * Class for handling lobby requests from clients, server gives controll to ServerController when the game starts.
- * @author htj063
  *
+ * @author htj063
  */
 public class MasterServer {
-	ArrayList<SessionContext> activeTables = new ArrayList<SessionContext>();
-	ServerSocketChannel serverSocket;
-	private ArrayList<ProtocolConnection> clients = new ArrayList<>();
+    ArrayList<SessionContext> activeTables = new ArrayList<SessionContext>();
+    ServerSocketChannel serverSocket;
+    private ArrayList<ProtocolConnection> clients = new ArrayList<>();
 
-	public MasterServer() {
-		startServer();
-		while (true) {
-			update();
+    public MasterServer() {
+        startServer();
+        while (true) {
+            update();
 
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	private void startServer() {
-		try {
-			serverSocket = ServerSocketChannel.open();
-			serverSocket.socket().bind(new InetSocketAddress(8888));
-			serverSocket.configureBlocking(false);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    private void startServer() {
+        try {
+            serverSocket = ServerSocketChannel.open();
+            serverSocket.socket().bind(new InetSocketAddress(8888));
+            serverSocket.configureBlocking(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void update() {
-		if (serverSocket != null) {
-			try {
-				SocketChannel client = serverSocket.accept();
+    public void update() {
+        if (serverSocket != null) {
+            try {
+                SocketChannel client = serverSocket.accept();
 
-				if (client != null) {
-					ProtocolConnection connection = new ProtocolConnection(
-							client);
-					client.configureBlocking(false);
-					clients.add(connection);
-				}
+                if (client != null) {
+                    ProtocolConnection connection = new ProtocolConnection(
+                            client);
+                    client.configureBlocking(false);
+                    clients.add(connection);
+                }
 
-			} catch (IOException e) {
-				e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
 
-			}
-		}
+            }
+        }
 
-		for (int i = 0; i < clients.size(); i++) {
-			try {
-				String[] args = clients.get(i).readMessage();
+        for (int i = 0; i < clients.size(); i++) {
+            try {
+                String[] args = clients.get(i).readMessage();
 
-				if (args == null)
-					continue;
-				switch (args[0]) {
-				
-				case "HELLO":
-					clients.get(i).sendMessage("HELLO;MASTER\r\n");
-					clients.get(i).sendMessage(createTableString() + "\r\n");
-					break;
-				case "JOIN TABLE":
+                if (args == null)
+                    continue;
+                switch (args[0]) {
 
-					if (canJoinTable(args[1])) {
-						clients.get(i)
-								.sendMessage("JOINED;" + args[1] + "\r\n");
-						connectClientToTable(clients.get(i), args[1]);
-						clients.remove(i--);
-					} else
-						clients.get(i).sendMessage("NO\r\n");
+                    case "HELLO":
+                        clients.get(i).sendMessage("HELLO;MASTER\r\n");
+                        clients.get(i).sendMessage(createTableString() + "\r\n");
+                        break;
+                    case "JOIN TABLE":
 
-					break;
-				case "CREATE":
-					clients.get(i).sendMessage("CREATED\r\n");
+                        if (canJoinTable(args[1])) {
+                            clients.get(i)
+                                    .sendMessage("JOINED;" + args[1] + "\r\n");
+                            connectClientToTable(clients.get(i), args[1]);
+                            clients.remove(i--);
+                        } else
+                            clients.get(i).sendMessage("NO\r\n");
 
-					SessionContext context = new GameBuilder().start();
+                        break;
+                    case "CREATE":
+                        clients.get(i).sendMessage("CREATED\r\n");
 
-					context.waitReady();
-					Thread.sleep(100);
-					context.message("addClient", clients.get(i));
+                        SessionContext context = new GameBuilder().start();
 
-					activeTables.add(context);
-					clients.remove(i--);
+                        context.waitReady();
+                        Thread.sleep(100);
+                        context.message("addClient", clients.get(i));
 
-					break;
-				case "BYE":
-					clients.remove(i--);
-					break;
+                        activeTables.add(context);
+                        clients.remove(i--);
 
-				}
-			} catch (IOException e) {
-				clients.remove(i--);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+                        break;
+                    case "BYE":
+                        clients.remove(i--);
+                        break;
 
-	private boolean canJoinTable(String tableUUID) {
-		int tableNumber = getTableNumberFromUUID(tableUUID);
-		if (tableNumber == -1) {
-			return false;
-		}
+                }
+            } catch (IOException e) {
+                clients.remove(i--);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
 
-		if (activeTables.size() >= tableNumber) {
-			int maxPlayers = activeTables.get(tableNumber)
-					.getModel(GameModel.class).getMaxPlayers();
-			int currentPlayers = (int) activeTables.get(tableNumber)
-					.getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count();
-			if (currentPlayers < maxPlayers) {
-				return true;
-			}
-		}
-		return false;
-	}
+    private boolean canJoinTable(String tableUUID) {
+        int tableNumber = getTableNumberFromUUID(tableUUID);
+        if (tableNumber == -1) {
+            return false;
+        }
 
-	private int getTableNumberFromUUID(String tableUUID) {
-		int index = 0;
-		for (SessionContext table : activeTables) {
-			UUID uuid = table.getModel(GameModel.class).getUUID();
-			if (uuid.toString().equals(tableUUID)) {
-				return index;
-			}
-			index++;
-		}
-		return -1;
-	}
+        if (activeTables.size() >= tableNumber) {
+            int maxPlayers = activeTables.get(tableNumber)
+                    .getModel(GameModel.class).getMaxPlayers();
+            int currentPlayers = (int) activeTables.get(tableNumber)
+                    .getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count();
+            if (currentPlayers < maxPlayers) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	private void connectClientToTable(ProtocolConnection client,
-			String tableUUID) {
-		int tableNumber = getTableNumberFromUUID(tableUUID);
+    private int getTableNumberFromUUID(String tableUUID) {
+        int index = 0;
+        for (SessionContext table : activeTables) {
+            UUID uuid = table.getModel(GameModel.class).getUUID();
+            if (uuid.toString().equals(tableUUID)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
 
-		activeTables.get(tableNumber).message("addClient", client);
-	}
+    private void connectClientToTable(ProtocolConnection client,
+                                      String tableUUID) {
+        int tableNumber = getTableNumberFromUUID(tableUUID);
 
-	public void removeTableFromList(SessionContext leavingTable) {
-		System.out.println("removed table from list");
-		activeTables.remove(leavingTable);
-	}
+        activeTables.get(tableNumber).message("addClient", client);
+    }
 
-	public String createTableString() {
-		String tableString = "";
-		int tableNumber = 0;
-		for (SessionContext table : activeTables) {
+    public void removeTableFromList(SessionContext leavingTable) {
+        System.out.println("removed table from list");
+        activeTables.remove(leavingTable);
+    }
 
-			if (tableNumber == 0)
-				tableString = tableString.concat("TABLE;");
-			else
-				tableString = tableString.concat(";TABLE;");
+    public String createTableString() {
+        String tableString = "";
+        int tableNumber = 0;
+        for (SessionContext table : activeTables) {
+            if (tableNumber == 0)
+                tableString = tableString.concat("TABLE;");
+            else
+                tableString = tableString.concat(";TABLE;");
 
-			UUID uuid = table.getModel(GameModel.class).getUUID();
-			String maxPlayers = String.valueOf(table.getModel(GameModel.class)
-					.getMaxPlayers());
-			String currentPlayers = String.valueOf(table
-					.getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count());
-			tableString = tableString.concat(uuid.toString() + ";"
-					+ currentPlayers + ";" + maxPlayers);
+            GameModel gameModel = table.getModel(GameModel.class);
 
-			tableNumber++;
-		}
+            UUID uuid = gameModel.getUUID();
+            String name = gameModel.getName();
+            String maxPlayers = String.valueOf(gameModel.getMaxPlayers());
+            String currentPlayers = String.valueOf(gameModel.getPlayers().stream().filter(p -> !p.isBot()).count());
+
+            if (name == null)
+                name = "";
+
+            tableString = tableString.concat(String.format("%s;%s;%s;%s", uuid.toString(), name, currentPlayers, maxPlayers));
+
+            tableNumber++;
+        }
 //		System.out.println("Server tableString is: " + tableString
 //				+ "number of tables: " + activeTables.size());
-		return tableString;
-	}
+        return tableString;
+    }
 
 }
