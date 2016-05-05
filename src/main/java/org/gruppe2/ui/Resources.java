@@ -76,7 +76,9 @@ public class Resources {
             fxmlLoader.setRoot(node);
             fxmlLoader.setController(node);
 
+            long time = System.currentTimeMillis();
             fxmlLoader.load();
+            System.out.printf("FXML load %s: %dms\n", node.getClass().getSimpleName(), System.currentTimeMillis() - time);
 
         } catch (IOException e) {
             e.printStackTrace();

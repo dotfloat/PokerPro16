@@ -21,10 +21,10 @@
     </left>
 
     <right>
-        <VBox>
-            <Label fx:id="name" minWidth="${this.maxWidth * 0.5}" font="${this.font}" />
-            <Label fx:id="bank" minWidth="${this.maxWidth * 0.5}" font="${this.font}" />
-            <Label fx:id="bet" minWidth="${this.maxWidth * 0.5}" font="${this.font}" />
+        <VBox alignment="CENTER" minWidth="${this.maxWidth * 0.5}" maxWidth="${this.maxWidth * 0.5}">
+            <Label fx:id="name" font="${this.font}" />
+            <Label fx:id="bank" font="${this.font}" />
+            <Label fx:id="bet" font="${this.font}" />
         </VBox>
     </right>
 

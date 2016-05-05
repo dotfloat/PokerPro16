@@ -80,7 +80,7 @@ public class Table extends Pane {
 
             PlayerInfoBox p = new PlayerInfoBox();
             p.fontProperty().bind(font);
-            p.maxWidthProperty().bind(scale.multiply(15));
+            p.maxWidthProperty().bind(scale.multiply(45));
             p.maxHeightProperty().bind(scale.multiply(15));
             setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
             getChildren().add(p);
@@ -128,16 +128,16 @@ public class Table extends Pane {
     }
 
     private DoubleBinding translateX(ReadOnlyDoubleProperty width, double x) {
-        return scale.multiply(tableScale * x / 2.0).add(maxWidthProperty().divide(2)).subtract(width.divide(2));
+        return scale.multiply(tableScale * x).add(widthProperty().divide(2)).subtract(width.divide(2));
     }
 
     private DoubleBinding translateY(ReadOnlyDoubleProperty height, double y) {
-        return scale.multiply(tableScale * y / 2.0).add(maxHeightProperty().divide(2)).subtract(height.divide(2));
+        return scale.multiply(tableScale * y).add(heightProperty().divide(2)).subtract(height.divide(2));
     }
 
     private void setPositionAroundTable(Node node, ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height, double x, double dist) {
-        final double rectWidth = (logicalWidth - logicalHeight) * 2.0;
-        final double rectHeight = logicalHeight * 2.0;
+        final double rectWidth = (logicalWidth - logicalHeight);
+        final double rectHeight = logicalHeight;
         final double theta = Math.PI;
 
         dist *= rectHeight / 2.0;
