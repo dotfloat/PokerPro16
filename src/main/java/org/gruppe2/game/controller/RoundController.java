@@ -101,6 +101,9 @@ public class RoundController extends AbstractController {
     }
 
     private void resetRound() {
+        List<Player> sortedPlayers = new ArrayList<>(game.getPlayers());
+        sortedPlayers.sort((p1, p2) -> Integer.compare(p1.getTablePosition(), p2.getTablePosition()));
+
         List<RoundPlayer> active = round.getActivePlayers();
         active.clear();
         resetDeck();
@@ -108,8 +111,8 @@ public class RoundController extends AbstractController {
 
         boolean done = false;
         for (int i = game.getButton(); !done; i++) {
-            int j = (i + 1) % game.getPlayers().size();
-            Player p = game.getPlayers().get(j);
+            int j = (i + 1) % sortedPlayers.size();
+            Player p = sortedPlayers.get(j);
             if (p.getBank() > 0)
                 active.add(new RoundPlayer(p.getUUID(), deck.remove(0), deck.remove(0)));
             done = j == game.getButton();
