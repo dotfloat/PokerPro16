@@ -121,6 +121,8 @@ public class NetworkClientController extends AbstractController {
 				return actionParser(listOfCommands);
 			case "COMMUNITY":
 				return communityCardsParser(listOfCommands);
+			case "PLAYERCARDS":
+//				uuid = game.findPlayerByUUID(playerUUID);
 			case "YOUR TURN":
 				UUID playerUUID1 = UUID.fromString(listOfCommands[1]);
 				player = game.findPlayerByUUID(playerUUID1);
