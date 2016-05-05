@@ -45,8 +45,6 @@ public class HelperMenu extends VBox {
     }
 
     private void setSizes() {
-
-        title.fontProperty().bind(ChoiceBar.getFontTracking());
         entirePane.prefWidthProperty().bind(this.prefWidthProperty().multiply(0.9));
         entirePane.maxWidthProperty().bind(this.maxWidthProperty().multiply(0.9));
         entirePane.setVisible(false);

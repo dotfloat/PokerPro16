@@ -48,7 +48,6 @@ class Statistic extends BorderPane {
 
     private void initialize(boolean ifMenu) {
         setWindowSize(ifMenu);
-        setSizes();
         getStatistics();
     }
 
@@ -72,17 +71,5 @@ class Statistic extends BorderPane {
             this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.2));
             this.maxHeightProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
         }
-    }
-
-    private void setSizes() {
-        name.fontProperty().bind(ChoiceBar.fontTracking);
-        gamesPlayed.fontProperty().bind(ChoiceBar.fontTracking);
-        gamesWon.fontProperty().bind(ChoiceBar.fontTracking);
-        folded.fontProperty().bind(ChoiceBar.fontTracking);
-        call.fontProperty().bind(ChoiceBar.fontTracking);
-        check.fontProperty().bind(ChoiceBar.fontTracking);
-        totalBet.fontProperty().bind(ChoiceBar.fontTracking);
-        averageBet.fontProperty().bind(ChoiceBar.fontTracking);
-        balance.fontProperty().bind(ChoiceBar.fontTracking);
     }
 }
