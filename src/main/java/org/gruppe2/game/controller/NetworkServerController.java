@@ -10,7 +10,15 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.UUID;
 
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.CommunityCardsEvent;
+import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.PlayerPaysBlind;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
@@ -64,11 +72,13 @@ public class NetworkServerController extends AbstractController {
                         break;
                     case "JOIN":
                     	System.out.println("join event"+args[1]);
-                    	
                     	clients.get(i).setPlayerUUID(UUID.fromString(args[1]));
-                    	
                     	getContext().message("addPlayer", clients.get(i).getPlayerUUID(), args[3], args[2]);
                     	break;
+                    case "DISCONNECT":
+                    	Player player = gameHelper.findPlayerByUUID(clients.get(i).getPlayerUUID());
+                    	addEvent(new PlayerLeaveEvent(player));
+                    	clients.remove(i--);
                 }
             } catch (IOException e) {
                 clients.remove(i--);
@@ -102,7 +112,7 @@ public class NetworkServerController extends AbstractController {
     
     @Handler
     public void onPlayerJoin(PlayerJoinEvent playerJoinEvent){
-    	sendToAll("PLAYER JOINED;" + playerJoinEvent.getPlayer().getUUID() + ";" + playerJoinEvent.getPlayer().getAvatar() + ":"+playerJoinEvent.getPlayer().getName()+"\r\n");
+    	sendToAll("CONNECTED;" + playerJoinEvent.getPlayer().getUUID() + ";" + playerJoinEvent.getPlayer().getAvatar() + ":"+playerJoinEvent.getPlayer().getName()+"\r\n");
     }
 
     @Handler
@@ -114,9 +124,12 @@ public class NetworkServerController extends AbstractController {
     public void onChat(ChatEvent event) {
         sendToAll("CHAT;" + event.getPlayerUUID() + ":" + event.getMessage() + "\r\n");
     }
-
     @Handler
-    public void onPlayerAction(PlayerPostActionEvent actionEvent) {
+    public void onPlayerPreAction(PlayerPreActionEvent actionEvent) {
+        sendToAll("YOUR TURN;" + actionEvent.getPlayer().getUUID() + "\r\n");
+    }
+    @Handler
+    public void onPlayerPostAction(PlayerPostActionEvent actionEvent) {
         sendToAll("ACTION;" + actionEvent.getPlayer().getUUID() + ":" + actionEvent.getAction() + "\r\n");
     }
     @Handler
@@ -124,18 +137,24 @@ public class NetworkServerController extends AbstractController {
     	sendToAll("COMMUNITYCARDS;" + communityCardsEvent.getCards() + "\r\n");
     }
     @Handler
-    public void onPlayerCards(RoundStartEvent roundStartEvent){
-    	sendToAll("PLAYERCARDS;" + "c02;c03" + "\r\n");
+    public void onRoundStart(RoundStartEvent roundStartEvent){
+    	sendToAll("ROUND START;" + "c02;c03" + "\r\n");
     }
-
+    @Handler
+    public void onPlayerPaysBlind(PlayerPaysBlind playerPaysBlind){
+    	sendToAll("BLIND;" + playerPaysBlind.getPlayer().getUUID() + ";"+playerPaysBlind.getBlindAmount()+ "\r\n");
+    }
+    @Handler
+    public void onPlayerWon(){
+    	sendToAll("WON;" + "PLAYER UUID" + "\r\n");
+    }
     
-    public void onPlayerConnect() {
-        sendToAll("CONNECTED;" + "PLAYER UUID" + "\r\n");
-    }
 
     public void onPlayerDisconnect() {
         sendToAll("DISCONNECTED;" + "PLAYER UUID" + "\r\n");
     }
+    
+   
 
     private void syncModel(ProtocolConnection connection, Class<?> modelClass) throws IOException {
         byte[] byteObject = null;
