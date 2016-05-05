@@ -9,6 +9,7 @@ public class PlayerStatistics {
     private final AtomicInteger timesFolded = new AtomicInteger();
     private final AtomicInteger timesCalled = new AtomicInteger();
     private final AtomicInteger timesChecked = new AtomicInteger();
+    private final AtomicInteger timesRaised = new AtomicInteger();
     private final AtomicInteger totalBets = new AtomicInteger();
     private final AtomicInteger totalWinnings = new AtomicInteger();
 
@@ -34,6 +35,10 @@ public class PlayerStatistics {
 
     public AtomicInteger getTimesChecked() {
         return timesChecked;
+    }
+
+    public AtomicInteger getTimesRaised() {
+        return timesRaised;
     }
 
     public AtomicInteger getTotalBets() {

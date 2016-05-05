@@ -85,7 +85,7 @@ public class PlayerInfoBox extends BorderPane {
 
     @FXML
     public void viewStatistic(MouseEvent event) {
-        SceneController.setTooltip(new ToolTip(new Statistic(false)), event.getSceneX(), event.getSceneY());
+        SceneController.setTooltip(new ToolTip(new Statistic(playerUUID)), event.getSceneX(), event.getSceneY());
     }
 
     @Handler

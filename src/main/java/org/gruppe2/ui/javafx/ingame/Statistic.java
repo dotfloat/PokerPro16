@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
+import javafx.scene.layout.GridPane;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.PlayerStatistics;
 import org.gruppe2.game.helper.GameHelper;
@@ -13,7 +14,9 @@ import org.gruppe2.game.session.Model;
 import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
-class Statistic extends BorderPane {
+import java.util.UUID;
+
+class Statistic extends GridPane {
 
     @Model
     private StatisticsModel model;
@@ -27,49 +30,33 @@ class Statistic extends BorderPane {
     @FXML
     private Label gamesWon;
     @FXML
-    private Label folded;
+    private Label gamesLost;
     @FXML
-    private Label call;
+    private Label timesCalled;
     @FXML
-    private Label check;
+    private Label timesChecked;
     @FXML
-    private Label totalBet;
+    private Label timesRaised;
     @FXML
-    private Label averageBet;
+    private Label totalBets;
     @FXML
-    private Label balance;
+    private Label totalWinnings;
 
-
-    public Statistic(boolean ifMenu) {
+    Statistic(UUID playerUUID) {
         Resources.loadFXML(this);
         Game.setAnnotated(this);
-        initialize(ifMenu);
-    }
 
-    private void initialize(boolean ifMenu) {
-        setWindowSize(ifMenu);
-        getStatistics();
-    }
+        PlayerStatistics stats = model.getPlayerStatistics().get(playerUUID);
 
-    private void getStatistics() {
-        PlayerStatistics stats = model.getPlayerStatistics().get(Game.getPlayerUUID());
-        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
+        name.setText(gameHelper.findPlayerByUUID(playerUUID).getName());
 
-        name.setText(player.getName());
         gamesPlayed.setText(String.valueOf(stats.getGamesPlayed()));
         gamesWon.setText(String.valueOf(stats.getGamesWon()));
-        folded.setText(String.valueOf(stats.getTimesFolded()));
-        call.setText(String.valueOf(stats.getTimesCalled()));
-        check.setText(String.valueOf(stats.getTimesChecked()));
-    }
-
-    private void setWindowSize(boolean ifMenu) {
-        if (ifMenu) {
-            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.3));
-            this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.2));
-        } else {
-            this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.2));
-            this.maxHeightProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
-        }
+        gamesLost.setText(String.valueOf(stats.getGamesLost()));
+        timesCalled.setText(String.valueOf(stats.getTimesCalled()));
+        timesChecked.setText(String.valueOf(stats.getTimesChecked()));
+        timesRaised.setText(String.valueOf(stats.getTimesRaised()));
+        totalBets.setText(String.valueOf(stats.getGamesPlayed()));
+        totalWinnings.setText(String.valueOf(stats.getGamesPlayed()));
     }
 }
