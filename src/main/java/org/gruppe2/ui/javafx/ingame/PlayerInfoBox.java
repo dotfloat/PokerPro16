@@ -50,6 +50,7 @@ public class PlayerInfoBox extends BorderPane {
         stack.fontProperty().bind(ChoiceBar.fontTracking);
         currentBet.fontProperty().bind(ChoiceBar.fontTracking);
 
+        playerPicture.setImage(Resources.getAvatar("bravo"));
     }
 
     void setValues(UUID playerUUID) {

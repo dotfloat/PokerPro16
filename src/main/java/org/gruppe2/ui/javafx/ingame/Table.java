@@ -9,6 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import org.gruppe2.game.Player;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.session.Helper;
 

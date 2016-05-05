@@ -51,6 +51,8 @@ public class ThisPlayerInfoBox extends HBox {
         	player = gameHelper.findPlayerByUUID(playerUUID);
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
+
+        profileImage.setImage(Resources.getAvatar(player.getAvatar()));
     }
 
     private void setSize() {

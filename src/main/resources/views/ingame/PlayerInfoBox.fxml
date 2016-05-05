@@ -8,9 +8,7 @@
 
     <left>
         <StackPane>
-            <ImageView fx:id="playerPicture" preserveRatio="true">
-                <Image url="/images/avatars/default.png"/>
-            </ImageView>
+            <ImageView fx:id="playerPicture" preserveRatio="true" />
             <ImageView fx:id="folded" visible="false" preserveRatio="true">
                 <Image url="/images/ui/folded.png"/>
             </ImageView>
