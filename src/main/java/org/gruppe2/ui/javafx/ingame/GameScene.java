@@ -28,22 +28,6 @@ public class GameScene extends Pane {
     private ChoiceBar choiceBar;
 
     public GameScene() {
-        boolean player = false;
-
-        if (Main.getProperty("name").isEmpty()) {
-            Main.setProperty("name", NewDumbAI.randomName());
-        }
-
-        if (Main.getProperty("avatar").isEmpty()) {
-            String[] avatars = UIResources.listAvatars();
-            Random random = new Random();
-
-            Main.setProperty("avatar", avatars[random.nextInt(avatars.length)]);
-        }
-
-        if ((player = Game.message("addPlayer", Game.getPlayerUUID(), Main.getProperty("name"), Main.getProperty("avatar")).get())) {
-            Game.message("addPlayerStatistics", Game.getPlayerUUID(), Main.loadPlayerStatistics());
-        }
 
         UIResources.loadFXML(this);
         Game.setAnnotated(this);

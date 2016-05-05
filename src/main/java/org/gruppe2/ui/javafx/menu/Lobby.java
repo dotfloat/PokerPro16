@@ -76,7 +76,7 @@ public class Lobby extends BorderPane {
 		
 	}
 	public void createGame(){
-		Game.setContext(masterClient.createNewTable());
+		Game.getInstance().setContext(masterClient.createNewTable());
 		SceneController.setScene(new GameScene());
 	}
 
@@ -85,7 +85,7 @@ public class Lobby extends BorderPane {
 		masterClient.requestJoinTable(uuid);
 	}
 	public void joinGame(){
-		Game.setContext(masterClient.joinTable());
+		Game.getInstance().setContext(masterClient.joinTable());
 		SceneController.setScene(new GameScene());
 	}
 
