@@ -9,7 +9,6 @@ import org.gruppe2.game.Action;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Cards;
 import org.gruppe2.game.Player;
-import org.gruppe2.game.PokerLog;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
@@ -159,10 +158,11 @@ public class NetworkClientController extends AbstractController {
 
                 case "CONNECTED":
                     uuid = UUID.fromString(listOfCommands[1]);
-                    String name = listOfCommands[3];
+                    String name = listOfCommands[4];
                     String avatar = listOfCommands[2];
+                    int tablePosition = Integer.parseInt(listOfCommands[3]);
 
-                    player = new Player(uuid, name, avatar, false);
+                    player = new Player(uuid, name, avatar, false, tablePosition);
 
                     game.getModel().getPlayers().add(player);
                     return new PlayerJoinEvent(player);
