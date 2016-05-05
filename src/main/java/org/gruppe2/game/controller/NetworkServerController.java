@@ -11,6 +11,7 @@ import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
@@ -21,6 +22,7 @@ import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
+import org.gruppe2.game.session.Query;
 import org.gruppe2.network.ConnectedClient;
 import org.gruppe2.network.ProtocolConnection;
 
@@ -33,6 +35,8 @@ public class NetworkServerController extends AbstractController {
     private GameHelper gameHelper;
     @Helper
     private RoundHelper roundHelper;
+    
+    private Query<Action> action = null;
 
     @Override
     public void update() {
@@ -85,6 +89,13 @@ public class NetworkServerController extends AbstractController {
 
                         clients.remove(i--);
                         break;
+                    case "ACTION":
+                    	uuid = clients.get(i).getPlayerUUID();
+                    	
+                    	setPlayerActionFromMessage(uuid,args);
+                    	
+                    	
+                    	
                 }
             } catch (IOException e) {
                 clients.remove(i--);
@@ -92,7 +103,9 @@ public class NetworkServerController extends AbstractController {
         }
     }
 
-    @Message
+    
+
+	@Message
     public void listen() {
         try {
             serverSocket = ServerSocketChannel.open();
@@ -145,6 +158,7 @@ public class NetworkServerController extends AbstractController {
                 .ifPresent(c -> {
                     try {
                         c.getConnection().sendMessage("YOUR TURN\r\n");
+                        action = query.getPlayer().getAction();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -205,7 +219,30 @@ public class NetworkServerController extends AbstractController {
     public void onPlayerDisconnect() {
         sendToAll("DISCONNECTED;" + "PLAYER UUID" + "\r\n");
     }
+    
+    private void setPlayerActionFromMessage(UUID uuid, String[] args) {
+    	switch (args[1]) {
+        case "Call":
+            action.set(new Action.Call());
+            break;
 
+        case "Check":
+            action.set(new Action.Check());
+            break;
+
+        case "Fold":
+            action.set(new Action.Fold());
+            break;
+
+        case "Raise":
+            action.set(new Action.Raise(Integer.valueOf(args[2])));
+            break;
+    	}
+    	
+    	sendToAll("ACTION;" + uuid + ";" + action.get().toNetworkString() + "\r\n");
+    	
+    	action = null;
+	}
 
     private void syncModel(ProtocolConnection connection, Class<?> modelClass) throws IOException {
         byte[] byteObject = null;

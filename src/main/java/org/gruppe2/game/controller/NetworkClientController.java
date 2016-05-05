@@ -10,7 +10,18 @@ import org.gruppe2.game.Card;
 import org.gruppe2.game.Cards;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.CommunityCardsEvent;
+import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.PlayerPaysBlind;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
+import org.gruppe2.game.event.QuitEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.NetworkClientModel;
@@ -18,16 +29,20 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.game.session.Model;
+import org.gruppe2.game.session.Query;
 import org.gruppe2.ui.javafx.ingame.Game;
 
 public class NetworkClientController extends AbstractController {
-    @Model
+    
+	@Model
     private NetworkClientModel model;
 
     @Helper
     private GameHelper game;
     @Helper
     private RoundHelper round;
+    
+    Query<Action> actionQuery;
 
     //	player.getAction().isDone()
     @Override
@@ -39,6 +54,7 @@ public class NetworkClientController extends AbstractController {
                 return;
 
             messageSwitch(message);
+            checkForAction();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,7 +62,17 @@ public class NetworkClientController extends AbstractController {
         }
     }
 
-    private void messageSwitch(String[] message) {
+    private void checkForAction() {
+    	
+    	if(actionQuery != null){
+	    	Action action = actionQuery.get();
+	    	
+	    	sendMessage(String.format("ACTION;%s\r\n", action.toNetworkString()));
+	    	actionQuery = null;
+    	}	
+	}
+
+	private void messageSwitch(String[] message) {
 
         switch (message[0]) {
 
@@ -57,6 +83,12 @@ public class NetworkClientController extends AbstractController {
                     addEvent(event);
                 break;
         }
+    }
+    @Handler
+    public void setActionHandler(PlayerActionQuery playerActionQuery){
+    	if(playerActionQuery.getPlayer().getUUID().equals(Game.getPlayerUUID())){
+    		actionQuery = playerActionQuery.getPlayer().getAction();
+    	}
     }
 
     @Message
