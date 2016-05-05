@@ -5,12 +5,15 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 
@@ -20,6 +23,8 @@ import java.util.List;
 public class Table extends Pane {
     @Helper
     private GameHelper game;
+    @Helper
+    private RoundHelper round;
 
     private final double ratio = 2464.0 / 1368.0;
     private final double logicalWidth = 308;
@@ -34,6 +39,7 @@ public class Table extends Pane {
     private DoubleProperty fitHeight = new SimpleDoubleProperty();
 
     private List<PlayerInfoBox> players = new ArrayList<>();
+    private Label pot = new Label();
 
 	public Table() {
         Game.setAnnotated(this);
@@ -80,12 +86,18 @@ public class Table extends Pane {
 
             PlayerInfoBox p = new PlayerInfoBox();
             p.fontProperty().bind(font);
-            p.maxWidthProperty().bind(scale.multiply(15));
+            p.maxWidthProperty().bind(scale.multiply(45));
             p.maxHeightProperty().bind(scale.multiply(15));
             setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
             getChildren().add(p);
             players.add(p);
         }
+
+        pot.setText("Total pot: $0");
+        pot.fontProperty().bind(font);
+        pot.layoutXProperty().bind(translateX(pot.widthProperty(), 0));
+        pot.layoutYProperty().bind(translateY(pot.heightProperty(), 50));
+        getChildren().add(pot);
 	}
 
     @Handler
@@ -101,6 +113,11 @@ public class Table extends Pane {
                 }
             }
         }
+    }
+
+    @Handler
+    public void onPostAction(PlayerPostActionEvent event) {
+        pot.setText("Total pot: $" + round.getPot());
     }
 
     public double getFitWidth() {
@@ -128,16 +145,16 @@ public class Table extends Pane {
     }
 
     private DoubleBinding translateX(ReadOnlyDoubleProperty width, double x) {
-        return scale.multiply(tableScale * x / 2.0).add(maxWidthProperty().divide(2)).subtract(width.divide(2));
+        return scale.multiply(tableScale * x).add(widthProperty().divide(2)).subtract(width.divide(2));
     }
 
     private DoubleBinding translateY(ReadOnlyDoubleProperty height, double y) {
-        return scale.multiply(tableScale * y / 2.0).add(maxHeightProperty().divide(2)).subtract(height.divide(2));
+        return scale.multiply(tableScale * y).add(heightProperty().divide(2)).subtract(height.divide(2));
     }
 
     private void setPositionAroundTable(Node node, ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height, double x, double dist) {
-        final double rectWidth = (logicalWidth - logicalHeight) * 2.0;
-        final double rectHeight = logicalHeight * 2.0;
+        final double rectWidth = (logicalWidth - logicalHeight);
+        final double rectHeight = logicalHeight;
         final double theta = Math.PI;
 
         dist *= rectHeight / 2.0;

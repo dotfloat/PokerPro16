@@ -24,8 +24,8 @@
              layoutY="${root.height - choiceBar.height - chatBox.height}"/>
 
     <Table fx:id="table"
-           layoutX="${root.width / 2 - table.width / 2}"
-           layoutY="0.0"
+           layoutX="${root.width / 2.0 - table.width / 2.0}"
+           layoutY="${root.height / 4.0 - table.height / 4.0}"
            fitWidth="${root.width}"
            fitHeight="${root.height - choiceBar.height}"/>
 
