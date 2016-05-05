@@ -24,7 +24,6 @@ import org.gruppe2.ui.Resources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class ChoiceBar extends HBox {
-    static ObjectProperty<Font> fontTracking = new SimpleObjectProperty<>(Font.getDefault());
     
     
     @Helper
@@ -54,8 +53,6 @@ public class ChoiceBar extends HBox {
 
     @FXML
     private void setSizes() {
-        setFontListener();
-
         this.spacingProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.02));
 
         slider.prefWidthProperty().bind(
@@ -74,15 +71,6 @@ public class ChoiceBar extends HBox {
         btnBet.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
 
-    }
-
-    private void setFontListener() {
-        btnBet.fontProperty().bind(fontTracking);
-        btnFold.fontProperty().bind(fontTracking);
-        chatField.fontProperty().bind(fontTracking);
-        this.widthProperty().addListener((observableValue, oldWidth, newWidth) -> {
-            fontTracking.set(Font.font(newWidth.doubleValue() / 70));
-        });
     }
 
     @FXML
@@ -194,8 +182,5 @@ public class ChoiceBar extends HBox {
     		actionQuery = playerActionQuery.getPlayer().getAction();
     		updatePossibleBarsToClick();
     	}
-    }
-    public static ObjectProperty<Font> getFontTracking(){
-    	return fontTracking;
     }
 }

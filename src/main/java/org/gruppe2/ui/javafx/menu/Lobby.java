@@ -53,7 +53,6 @@ public class Lobby extends BorderPane {
 	private Pane tile;
 
 	public Lobby() {
-		PokerApplication.networkStart = true;
 		masterClient = new MasterClient(this);
 		Resources.loadFXML(this);
 		setSize();

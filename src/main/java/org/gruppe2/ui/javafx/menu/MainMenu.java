@@ -38,7 +38,6 @@ public class MainMenu extends BorderPane {
 
 	public MainMenu() {
 		Resources.loadFXML(this);
-		PokerApplication.networkStart = false;
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
 		vBox.maxWidthProperty().bind(
@@ -55,7 +54,6 @@ public class MainMenu extends BorderPane {
 	}
 
 	public void goToTestClient() {
-		PokerApplication.networkStart = true;
 		SceneController.setScene(new GameScene());
 	}
 

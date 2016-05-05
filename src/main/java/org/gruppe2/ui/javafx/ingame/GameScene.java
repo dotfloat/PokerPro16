@@ -38,7 +38,7 @@ public class GameScene extends Pane {
     public GameScene() {
         boolean player = false;
 
-        if ((player = Game.message("addPlayer", Game.getPlayerUUID(), "alpha", "default").get())) {
+        if ((player = Game.message("addPlayer", Game.getPlayerUUID(), "Donaldu Trumpu", "alpha").get())) {
             Game.message("addPlayerStatistics", Game.getPlayerUUID(), Main.loadPlayerStatistics());
         }
 

@@ -20,7 +20,6 @@ public class DifferentHandView extends VBox {
     public DifferentHandView(String name, List<Card> hand, List<Card> notHand){
         Resources.loadFXML(this);
         handName.setText(name);
-        handName.fontProperty().bind(ChoiceBar.fontTracking);
         if (notHand != null) for (Card card : notHand) this.cards.getChildren().add(createCardImage(card, false));
         for (Card card : hand) this.cards.getChildren().add(createCardImage(card, true));
     }

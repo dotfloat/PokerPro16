@@ -27,7 +27,7 @@ public class ThisPlayerInfoBox extends HBox {
 	private UUID playerUUID;
     RoundPlayer roundPlayer;
     Player player;
-    
+
     @Helper
     private GameHelper gameHelper;
     @Helper
@@ -47,8 +47,7 @@ public class ThisPlayerInfoBox extends HBox {
         Game.setAnnotated(this);
         playerUUID = Game.getPlayerUUID();
 
-        if(!PokerApplication.networkStart)
-        	player = gameHelper.findPlayerByUUID(playerUUID);
+        player = gameHelper.findPlayerByUUID(playerUUID);
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
 
@@ -68,7 +67,6 @@ public class ThisPlayerInfoBox extends HBox {
     private void bindToStage(Node... nodes) {
         for (Node n : nodes) {
             if (n instanceof Label) {
-                ((Label) n).fontProperty().bind(ChoiceBar.fontTracking);
                 ((Label) n).prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
             } else if (n instanceof ImageView)
                 ((ImageView) n).fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));

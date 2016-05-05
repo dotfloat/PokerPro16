@@ -39,8 +39,6 @@ public class LobbyTable extends StackPane {
 		tableImage.preserveRatioProperty().setValue(true);
 		tableImage.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(size));
-		players.fontProperty().bind(ChoiceBar.getFontTracking());
-		name.fontProperty().bind(ChoiceBar.getFontTracking());
 	}
 	@FXML
 	private void joinTable(){
