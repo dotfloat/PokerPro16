@@ -36,7 +36,7 @@ public class PlayerCards extends HBox {
     public void setPlayerCards(CommunityCards communityCardsBox) {
     	
     	if(roundHelper.getActivePlayers().contains(roundHelper.findPlayerByUUID(Game.getPlayerUUID()))){
-	    	Card[] cards = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).getCards();
+	    	Card[] cards = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getCards();
 	        setPaneStyle();
 	
 	        playerCard1.setImage(new Image(("/images/cards/"

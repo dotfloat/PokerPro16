@@ -8,9 +8,11 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.PlayerJoinEvent;
@@ -66,23 +68,30 @@ public class NetworkServerController extends AbstractController {
                 UUID uuid;
                 switch (args[0]) {
                     case "SAY":
-                    	uuid = clients.get(i).getPlayerUUID();
-                    	if (uuid == null)
-                    		continue;
-                    	
+                        uuid = clients.get(i).getPlayerUUID();
+                        if (uuid == null)
+                            continue;
+
                         addEvent(new ChatEvent(args[1], uuid));
                         break;
                     case "JOIN":
-                    	clients.get(i).setPlayerUUID(UUID.fromString(args[1]));
-                    	getContext().message("addPlayer", clients.get(i).getPlayerUUID(), args[3], args[2]);
-                    	break;
+                        clients.get(i).setPlayerUUID(UUID.fromString(args[1]));
+                        getContext().message("addPlayer", clients.get(i).getPlayerUUID(), args[3], args[2]);
+                        break;
                     case "DISCONNECT":
-                    	uuid = clients.get(i).getPlayerUUID();
-                    	Player player = gameHelper.findPlayerByUUID(uuid);
-                    	roundHelper.getActivePlayers().remove(roundHelper.findPlayerByUUID(uuid));
-                    	
-                    	addEvent(new PlayerLeaveEvent(player));
-                    	clients.remove(i--);
+                        uuid = clients.get(i).getPlayerUUID();
+                        Optional<Player> player = gameHelper.findPlayerByUUID(uuid);
+
+                        if (player.isPresent()) {
+                            Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(uuid);
+
+                            if (roundPlayer.isPresent())
+                                roundHelper.getActivePlayers().remove(roundPlayer.get());
+
+                            addEvent(new PlayerLeaveEvent(player.get()));
+                        }
+
+                        clients.remove(i--);
                 }
             } catch (IOException e) {
                 clients.remove(i--);
@@ -100,23 +109,23 @@ public class NetworkServerController extends AbstractController {
             e.printStackTrace();
         }
     }
-    
+
     @Message
     public void addClient(ProtocolConnection connection) {
-    	clients.add(new ConnectedClient(connection));
+        clients.add(new ConnectedClient(connection));
 
         try {
-			syncModel(connection, GameModel.class);
-	        syncModel(connection, RoundModel.class);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            syncModel(connection, GameModel.class);
+            syncModel(connection, RoundModel.class);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-    
+
     @Handler
-    public void onPlayerJoin(PlayerJoinEvent playerJoinEvent){
-    	sendToAll("CONNECTED;" + playerJoinEvent.getPlayer().getUUID() + ";" + playerJoinEvent.getPlayer().getAvatar() + ":"+playerJoinEvent.getPlayer().getName()+"\r\n");
+    public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
+        sendToAll("CONNECTED;" + playerJoinEvent.getPlayer().getUUID() + ";" + playerJoinEvent.getPlayer().getAvatar() + ":" + playerJoinEvent.getPlayer().getName() + "\r\n");
     }
 
     @Handler
@@ -128,56 +137,67 @@ public class NetworkServerController extends AbstractController {
     public void onChat(ChatEvent event) {
         sendToAll("CHAT;" + event.getPlayerUUID() + ":" + event.getMessage() + "\r\n");
     }
+
     @Handler
     public void onPlayerPreAction(PlayerPreActionEvent actionEvent) {
         sendToAll("YOUR TURN;" + actionEvent.getPlayer().getUUID() + "\r\n");
     }
+
     @Handler
     public void onPlayerPostAction(PlayerPostActionEvent actionEvent) {
         sendToAll("ACTION;" + actionEvent.getPlayer().getUUID() + ":" + actionEvent.getAction() + "\r\n");
     }
-    @Handler
-    public void onCommunityCards(CommunityCardsEvent communityCardsEvent){
-    	sendToAll("COMMUNITYCARDS;" + communityCardsEvent.getCards() + "\r\n");
-    }
-    @Handler
-    public void onRoundStart(RoundStartEvent roundStartEvent){
-    	sendToAll("ROUND START;"+ "\r\n");
-    	for (int i = 0; i < clients.size(); i++) {
-    		UUID uuid = clients.get(i).getPlayerUUID();
-    		String playerCards = roundHelper.findPlayerByUUID(uuid).getCards().toString();
-    		playerCards = "PLAYERCARDS;"+playerCards;
-    		sendToOne(i,playerCards);
-    	}
-    }
-    
-    private void sendToOne(int i, String message) {
-    	try {
-			clients.get(i).getConnection().sendMessage(message);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
-	@Handler
-    public void onRoundEnd(RoundEndEvent roundEndEvent){
-    	sendToAll("ROUND END;"+ "\r\n");
-    }
     @Handler
-    public void onPlayerPaysBlind(PlayerPaysBlind playerPaysBlind){
-    	sendToAll("BLIND;" + playerPaysBlind.getPlayer().getUUID() + ";"+playerPaysBlind.getBlindAmount()+ "\r\n");
+    public void onCommunityCards(CommunityCardsEvent communityCardsEvent) {
+        sendToAll("COMMUNITYCARDS;" + communityCardsEvent.getCards() + "\r\n");
     }
+
     @Handler
-    public void onPlayerWon(PlayerWonEvent playerWonEvent){
-    	sendToAll("WON;" + playerWonEvent.getPlayer().getUUID() + "\r\n");
+    public void onRoundStart(RoundStartEvent roundStartEvent) {
+        sendToAll("ROUND START;" + "\r\n");
+        for (int i = 0; i < clients.size(); i++) {
+            UUID uuid = clients.get(i).getPlayerUUID();
+            Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(uuid);
+
+            if (roundPlayer.isPresent()) {
+                String playerCards = roundPlayer.get().getCards().toString();
+
+                playerCards = "PLAYERCARDS;" + playerCards;
+
+                sendToOne(i, playerCards);
+            }
+        }
     }
-    
+
+    private void sendToOne(int i, String message) {
+        try {
+            clients.get(i).getConnection().sendMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Handler
+    public void onRoundEnd(RoundEndEvent roundEndEvent) {
+        sendToAll("ROUND END;" + "\r\n");
+    }
+
+    @Handler
+    public void onPlayerPaysBlind(PlayerPaysBlind playerPaysBlind) {
+        sendToAll("BLIND;" + playerPaysBlind.getPlayer().getUUID() + ";" + playerPaysBlind.getBlindAmount() + "\r\n");
+    }
+
+    @Handler
+    public void onPlayerWon(PlayerWonEvent playerWonEvent) {
+        sendToAll("WON;" + playerWonEvent.getPlayer().getUUID() + "\r\n");
+    }
+
 
     public void onPlayerDisconnect() {
         sendToAll("DISCONNECTED;" + "PLAYER UUID" + "\r\n");
     }
-    
-   
+
 
     private void syncModel(ProtocolConnection connection, Class<?> modelClass) throws IOException {
         byte[] byteObject = null;
@@ -191,7 +211,7 @@ public class NetworkServerController extends AbstractController {
 
         connection.sendMessage(String.format("SYNC;%s:%s\r\n", modelClass.getSimpleName(), new String(Base64.getEncoder().encode(byteObject))));
     }
-    
+
 
     private void sendToAll(String mesg) {
         for (int i = 0; i < clients.size(); i++) {
@@ -202,8 +222,7 @@ public class NetworkServerController extends AbstractController {
             }
         }
     }
-    
-    
+
 
     /**
      * Used to send objects over socket channel

@@ -2,6 +2,7 @@ package org.gruppe2.game.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.gruppe2.game.Action;
@@ -29,195 +30,218 @@ import org.gruppe2.game.session.Message;
 import org.gruppe2.game.session.Model;
 
 public class NetworkClientController extends AbstractController {
-	@Model
-	private NetworkClientModel model;
+    @Model
+    private NetworkClientModel model;
 
-	@Helper
-	private GameHelper game;
-	@Helper
-	private RoundHelper roundHelper;
-//	player.getAction().isDone()
-	@Override
-	public void update() {
-		try {
-			String[] message = model.getConnection().readMessage();
+    @Helper
+    private GameHelper game;
+    @Helper
+    private RoundHelper roundHelper;
 
-			if (message == null)
-				return;
-			
-			messageSwitch(message);
+    //	player.getAction().isDone()
+    @Override
+    public void update() {
+        try {
+            String[] message = model.getConnection().readMessage();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			getContext().quit();
-		}
-	}
+            if (message == null)
+                return;
 
-	private void messageSwitch(String[] message) {
-		
-		switch (message[0]) {
-		
-		default:
-			Event event = parseEvent(message);
+            messageSwitch(message);
 
-			if (event != null)
-				addEvent(event);
-			break;
-		}
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+            getContext().quit();
+        }
+    }
 
-	@Message
-	public void addPlayer(UUID uuid, String name, String avatar) {
-		try {
-			model.getConnection().sendMessage(
-					"JOIN;" + uuid + ";" + avatar + ":" + name + "\r\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    private void messageSwitch(String[] message) {
 
-	@Message
-	public void chat(String message, UUID playerUUID) {
-		sendMessage(String.format("SAY:%s\r\n", message));
-	}
-	@Message
-	public void action(String message, UUID playerUUID) {
-		sendMessage(String.format("SAY:%s\r\n", message));
-	}
-	
-	@Handler
-	public void onQuit(QuitEvent quitEvent) {
-		sendMessage("DISSCONNECT");
-	}
-	
-	
+        switch (message[0]) {
 
-	private void sendMessage(String message) {
-		try {
-			model.getConnection().sendMessage(message);
-		} catch (IOException e) {
-			e.printStackTrace();
-			getContext().quit();
-		}
-	}
+            default:
+                Event event = parseEvent(message);
 
-	/**
-	 * Creates an event from the list of commands given by the protocol reader
-	 * method
-	 *
-	 * @param listOfCommands
-	 * @return
-	 */
-	public Event parseEvent(String[] listOfCommands) {
-		UUID uuid;
-		Player player;
-		if (listOfCommands.length > 0) {
-			switch (listOfCommands[0]) {
-			case "CHAT":
-				UUID playerUUID = UUID.fromString(listOfCommands[1]);
-				String message = listOfCommands[2];
-				return new ChatEvent(message, playerUUID);
-			case "ACTION":
-				return actionParser(listOfCommands);
-			case "COMMUNITY":
-				return communityCardsParser(listOfCommands);
-			case "PLAYERCARDS":
+                if (event != null)
+                    addEvent(event);
+                break;
+        }
+    }
+
+    @Message
+    public void addPlayer(UUID uuid, String name, String avatar) {
+        try {
+            model.getConnection().sendMessage(
+                    "JOIN;" + uuid + ";" + avatar + ":" + name + "\r\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Message
+    public void chat(String message, UUID playerUUID) {
+        sendMessage(String.format("SAY:%s\r\n", message));
+    }
+
+    @Message
+    public void action(String message, UUID playerUUID) {
+        sendMessage(String.format("SAY:%s\r\n", message));
+    }
+
+    @Handler
+    public void onQuit(QuitEvent quitEvent) {
+        sendMessage("DISSCONNECT");
+    }
+
+
+    private void sendMessage(String message) {
+        try {
+            model.getConnection().sendMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+            getContext().quit();
+        }
+    }
+
+    /**
+     * Creates an event from the list of commands given by the protocol reader
+     * method
+     *
+     * @param listOfCommands
+     * @return
+     */
+    public Event parseEvent(String[] listOfCommands) {
+        UUID uuid;
+        Player player;
+        Optional<Player> optionalPlayer;
+        Optional<RoundPlayer> optionalRoundPlayer;
+        if (listOfCommands.length > 0) {
+            switch (listOfCommands[0]) {
+                case "CHAT":
+                    UUID playerUUID = UUID.fromString(listOfCommands[1]);
+                    String message = listOfCommands[2];
+                    return new ChatEvent(message, playerUUID);
+
+                case "ACTION":
+                    return actionParser(listOfCommands);
+
+                case "COMMUNITY":
+                    return communityCardsParser(listOfCommands);
+
+                case "PLAYERCARDS":
 //				uuid = game.findPlayerByUUID(playerUUID);
-			case "YOUR TURN":
-				UUID playerUUID1 = UUID.fromString(listOfCommands[1]);
-				player = game.findPlayerByUUID(playerUUID1);
-				return new PlayerPreActionEvent(player);
-			case "BLIND":
-				uuid = UUID.fromString(listOfCommands[1]);
-				Player player1 = game.findPlayerByUUID(uuid);
-				RoundPlayer roundPlayer1 = roundHelper.findPlayerByUUID(uuid);
-				int value = Integer.valueOf(listOfCommands[2]);
-				return new PlayerPaysBlind(player1,roundPlayer1,value);
-			case "CONNECTED":
-				uuid = UUID.fromString(listOfCommands[1]);
-				String name = listOfCommands[3];
-				String avatar = listOfCommands[2];
-				player = new Player(uuid, name, avatar, false);
-				game.getModel().getPlayers().add(player);
-				return new PlayerJoinEvent(player);
-			case "DISCONNECTED":
-				uuid = UUID.fromString(listOfCommands[1]);
-				player = game.findPlayerByUUID(uuid);
-				game.getPlayers().remove(player);
-				return new PlayerLeaveEvent(player);
-			case "WON":
-				uuid = UUID.fromString(listOfCommands[1]);
-				player = game.findPlayerByUUID(uuid);
-				game.getPlayers().remove(player);
-				return new PlayerWonEvent(player);
-			case "ROUND START":
-				return new RoundStartEvent();
-			case "ROUND END":
-				return new RoundStartEvent();
-				
-			}
-			
-			
-			
-		}
-		return null;
-	}
 
-	private Event communityCardsParser(String[] listOfCommands) {
+                case "YOUR TURN":
+                    UUID playerUUID1 = UUID.fromString(listOfCommands[1]);
+                    optionalPlayer = game.findPlayerByUUID(playerUUID1);
 
-		String cardsString = listOfCommands[1];
-		List<Card> cards = Cards.asList(cardsString);
-		return new CommunityCardsEvent(cards);
-	}
+                    if (optionalPlayer.isPresent())
+                        return new PlayerPreActionEvent(optionalPlayer.get());
 
-	/**
-	 * Returns a PlayerPostActionEvent, and sets the players action, so that it
-	 * happens ingame for each client
-	 * 
-	 * @param listOfCommands
-	 * @return
-	 */
-	private Event actionParser(String[] listOfCommands) {
-		UUID playerUUID = UUID.fromString(listOfCommands[1]);
-		Player player = game.findPlayerByUUID(playerUUID); // USE uuid to find
-															// player
-		RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(playerUUID); // Same
-																			// here
-		Action action = specificActionParser(listOfCommands, player,
-				roundPlayer);
+                    break;
 
-		return new PlayerPostActionEvent(player, roundPlayer, action);
-	}
+                case "BLIND":
+                    uuid = UUID.fromString(listOfCommands[1]);
+                    optionalPlayer = game.findPlayerByUUID(uuid);
+                    optionalRoundPlayer = roundHelper.findPlayerByUUID(uuid);
 
-	/**
-	 * This is a test for showing how action parses might be, but something is
-	 * missing.
-	 */
-	private Action specificActionParser(String[] listOfCommands, Player player,
-			RoundPlayer roundPlayer) {
-		String actionString = listOfCommands[2];
-		// PlayerActionQuery playerActionQuery = new
-		// PlayerActionQuery(player,roundPlayer);
+                    int value = Integer.valueOf(listOfCommands[2]);
 
-		switch (actionString) {
-		case "Call":
-			Action call = new Action.Call();
-			return call;
+                    if (optionalPlayer.isPresent() && optionalRoundPlayer.isPresent())
+                        return new PlayerPaysBlind(optionalPlayer.get(), optionalRoundPlayer.get(), value);
+                    break;
 
-		case "Check":
-			Action check = new Action.Check();
-			return check;
+                case "CONNECTED":
+                    uuid = UUID.fromString(listOfCommands[1]);
+                    String name = listOfCommands[3];
+                    String avatar = listOfCommands[2];
 
-		case "Fold":
-			Action fold = new Action.Fold();
-			return fold;
+                    player = new Player(uuid, name, avatar, false);
 
-		case "Raise":
-			int raiseValue = Integer.valueOf(listOfCommands[3]);
-			Action raise = new Action.Raise(raiseValue);
-			return raise;
+                    game.getModel().getPlayers().add(player);
+                    return new PlayerJoinEvent(player);
 
-		}
-		return null;
-	}
+                case "DISCONNECTED":
+                    uuid = UUID.fromString(listOfCommands[1]);
+                    optionalPlayer = game.findPlayerByUUID(uuid);
+                    game.getPlayers().remove(optionalPlayer.get());
+                    return new PlayerLeaveEvent(optionalPlayer.get());
+
+                case "WON":
+                    uuid = UUID.fromString(listOfCommands[1]);
+                    optionalPlayer = game.findPlayerByUUID(uuid);
+                    game.getPlayers().remove(optionalPlayer.get());
+                    return new PlayerWonEvent(optionalPlayer.get());
+
+                case "ROUND START":
+                    return new RoundStartEvent();
+
+                case "ROUND END":
+                    return new RoundStartEvent();
+
+            }
+
+
+        }
+        return null;
+    }
+
+    private Event communityCardsParser(String[] listOfCommands) {
+
+        String cardsString = listOfCommands[1];
+        List<Card> cards = Cards.asList(cardsString);
+        return new CommunityCardsEvent(cards);
+    }
+
+    /**
+     * Returns a PlayerPostActionEvent, and sets the players action, so that it
+     * happens ingame for each client
+     *
+     * @param listOfCommands
+     * @return
+     */
+    private Event actionParser(String[] listOfCommands) {
+        UUID playerUUID = UUID.fromString(listOfCommands[1]);
+        Optional<Player> player = game.findPlayerByUUID(playerUUID); // USE uuid to find player
+        Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(playerUUID); // Same here
+
+        if (!player.isPresent() || !roundPlayer.isPresent())
+            return null;
+
+        Action action = specificActionParser(listOfCommands, player.get(), roundPlayer.get());
+
+        return new PlayerPostActionEvent(player.get(), roundPlayer.get(), action);
+    }
+
+    /**
+     * This is a test for showing how action parses might be, but something is
+     * missing.
+     */
+    private Action specificActionParser(String[] listOfCommands, Player player,
+                                        RoundPlayer roundPlayer) {
+        String actionString = listOfCommands[2];
+        // PlayerActionQuery playerActionQuery = new
+        // PlayerActionQuery(player,roundPlayer);
+
+        switch (actionString) {
+            case "Call":
+                Action call = new Action.Call();
+                return call;
+
+            case "Check":
+                Action check = new Action.Check();
+                return check;
+
+            case "Fold":
+                Action fold = new Action.Fold();
+                return fold;
+
+            case "Raise":
+                int raiseValue = Integer.valueOf(listOfCommands[3]);
+                Action raise = new Action.Raise(raiseValue);
+                return raise;
+
+        }
+        return null;
+    }
 }

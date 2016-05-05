@@ -122,7 +122,7 @@ public class ChatBox extends TextArea {
 
 	@Handler
 	public void chatHandler(ChatEvent chatEvent) {
-		Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID());
+		Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID()).get();
 		if (!checkForCommands(chatEvent.getMessage()))
 			this.appendText("\n" + player.getName() + ": " + chatEvent.getMessage());
 	}

@@ -45,7 +45,7 @@ class Statistic extends GridPane {
 
         PlayerStatistics stats = model.getPlayerStatistics().get(playerUUID);
 
-        name.setText(gameHelper.findPlayerByUUID(playerUUID).getName());
+        name.setText(gameHelper.findPlayerByUUID(playerUUID).get().getName());
 
         gamesPlayed.setText(String.valueOf(stats.getGamesPlayed()));
         gamesWon.setText(String.valueOf(stats.getGamesWon()));

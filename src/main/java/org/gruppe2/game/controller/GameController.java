@@ -44,14 +44,14 @@ public class GameController extends AbstractController {
         List<Player> players;
 
         synchronized (players = game.getPlayers()) {
-            Player player = game.findPlayerByUUID(uuid);
+            Optional<Player> player = game.findPlayerByUUID(uuid);
 
-            if (player == null)
+            if (!player.isPresent())
                 return;
 
-            game.getPlayers().remove(player);
+            game.getPlayers().remove(player.get());
 
-            addEvent(new PlayerLeaveEvent(player));
+            addEvent(new PlayerLeaveEvent(player.get()));
         }
     }
 

@@ -162,7 +162,7 @@ public class ConsoleApplication implements Runnable {
     void onCommunialCards(CommunityCardsEvent event) {
         String s = "Active players left: ";
         for (RoundPlayer p : roundHelper.getActivePlayers()) {
-            Player p2 = gameHelper.findPlayerByUUID(p.getUUID());
+            Player p2 = gameHelper.findPlayerByUUID(p.getUUID()).get();
             s += " " + p2.getName();
         }
         System.out.println(s);

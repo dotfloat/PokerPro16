@@ -1,10 +1,7 @@
 package org.gruppe2.game.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import org.gruppe2.game.*;
 import org.gruppe2.game.event.*;
@@ -46,10 +43,11 @@ public class RoundController extends AbstractController {
                 roundEnd();
                 return;
             }
+
             // Go to next player and do shit
             if (player == null) {
-                player = game.findPlayerByUUID(round.getCurrentUUID());
-                roundPlayer = round.findPlayerByUUID(round.getCurrentUUID());
+                player = game.findPlayerByUUID(round.getCurrentUUID()).get();
+                roundPlayer = round.findPlayerByUUID(round.getCurrentUUID()).get();
                 addEvent(new PlayerPreActionEvent(player));
 
                 if (player.getBank() > 0)
@@ -59,6 +57,7 @@ public class RoundController extends AbstractController {
                 else
                     throw new IllegalStateException("Player: " + player.getName() + " has less than 0 chips");
             }
+
             if (player.getAction().isDone()) {
                 handleAction(player, roundPlayer, player.getAction().get());
 
@@ -69,8 +68,7 @@ public class RoundController extends AbstractController {
                     player = null;
                     roundPlayer = null;
                     nextRound();
-                }
-                else {
+                } else {
                     round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
                     player.getAction().reset();
                     player = null;
@@ -94,7 +92,7 @@ public class RoundController extends AbstractController {
 
     @Handler
     public void onPlayerLeave(PlayerLeaveEvent event) {
-        RoundPlayer player = round.findPlayerByUUID(event.getPlayer().getUUID());
+        RoundPlayer player = round.findPlayerByUUID(event.getPlayer().getUUID()).get();
 
         if (player == null)
             return;
@@ -102,7 +100,7 @@ public class RoundController extends AbstractController {
         round.getActivePlayers().remove(player);
     }
 
-    private void resetRound(){
+    private void resetRound() {
         List<RoundPlayer> active = round.getActivePlayers();
         active.clear();
         resetDeck();
@@ -110,7 +108,7 @@ public class RoundController extends AbstractController {
 
         boolean done = false;
         for (int i = game.getButton(); !done; i++) {
-            int j = (i+1) % game.getPlayers().size();
+            int j = (i + 1) % game.getPlayers().size();
             Player p = game.getPlayers().get(j);
             if (p.getBank() > 0)
                 active.add(new RoundPlayer(p.getUUID(), deck.remove(0), deck.remove(0)));
@@ -138,7 +136,7 @@ public class RoundController extends AbstractController {
         int currentSmallBlind = game.getSmallBlind() + ((int) (game.getRoundsCompleted() * game.getSmallBlind() * 0.1));
 
         RoundPlayer roundPlayer = round.getActivePlayers().get(1);
-        Player player = game.findPlayerByUUID(roundPlayer.getUUID());
+        Player player = game.findPlayerByUUID(roundPlayer.getUUID()).get();
 
         if (player.getBank() < currentBigBlind) {
             currentBigBlind = player.getBank();
@@ -150,14 +148,14 @@ public class RoundController extends AbstractController {
         addEvent(new PlayerPaysBlind(player, roundPlayer, currentBigBlind));
 
         roundPlayer = round.getActivePlayers().get(0);
-        player = game.findPlayerByUUID(roundPlayer.getUUID());
+        player = game.findPlayerByUUID(roundPlayer.getUUID()).get();
         if (player.getBank() < currentSmallBlind)
             currentSmallBlind = player.getBank();
         handleAction(player, roundPlayer, new Action.Blind(currentSmallBlind));
         addEvent(new PlayerPaysBlind(player, roundPlayer, currentSmallBlind));
     }
 
-    private void handleAction (Player player, RoundPlayer roundPlayer, Action action){
+    private void handleAction(Player player, RoundPlayer roundPlayer, Action action) {
         if (!legalAction(player, roundPlayer, action))
             throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
 
@@ -176,7 +174,7 @@ public class RoundController extends AbstractController {
 
         if (action instanceof Action.Fold) {
             round.getActivePlayers().remove(round.getCurrent());
-            round.setCurrent(round.getCurrent()-1);
+            round.setCurrent(round.getCurrent() - 1);
             if (!player.getUUID().equals(lastPlayerInRound))
                 lastPlayerInRound = round.getLastActivePlayerID();
         }
@@ -184,7 +182,7 @@ public class RoundController extends AbstractController {
         if (action instanceof Action.Raise) {
             raise = ((Action.Raise) action).getAmount();
             int chipsToMove = (round.getHighestBet() - roundPlayer.getBet()) + raise;
-            moveChips(player, roundPlayer, round.getHighestBet() + raise, player.getBank()-chipsToMove, chipsToMove);
+            moveChips(player, roundPlayer, round.getHighestBet() + raise, player.getBank() - chipsToMove, chipsToMove);
             round.setLastRaiserID(player.getUUID());
             round.playerRaise(player.getUUID());
         }
@@ -194,14 +192,14 @@ public class RoundController extends AbstractController {
             moveChips(player, roundPlayer, amount, player.getBank() - amount, amount);
         }
 
-        if(roundPlayer.getBet() > round.getHighestBet())
+        if (roundPlayer.getBet() > round.getHighestBet())
             round.setHighestBet(roundPlayer.getBet());
 
         if (!(action instanceof Action.Blind))
-            addEvent(new PlayerPostActionEvent(player,roundPlayer ,action));
+            addEvent(new PlayerPostActionEvent(player, roundPlayer, action));
     }
 
-    private void moveChips(Player player, RoundPlayer roundPlayer, int playerSetBet, int playerSetBank, int addToTablePot){
+    private void moveChips(Player player, RoundPlayer roundPlayer, int playerSetBet, int playerSetBank, int addToTablePot) {
         roundPlayer.setBet(playerSetBet);
         player.setBank(playerSetBank);
         round.addToPot(addToTablePot);
@@ -228,10 +226,9 @@ public class RoundController extends AbstractController {
     }
 
     private void nextRound() {
-        if (round.getRoundNum() == 3){
+        if (round.getRoundNum() == 3) {
             roundEnd();
-        }
-        else {
+        } else {
             round.nextRound();
             round.setLastRaiserID(null);
             lastPlayerInRound = round.getLastActivePlayerID();
@@ -253,9 +250,9 @@ public class RoundController extends AbstractController {
     private void roundEnd() {
         round.setPlaying(false);
         addEvent(new RoundEndEvent());
-        if (round.getActivePlayers().size() == 1){
-        	Player winningPlayer = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
-            winningPlayer.setBank(winningPlayer.getBank()+round.getPot());
+        if (round.getActivePlayers().size() == 1) {
+            Player winningPlayer = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID()).get();
+            winningPlayer.setBank(winningPlayer.getBank() + round.getPot());
             round.setPot(0);
             addEvent(new PlayerWonEvent(winningPlayer));
         }

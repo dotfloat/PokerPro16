@@ -10,6 +10,7 @@ import org.gruppe2.game.session.SessionContext;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -62,15 +63,14 @@ public class RoundHelper {
         model.setHighestBet(highestBet);
     }
 
-    public RoundPlayer findPlayerByUUID(UUID uuid) {
+    public Optional<RoundPlayer> findPlayerByUUID(UUID uuid) {
         return findPlayer(p -> p.getUUID().equals(uuid));
     }
 
-    public RoundPlayer findPlayer(Predicate<RoundPlayer> predicate) {
+    public Optional<RoundPlayer> findPlayer(Predicate<RoundPlayer> predicate) {
         return model.getActivePlayers().stream()
                 .filter(predicate)
-                .findFirst()
-                .get();
+                .findFirst();
     }
 
     public int getHighestBet() {
@@ -99,8 +99,8 @@ public class RoundHelper {
 
     public PossibleActions getPlayerOptions (UUID id) {
         PossibleActions options = new PossibleActions();
-        Player player = helper.findPlayerByUUID(id);
-        RoundPlayer roundPlayer = findPlayerByUUID(id);
+        Player player = helper.findPlayerByUUID(id).get();
+        RoundPlayer roundPlayer = findPlayerByUUID(id).get();
 
         if (roundPlayer.getBet() == getHighestBet())
             options.setCheck();

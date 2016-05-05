@@ -161,7 +161,7 @@ public class ChoiceBar extends HBox {
      * @param player
      */
     void updatePossibleBarsToClick() {
-    	Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
+    	Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
         slider.setMax(player.getBank());
         slider.setMin(0);
         slider.setValue(0);

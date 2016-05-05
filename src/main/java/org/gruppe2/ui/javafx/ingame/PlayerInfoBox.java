@@ -65,7 +65,7 @@ public class PlayerInfoBox extends BorderPane {
         }
 
         setVisible(true);
-        player = gameHelper.findPlayerByUUID(uuid);
+        player = gameHelper.findPlayerByUUID(uuid).get();
         name.setText(player.getName());
         bank.setText(String.valueOf(player.getBank()));
         bet.setText("0");

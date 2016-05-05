@@ -73,8 +73,8 @@ public class ThisPlayerInfoBox extends HBox {
     }
 
     public void setUp() {
-        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
-        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(Game.getPlayerUUID());
+        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
+        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
 
         if (player == null) {
             setVisible(false);
@@ -121,7 +121,7 @@ public class ThisPlayerInfoBox extends HBox {
     
     @Handler
     public void roundStartBoxSetupHandler(RoundStartEvent roundStartEvent){
-    	roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
+    	roundPlayer = roundHelper.findPlayerByUUID(playerUUID).get();
     }
     
     @Handler

@@ -5,6 +5,7 @@ import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.session.SessionContext;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -31,19 +32,18 @@ public class GameHelper {
         return model.getPlayers();
     }
 
-    public Player findPlayerByUUID(UUID uuid) {
+    public Optional<Player> findPlayerByUUID(UUID uuid) {
         return findPlayer(p -> p.getUUID().equals(uuid));
     }
 
-    public Player findPlayerByName(String name) {
+    public Optional<Player> findPlayerByName(String name) {
         return findPlayer(p -> p.getName().equals(name));
     }
 
-    public Player findPlayer(Predicate<Player> predicate) {
+    public Optional<Player> findPlayer(Predicate<Player> predicate) {
         return model.getPlayers().stream()
                 .filter(predicate)
-                .findFirst()
-                .get();
+                .findFirst();
     }
 
     public GameModel getModel() {
