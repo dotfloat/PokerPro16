@@ -121,8 +121,7 @@ public class NetworkServerController extends AbstractController {
     }
     @Handler
     public void onCommunityCards(CommunityCardsEvent communityCardsEvent){
-    	communityCardsEvent.getCards();
-    	sendToAll("COMMUNITYCARDS;" + "c02;c03;c04" + "\r\n");
+    	sendToAll("COMMUNITYCARDS;" + communityCardsEvent.getCards() + "\r\n");
     }
     @Handler
     public void onPlayerCards(RoundStartEvent roundStartEvent){

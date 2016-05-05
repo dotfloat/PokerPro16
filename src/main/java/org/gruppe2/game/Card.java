@@ -4,104 +4,160 @@ import java.io.Serializable;
 
 public class Card implements Comparable<Card>, Serializable {
 
-
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4393004343420861807L;
-	//to simplify things
-    public static final int JACK = 11;
-    public static final int QUEEN = 12;
-    public static final int KING = 13;
-    public static final int ACE = 14;
-    private Suit suit;
-    private int faceValue;
-    public Card(int faceValue, Suit suit) {
-        if (faceValue < 2 || faceValue > 14) {
-            throw new IllegalArgumentException("faceValue can't be less than 2 or bigger than 14");
-        } else {
-            this.faceValue = faceValue;
-            this.suit = suit;
-        }
-    }
+	// to simplify things
+	public static final int JACK = 11;
+	public static final int QUEEN = 12;
+	public static final int KING = 13;
+	public static final int ACE = 14;
+	private Suit suit;
+	private int faceValue;
 
-    public Suit getSuit() {
-        return suit;
-    }
+	public Card(int faceValue, Suit suit) {
+		if (faceValue < 2 || faceValue > 14) {
+			throw new IllegalArgumentException(
+					"faceValue can't be less than 2 or bigger than 14");
+		} else {
+			this.faceValue = faceValue;
+			this.suit = suit;
+		}
+	}
 
-    public int getFaceValue() {
-        return faceValue;
-    }
+	public Suit getSuit() {
+		return suit;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public int getFaceValue() {
+		return faceValue;
+	}
 
-        Card card = (Card) o;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        return faceValue == card.faceValue && suit == card.suit;
+		Card card = (Card) o;
 
-    }
+		return faceValue == card.faceValue && suit == card.suit;
 
-    @Override
-    public int hashCode() {
-        int result = suit != null ? suit.hashCode() : 0;
-        result = 31 * result + faceValue;
-        return result;
-    }
+	}
 
-    /**
-     * CompareTo used for sorting a list of cards. We don't care about suit only faceValue
-     *
-     * @param other card to compare
-     * @return usual compareTo result
-     */
-    @Override
-    public int compareTo(Card other) {
-        return Integer.compare(this.getFaceValue(), other.getFaceValue());
-    }
+	@Override
+	public int hashCode() {
+		int result = suit != null ? suit.hashCode() : 0;
+		result = 31 * result + faceValue;
+		return result;
+	}
 
-    @Override
-    public String toString() {
-        String face;
+	/**
+	 * CompareTo used for sorting a list of cards. We don't care about suit only
+	 * faceValue
+	 *
+	 * @param other
+	 *            card to compare
+	 * @return usual compareTo result
+	 */
+	@Override
+	public int compareTo(Card other) {
+		return Integer.compare(this.getFaceValue(), other.getFaceValue());
+	}
 
-        switch (getFaceValue()) {
-            case JACK:
-                face = "J";
-                break;
+	@Override
+	public String toString() {
+		String face = "";
+		String suit = "";
 
-            case QUEEN:
-                face = "Q";
-                break;
+		switch (getFaceValue()) {
+		case JACK:
+			face = "J";
+			break;
 
-            case KING:
-                face = "K";
-                break;
+		case QUEEN:
+			face = "Q";
+			break;
 
-            case ACE:
-                face = "A";
-                break;
+		case KING:
+			face = "K";
+			break;
 
-            default:
-                face = String.valueOf(getFaceValue());
-                break;
-        }
+		case ACE:
+			face = "A";
+			break;
 
-        return face + getSuit().getUnicodeSymbol();
-    }
+		case 10:
+			face = "1";
+			break;
 
-    public enum Suit {
-        CLUBS('\u2663'), DIAMONDS('\u2666'), HEARTS('\u2665'), SPADES('\u2660');
+		default:
+			face = String.valueOf(getFaceValue());
+			break;
+		}
 
-        private char symbol;
+		switch (getSuit()) {
+		case CLUBS:
+			suit = "C";
+			break;
 
-        Suit(char symbol) {
-            this.symbol = symbol;
-        }
+		case DIAMONDS:
+			suit = "D";
+			break;
 
-        public char getUnicodeSymbol() {
-            return symbol;
-        }
-    }
+		case HEARTS:
+			suit = "H";
+			break;
+
+		case SPADES:
+			suit = "S";
+			break;
+
+		}
+		return face+suit;
+	}
+
+	public String toPrettyString() {
+		String face;
+
+		switch (getFaceValue()) {
+		case JACK:
+			face = "J";
+			break;
+
+		case QUEEN:
+			face = "Q";
+			break;
+
+		case KING:
+			face = "K";
+			break;
+
+		case ACE:
+			face = "A";
+			break;
+
+		default:
+			face = String.valueOf(getFaceValue());
+			break;
+		}
+
+		return face + getSuit().getUnicodeSymbol();
+	}
+
+	public enum Suit {
+		CLUBS('\u2663'), DIAMONDS('\u2666'), HEARTS('\u2665'), SPADES('\u2660');
+
+		private char symbol;
+
+		Suit(char symbol) {
+			this.symbol = symbol;
+		}
+
+		public char getUnicodeSymbol() {
+			return symbol;
+		}
+	}
 }

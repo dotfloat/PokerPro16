@@ -3,13 +3,13 @@ package org.gruppe2.network;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Card;
-import org.gruppe2.game.Card.Suit;
+import org.gruppe2.game.Cards;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.ChatEvent;
@@ -111,12 +111,9 @@ public class ProtocolConnection {
         return null;
     }
     private static Event communityCardsParser(String[] listOfCommands) {
-    	ArrayList<Card> cards = new ArrayList<Card>();
+    	
     	String cardsString = listOfCommands[1];
-    	//TODO Get the real cards, not fake ones.
-    	cards.add(new Card(2,Suit.CLUBS));
-    	cards.add(new Card(3,Suit.CLUBS));
-    	cards.add(new Card(4,Suit.CLUBS));
+    	List<Card> cards = Cards.asList(cardsString);
 		return new CommunityCardsEvent(cards);
 	}
 
