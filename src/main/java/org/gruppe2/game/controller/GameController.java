@@ -84,7 +84,7 @@ public class GameController extends AbstractController {
                 }
             }
 
-            int pos = availableTablePositions.get(0);
+            int pos = availableTablePositions.remove(0);
             Player player = new Player(uuid, name, avatar, isBot, pos);
 
             players.add(player);
