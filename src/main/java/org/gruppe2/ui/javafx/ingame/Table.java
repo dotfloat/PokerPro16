@@ -19,6 +19,7 @@ import org.gruppe2.game.session.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Table extends Pane {
     @Helper
@@ -83,6 +84,10 @@ public class Table extends Pane {
 
         for (int i = 0; i < game.getModel().getMaxPlayers(); i++) {
             double n = game.getModel().getMaxPlayers();
+            Player player = null;
+
+            if (i < game.getPlayers().size())
+                player = game.getPlayers().get(i);
 
             PlayerInfoBox p = new PlayerInfoBox();
             p.fontProperty().bind(font);
@@ -91,6 +96,9 @@ public class Table extends Pane {
             setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
             getChildren().add(p);
             players.add(p);
+
+            if (player != null)
+                p.setPlayerUUID(player.getUUID());
         }
 
         pot.setText("Total pot: $0");

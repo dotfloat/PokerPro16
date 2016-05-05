@@ -10,17 +10,7 @@ import org.gruppe2.game.Card;
 import org.gruppe2.game.Cards;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.CommunityCardsEvent;
-import org.gruppe2.game.event.Event;
-import org.gruppe2.game.event.PlayerJoinEvent;
-import org.gruppe2.game.event.PlayerLeaveEvent;
-import org.gruppe2.game.event.PlayerPaysBlind;
-import org.gruppe2.game.event.PlayerPostActionEvent;
-import org.gruppe2.game.event.PlayerPreActionEvent;
-import org.gruppe2.game.event.PlayerWonEvent;
-import org.gruppe2.game.event.QuitEvent;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.NetworkClientModel;
@@ -122,7 +112,16 @@ public class NetworkClientController extends AbstractController {
                     String message = listOfCommands[2];
                     return new ChatEvent(message, playerUUID);
 
-                case "ACTION":
+                case "PRE ACTION":
+                    uuid = UUID.fromString(listOfCommands[1]);
+                    optionalPlayer = game.findPlayerByUUID(uuid);
+
+                    if (optionalPlayer.isPresent())
+                        return new PlayerPreActionEvent(optionalPlayer.get());
+
+                    break;
+
+                case "POST ACTION":
                     return actionParser(listOfCommands);
 
                 case "COMMUNITY":
@@ -130,13 +129,15 @@ public class NetworkClientController extends AbstractController {
 
                 case "PLAYERCARDS":
 //				uuid = game.findPlayerByUUID(playerUUID);
+                    break;
 
                 case "YOUR TURN":
                     UUID playerUUID1 = UUID.fromString(listOfCommands[1]);
                     optionalPlayer = game.findPlayerByUUID(playerUUID1);
+                    optionalRoundPlayer = roundHelper.findPlayerByUUID(playerUUID1);
 
-                    if (optionalPlayer.isPresent())
-                        return new PlayerPreActionEvent(optionalPlayer.get());
+                    if (optionalPlayer.isPresent() || optionalRoundPlayer.isPresent())
+                        return new PlayerActionQuery(optionalPlayer.get(), optionalRoundPlayer.get());
 
                     break;
 

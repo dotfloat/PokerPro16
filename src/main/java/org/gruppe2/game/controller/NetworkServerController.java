@@ -13,16 +13,7 @@ import java.util.UUID;
 
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.CommunityCardsEvent;
-import org.gruppe2.game.event.PlayerJoinEvent;
-import org.gruppe2.game.event.PlayerLeaveEvent;
-import org.gruppe2.game.event.PlayerPaysBlind;
-import org.gruppe2.game.event.PlayerPostActionEvent;
-import org.gruppe2.game.event.PlayerPreActionEvent;
-import org.gruppe2.game.event.PlayerWonEvent;
-import org.gruppe2.game.event.RoundEndEvent;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
@@ -140,12 +131,26 @@ public class NetworkServerController extends AbstractController {
 
     @Handler
     public void onPlayerPreAction(PlayerPreActionEvent actionEvent) {
-        sendToAll("YOUR TURN;" + actionEvent.getPlayer().getUUID() + "\r\n");
+        sendToAll("PRE ACTION;" + actionEvent.getPlayer().getUUID() + "\r\n");
+    }
+
+    @Handler
+    public void onPlayerActionQuery(PlayerActionQuery query) {
+        clients.stream()
+                .filter(c -> query.equals(c.getPlayerUUID()))
+                .findFirst()
+                .ifPresent(c -> {
+                    try {
+                        c.getConnection().sendMessage("YOUR TURN\r\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     @Handler
     public void onPlayerPostAction(PlayerPostActionEvent actionEvent) {
-        sendToAll("ACTION;" + actionEvent.getPlayer().getUUID() + ":" + actionEvent.getAction() + "\r\n");
+        sendToAll("POST ACTION;" + actionEvent.getPlayer().getUUID() + ":" + actionEvent.getAction() + "\r\n");
     }
 
     @Handler
