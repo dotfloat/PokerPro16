@@ -171,6 +171,12 @@ public class NetworkClientController extends AbstractController {
                     uuid = UUID.fromString(listOfCommands[1]);
                     optionalPlayer = game.findPlayerByUUID(uuid);
                     game.getPlayers().remove(optionalPlayer.get());
+                    
+                    optionalRoundPlayer = round.findPlayerByUUID(uuid);
+                	if(optionalRoundPlayer.isPresent())
+                		round.getActivePlayers().remove(optionalRoundPlayer.get());
+                    getContext().message("kickPlayer", uuid);
+                    
                     return new PlayerLeaveEvent(optionalPlayer.get());
 
                 case "WON":

@@ -74,6 +74,7 @@ public class NetworkServerController extends AbstractController {
                         Optional<Player> player = gameHelper.findPlayerByUUID(uuid);
 
                         if (player.isPresent()) {
+                        	getContext().message("kickPlayer", player.get().getUUID());
                             Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(uuid);
 
                             if (roundPlayer.isPresent())
@@ -83,6 +84,7 @@ public class NetworkServerController extends AbstractController {
                         }
 
                         clients.remove(i--);
+                        break;
                 }
             } catch (IOException e) {
                 clients.remove(i--);
