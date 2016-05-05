@@ -18,6 +18,8 @@ import org.gruppe2.game.event.PlayerLeaveEvent;
 import org.gruppe2.game.event.PlayerPaysBlind;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
+import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -71,7 +73,6 @@ public class NetworkServerController extends AbstractController {
                         addEvent(new ChatEvent(args[1], uuid));
                         break;
                     case "JOIN":
-                    	System.out.println("join event"+args[1]);
                     	clients.get(i).setPlayerUUID(UUID.fromString(args[1]));
                     	getContext().message("addPlayer", clients.get(i).getPlayerUUID(), args[3], args[2]);
                     	break;
@@ -138,15 +139,20 @@ public class NetworkServerController extends AbstractController {
     }
     @Handler
     public void onRoundStart(RoundStartEvent roundStartEvent){
-    	sendToAll("ROUND START;" + "c02;c03" + "\r\n");
+    	sendToAll("ROUND START;"+ "\r\n");
+    }
+    
+    @Handler
+    public void onRoundEnd(RoundEndEvent roundEndEvent){
+    	sendToAll("ROUND END;"+ "\r\n");
     }
     @Handler
     public void onPlayerPaysBlind(PlayerPaysBlind playerPaysBlind){
     	sendToAll("BLIND;" + playerPaysBlind.getPlayer().getUUID() + ";"+playerPaysBlind.getBlindAmount()+ "\r\n");
     }
     @Handler
-    public void onPlayerWon(){
-    	sendToAll("WON;" + "PLAYER UUID" + "\r\n");
+    public void onPlayerWon(PlayerWonEvent playerWonEvent){
+    	sendToAll("WON;" + playerWonEvent.getPlayer().getUUID() + "\r\n");
     }
     
 

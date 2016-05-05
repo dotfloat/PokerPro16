@@ -17,7 +17,9 @@ import org.gruppe2.game.event.PlayerLeaveEvent;
 import org.gruppe2.game.event.PlayerPaysBlind;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
 import org.gruppe2.game.event.QuitEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.NetworkClientModel;
@@ -136,13 +138,24 @@ public class NetworkClientController extends AbstractController {
 				player = new Player(uuid, name, avatar, false);
 				game.getModel().getPlayers().add(player);
 				return new PlayerJoinEvent(player);
-
 			case "DISCONNECTED":
 				uuid = UUID.fromString(listOfCommands[1]);
 				player = game.findPlayerByUUID(uuid);
 				game.getPlayers().remove(player);
 				return new PlayerLeaveEvent(player);
+			case "WON":
+				uuid = UUID.fromString(listOfCommands[1]);
+				player = game.findPlayerByUUID(uuid);
+				game.getPlayers().remove(player);
+				return new PlayerWonEvent(player);
+			case "ROUND START":
+				return new RoundStartEvent();
+			case "ROUND END":
+				return new RoundStartEvent();
+				
 			}
+			
+			
 			
 		}
 		return null;

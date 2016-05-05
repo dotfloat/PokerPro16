@@ -45,13 +45,12 @@ public class ThisPlayerInfoBox extends HBox {
     public ThisPlayerInfoBox() {
         Resources.loadFXML(this);
         Game.setAnnotated(this);
-        playerUUID = Game.getPlayerUUID();
-
-        player = gameHelper.findPlayerByUUID(playerUUID);
+        
+//        player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
 
-        profileImage.setImage(Resources.getAvatar(player.getAvatar()));
+//        profileImage.setImage(Resources.getAvatar(player.getAvatar()));
     }
 
     private void setSize() {

@@ -31,10 +31,7 @@ public class ProtocolConnection {
     private final SocketChannel channel;
     private final StringBuffer readBuffer = new StringBuffer();
 
-    @Helper
-    private GameHelper gameHelper;
-    @Helper
-    private RoundHelper roundHelper;
+    
     
     
     public ProtocolConnection(SocketChannel channel) {
