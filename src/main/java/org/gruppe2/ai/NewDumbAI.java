@@ -22,7 +22,7 @@ public class NewDumbAI implements AI {
         String[] avatars = Resources.listAvatars();
 
         return new Player(UUID.randomUUID(),
-                names[rand.nextInt(names.length)],
+                "BOT " + names[rand.nextInt(names.length)],
                 avatars[rand.nextInt(avatars.length)], true);
     }
 

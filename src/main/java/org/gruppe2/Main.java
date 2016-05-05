@@ -86,6 +86,7 @@ public class Main {
         try {
             FileInputStream stream = new FileInputStream(Resources.getProperties());
 
+            properties.load(Resources.getDefaultProperties());
             properties.load(stream);
 
             stream.close();

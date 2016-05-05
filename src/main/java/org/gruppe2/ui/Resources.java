@@ -125,4 +125,8 @@ public class Resources {
     private static void createUserDirs() {
         new File(getUserDir()).mkdirs();
     }
+
+    public static InputStream getDefaultProperties() {
+        return Resources.class.getResourceAsStream("/default.properties");
+    }
 }
