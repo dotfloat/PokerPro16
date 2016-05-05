@@ -9,6 +9,7 @@ import org.gruppe2.game.Action;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Cards;
 import org.gruppe2.game.Player;
+import org.gruppe2.game.PokerLog;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
@@ -26,7 +27,7 @@ public class NetworkClientController extends AbstractController {
     @Helper
     private GameHelper game;
     @Helper
-    private RoundHelper roundHelper;
+    private RoundHelper round;
 
     //	player.getAction().isDone()
     @Override
@@ -134,7 +135,7 @@ public class NetworkClientController extends AbstractController {
                 case "YOUR TURN":
                     UUID playerUUID1 = UUID.fromString(listOfCommands[1]);
                     optionalPlayer = game.findPlayerByUUID(playerUUID1);
-                    optionalRoundPlayer = roundHelper.findPlayerByUUID(playerUUID1);
+                    optionalRoundPlayer = round.findPlayerByUUID(playerUUID1);
 
                     if (optionalPlayer.isPresent() || optionalRoundPlayer.isPresent())
                         return new PlayerActionQuery(optionalPlayer.get(), optionalRoundPlayer.get());
@@ -144,7 +145,7 @@ public class NetworkClientController extends AbstractController {
                 case "BLIND":
                     uuid = UUID.fromString(listOfCommands[1]);
                     optionalPlayer = game.findPlayerByUUID(uuid);
-                    optionalRoundPlayer = roundHelper.findPlayerByUUID(uuid);
+                    optionalRoundPlayer = round.findPlayerByUUID(uuid);
 
                     int value = Integer.valueOf(listOfCommands[2]);
 
@@ -175,6 +176,26 @@ public class NetworkClientController extends AbstractController {
                     return new PlayerWonEvent(optionalPlayer.get());
 
                 case "ROUND START":
+                    List<RoundPlayer> active = round.getActivePlayers();
+                    active.clear();
+
+                    boolean done = false;
+                    for (int i = game.getButton(); !done; i++) {
+                        int j = (i + 1) % game.getPlayers().size();
+                        Player p = game.getPlayers().get(j);
+                        if (p.getBank() > 0)
+                            active.add(new RoundPlayer(p.getUUID(), null, null));
+                        done = j == game.getButton();
+                    }
+
+                    round.addPlayersToMap(active);
+
+                    round.setPot(0);
+                    round.setHighestBet(0);
+                    round.setCurrent(0);
+                    round.resetRound();
+                    round.getCommunityCards().clear();
+                	
                     return new RoundStartEvent();
 
                 case "ROUND END":
@@ -204,7 +225,7 @@ public class NetworkClientController extends AbstractController {
     private Event actionParser(String[] listOfCommands) {
         UUID playerUUID = UUID.fromString(listOfCommands[1]);
         Optional<Player> player = game.findPlayerByUUID(playerUUID); // USE uuid to find player
-        Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(playerUUID); // Same here
+        Optional<RoundPlayer> roundPlayer = round.findPlayerByUUID(playerUUID); // Same here
 
         if (!player.isPresent() || !roundPlayer.isPresent())
             return null;

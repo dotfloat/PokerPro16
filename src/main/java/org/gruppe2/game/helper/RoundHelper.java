@@ -99,18 +99,21 @@ public class RoundHelper {
 
     public PossibleActions getPlayerOptions (UUID id) {
         PossibleActions options = new PossibleActions();
-        Player player = helper.findPlayerByUUID(id).get();
-        RoundPlayer roundPlayer = findPlayerByUUID(id).get();
+        Optional<Player> player = helper.findPlayerByUUID(id);
+        Optional<RoundPlayer> roundPlayer = findPlayerByUUID(id);
+        if(!player.isPresent() || !roundPlayer.isPresent())
+        	return options;
+       
 
-        if (roundPlayer.getBet() == getHighestBet())
+        if (roundPlayer.get().getBet() == getHighestBet())
             options.setCheck();
 
-        if (player.getBank() >= getHighestBet() - roundPlayer.getBet())
-            if (getHighestBet() - roundPlayer.getBet() != 0)
-                options.setCall(getHighestBet() - roundPlayer.getBet());
+        if (player.get().getBank() >= getHighestBet() - roundPlayer.get().getBet())
+            if (getHighestBet() - roundPlayer.get().getBet() != 0)
+                options.setCall(getHighestBet() - roundPlayer.get().getBet());
 
-        if (!player.getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3) {
-            int maxRaise = player.getBank() + roundPlayer.getBet() - getHighestBet();
+        if (!player.get().getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3) {
+            int maxRaise = player.get().getBank() + roundPlayer.get().getBet() - getHighestBet();
             if (maxRaise > 0)
                 options.setRaise(1, maxRaise);
         }

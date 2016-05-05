@@ -1,5 +1,6 @@
 package org.gruppe2.ui.javafx.ingame;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javafx.fxml.FXML;
@@ -26,7 +27,7 @@ import org.gruppe2.ui.javafx.PokerApplication;
 public class ThisPlayerInfoBox extends HBox {
 	private UUID playerUUID;
     RoundPlayer roundPlayer;
-    Player player;
+    Optional<Player> player;
 
     @Helper
     private GameHelper gameHelper;
@@ -45,12 +46,12 @@ public class ThisPlayerInfoBox extends HBox {
     public ThisPlayerInfoBox() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
-        
-//        player = gameHelper.findPlayerByUUID(Game.getPlayerUUID());
+        playerUUID = Game.getPlayerUUID();
+        player = gameHelper.findPlayerByUUID(playerUUID);
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
 
-//        profileImage.setImage(UIResources.getAvatar(player.getAvatar()));
+        profileImage.setImage(UIResources.getAvatar(player.get().getAvatar()));
     }
 
     private void setSize() {
@@ -92,8 +93,8 @@ public class ThisPlayerInfoBox extends HBox {
             return;
         }
         if(currentPlayer.getUUID().equals(playerUUID)){
-	        playerName.setText(player.getName());
-	        stack.setText("$" + player.getBank());
+	        playerName.setText(player.get().getName());
+	        stack.setText("$" + player.get().getBank());
 	        if(roundPlayer != null){
 	        	playerBet.setText("BET: " + roundPlayer.getBet());
 	        }
@@ -120,8 +121,14 @@ public class ThisPlayerInfoBox extends HBox {
     }
     
     @Handler
-    public void roundStartBoxSetupHandler(RoundStartEvent roundStartEvent){
-    	roundPlayer = roundHelper.findPlayerByUUID(playerUUID).get();
+    public void onRoundStart(RoundStartEvent roundStartEvent){
+    	Optional<RoundPlayer> p = roundHelper.findPlayerByUUID(playerUUID);
+    	
+    	if (p.isPresent()) {
+    		roundPlayer = p.get();
+    	}
+    	
+    	setVisible(p.isPresent());
     }
     
     @Handler
