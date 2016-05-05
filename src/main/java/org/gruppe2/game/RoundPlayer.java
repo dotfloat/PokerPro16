@@ -9,7 +9,7 @@ public class RoundPlayer implements Serializable {
 	 */
 	private static final long serialVersionUID = 5367497435950538244L;
 	private final UUID uuid;
-    private final Card[] cards = new Card[2];
+    private Card[] cards = new Card[2];
 
     private volatile int bet = 0;
 
@@ -33,5 +33,8 @@ public class RoundPlayer implements Serializable {
 
     public Card[] getCards() {
         return cards;
+    }
+    public void setCards(Card[] cards){
+    	this.cards = cards;
     }
 }

@@ -54,7 +54,7 @@ public class ThisPlayerInfoBox extends HBox {
         bindToStage(playerName, profileImage, playerBet, stack);
         setSize();
         System.out.println(profileImage);
-        profileImage.setImage(UIResources.getAvatar(player.get().getAvatar()));
+//        profileImage.setImage(UIResources.getAvatar(player.get().getAvatar()));
     }
 
     private void setSize() {

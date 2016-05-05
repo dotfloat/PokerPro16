@@ -19,6 +19,7 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.game.session.Model;
+import org.gruppe2.ui.javafx.ingame.Game;
 
 public class NetworkClientController extends AbstractController {
     @Model
@@ -129,7 +130,10 @@ public class NetworkClientController extends AbstractController {
                     return communityCardsParser(listOfCommands);
 
                 case "PLAYERCARDS":
-//				uuid = game.findPlayerByUUID(playerUUID);
+                	uuid = Game.getPlayerUUID();
+                	optionalRoundPlayer = round.findPlayerByUUID(uuid);
+                	if(optionalRoundPlayer.isPresent())
+                		setPlayerCardsParser(optionalRoundPlayer,listOfCommands[1]);	
                     break;
 
                 case "YOUR TURN":
@@ -208,7 +212,20 @@ public class NetworkClientController extends AbstractController {
         return null;
     }
 
-    private Event communityCardsParser(String[] listOfCommands) {
+    private void setPlayerCardsParser(
+			Optional<RoundPlayer> optionalRoundPlayer, String cards) {
+		List<Card> cardsList = Cards.asList(cards);
+		Card[] primCardsList = new Card[2];
+		int i = 0;
+		for(Card card : cardsList){
+			primCardsList[i] = card;
+			i++;
+		}
+    	optionalRoundPlayer.get().setCards(primCardsList);
+		
+	}
+
+	private Event communityCardsParser(String[] listOfCommands) {
 
         String cardsString = listOfCommands[1];
         List<Card> cards = Cards.asList(cardsString);
