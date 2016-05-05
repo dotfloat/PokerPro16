@@ -1,16 +1,14 @@
 package org.gruppe2.ui.javafx.ingame;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 
+import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerPostActionEvent;
@@ -21,137 +19,81 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.PokerApplication;
-
 
 
 public class ThisPlayerInfoBox extends HBox {
-	private UUID playerUUID;
-    RoundPlayer roundPlayer;
-    Optional<Player> player;
-
     @Helper
-    private GameHelper gameHelper;
+    private GameHelper game;
     @Helper
-    private RoundHelper roundHelper;
+    private RoundHelper round;
 
     @FXML
-    private Label playerName;
+    private Label name;
     @FXML
-    private ImageView profileImage;
+    private ImageView avatar;
 	@FXML 
 	private ImageView fold;
     @FXML
-    private Label playerBet;
+    private Label bank;
     @FXML
-    private Label stack;
+    private Label bet;
+    @FXML
+    private Label lastAction;
 
     public ThisPlayerInfoBox() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
-        playerUUID = Game.getPlayerUUID();
-        player = gameHelper.findPlayerByUUID(playerUUID);
-        bindToStage(playerName, profileImage, playerBet, stack);
-        setSize();
-        System.out.println(profileImage);
-//        profileImage.setImage(UIResources.getAvatar(player.get().getAvatar()));
     }
 
-    private void setSize() {
-        double boxScale = 0.35;
-        this.paddingProperty().setValue(new Insets(10, 10, 10, 10));
-        this.prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(boxScale));
-        this.prefHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(boxScale * 0.2));
-        this.maxWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(boxScale));
-        this.maxHeightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(boxScale * 0.2));
-        this.spacingProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.02));
-    }
+    @Handler
+    public void onRoundStart(RoundStartEvent e) {
+        Optional<Player> player = game.findPlayerByUUID(Game.getPlayerUUID());
+        Optional<RoundPlayer> roundPlayer = round.findPlayerByUUID(Game.getPlayerUUID());
 
-    private void bindToStage(Node... nodes) {
-        for (Node n : nodes) {
-            if (n instanceof Label) {
-                ((Label) n).prefWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.1));
-            } else if (n instanceof ImageView)
-                ((ImageView) n).fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
-        }
-    }
+        setVisible(player.isPresent());
 
-    public void setUp() {
-        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
-        RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
-
-        if (player == null) {
-            setVisible(false);
+        if (!player.isPresent())
             return;
-        }
-        playerName.setText(player.getName());
-        stack.setText("$" + player.getBank());
-        playerBet.setText("BET: " + roundPlayer.getBet());
+
+        fold.setVisible(false);
+        lastAction.setVisible(false);
+
+        name.setText(player.get().getName());
+        bank.setText(String.valueOf(player.get().getBank()));
+        bet.setText("0");
+
+        avatar.setImage(UIResources.getAvatar(player.get().getAvatar()));
     }
 
-    public void update(Player currentPlayer) {
+    @Handler
+    public void onPreAction(PlayerPreActionEvent e){
+        if (e.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
+            fold.setVisible(false);
+            lastAction.setVisible(false);
+            setActive(true);
+        } else {
+            setActive(false);
+        }
+    }
 
-        if (player == null) {
-            setVisible(false);
+    @Handler
+    public void onPostAction(PlayerPostActionEvent e){
+        if (!e.getPlayer().getUUID().equals(Game.getPlayerUUID()))
             return;
-        }
-        if(currentPlayer.getUUID().equals(playerUUID)){
-	        playerName.setText(player.get().getName());
-	        stack.setText("$" + player.get().getBank());
-	        if(roundPlayer != null){
-	        	playerBet.setText("BET: " + roundPlayer.getBet());
-	        }
-	        updatePicture();
-	        setActive();
-        }
-        else{
-        	setInActive();
+
+        bank.setText(String.valueOf(e.getPlayer().getBank()));
+        bet.setText(String.valueOf(e.getRoundPlayer().getBet()));
+
+        if (e.getAction() instanceof Action.Fold) {
+            fold.setVisible(true);
+        } else {
+            lastAction.setText(e.getAction().toString());
+            lastAction.setVisible(true);
         }
     }
 
-    public void updatePicture() {
-    	if(roundPlayer != null){
-    		if(roundHelper.getActivePlayers().contains(roundPlayer))
-    			fold.setVisible(true);
-    		else
-    			fold.setVisible(false);
-    	}
-    	
-    		
-    }
-
-    public void setActive() {
+    private void setActive(boolean active) {
         getStyleClass().clear();
-        getStyleClass().add("paneActive");
+        getStyleClass().add(active ? "paneActive" : "pane");
     }
-
-    public void setInActive() {
-        getStyleClass().clear();
-        getStyleClass().add("pane");
-    }
-    
-    @Handler
-    public void onRoundStart(RoundStartEvent roundStartEvent){
-    	Optional<RoundPlayer> p = roundHelper.findPlayerByUUID(playerUUID);
-    	
-    	if (p.isPresent()) {
-    		roundPlayer = p.get();
-    	}
-    	
-    	setVisible(p.isPresent());
-    }
-    
-    @Handler
-    public void currentPlayerHandler(PlayerPreActionEvent playerPreActionEvent){
-    	Player currentPlayer = playerPreActionEvent.getPlayer();
-    	if(currentPlayer.getUUID().equals(playerUUID)){
-    		setActive();
-    	}
-    }
-    @Handler
-    public void currentPlayerHandler(PlayerPostActionEvent playerPreActionEvent){
-    	Player currentPlayer = playerPreActionEvent.getPlayer();
-    	update(currentPlayer);
-    }
-
 }

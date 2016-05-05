@@ -3,8 +3,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import org.gruppe2.ui.javafx.ingame.Table?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <fx:root type="javafx.scene.layout.BorderPane" fx:id="this"
          xmlns:fx="http://javafx.com/fxml"
          onMouseClicked="#viewStatistic"

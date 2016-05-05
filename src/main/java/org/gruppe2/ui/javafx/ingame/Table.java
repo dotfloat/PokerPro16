@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -86,9 +87,6 @@ public class Table extends Pane {
             double n = game.getModel().getMaxPlayers();
             Player player = null;
 
-            if (i < game.getPlayers().size())
-                player = game.getPlayers().get(i);
-
             PlayerInfoBox p = new PlayerInfoBox();
             p.fontProperty().bind(font);
             p.maxWidthProperty().bind(scale.multiply(45));
@@ -96,10 +94,9 @@ public class Table extends Pane {
             setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
             getChildren().add(p);
             players.add(p);
-
-            if (player != null)
-                p.setPlayerUUID(player.getUUID());
         }
+
+        game.getPlayers().forEach(p -> players.get(p.getTablePosition()).setPlayerUUID(p.getUUID()));
 
         pot.setText("Total pot: $0");
         pot.fontProperty().bind(font);
@@ -110,17 +107,12 @@ public class Table extends Pane {
 
     @Handler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        List<Player> gamePlayers;
+        players.get(event.getPlayer().getTablePosition()).setPlayerUUID(event.getPlayer().getUUID());
+    }
 
-        synchronized (gamePlayers = game.getPlayers()) {
-            for (int i = 0; i < gamePlayers.size(); i++) {
-                if (gamePlayers.get(i).getUUID().equals(event.getPlayer().getUUID())) {
-                    players.get(i).setPlayerUUID(event.getPlayer().getUUID());
-
-                    return;
-                }
-            }
-        }
+    @Handler
+    public void onPlayerLeave(PlayerLeaveEvent event) {
+        players.get(event.getPlayer().getTablePosition()).setPlayerUUID(null);
     }
 
     @Handler
