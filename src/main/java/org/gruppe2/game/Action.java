@@ -24,6 +24,13 @@ public abstract class Action {
 		public int getAmount() {
 			return amount;
 		}
+		
+		@Override
+		public String toNetworkString() {
+			String raiseString = getClass().getSimpleName();
+			raiseString = raiseString.concat(";"+String.valueOf(getAmount()));
+			return raiseString;
+		}
 	}
 
 	public static class AllIn extends Action {

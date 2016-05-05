@@ -18,8 +18,10 @@ import org.gruppe2.game.event.Event;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.helper.GameHelper;
+import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
+import org.gruppe2.ui.javafx.ingame.Game;
 
 
 /**
@@ -30,7 +32,10 @@ public class ProtocolConnection {
     private final StringBuffer readBuffer = new StringBuffer();
 
     @Helper
-    private GameHelper game;
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
+    
     
     public ProtocolConnection(SocketChannel channel) {
         this.channel = channel;
@@ -126,27 +131,37 @@ public class ProtocolConnection {
 		UUID playerUUID = UUID.fromString(listOfCommands[1]);
 		Player player = null; //USE uuid to find player
 		RoundPlayer roundPlayer = null; // Same here
-		Action action = specificActionParser(listOfCommands[2], player, roundPlayer);
+		Action action = specificActionParser(listOfCommands, player, roundPlayer);
 		
 		return new PlayerPostActionEvent(player,roundPlayer,action);
 	}
 	/**
 	 * This is a test for showing how action parses might be, but something is missing.
 	 */
-	private static Action specificActionParser(String actionString, Player player, RoundPlayer roundPlayer) {
+	private static Action specificActionParser(String[] listOfCommands, Player player, RoundPlayer roundPlayer) {
+		String actionString = listOfCommands[2];
 		PlayerActionQuery playerActionQuery = new PlayerActionQuery(player,roundPlayer);
-		Query<Action> actionQuery = null;
+		
 		
 		switch (actionString) {
-		case "CALL":
+		case "Call":
 			Action call = new Action.Call();
-			actionQuery.set(call);
 			return call;
+		
+		case "Check":
+			Action check = new Action.Check();
+			return check;
+		
+		case "Fold":
+			Action fold = new Action.Fold();
+			return fold;
+		
+		case "Raise":
+			int raiseValue = Integer.valueOf(listOfCommands[3]);
+			Action raise = new Action.Raise(raiseValue);
+			return raise;
+
 		}
 		return null;
 	}
-    
-    
-
-
 }
