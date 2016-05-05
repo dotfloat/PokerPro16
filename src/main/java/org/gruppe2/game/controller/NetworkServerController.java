@@ -140,9 +140,23 @@ public class NetworkServerController extends AbstractController {
     @Handler
     public void onRoundStart(RoundStartEvent roundStartEvent){
     	sendToAll("ROUND START;"+ "\r\n");
+    	for (int i = 0; i < clients.size(); i++) {
+    		UUID uuid = clients.get(i).getPlayerUUID();
+    		String playerCards = roundHelper.findPlayerByUUID(uuid).getCards().toString();
+    		playerCards = "PLAYERCARDS;"+playerCards;
+    		sendToOne(i,playerCards);
+    	}
     }
     
-    @Handler
+    private void sendToOne(int i, String message) {
+    	try {
+			clients.get(i).getConnection().sendMessage(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Handler
     public void onRoundEnd(RoundEndEvent roundEndEvent){
     	sendToAll("ROUND END;"+ "\r\n");
     }
