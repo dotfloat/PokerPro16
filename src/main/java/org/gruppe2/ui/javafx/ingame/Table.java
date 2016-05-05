@@ -83,20 +83,7 @@ public class Table extends Pane {
         tableImage.layoutYProperty().bind(translateY(tableImage.fitHeightProperty(), 0));
         getChildren().add(tableImage);
 
-        for (int i = 0; i < game.getModel().getMaxPlayers(); i++) {
-            double n = game.getModel().getMaxPlayers();
-            Player player = null;
-
-            PlayerInfoBox p = new PlayerInfoBox();
-            p.fontProperty().bind(font);
-            p.maxWidthProperty().bind(scale.multiply(45));
-            p.maxHeightProperty().bind(scale.multiply(15));
-            setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
-            getChildren().add(p);
-            players.add(p);
-        }
-
-        game.getPlayers().forEach(p -> players.get(p.getTablePosition()).setPlayerUUID(p.getUUID()));
+        createPlayerInfoBoxes();
 
         pot.setText("Total pot: $0");
         pot.fontProperty().bind(font);
@@ -107,12 +94,22 @@ public class Table extends Pane {
 
     @Handler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        players.get(event.getPlayer().getTablePosition()).setPlayerUUID(event.getPlayer().getUUID());
+        int i = getPlayerIndex(event.getPlayer().getTablePosition());
+
+        if (i < 0)
+            return;
+
+        players.get(i).setPlayerUUID(event.getPlayer().getUUID());
     }
 
     @Handler
     public void onPlayerLeave(PlayerLeaveEvent event) {
-        players.get(event.getPlayer().getTablePosition()).setPlayerUUID(null);
+        int i = getPlayerIndex(event.getPlayer().getTablePosition());
+
+        if (i < 0)
+            return;
+
+        players.get(i).setPlayerUUID(null);
     }
 
     @Handler
@@ -142,6 +139,55 @@ public class Table extends Pane {
 
     public void setFitHeight(double fitHeight) {
         this.fitHeight.set(fitHeight);
+    }
+
+    private int getPlayerIndex(int tablePosition) {
+        Optional<Player> player = game.findPlayerByUUID(Game.getPlayerUUID());
+
+        if (!player.isPresent())
+            return tablePosition;
+
+        if (tablePosition == player.get().getTablePosition())
+            return -1;
+
+        int offset = game.getModel().getMaxPlayers() - player.get().getTablePosition() - 1;
+        if (tablePosition >= player.get().getTablePosition())
+            tablePosition--;
+
+        return (tablePosition + offset) % (game.getModel().getMaxPlayers() - 1);
+    }
+
+    private void createPlayerInfoBoxes() {
+        Optional<Player> player = game.findPlayerByUUID(Game.getPlayerUUID());
+
+        players.forEach(p -> getChildren().remove(p));
+        players.clear();
+
+        int n = game.getModel().getMaxPlayers();
+
+        if (player.isPresent())
+            n--;
+
+        for (int i = 0; i < n; i++) {
+            PlayerInfoBox p = new PlayerInfoBox();
+            p.fontProperty().bind(font);
+            p.maxWidthProperty().bind(scale.multiply(45));
+            p.maxHeightProperty().bind(scale.multiply(15));
+            setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
+            getChildren().add(p);
+            players.add(p);
+        }
+
+        if (player.isPresent()) {
+            game.getPlayers().forEach(p -> {
+                int pos = getPlayerIndex(p.getTablePosition());
+
+                if (pos < 0)
+                    return;
+
+                players.get(pos).setPlayerUUID(p.getUUID());
+            });
+        }
     }
 
     private DoubleBinding translateX(ReadOnlyDoubleProperty width, double x) {

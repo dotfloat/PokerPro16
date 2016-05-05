@@ -2,12 +2,15 @@ package org.gruppe2.ui.javafx.ingame;
 
 import javafx.application.Platform;
 import org.gruppe2.Main;
+import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
+import org.gruppe2.ui.UIResources;
 import org.w3c.dom.Node;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -18,6 +21,7 @@ public class Game {
     private UUID playerUUID = UUID.randomUUID();
     private SessionContext context = null;
     private Timer sessionTimer = new Timer();
+    private boolean player = false;
 
     private Game() {
         /*try {
@@ -36,17 +40,36 @@ public class Game {
         return instance.context;
     }
 
-    public static void setContext(SessionContext context) {
+    public static Game getInstance() {
+        return instance;
+    }
+
+    public void setContext(SessionContext context) {
         quit();
 
-        instance.context = context;
-        instance.context.getEventQueue().registerHandler(QuitEvent.class, event -> quit());
+        this.context = context;
+        this.context.getEventQueue().registerHandler(QuitEvent.class, event -> quit());
+
+        if (Main.getProperty("name").isEmpty()) {
+            Main.setProperty("name", NewDumbAI.randomName());
+        }
+
+        if (Main.getProperty("avatar").isEmpty()) {
+            String[] avatars = UIResources.listAvatars();
+            Random random = new Random();
+
+            Main.setProperty("avatar", avatars[random.nextInt(avatars.length)]);
+        }
+
+        if ((player = Game.message("addPlayer", Game.getPlayerUUID(), Main.getProperty("name"), Main.getProperty("avatar")).get())) {
+            Game.message("addPlayerStatistics", Game.getPlayerUUID(), Main.loadPlayerStatistics());
+        }
 
         startTimer();
     }
 
     public static void autostart() {
-        setContext(new GameBuilder().start());
+        instance.setContext(new GameBuilder().start());
     }
 
     public static Query<Boolean> message(String name, Object... args) {
@@ -82,5 +105,9 @@ public class Game {
         // Process the queue one last time
         instance.context.getEventQueue().process();
         instance.context = null;
+    }
+
+    public static boolean isPlayer() {
+        return instance.player;
     }
 }

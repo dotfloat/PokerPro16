@@ -78,7 +78,7 @@ public class ClientSession extends Session {
         GameModel gameModel = (GameModel) getModel(GameModel.class);
 
         for (Player p : gameModel.getPlayers()) {
-            System.out.println("Player: " + p.getName());
+            System.out.printf("Player: %s (%d)\n", p.getName(), p.getTablePosition());
         }
     }
 
