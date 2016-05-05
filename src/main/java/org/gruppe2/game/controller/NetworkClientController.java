@@ -128,9 +128,9 @@ public class NetworkClientController extends AbstractController {
 				player = game.findPlayerByUUID(playerUUID1);
 				return new PlayerPreActionEvent(player);
 			case "BLIND":
-				UUID playerUUID2 = UUID.fromString(listOfCommands[1]);
-				Player player1 = game.findPlayerByUUID(playerUUID2);
-				RoundPlayer roundPlayer1 = roundHelper.findPlayerByUUID(playerUUID2);
+				uuid = UUID.fromString(listOfCommands[1]);
+				Player player1 = game.findPlayerByUUID(uuid);
+				RoundPlayer roundPlayer1 = roundHelper.findPlayerByUUID(uuid);
 				int value = Integer.valueOf(listOfCommands[2]);
 				return new PlayerPaysBlind(player1,roundPlayer1,value);
 			case "CONNECTED":

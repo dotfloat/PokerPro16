@@ -63,10 +63,10 @@ public class NetworkServerController extends AbstractController {
 
                 if (args == null)
                     continue;
-
+                UUID uuid;
                 switch (args[0]) {
                     case "SAY":
-                    	UUID uuid = clients.get(i).getPlayerUUID();
+                    	uuid = clients.get(i).getPlayerUUID();
                     	if (uuid == null)
                     		continue;
                     	
@@ -77,7 +77,10 @@ public class NetworkServerController extends AbstractController {
                     	getContext().message("addPlayer", clients.get(i).getPlayerUUID(), args[3], args[2]);
                     	break;
                     case "DISCONNECT":
-                    	Player player = gameHelper.findPlayerByUUID(clients.get(i).getPlayerUUID());
+                    	uuid = clients.get(i).getPlayerUUID();
+                    	Player player = gameHelper.findPlayerByUUID(uuid);
+                    	roundHelper.getActivePlayers().remove(roundHelper.findPlayerByUUID(uuid));
+                    	
                     	addEvent(new PlayerLeaveEvent(player));
                     	clients.remove(i--);
                 }
