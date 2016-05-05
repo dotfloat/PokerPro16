@@ -118,7 +118,7 @@ public class NetworkServerController extends AbstractController {
 
     @Handler
     public void onPlayerLeave(PlayerLeaveEvent playerLeaveEvent) {
-        sendToAll(String.format("PLAYER LEFT;%s\r\n", playerLeaveEvent.getPlayer().getUUID()));
+        sendToAll(String.format("DISCONNECTED;%s\r\n", playerLeaveEvent.getPlayer().getUUID()));
     }
 
     @Handler
