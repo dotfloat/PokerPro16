@@ -17,189 +17,196 @@ import org.gruppe2.ui.javafx.menu.Lobby;
 
 /**
  * Class for client handling in lobby, controll is given to ClientController when the game starts
- * @author htj063
  *
+ * @author htj063
  */
 public class MasterClient {
 
-	ProtocolConnection connection;
-	ArrayList<TableEntry> tablesInLobby = new ArrayList<TableEntry>();
-	Lobby lobby;
-	private static Timer sessionTimer = new Timer();
-	private static String ip = "localhost";
-	
-	public MasterClient(Lobby lobby) {
-		this.lobby = lobby;
-		connect(ip);
-		System.out.println(connection);
-		if(connection != null){
-			sendFirstHello();
-			SetTimerTask();
-		}
-	}
+    private ProtocolConnection connection;
+    private ArrayList<TableEntry> tablesInLobby = new ArrayList<>();
+    private Lobby lobby;
+    private static Timer sessionTimer = new Timer();
+    private static String ip = "localhost";
 
-	private void SetTimerTask() {
-		MasterClient THIS = this;
-		sessionTimer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Platform.runLater(() -> THIS.update());
-			}
-		}, 0, 50);
-	}
+    public MasterClient(Lobby lobby) {
+        this.lobby = lobby;
+        connect(ip);
+        System.out.println(connection);
+        if (connection != null) {
+            sendFirstHello();
+            SetTimerTask();
+        }
+    }
 
-	private void connect(String ip) {
-		try {
-			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
-					ip, 8888));
-			connection = new ProtocolConnection(channel);
-			
-			channel.configureBlocking(false);
+    private void SetTimerTask() {
+        MasterClient THIS = this;
+        sessionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> THIS.update());
+            }
+        }, 0, 50);
+    }
 
-		} catch ( IOException e) {
-			e.printStackTrace();
-		}
-	}
+    private void connect(String ip) {
+        try {
+            SocketChannel channel = SocketChannel.open(new InetSocketAddress(
+                    ip, 8888));
+            connection = new ProtocolConnection(channel);
 
-	public void update() {
-		try {
-			String[] message = connection.readMessage();
+            channel.configureBlocking(false);
 
-			if (message == null)
-				return;
-			System.out.println("Client recieved " + message[0]);
-			
-			switch (message[0]) {
-			case "HELLO":
-				if (message[1].equals("MASTER")) {
-					System.out.println("You are now connected to master server");
-				}
-				break;
-			case "TABLE":
-				System.out.println("table is:"+ message[0]+" "+message[1]);
-				createTables(message);
-				lobby.updateTables(tablesInLobby);
-				break;
-			case "CREATED":
-				lobby.createGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-				break;
-			case "JOINED":
-				lobby.joinGame();
-				break;
-			case "NO":
-				System.out.println("could not join that table");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    public void update() {
+        try {
+            String[] message = connection.readMessage();
 
-	private void createTables(String[] message) {
-		int i = 0;
-		UUID uuid = null;
-		int currentPlayers = -1;
-		int maxPlayers = -1;
-		for (String messagePart : message) {
+            if (message == null)
+                return;
+            System.out.println("Client recieved " + message[0]);
 
-			if (i % 4 == 1) {
-				uuid = UUID.fromString(messagePart);
-			}
-			if (i % 4 == 2) {
-				currentPlayers = Integer.valueOf(messagePart);
-			}
-			if (i % 4 == 3) {
-				maxPlayers = Integer.valueOf(messagePart);
-				tablesInLobby.add(new TableEntry(uuid, currentPlayers,
-						maxPlayers));
-			}
+            switch (message[0]) {
+                case "HELLO":
+                    if (message[1].equals("MASTER")) {
+                        System.out.println("You are now connected to master server");
+                    }
+                    break;
+                case "TABLE":
+                    System.out.println("table is:" + message[0] + " " + message[1]);
+                    createTables(message);
+                    lobby.updateTables(tablesInLobby);
+                    break;
+                case "CREATED":
+                    lobby.createGame();
 
-			i++;
-		}
-	}
+                    break;
+                case "JOINED":
+                    lobby.joinGame();
+                    break;
+                case "NO":
+                    System.out.println("could not join that table");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void createTables(String[] message) {
+        int i = 0;
+        UUID uuid = null;
+        String name = null;
+        int currentPlayers = -1;
+        int maxPlayers = -1;
+        for (String messagePart : message) {
 
-	private void sendFirstHello() {
-		try {
-			connection.sendMessage("HELLO\r\n");
-		} catch (IOException e) {
+            if (i % 5 == 1) {
+                uuid = UUID.fromString(messagePart);
+            } else if (i % 5 == 2) {
+                name = messagePart;
+            } else if (i % 5 == 3) {
+                currentPlayers = Integer.valueOf(messagePart);
+            } else if (i % 5 == 4) {
+                maxPlayers = Integer.valueOf(messagePart);
+                tablesInLobby.add(new TableEntry(uuid, name, currentPlayers, maxPlayers));
+            }
 
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * Asks server if you can create new table
-	 * @param uuid
-	 */
-	public void requestCreateGame() {
-		try {
-			connection.sendMessage("CREATE\r\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-	}
-	/**
-	 * Joins table that was asked to be created
-	 * @return
-	 */
-	public SessionContext createNewTable() {
-		sessionTimer.cancel();
+            i++;
+        }
+    }
 
-		return Session.start(ClientSession.class, connection);
-	}
-	
-	/**
-	 * Asks server if you can join table with specific uuid
-	 * @param uuid
-	 */
-	public void requestJoinTable(UUID uuid) {
-		try {
-			connection.sendMessage("JOIN TABLE;" + uuid + "\r\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * Joins table that was asked to be joined
-	 * @return
-	 */
-	public SessionContext joinTable(){
-		sessionTimer.cancel();
-		
-		return Session.start(ClientSession.class, connection);
-	}
-	/**
-	 * Test if server is up, so we dont need to start lobby if it is not.
-	 * creates a client, and instantly remove it, to check
-	 * @return
-	 */
-	public static boolean localMasterServerIsUp(){
-		try {
-			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
-					ip, 8888));
-			ProtocolConnection testConnection = new ProtocolConnection(channel);
-			testConnection.sendMessage("BYE\r\n");
-			return true;
+    private void sendFirstHello() {
+        try {
+            connection.sendMessage("HELLO\r\n");
+        } catch (IOException e) {
 
-		} catch ( IOException e) {
-			return false;
-		}
-	}
+            e.printStackTrace();
+        }
+    }
 
-	public static boolean onlineMasterServerIsUp() {
-		try {
-			ip = "zohar.no";
-			SocketChannel channel = SocketChannel.open(new InetSocketAddress(
-					ip, 8888));
-			ProtocolConnection testConnection = new ProtocolConnection(channel);
-			testConnection.sendMessage("BYE\r\n");
-			return true;
+    /**
+     * Asks server if you can create new table
+     *
+     * @param uuid
+     */
+    public void requestCreateGame() {
+        try {
+            connection.sendMessage("CREATE\r\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-		} catch ( IOException e) {
-			return false;
-		}
-	}
+    /**
+     * Joins table that was asked to be created
+     *
+     * @return
+     */
+    public SessionContext createNewTable() {
+        sessionTimer.cancel();
 
-	
+        return Session.start(ClientSession.class, connection);
+    }
+
+    /**
+     * Asks server if you can join table with specific uuid
+     *
+     * @param uuid
+     */
+    public void requestJoinTable(UUID uuid) {
+        try {
+            connection.sendMessage("JOIN TABLE;" + uuid + "\r\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Joins table that was asked to be joined
+     *
+     * @return
+     */
+    public SessionContext joinTable() {
+        sessionTimer.cancel();
+
+        return Session.start(ClientSession.class, connection);
+    }
+
+    /**
+     * Test if server is up, so we dont need to start lobby if it is not.
+     * creates a client, and instantly remove it, to check
+     *
+     * @return
+     */
+    public static boolean localMasterServerIsUp() {
+        try {
+            SocketChannel channel = SocketChannel.open(new InetSocketAddress(
+                    ip, 8888));
+            ProtocolConnection testConnection = new ProtocolConnection(channel);
+            testConnection.sendMessage("BYE\r\n");
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static boolean onlineMasterServerIsUp() {
+        try {
+            ip = "zohar.no";
+            SocketChannel channel = SocketChannel.open(new InetSocketAddress(
+                    ip, 8888));
+            ProtocolConnection testConnection = new ProtocolConnection(channel);
+            testConnection.sendMessage("BYE\r\n");
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
 
 }

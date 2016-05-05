@@ -81,6 +81,10 @@ public class GameController extends AbstractController {
 
             addEvent(new PlayerJoinEvent(model));
 
+            if (game.getModel().getName() == null) {
+                game.getModel().setName(model.getName() + "'s table");
+            }
+
             return true;
         }
     }
