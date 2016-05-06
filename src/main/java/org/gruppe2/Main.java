@@ -134,9 +134,9 @@ public class Main {
     public static void savePlayerStatistics(PlayerStatistics stats) {
         for (Field f : PlayerStatistics.class.getDeclaredFields()) {
             try {
-                int val = ((AtomicInteger) f.get(stats)).get();
-
                 f.setAccessible(true);
+
+                int val = ((AtomicInteger) f.get(stats)).get();
 
                 setProperty(f.getName(), String.valueOf(val));
             } catch(IllegalAccessException e) {

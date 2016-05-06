@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.PossibleActions;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -19,6 +20,8 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
+
+import java.util.UUID;
 
 public class ChoiceBar extends HBox {
 
@@ -86,10 +89,10 @@ public class ChoiceBar extends HBox {
             if (actionQuery != null) {
                 switch (event.getCode()) {
                     case UP:
-                        slider.setValue(slider.getValue() * 2);
+                        slider.increment();
                         break;
                     case DOWN:
-                        slider.setValue(slider.getValue() / 2);
+                        slider.decrement();
                         break;
                     case LEFT:
                         onFoldAction();
@@ -100,7 +103,6 @@ public class ChoiceBar extends HBox {
                     default:
                         break;
                 }
-
             }
         });
     }
@@ -115,22 +117,28 @@ public class ChoiceBar extends HBox {
 
     @FXML
     private void onBetAction() {
-        System.out.println("start");
         if (actionQuery != null) {
-            System.out.println("start2");
-            PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
-            if (pa.canCheck()) {
-                actionQuery.set(new Action.Check());
-                System.out.println("Check");
-            } else if (pa.canCall() && slider.getValue() == 0) {
-                actionQuery.set(new Action.Call());
-                System.out.println("Call");
-            } else if (pa.canRaise()) {
-                if (slider.getValue() > 0) {
-                    System.out.println("Raise");
-                    actionQuery.set(new Action.Raise((int) slider.getValue()));
+            UUID uuid = Game.getPlayerUUID();
+            Player player = gameHelper.findPlayerByUUID(uuid).get();
+            RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(uuid).get();
+            PossibleActions possibleActions = roundHelper.getPlayerOptions(uuid);
+
+            int amount = (int) (slider.getValue() - (roundHelper.getHighestBet() - roundPlayer.getBet()));
+
+            if (amount == 0) {
+                if (possibleActions.canCall()) {
+                    actionQuery.set(new Action.Call());
+                } else if (possibleActions.canCheck()) {
+                    actionQuery.set(new Action.Check());
+                } else {
+                    throw new RuntimeException();
                 }
+            } else if(amount == player.getBank()) {
+                actionQuery.set(new Action.AllIn());
+            } else {
+                actionQuery.set(new Action.Raise(amount));
             }
+
             actionQuery = null;
         }
 
@@ -189,10 +197,10 @@ public class ChoiceBar extends HBox {
             slider.setDisable(false);
             sliderValue.setDisable(false);
 
-            if (actions.canRaise()) {
-                slider.setMin(0);
-                slider.setMax(actions.getMaxRaise());
-            }
+            int diffBet = roundHelper.getHighestBet() - query.getRoundPlayer().getBet();
+
+            slider.setMin(diffBet);
+            slider.setMax(actions.getMaxRaise() + diffBet);
 
             actionQuery = query.getPlayer().getAction();
         }
