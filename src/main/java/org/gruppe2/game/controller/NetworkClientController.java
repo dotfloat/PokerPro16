@@ -1,10 +1,7 @@
 package org.gruppe2.game.controller;
 
 import org.gruppe2.game.Action;
-import org.gruppe2.game.event.Event;
-import org.gruppe2.game.event.PlayerJoinEvent;
-import org.gruppe2.game.event.PlayerLeaveEvent;
-import org.gruppe2.game.event.QuitEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
@@ -70,6 +67,11 @@ public class NetworkClientController extends AbstractController {
             sendMessage(String.format("ACTION;%s\r\n", action.toNetworkString()));
             actionQuery = null;
         }
+    }
+
+    @Handler
+    public void setActionQuery(PlayerActionQuery query) {
+        actionQuery = query.getPlayer().getAction();
     }
 
     @Message

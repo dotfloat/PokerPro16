@@ -114,12 +114,36 @@ public class NetworkServerController extends AbstractController {
                     case "ACTION":
                     	System.out.println("server recieved action");
                     	uuid = clients.get(i).getPlayerUUID();
-                    	
-                    	//setPlayerActionFromMessage(uuid,args);
+
+                    	setPlayerActionFromMessage(uuid,args);
                 }
             } catch (IOException e) {
                 clients.remove(i--);
             }
+        }
+    }
+
+    private void setPlayerActionFromMessage(UUID uuid, String[] args) {
+        if (action != null) {
+            switch (args[1]) {
+                case "Call":
+                    action.set(new Action.Call());
+                    break;
+
+                case "Check":
+                    action.set(new Action.Check());
+                    break;
+
+                case "Fold":
+                    action.set(new Action.Fold());
+                    break;
+
+                case "Raise":
+                    action.set(new Action.Raise(Integer.valueOf(args[2])));
+                    break;
+            }
+
+            action = null;
         }
     }
 
