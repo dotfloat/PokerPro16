@@ -4,6 +4,10 @@ import java.util.UUID;
 
 public class ChatEvent implements Event {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4927330537383925492L;
 	private final String message;
 	private final UUID playerUUID;
 	

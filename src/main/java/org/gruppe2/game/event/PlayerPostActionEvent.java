@@ -5,7 +5,11 @@ import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 
 public class PlayerPostActionEvent implements Event {
-    private final Player player;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6633381682061970387L;
+	private final Player player;
     private final RoundPlayer roundPlayer;
     private final Action action;
 

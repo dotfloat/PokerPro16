@@ -7,7 +7,11 @@ import org.gruppe2.game.RoundPlayer;
  * Created by Mikal on 28.04.2016.
  */
 public class PlayerPaysBlind implements Event {
-    private final Player player;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1030928698715497092L;
+	private final Player player;
     private final RoundPlayer roundPlayer;
     private final int blindAmount;
 
