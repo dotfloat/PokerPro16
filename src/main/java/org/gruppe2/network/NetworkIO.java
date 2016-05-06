@@ -11,10 +11,15 @@ import java.util.Arrays;
  * Reader and writer for net protocol
  */
 public class NetworkIO {
+    private static final Charset charset = Charset.forName("ISO-8859-1");
+
     private final SocketChannel channel;
+
     private final ByteArrayOutputStream inputBuffer = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
+
     private final ByteBuffer readByteBuffer = ByteBuffer.allocate(1024);
-    private final Charset charset = Charset.forName("ISO-8859-1");
+    private final ByteBuffer writeByteBuffer = ByteBuffer.allocate(1024);
 
     public NetworkIO(SocketChannel channel) throws IOException {
         this.channel = channel;
@@ -22,15 +27,9 @@ public class NetworkIO {
     }
 
     public void sendMessage(String message) throws IOException {
-        byte[] bytes = message.getBytes(charset);
-        ByteBuffer buffer = ByteBuffer.allocate(bytes.length);
-        buffer.clear();
-        buffer.put(bytes);
-        buffer.flip();
+        outputBuffer.write(message.getBytes());
 
-        System.out.printf("Sent Message: [%s] (size: %d bytes)\n", message.replace("\r\n", ""), bytes.length);
-
-        channel.write(buffer);
+        System.out.printf("Sent Message: [%s]\n", message.replace("\r\n", ""));
     }
 
     /**
@@ -71,26 +70,27 @@ public class NetworkIO {
     public void sendObject(Object object) throws IOException {
         int wrote = 0;
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-        objectOutputStream.writeObject(object);
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+        objectStream.writeObject(object);
 
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + 4);
-        byteBuffer.clear();
-        byteBuffer.putInt(bytes.length);
-        byteBuffer.put(bytes);
-        byteBuffer.flip();
+        byte[] bytes = byteStream.toByteArray();
 
-        if ((wrote = channel.write(byteBuffer)) < bytes.length + 4) {
-            System.err.printf("Write buffer can't keep up! Wrote %d / %d bytes\n", wrote, bytes.length + 4);
-        }
+        ByteBuffer lengthBuffer = ByteBuffer.allocate(4);
+        lengthBuffer.clear();
+        lengthBuffer.putInt(bytes.length);
+        lengthBuffer.flip();
 
-        System.out.printf("Sent Object: [%s] (size: %d bytes)\n", object.getClass(), bytes.length + 4);
+        outputBuffer.write(lengthBuffer.array());
+        outputBuffer.write(bytes);
+
+        System.out.printf("Sent Object: [%s] (size: %d)\n", object.getClass(), bytes.length + 4);
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {
-        if (fillBuffer() <= 0)
+        fillBuffer();
+
+        if (inputBuffer.size() <= 4)
             return null;
 
         byte[] bytes = inputBuffer.toByteArray();
@@ -101,6 +101,8 @@ public class NetworkIO {
         lengthBuffer.flip();
 
         int length = lengthBuffer.getInt();
+
+        System.out.printf("Object length: %d\n", length);
 
         if (length + 4 > bytes.length) // Not enough data
             return null;
@@ -118,7 +120,41 @@ public class NetworkIO {
         return object;
     }
 
+    /**
+     * Attempts to write as much as possible to the SocketChannel
+     * object from the internal write buffer.
+     * @return number of bytes remaining
+     * @throws IOException
+     */
+    public int flush() throws IOException {
+        while (outputBuffer.size() > 0) {
+
+            byte[] bytes = outputBuffer.toByteArray();
+
+            writeByteBuffer.clear();
+            writeByteBuffer.flip();
+
+            writeByteBuffer.clear();
+            writeByteBuffer.put(bytes, 0, Math.min(bytes.length, 1024));
+            writeByteBuffer.flip();
+
+            int written = channel.write(writeByteBuffer);
+
+            if (written > 0) {
+                System.out.printf("Written %d, left %d : %d\n", written, bytes.length - written, channel.socket().getSendBufferSize());
+                outputBuffer.reset();
+                outputBuffer.write(bytes, written, bytes.length - written);
+            } else {
+                break;
+            }
+        }
+
+        return outputBuffer.size();
+    }
+
     private int fillBuffer() throws IOException {
+        flush();
+
         int read;
         readByteBuffer.clear();
 

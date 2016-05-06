@@ -129,6 +129,7 @@ public class NetworkServerController extends AbstractController {
 					setPlayerActionFromMessage(uuid, args);
 				}
 			} catch (IOException e) {
+				e.printStackTrace();
 				clients.remove(i--);
 			}
 		}
@@ -186,6 +187,7 @@ public class NetworkServerController extends AbstractController {
 			try {
 				clients.get(i).getConnection().sendObject(object);
 			} catch (IOException e) {
+				e.printStackTrace();
 				getContext().message("kickPlayer",
 						clients.get(i).getPlayerUUID());
 				clients.remove(i--);
