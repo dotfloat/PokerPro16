@@ -3,15 +3,18 @@ package org.gruppe2.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Cards;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class UIResources {
     private final static String uiPackageString = PokerApplication.class.getPackage().getName();
+
+    private static List<Image> cards = null;
+
     private static Map<String, Image> avatars = null;
     private static Image defaultAvatar = null;
 
@@ -69,6 +72,29 @@ public class UIResources {
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static Image getCard(Card card) {
+        loadCards();
+
+        return cards.get(card.getSuit().ordinal() * 13 + (card.getFaceValue() - 2));
+    }
+
+    private static void loadCards() {
+        if (cards != null)
+            return;
+
+        cards = new ArrayList<>();
+
+        char[] suitChars = { 'c', 'd', 'h', 's' };
+
+        for (int face = 2; face <= 14; face++) {
+            for (int suit = 0; suit < 4; suit++) {
+                String path = String.format("/images/cards/%c%02d.png", suitChars[suit], face);
+
+                cards.add(new Image(UIResources.class.getResourceAsStream(path)));
+            }
         }
     }
 }

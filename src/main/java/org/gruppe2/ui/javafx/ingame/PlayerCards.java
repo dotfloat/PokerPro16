@@ -5,7 +5,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import org.gruppe2.game.Card;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -13,7 +16,9 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
-public class PlayerCards extends HBox {
+import java.util.Optional;
+
+public class PlayerCards extends Pane {
     private boolean firstSet = true;
 
     @Helper
@@ -29,58 +34,18 @@ public class PlayerCards extends HBox {
         Game.setAnnotated(this);
     }
 
-    /**
-     * This is just test method for proof of concept, change this when backend
-     * is ready with playerCards.
-     */
-    public void setPlayerCards(CommunityCards communityCardsBox) {
-    	
-    	if(roundHelper.getActivePlayers().contains(roundHelper.findPlayerByUUID(Game.getPlayerUUID()))){
-	    	Card[] cards = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getCards();
-	        setPaneStyle();
-	
-	        playerCard1.setImage(new Image(("/images/cards/"
-	                + communityCardsBox.getCardName(cards[0]) + ".png")));
-	        playerCard2.setImage(new Image(("/images/cards/"
-	                + communityCardsBox.getCardName(cards[1]) + ".png")));
-	
-	        checkFirstSet();
-    	}
-    }
-
-    private void setPaneStyle() {
-        this.layoutXProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.82));
-        this.layoutYProperty().bind(
-                PokerApplication.getRoot().heightProperty().multiply(0.77));
-
-    }
-
-    /**
-     * First time needs to set layout
-     */
-    private void checkFirstSet() {
-        if (firstSet) {
-            playerCard1.fitWidthProperty().bind(
-                    PokerApplication.getRoot().widthProperty().multiply(0.10));
-            playerCard1.setPreserveRatio(true);
-            playerCard1.setSmooth(true);
-
-
-            playerCard2.fitWidthProperty().bind(
-                    PokerApplication.getRoot().widthProperty().multiply(0.10));
-            playerCard2.setPreserveRatio(true);
-            playerCard2.setSmooth(true);
-
-
-            playerCard1.setRotate(350);
-            playerCard2.setRotate(10);
-
-            firstSet = false;
-        }
-    }
     @Handler
-    public void getPlayerCardsHandler(RoundStartEvent roundStartEvent){
-    	setPlayerCards(new CommunityCards());
+    public void onRoundStart(RoundStartEvent event) {
+        Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(Game.getPlayerUUID());
+
+        setVisible(roundPlayer.isPresent());
+
+        if (!roundPlayer.isPresent())
+            return;
+
+        Card[] cards = roundPlayer.get().getCards();
+
+        playerCard1.setImage(UIResources.getCard(cards[0]));
+        playerCard2.setImage(UIResources.getCard(cards[1]));
     }
 }

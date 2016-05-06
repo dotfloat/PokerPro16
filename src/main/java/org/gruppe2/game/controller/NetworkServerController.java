@@ -38,9 +38,24 @@ public class NetworkServerController extends AbstractController {
     @Override
     public void init() {
         getContext().getEventQueue().setGenericHandler(e -> {
-            broadcastObject(gameHelper.getModel());
-            broadcastObject(roundHelper.getModel());
-            broadcastObject(e);
+            if (!(e instanceof PlayerActionQuery)) {
+                broadcastObject(gameHelper.getModel());
+                broadcastObject(roundHelper.getModel());
+                broadcastObject(e);
+            } else {
+                PlayerActionQuery query = (PlayerActionQuery) e;
+                clients.stream()
+                        .filter(c -> query.getPlayer().getUUID().equals(c.getPlayerUUID()))
+                        .findFirst()
+                        .ifPresent(c -> {
+                            try {
+                                c.getConnection().sendObject(e);
+                                action = ((PlayerActionQuery) e).getPlayer().getAction();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        });
+            }
         });
     }
 
@@ -127,7 +142,6 @@ public class NetworkServerController extends AbstractController {
             connection.sendObject(gameHelper.getModel());
             connection.sendObject(roundHelper.getModel());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -137,7 +151,7 @@ public class NetworkServerController extends AbstractController {
             try {
                 clients.get(i).getConnection().sendObject(object);
             } catch (IOException e) {
-                e.printStackTrace();
+                getContext().message("kickPlayer", clients.get(i).getPlayerUUID());
                 clients.remove(i--);
             }
         }

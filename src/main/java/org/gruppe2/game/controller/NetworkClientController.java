@@ -89,7 +89,7 @@ public class NetworkClientController extends AbstractController {
 
     @Handler
     public void onQuit(QuitEvent quitEvent) {
-        sendMessage("DISSCONNECT");
+        sendMessage("DISCONNECT\r\n");
     }
 
     private void sendMessage(String message) {

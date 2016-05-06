@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -20,8 +21,8 @@ import org.gruppe2.ui.javafx.ingame.GameScene;
 import org.gruppe2.ui.javafx.menu.Intro;
 
 public class PokerApplication extends Application {
-    private static int width;
-    private static int height;
+    private final static int width = 1280;
+    private final static int height = 768;
     private static StackPane root = new StackPane(); // Setting global root. Will only change scenes.
 
     private static ObjectProperty<Font> font ;
@@ -55,19 +56,9 @@ public class PokerApplication extends Application {
     }
 
     private void startValues(Stage stage) {
-        width = 1280;
-        height = 768;
         stage.setTitle("PokerPro16");
         stage.getIcons().add(new Image("/images/ui/icon.png"));
         stage.setOnCloseRequest(e -> System.exit(1));
-    }
-
-    public static int getWidth() {
-        return width;
-    }
-
-    public static int getHeight() {
-        return height;
     }
 
     /**
@@ -82,9 +73,11 @@ public class PokerApplication extends Application {
             root.getChildren().add(new Intro());
         }
 
-        Scene scene = new Scene(root, width, height);
+        Scene scene = new Scene(root, width, height, false, SceneAntialiasing.BALANCED);
         scene.getStylesheets().add(
                 getClass().getResource("/css/style.css").toExternalForm());
+        stage.setMinWidth(640);
+        stage.setMinHeight(480);
         stage.setScene(scene);
         stage.show();
     }
