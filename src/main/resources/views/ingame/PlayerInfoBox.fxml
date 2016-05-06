@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<fx:root type="javafx.scene.layout.BorderPane" fx:id="this"
+<fx:root type="javafx.scene.layout.BorderPane" fx:id="this" styleClass="pane"
          xmlns:fx="http://javafx.com/fxml"
          onMouseClicked="#viewStatistic"
          visible="false">

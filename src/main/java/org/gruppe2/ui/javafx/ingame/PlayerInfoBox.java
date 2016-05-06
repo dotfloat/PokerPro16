@@ -1,6 +1,7 @@
 package org.gruppe2.ui.javafx.ingame;
 
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javafx.beans.property.ObjectProperty;
@@ -64,12 +65,23 @@ public class PlayerInfoBox extends BorderPane {
             return;
         }
 
-        setVisible(true);
-        player = gameHelper.findPlayerByUUID(uuid).get();
-        name.setText(player.getName());
-        bank.setText(String.valueOf(player.getBank()));
-        bet.setText("0");
-        avatar.setImage(UIResources.getAvatar(player.getAvatar()));
+        Optional<Player> player = gameHelper.findPlayerByUUID(uuid);
+        Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(uuid);
+
+        setVisible(player.isPresent());
+
+        if (!player.isPresent())
+            return;
+
+        name.setText(player.get().getName());
+        bank.setText(String.valueOf(player.get().getBank()));
+        avatar.setImage(UIResources.getAvatar(player.get().getAvatar()));
+
+        fold.setVisible(roundPlayer.isPresent());
+
+        if (roundPlayer.isPresent()) {
+            bet.setText(String.valueOf(roundPlayer.get().getBet()));
+        }
     }
 
     private void setActive(boolean active) {

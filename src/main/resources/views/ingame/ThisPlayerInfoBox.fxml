@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml"
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" styleClass="pane"
          alignment="CENTER" style="-fx-background-color: black">
 
     <Label fx:id="name" alignment="CENTER"/>

@@ -21,13 +21,13 @@ import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class ChoiceBar extends HBox {
-    
-    
+
+
     @Helper
     private GameHelper gameHelper;
     @Helper
     private RoundHelper roundHelper;
-    
+
     @FXML
     private TextField chatField;
     @FXML
@@ -38,7 +38,7 @@ public class ChoiceBar extends HBox {
     private Label sliderValue;
     @FXML
     private Button btnBet;
-    
+
     private Query<Action> actionQuery = null;
 
     public ChoiceBar() {
@@ -83,59 +83,57 @@ public class ChoiceBar extends HBox {
      */
     private void setKeyListener() {
         chatField.setOnKeyPressed(event -> {
-        	if(actionQuery != null){
-	            switch (event.getCode()) {
-	                case UP:
-	                    slider.setValue(slider.getValue() * 2);
-	                    break;
-	                case DOWN:
-	                    slider.setValue(slider.getValue() / 2);
-	                    break;
-	                case LEFT:
-	                	onFoldAction();
-	                    break;
-	                case RIGHT:
-	                	onBetAction();
-	                    break;
-	                default:
-	                    break;
-	            }
-	            
-        	}
+            if (actionQuery != null) {
+                switch (event.getCode()) {
+                    case UP:
+                        slider.setValue(slider.getValue() * 2);
+                        break;
+                    case DOWN:
+                        slider.setValue(slider.getValue() / 2);
+                        break;
+                    case LEFT:
+                        onFoldAction();
+                        break;
+                    case RIGHT:
+                        onBetAction();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
         });
     }
 
     @FXML
     private void onFoldAction() {
-    	if(actionQuery != null){
-    		actionQuery.set( new Action.Fold());
-    		actionQuery = null;
-    	}
+        if (actionQuery != null) {
+            actionQuery.set(new Action.Fold());
+            actionQuery = null;
+        }
     }
 
     @FXML
     private void onBetAction() {
-    	System.out.println("start");
-    	if(actionQuery != null){
-    		System.out.println("start2");
-    		PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
-    		if(pa.canCheck()){
-    			actionQuery.set( new Action.Check());
-    			System.out.println("Check");
-    		}
-    		else if(pa.canCall() && slider.getValue() == 0 ){
-    			actionQuery.set( new Action.Call());
-    			System.out.println("Call");
-    		}
-    		else if(pa.canRaise()){
-    			if(slider.getValue() > 0){
-    				System.out.println("Raise");
-    				actionQuery.set( new Action.Raise( (int)slider.getValue()));
-    			}
-    		}
-    		actionQuery = null;
-    	}
-    	
+        System.out.println("start");
+        if (actionQuery != null) {
+            System.out.println("start2");
+            PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
+            if (pa.canCheck()) {
+                actionQuery.set(new Action.Check());
+                System.out.println("Check");
+            } else if (pa.canCall() && slider.getValue() == 0) {
+                actionQuery.set(new Action.Call());
+                System.out.println("Call");
+            } else if (pa.canRaise()) {
+                if (slider.getValue() > 0) {
+                    System.out.println("Raise");
+                    actionQuery.set(new Action.Raise((int) slider.getValue()));
+                }
+            }
+            actionQuery = null;
+        }
+
     }
 
     /**
@@ -145,15 +143,16 @@ public class ChoiceBar extends HBox {
      * @return
      */
     private String checkMaxBid(Slider slider) {
-    	PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
+        PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
+
         if (slider.getValue() == slider.getMax())
             btnBet.setText("ALL IN");
-        else if(slider.getValue() > 0)
+        else if (slider.getValue() > 0)
             btnBet.setText("RAISE");
-        else if(pa.canCall())
-        	 btnBet.setText("Call");
+        else if (pa.canCall())
+            btnBet.setText("Call");
         else
-        	 btnBet.setText("Check");
+            btnBet.setText("Check");
         return (int) slider.getValue() + " CHIPS";
     }
 
@@ -162,25 +161,40 @@ public class ChoiceBar extends HBox {
      *
      * @param player
      */
-    void updatePossibleBarsToClick() {
-    	Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
+    private void updatePossibleBarsToClick() {
+        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
         slider.setMax(player.getBank());
         slider.setMin(0);
         slider.setValue(0);
     }
-    
+
     @FXML
     public void onChatAction(ActionEvent event) {
         Game.message("chat", chatField.getText(), Game.getPlayerUUID());
-    	chatField.setText("");
+        chatField.setText("");
     }
-    
+
     @Handler
-    public void setActionHandler(PlayerActionQuery playerActionQuery){
-    	if(playerActionQuery.getPlayer().getUUID().equals(Game.getPlayerUUID())){
-    		System.out.println("choicebar handler ");
-    		actionQuery = playerActionQuery.getPlayer().getAction();
-    		updatePossibleBarsToClick();
-    	}
+    public void onActionQuery(PlayerActionQuery query) {
+        if (!query.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
+            btnFold.setDisable(true);
+            btnBet.setDisable(true);
+            slider.setDisable(true);
+            sliderValue.setDisable(true);
+        } else {
+            PossibleActions actions = roundHelper.getPlayerOptions(Game.getPlayerUUID());
+
+            btnFold.setDisable(false);
+            btnBet.setDisable(false);
+            slider.setDisable(!actions.canRaise());
+            sliderValue.setDisable(false);
+
+            if (actions.canRaise()) {
+                slider.setMin(0);
+                slider.setMax(actions.getMaxRaise());
+            }
+
+            actionQuery = query.getPlayer().getAction();
+        }
     }
 }

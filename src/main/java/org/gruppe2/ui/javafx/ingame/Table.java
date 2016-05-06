@@ -85,6 +85,11 @@ public class Table extends Pane {
 
         createPlayerInfoBoxes();
 
+        CommunityCards communityCards = new CommunityCards();
+        communityCards.layoutXProperty().bind(translateX(communityCards.widthProperty(), 0));
+        communityCards.layoutYProperty().bind(translateY(communityCards.heightProperty(), -15));
+        getChildren().add(communityCards);
+
         pot.setText("Total pot: $0");
         pot.fontProperty().bind(font);
         pot.layoutXProperty().bind(translateX(pot.widthProperty(), 0));
