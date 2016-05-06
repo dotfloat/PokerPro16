@@ -1,10 +1,7 @@
 package org.gruppe2.ui.console;
 
 import org.gruppe2.Main;
-import org.gruppe2.game.Action;
-import org.gruppe2.game.GameBuilder;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.*;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -76,7 +73,7 @@ public class ConsoleApplication implements Runnable {
 
         System.out.println("Highest bet: " + roundHelper.getHighestBet());
         System.out.println("Table pot: " + roundHelper.getPot());
-        System.out.printf("Your cards: %s %s \n", roundPlayer.getCards()[0], roundPlayer.getCards()[1]);
+        System.out.printf("Your cards: %s %s \n", roundPlayer.getCards()[0].toPrettyString(), roundPlayer.getCards()[1].toPrettyString());
         System.out.printf("Your chips: %d \n", player.getBank());
         System.out.printf("Current bet: %d \n", roundPlayer.getBet());
         System.out.println("> Your turn, you can: ");
@@ -163,10 +160,14 @@ public class ConsoleApplication implements Runnable {
         String s = "Active players left: ";
         for (RoundPlayer p : roundHelper.getActivePlayers()) {
             Player p2 = gameHelper.findPlayerByUUID(p.getUUID()).get();
-            s += " " + p2.getName();
+            s += ", " + p2.getName();
         }
         System.out.println(s);
-        System.out.println("Community cards: " + event.getCards());
+
+        String cards = "Community cards: ";
+        for (Card c : event.getCards())
+            cards += " " + c.toPrettyString();
+        System.out.println(cards);
     }
 
     @Handler
