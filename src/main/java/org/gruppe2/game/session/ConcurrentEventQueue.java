@@ -61,14 +61,14 @@ public class ConcurrentEventQueue {
         while ((event = eventQueue.poll()) != null) {
             List<EventHandler<Event>> list = handlerMap.get(event.getClass());
 
+            if (genericHandler != null)
+                handle(genericHandler, event);
+
             if (list == null)
                 continue;
 
             for (EventHandler<Event> handler : list)
                 handle(handler, event);
-
-            if (genericHandler != null)
-                handle(genericHandler, event);
         }
     }
 
