@@ -9,10 +9,7 @@ import java.util.Base64;
 
 import org.gruppe2.game.Player;
 import org.gruppe2.game.controller.NetworkClientController;
-import org.gruppe2.game.model.ChatModel;
-import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.NetworkClientModel;
-import org.gruppe2.game.model.StatisticsModel;
+import org.gruppe2.game.model.*;
 import org.gruppe2.network.NetworkIO;
 
 public class ClientSession extends Session {
@@ -61,16 +58,15 @@ public class ClientSession extends Session {
     private void waitForSync(NetworkIO connection) throws IOException, ClassNotFoundException {
         int numSyncs = 0;
         while (numSyncs < 2) {
-            String[] args = connection.readMessage();
+            Object object = connection.readObject();
 
-            if (args == null || !args[0].equals("SYNC"))
+            if (object == null)
                 continue;
 
-            Object model = deserializeModel(args[2]);
-
-            addModel(model);
-
-            numSyncs++;
+            if (object instanceof GameModel || object instanceof RoundModel) {
+                addModel(object);
+                numSyncs++;
+            }
         }
 
         addModel(new NetworkClientModel(connection));

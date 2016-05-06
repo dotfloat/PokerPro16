@@ -39,6 +39,15 @@ public class NetworkServerController extends AbstractController {
     private Query<Action> action = null;
 
     @Override
+    public void init() {
+        getContext().getEventQueue().setGenericHandler(e -> {
+            broadcastObject(gameHelper.getModel());
+            broadcastObject(roundHelper.getModel());
+            broadcastObject(e);
+        });
+    }
+
+    @Override
     public void update() {
         if (serverSocket != null) {
             try {
@@ -93,15 +102,13 @@ public class NetworkServerController extends AbstractController {
                     	System.out.println("server recieved action");
                     	uuid = clients.get(i).getPlayerUUID();
                     	
-                    	setPlayerActionFromMessage(uuid,args);
+                    	//setPlayerActionFromMessage(uuid,args);
                 }
             } catch (IOException e) {
                 clients.remove(i--);
             }
         }
     }
-
-    
 
 	@Message
     public void listen() {
@@ -119,168 +126,22 @@ public class NetworkServerController extends AbstractController {
         clients.add(new ConnectedClient(connection));
 
         try {
-            syncModel(connection, GameModel.class);
-            syncModel(connection, RoundModel.class);
+            connection.sendObject(gameHelper.getModel());
+            connection.sendObject(roundHelper.getModel());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    @Handler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        sendToAll(String.format("CONNECTED;%s;%s;%d:%s\r\n", e.getPlayer().getUUID(),
-                e.getPlayer().getAvatar(), e.getPlayer().getTablePosition(), e.getPlayer().getName()));
-    }
-
-    @Handler
-    public void onPlayerLeave(PlayerLeaveEvent playerLeaveEvent) {
-        sendToAll(String.format("DISCONNECTED;%s\r\n", playerLeaveEvent.getPlayer().getUUID()));
-    }
-
-    @Handler
-    public void onChat(ChatEvent event) {
-        sendToAll("CHAT;" + event.getPlayerUUID() + ":" + event.getMessage() + "\r\n");
-    }
-
-    @Handler
-    public void onPlayerPreAction(PlayerPreActionEvent actionEvent) {
-        sendToAll("PRE ACTION;" + actionEvent.getPlayer().getUUID() + "\r\n");
-    }
-
-    @Handler
-    public void onPlayerActionQuery(PlayerActionQuery query) {
-        clients.stream()
-                .filter(c -> query.getPlayer().getUUID().equals(c.getPlayerUUID()))
-                .findFirst()
-                .ifPresent(c -> {
-                    try {
-                    	System.out.println("server sending turn");
-                        c.getConnection().sendMessage("YOUR TURN;"+query.getPlayer().getUUID()+"\r\n");
-                        action = query.getPlayer().getAction();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-    }
-
-    @Handler
-    public void onPlayerPostAction(PlayerPostActionEvent actionEvent) {
-        sendToAll("POST ACTION;" + actionEvent.getPlayer().getUUID() + ":" + actionEvent.getAction() + "\r\n");
-    }
-
-    @Handler
-    public void onCommunityCards(CommunityCardsEvent communityCardsEvent) {
-        sendToAll("COMMUNITYCARDS;" + communityCardsEvent.getCards() + "\r\n");
-    }
-
-    @Handler
-    public void onRoundStart(RoundStartEvent roundStartEvent) {
-        sendToAll("ROUND START;" + "\r\n");
-        for (int i = 0; i < clients.size(); i++) {
-            UUID uuid = clients.get(i).getPlayerUUID();
-            Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(uuid);
-
-            if (roundPlayer.isPresent()) {
-                String playerCards = roundPlayer.get().getCards().toString();
-
-                playerCards = "PLAYERCARDS;" + playerCards;
-
-                sendToOne(i, playerCards);
-            }
-        }
-    }
-
-    private void sendToOne(int i, String message) {
-        try {
-            clients.get(i).getConnection().sendMessage(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Handler
-    public void onRoundEnd(RoundEndEvent roundEndEvent) {
-        sendToAll("ROUND END;" + "\r\n");
-    }
-
-    @Handler
-    public void onPlayerPaysBlind(PlayerPaysBlind playerPaysBlind) {
-        sendToAll("BLIND;" + playerPaysBlind.getPlayer().getUUID() + ";" + playerPaysBlind.getBlindAmount() + "\r\n");
-    }
-
-    @Handler
-    public void onPlayerWon(PlayerWonEvent playerWonEvent) {
-        sendToAll("WON;" + playerWonEvent.getPlayer().getUUID() + "\r\n");
-    }
-
-
-    public void onPlayerDisconnect() {
-        sendToAll("DISCONNECTED;" + "PLAYER UUID" + "\r\n");
-    }
-    
-    private void setPlayerActionFromMessage(UUID uuid, String[] args) {
-    	switch (args[1]) {
-        case "Call":
-            action.set(new Action.Call());
-            break;
-
-        case "Check":
-            action.set(new Action.Check());
-            break;
-
-        case "Fold":
-            action.set(new Action.Fold());
-            break;
-
-        case "Raise":
-            action.set(new Action.Raise(Integer.valueOf(args[2])));
-            break;
-    	}
-    	
-    	sendToAll("ACTION;" + uuid + ";" + action.get().toNetworkString() + "\r\n");
-    	
-    	action = null;
-	}
-
-    private void syncModel(NetworkIO connection, Class<?> modelClass) throws IOException {
-        byte[] byteObject = null;
-
-        try {
-            byteObject = serialize(getModel(modelClass));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-            return;
-        }
-
-        connection.sendMessage(String.format("SYNC;%s:%s\r\n", modelClass.getSimpleName(), new String(Base64.getEncoder().encode(byteObject))));
-    }
-
-
-    private void sendToAll(String mesg) {
+    private void broadcastObject(Object object)  {
         for (int i = 0; i < clients.size(); i++) {
             try {
-                clients.get(i).getConnection().sendMessage(mesg);
+                clients.get(i).getConnection().sendObject(object);
             } catch (IOException e) {
+                e.printStackTrace();
                 clients.remove(i--);
             }
-        }
-    }
-
-
-    /**
-     * Used to send objects over socket channel
-     *
-     * @param obj
-     * @return
-     * @throws IOException
-     */
-    public static byte[] serialize(Object obj) throws IOException {
-        try (ByteArrayOutputStream b = new ByteArrayOutputStream()) {
-            try (ObjectOutputStream o = new ObjectOutputStream(b)) {
-                o.writeObject(obj);
-            }
-            return b.toByteArray();
         }
     }
 }

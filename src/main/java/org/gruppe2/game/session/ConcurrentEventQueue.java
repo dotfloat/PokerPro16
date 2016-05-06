@@ -18,6 +18,7 @@ public class ConcurrentEventQueue {
 
     /* Adding handlers only happens on a single thread, so we don't care about thread safety here */
     private final Map<Class<?>, List<EventHandler<Event>>> handlerMap = new HashMap<>();
+    private volatile EventHandler<Event> genericHandler = null;
 
     /**
      * Register a new EventHandler to handle certain events
@@ -34,6 +35,13 @@ public class ConcurrentEventQueue {
         }
 
         list.add(handler);
+    }
+
+    /**
+     * Set a generic handler that receives all events
+     */
+    public void setGenericHandler(EventHandler<Event> handler) {
+        genericHandler = handler;
     }
 
     /**
@@ -56,16 +64,11 @@ public class ConcurrentEventQueue {
             if (list == null)
                 continue;
 
-            for (EventHandler<Event> handler : list) {
-                try {
-                    handler.handle(event);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    System.out.println(e.getTargetException().toString());
-                    e.printStackTrace();
-                }
-            }
+            for (EventHandler<Event> handler : list)
+                handle(handler, event);
+
+            if (genericHandler != null)
+                handle(genericHandler, event);
         }
     }
 
@@ -74,5 +77,16 @@ public class ConcurrentEventQueue {
      */
     int size() {
         return eventQueue.size();
+    }
+
+    private void handle(EventHandler<Event> handler, Event event) {
+        try {
+            handler.handle(event);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            System.out.println(e.getTargetException().toString());
+            e.printStackTrace();
+        }
     }
 }

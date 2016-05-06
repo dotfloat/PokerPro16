@@ -107,4 +107,16 @@ public class GameModel implements Serializable {
     public void setRoundsCompleted(int roundsCompleted) {
         this.roundsCompleted = roundsCompleted;
     }
+
+    public void apply(GameModel object) {
+        players.clear();
+        players.addAll(object.players);
+
+        name = object.name;
+        button = object.button;
+        waitingForPlayers = object.waitingForPlayers;
+        smallBlind = object.smallBlind;
+        bigBlind = object.bigBlind;
+        roundsCompleted = object.roundsCompleted;
+    }
 }

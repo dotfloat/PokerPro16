@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class NetworkIO {
     private final SocketChannel channel;
     private final ByteArrayOutputStream inputBuffer = new ByteArrayOutputStream();
-    private final ByteBuffer readByteBuffer = ByteBuffer.allocate(1024);
+    private final ByteBuffer readByteBuffer = ByteBuffer.allocate(4096);
     private final Charset charset = Charset.forName("ISO-8859-1");
 
     public NetworkIO(SocketChannel channel) throws IOException {
@@ -31,7 +31,7 @@ public class NetworkIO {
         buffer.put(bytes);
         buffer.flip();
 
-        System.out.printf("Sent Message: [%s]\n", message.replace("\r\n", ""));
+        System.out.printf("Sent Message: [%s] (size: %d bytes)\n", message.replace("\r\n", ""), bytes.length);
 
         channel.write(buffer);
     }
@@ -72,11 +72,11 @@ public class NetworkIO {
     }
 
     public void sendObject(Object object) throws IOException {
-        ByteOutputStream byteOutputStream = new ByteOutputStream();
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteOutputStream);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(object);
 
-        byte[] bytes = byteOutputStream.getBytes();
+        byte[] bytes = byteArrayOutputStream.toByteArray();
         ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + 4);
         byteBuffer.clear();
         byteBuffer.putInt(bytes.length);
@@ -85,13 +85,11 @@ public class NetworkIO {
 
         channel.write(byteBuffer);
 
-        System.out.printf("Sent Object: [%s]\n", object.getClass());
+        System.out.printf("Sent Object: [%s] (size: %d bytes)\n", object.getClass(), bytes.length + 4);
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {
-        fillBuffer();
-
-        if (inputBuffer.size() <= 0)
+        if (fillBuffer() <= 0)
             return null;
 
         byte[] bytes = inputBuffer.toByteArray();
@@ -103,11 +101,11 @@ public class NetworkIO {
 
         int length = lengthBuffer.getInt();
 
-        if (length + 4 >= bytes.length) // Not enough data
+        if (length + 4 > bytes.length) // Not enough data
             return null;
 
-        ByteInputStream byteInputStream = new ByteInputStream(bytes, 4, length);
-        ObjectInputStream objectInputStream = new ObjectInputStream(byteInputStream);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes, 4, length);
+        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 
         inputBuffer.reset();
         inputBuffer.write(bytes, length + 4, bytes.length - (length + 4));
@@ -119,12 +117,16 @@ public class NetworkIO {
         return object;
     }
 
-    private void fillBuffer() throws IOException {
+    private int fillBuffer() throws IOException {
+        int read;
         readByteBuffer.clear();
 
-        channel.read(readByteBuffer);
+        if ((read = channel.read(readByteBuffer)) <= 0)
+            return read;
 
         inputBuffer.write(readByteBuffer.array(), 0, readByteBuffer.position());
+
+        return read;
     }
 
     private String[] splitMessage(String msg) {

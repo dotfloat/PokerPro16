@@ -1,9 +1,11 @@
 package org.gruppe2.game;
 
+import java.io.Serializable;
+
 /**
  * Get
  */
-public abstract class Action {
+public abstract class Action implements Serializable {
 
 	public static class Fold extends Action {
 	}

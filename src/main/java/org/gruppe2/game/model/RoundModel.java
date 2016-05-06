@@ -81,4 +81,22 @@ public class RoundModel implements Serializable {
     public Map<UUID, Integer> getRaiseMap() {
         return raiseMap;
     }
+
+    public synchronized void apply(RoundModel object) {
+        activePlayers.clear();
+        activePlayers.addAll(object.activePlayers);
+
+        communityCards.clear();
+        communityCards.addAll(object.communityCards);
+
+        raiseMap.clear();
+        raiseMap.putAll(object.raiseMap);
+
+        playing = object.playing;
+        current = object.current;
+        pot = object.pot;
+        highestBet = object.highestBet;
+        roundNumber = object.roundNumber;
+        lastRaiserID = object.lastRaiserID;
+    }
 }
