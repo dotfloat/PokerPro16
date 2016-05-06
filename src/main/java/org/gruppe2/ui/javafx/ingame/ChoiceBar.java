@@ -117,6 +117,7 @@ public class ChoiceBar extends HBox {
     private void onBetAction() {
     	System.out.println("start");
     	if(actionQuery != null){
+    		System.out.println("start2");
     		PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
     		if(pa.canCheck()){
     			actionQuery.set( new Action.Check());
@@ -134,6 +135,7 @@ public class ChoiceBar extends HBox {
     		}
     		actionQuery = null;
     	}
+    	
     }
 
     /**
@@ -176,6 +178,7 @@ public class ChoiceBar extends HBox {
     @Handler
     public void setActionHandler(PlayerActionQuery playerActionQuery){
     	if(playerActionQuery.getPlayer().getUUID().equals(Game.getPlayerUUID())){
+    		System.out.println("choicebar handler ");
     		actionQuery = playerActionQuery.getPlayer().getAction();
     		updatePossibleBarsToClick();
     	}

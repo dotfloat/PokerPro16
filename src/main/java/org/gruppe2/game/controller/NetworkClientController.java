@@ -10,7 +10,18 @@ import org.gruppe2.game.Card;
 import org.gruppe2.game.Cards;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.CommunityCardsEvent;
+import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.PlayerPaysBlind;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
+import org.gruppe2.game.event.QuitEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.NetworkClientModel;
@@ -18,16 +29,20 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.game.session.Model;
+import org.gruppe2.game.session.Query;
 import org.gruppe2.ui.javafx.ingame.Game;
 
 public class NetworkClientController extends AbstractController {
-    @Model
+    
+	@Model
     private NetworkClientModel model;
 
     @Helper
     private GameHelper game;
     @Helper
     private RoundHelper round;
+    
+    Query<Action> actionQuery;
 
     //	player.getAction().isDone()
     @Override
@@ -39,6 +54,7 @@ public class NetworkClientController extends AbstractController {
                 return;
 
             messageSwitch(message);
+            checkForAction();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,7 +62,18 @@ public class NetworkClientController extends AbstractController {
         }
     }
 
-    private void messageSwitch(String[] message) {
+    private void checkForAction() {
+    	
+    	if(actionQuery != null && actionQuery.isDone()){
+	    	Action action = actionQuery.get();
+	    	
+	    	System.out.println(action.toNetworkString());
+	    	sendMessage(String.format("ACTION;%s\r\n", action.toNetworkString()));
+	    	actionQuery = null;
+    	}	
+	}
+
+	private void messageSwitch(String[] message) {
 
         switch (message[0]) {
 
@@ -58,7 +85,7 @@ public class NetworkClientController extends AbstractController {
                 break;
         }
     }
-
+	
     @Message
     public void addPlayer(UUID uuid, String name, String avatar) {
         try {
@@ -71,11 +98,6 @@ public class NetworkClientController extends AbstractController {
 
     @Message
     public void chat(String message, UUID playerUUID) {
-        sendMessage(String.format("SAY:%s\r\n", message));
-    }
-
-    @Message
-    public void action(String message, UUID playerUUID) {
         sendMessage(String.format("SAY:%s\r\n", message));
     }
 
@@ -136,12 +158,15 @@ public class NetworkClientController extends AbstractController {
                     break;
 
                 case "YOUR TURN":
+                	System.out.println("its my turn");
                     UUID playerUUID1 = UUID.fromString(listOfCommands[1]);
                     optionalPlayer = game.findPlayerByUUID(playerUUID1);
                     optionalRoundPlayer = round.findPlayerByUUID(playerUUID1);
 
-                    if (optionalPlayer.isPresent() || optionalRoundPlayer.isPresent())
+                    if (optionalPlayer.isPresent() && optionalRoundPlayer.isPresent()) {
+                    	actionQuery = optionalPlayer.get().getAction();
                         return new PlayerActionQuery(optionalPlayer.get(), optionalRoundPlayer.get());
+                    }
 
                     break;
 
@@ -186,6 +211,7 @@ public class NetworkClientController extends AbstractController {
                     return new PlayerWonEvent(optionalPlayer.get());
 
                 case "ROUND START":
+                	System.out.println("received round start");
                     List<RoundPlayer> active = round.getActivePlayers();
                     active.clear();
 
@@ -265,8 +291,6 @@ public class NetworkClientController extends AbstractController {
     private Action specificActionParser(String[] listOfCommands, Player player,
                                         RoundPlayer roundPlayer) {
         String actionString = listOfCommands[2];
-        // PlayerActionQuery playerActionQuery = new
-        // PlayerActionQuery(player,roundPlayer);
 
         switch (actionString) {
             case "Call":

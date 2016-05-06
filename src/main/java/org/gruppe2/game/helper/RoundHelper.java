@@ -101,9 +101,11 @@ public class RoundHelper {
         PossibleActions options = new PossibleActions();
         Optional<Player> player = helper.findPlayerByUUID(id);
         Optional<RoundPlayer> roundPlayer = findPlayerByUUID(id);
-        if(!player.isPresent() || !roundPlayer.isPresent())
+        if(!player.isPresent() || !roundPlayer.isPresent()){
+        	System.out.println("options did not work");
         	return options;
-       
+        }
+        System.out.println("options did work");
 
         if (roundPlayer.get().getBet() == getHighestBet())
             options.setCheck();
