@@ -105,7 +105,6 @@ public class RoundHelper {
         	System.out.println("options did not work");
         	return options;
         }
-        System.out.println("options did work");
 
         if (roundPlayer.get().getBet() == getHighestBet())
             options.setCheck();

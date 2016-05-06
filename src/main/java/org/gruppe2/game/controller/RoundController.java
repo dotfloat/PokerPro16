@@ -33,6 +33,9 @@ public class RoundController extends AbstractController {
                 timeToStart = null;
                 resetRound();
 
+                if (!round.isPlaying())
+                    return;
+
                 payBlinds();
                 addEvent(new RoundStartEvent());
             } else {
@@ -48,14 +51,24 @@ public class RoundController extends AbstractController {
 
             // Go to next player and do shit
             if (player == null) {
-                player = game.findPlayerByUUID(round.getCurrentUUID()).get();
-                roundPlayer = round.findPlayerByUUID(round.getCurrentUUID()).get();
+                Optional<Player> op = game.findPlayerByUUID(round.getCurrentUUID());
+                Optional<RoundPlayer> opr = round.findPlayerByUUID(round.getCurrentUUID());
+
+                if (!op.isPresent() || !opr.isPresent())
+                    return;
+
+                player = op.get();
+                roundPlayer = opr.get();
+
                 addEvent(new PlayerPreActionEvent(player));
 
                 if (player.getBank() > 0)
                     addEvent(new PlayerActionQuery(player, roundPlayer));
-                else if (player.getBank() == 0)
-                    player.getAction().set(new Action.Pass());
+                else if (player.getBank() == 0) {
+                    player = null;
+                    roundPlayer = null;
+                    return;
+                }
                 else
                     throw new IllegalStateException("Player: " + player.getName() + " has less than 0 chips");
             }
@@ -94,7 +107,12 @@ public class RoundController extends AbstractController {
 
     @Handler
     public void onPlayerLeave(PlayerLeaveEvent event) {
-        RoundPlayer player = round.findPlayerByUUID(event.getPlayer().getUUID()).get();
+        Optional<RoundPlayer> opr = round.findPlayerByUUID(event.getPlayer().getUUID());
+
+        if (!opr.isPresent())
+            return;
+
+        RoundPlayer player = opr.get();
 
         if (player == null)
             return;
@@ -113,6 +131,7 @@ public class RoundController extends AbstractController {
         }
 
         round.getActivePlayers().remove(player);
+        game.getPlayers().remove(event.getPlayer());
 
         if (player.getUUID().equals(lastPlayerInRound)) {
             lastPlayerInRound = round.getLastActivePlayerID();
@@ -158,7 +177,12 @@ public class RoundController extends AbstractController {
         int currentSmallBlind = game.getSmallBlind() + ((int) (game.getRoundsCompleted() * game.getSmallBlind() * 0.1));
 
         RoundPlayer roundPlayer = round.getActivePlayers().get(1);
-        Player player = game.findPlayerByUUID(roundPlayer.getUUID()).get();
+        Optional<Player> op = game.findPlayerByUUID(roundPlayer.getUUID());
+
+        if (!op.isPresent())
+            throw new NoSuchElementException("Player with id: " + roundPlayer.getUUID() + " not found in the game player list");
+
+        Player player = op.get();
 
         if (player.getBank() < currentBigBlind) {
             currentBigBlind = player.getBank();
@@ -170,9 +194,16 @@ public class RoundController extends AbstractController {
         addEvent(new PlayerPaysBlind(player, roundPlayer, currentBigBlind));
 
         roundPlayer = round.getActivePlayers().get(0);
-        player = game.findPlayerByUUID(roundPlayer.getUUID()).get();
+        op = game.findPlayerByUUID(roundPlayer.getUUID());
+
+        if (!op.isPresent())
+            throw new NoSuchElementException("Player with id: " + roundPlayer.getUUID() + " not found in the game player list");
+
+        player = op.get();
+
         if (player.getBank() < currentSmallBlind)
             currentSmallBlind = player.getBank();
+
         handleAction(player, roundPlayer, new Action.Blind(currentSmallBlind));
         addEvent(new PlayerPaysBlind(player, roundPlayer, currentSmallBlind));
     }
@@ -274,7 +305,12 @@ public class RoundController extends AbstractController {
         round.setPlaying(false);
         addEvent(new RoundEndEvent());
         if (round.getActivePlayers().size() == 1) {
-            Player winningPlayer = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID()).get();
+            Optional<Player> op = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
+
+            if (!op.isPresent())
+                throw new NoSuchElementException("Can't find winning player");
+
+            Player winningPlayer = op.get();
             winningPlayer.setBank(winningPlayer.getBank() + round.getPot());
             round.setPot(0);
             addEvent(new PlayerWonEvent(winningPlayer));

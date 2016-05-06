@@ -27,6 +27,7 @@ public class NewDumbAI implements AI {
         final int check = 1;
         final int raise = 2;
         final int fold = 3;
+        final int allIn = 4;
 
         Random rand = new Random();
         ArrayList<Integer> types = new ArrayList<>();
@@ -44,6 +45,11 @@ public class NewDumbAI implements AI {
         if (options.canRaise()) {
             for (int i = 0; i < 3; i++)
                 types.add(raise);
+        }
+
+        if (options.canAllIn()) {
+            for (int i = 0; i < 3; i++)
+                types.add(allIn);
         }
 
         types.add(fold);
@@ -76,9 +82,12 @@ public class NewDumbAI implements AI {
                                     + options.getMinRaise()));
                 return;
 
+            case allIn:
+                model.getAction().set(new Action.AllIn());
+                return;
+
             default:
                 model.getAction().set(new Action.Fold());
-                return;
         }
 
         // model.getAction().set(new Action.Fold());
