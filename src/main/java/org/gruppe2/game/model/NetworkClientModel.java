@@ -1,15 +1,15 @@
 package org.gruppe2.game.model;
 
-import org.gruppe2.network.ProtocolConnection;
+import org.gruppe2.network.NetworkIO;
 
 public class NetworkClientModel {
-    private final ProtocolConnection connection;
+    private final NetworkIO connection;
 
-    public NetworkClientModel(ProtocolConnection connection) {
+    public NetworkClientModel(NetworkIO connection) {
         this.connection = connection;
     }
 
-    public ProtocolConnection getConnection() {
+    public NetworkIO getConnection() {
         return connection;
     }
 }

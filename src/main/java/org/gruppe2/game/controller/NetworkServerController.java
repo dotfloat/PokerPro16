@@ -22,7 +22,7 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.network.ConnectedClient;
-import org.gruppe2.network.ProtocolConnection;
+import org.gruppe2.network.NetworkIO;
 
 
 public class NetworkServerController extends AbstractController {
@@ -40,7 +40,7 @@ public class NetworkServerController extends AbstractController {
             try {
                 SocketChannel client = serverSocket.accept();
                 if (client != null) {
-                    ProtocolConnection connection = new ProtocolConnection(client);
+                    NetworkIO connection = new NetworkIO(client);
                     client.configureBlocking(false);
                     addClient(connection);
                 }
@@ -104,7 +104,7 @@ public class NetworkServerController extends AbstractController {
     }
 
     @Message
-    public void addClient(ProtocolConnection connection) {
+    public void addClient(NetworkIO connection) {
         clients.add(new ConnectedClient(connection));
 
         try {
@@ -207,7 +207,7 @@ public class NetworkServerController extends AbstractController {
     }
 
 
-    private void syncModel(ProtocolConnection connection, Class<?> modelClass) throws IOException {
+    private void syncModel(NetworkIO connection, Class<?> modelClass) throws IOException {
         byte[] byteObject = null;
 
         try {

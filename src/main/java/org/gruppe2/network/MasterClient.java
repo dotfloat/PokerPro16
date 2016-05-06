@@ -22,7 +22,7 @@ import org.gruppe2.ui.javafx.menu.Lobby;
  */
 public class MasterClient {
 
-    private ProtocolConnection connection;
+    private NetworkIO connection;
     private ArrayList<TableEntry> tablesInLobby = new ArrayList<>();
     private Lobby lobby;
     private static Timer sessionTimer = new Timer();
@@ -52,7 +52,7 @@ public class MasterClient {
         try {
             SocketChannel channel = SocketChannel.open(new InetSocketAddress(
                     ip, 8888));
-            connection = new ProtocolConnection(channel);
+            connection = new NetworkIO(channel);
 
             channel.configureBlocking(false);
 
@@ -185,7 +185,7 @@ public class MasterClient {
         try {
             SocketChannel channel = SocketChannel.open(new InetSocketAddress(
                     ip, 8888));
-            ProtocolConnection testConnection = new ProtocolConnection(channel);
+            NetworkIO testConnection = new NetworkIO(channel);
             testConnection.sendMessage("BYE\r\n");
             return true;
 
@@ -199,7 +199,7 @@ public class MasterClient {
             ip = "zohar.no";
             SocketChannel channel = SocketChannel.open(new InetSocketAddress(
                     ip, 8888));
-            ProtocolConnection testConnection = new ProtocolConnection(channel);
+            NetworkIO testConnection = new NetworkIO(channel);
             testConnection.sendMessage("BYE\r\n");
             return true;
 

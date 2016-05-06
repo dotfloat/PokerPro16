@@ -13,7 +13,7 @@ import org.gruppe2.game.model.ChatModel;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.NetworkClientModel;
 import org.gruppe2.game.model.StatisticsModel;
-import org.gruppe2.network.ProtocolConnection;
+import org.gruppe2.network.NetworkIO;
 
 public class ClientSession extends Session {
 
@@ -24,7 +24,7 @@ public class ClientSession extends Session {
         addModel(new StatisticsModel());
     }
     
-    public ClientSession(ProtocolConnection connection) {
+    public ClientSession(NetworkIO connection) {
     	try {
 			waitForSync(connection);
 		} catch (ClassNotFoundException | IOException e) {
@@ -49,7 +49,7 @@ public class ClientSession extends Session {
     private void connect(String ip) {
         try {
             SocketChannel channel = SocketChannel.open(new InetSocketAddress(ip, 8888));
-            ProtocolConnection connection = new ProtocolConnection(channel);
+            NetworkIO connection = new NetworkIO(channel);
             channel.configureBlocking(false);
             
             waitForSync(connection);
@@ -58,7 +58,7 @@ public class ClientSession extends Session {
         }
     }
     
-    private void waitForSync(ProtocolConnection connection) throws IOException, ClassNotFoundException {
+    private void waitForSync(NetworkIO connection) throws IOException, ClassNotFoundException {
         int numSyncs = 0;
         while (numSyncs < 2) {
             String[] args = connection.readMessage();

@@ -19,7 +19,7 @@ import org.gruppe2.game.session.SessionContext;
 public class MasterServer {
     ArrayList<SessionContext> activeTables = new ArrayList<SessionContext>();
     ServerSocketChannel serverSocket;
-    private ArrayList<ProtocolConnection> clients = new ArrayList<>();
+    private ArrayList<NetworkIO> clients = new ArrayList<>();
 
     public MasterServer() {
         startServer();
@@ -50,7 +50,7 @@ public class MasterServer {
                 SocketChannel client = serverSocket.accept();
 
                 if (client != null) {
-                    ProtocolConnection connection = new ProtocolConnection(
+                    NetworkIO connection = new NetworkIO(
                             client);
                     client.configureBlocking(false);
                     clients.add(connection);
@@ -142,7 +142,7 @@ public class MasterServer {
         return -1;
     }
 
-    private void connectClientToTable(ProtocolConnection client,
+    private void connectClientToTable(NetworkIO client,
                                       String tableUUID) {
         int tableNumber = getTableNumberFromUUID(tableUUID);
 

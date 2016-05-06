@@ -3,10 +3,10 @@ package org.gruppe2.network;
 import java.util.UUID;
 
 public class ConnectedClient {
-    private final ProtocolConnection connection;
+    private final NetworkIO connection;
     private UUID playerUUID = null;
 
-    public ConnectedClient(ProtocolConnection connection) {
+    public ConnectedClient(NetworkIO connection) {
         this.connection = connection;
     }
 
@@ -18,7 +18,7 @@ public class ConnectedClient {
         this.playerUUID = playerUUID;
     }
 
-    public ProtocolConnection getConnection() {
+    public NetworkIO getConnection() {
         return connection;
     }
 }
