@@ -24,7 +24,7 @@ public class PokerApplication extends Application {
     private static int height;
     private static StackPane root = new StackPane(); // Setting global root. Will only change scenes.
 
-    private static ObjectProperty<Font> font = new SimpleObjectProperty<>(Font.getDefault());
+    private static ObjectProperty<Font> font ;
 
     /**
      * Controllers will need to get current root to change scenes

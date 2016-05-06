@@ -19,10 +19,12 @@ import java.util.ArrayList;
  * Created by Åsmund on 28/04/2016.
  */
 public class Credits extends StackPane{
-    public static ArrayList<Node> nodes = new ArrayList<Node>();
-    public static SequentialTransition sequence = new SequentialTransition();
+    public static ArrayList<Node> nodes;
+    public static SequentialTransition sequence;
 
     public Credits(){
+        nodes  = new ArrayList<Node>();
+        sequence = new SequentialTransition();
         UIResources.loadFXML(this);
         playCredits();
     }
