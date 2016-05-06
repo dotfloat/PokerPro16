@@ -186,7 +186,7 @@ public class ChoiceBar extends HBox {
 
             btnFold.setDisable(false);
             btnBet.setDisable(false);
-            slider.setDisable(!actions.canRaise());
+            slider.setDisable(false);
             sliderValue.setDisable(false);
 
             if (actions.canRaise()) {

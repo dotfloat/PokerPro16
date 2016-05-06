@@ -86,8 +86,8 @@ public class Table extends Pane {
         createPlayerInfoBoxes();
 
         CommunityCards communityCards = new CommunityCards();
-        communityCards.maxWidthProperty().bind(scale.multiply(45));
-        communityCards.maxHeightProperty().bind(scale.multiply(45));
+        communityCards.maxWidthProperty().bind(scale.multiply(80));
+        communityCards.maxHeightProperty().bind(scale.multiply(80));
         communityCards.layoutXProperty().bind(translateX(communityCards.widthProperty(), 0));
         communityCards.layoutYProperty().bind(translateY(communityCards.heightProperty(), -15));
         getChildren().add(communityCards);
