@@ -48,6 +48,10 @@ public class PokerApplication extends Application {
         PokerApplication.font.set(font);
     }
 
+    public static int getHeight() {
+        return height;
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
 

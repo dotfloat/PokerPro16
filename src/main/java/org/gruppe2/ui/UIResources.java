@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import org.gruppe2.game.Card;
-import org.gruppe2.game.Cards;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ public class UIResources {
     private final static String uiPackageString = PokerApplication.class.getPackage().getName();
 
     private static List<Image> cards = null;
+    private static Image cardBack = null;
 
     private static Map<String, Image> avatars = null;
     private static Image defaultAvatar = null;
@@ -79,6 +79,14 @@ public class UIResources {
         loadCards();
 
         return cards.get(card.getSuit().ordinal() * 13 + (card.getFaceValue() - 2));
+    }
+
+    public static Image getCardBack() {
+        if (cardBack == null) {
+            cardBack = new Image(UIResources.class.getResourceAsStream("/images/cards/card_back.png"));
+        }
+
+        return cardBack;
     }
 
     private static void loadCards() {
