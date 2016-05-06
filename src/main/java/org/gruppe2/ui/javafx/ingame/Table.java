@@ -99,6 +99,10 @@ public class Table extends Pane {
 
     @Handler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if (event.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
+            createPlayerInfoBoxes();
+        }
+
         int i = getPlayerIndex(event.getPlayer().getTablePosition());
 
         if (i < 0)
@@ -109,6 +113,10 @@ public class Table extends Pane {
 
     @Handler
     public void onPlayerLeave(PlayerLeaveEvent event) {
+        if (event.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
+            createPlayerInfoBoxes();
+        }
+
         int i = getPlayerIndex(event.getPlayer().getTablePosition());
 
         if (i < 0)

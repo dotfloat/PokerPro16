@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class NetworkIO {
     private final SocketChannel channel;
     private final ByteArrayOutputStream inputBuffer = new ByteArrayOutputStream();
-    private final ByteBuffer readByteBuffer = ByteBuffer.allocate(4096);
+    private final ByteBuffer readByteBuffer = ByteBuffer.allocate(1024);
     private final Charset charset = Charset.forName("ISO-8859-1");
 
     public NetworkIO(SocketChannel channel) throws IOException {
@@ -72,6 +72,8 @@ public class NetworkIO {
     }
 
     public void sendObject(Object object) throws IOException {
+        int wrote = 0;
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(object);
@@ -83,7 +85,9 @@ public class NetworkIO {
         byteBuffer.put(bytes);
         byteBuffer.flip();
 
-        channel.write(byteBuffer);
+        if ((wrote = channel.write(byteBuffer)) < bytes.length + 4) {
+            System.err.printf("Write buffer can't keep up! Wrote %d / %d bytes\n", wrote, bytes.length + 4);
+        }
 
         System.out.printf("Sent Object: [%s] (size: %d bytes)\n", object.getClass(), bytes.length + 4);
     }

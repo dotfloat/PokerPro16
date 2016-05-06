@@ -6,10 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
@@ -69,6 +66,7 @@ public class NetworkServerController extends AbstractController {
 
                 if (args == null)
                     continue;
+
                 UUID uuid;
                 switch (args[0]) {
                     case "SAY":
@@ -76,7 +74,7 @@ public class NetworkServerController extends AbstractController {
                         if (uuid == null)
                             continue;
 
-                        addEvent(new ChatEvent(args[1], uuid));
+                        broadcastObject(new ChatEvent(args[1], uuid));
                         break;
                     case "JOIN":
                         clients.get(i).setPlayerUUID(UUID.fromString(args[1]));

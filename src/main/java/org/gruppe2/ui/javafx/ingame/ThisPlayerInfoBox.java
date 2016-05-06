@@ -11,9 +11,7 @@ import javafx.scene.layout.HBox;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.PlayerPostActionEvent;
-import org.gruppe2.game.event.PlayerPreActionEvent;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -46,9 +44,11 @@ public class ThisPlayerInfoBox extends HBox {
     }
 
     @Handler
-    public void onRoundStart(RoundStartEvent e) {
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        if (!e.getPlayer().getUUID().equals(Game.getPlayerUUID()))
+            return;
+
         Optional<Player> player = game.findPlayerByUUID(Game.getPlayerUUID());
-        Optional<RoundPlayer> roundPlayer = round.findPlayerByUUID(Game.getPlayerUUID());
 
         setVisible(player.isPresent());
 
@@ -63,6 +63,19 @@ public class ThisPlayerInfoBox extends HBox {
         bet.setText("0");
 
         avatar.setImage(UIResources.getAvatar(player.get().getAvatar()));
+    }
+
+    @Handler
+    public void onPlayerLeave(PlayerLeaveEvent e) {
+        if (!e.getPlayer().getUUID().equals(Game.getPlayerUUID()))
+            return;
+
+        setVisible(false);
+    }
+
+    @Handler
+    public void onRoundStart(RoundStartEvent e) {
+        Optional<RoundPlayer> roundPlayer = round.findPlayerByUUID(Game.getPlayerUUID());
     }
 
     @Handler
