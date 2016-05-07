@@ -98,6 +98,7 @@ public class PlayerInfoBox extends BorderPane {
     @Handler
     public void onPreAction(PlayerPreActionEvent event) {
         if (event.getPlayer().getUUID().equals(playerUUID)) {
+            opacityProperty().setValue(1);//should probably be placed elsewhere
             fold.setVisible(false);
             lastAction.setVisible(false);
             setActive(true);
@@ -116,6 +117,7 @@ public class PlayerInfoBox extends BorderPane {
 
         if (event.getAction() instanceof Action.Fold) {
             fold.setVisible(true);
+            opacityProperty().setValue(0.3);
         } else {
             lastAction.setText(event.getAction().toString());
             lastAction.setVisible(true);
