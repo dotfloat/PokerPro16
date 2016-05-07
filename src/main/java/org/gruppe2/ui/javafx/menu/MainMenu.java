@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import org.gruppe2.game.session.ClientSession;
+import org.gruppe2.game.session.Session;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
@@ -53,7 +55,16 @@ public class MainMenu extends BorderPane {
 		SceneController.setScene(new GameScene());
 	}
 
+	public void goToTestServer() {
+		Game.autostart();
+		Game.getContext().waitReady();
+		Game.message("listen");
+		SceneController.setScene(new GameScene());
+	}
+
 	public void goToTestClient() {
+		Game.getInstance().setContext(Session.start(ClientSession.class, "localhost"));
+		Game.getContext().waitReady();
 		SceneController.setScene(new GameScene());
 	}
 

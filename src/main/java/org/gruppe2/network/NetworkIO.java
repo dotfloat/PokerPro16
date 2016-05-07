@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Reader and writer for net protocol
  */
 public class NetworkIO {
-    private static final Charset charset = Charset.forName("ISO-8859-1");
+    private static final Charset charset = Charset.forName("UTF-8");
 
     private final SocketChannel channel;
 

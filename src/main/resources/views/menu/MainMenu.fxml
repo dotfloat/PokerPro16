@@ -23,6 +23,7 @@
             
             <Button fx:id="online" text="Online" onAction="#goToLobby"/>
             <Button fx:id="singlePlayer" text="Singleplayer" onAction="#goToSinglePlayer"/>
+            <Button fx:id="testServer" text="Network Test Server" onAction="#goToTestServer"/>
             <Button fx:id="testClient" text="Network Test Client" onAction="#goToTestClient"/>
             <Button fx:id="viewStatistics" text="View Statistics" onAction="#goToStatistics"/>
             <Button fx:id="settings" text="Settings" onAction="#goToSettings"/>

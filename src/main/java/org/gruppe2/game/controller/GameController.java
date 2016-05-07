@@ -1,6 +1,9 @@
 package org.gruppe2.game.controller;
 
 import java.util.*;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.gruppe2.Resources;
 import org.gruppe2.ai.NewDumbAI;
@@ -85,7 +88,7 @@ public class GameController extends AbstractController {
             }
 
             int pos = availableTablePositions.remove(0);
-            Player player = new Player(uuid, name, avatar, isBot, pos);
+            Player player = new Player(uuid, renameDuplicate(name), avatar, isBot, pos);
 
             players.add(player);
 
@@ -103,5 +106,30 @@ public class GameController extends AbstractController {
 
             return true;
         }
+    }
+
+    private String renameDuplicate(String name) {
+        int maxDuplicate = 0;
+        Pattern pattern = Pattern.compile(Pattern.quote(name) + "(?: \\((\\d+)\\))?");
+
+        for (Player p : game.getPlayers()) {
+            Matcher matcher = pattern.matcher(p.getName());
+
+            if (matcher.find()) {
+                String group = matcher.group(1);
+                int asInteger = 1;
+
+                if (group != null)
+                    asInteger = Integer.parseInt(group);
+
+                maxDuplicate = Math.max(maxDuplicate, asInteger);
+            }
+        }
+
+        if (maxDuplicate > 0) {
+            name = String.format("%s (%d)", name, maxDuplicate + 1);
+        }
+
+        return name;
     }
 }
