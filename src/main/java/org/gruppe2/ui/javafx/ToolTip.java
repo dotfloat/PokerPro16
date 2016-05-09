@@ -17,7 +17,6 @@ public class ToolTip extends Pane {
     }
     @FXML
     public void close(MouseEvent event) {
-        if (event.getTarget().equals(this)) System.out.println("hello");
-        PokerApplication.getRoot().getChildren().remove(this);
+        if (!event.getTarget().equals(this)) PokerApplication.getRoot().getChildren().remove(this);
     }
 }
