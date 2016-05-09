@@ -1,6 +1,12 @@
 package org.gruppe2.ui.javafx.ingame;
 
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
+
 import javafx.application.Platform;
+
 import org.gruppe2.Main;
 import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.game.GameBuilder;
@@ -8,12 +14,6 @@ import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.UIResources;
-import org.w3c.dom.Node;
-
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
 
 public class Game {
     private final static Game instance = new Game();

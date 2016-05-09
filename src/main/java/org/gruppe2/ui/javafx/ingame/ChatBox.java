@@ -240,9 +240,9 @@ public class ChatBox extends VBox {
         String buffer = "";
 
         for (String word : words) {
-            int indexOf;
+            
 
-            if ((indexOf = emotes.indexOf(word)) >= 0) {
+            if ((emotes.indexOf(word)) >= 0) {
                 Text text = new Text(buffer);
                 text.setFill(Color.GRAY);
                 text.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());

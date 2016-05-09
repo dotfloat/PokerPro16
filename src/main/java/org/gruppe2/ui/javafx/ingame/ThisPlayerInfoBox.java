@@ -15,7 +15,11 @@ import javafx.scene.paint.Color;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -85,7 +89,6 @@ public class ThisPlayerInfoBox extends HBox {
 
     @Handler
     public void onRoundStart(RoundStartEvent e) {
-        Optional<RoundPlayer> roundPlayer = round.findPlayerByUUID(Game.getPlayerUUID());
         fold.setVisible(false);
     }
 

@@ -8,12 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
-
 import javafx.scene.layout.StackPane;
+
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.PossibleActions;
-import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.helper.GameHelper;
@@ -22,9 +21,6 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.PokerApplication;
-
-import java.util.UUID;
 
 /**
  * This is the bottom choicebar used to press an action (fold or bet)
@@ -85,7 +81,7 @@ public class ChoiceBar extends StackPane {
         if (actionQuery != null) {
             UUID uuid = Game.getPlayerUUID();
             Player player = gameHelper.findPlayerByUUID(uuid).get();
-            RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(uuid).get();
+            
             PossibleActions possibleActions = roundHelper
                     .getPlayerOptions(uuid);
 
@@ -139,16 +135,6 @@ public class ChoiceBar extends StackPane {
         else
             btnBet.setText("Check");
         return (int) slider.getValue() + " CHIPS";
-    }
-
-    /**
-     * Removes eventpossibilities
-     */
-    private void updatePossibleBarsToClick() {
-        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
-        slider.setMax(player.getBank());
-        slider.setMin(0);
-        slider.setValue(0);
     }
 
     @Handler

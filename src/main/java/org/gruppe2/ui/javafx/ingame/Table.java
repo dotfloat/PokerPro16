@@ -1,14 +1,21 @@
 package org.gruppe2.ui.javafx.ingame;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.event.PlayerLeaveEvent;
@@ -17,10 +24,6 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class Table extends Pane {
     @Helper
