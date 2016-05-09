@@ -42,6 +42,7 @@ public class NetworkServerController extends AbstractController {
 		if (e instanceof RoundStartEvent) {
 			broadcastObject(gameHelper.getModel());
 			broadcastObject(roundHelper.getModel());
+            broadcastObject(e);
 		}
 		else if (!(e instanceof PlayerActionQuery)) {
 			broadcastObject(e);
