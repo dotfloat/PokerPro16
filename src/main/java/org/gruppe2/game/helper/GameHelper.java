@@ -73,4 +73,8 @@ public class GameHelper {
     public void setRoundsCompleted(int rounds) {
         model.setRoundsCompleted(rounds);
     }
+
+    public int getWaitTime() {
+        return model.getWaitTime();
+    }
 }

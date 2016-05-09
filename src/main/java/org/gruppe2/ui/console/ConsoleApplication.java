@@ -27,7 +27,7 @@ public class ConsoleApplication implements Runnable {
     RoundHelper roundHelper;
 
     private void init() {
-        GameBuilder gameBuilder = new GameBuilder().botPolicy(GameModel.BotPolicy.FILL);
+        GameBuilder gameBuilder = new GameBuilder().botPolicy(GameModel.BotPolicy.FILL).waitTime(5);
 
         System.out.println("Welcome to PokerPro16 Console Edition");
 
@@ -160,7 +160,7 @@ public class ConsoleApplication implements Runnable {
         String s = "Active players left: ";
         for (RoundPlayer p : roundHelper.getActivePlayers()) {
             Player p2 = gameHelper.findPlayerByUUID(p.getUUID()).get();
-            s += ", " + p2.getName();
+            s += " " + p2.getName();
         }
         System.out.println(s);
 

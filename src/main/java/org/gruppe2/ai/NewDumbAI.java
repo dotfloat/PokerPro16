@@ -48,7 +48,7 @@ public class NewDumbAI implements AI {
         }
 
         if (options.canAllIn()) {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
                 types.add(allIn);
         }
 

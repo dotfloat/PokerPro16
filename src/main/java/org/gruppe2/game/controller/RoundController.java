@@ -143,10 +143,6 @@ public class RoundController extends AbstractController {
 
         round.getActivePlayers().remove(player);
         game.getPlayers().remove(event.getPlayer());
-
-        if (player.getUUID().equals(lastPlayerInRound)) {
-            lastPlayerInRound = round.getLastActivePlayerID();
-        }
     }
 
     private void resetRound() {
@@ -239,8 +235,6 @@ public class RoundController extends AbstractController {
         if (action instanceof Action.Fold) {
             round.getActivePlayers().remove(round.getCurrent());
             round.setCurrent(round.getCurrent() - 1);
-            if (player.getUUID().equals(lastPlayerInRound))
-                lastPlayerInRound = round.getLastActivePlayerID();
         }
 
         if (action instanceof Action.Raise) {
@@ -344,6 +338,7 @@ public class RoundController extends AbstractController {
 
     private void resetDeck() {
         deck.clear();
+
         for (Card.Suit suit : Card.Suit.values()) {
             for (int face = 2; face <= 14; face++) {
                 deck.push(new Card(face, suit));

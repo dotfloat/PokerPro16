@@ -32,9 +32,10 @@ public class GameModel implements Serializable {
     private volatile boolean waitingForPlayers = false;
     private volatile int smallBlind;
     private volatile int bigBlind;
+    private volatile int waitTime;
     private volatile int roundsCompleted = 0;
 
-    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind) {
+    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind, int waitTime) {
         this.uuid = uuid;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
@@ -42,6 +43,7 @@ public class GameModel implements Serializable {
         this.botPolicy = botPolicy;
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;
+        this.waitTime = waitTime;
     }
 
     public UUID getUUID() {
@@ -106,6 +108,14 @@ public class GameModel implements Serializable {
 
     public void setRoundsCompleted(int roundsCompleted) {
         this.roundsCompleted = roundsCompleted;
+    }
+
+    public int getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
     }
 
     public void apply(GameModel object) {

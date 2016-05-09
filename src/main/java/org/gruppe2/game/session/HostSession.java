@@ -16,8 +16,8 @@ import org.gruppe2.game.model.StatisticsModel;
 public class HostSession extends Session {
     
 
-    public HostSession(Integer minPlayers, Integer maxPlayers, Integer buyIn, GameModel.BotPolicy botPolicy, Integer smallBlind, Integer bigBlind) {
-        addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, buyIn, botPolicy, smallBlind, bigBlind));
+    public HostSession(Integer minPlayers, Integer maxPlayers, Integer buyIn, GameModel.BotPolicy botPolicy, Integer smallBlind, Integer bigBlind, Integer waitTime) {
+        addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, buyIn, botPolicy, smallBlind, bigBlind, waitTime));
         addModel(new RoundModel());
         addModel(new ChatModel());
         addModel(new StatisticsModel());

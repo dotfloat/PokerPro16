@@ -11,6 +11,7 @@ public class GameBuilder {
     private int buyIn = 100;
     private int smallBlind = 10;
     private int bigBlind = 20;
+    private int waitTime = 1000;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
 
     public GameBuilder playerRange(int min, int max) {
@@ -40,7 +41,13 @@ public class GameBuilder {
         return this;
     }
 
+    public GameBuilder waitTime (int waitTime) {
+        this.waitTime = waitTime;
+
+        return this;
+    }
+
     public SessionContext start() {
-        return Session.start(HostSession.class, min, max, buyIn, botPolicy, smallBlind, bigBlind);
+        return Session.start(HostSession.class, min, max, buyIn, botPolicy, smallBlind, bigBlind, waitTime);
     }
 }
