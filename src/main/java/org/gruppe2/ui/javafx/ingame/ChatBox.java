@@ -85,6 +85,11 @@ public class ChatBox extends VBox {
 
     @FXML
     public void onChatAction(ActionEvent event) {
+        if (!gameHelper.findPlayerByUUID(Game.getPlayerUUID()).isPresent()) {
+            chatField.setText("");
+            return;
+        }
+
         Game.message("chat", chatField.getText(), Game.getPlayerUUID());
         chatField.setText("");
     }
