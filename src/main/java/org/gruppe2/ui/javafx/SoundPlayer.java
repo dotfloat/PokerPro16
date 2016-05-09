@@ -57,6 +57,10 @@ public class SoundPlayer {
 		playSound(SoundPlayer.class.getResource("/sound/trollolo.mp3")
 				.toExternalForm());
 	}
+	public static void play2Hours() {
+		playSound(SoundPlayer.class.getResource("/sound/2hours.mp3")
+				.toExternalForm());
+	}
 	
 	
 	public static void stopIntroMusic(){
