@@ -2,6 +2,7 @@ package org.gruppe2.ui.javafx.ingame;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import org.gruppe2.Main;
@@ -50,6 +51,11 @@ public class GameScene extends Pane {
         if (stats != null) {
             Main.savePlayerStatistics(stats);
         }
+    }
+
+    @FXML
+    public void onMouseClicked(MouseEvent e) {
+        requestFocus();
     }
 
     @Handler

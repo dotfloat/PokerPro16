@@ -2,13 +2,12 @@
 
 
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import org.gruppe2.ui.javafx.ingame.*?>
 <?import org.gruppe2.ui.javafx.menu.HelperMenu?>
 <?import org.gruppe2.ui.javafx.menu.RightMenu?>
 <?import org.gruppe2.ui.javafx.PokerApplication?>
-<?import javafx.scene.control.Label?>
-<fx:root type="Pane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
+<fx:root type="Pane" xmlns:fx="http://javafx.com/fxml"
+         styleClass="background" onMouseClicked="#onMouseClicked">
     <fx:define>
         <PokerApplication fx:factory="getRoot" fx:id="root"/>
         <PokerApplication fx:factory="getApplication" fx:id="app"/>
@@ -19,7 +18,7 @@
              layoutX="0.0"
              layoutY="${root.height - chatBox.height}"
              prefWidth="${app.widthScale * 300}"
-             prefHeight="${app.heightScale * 400}" />
+             prefHeight="${app.heightScale * chatBox.chatHeight}" />
 
     <ChoiceBar fx:id="choiceBar"
                layoutX="${chatBox.width}"
