@@ -86,7 +86,8 @@ public class PlayerInfoBox extends BorderPane {
 
         if (!player.isPresent())
             return;
-        else this.player = player.get();
+
+        this.player = player.get();
 
         name.setText(player.get().getName());
         bank.setText(String.valueOf(player.get().getBank()));
