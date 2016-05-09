@@ -28,7 +28,6 @@ public class CountDownBar extends HBox {
    }
    
 	public void startProgressBarTimer(){
-   	progressBar.setVisible(true);
    	timeline = new Timeline(new KeyFrame(
    	        Duration.seconds(30),
    	        ae -> System.out.println("fold now! bitch!")));
@@ -44,6 +43,7 @@ public class CountDownBar extends HBox {
    public void updateProgressBar(){
    	double progress = progressBar.getProgress();
    	if(progress > 0.66 && !countDownSoundStarted){
+   		progressBar.setVisible(true);
    		countDownSoundStarted = true;
    		SoundPlayer.playCountDownTimer();
    	}
