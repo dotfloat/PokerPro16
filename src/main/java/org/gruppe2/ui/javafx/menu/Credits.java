@@ -14,6 +14,9 @@ import javafx.util.Duration;
 import org.gruppe2.ui.UIResources;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
 
 /**
  * Created by Åsmund on 28/04/2016.
@@ -24,6 +27,23 @@ public class Credits extends StackPane{
 
     public Credits(){
         nodes  = new ArrayList<Node>();
+
+        nodes.add(new Label("Åsmund"));
+        nodes.add(new Label("Petter"));
+        nodes.add(new Label("Zohar"));
+        nodes.add(new Label("Mikal"));
+        nodes.add(new Label("Cem"));
+        nodes.add(new Label("Andreas"));
+        nodes.add(new Label("Svein"));
+        nodes.add(new Label("Daniel"));
+        nodes.add(new Label("Runar"));
+        nodes.add(new Label("Håkon K"));
+        nodes.add(new Label("Kjetil"));
+        nodes.add(new Label("Håkon T"));
+
+        long seed = System.nanoTime();
+        Collections.shuffle(nodes, new Random(seed));
+
         sequence = new SequentialTransition();
         UIResources.loadFXML(this);
         playCredits();
@@ -33,10 +53,6 @@ public class Credits extends StackPane{
 
         SequentialTransition sequence = new SequentialTransition();
         sequence.setCycleCount(Animation.INDEFINITE);
-
-
-        nodes.add(new Label("Donald Trump"));
-        nodes.add(new Label("Bernie Sanders"));
 
         addObjectsToCreditSequence(sequence, nodes);
         sequence.play();
@@ -51,8 +67,8 @@ public class Credits extends StackPane{
 
     private void addObject(SequentialTransition sequence, Node node){
 
-        Path path = new Path(new MoveTo(-2000, 0), new LineTo(60, 0));
-        Path path1 = new Path(new MoveTo(60, 0), new LineTo(2000, 0));
+        Path path = new Path(new MoveTo(-2000, 0), new LineTo(30, 0));
+        Path path1 = new Path(new MoveTo(30, 0), new LineTo(2000, 0));
 
         PathTransition transition = createPathTransition(path, node);
         PathTransition transition1 = createPathTransition(path1, node);
