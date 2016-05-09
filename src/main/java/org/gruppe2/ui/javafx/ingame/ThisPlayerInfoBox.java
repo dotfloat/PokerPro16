@@ -42,6 +42,7 @@ public class ThisPlayerInfoBox extends HBox {
     @FXML
     private Label lastAction;
     Player player;
+    private boolean isActive;
 
     public ThisPlayerInfoBox() {
         UIResources.loadFXML(this);
@@ -81,6 +82,7 @@ public class ThisPlayerInfoBox extends HBox {
     @Handler
     public void onRoundStart(RoundStartEvent e) {
         Optional<RoundPlayer> roundPlayer = round.findPlayerByUUID(Game.getPlayerUUID());
+        fold.setVisible(false);
     }
 
     @Handler
@@ -88,9 +90,11 @@ public class ThisPlayerInfoBox extends HBox {
         if (e.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
             fold.setVisible(false);
             lastAction.setVisible(false);
-            setActive(true);
+            isActive = true;
+            setActive(isActive);
         } else {
-            setActive(false);
+            isActive = false;
+            setActive(isActive);
         }
     }
 
@@ -119,7 +123,7 @@ public class ThisPlayerInfoBox extends HBox {
 
     @FXML
     public void noHover(){
-        setActive(false);
+        setActive(isActive);
     }
 
     private void setActive(boolean active) {
