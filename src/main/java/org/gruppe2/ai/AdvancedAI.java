@@ -1,6 +1,7 @@
 package org.gruppe2.ai;
 
 import org.gruppe2.game.*;
+import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 
 import java.util.Arrays;
@@ -12,7 +13,7 @@ public class AdvancedAI implements AI {
     PossibleActions possibleActions;
 
     @Override
-    public void doAction(Player player, RoundPlayer roundPlayer, RoundHelper roundHelper) {
+    public void doAction(Player player, RoundPlayer roundPlayer, RoundHelper roundHelper, GameHelper gameHelper) {
         this.cards = Arrays.asList(roundPlayer.getCards());
         this.communityCards = roundHelper.getCommunityCards();
         this.possibleActions = roundHelper.getPlayerOptions(player.getUUID());
