@@ -32,6 +32,7 @@ public class NetworkClientController extends AbstractController {
 
             while ((object = model.getConnection().readObject()) != null) {
                 if (object instanceof Event) {
+                    checkEvent((Event) object);
                     addEvent((Event) object);
                 } else if (object instanceof RoundModel) {
                     round.getModel().apply((RoundModel) object);
@@ -47,13 +48,19 @@ public class NetworkClientController extends AbstractController {
         }
     }
 
-    @Handler
-    public void onPlayerJoin(PlayerJoinEvent e) {
+    private void checkEvent(Event event) {
+        if (event instanceof PlayerJoinEvent) {
+            onPlayerJoin((PlayerJoinEvent) event);
+        } else if (event instanceof PlayerLeaveEvent) {
+            onPlayerLeave((PlayerLeaveEvent) event);
+        }
+    }
+
+    private void onPlayerJoin(PlayerJoinEvent e) {
         game.getPlayers().add(e.getPlayer());
     }
 
-    @Handler
-    public void onPlayerLeave(PlayerLeaveEvent e) {
+    private void onPlayerLeave(PlayerLeaveEvent e) {
         game.getPlayers().remove(e.getPlayer());
     }
 
