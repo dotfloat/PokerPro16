@@ -44,6 +44,7 @@ public class PlayerInfoBox extends BorderPane {
     ProgressBar progressBar = new ProgressBar(0);
     Timeline timeline;
     Timeline progressBarTimeLine;
+    int progressDivisor = 3000;
     private ObjectProperty<Font> font = new SimpleObjectProperty<>();
 
     @Helper
@@ -116,14 +117,14 @@ public class PlayerInfoBox extends BorderPane {
     	timeline.play();
     	
     	progressBarTimeLine = new Timeline(new KeyFrame(
-    	        Duration.seconds(1),
+    	        Duration.millis(10),
     	        ae -> updateProgressBar()));
-    	progressBarTimeLine.setCycleCount(30);
+    	progressBarTimeLine.setCycleCount(progressDivisor);
     	progressBarTimeLine.play();
     }
     private void updateProgressBar(){
     	double progress = progressBar.getProgress();
-    	progressBar.setProgress(progress+(1/30));
+    	progressBar.setProgress(progress+(1/progressDivisor));
     }
     private void stopProgressBar(){
     	progressBar.setVisible(false);

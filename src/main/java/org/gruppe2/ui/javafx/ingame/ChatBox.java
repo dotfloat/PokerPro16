@@ -1,5 +1,9 @@
 package org.gruppe2.ui.javafx.ingame;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
@@ -13,17 +17,28 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Hand;
 import org.gruppe2.game.Player;
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.calculation.Generic;
+import org.gruppe2.game.event.ChatEvent;
+import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
-
-import java.util.*;
-
+import org.gruppe2.ui.javafx.SoundPlayer;
+/**
+ * This is the chatbox used for messages between players and commands.
+ * @author htj063
+ *
+ */
 public class ChatBox extends VBox {
     private static final double openedHeight = 400.0;
     private static final double closedHeight = 100.0;
@@ -79,25 +94,25 @@ public class ChatBox extends VBox {
 
         switch (command) {
             case "/besthand":
-                // throw new NotImplementedException();
-                System.out.println("Not implemented yet");
-                // String answer =
-                // GeneralCalculations.getBestHandForPlayer(((GameScene)this.getParent().getParent()).communityCardsBox.getCommunityCards(),
-                // player).toString();
-                // this.setText(this.getText() + "\n" + player +
-                // "s possible best hand is: " + answer);S
+               List<Card> cards = new ArrayList<Card>();
+               cards.addAll(roundHelper.getCommunityCards());
+               Card[] playerCards = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getCards();
+               
+               for(int i=0;i<playerCards.length;i++){
+            	   cards.add(playerCards[i]);
+               }
+               
+                Hand hand =  Generic.getBestHandForPlayer(cards);
+                String answer = hand.toString();
+                addLine("Possible best hand is: "+answer);
+                return true;
             case "/log":
                 addLine(command + "is epic");
                 // Print logs--->
                 return true;
-            case "/fuck off":
-                addLine(command + "is epic");
-                // Print playFuckOfClip--->
-                return true;
-            case "/raiding party":
-                addLine(command + "is epic");
-                // Print raidingPartyClip--->
-                return true;
+            case "/sounds":
+            	
+            	return true;
             default:
                 return false;
         }
@@ -108,17 +123,42 @@ public class ChatBox extends VBox {
         if (chatEvent.getMessage().isEmpty())
             return;
 
-        if (chatEvent.getMessage().charAt(0) == '/') {
-            checkForCommands(chatEvent.getMessage());
-            return;
-        }
+        checkForSound(chatEvent.getMessage());
 
         Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID()).get();
 
         addPlayerMessage(player, chatEvent.getMessage());
     }
 
-    @Handler
+    private boolean checkForSound(String message) {
+    	String command = message.toLowerCase();
+
+        switch (command) {
+          
+            case "fuck off":
+            	
+            	SoundPlayer.playFuckOff();
+                return true;
+            case "raiding party":
+            	
+            	SoundPlayer.playRaidingParty();
+                return true;
+            case "yes":
+            	
+        		SoundPlayer.playYes();
+        		return true;
+            case "no":
+            	
+        		SoundPlayer.playNo();
+        		return true;
+            
+            default:
+                return false;
+        }
+		
+	}
+
+	@Handler
     public void onRoundStart(RoundStartEvent event) {
         addLine("A new round has started");
     }

@@ -6,24 +6,23 @@ import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.PokerApplication;
-
+/**
+ * Class used to recieve community cards and create animations for them.
+ * @author htj063
+ *
+ */
 public class CommunityCards extends HBox {
     private List<ImageView> imageViews = new ArrayList<>();
 
