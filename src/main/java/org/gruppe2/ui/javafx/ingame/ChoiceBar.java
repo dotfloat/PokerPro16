@@ -2,6 +2,7 @@ package org.gruppe2.ui.javafx.ingame;
 
 import java.util.UUID;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,19 +26,21 @@ import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.util.UUID;
 
-public class ChoiceBar extends StackPane {
 /**
  * This is the bottom choicebar used to press an action (fold or bet)
- * @author htj063
  *
+ * @author htj063
  */
-public class ChoiceBar extends HBox {
+public class ChoiceBar extends StackPane {
+    @Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
 
-	@Helper
-	private GameHelper gameHelper;
-	@Helper
-	private RoundHelper roundHelper;
-
+    @FXML
+    private HBox spectatorBar;
+    @FXML
+    private HBox playerBar;
     @FXML
     private Button btnFold;
     @FXML
@@ -46,152 +49,106 @@ public class ChoiceBar extends HBox {
     private Label sliderValue;
     @FXML
     private Button btnBet;
-    @FXML
-    private HBox spectatorBar;
-    @FXML
-    private HBox playerBar;
-	@FXML
-	private Button btnFold;
-	@FXML
-	private Slider slider;
-	@FXML
-	private Label sliderValue;
-	@FXML
-	private Button btnBet;
 
-	private Query<Action> actionQuery = null;
+    private Query<Action> actionQuery = null;
 
     public ChoiceBar() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
         setEvents();
     }
-	public ChoiceBar() {
-		UIResources.loadFXML(this);
-		Game.setAnnotated(this);
-		setSizes();
-		setEvents();
-	}
 
     @FXML
     public void onJoinAction(ActionEvent event) {
         Game.getInstance().join();
     }
-	@FXML
-	private void setSizes() {
-		this.spacingProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.02));
 
-		slider.prefWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.2));
-		slider.minWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.05));
+    @FXML
+    public void setEvents() {
+        slider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    sliderValue.textProperty().setValue(checkMaxBid(slider));
+                });
 
-		sliderValue.prefWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.09));
-		btnFold.prefWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.09));
-		btnBet.prefWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.09));
+    }
 
-	}
+    @FXML
+    public void onFoldAction() {
+        if (actionQuery != null) {
+            actionQuery.set(new Action.Fold());
+            actionQuery = null;
+        }
+    }
 
-	@FXML
-	public void setEvents() {
-		slider.valueProperty().addListener(
-				(observable, oldValue, newValue) -> {
-					sliderValue.textProperty().setValue(checkMaxBid(slider));
-				});
+    @FXML
+    public void onBetAction() {
+        if (actionQuery != null) {
+            UUID uuid = Game.getPlayerUUID();
+            Player player = gameHelper.findPlayerByUUID(uuid).get();
+            RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(uuid).get();
+            PossibleActions possibleActions = roundHelper
+                    .getPlayerOptions(uuid);
 
-	}
+            int amount = (int) (slider.getValue() - (roundHelper
+                    .getHighestBet() - roundPlayer.getBet()));
 
-	@FXML
-	public void onFoldAction() {
-		if (actionQuery != null) {
-			actionQuery.set(new Action.Fold());
-			actionQuery = null;
-		}
-	}
+            if (amount == 0) {
+                if (possibleActions.canCall()) {
+                    actionQuery.set(new Action.Call());
+                } else if (possibleActions.canCheck()) {
+                    actionQuery.set(new Action.Check());
+                } else {
+                    throw new RuntimeException();
+                }
+            } else if (amount == player.getBank()) {
+                actionQuery.set(new Action.AllIn());
+            } else {
+                actionQuery.set(new Action.Raise(amount));
+            }
 
-	@FXML
-	public void onBetAction() {
-		if (actionQuery != null) {
-			UUID uuid = Game.getPlayerUUID();
-			Player player = gameHelper.findPlayerByUUID(uuid).get();
-			RoundPlayer roundPlayer = roundHelper.findPlayerByUUID(uuid).get();
-			PossibleActions possibleActions = roundHelper
-					.getPlayerOptions(uuid);
+            actionQuery = null;
+        }
 
-			int amount = (int) (slider.getValue() - (roundHelper
-					.getHighestBet() - roundPlayer.getBet()));
+    }
 
-			if (amount == 0) {
-				if (possibleActions.canCall()) {
-					actionQuery.set(new Action.Call());
-				} else if (possibleActions.canCheck()) {
-					actionQuery.set(new Action.Check());
-				} else {
-					throw new RuntimeException();
-				}
-			} else if (amount == player.getBank()) {
-				actionQuery.set(new Action.AllIn());
-			} else {
-				actionQuery.set(new Action.Raise(amount));
-			}
+    public void increaseSlider() {
+        slider.setValue(slider.getValue() * 2);
+    }
 
-			actionQuery = null;
-		}
+    public void decreaseSlider() {
+        slider.setValue(slider.getValue() / 2);
+    }
 
-	}
+    /**
+     * If you raise all you have, change text of raise button to ALL IN
+     *
+     * @param slider
+     * @return
+     */
+    private String checkMaxBid(Slider slider) {
+        PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
 
-	public void increaseSlider() {
-		slider.setValue(slider.getValue() * 2);
-	}
+        if (slider.getValue() == slider.getMax())
+            btnBet.setText("ALL IN");
+        else if (slider.getValue() > pa.getCallAmount())
+            btnBet.setText("RAISE");
+        else if (pa.canCall())
+            btnBet.setText("Call");
+        else
+            btnBet.setText("Check");
+        return (int) slider.getValue() + " CHIPS";
+    }
 
-	public void decreaseSlider() {
-		slider.setValue(slider.getValue() / 2);
-	}
+    /**
+     * Removes eventpossibilities
+     */
+    private void updatePossibleBarsToClick() {
+        Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
+        slider.setMax(player.getBank());
+        slider.setMin(0);
+        slider.setValue(0);
+    }
 
-	/**
-	 * If you raise all you have, change text of raise button to ALL IN
-	 *
-	 * @param slider
-	 * @return
-	 */
-	private String checkMaxBid(Slider slider) {
-		PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
-
-		if (slider.getValue() == slider.getMax())
-			btnBet.setText("ALL IN");
-		else if (slider.getValue() > pa.getCallAmount())
-			btnBet.setText("RAISE");
-		else if (pa.canCall())
-			btnBet.setText("Call");
-		else
-			btnBet.setText("Check");
-		return (int) slider.getValue() + " CHIPS";
-	}
-
-	/**
-	 * Removes eventpossibilities
-	 */
-	private void updatePossibleBarsToClick() {
-		Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
-		slider.setMax(player.getBank());
-		slider.setMin(0);
-		slider.setValue(0);
-	}
-
-	@Handler
-	public void onActionQuery(PlayerActionQuery query) {
-		if (!query.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
-			btnFold.setDisable(true);
-			btnBet.setDisable(true);
-			slider.setDisable(true);
-			sliderValue.setDisable(true);
-		} else {
-			PossibleActions actions = roundHelper.getPlayerOptions(Game
-					.getPlayerUUID());
     @Handler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (event.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
@@ -215,11 +172,11 @@ public class ChoiceBar extends HBox {
             slider.setDisable(false);
             sliderValue.setDisable(false);
 
-			slider.setMin(actions.getCallAmount());
-			slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
-			slider.setValue(actions.getCallAmount());
+            slider.setMin(actions.getCallAmount());
+            slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
+            slider.setValue(actions.getCallAmount());
 
-			actionQuery = query.getPlayer().getAction();
-		}
-	}
+            actionQuery = query.getPlayer().getAction();
+        }
+    }
 }
