@@ -40,10 +40,12 @@ public class GameScene extends Pane {
     private ChatBox chatBox;
 
     public GameScene() {
+    	SoundPlayer.stopIntroMusic();
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
         setKeyListener();
         chatBox.toFront();
+        
     }
 
     private void setKeyListener() {

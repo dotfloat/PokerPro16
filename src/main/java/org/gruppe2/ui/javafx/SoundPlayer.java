@@ -10,9 +10,10 @@ import javafx.util.Duration;
 public class SoundPlayer {
 
 	private static final Duration FADE_DURATION = Duration.seconds(2.0);
-
+	private static MediaPlayer introMediaPlayer;
+	
 	public static void playIntroMusic() {
-		playSound(SoundPlayer.class.getResource("/sound/jazzy_intro.mp3")
+		introMediaPlayer = playSound(SoundPlayer.class.getResource("/sound/jazzy_intro.mp3")
 				.toExternalForm());
 	}
 
@@ -45,6 +46,11 @@ public class SoundPlayer {
 	public static void playRaidingParty() {
 		playSound(SoundPlayer.class.getResource("/sound/raidingparty.mp3")
 				.toExternalForm());
+	}
+	
+	public static void stopIntroMusic(){
+		if(introMediaPlayer != null)
+			fadeOutOnEnd(introMediaPlayer,2);
 	}
 	
 
