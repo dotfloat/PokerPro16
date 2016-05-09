@@ -53,6 +53,10 @@ public class SoundPlayer {
 		playSound(SoundPlayer.class.getResource("/sound/flush.mp3")
 				.toExternalForm());
 	}
+	public static void playTrololo() {
+		playSound(SoundPlayer.class.getResource("/sound/trollolo.mp3")
+				.toExternalForm());
+	}
 	
 	
 	public static void stopIntroMusic(){

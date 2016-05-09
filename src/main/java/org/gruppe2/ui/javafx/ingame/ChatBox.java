@@ -114,7 +114,10 @@ public class ChatBox extends VBox {
                 // Print logs--->
                 return true;
             case "/sounds":
-            	addLine("Possible sounds:\nyes\nno\nraiding party\nfuck off\nflush");
+            	addLine("Possible sounds:\n  yes\n  no\n  raiding party\n  fuck off\n  flush\n  trol");
+            	return true;
+            case "/help":
+            	addLine("Possible commands: \n  /besthand\n  /log\n  /sounds\n  /help");
             	return true;
             default:
                 return false;
@@ -149,6 +152,10 @@ public class ChatBox extends VBox {
             case "flush":
             	
         		SoundPlayer.playFlush();
+        		return true;
+            case "trol":
+            	
+        		SoundPlayer.playTrololo();
         		return true;
             case "yes":
             	
