@@ -170,7 +170,6 @@
     -fx-padding: 10px;
     -fx-background-radius: 20px;
     -fx-background-color: black;
-    -fx-effect: dropshadow(gaussian, black, 100, 0.08, 0, 0);
 }
 
 .lobbyTiles {

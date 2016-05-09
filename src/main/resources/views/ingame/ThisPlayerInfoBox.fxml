@@ -17,7 +17,7 @@
         <Label fx:id="lastAction" visible="false" />
     </StackPane>
 
-    <VBox alignment="CENTER">
+    <VBox alignment="CENTER_LEFT">
         <Label fx:id="bank" />
         <Label fx:id="bet" />
     </VBox>

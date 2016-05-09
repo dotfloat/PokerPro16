@@ -58,7 +58,7 @@ public class RightMenu extends VBox {
 	}
 
 	public void viewStatistics(){
-//		SceneController.setModal((new Modal(new Statistic(true))));
+		//SceneController.setModal((new Modal(new Statistic(true))));
 		menuAnimation();
 	}
 

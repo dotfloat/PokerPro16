@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 import org.gruppe2.ui.UIResources;
@@ -15,23 +16,23 @@ import org.gruppe2.ui.UIResources;
 public class Modal extends StackPane {
     StackPane stage = PokerApplication.getRoot();
 
-    public Modal(Node node){
+    public Modal(Node node) {
         UIResources.loadFXML(this);
         addChildren(node);
     }
 
-    public void addChildren(Node... nodes){
+    public void addChildren(Node... nodes) {
         this.getChildren().addAll(nodes);
     }
 
     @FXML
     public void keyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ESCAPE) close();
+        if (event.getCode() == KeyCode.ESCAPE) stage.getChildren().remove(this);
     }
 
     @FXML
-    public void close() {
-        stage.getChildren().remove(this);
+    public void close(MouseEvent event) {
+        if (event.getTarget().equals(this)) stage.getChildren().remove(this);
     }
 
 }
