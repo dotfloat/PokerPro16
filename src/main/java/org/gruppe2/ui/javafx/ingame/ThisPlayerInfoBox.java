@@ -50,7 +50,7 @@ public class ThisPlayerInfoBox extends HBox {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
         countDownBar.setAlignment(Pos.BOTTOM_LEFT);
-        getChildren().add(countDownBar);
+        //getChildren().add(countDownBar);
     }
 
     @Handler

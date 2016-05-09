@@ -115,6 +115,8 @@ public class PlayerInfoBox extends BorderPane {
 
     private void resetBox() {
         fold.setVisible(false);
+        lastAction.setVisible(false);
+        bet.setText("0");
         opacityProperty().setValue(1);
     }
 
