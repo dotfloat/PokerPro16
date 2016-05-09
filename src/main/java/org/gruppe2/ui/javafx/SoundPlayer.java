@@ -18,9 +18,13 @@ public class SoundPlayer {
 	
 	
 	public static void playSound(String musicFile){
+		try{
 		Media sound = new Media(musicFile);
 		MediaPlayer mediaPlayer = new MediaPlayer(sound);
 		mediaPlayer.play();
+		} catch (RuntimeException e){
+			
+		}
 	}
 
 }
