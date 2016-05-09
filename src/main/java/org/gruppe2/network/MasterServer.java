@@ -1,6 +1,7 @@
 package org.gruppe2.network;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -17,7 +18,7 @@ import org.gruppe2.game.session.SessionContext;
  * @author htj063
  */
 public class MasterServer {
-    ArrayList<SessionContext> activeTables = new ArrayList<SessionContext>();
+    ArrayList<SessionContext> activeTables = new ArrayList<>();
     ServerSocketChannel serverSocket;
     private ArrayList<NetworkIO> clients = new ArrayList<>();
 
@@ -107,10 +108,30 @@ public class MasterServer {
 
                 }
             } catch (IOException e) {
+                e.printStackTrace();
                 clients.remove(i--);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < activeTables.size(); i++) {
+            try {
+                GameModel model = activeTables.get(i).getModel(GameModel.class);
+
+                if (!model.getPlayers().stream().anyMatch(p -> !p.isBot())) {
+                    activeTables.get(i).quit();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                SessionContext context = activeTables.get(i);
+
+                activeTables.remove(i);
+
+                context.getThread().interrupt();
             }
         }
     }

@@ -72,6 +72,7 @@ public abstract class Session implements Runnable {
     private final List<TimerTask> taskList = new ArrayList<>();
 
     private volatile RunState state = RunState.STARTING;
+    private Thread thread;
 
     /**
      * JavaFX-style start method.
@@ -102,32 +103,36 @@ public abstract class Session implements Runnable {
 
     @Override
     public void run() {
-        addMessage("quit", args -> {
-            state = RunState.STOPPED;
-            addEvent(new QuitEvent());
-            return true;
-        });
+        try {
+            addMessage("quit", args -> {
+                state = RunState.STOPPED;
+                addEvent(new QuitEvent());
+                return true;
+            });
 
-        init();
+            init();
 
-        controllerList.forEach(Controller::init);
+            controllerList.forEach(Controller::init);
 
-        state = RunState.RUNNING;
-        
-        while (state != RunState.STOPPED) {
-            context.getEventQueue().process();
-            processMessageQueue();
-            processTaskList();
+            state = RunState.RUNNING;
 
-            update();
+            while (state != RunState.STOPPED) {
+                context.getEventQueue().process();
+                processMessageQueue();
+                processTaskList();
 
-            controllerList.forEach(Controller::update);
+                update();
 
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                controllerList.forEach(Controller::update);
+
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -314,6 +319,10 @@ public abstract class Session implements Runnable {
      */
     public SessionContext getContext() {
         return context;
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 
     private enum RunState {STARTING, RUNNING, STOPPED}

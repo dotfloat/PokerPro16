@@ -155,8 +155,6 @@ public class NetworkIO {
 
         int length = lengthBuffer.getInt();
 
-        System.out.printf("Object length: %d\n", length);
-
         if (length + 4 > bytes.length) // Not enough data
             return null;
 
@@ -216,7 +214,6 @@ public class NetworkIO {
 
             timeout = System.currentTimeMillis() + timeoutDelay;
         } else if (timeout < System.currentTimeMillis()) {
-            System.out.printf("%d, ping: %b, sendpingstate: %b\n", timeout, ping, sendPingState);
             if (ping && sendPingState) {
                 sendPing();
             } else {
@@ -238,7 +235,6 @@ public class NetworkIO {
             int written = channel.write(writeByteBuffer);
 
             if (written > 0) {
-                System.out.printf("Written %d, left %d : %d\n", written, bytes.length - written, channel.socket().getSendBufferSize());
                 outputBuffer.reset();
                 outputBuffer.write(bytes, written, bytes.length - written);
             } else {

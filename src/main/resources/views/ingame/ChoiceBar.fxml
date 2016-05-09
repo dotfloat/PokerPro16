@@ -4,16 +4,26 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import org.gruppe2.ui.javafx.PokerApplication?>
-<fx:root type="javafx.scene.layout.HBox" fx:id="this" xmlns:fx="http://javafx.com/fxml" styleClass="hbox">
+<?import javafx.scene.layout.HBox?>
+<fx:root type="javafx.scene.layout.StackPane" fx:id="this" xmlns:fx="http://javafx.com/fxml">
 
     <fx:define>
         <PokerApplication fx:factory="getApplication" fx:id="app"/>
     </fx:define>
 
-    <Button fx:id="btnFold" bigFont="${app.bigFont}" text="FOLD" id="button" onAction="#onFoldAction" disable="true"/>
-    <Slider fx:id="slider" prefHeight="${this.maxHeight}" id="slider" disable="true"/>
-    <Label fx:id="sliderValue" bigFont="${app.bigFont}" prefHeight="${this.maxHeight}" text="0 CHIPS" id="label" disable="true"/>
-    <Button fx:id="btnBet" bigFont="${app.bigFont}" prefHeight="${this.maxHeight}" text="BET" id="button" onAction="#onBetAction" disable="true"/>
+    <HBox fx:id="spectatorBar" styleClass="hbox">
+        <Button fx:id="btnJoin" font="${app.bigFont}" prefHeight="${this.prefHeight}" text="JOIN" onAction="#onJoinAction" />
+    </HBox>
+
+    <HBox fx:id="playerBar" styleClass="hbox" spacing="${app.scale}" prefWidth="${this.prefWidth}" visible="false">
+        <Button fx:id="btnFold" font="${app.bigFont}" text="FOLD" id="button" onAction="#onFoldAction"
+                disable="true"/>
+        <Slider fx:id="slider" prefHeight="${this.prefHeight}" id="slider" disable="true"/>
+        <Label fx:id="sliderValue" font="${app.bigFont}" prefHeight="${this.prefHeight}" text="0 CHIPS" id="label"
+               disable="true"/>
+        <Button fx:id="btnBet" font="${app.bigFont}" prefHeight="${this.prefHeight}" text="BET" id="button"
+                onAction="#onBetAction" disable="true"/>
+    </HBox>
 </fx:root>

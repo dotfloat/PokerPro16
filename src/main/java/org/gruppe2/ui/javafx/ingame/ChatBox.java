@@ -163,7 +163,7 @@ public class ChatBox extends VBox {
 
         textNode.setFill(Color.GRAY);
         textNode.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
-        textFlow.maxWidthProperty().bind(prefWidthProperty());
+        textFlow.maxWidthProperty().bind(nameWidth.add(messageWidth));
 
         chatArea.add(textFlow, 0, numLines, 2, 1);
 

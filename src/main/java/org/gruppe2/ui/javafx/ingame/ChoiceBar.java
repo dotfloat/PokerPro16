@@ -8,11 +8,13 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import javafx.scene.layout.StackPane;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -23,7 +25,7 @@ import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.util.UUID;
 
-public class ChoiceBar extends HBox {
+public class ChoiceBar extends StackPane {
 
 
     @Helper
@@ -39,31 +41,22 @@ public class ChoiceBar extends HBox {
     private Label sliderValue;
     @FXML
     private Button btnBet;
+    @FXML
+    private HBox spectatorBar;
+    @FXML
+    private HBox playerBar;
 
     private Query<Action> actionQuery = null;
 
     public ChoiceBar() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
-        setSizes();
         setEvents();
     }
 
     @FXML
-    private void setSizes() {
-        this.spacingProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.02));
-
-        slider.prefWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.2));
-        slider.minWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
-
-        sliderValue.prefWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.09));
-        btnFold.prefWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.09));
-        btnBet.prefWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.09));
-
+    public void onJoinAction(ActionEvent event) {
+        Game.getInstance().join();
     }
 
     @FXML
@@ -145,6 +138,14 @@ public class ChoiceBar extends HBox {
         slider.setMax(player.getBank());
         slider.setMin(0);
         slider.setValue(0);
+    }
+
+    @Handler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (event.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
+            spectatorBar.setVisible(false);
+            playerBar.setVisible(true);
+        }
     }
 
     @Handler

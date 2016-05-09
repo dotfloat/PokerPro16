@@ -116,6 +116,9 @@ public class ThisPlayerInfoBox extends HBox {
 
     @FXML
     public void hover(){
+        if (player == null)
+            return;
+
         Color color = UIResources.getAvatarColor(player.getAvatar());
         setBackground(new Background(new BackgroundFill(color.darker(), new CornerRadii(5), null)));
 

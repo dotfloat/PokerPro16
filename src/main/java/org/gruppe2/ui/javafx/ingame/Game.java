@@ -50,6 +50,10 @@ public class Game {
         this.context = context;
         this.context.getEventQueue().registerHandler(QuitEvent.class, event -> quit());
 
+        startTimer();
+    }
+
+    public void join() {
         if (Main.getProperty("name").isEmpty()) {
             Main.setProperty("name", NewDumbAI.randomName());
         }
@@ -64,8 +68,6 @@ public class Game {
         if ((player = Game.message("addPlayer", Game.getPlayerUUID(), Main.getProperty("name"), Main.getProperty("avatar")).get())) {
             Game.message("addPlayerStatistics", Game.getPlayerUUID(), Main.loadPlayerStatistics());
         }
-
-        startTimer();
     }
 
     public static void autostart() {

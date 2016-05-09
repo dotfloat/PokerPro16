@@ -32,7 +32,7 @@
            fitWidth="${root.width}"
            fitHeight="${root.height - choiceBar.height}"/>
 
-    <ThisPlayerInfoBox fx:id="playerBox"
+    <ThisPlayerInfoBox fx:id="playerBox" visible="false"
                        layoutX="${root.width / 2 - playerBox.width / 2}"
                        layoutY="${root.height - choiceBar.height - playerBox.height}"/>
 

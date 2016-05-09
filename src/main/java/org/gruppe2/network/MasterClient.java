@@ -43,7 +43,7 @@ public class MasterClient {
         sessionTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(() -> THIS.update());
+                Platform.runLater(THIS::update);
             }
         }, 0, 50);
     }

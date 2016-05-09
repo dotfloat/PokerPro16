@@ -113,6 +113,10 @@ public class SessionContext {
         }
     }
 
+    public Thread getThread() {
+        return session.getThread();
+    }
+
     /**
      * Create a brand new context for use in new threads
      *

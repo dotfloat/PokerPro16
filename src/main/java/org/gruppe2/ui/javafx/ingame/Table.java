@@ -43,7 +43,7 @@ public class Table extends Pane {
     private List<PlayerInfoBox> players = new ArrayList<>();
     private Label pot = new Label();
 
-	public Table() {
+    public Table() {
         Game.setAnnotated(this);
 
         fitWidth.addListener((o, oldVal, newVal) -> {
@@ -97,7 +97,7 @@ public class Table extends Pane {
         pot.layoutXProperty().bind(translateX(pot.widthProperty(), 0));
         pot.layoutYProperty().bind(translateY(pot.heightProperty(), 50));
         getChildren().add(pot);
-	}
+    }
 
     @Handler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -193,16 +193,14 @@ public class Table extends Pane {
             players.add(p);
         }
 
-        if (player.isPresent()) {
-            game.getPlayers().forEach(p -> {
-                int pos = getPlayerIndex(p.getTablePosition());
+        game.getPlayers().forEach(p -> {
+            int pos = getPlayerIndex(p.getTablePosition());
 
-                if (pos < 0)
-                    return;
+            if (pos < 0)
+                return;
 
-                players.get(pos).setPlayerUUID(p.getUUID());
-            });
-        }
+            players.get(pos).setPlayerUUID(p.getUUID());
+        });
     }
 
     private DoubleBinding translateX(ReadOnlyDoubleProperty width, double x) {
