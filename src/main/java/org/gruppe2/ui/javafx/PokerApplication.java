@@ -32,6 +32,8 @@ public class PokerApplication extends Application {
     private static PokerApplication application;
 
     private ObjectProperty<Font> font = new SimpleObjectProperty<>();
+    private DoubleProperty widthScale = new SimpleDoubleProperty();
+    private DoubleProperty heightScale = new SimpleDoubleProperty();
     private DoubleProperty scale = new SimpleDoubleProperty();
 
     /**
@@ -81,10 +83,12 @@ public class PokerApplication extends Application {
 
         root.widthProperty().addListener((observable, oldVal, newVal) -> {
             onSizeChange(newVal.doubleValue(), root.getHeight());
+            widthScale.set(newVal.doubleValue() / width);
         });
 
         root.heightProperty().addListener((observable, oldVal, newVal) -> {
             onSizeChange(root.getWidth(), newVal.doubleValue());
+            heightScale.set(newVal.doubleValue() / height);
         });
 
         scale.addListener((o, oldVal, newVal) -> font.setValue(Font.font(newVal.doubleValue() * fontSize)));
@@ -132,5 +136,21 @@ public class PokerApplication extends Application {
         } else {
             scale.set(height / PokerApplication.height);
         }
+    }
+
+    public double getWidthScale() {
+        return widthScale.get();
+    }
+
+    public DoubleProperty widthScaleProperty() {
+        return widthScale;
+    }
+
+    public double getHeightScale() {
+        return heightScale.get();
+    }
+
+    public DoubleProperty heightScaleProperty() {
+        return heightScale;
     }
 }

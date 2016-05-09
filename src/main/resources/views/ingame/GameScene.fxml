@@ -21,8 +21,8 @@
     <ChatBox fx:id="chatBox"
              layoutX="0.0"
              layoutY="${root.height - chatBox.height}"
-             maxWidth="${app.scale * 800}"
-             maxHeight="${app.scale * 600}"/>
+             prefWidth="${app.widthScale * 300}"
+             prefHeight="${app.heightScale * 400}" />
 
     <ChoiceBar fx:id="choiceBar"
                layoutX="${chatBox.width}"

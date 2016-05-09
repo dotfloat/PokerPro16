@@ -4,6 +4,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -46,8 +48,8 @@ public class ChatBox extends VBox {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
 
-        nameWidth.bind(maxWidthProperty().multiply(0.2));
-        messageWidth.bind(maxWidthProperty().subtract(nameWidth));
+        nameWidth.bind(widthProperty().multiply(0.2));
+        messageWidth.bind(widthProperty().subtract(nameWidth));
     }
 
     @FXML
@@ -115,6 +117,8 @@ public class ChatBox extends VBox {
 
         chatArea.add(playerName, 1, numLines);
         chatArea.add(messageFlow, 2, numLines);
+
+        GridPane.setValignment(playerName, VPos.TOP);
 
         numLines++;
 
