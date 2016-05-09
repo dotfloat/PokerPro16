@@ -29,9 +29,19 @@ public class NetworkIO {
     private static final long pingDelay = 10000; // 10 seconds
 
     private static class Ping implements Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3120573551247595944L;
     }
 
     private static class Pong implements Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1140716799816113057L;
     }
 
     private static final String pingStr = "PING";
