@@ -15,14 +15,16 @@ import org.junit.Test;
 public class AITurnSimulatorTest {
 
 	@Test
-	public void test() {
+	public void handStrengthShouldBeOneWhenAlwaysWinningTest() {
 		AITurnSimulator aits = new AITurnSimulator();
 		RoundPlayer rp = new RoundPlayer(null,new Card(14,Suit.CLUBS),new Card(14,Suit.DIAMONDS));
 		ArrayList<Card> communityCards = new ArrayList<Card>();
 		communityCards.add(new Card(14,Suit.HEARTS));
 		communityCards.add(new Card(14,Suit.SPADES));
 		communityCards.add(new Card(7,Suit.DIAMONDS));
+		communityCards.add(new Card(4,Suit.DIAMONDS));
+		communityCards.add(new Card(10,Suit.HEARTS));
 		double winChance = aits.getHandStregth(rp, communityCards, 1000, 4);
-		System.out.println(winChance);
+		assertTrue(winChance==1.0);
 	}
 }

@@ -26,8 +26,8 @@ public class AITurnSimulator {
 		double numberOfWins = 0;
 		Showdown sd = new Showdown();
 		for (int i = 0; i<numberOfRounds;i++){
-		List<Card> communityCopy = new ArrayList<Card>();
-		Collections.copy(communityCards, communityCopy);
+		List<Card> communityCopy = new ArrayList<Card>(communityCards);
+		Collections.copy(communityCopy, communityCards);
 		List<Card> deck = getDeck();
 		deck.removeAll(communityCopy);
 		deck.remove(roundPlayer.getCards()[0]);
