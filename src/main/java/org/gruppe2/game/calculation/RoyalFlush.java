@@ -73,7 +73,7 @@ class RoyalFlush implements HandCalculation {
      */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-        return 1;
+        return 0;
     }
 
 	@Override
