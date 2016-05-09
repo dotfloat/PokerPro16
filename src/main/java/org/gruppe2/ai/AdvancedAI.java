@@ -35,9 +35,6 @@ public class AdvancedAI implements AI {
 
 		rateOfReturn = rateOfReturn + 1;
 		Action action = chooseAction(rateOfReturn, possibleActions, bank, handStrength, gameInfo);
-		System.out.println(action);
-		System.out.println();
-		System.out.println();
 		player.getAction().set(action);
 	}
 
@@ -45,9 +42,7 @@ public class AdvancedAI implements AI {
 			GameInfo gameInfo) {
 		Random r = new Random();
 		int random = r.nextInt(100) + 1;
-		System.out.println(actions.canCheck());
 		if (rateOfReturn < 0.1) {
-			System.out.println(0.1);
 			if (handStrength > 0.2) {
 				if (actions.canRaise()) {
 					return new Action.Raise(gameInfo.getBigBlind());
@@ -65,7 +60,6 @@ public class AdvancedAI implements AI {
 		}
 
 		if (rateOfReturn < 0.6) {
-			System.out.println(0.6);
 			if (actions.canCheck())
 				return new Action.Check();
 			if (random > 95) {
@@ -78,7 +72,6 @@ public class AdvancedAI implements AI {
 
 		}
 		if (rateOfReturn < 1.2) {
-			System.out.println(1.2);
 			if (actions.canCheck()) {
 				return new Action.Check();
 			}
@@ -95,7 +88,6 @@ public class AdvancedAI implements AI {
 
 		}
 		if (rateOfReturn <= 6.0) {
-			System.out.println(6.0);
 			if (random <= 60 && actions.canCall()) {
 				return new Action.Call();
 			} else if (actions.canRaise() && actions.getMaxRaise() > gameInfo.getBigBlind() * 3) {
@@ -106,7 +98,6 @@ public class AdvancedAI implements AI {
 
 		}
 		if (rateOfReturn > 6.0) {
-			System.out.println("high");
 			if (random <= 30) {
 				if (actions.canCall())
 					return new Action.Call();
