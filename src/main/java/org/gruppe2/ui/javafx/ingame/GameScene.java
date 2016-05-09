@@ -26,11 +26,14 @@ public class GameScene extends Pane {
     private Table table;
     @FXML
     private ChoiceBar choiceBar;
+    @FXML
+    private ChatBox chatBox;
 
     public GameScene() {
-
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
+
+        chatBox.toFront();
     }
 
     @Handler

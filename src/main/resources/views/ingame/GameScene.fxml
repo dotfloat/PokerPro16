@@ -2,17 +2,14 @@
 
 
 <?import javafx.scene.layout.Pane?>
-<?import org.gruppe2.ui.javafx.ingame.ChoiceBar?>
-<?import org.gruppe2.ui.javafx.ingame.PlayerCards?>
-<?import org.gruppe2.ui.javafx.ingame.Table?>
-<?import org.gruppe2.ui.javafx.ingame.ChatBox?>
+<?import org.gruppe2.ui.javafx.ingame.*?>
 <?import org.gruppe2.ui.javafx.menu.HelperMenu?>
 <?import org.gruppe2.ui.javafx.menu.RightMenu?>
 <?import org.gruppe2.ui.javafx.PokerApplication?>
-<?import org.gruppe2.ui.javafx.ingame.ThisPlayerInfoBox?>
 <fx:root type="Pane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
     <fx:define>
         <PokerApplication fx:factory="getRoot" fx:id="root"/>
+        <PokerApplication fx:factory="getApplication" fx:id="app"/>
     </fx:define>
 
     <PlayerCards fx:id="playerCards"
@@ -21,13 +18,17 @@
                  layoutX="${root.width - playerCards.width}"
                  layoutY="${root.height - playerCards.height}"/>
 
-    <ChoiceBar fx:id="choiceBar"
-               layoutX="${root.width / 2 - choiceBar.width / 2}"
-               layoutY="${root.height - choiceBar.height}"/>
-
     <ChatBox fx:id="chatBox"
              layoutX="0.0"
-             layoutY="${root.height - choiceBar.height - chatBox.height}"/>
+             layoutY="${root.height - chatBox.height}"
+             prefWidth="${app.widthScale * 300}"
+             prefHeight="${app.heightScale * 400}" />
+
+    <ChoiceBar fx:id="choiceBar"
+               layoutX="${chatBox.width}"
+               layoutY="${root.height - choiceBar.height}"
+               prefWidth="${root.width - chatBox.width}"
+               prefHeight="${app.scale * 24}"/>
 
     <Table fx:id="table"
            layoutX="${root.width / 2.0 - table.width / 2.0}"

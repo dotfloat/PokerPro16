@@ -1,14 +1,18 @@
 package org.gruppe2.ui.javafx.ingame;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Control;
-import javafx.scene.control.Skin;
-import javafx.scene.control.TextArea;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Region;
-
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.event.ChatEvent;
 import org.gruppe2.game.helper.GameHelper;
@@ -18,112 +22,130 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
-public class ChatBox extends TextArea {
+import java.util.Random;
+import java.util.UUID;
 
-	@Helper
-	private GameHelper gameHelper;
-	@Helper
-	private RoundHelper roundHelper;
+public class ChatBox extends VBox {
 
-	public ChatBox() {
-		UIResources.loadFXML(this);
-		Game.setAnnotated(this);
-		setPositionsAndSettings();
-	}
+    @Helper
+    private GameHelper gameHelper;
+    @Helper
+    private RoundHelper roundHelper;
 
-	private void setPositionsAndSettings() {
-		double chatScale = 0.22;
-		this.prefWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(chatScale));
-		this.prefHeightProperty()
-				.bind(PokerApplication.getRoot().heightProperty()
-						.multiply(chatScale));
-		this.maxWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(chatScale));
-		this.maxHeightProperty()
-				.bind(PokerApplication.getRoot().heightProperty()
-						.multiply(chatScale));
+    @FXML
+    private GridPane chatArea;
+    @FXML
+    private TextField chatField;
+    @FXML
+    private ScrollPane scrollPane;
 
-		editableProperty().setValue(false);
-		setWrapText(true);
-	}
+    private DoubleProperty nameWidth = new SimpleDoubleProperty();
+    private DoubleProperty messageWidth = new SimpleDoubleProperty();
 
-	public void setEventListeners(TextField textField) {
-		textField.setOnAction(e -> { // Put text from textField to textArea
-					if (textField.getText().equals(null)
-							|| textField.getText().equals(""))
-						setScrollTop(Double.MAX_VALUE);
+    private int numLines = 1;
 
-					else if (checkForCommands(textField.getText()))
-						;
+    public ChatBox() {
+        UIResources.loadFXML(this);
+        Game.setAnnotated(this);
 
-					else {
-						System.out.println("heo");
-						Game.message("chat", textField.getText());
-					}
-					textField.setText("");
-				});
-		makeTransparent();
-	}
+        nameWidth.bind(widthProperty().multiply(0.2));
+        messageWidth.bind(widthProperty().subtract(nameWidth));
+    }
 
-	private void makeTransparent() {
-		this.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+    @FXML
+    public void onChatAction(ActionEvent event) {
+        Game.message("chat", chatField.getText(), Game.getPlayerUUID());
+        chatField.setText("");
+    }
 
-			@Override
-			public void changed(ObservableValue<? extends Skin<?>> ov,
-					Skin<?> t, Skin<?> t1) {
-				if (t1 != null && t1.getNode() instanceof Region) {
-					Region r = (Region) t1.getNode();
-					r.setBackground(Background.EMPTY);
+    private boolean checkForCommands(String text) {
+        String command = text.toLowerCase();
 
-					r.getChildrenUnmodifiable().stream()
-							.filter(n -> n instanceof Region)
-							.map(n -> (Region) n)
-							.forEach(n -> n.setBackground(Background.EMPTY));
+        switch (command) {
+            case "/besthand":
+                // throw new NotImplementedException();
+                System.out.println("Not implemented yet");
+                // String answer =
+                // GeneralCalculations.getBestHandForPlayer(((GameScene)this.getParent().getParent()).communityCardsBox.getCommunityCards(),
+                // player).toString();
+                // this.setText(this.getText() + "\n" + player +
+                // "s possible best hand is: " + answer);S
+            case "/log":
+                addLine(command + "is epic");
+                // Print logs--->
+                return true;
+            case "/fuck off":
+                addLine(command + "is epic");
+                // Print playFuckOfClip--->
+                return true;
+            case "/raiding party":
+                addLine(command + "is epic");
+                // Print raidingPartyClip--->
+                return true;
+            default:
+                return false;
+        }
+    }
 
-					r.getChildrenUnmodifiable().stream()
-							.filter(n -> n instanceof Control)
-							.map(n -> (Control) n)
-							.forEach(c -> c.skinProperty().addListener(this)); // *
-				}
-			}
-		});
+    @Handler
+    public void chatHandler(ChatEvent chatEvent) {
+        if (chatEvent.getMessage().isEmpty())
+            return;
 
-	}
+        if (chatEvent.getMessage().charAt(0) == '/') {
+            checkForCommands(chatEvent.getMessage());
+            return;
+        }
 
-	private boolean checkForCommands(String text) {
-		String command = text.toLowerCase();
+        Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID()).get();
 
-		switch (command) {
-		case "/besthand":
-			// throw new NotImplementedException();
-			System.out.println("Not implemented yet");
-			// String answer =
-			// GeneralCalculations.getBestHandForPlayer(((GameScene)this.getParent().getParent()).communityCardsBox.getCommunityCards(),
-			// player).toString();
-			// this.setText(this.getText() + "\n" + player +
-			// "s possible best hand is: " + answer);S
-		case "/log":
-			this.setText(this.getText() + "\n: " + command + "is epic");
-			// Print logs--->
-			return true;
-		case "/fuck off":
-			this.setText(this.getText() + "\n: " + command + "is epic");
-			// Print playFuckOfClip--->
-			return true;
-		case "/raiding party":
-			this.setText(this.getText() + "\n: " + command + "is epic");
-			// Print raidingPartyClip--->
-			return true;
-		default:
-			return false;
-		}
-	}
+        addPlayerMessage(chatEvent.getPlayerUUID(), player.getName(), chatEvent.getMessage());
+    }
 
-	@Handler
-	public void chatHandler(ChatEvent chatEvent) {
-		Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID()).get();
-		if (!checkForCommands(chatEvent.getMessage()))
-			this.appendText("\n" + player.getName() + ": " + chatEvent.getMessage());
-	}
+    private void addPlayerMessage(UUID playerUUID, String name, String message) {
+        Text playerName = new Text(name);
+        Text messageNode = new Text(message);
+
+        playerName.setFill(getPlayerColor(playerUUID));
+        messageNode.setFill(Color.WHITE);
+
+        playerName.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+        messageNode.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+
+        TextFlow messageFlow = new TextFlow(messageNode);
+        messageFlow.maxWidthProperty().bind(messageWidth);
+
+        chatArea.add(playerName, 1, numLines);
+        chatArea.add(messageFlow, 2, numLines);
+
+        GridPane.setValignment(playerName, VPos.TOP);
+
+        numLines++;
+
+        scrollPane.setVvalue(1.0);
+    }
+
+    private void addLine(String text) {
+        Text textNode = new Text(text);
+        TextFlow textFlow = new TextFlow(textNode);
+
+        textNode.setFill(Color.WHITE);
+        textNode.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+
+        chatArea.add(textFlow, 1, numLines, 2, 1);
+
+        numLines++;
+
+        scrollPane.setVvalue(1.0);
+    }
+
+    private Color getPlayerColor(UUID uuid) {
+        Random random = new Random(uuid.getLeastSignificantBits() - uuid.getMostSignificantBits());
+
+        int r = random.nextInt(255);
+        int g = random.nextInt(255);
+        int b = (int) Math.sqrt(r * g);
+
+        return Color.rgb(r, g, b);
+    }
 }
