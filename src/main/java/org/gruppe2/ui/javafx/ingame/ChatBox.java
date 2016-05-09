@@ -14,9 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.gruppe2.game.Player;
-import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.PlayerWonEvent;
-import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -55,7 +53,7 @@ public class ChatBox extends VBox {
         Game.setAnnotated(this);
 
         nameWidth.bind(widthProperty().multiply(0.2));
-        messageWidth.bind(widthProperty().subtract(nameWidth));
+        messageWidth.bind(widthProperty().subtract(nameWidth.multiply(1.2)));
 
         chatField.focusedProperty().addListener((o, oldVal, hasFocus) -> {
             if (hasFocus) {
@@ -123,6 +121,16 @@ public class ChatBox extends VBox {
     @Handler
     public void onRoundStart(RoundStartEvent event) {
         addLine("A new round has started");
+    }
+
+    @Handler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        addLine(String.format("%s has joined the game", event.getPlayer().getName()));
+    }
+
+    @Handler
+    public void onPlayerLeave(PlayerLeaveEvent event) {
+        addLine(String.format("%s has left the game", event.getPlayer().getName()));
     }
 
     @Handler
