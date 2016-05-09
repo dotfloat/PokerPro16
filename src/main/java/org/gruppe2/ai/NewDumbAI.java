@@ -1,10 +1,10 @@
 package org.gruppe2.ai;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.gruppe2.game.*;
+import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 
 public class NewDumbAI implements AI {
@@ -17,7 +17,7 @@ public class NewDumbAI implements AI {
     private static final Random rand = new Random();
 
     @Override
-    public void doAction(Player model, RoundPlayer roundPlayer, RoundHelper roundHelper) {
+    public void doAction(Player model, RoundPlayer roundPlayer, RoundHelper roundHelper, GameHelper gameHelper) {
         if (!model.isBot())
             return;
 
