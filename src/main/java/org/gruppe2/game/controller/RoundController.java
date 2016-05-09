@@ -25,6 +25,7 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
+import org.gruppe2.game.session.TimerTask;
 
 public class RoundController extends AbstractController {
     @Helper
@@ -40,6 +41,7 @@ public class RoundController extends AbstractController {
     private Stack<Card> deck = new Stack<>();
     private PokerLog logger = null;
     private ArrayList<UUID> raiseStory = new ArrayList<>();
+    private TimerTask autoFold = null;
 
     @Override
     public void update() {
@@ -77,15 +79,21 @@ public class RoundController extends AbstractController {
 
                 addEvent(new PlayerPreActionEvent(player));
 
-                if (player.getBank() > 0)
+                if (player.getBank() > 0) {
                     addEvent(new PlayerActionQuery(player, roundPlayer));
-                else if (player.getBank() == 0)
+                    autoFold = setTask(30000, () -> player.getAction().set(new Action.Fold()));
+                } else if (player.getBank() == 0)
                     player.getAction().set(new Action.Pass());
                 else
                     throw new IllegalStateException("Player: " + player.getName() + " has less than 0 chips");
             }
 
             if (player.getAction().isDone()) {
+                if (autoFold != null) {
+                    cancelTask(autoFold);
+                    autoFold = null;
+                }
+
                 if (!(player.getAction().get() instanceof Action.Pass))
                     handleAction(player, roundPlayer, player.getAction().get());
 
