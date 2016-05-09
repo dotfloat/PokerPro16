@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -12,6 +13,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import org.gruppe2.ui.UIResources;
+import org.gruppe2.ui.javafx.PokerApplication;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +24,8 @@ import java.util.Random;
  * Created by Åsmund on 28/04/2016.
  */
 public class Credits extends StackPane{
-    public static ArrayList<Node> nodes;
-    public static SequentialTransition sequence;
+    private static ArrayList<Node> nodes;
+    private static SequentialTransition sequence;
 
     public Credits(){
         nodes  = new ArrayList<Node>();
@@ -61,14 +63,19 @@ public class Credits extends StackPane{
 
     private void addObjectsToCreditSequence(SequentialTransition sequence, ArrayList<Node> nodes){
         for(Node node: nodes){
+
             addObject(sequence, node);
         }
     }
 
     private void addObject(SequentialTransition sequence, Node node){
 
-        Path path = new Path(new MoveTo(-2000, 0), new LineTo(30, 0));
-        Path path1 = new Path(new MoveTo(30, 0), new LineTo(2000, 0));
+        Label label = (Label) node;
+        int labelLengthModifier = label.getText().length()*5;
+
+
+        Path path = new Path(new MoveTo(-2000, 0), new LineTo(labelLengthModifier, 0));
+        Path path1 = new Path(new MoveTo(labelLengthModifier, 0), new LineTo(2000, 0));
 
         PathTransition transition = createPathTransition(path, node);
         PathTransition transition1 = createPathTransition(path1, node);
