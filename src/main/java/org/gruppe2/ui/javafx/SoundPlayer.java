@@ -11,6 +11,7 @@ public class SoundPlayer {
 
 	private static final Duration FADE_DURATION = Duration.seconds(2.0);
 	private static MediaPlayer introMediaPlayer;
+	private static MediaPlayer countDownMediaPlayer;
 	
 	public static void playIntroMusic() {
 		introMediaPlayer = playSound(SoundPlayer.class.getResource("/sound/jazzy_intro.mp3")
@@ -23,12 +24,13 @@ public class SoundPlayer {
 	}
 
 	public static void playCountDownTimer() {
-		MediaPlayer mediaPlayer = playSound(SoundPlayer.class.getResource(
+		countDownMediaPlayer = playSound(SoundPlayer.class.getResource(
 				"/sound/countdown.mp3").toExternalForm());
-		if (mediaPlayer != null) {
-			fadeOutOnEnd(mediaPlayer, 10);
+		if (countDownMediaPlayer != null) {
+			fadeOutOnEnd(countDownMediaPlayer, 10);
 		}
 	}
+	
 
 	public static void playYes() {
 		playSound(SoundPlayer.class.getResource("/sound/yes.mp3")

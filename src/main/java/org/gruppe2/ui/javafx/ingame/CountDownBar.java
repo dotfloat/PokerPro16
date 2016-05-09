@@ -1,5 +1,7 @@
 package org.gruppe2.ui.javafx.ingame;
 
+import org.gruppe2.ui.javafx.SoundPlayer;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.ProgressBar;
@@ -12,6 +14,7 @@ public class CountDownBar extends HBox {
     Timeline timeline;
     Timeline progressBarTimeLine;
     double progressDivisor = 30;
+	private boolean countDownSoundStarted = false;
 
     public CountDownBar(){
     	setUpProgressBar();
@@ -40,10 +43,16 @@ public class CountDownBar extends HBox {
    
    public void updateProgressBar(){
    	double progress = progressBar.getProgress();
+   	if(progress > 0.66 && !countDownSoundStarted){
+   		countDownSoundStarted = true;
+   		SoundPlayer.playCountDownTimer();
+   	}
    	progressBar.setProgress(progress+(1/progressDivisor));
    }
    
    public void stopProgressBar(){
+	progressBar.setProgress(0);
+	countDownSoundStarted = false;
    	progressBar.setVisible(false);
    	timeline.stop();
    	progressBarTimeLine.stop();
