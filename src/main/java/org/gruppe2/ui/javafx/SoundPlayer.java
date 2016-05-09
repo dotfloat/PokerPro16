@@ -23,7 +23,7 @@ public class SoundPlayer {
 				.toExternalForm());
 	}
 
-	public static void playCountDownTimer() {
+	public static void playCountDownTimerMusic() {
 		countDownMediaPlayer = playSound(SoundPlayer.class.getResource(
 				"/sound/countdown.mp3").toExternalForm());
 		if (countDownMediaPlayer != null) {
@@ -66,6 +66,10 @@ public class SoundPlayer {
 	public static void stopIntroMusic(){
 		if(introMediaPlayer != null)
 			fadeOutOnEnd(introMediaPlayer,2);
+	}
+	public static void stopCountDownTimerMusic(){
+		if(countDownMediaPlayer != null)
+			countDownMediaPlayer.stop();
 	}
 	
 

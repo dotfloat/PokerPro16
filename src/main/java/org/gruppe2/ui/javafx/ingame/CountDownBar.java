@@ -46,12 +46,13 @@ public class CountDownBar extends HBox {
    	if(progress > 0.66 && !countDownSoundStarted){
    		progressBar.setVisible(true);
    		countDownSoundStarted = true;
-   		SoundPlayer.playCountDownTimer();
+   		SoundPlayer.playCountDownTimerMusic();
    	}
    	progressBar.setProgress(progress+(1/progressDivisor));
    }
    
    public void stopProgressBar(){
+	SoundPlayer.stopCountDownTimerMusic();
 	progressBar.setProgress(0);
 	countDownSoundStarted = false;
    	progressBar.setVisible(false);
