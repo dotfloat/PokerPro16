@@ -21,6 +21,8 @@ public class UIResources {
     private static Map<String, Color> avatarColors = null;
     private static Image defaultAvatar = null;
 
+    private static Map<String, Image> emotes = null;
+
     /**
      * Get the
      *
@@ -117,6 +119,42 @@ public class UIResources {
 
                 cards.add(new Image(UIResources.class.getResourceAsStream(path)));
             }
+        }
+    }
+
+    public static String[] listEmotes() {
+        loadEmotes();
+
+        return emotes.keySet().toArray(new String[emotes.size()]);
+    }
+
+    public static Image getEmote(String emote) {
+        loadEmotes();
+
+        return emotes.get(emote);
+    }
+
+    private static void loadEmotes() {
+        if (emotes != null)
+            return;
+
+        try {
+            String dir = "/images/emotes/";
+
+            emotes = new HashMap<>();
+
+            Properties emoteMap = new Properties();
+            emoteMap.load(UIResources.class.getResourceAsStream("/images/emotes/emotes.properties"));
+
+            for (Map.Entry<Object, Object> entry : emoteMap.entrySet()) {
+                String key = (String) entry.getKey();
+                String value = (String) entry.getValue();
+                String path = dir + value;
+
+                emotes.put(key, new Image(UIResources.class.getResourceAsStream(path)));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
