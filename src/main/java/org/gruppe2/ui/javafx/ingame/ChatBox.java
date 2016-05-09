@@ -85,12 +85,10 @@ public class ChatBox extends VBox {
 
     @FXML
     public void onChatAction(ActionEvent event) {
-        if (!gameHelper.findPlayerByUUID(Game.getPlayerUUID()).isPresent()) {
-            chatField.setText("");
-            return;
+        if (gameHelper.findPlayerByUUID(Game.getPlayerUUID()).isPresent() && !checkForCommands(chatField.getText())) {
+            Game.message("chat", chatField.getText(), Game.getPlayerUUID());
         }
 
-        Game.message("chat", chatField.getText(), Game.getPlayerUUID());
         chatField.setText("");
     }
 
@@ -116,7 +114,7 @@ public class ChatBox extends VBox {
                 // Print logs--->
                 return true;
             case "/sounds":
-            	
+            	addLine("Possible sounds:\nyes\nno\nraiding party\nfuck off");
             	return true;
             default:
                 return false;

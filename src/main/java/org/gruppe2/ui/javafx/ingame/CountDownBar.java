@@ -1,12 +1,13 @@
 package org.gruppe2.ui.javafx.ingame;
 
-import org.gruppe2.ui.javafx.SoundPlayer;
-
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+
+import org.gruppe2.ui.javafx.SoundPlayer;
 
 public class CountDownBar extends HBox {
 	
@@ -54,7 +55,9 @@ public class CountDownBar extends HBox {
 	progressBar.setProgress(0);
 	countDownSoundStarted = false;
    	progressBar.setVisible(false);
-   	timeline.stop();
-   	progressBarTimeLine.stop();
+   	if(timeline.getStatus().equals(Status.RUNNING))
+   		timeline.stop();
+   	if(progressBarTimeLine.getStatus().equals(Status.RUNNING))
+   		progressBarTimeLine.stop();
    }
 }
