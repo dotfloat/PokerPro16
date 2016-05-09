@@ -27,4 +27,15 @@ public class AITurnSimulatorTest {
 		double winChance = aits.getHandStregth(rp, communityCards, 1000, 4);
 		assertTrue(winChance==1.0);
 	}
+	
+	@Test
+	public void higherChanceOfWinningWithLessPlayersTest(){
+		AITurnSimulator aits = new AITurnSimulator();
+		RoundPlayer rp = new RoundPlayer(null,new Card(5,Suit.CLUBS),new Card(5,Suit.DIAMONDS));
+		ArrayList<Card> communityCards = new ArrayList<Card>();
+		double winChanceWithTwoPlayers = aits.getHandStregth(rp,communityCards, 1000, 1);
+		double winChanceWithEightPlayers = aits.getHandStregth(rp,communityCards, 1000, 7);
+		System.out.println(winChanceWithEightPlayers +">"+winChanceWithTwoPlayers);
+		assertTrue(winChanceWithTwoPlayers>winChanceWithEightPlayers);
+	}
 }

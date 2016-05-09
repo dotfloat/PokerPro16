@@ -16,7 +16,7 @@ public class AdvancedAI implements AI {
         this.cards = Arrays.asList(roundPlayer.getCards());
         this.communityCards = roundHelper.getCommunityCards();
         this.possibleActions = roundHelper.getPlayerOptions(player.getUUID());
-
+        
         //Now we just fold
         player.getAction().set(new Action.Fold());
     }
