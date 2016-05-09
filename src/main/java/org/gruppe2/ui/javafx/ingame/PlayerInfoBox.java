@@ -4,20 +4,24 @@ package org.gruppe2.ui.javafx.ingame;
 import java.util.Optional;
 import java.util.UUID;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
+
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
@@ -36,7 +40,10 @@ public class PlayerInfoBox extends BorderPane {
     private UUID playerUUID = null;
 
     Player player;
-
+    HBox hb = new HBox();
+    ProgressBar progressBar = new ProgressBar(0);
+    Timeline timeline;
+    Timeline progressBarTimeLine;
     private ObjectProperty<Font> font = new SimpleObjectProperty<>();
 
     @Helper
@@ -61,6 +68,8 @@ public class PlayerInfoBox extends BorderPane {
     PlayerInfoBox() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
+        setUpProgressBar();
+        
     }
 
     public void setPlayerUUID(UUID uuid) {
@@ -90,6 +99,36 @@ public class PlayerInfoBox extends BorderPane {
         if (roundPlayer.isPresent()) {
             bet.setText(String.valueOf(roundPlayer.get().getBet()));
         }
+        
+        
+    }
+    private void setUpProgressBar(){
+    	 progressBar.setProgress(0);
+         progressBar.setVisible(false);
+         hb.getChildren().add(progressBar);
+         this.setBottom(hb);
+    }
+    private void startProgressBarTimer(){
+    	progressBar.setVisible(true);
+    	timeline = new Timeline(new KeyFrame(
+    	        Duration.seconds(30),
+    	        ae -> System.out.println("fold now! bitch!")));
+    	timeline.play();
+    	
+    	progressBarTimeLine = new Timeline(new KeyFrame(
+    	        Duration.seconds(1),
+    	        ae -> updateProgressBar()));
+    	progressBarTimeLine.setCycleCount(30);
+    	progressBarTimeLine.play();
+    }
+    private void updateProgressBar(){
+    	double progress = progressBar.getProgress();
+    	progressBar.setProgress(progress+(1/30));
+    }
+    private void stopProgressBar(){
+    	progressBar.setVisible(false);
+    	timeline.stop();
+    	progressBarTimeLine.stop();
     }
 
     private void setActive(boolean active) {
@@ -128,6 +167,7 @@ public class PlayerInfoBox extends BorderPane {
     @Handler
     public void onPreAction(PlayerPreActionEvent event) {
         if (event.getPlayer().getUUID().equals(playerUUID)) {
+        	startProgressBarTimer();
             fold.setVisible(false);
             lastAction.setVisible(false);
             isActive = true;
@@ -142,7 +182,7 @@ public class PlayerInfoBox extends BorderPane {
     public void onPostAction(PlayerPostActionEvent event) {
         if (!event.getPlayer().getUUID().equals(playerUUID))
             return;
-
+        stopProgressBar();
         bank.setText(String.valueOf(event.getPlayer().getBank()));
         bet.setText(String.valueOf(event.getRoundPlayer().getBet()));
 

@@ -71,10 +71,11 @@ public class ChoiceBar extends HBox {
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderValue.textProperty().setValue(checkMaxBid(slider));
         });
+        
     }
 
     @FXML
-    private void onFoldAction() {
+    public void onFoldAction() {
         if (actionQuery != null) {
             actionQuery.set(new Action.Fold());
             actionQuery = null;
@@ -82,7 +83,7 @@ public class ChoiceBar extends HBox {
     }
 
     @FXML
-    private void onBetAction() {
+    public void onBetAction() {
         if (actionQuery != null) {
             UUID uuid = Game.getPlayerUUID();
             Player player = gameHelper.findPlayerByUUID(uuid).get();
@@ -108,6 +109,12 @@ public class ChoiceBar extends HBox {
             actionQuery = null;
         }
 
+    }
+    public void increaseSlider(){
+    	 slider.setValue(slider.getValue()*2);
+    }
+    public void decreaseSlider(){
+    	slider.setValue(slider.getValue()/2);
     }
 
     /**
