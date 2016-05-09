@@ -25,7 +25,7 @@ public class GameHelper {
     }
 
     public boolean canStart() {
-        return model.getPlayers().size() > model.getMinPlayers();
+        return model.getPlayers().size() >= model.getMinPlayers();
     }
 
     public List<Player> getPlayers() {
