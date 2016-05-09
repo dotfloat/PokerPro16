@@ -6,8 +6,11 @@
 package org.gruppe2.ui.javafx;
 
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
@@ -21,11 +24,15 @@ import org.gruppe2.ui.javafx.ingame.GameScene;
 import org.gruppe2.ui.javafx.menu.Intro;
 
 public class PokerApplication extends Application {
-    private final static int width = 1280;
-    private final static int height = 768;
+    private final static double width = 1280;
+    private final static double height = 768;
+    private final static double fontSize = 14.0;
     private static StackPane root = new StackPane(); // Setting global root. Will only change scenes.
 
-    private static ObjectProperty<Font> font ;
+    private static PokerApplication application;
+
+    private ObjectProperty<Font> font = new SimpleObjectProperty<>();
+    private DoubleProperty scale = new SimpleDoubleProperty();
 
     /**
      * Controllers will need to get current root to change scenes
@@ -36,24 +43,51 @@ public class PokerApplication extends Application {
         return root;
     }
 
-    public static Font getFont() {
+    public double getScale() {
+        return scale.get();
+    }
+
+    public DoubleProperty scaleProperty() {
+        return scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale.set(scale);
+    }
+
+    public Font getFont() {
         return font.get();
     }
 
-    public static ObjectProperty<Font> fontProperty() {
+    public ObjectProperty<Font> fontProperty() {
         return font;
     }
 
-    public static void setFont(Font font) {
-        PokerApplication.font.set(font);
+    public void setFont(Font font) {
+        this.font.set(font);
     }
 
-    public static int getHeight() {
+    public static double getHeight() {
         return height;
+    }
+
+    public static PokerApplication getApplication() {
+        return application;
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        application = this;
+
+        root.widthProperty().addListener((observable, oldVal, newVal) -> {
+            onSizeChange(newVal.doubleValue(), root.getHeight());
+        });
+
+        root.heightProperty().addListener((observable, oldVal, newVal) -> {
+            onSizeChange(root.getWidth(), newVal.doubleValue());
+        });
+
+        scale.addListener((o, oldVal, newVal) -> font.setValue(Font.font(newVal.doubleValue() * fontSize)));
 
         startValues(stage);
         setStartScene(stage);
@@ -88,5 +122,15 @@ public class PokerApplication extends Application {
 
     public static void launch(String []args) {
         Application.launch(PokerApplication.class, args);
+    }
+
+    private void onSizeChange(double width, double height) {
+        double ratio = (double) PokerApplication.width / PokerApplication.height;
+
+        if (width / ratio < height) {
+            scale.set(width / PokerApplication.width);
+        } else {
+            scale.set(height / PokerApplication.height);
+        }
     }
 }
