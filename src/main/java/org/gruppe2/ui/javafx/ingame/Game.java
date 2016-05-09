@@ -69,7 +69,7 @@ public class Game {
     }
 
     public static void autostart() {
-        instance.setContext(new GameBuilder().start());
+        instance.setContext(new GameBuilder().waitTime(100).start());
     }
 
     public static Query<Boolean> message(String name, Object... args) {
