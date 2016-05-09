@@ -104,7 +104,7 @@ public class PlayerInfoBox extends BorderPane {
 
     @FXML
     public void noHover(){
-        setActive(false);
+        setActive(isPlayerActive());
     }
 
 
