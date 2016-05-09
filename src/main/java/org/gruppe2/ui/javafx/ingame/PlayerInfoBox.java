@@ -77,6 +77,7 @@ public class PlayerInfoBox extends BorderPane {
 
         if (!player.isPresent())
             return;
+        else this.player = player.get();
 
         name.setText(player.get().getName());
         bank.setText(String.valueOf(player.get().getBank()));
@@ -96,9 +97,8 @@ public class PlayerInfoBox extends BorderPane {
 
     @FXML
     public void hover(){
-        PixelReader pixelReader = avatar.getImage().getPixelReader();
-        Color color = pixelReader.getColor(2,2).darker();
-        setBackground(new Background(new BackgroundFill(color, new CornerRadii(5), null)));
+        Color color = UIResources.getAvatarColor(player.getAvatar());
+        setBackground(new Background(new BackgroundFill(color.darker(), new CornerRadii(5), null)));
 
     }
 

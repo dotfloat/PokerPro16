@@ -31,14 +31,15 @@ public class CommunityCards extends HBox {
         super(5);
         Game.setAnnotated(this);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             ImageView imageView = new ImageView(UIResources.getCardBack());
 
             imageView.setPreserveRatio(true);
             imageView.fitWidthProperty().bind(maxWidthProperty().divide(5));
             imageView.fitHeightProperty().bind(maxHeightProperty());
             imageView.setSmooth(true);
-            imageView.setVisible(false);
+            if (i==0) imageView.setVisible(true);
+            else imageView.setVisible(false);
 
             imageViews.add(imageView);
             getChildren().add(imageView);
@@ -60,19 +61,21 @@ public class CommunityCards extends HBox {
         /*for (int i = 0; i < event.getCards().size(); i++) {
             imageViews.get(i).setImage(UIResources.getCard(event.getCards().get(i)));
         }*/
-        communityCardsFlip(event.getCards());
+        List<Card> cards = new ArrayList<>(event.getCards());
+        cards.remove(0);
+        communityCardsFlip(cards);
     }
 
     @Handler
     public void onRoundEnd(RoundEndEvent event) {
         resetImages();
-        setVisible(true);
     }
 
     private void resetImages() {
-        for (ImageView imageView : imageViews){
-            imageView.setImage(UIResources.getCardBack());
-            imageView.setVisible(false);
+        for (int i=0;i<imageViews.size();i++){
+            if (i==0) continue;
+            imageViews.get(i).setImage(UIResources.getCardBack());
+            imageViews.get(i).setVisible(false);
         }
     }
 
@@ -82,21 +85,21 @@ public class CommunityCards extends HBox {
         if (cards.size() == 3){
             SequentialTransition sequentialTransition = new SequentialTransition();
             for (int i=0;i<3;i++){
-                sequentialTransition.getChildren().add(flipCommunityCards(getChildren().get(i), cards.get(i)));
+                sequentialTransition.getChildren().add(flipCommunityCards(getChildren().get(i+1), cards.get(i)));
             }
             sequentialTransition.play();
             sequentialTransition.setOnFinished(clearNodes -> {
                 sequentialTransition.getChildren().removeAll(sequentialTransition.getChildren());
             });
         }else if (cards.size() == 4){
-            SequentialTransition sequentialTransition = new SequentialTransition(flipCommunityCards(getChildren().get(3), cards.get(3)));
+            SequentialTransition sequentialTransition = new SequentialTransition(flipCommunityCards(getChildren().get(4), cards.get(3)));
             sequentialTransition.play();
             sequentialTransition.setOnFinished(clearNodes -> {
                 sequentialTransition.getChildren().removeAll(sequentialTransition.getChildren());
             });
 
         }else if (cards.size() == 5){
-            SequentialTransition sequentialTransition = new SequentialTransition(flipCommunityCards(getChildren().get(4), cards.get(4)));
+            SequentialTransition sequentialTransition = new SequentialTransition(flipCommunityCards(getChildren().get(5), cards.get(4)));
             sequentialTransition.play();
             sequentialTransition.setOnFinished(clearNodes -> {
                 sequentialTransition.getChildren().removeAll(sequentialTransition.getChildren());
@@ -107,11 +110,11 @@ public class CommunityCards extends HBox {
 
     private SequentialTransition flipCommunityCards(Node node, ImageView imageView) {
         ImageView initial = (ImageView) node;
-        PauseTransition pauseTransition = new PauseTransition(Duration.millis(300));
+        PauseTransition pauseTransition = new PauseTransition(Duration.millis(200));
         pauseTransition.setOnFinished(setVisible -> {
             initial.setVisible(true);
         });
-        RotateTransition rotateTransition = new RotateTransition(Duration.millis(250), initial);
+        RotateTransition rotateTransition = new RotateTransition(Duration.millis(200), initial);
         rotateTransition.setAxis(Rotate.Y_AXIS);
         rotateTransition.setFromAngle(0);
         rotateTransition.setToAngle(90);
@@ -119,7 +122,7 @@ public class CommunityCards extends HBox {
             initial.imageProperty().setValue(imageView.getImage());
         });
 
-        RotateTransition rotateTransition2 = new RotateTransition(Duration.millis(250), initial);
+        RotateTransition rotateTransition2 = new RotateTransition(Duration.millis(200), initial);
         rotateTransition2.setAxis(Rotate.Y_AXIS);
         rotateTransition2.setFromAngle(90);
         rotateTransition2.setToAngle(0);

@@ -24,7 +24,7 @@ public class HelperMenu extends VBox {
         UIResources.loadFXML(this);
         setSizes();
         innerBox.setLayoutX(-innerBox.getWidth());
-//        addAllHands();
+        addAllHands();
     }
 
     //Create all hands possible

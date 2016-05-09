@@ -81,7 +81,7 @@ public class UIResources {
                 avatars.put(name, image);
 
                 PixelReader pixelReader = image.getPixelReader();
-                Color color = pixelReader.getColor(2,2).darker();
+                Color color = pixelReader.getColor(2,2);
                 avatarColors.put(name, color);
             }
         } catch (NullPointerException e) {

@@ -40,7 +40,8 @@
                        layoutX="${root.width / 2 - playerBox.width / 2}"
                        layoutY="${root.height - choiceBar.height - playerBox.height}"/>
 
-    <HelperMenu/>
+    <HelperMenu
+                prefWidth="${root.width * 0.2}"/>
 
     <RightMenu fx:id="rightMenu"
                layoutX="${root.width - rightMenu.width}"
