@@ -121,7 +121,7 @@ public class ChoiceBar extends HBox {
 
         if (slider.getValue() == slider.getMax())
             btnBet.setText("ALL IN");
-        else if (slider.getValue() > 0)
+        else if (slider.getValue() > pa.getCallAmount())
             btnBet.setText("RAISE");
         else if (pa.canCall())
             btnBet.setText("Call");
@@ -132,8 +132,6 @@ public class ChoiceBar extends HBox {
 
     /**
      * Removes eventpossibilities
-     *
-     * @param player
      */
     private void updatePossibleBarsToClick() {
         Player player = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get();
@@ -157,10 +155,9 @@ public class ChoiceBar extends HBox {
             slider.setDisable(false);
             sliderValue.setDisable(false);
 
-            int diffBet = roundHelper.getHighestBet() - query.getRoundPlayer().getBet();
-
-            slider.setMin(diffBet);
-            slider.setMax(actions.getMaxRaise() + diffBet);
+            slider.setMin(actions.getCallAmount());
+            slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
+            slider.setValue(actions.getCallAmount());
 
             actionQuery = query.getPlayer().getAction();
         }
