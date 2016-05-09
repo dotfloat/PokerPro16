@@ -56,6 +56,9 @@ public class MasterClient {
 
             channel.configureBlocking(false);
 
+            connection.setInputFormat(NetworkIO.Format.STRING);
+            connection.setOutputFormat(NetworkIO.Format.STRING);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

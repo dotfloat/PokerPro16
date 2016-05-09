@@ -129,7 +129,10 @@ public class NetworkServerController extends AbstractController {
 					setPlayerActionFromMessage(uuid, args);
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				if (clients.get(i).getPlayerUUID() != null) {
+					getContext().message("kickPlayer", clients.get(i).getPlayerUUID());
+				}
+
 				clients.remove(i--);
 			}
 		}
@@ -175,6 +178,10 @@ public class NetworkServerController extends AbstractController {
 		clients.add(new ConnectedClient(connection));
 
 		try {
+			connection.setInputFormat(NetworkIO.Format.STRING);
+			connection.setOutputFormat(NetworkIO.Format.OBJECT);
+			connection.setPing(true);
+
 			connection.sendObject(gameHelper.getModel());
 			connection.sendObject(roundHelper.getModel());
 		} catch (IOException e) {
@@ -187,9 +194,9 @@ public class NetworkServerController extends AbstractController {
 			try {
 				clients.get(i).getConnection().sendObject(object);
 			} catch (IOException e) {
-				e.printStackTrace();
-				getContext().message("kickPlayer",
-						clients.get(i).getPlayerUUID());
+				if (clients.get(i).getPlayerUUID() != null) {
+					getContext().message("kickPlayer", clients.get(i).getPlayerUUID());
+				}
 				clients.remove(i--);
 			}
 		}
