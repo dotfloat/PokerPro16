@@ -32,8 +32,6 @@ public class ChoiceBar extends HBox {
     private RoundHelper roundHelper;
 
     @FXML
-    private TextField chatField;
-    @FXML
     private Button btnFold;
     @FXML
     private Slider slider;
@@ -58,14 +56,9 @@ public class ChoiceBar extends HBox {
         slider.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.2));
         slider.minWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
-        chatField.minWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.21));
-        chatField.prefWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.22));
 
         sliderValue.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
-        chatField.prefWidthProperty().bind(
-                PokerApplication.getRoot().widthProperty().multiply(0.10));
         btnFold.prefWidthProperty().bind(
                 PokerApplication.getRoot().widthProperty().multiply(0.09));
         btnBet.prefWidthProperty().bind(
@@ -77,33 +70,6 @@ public class ChoiceBar extends HBox {
     public void setEvents() {
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sliderValue.textProperty().setValue(checkMaxBid(slider));
-        });
-        setKeyListener();
-    }
-
-    /**
-     * Makes it possible to use keys to play, instead of mouse
-     */
-    private void setKeyListener() {
-        chatField.setOnKeyPressed(event -> {
-            if (actionQuery != null) {
-                switch (event.getCode()) {
-                    case UP:
-                        slider.increment();
-                        break;
-                    case DOWN:
-                        slider.decrement();
-                        break;
-                    case LEFT:
-                        onFoldAction();
-                        break;
-                    case RIGHT:
-                        onBetAction();
-                        break;
-                    default:
-                        break;
-                }
-            }
         });
     }
 
@@ -174,12 +140,6 @@ public class ChoiceBar extends HBox {
         slider.setMax(player.getBank());
         slider.setMin(0);
         slider.setValue(0);
-    }
-
-    @FXML
-    public void onChatAction(ActionEvent event) {
-        Game.message("chat", chatField.getText(), Game.getPlayerUUID());
-        chatField.setText("");
     }
 
     @Handler

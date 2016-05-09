@@ -84,6 +84,7 @@ public class Lobby extends BorderPane {
 	public void requestJoinGame(UUID uuid) {
 		masterClient.requestJoinTable(uuid);
 	}
+
 	public void joinGame(){
 		Game.getInstance().setContext(masterClient.joinTable());
 		SceneController.setScene(new GameScene());
