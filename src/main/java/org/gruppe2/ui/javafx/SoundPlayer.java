@@ -49,6 +49,11 @@ public class SoundPlayer {
 		playSound(SoundPlayer.class.getResource("/sound/raidingparty.mp3")
 				.toExternalForm());
 	}
+	public static void playFlush() {
+		playSound(SoundPlayer.class.getResource("/sound/flush.mp3")
+				.toExternalForm());
+	}
+	
 	
 	public static void stopIntroMusic(){
 		if(introMediaPlayer != null)
