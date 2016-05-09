@@ -5,9 +5,13 @@ import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 
 
+import javafx.scene.paint.Color;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
@@ -37,6 +41,7 @@ public class ThisPlayerInfoBox extends HBox {
     private Label bet;
     @FXML
     private Label lastAction;
+    Player player;
 
     public ThisPlayerInfoBox() {
         UIResources.loadFXML(this);
@@ -54,7 +59,7 @@ public class ThisPlayerInfoBox extends HBox {
 
         if (!player.isPresent())
             return;
-
+        else this.player = player.get();
         fold.setVisible(false);
         lastAction.setVisible(false);
 
@@ -103,6 +108,18 @@ public class ThisPlayerInfoBox extends HBox {
             lastAction.setText(e.getAction().toString());
             lastAction.setVisible(true);
         }
+    }
+
+    @FXML
+    public void hover(){
+        Color color = UIResources.getAvatarColor(player.getAvatar());
+        setBackground(new Background(new BackgroundFill(color.darker(), new CornerRadii(5), null)));
+
+    }
+
+    @FXML
+    public void noHover(){
+        setActive(false);
     }
 
     private void setActive(boolean active) {
