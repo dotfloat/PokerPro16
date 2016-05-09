@@ -1,6 +1,8 @@
 package org.gruppe2.game.controller;
 
 import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -53,6 +55,8 @@ public class NetworkClientController extends AbstractController {
             onPlayerJoin((PlayerJoinEvent) event);
         } else if (event instanceof PlayerLeaveEvent) {
             onPlayerLeave((PlayerLeaveEvent) event);
+        } else if (event instanceof PlayerPostActionEvent) {
+            onPostAction((PlayerPostActionEvent) event);
         }
     }
 
@@ -62,6 +66,16 @@ public class NetworkClientController extends AbstractController {
 
     private void onPlayerLeave(PlayerLeaveEvent e) {
         game.getPlayers().remove(e.getPlayer());
+    }
+
+    private void onPostAction(PlayerPostActionEvent event) {
+        Player player = game.findPlayerByUUID(event.getPlayer().getUUID()).get();
+        player.setBank(event.getPlayer().getBank());
+
+        RoundPlayer roundPlayer = round.findPlayerByUUID(event.getRoundPlayer().getUUID()).get();
+        roundPlayer.setBet(event.getRoundPlayer().getBet());
+
+        round.setHighestBet(Math.max(round.getHighestBet(), roundPlayer.getBet()));
     }
 
     private void checkForAction() {

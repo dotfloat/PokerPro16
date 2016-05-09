@@ -91,6 +91,8 @@ public class ChoiceBar extends StackPane {
 
             int amount = (int) slider.getValue() - possibleActions.getCallAmount();
 
+            System.out.println("Bank: " + player.getBank());
+
             if (amount == 0) {
                 if (possibleActions.canCall()) {
                     actionQuery.set(new Action.Call());
@@ -100,6 +102,7 @@ public class ChoiceBar extends StackPane {
                     throw new RuntimeException();
                 }
             } else if (amount == player.getBank()) {
+                System.out.println("Accualy all in");
                 actionQuery.set(new Action.AllIn());
             } else {
                 actionQuery.set(new Action.Raise(amount));

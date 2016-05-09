@@ -110,7 +110,7 @@ public class ConfettiOrMoney extends Pane {
         double opacity = Math.random();
         Color color = new Color(Math.random(), Math.random(), Math.random(), opacity);
         Rectangle rectangle = new Rectangle(opacity * 30, opacity * 10, color);
-        System.out.println(rectangle.getOpacity());
+
         rectangle.widthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05 * opacity));
         rectangle.heightProperty().bind(PokerApplication.getRoot().heightProperty().multiply(0.02 * opacity));
         return rectangle;

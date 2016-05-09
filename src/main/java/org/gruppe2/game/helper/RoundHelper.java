@@ -113,8 +113,6 @@ public class RoundHelper {
             if (getHighestBet() - roundPlayer.get().getBet() != 0)
                 options.setCall(getHighestBet() - roundPlayer.get().getBet());
 
-        System.out.println(model.getRaiseMap().get(id));
-
         if (!player.get().getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3) {
             int maxRaise = player.get().getBank() + roundPlayer.get().getBet() - getHighestBet();
             if (maxRaise > 0)
