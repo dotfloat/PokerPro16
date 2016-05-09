@@ -21,6 +21,7 @@ import org.gruppe2.game.session.Model;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.ConfettiOrMoney;
 import org.gruppe2.ui.javafx.SceneController;
+import org.gruppe2.ui.javafx.SoundPlayer;
 
 public class GameScene extends Pane {
     
@@ -46,7 +47,7 @@ public class GameScene extends Pane {
     }
 
     private void setKeyListener() {
-    	table.setOnKeyPressed(new EventHandler<KeyEvent>() {
+    	this.setOnKeyPressed(new EventHandler<KeyEvent>() {
     		
             @SuppressWarnings("incomplete-switch")
 			@Override
@@ -60,7 +61,6 @@ public class GameScene extends Pane {
                 }
             }
         });
-		
 	}
 
 	@Handler
@@ -84,5 +84,6 @@ public class GameScene extends Pane {
         Label label = new Label(text);
         label.fontProperty().setValue(new Font(30));
         SceneController.setModal(label);
+        SoundPlayer.playVictoryMusic();
     }
 }
