@@ -118,6 +118,13 @@ public class AdvancedAI implements AI {
 					int randomBlinds = 0;
 					if (numberOfBigBlinds>0)
 					randomBlinds = r.nextInt(numberOfBigBlinds) + 1;
+					if (randomBlinds==0){
+						if (actions.canCall())
+							return new Action.Call();
+						if (actions.canCheck())
+							return new Action.Check();
+						return new Action.Fold();
+					}
 					return new Action.Raise(gameHelper.getBigBlind() * randomBlinds);
 				} else if (actions.canCall())
 					return new Action.Call();
