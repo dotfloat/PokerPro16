@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,10 +22,10 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
 
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class ChatBox extends VBox {
+    private final List<String> emotes = Arrays.asList(UIResources.listEmotes());
 
     @Helper
     private GameHelper gameHelper;
@@ -111,7 +112,7 @@ public class ChatBox extends VBox {
         playerName.fontProperty().bind(PokerApplication.getApplication().fontProperty());
         messageNode.fontProperty().bind(PokerApplication.getApplication().fontProperty());
 
-        TextFlow messageFlow = new TextFlow(messageNode);
+        TextFlow messageFlow = parseKappa(message);
         messageFlow.maxWidthProperty().bind(messageWidth);
 
         chatArea.add(playerName, 1, numLines);
@@ -136,6 +137,42 @@ public class ChatBox extends VBox {
         numLines++;
 
         scrollPane.setVvalue(1.0);
+    }
+
+    private TextFlow parseKappa(String message) {
+        TextFlow flow = new TextFlow();
+        String[] words = message.split("\\s+");
+        String buffer = "";
+
+        for (String word : words) {
+            int indexOf;
+
+            if ((indexOf = emotes.indexOf(word)) >= 0) {
+                Text text = new Text(buffer);
+                text.setFill(Color.WHITE);
+                text.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+                flow.getChildren().add(text);
+                buffer = " ";
+
+                ImageView imageView = new ImageView(UIResources.getEmote(word));
+                imageView.setPreserveRatio(true);
+                imageView.fitHeightProperty().bind(PokerApplication.getApplication().scaleProperty().multiply(14));
+                flow.getChildren().add(imageView);
+
+                continue;
+            }
+
+            buffer += word + " ";
+        }
+
+        if (!buffer.isEmpty()) {
+            Text text = new Text(buffer);
+            text.setFill(Color.WHITE);
+            text.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+            flow.getChildren().add(text);
+        }
+
+        return flow;
     }
 
     private Color getPlayerColor(Player player) {
