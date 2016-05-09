@@ -25,7 +25,8 @@ public class AIController extends AbstractController {
 		setTask(gameHelper.getWaitTime(), () -> {
 			ai.doAction(query.getPlayer(),
                     query.getRoundPlayer(),
-					roundHelper);
+					roundHelper,
+                    gameHelper);
 		});
 	}
 }

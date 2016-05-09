@@ -40,11 +40,8 @@ public class PlayerInfoBox extends BorderPane {
     private UUID playerUUID = null;
 
     Player player;
-    HBox hb = new HBox();
-    ProgressBar progressBar = new ProgressBar(0);
-    Timeline timeline;
-    Timeline progressBarTimeLine;
-    int progressDivisor = 3000;
+    
+    CountDownBar countDownBar = new CountDownBar();
     private ObjectProperty<Font> font = new SimpleObjectProperty<>();
 
     @Helper
@@ -69,7 +66,7 @@ public class PlayerInfoBox extends BorderPane {
     PlayerInfoBox() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
-        setUpProgressBar();
+        this.setBottom(countDownBar);
         
     }
 
@@ -103,34 +100,7 @@ public class PlayerInfoBox extends BorderPane {
         
         
     }
-    private void setUpProgressBar(){
-    	 progressBar.setProgress(0);
-         progressBar.setVisible(false);
-         hb.getChildren().add(progressBar);
-         this.setBottom(hb);
-    }
-    private void startProgressBarTimer(){
-    	progressBar.setVisible(true);
-    	timeline = new Timeline(new KeyFrame(
-    	        Duration.seconds(30),
-    	        ae -> System.out.println("fold now! bitch!")));
-    	timeline.play();
-    	
-    	progressBarTimeLine = new Timeline(new KeyFrame(
-    	        Duration.millis(10),
-    	        ae -> updateProgressBar()));
-    	progressBarTimeLine.setCycleCount(progressDivisor);
-    	progressBarTimeLine.play();
-    }
-    private void updateProgressBar(){
-    	double progress = progressBar.getProgress();
-    	progressBar.setProgress(progress+(1/progressDivisor));
-    }
-    private void stopProgressBar(){
-    	progressBar.setVisible(false);
-    	timeline.stop();
-    	progressBarTimeLine.stop();
-    }
+    
 
     private void setActive(boolean active) {
         getStyleClass().clear();
@@ -168,7 +138,7 @@ public class PlayerInfoBox extends BorderPane {
     @Handler
     public void onPreAction(PlayerPreActionEvent event) {
         if (event.getPlayer().getUUID().equals(playerUUID)) {
-        	startProgressBarTimer();
+        	countDownBar.startProgressBarTimer();
             fold.setVisible(false);
             lastAction.setVisible(false);
             isActive = true;
@@ -183,7 +153,7 @@ public class PlayerInfoBox extends BorderPane {
     public void onPostAction(PlayerPostActionEvent event) {
         if (!event.getPlayer().getUUID().equals(playerUUID))
             return;
-        stopProgressBar();
+        countDownBar.stopProgressBar();
         bank.setText(String.valueOf(event.getPlayer().getBank()));
         bet.setText(String.valueOf(event.getRoundPlayer().getBet()));
 
