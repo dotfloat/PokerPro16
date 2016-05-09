@@ -7,7 +7,7 @@ import org.gruppe2.game.session.SessionContext;
 
 public class GameBuilder {
     private int min = 2;
-    private int max = 10;
+    private int max = 4;
     private int buyIn = 100;
     private int smallBlind = 10;
     private int bigBlind = 20;

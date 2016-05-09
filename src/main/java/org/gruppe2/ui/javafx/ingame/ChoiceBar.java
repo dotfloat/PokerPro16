@@ -89,8 +89,7 @@ public class ChoiceBar extends StackPane {
             PossibleActions possibleActions = roundHelper
                     .getPlayerOptions(uuid);
 
-            int amount = (int) (slider.getValue() - (roundHelper
-                    .getHighestBet() - roundPlayer.getBet()));
+            int amount = (int) slider.getValue() - possibleActions.getCallAmount();
 
             if (amount == 0) {
                 if (possibleActions.canCall()) {
@@ -129,9 +128,9 @@ public class ChoiceBar extends StackPane {
         PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
 
         if (slider.getValue() == slider.getMax())
-            btnBet.setText("ALL IN");
+            btnBet.setText("All in");
         else if (slider.getValue() > pa.getCallAmount())
-            btnBet.setText("RAISE");
+            btnBet.setText("Raise");
         else if (pa.canCall())
             btnBet.setText("Call");
         else

@@ -92,8 +92,8 @@ public class PokerApplication extends Application {
         });
 
         scale.addListener((o, oldVal, newVal) -> {
-            bigFont.setValue(Font.font(newVal.doubleValue() * fontSize * 1.8));
-            smallFont.setValue(Font.font(newVal.doubleValue()*fontSize * 0.8));
+            bigFont.setValue(Font.font(newVal.doubleValue() * fontSize * 1.2));
+            smallFont.setValue(Font.font(newVal.doubleValue()*fontSize));
         });
 
         startValues(stage);
