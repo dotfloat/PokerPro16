@@ -11,15 +11,15 @@ public class CountDownBar extends HBox {
     ProgressBar progressBar = new ProgressBar(0);
     Timeline timeline;
     Timeline progressBarTimeLine;
-    int progressDivisor = 3000;
+    double progressDivisor = 30;
 
     public CountDownBar(){
     	setUpProgressBar();
     }
 	
 	private void setUpProgressBar(){
-   	 progressBar.setProgress(0);
-        progressBar.setVisible(false);
+		progressBar.setProgress(0);
+		progressBar.setVisible(false);
         getChildren().add(progressBar);
         
    }
@@ -34,12 +34,11 @@ public class CountDownBar extends HBox {
    	progressBarTimeLine = new Timeline(new KeyFrame(
    	        Duration.seconds(1),
    	        ae -> updateProgressBar()));
-   	progressBarTimeLine.setCycleCount(progressDivisor);
+   	progressBarTimeLine.setCycleCount((int) progressDivisor);
    	progressBarTimeLine.play();
    }
    
    public void updateProgressBar(){
-   	System.out.println("updating");
    	double progress = progressBar.getProgress();
    	progressBar.setProgress(progress+(1/progressDivisor));
    }
