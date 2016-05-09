@@ -3,15 +3,15 @@ package org.gruppe2.ui.javafx.ingame;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-
-
 import javafx.scene.paint.Color;
+
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
@@ -24,7 +24,9 @@ import org.gruppe2.ui.UIResources;
 
 
 public class ThisPlayerInfoBox extends HBox {
-    @Helper
+    
+	CountDownBar countDownBar = new CountDownBar();
+	@Helper
     private GameHelper game;
     @Helper
     private RoundHelper round;
@@ -47,6 +49,8 @@ public class ThisPlayerInfoBox extends HBox {
     public ThisPlayerInfoBox() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
+        countDownBar.setAlignment(Pos.BOTTOM_LEFT);
+        getChildren().add(countDownBar);
     }
 
     @Handler
@@ -88,6 +92,7 @@ public class ThisPlayerInfoBox extends HBox {
     @Handler
     public void onPreAction(PlayerPreActionEvent e){
         if (e.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
+        	countDownBar.startProgressBarTimer();
             fold.setVisible(false);
             lastAction.setVisible(false);
             isActive = true;
@@ -102,7 +107,7 @@ public class ThisPlayerInfoBox extends HBox {
     public void onPostAction(PlayerPostActionEvent e){
         if (!e.getPlayer().getUUID().equals(Game.getPlayerUUID()))
             return;
-
+        countDownBar.stopProgressBar();
         bank.setText(String.valueOf(e.getPlayer().getBank()));
         bet.setText(String.valueOf(e.getRoundPlayer().getBet()));
 
