@@ -109,8 +109,8 @@ public class ChatBox extends VBox {
         playerName.setFill(getPlayerColor(player));
         messageNode.setFill(Color.WHITE);
 
-        playerName.fontProperty().bind(PokerApplication.getApplication().fontProperty());
-        messageNode.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+        playerName.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
+        messageNode.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
 
         TextFlow messageFlow = parseKappa(message);
         messageFlow.maxWidthProperty().bind(messageWidth);
@@ -130,7 +130,7 @@ public class ChatBox extends VBox {
         TextFlow textFlow = new TextFlow(textNode);
 
         textNode.setFill(Color.WHITE);
-        textNode.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+        textNode.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
 
         chatArea.add(textFlow, 1, numLines, 2, 1);
 
@@ -150,7 +150,7 @@ public class ChatBox extends VBox {
             if ((indexOf = emotes.indexOf(word)) >= 0) {
                 Text text = new Text(buffer);
                 text.setFill(Color.WHITE);
-                text.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+                text.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
                 flow.getChildren().add(text);
                 buffer = " ";
 
@@ -168,7 +168,7 @@ public class ChatBox extends VBox {
         if (!buffer.isEmpty()) {
             Text text = new Text(buffer);
             text.setFill(Color.WHITE);
-            text.fontProperty().bind(PokerApplication.getApplication().fontProperty());
+            text.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
             flow.getChildren().add(text);
         }
 

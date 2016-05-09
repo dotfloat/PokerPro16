@@ -20,5 +20,5 @@
             </columnConstraints>
         </GridPane>
     </ScrollPane>
-    <TextField prefHeight="${app.heightScale * 20}" fx:id="chatField" onAction="#onChatAction" styleClass="chatField" />
+    <TextField font="${app.smallFont}" prefHeight="${app.heightScale * 20}" fx:id="chatField" onAction="#onChatAction" styleClass="chatField" />
 </fx:root>

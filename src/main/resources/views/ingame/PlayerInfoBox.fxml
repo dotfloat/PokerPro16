@@ -17,15 +17,15 @@
             <ImageView fx:id="fold" preserveRatio="true" fitHeight="${this.maxHeight}" visible="false">
                 <Image url="/images/ui/folded.png"/>
             </ImageView>
-            <Label fx:id="lastAction" visible="false" font="${this.font}"/>
+            <Label fx:id="lastAction" visible="false" bigFont="${this.bigFont}"/>
         </StackPane>
     </left>
 
     <right>
         <VBox alignment="CENTER" minWidth="${this.maxWidth * 0.5}" maxWidth="${this.maxWidth * 0.5}">
-            <Label fx:id="name" font="${this.font}" />
-            <Label fx:id="bank" font="${this.font}" />
-            <Label fx:id="bet" font="${this.font}" />
+            <Label fx:id="name" bigFont="${this.bigFont}" />
+            <Label fx:id="bank" bigFont="${this.bigFont}" />
+            <Label fx:id="bet" bigFont="${this.bigFont}" />
         </VBox>
     </right>
 

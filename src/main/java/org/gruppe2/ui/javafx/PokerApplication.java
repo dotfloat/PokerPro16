@@ -10,7 +10,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
@@ -31,7 +30,8 @@ public class PokerApplication extends Application {
 
     private static PokerApplication application;
 
-    private ObjectProperty<Font> font = new SimpleObjectProperty<>();
+    private ObjectProperty<Font> bigFont = new SimpleObjectProperty<>();
+    private ObjectProperty<Font> smallFont = new SimpleObjectProperty<>();
     private DoubleProperty widthScale = new SimpleDoubleProperty();
     private DoubleProperty heightScale = new SimpleDoubleProperty();
     private DoubleProperty scale = new SimpleDoubleProperty();
@@ -57,16 +57,16 @@ public class PokerApplication extends Application {
         this.scale.set(scale);
     }
 
-    public Font getFont() {
-        return font.get();
+    public Font getBigFont() {
+        return bigFont.get();
     }
 
-    public ObjectProperty<Font> fontProperty() {
-        return font;
+    public ObjectProperty<Font> bigFontProperty() {
+        return bigFont;
     }
 
-    public void setFont(Font font) {
-        this.font.set(font);
+    public void setBigFont(Font bigFont) {
+        this.bigFont.set(bigFont);
     }
 
     public static double getHeight() {
@@ -91,7 +91,10 @@ public class PokerApplication extends Application {
             heightScale.set(newVal.doubleValue() / height);
         });
 
-        scale.addListener((o, oldVal, newVal) -> font.setValue(Font.font(newVal.doubleValue() * fontSize)));
+        scale.addListener((o, oldVal, newVal) -> {
+            bigFont.setValue(Font.font(newVal.doubleValue() * fontSize));
+            smallFont.setValue(Font.font(newVal.doubleValue()*fontSize*0.8));
+        });
 
         startValues(stage);
         setStartScene(stage);
@@ -152,5 +155,17 @@ public class PokerApplication extends Application {
 
     public DoubleProperty heightScaleProperty() {
         return heightScale;
+    }
+
+    public Font getSmallFont() {
+        return smallFont.get();
+    }
+
+    public ObjectProperty<Font> smallFontProperty() {
+        return smallFont;
+    }
+
+    public void setSmallFont(Font smallFont) {
+        this.smallFont.set(smallFont);
     }
 }

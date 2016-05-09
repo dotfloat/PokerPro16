@@ -12,8 +12,8 @@
         <PokerApplication fx:factory="getApplication" fx:id="app"/>
     </fx:define>
 
-    <Button fx:id="btnFold" font="${app.font}" text="FOLD" id="button" onAction="#onFoldAction" disable="true"/>
+    <Button fx:id="btnFold" bigFont="${app.bigFont}" text="FOLD" id="button" onAction="#onFoldAction" disable="true"/>
     <Slider fx:id="slider" prefHeight="${this.maxHeight}" id="slider" disable="true"/>
-    <Label fx:id="sliderValue" font="${app.font}" prefHeight="${this.maxHeight}" text="0 CHIPS" id="label" disable="true"/>
-    <Button fx:id="btnBet" font="${app.font}" prefHeight="${this.maxHeight}" text="BET" id="button" onAction="#onBetAction" disable="true"/>
+    <Label fx:id="sliderValue" bigFont="${app.bigFont}" prefHeight="${this.maxHeight}" text="0 CHIPS" id="label" disable="true"/>
+    <Button fx:id="btnBet" bigFont="${app.bigFont}" prefHeight="${this.maxHeight}" text="BET" id="button" onAction="#onBetAction" disable="true"/>
 </fx:root>
