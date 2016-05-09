@@ -36,7 +36,6 @@ public class AdvancedAI implements AI {
 		rateOfReturn *= (1 / raiseRatio);
 
 		rateOfReturn = rateOfReturn + 1;
-
 		Action action = chooseAction(rateOfReturn, possibleActions, bank, handStrength, gameHelper);
 		System.out.println(action);
 		System.out.println();
@@ -50,6 +49,7 @@ public class AdvancedAI implements AI {
 		int random = r.nextInt(100) + 1;
 		System.out.println(actions.canCheck());
 		if (rateOfReturn < 0.1) {
+			System.out.println(0.1);
 			if (handStrength > 0.2) {
 				if (actions.canRaise()) {
 					return new Action.Raise(gameHelper.getBigBlind());
@@ -67,6 +67,7 @@ public class AdvancedAI implements AI {
 		}
 
 		if (rateOfReturn < 0.6) {
+			System.out.println(0.6);
 			if (actions.canCheck())
 				return new Action.Check();
 			if (random > 95) {
@@ -79,6 +80,7 @@ public class AdvancedAI implements AI {
 
 		}
 		if (rateOfReturn < 1.2) {
+			System.out.println(1.2);
 			if (actions.canCheck()) {
 				return new Action.Check();
 			}
@@ -94,22 +96,28 @@ public class AdvancedAI implements AI {
 			return new Action.Fold();
 
 		}
-		if (rateOfReturn <= 6) {
+		if (rateOfReturn <= 6.0) {
+			System.out.println(6.0);
 			if (random <= 60 && actions.canCall()) {
 				return new Action.Call();
 			} else if (actions.canRaise() && actions.getMaxRaise() > gameHelper.getBigBlind() * 3) {
 				return new Action.Raise(gameHelper.getBigBlind() * 2);
 			}
+			else if (actions.canCheck())
+				return new Action.Check();
 
 		}
-		if (rateOfReturn > 6) {
+		if (rateOfReturn > 6.0) {
+			System.out.println("high");
 			if (random <= 30) {
 				if (actions.canCall())
 					return new Action.Call();
 			} else {
 				if (actions.canRaise()) {
 					int numberOfBigBlinds = actions.getMaxRaise() / gameHelper.getBigBlind();
-					int randomBlinds = r.nextInt(numberOfBigBlinds) + 1;
+					int randomBlinds = 0;
+					if (numberOfBigBlinds>0)
+					randomBlinds = r.nextInt(numberOfBigBlinds) + 1;
 					return new Action.Raise(gameHelper.getBigBlind() * randomBlinds);
 				} else if (actions.canCall())
 					return new Action.Call();
