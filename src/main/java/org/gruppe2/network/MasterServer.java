@@ -115,25 +115,6 @@ public class MasterServer {
                 e.printStackTrace();
             }
         }
-
-        for (int i = 0; i < activeTables.size(); i++) {
-            try {
-                GameModel model = activeTables.get(i).getModel(GameModel.class);
-
-                if (!model.getPlayers().stream().anyMatch(p -> !p.isBot())) {
-                    activeTables.get(i).quit();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                SessionContext context = activeTables.get(i);
-
-                activeTables.remove(i);
-
-                context.getThread().interrupt();
-            }
-        }
     }
 
     private boolean canJoinTable(String tableUUID) {
