@@ -33,8 +33,10 @@
            fitHeight="${root.height - choiceBar.height}"/>
 
     <ThisPlayerInfoBox fx:id="playerBox" visible="false"
+                       prefWidth="${app.widthScale * 240}"
+                       prefHeight="${app.heightScale * 64}"
                        layoutX="${root.width / 2 - playerBox.width / 2}"
-                       layoutY="${root.height - choiceBar.height - playerBox.height}"/>
+                       layoutY="${root.height - choiceBar.height - playerBox.height * 1.2}"/>
 
     <HelperMenu
                 prefWidth="${root.width * 0.2}"/>

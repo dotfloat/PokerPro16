@@ -4,22 +4,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" styleClass="pane"
+<?import org.gruppe2.ui.javafx.PokerApplication?>
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" styleClass="pane" fx:id="this" spacing="12"
          alignment="CENTER" style="-fx-background-color: black" onMouseMoved="#hover" onMouseExited="#noHover">
 
-    <Label fx:id="name" alignment="CENTER"/>
+    <fx:define>
+        <PokerApplication fx:factory="getApplication" fx:id="app" />
+    </fx:define>
 
-    <StackPane fx:id="imagePane">
-        <ImageView fx:id="avatar" preserveRatio="true" />
-        <ImageView fx:id="fold" preserveRatio="true" visible="false">
+    <Label fx:id="name" alignment="CENTER_LEFT" font="${app.bigFont}"/>
+
+    <StackPane fx:id="imagePane" alignment="CENTER">
+        <ImageView fx:id="avatar" preserveRatio="true" fitHeight="${this.prefHeight}" />
+        <ImageView fx:id="fold" preserveRatio="true" visible="false" fitHeight="${this.prefHeight}">
             <Image url="/images/ui/folded.png" />
         </ImageView>
-        <Label fx:id="lastAction" visible="false" />
+        <Label fx:id="lastAction" visible="false" font="${app.bigFont}" />
     </StackPane>
 
-    <VBox alignment="CENTER_LEFT">
-        <Label fx:id="bank" />
-        <Label fx:id="bet" />
+    <VBox alignment="CENTER">
+        <Label fx:id="bank" font="${app.bigFont}" />
+        <Label fx:id="bet" font="${app.bigFont}" />
     </VBox>
 
 </fx:root>
