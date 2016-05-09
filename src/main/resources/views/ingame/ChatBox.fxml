@@ -12,7 +12,7 @@
         <PokerApplication fx:factory="getApplication" fx:id="app" />
     </fx:define>
 
-    <ScrollPane minHeight="${this.prefHeight - app.heightScale * 20}" fx:id="scrollPane" hbarPolicy="NEVER" style="-fx-background-color: #0d0d0d">
+    <ScrollPane minHeight="${this.prefHeight - app.heightScale * 20}" fx:id="scrollPane" hbarPolicy="NEVER" vbarPolicy="NEVER" style="-fx-background-color: transparent">
         <GridPane fx:id="chatArea" hgap="12.0" vgap="5">
             <columnConstraints>
                 <ColumnConstraints hgrow="NEVER" halignment="RIGHT" />
