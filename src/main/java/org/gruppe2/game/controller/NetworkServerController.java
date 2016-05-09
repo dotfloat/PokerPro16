@@ -11,9 +11,7 @@ import java.util.UUID;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.ChatEvent;
-import org.gruppe2.game.event.PlayerActionQuery;
-import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Helper;
@@ -37,33 +35,29 @@ public class NetworkServerController extends AbstractController {
 	public void init() {
 		getContext()
 			.getEventQueue()
-			.setGenericHandler(
-					e -> {
-					if (!(e instanceof PlayerActionQuery)) {
-						broadcastObject(gameHelper.getModel());
-						broadcastObject(roundHelper.getModel());
-						broadcastObject(e);
-					} else {
-						PlayerActionQuery query = (PlayerActionQuery) e;
-						clients.stream()
-								.filter(c -> query.getPlayer()
-										.getUUID()
-										.equals(c.getPlayerUUID()))
-								.findFirst()
-								.ifPresent(
-										c -> {
-											try {
-												c.getConnection()
-														.sendObject(e);
-												action = ((PlayerActionQuery) e)
-														.getPlayer()
-														.getAction();
-											} catch (IOException e1) {
-												e1.printStackTrace();
-											}
-										});
-					}
-				});
+			.setGenericHandler(this::handleEvent);
+	}
+
+	private void handleEvent(Event e) {
+		if (e instanceof RoundStartEvent) {
+			broadcastObject(gameHelper.getModel());
+			broadcastObject(roundHelper.getModel());
+		}
+		else if (!(e instanceof PlayerActionQuery)) {
+			broadcastObject(e);
+		}
+		else {
+			PlayerActionQuery query = (PlayerActionQuery) e;
+			clients.stream().filter(
+					c -> query.getPlayer().getUUID().equals(c.getPlayerUUID()))
+					.findFirst().ifPresent(c -> {
+				try {
+					c.getConnection().sendObject(e);
+					action = ((PlayerActionQuery) e).getPlayer().getAction();
+				} catch (IOException e1) {e1.printStackTrace();
+				}
+			});
+		}
 	}
 
 	@Override

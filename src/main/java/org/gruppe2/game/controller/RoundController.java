@@ -9,6 +9,7 @@ import org.gruppe2.game.Player;
 import org.gruppe2.game.PokerLog;
 import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.calculation.Showdown;
 import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerLeaveEvent;
@@ -31,6 +32,7 @@ public class RoundController extends AbstractController {
     @Helper
     private GameHelper game;
 
+    private final Showdown showdown = new Showdown();
     private LocalDateTime timeToStart = null;
     private Player player = null;
     private RoundPlayer roundPlayer = null;
@@ -313,12 +315,10 @@ public class RoundController extends AbstractController {
         Optional<Player> op;
 
         if (round.getActivePlayers().size() == 1) {
-           op = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
+            op = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
         }
         else {
-            Random rand = new Random();
-
-            op = game.findPlayerByUUID(round.getActivePlayers().get(rand.nextInt(round.getActivePlayers().size()-1)).getUUID());
+            op = game.findPlayerByUUID(showdown.getWinnersOfRound(round.getActivePlayers(), round.getCommunityCards()).get(0).getUUID());
         }
 
         if (!op.isPresent())
