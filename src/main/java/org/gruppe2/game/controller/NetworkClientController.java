@@ -43,7 +43,6 @@ public class NetworkClientController extends AbstractController {
             checkForAction();
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             getContext().quit();
         }
     }

@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -150,5 +151,43 @@ public class ThreeOfAKindTest {
 		assertEquals(true,
 				threeOfAKind.compare(commCards, commCardsCompare) == -1);
 		}
+	}
+	
+	@Test
+	public void probabilityIsCorrectTest(){
+		List<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.SPADES));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(3, Card.Suit.CLUBS));
+		commCards.add(new Card(5, Card.Suit.CLUBS));
+		commCards.add(new Card(7, Card.Suit.CLUBS));
+		ThreeOfAKind tk = new ThreeOfAKind();
+		double prob = tk.probability(commCards);
+		System.out.println(prob);
+		assertTrue(prob==0.043478260869565);
+	}
+	@Test
+	public void probabilityReturnsZeroWhenFourOfAKindIsUnaviable(){
+		List<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(7, Card.Suit.SPADES));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(3, Card.Suit.DIAMONDS));
+		commCards.add(new Card(5, Card.Suit.CLUBS));
+		commCards.add(new Card(12,Card.Suit.HEARTS));
+		ThreeOfAKind tk = new ThreeOfAKind();
+		assertTrue(tk.probability(commCards)==0);
+	}
+	@Test
+	public void probabilityReturnsOneWhenAlreadyHavingFourOfAKind(){
+		List<Card> commCards = new ArrayList<Card>();
+		commCards.add(new Card(2, Card.Suit.HEARTS));
+		commCards.add(new Card(4, Card.Suit.SPADES));
+		commCards.add(new Card(4, Card.Suit.CLUBS));
+		commCards.add(new Card(4, Card.Suit.DIAMONDS));
+		commCards.add(new Card(5, Card.Suit.HEARTS));
+		ThreeOfAKind tk = new ThreeOfAKind();
+		assertTrue(tk.probability(commCards)==1);
 	}
 }

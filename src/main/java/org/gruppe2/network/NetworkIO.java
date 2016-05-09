@@ -11,7 +11,34 @@ import java.util.Arrays;
  * Reader and writer for net protocol
  */
 public class NetworkIO {
+    public boolean isPing() {
+        return ping;
+    }
+
+    public void setPing(boolean ping) throws IOException {
+        this.ping = ping;
+
+        if (ping)
+            sendPing();
+    }
+
+    public enum Format {STRING, OBJECT}
+
     private static final Charset charset = Charset.forName("UTF-8");
+    private static final long timeoutDelay = 60000; // 1 minute
+    private static final long pingDelay = 10000; // 10 seconds
+
+    private static class Ping implements Serializable {
+    }
+
+    private static class Pong implements Serializable {
+    }
+
+    private static final String pingStr = "PING";
+    private static final String pongStr = "PONG";
+
+    private static final Ping pingObj = new Ping();
+    private static final Pong pongObj = new Pong();
 
     private final SocketChannel channel;
 
@@ -21,12 +48,22 @@ public class NetworkIO {
     private final ByteBuffer readByteBuffer = ByteBuffer.allocate(1024);
     private final ByteBuffer writeByteBuffer = ByteBuffer.allocate(1024);
 
+    private Format inputFormat = Format.STRING;
+    private Format outputFormat = Format.STRING;
+
+    private long timeout = -1;
+    private boolean ping = false;
+    private boolean sendPingState = true;
+
     public NetworkIO(SocketChannel channel) throws IOException {
         this.channel = channel;
         this.readByteBuffer.flip();
     }
 
     public void sendMessage(String message) throws IOException {
+        if (outputFormat != Format.STRING)
+            throw new RuntimeException("Wrong output format");
+
         outputBuffer.write(message.getBytes());
 
         System.out.printf("Sent Message: [%s]\n", message.replace("\r\n", ""));
@@ -39,6 +76,9 @@ public class NetworkIO {
      * @throws IOException
      */
     public String[] readMessage() throws IOException {
+        if (inputFormat != Format.STRING)
+            throw new RuntimeException("Wrong input format");
+
         fillBuffer();
 
         if (inputBuffer.size() <= 0)
@@ -64,10 +104,20 @@ public class NetworkIO {
 
         System.out.printf("Received Message: [%s]\n", message);
 
+        if (message.equals(pingStr)) {
+            sendPong();
+        } else if (message.equals(pongStr)) {
+            timeout = System.currentTimeMillis() + pingDelay;
+            sendPingState = true;
+        }
+
         return splitMessage(message);
     }
 
     public void sendObject(Object object) throws IOException {
+        if (outputFormat != Format.OBJECT)
+            throw new RuntimeException("Wrong output format");
+
         int wrote = 0;
 
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
@@ -88,6 +138,9 @@ public class NetworkIO {
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {
+        if (inputFormat != Format.OBJECT)
+            throw new RuntimeException("Wrong input format");
+
         fillBuffer();
 
         if (inputBuffer.size() <= 4)
@@ -117,16 +170,60 @@ public class NetworkIO {
 
         System.out.printf("Received Object: [%s]\n", object.getClass());
 
+        if (object instanceof Ping) {
+            sendPong();
+        } else if (object instanceof Pong) {
+            timeout = System.currentTimeMillis() + pingDelay;
+            sendPingState = true;
+        }
+
         return object;
+    }
+
+    private void sendPing() throws IOException {
+        if (outputFormat == Format.STRING) {
+            sendMessage(pingStr + "\r\n");
+        } else {
+            sendObject(pingObj);
+        }
+
+        timeout = System.currentTimeMillis() + timeoutDelay;
+        sendPingState = false;
+    }
+
+    private void sendPong() throws IOException {
+        if (outputFormat == Format.STRING) {
+            sendMessage(pongStr + "\r\n");
+        } else {
+            sendObject(pongObj);
+        }
+
+        timeout = System.currentTimeMillis() + timeoutDelay;
     }
 
     /**
      * Attempts to write as much as possible to the SocketChannel
      * object from the internal write buffer.
+     *
      * @return number of bytes remaining
      * @throws IOException
      */
     public int flush() throws IOException {
+        if (timeout < 0) {
+            if (ping) {
+                sendPing();
+            }
+
+            timeout = System.currentTimeMillis() + timeoutDelay;
+        } else if (timeout < System.currentTimeMillis()) {
+            System.out.printf("%d, ping: %b, sendpingstate: %b\n", timeout, ping, sendPingState);
+            if (ping && sendPingState) {
+                sendPing();
+            } else {
+                throw new EOFException();
+            }
+        }
+
         while (outputBuffer.size() > 0) {
 
             byte[] bytes = outputBuffer.toByteArray();
@@ -150,6 +247,22 @@ public class NetworkIO {
         }
 
         return outputBuffer.size();
+    }
+
+    public Format getInputFormat() {
+        return inputFormat;
+    }
+
+    public void setInputFormat(Format inputFormat) {
+        this.inputFormat = inputFormat;
+    }
+
+    public Format getOutputFormat() {
+        return outputFormat;
+    }
+
+    public void setOutputFormat(Format outputFormat) {
+        this.outputFormat = outputFormat;
     }
 
     private int fillBuffer() throws IOException {

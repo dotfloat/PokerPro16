@@ -272,7 +272,7 @@ public abstract class Session implements Runnable {
 
             if (!expected.isInstance(arg)) {
                 throw new RuntimeException(String.format("Message %s, parameter %d: Type expected %s, got %s",
-                        method.getName(), i, expected, arg.getClass()));
+                        method.getName(), i, expected, (arg != null) ? arg.getClass() : "null"));
             }
         }
     }

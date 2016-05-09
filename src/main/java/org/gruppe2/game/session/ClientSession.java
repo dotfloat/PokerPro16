@@ -56,6 +56,9 @@ public class ClientSession extends Session {
     }
     
     private void waitForSync(NetworkIO connection) throws IOException, ClassNotFoundException {
+        connection.setInputFormat(NetworkIO.Format.OBJECT);
+        connection.setOutputFormat(NetworkIO.Format.STRING);
+
         int numSyncs = 0;
         while (numSyncs < 2) {
             Object object = connection.readObject();

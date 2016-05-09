@@ -50,9 +50,12 @@ public class MasterServer {
                 SocketChannel client = serverSocket.accept();
 
                 if (client != null) {
-                    NetworkIO connection = new NetworkIO(
-                            client);
+                    NetworkIO connection = new NetworkIO(client);
                     client.configureBlocking(false);
+
+                    connection.setInputFormat(NetworkIO.Format.STRING);
+                    connection.setOutputFormat(NetworkIO.Format.STRING);
+                    connection.setPing(true);
                     clients.add(connection);
                 }
 
