@@ -3,6 +3,8 @@ package org.gruppe2.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.paint.Color;
 import org.gruppe2.game.Card;
 import org.gruppe2.ui.javafx.PokerApplication;
 
@@ -16,6 +18,7 @@ public class UIResources {
     private static Image cardBack = null;
 
     private static Map<String, Image> avatars = null;
+    private static Map<String, Color> avatarColors = null;
     private static Image defaultAvatar = null;
 
     /**
@@ -48,6 +51,12 @@ public class UIResources {
         return avatars.getOrDefault(name, defaultAvatar);
     }
 
+    public static Color getAvatarColor(String name) {
+        loadAvatars();
+
+        return avatarColors.getOrDefault(name, Color.WHITE);
+    }
+
     public static String[] listAvatars() {
         loadAvatars();
 
@@ -59,6 +68,7 @@ public class UIResources {
             return;
 
         avatars = new HashMap<>();
+        avatarColors = new HashMap<>();
 
         try {
             Scanner dir = new Scanner(UIResources.class.getResourceAsStream("/images/avatars/avatars.txt"));
@@ -69,6 +79,10 @@ public class UIResources {
                 defaultAvatar = image;
 
                 avatars.put(name, image);
+
+                PixelReader pixelReader = image.getPixelReader();
+                Color color = pixelReader.getColor(2,2).darker();
+                avatarColors.put(name, color);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();

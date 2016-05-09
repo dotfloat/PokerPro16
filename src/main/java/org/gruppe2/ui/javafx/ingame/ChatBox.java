@@ -4,7 +4,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -99,14 +98,14 @@ public class ChatBox extends VBox {
 
         Player player = gameHelper.findPlayerByUUID(chatEvent.getPlayerUUID()).get();
 
-        addPlayerMessage(chatEvent.getPlayerUUID(), player.getName(), chatEvent.getMessage());
+        addPlayerMessage(player, chatEvent.getMessage());
     }
 
-    private void addPlayerMessage(UUID playerUUID, String name, String message) {
-        Text playerName = new Text(name);
+    private void addPlayerMessage(Player player, String message) {
+        Text playerName = new Text(player.getName());
         Text messageNode = new Text(message);
 
-        playerName.setFill(getPlayerColor(playerUUID));
+        playerName.setFill(getPlayerColor(player));
         messageNode.setFill(Color.WHITE);
 
         playerName.fontProperty().bind(PokerApplication.getApplication().fontProperty());
@@ -139,13 +138,7 @@ public class ChatBox extends VBox {
         scrollPane.setVvalue(1.0);
     }
 
-    private Color getPlayerColor(UUID uuid) {
-        Random random = new Random(uuid.getLeastSignificantBits() - uuid.getMostSignificantBits());
-
-        int r = random.nextInt(255);
-        int g = random.nextInt(255);
-        int b = (int) Math.sqrt(r * g);
-
-        return Color.rgb(r, g, b);
+    private Color getPlayerColor(Player player) {
+        return UIResources.getAvatarColor(player.getAvatar());
     }
 }
