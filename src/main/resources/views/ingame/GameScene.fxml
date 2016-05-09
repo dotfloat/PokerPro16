@@ -2,10 +2,12 @@
 
 
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import org.gruppe2.ui.javafx.ingame.*?>
 <?import org.gruppe2.ui.javafx.menu.HelperMenu?>
 <?import org.gruppe2.ui.javafx.menu.RightMenu?>
 <?import org.gruppe2.ui.javafx.PokerApplication?>
+<?import javafx.scene.control.Label?>
 <fx:root type="Pane" xmlns:fx="http://javafx.com/fxml" styleClass="background">
     <fx:define>
         <PokerApplication fx:factory="getRoot" fx:id="root"/>
@@ -47,4 +49,6 @@
                  maxWidth="${root.height * 0.2}"
                  layoutX="${root.width - playerCards.width*1.5}"
                  layoutY="${root.height - playerCards.height*0.7}"/>
+
+
 </fx:root>

@@ -23,6 +23,7 @@ import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -55,6 +56,7 @@ public class PlayerInfoBox extends BorderPane {
     private ImageView fold;
     @FXML
     private Label lastAction;
+    private boolean isActive;
 
     PlayerInfoBox() {
         UIResources.loadFXML(this);
@@ -95,6 +97,16 @@ public class PlayerInfoBox extends BorderPane {
         getStyleClass().add(active ? "paneActive" : "pane");
     }
 
+    @Handler
+    public void onRoundStart(RoundStartEvent event){
+        if (player != null) resetBox();
+    }
+
+    private void resetBox() {
+        fold.setVisible(false);
+        opacityProperty().setValue(1);
+    }
+
     @FXML
     public void hover(){
         Color color = UIResources.getAvatarColor(player.getAvatar());
@@ -104,7 +116,7 @@ public class PlayerInfoBox extends BorderPane {
 
     @FXML
     public void noHover(){
-        setActive(isPlayerActive());
+        setActive(isActive);
     }
 
 
@@ -116,12 +128,13 @@ public class PlayerInfoBox extends BorderPane {
     @Handler
     public void onPreAction(PlayerPreActionEvent event) {
         if (event.getPlayer().getUUID().equals(playerUUID)) {
-            opacityProperty().setValue(1);//should probably be placed elsewhere
             fold.setVisible(false);
             lastAction.setVisible(false);
-            setActive(true);
+            isActive = true;
+            setActive(isActive);
         } else {
-            setActive(false);
+            isActive = false;
+            setActive(isActive);
         }
     }
 
