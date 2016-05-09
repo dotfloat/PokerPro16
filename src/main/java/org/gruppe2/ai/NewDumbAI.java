@@ -17,7 +17,7 @@ public class NewDumbAI implements AI {
     private static final Random rand = new Random();
 
     @Override
-    public void doAction(Player model, RoundPlayer roundPlayer, RoundHelper roundHelper, GameHelper gameHelper) {
+    public void doAction(Player model, RoundPlayer roundPlayer, GameInfo gameInfo) {
         if (!model.isBot())
             return;
 
@@ -27,7 +27,7 @@ public class NewDumbAI implements AI {
         final int fold = 3;
         final int allIn = 4;
 
-        PossibleActions options = roundHelper.getPlayerOptions(model.getUUID());
+        PossibleActions options = gameInfo.getPossibleActions();
         Random rand = new Random();
         ArrayList<Integer> types = new ArrayList<>();
 

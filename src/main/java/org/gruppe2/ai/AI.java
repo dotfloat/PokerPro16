@@ -6,5 +6,7 @@ import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 
 public interface AI {
-    void doAction(Player player, RoundPlayer roundPlayer, RoundHelper roundHelper, GameHelper gameHelper);
+    void doAction(Player player, RoundPlayer roundPlayer, GameInfo gameInfo);
+
+
 }

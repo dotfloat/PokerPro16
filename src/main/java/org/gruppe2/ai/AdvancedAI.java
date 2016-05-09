@@ -1,8 +1,6 @@
 package org.gruppe2.ai;
 
 import org.gruppe2.game.*;
-import org.gruppe2.game.helper.GameHelper;
-import org.gruppe2.game.helper.RoundHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,15 +12,15 @@ public class AdvancedAI implements AI {
 	PossibleActions possibleActions;
 
 	@Override
-	public void doAction(Player player, RoundPlayer roundPlayer, RoundHelper roundHelper, GameHelper gameHelper) {
+	public void doAction(Player player, RoundPlayer roundPlayer, GameInfo gameInfo) {
 		AITurnSimulator turnSim = new AITurnSimulator();
 		this.cards = Arrays.asList(roundPlayer.getCards());
-		this.communityCards = roundHelper.getCommunityCards();
-		this.possibleActions = roundHelper.getPlayerOptions(player.getUUID());
+		this.communityCards = gameInfo.getCommunityCards();
+		this.possibleActions = gameInfo.getPossibleActions();
 		double bank = player.getBank();
-		double handStrength = turnSim.getHandStregth(roundPlayer, roundHelper.getCommunityCards(), 1000,
-				roundHelper.getActivePlayers().size());
-		double toRaise = roundHelper.getHighestBet() - roundPlayer.getBet();
+		double handStrength = turnSim.getHandStregth(roundPlayer, gameInfo.getCommunityCards(), 1000,
+				gameInfo.getActivePlayers().size());
+		double toRaise = gameInfo.getHighestBet() - roundPlayer.getBet();
 		double raiseRatio = 1;
 		if (roundPlayer.getBet() != 0) {
 			raiseRatio = Math.max(toRaise / roundPlayer.getBet(), 0.5);
@@ -36,7 +34,7 @@ public class AdvancedAI implements AI {
 		rateOfReturn *= (1 / raiseRatio);
 
 		rateOfReturn = rateOfReturn + 1;
-		Action action = chooseAction(rateOfReturn, possibleActions, bank, handStrength, gameHelper);
+		Action action = chooseAction(rateOfReturn, possibleActions, bank, handStrength, gameInfo);
 		System.out.println(action);
 		System.out.println();
 		System.out.println();
@@ -44,7 +42,7 @@ public class AdvancedAI implements AI {
 	}
 
 	public Action chooseAction(double rateOfReturn, PossibleActions actions, double bank, double handStrength,
-			GameHelper gameHelper) {
+			GameInfo gameInfo) {
 		Random r = new Random();
 		int random = r.nextInt(100) + 1;
 		System.out.println(actions.canCheck());
@@ -52,7 +50,7 @@ public class AdvancedAI implements AI {
 			System.out.println(0.1);
 			if (handStrength > 0.2) {
 				if (actions.canRaise()) {
-					return new Action.Raise(gameHelper.getBigBlind());
+					return new Action.Raise(gameInfo.getBigBlind());
 				} else if (actions.canCall())
 					return new Action.Call();
 				else if (actions.canAllIn())
@@ -72,8 +70,8 @@ public class AdvancedAI implements AI {
 				return new Action.Check();
 			if (random > 95) {
 				if (actions.canRaise()) {
-					if (actions.getMaxRaise() > 10 * gameHelper.getBigBlind())
-						return new Action.Raise(gameHelper.getBigBlind());
+					if (actions.getMaxRaise() > 10 * gameInfo.getBigBlind())
+						return new Action.Raise(gameInfo.getBigBlind());
 				}
 			} else
 				return new Action.Fold();
@@ -85,8 +83,8 @@ public class AdvancedAI implements AI {
 				return new Action.Check();
 			}
 			if (random > 80 && random <= 95) {
-				if (actions.canRaise() && actions.getMaxRaise() > 8 * gameHelper.getBigBlind()) {
-					return new Action.Raise(gameHelper.getBigBlind());
+				if (actions.canRaise() && actions.getMaxRaise() > 8 * gameInfo.getBigBlind()) {
+					return new Action.Raise(gameInfo.getBigBlind());
 				}
 			}
 			if (random > 95) {
@@ -100,8 +98,8 @@ public class AdvancedAI implements AI {
 			System.out.println(6.0);
 			if (random <= 60 && actions.canCall()) {
 				return new Action.Call();
-			} else if (actions.canRaise() && actions.getMaxRaise() > gameHelper.getBigBlind() * 3) {
-				return new Action.Raise(gameHelper.getBigBlind() * 2);
+			} else if (actions.canRaise() && actions.getMaxRaise() > gameInfo.getBigBlind() * 3) {
+				return new Action.Raise(gameInfo.getBigBlind() * 2);
 			}
 			else if (actions.canCheck())
 				return new Action.Check();
@@ -114,7 +112,7 @@ public class AdvancedAI implements AI {
 					return new Action.Call();
 			} else {
 				if (actions.canRaise()) {
-					int numberOfBigBlinds = actions.getMaxRaise() / gameHelper.getBigBlind();
+					int numberOfBigBlinds = actions.getMaxRaise() / gameInfo.getBigBlind();
 					int randomBlinds = 0;
 					if (numberOfBigBlinds>0)
 					randomBlinds = r.nextInt(numberOfBigBlinds) + 1;
@@ -125,7 +123,7 @@ public class AdvancedAI implements AI {
 							return new Action.Check();
 						return new Action.Fold();
 					}
-					return new Action.Raise(gameHelper.getBigBlind() * randomBlinds);
+					return new Action.Raise(gameInfo.getBigBlind() * randomBlinds);
 				} else if (actions.canCall())
 					return new Action.Call();
 				else if (actions.canCheck()) {
