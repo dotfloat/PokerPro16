@@ -84,12 +84,31 @@ class ThreeOfAKind implements HandCalculation {
     }
 
     /**
-	 * Assumes both o1 and o2 are ThreeOfAKind excluding Highcards.
+     * Compares two ThreeOfAKinds.
+	 * If neither of the compared lists actually are ThreeOfAKind it will return 0.
+	 * This implies that a RoyalFlush compared to a Pair using this compare methode
+	 * will result in 0.
 	 * @return int (1, 0, -1).
 	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-    	return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
+    	List<Card> o1CardsWithoutHighCard = getBestHandCards(o1);
+    	List<Card> o2CardsWithoutHighCard = getBestHandCards(o2);
+    	
+    	int compareThreeOfAKindValueFirst = Integer.compare(Generic.calculateFacevalueOfAllCards(o1CardsWithoutHighCard), Generic.calculateFacevalueOfAllCards(o2CardsWithoutHighCard));
+    	
+    	if(compareThreeOfAKindValueFirst != 0)
+    		return compareThreeOfAKindValueFirst;
+    	else{
+    		List<Card> o1CardsWithHighCard = getBestCards(o1);
+    		List<Card> o2CardsWithHighCard = getBestCards(o2);
+    		
+    		o1CardsWithHighCard.removeAll(o1CardsWithoutHighCard);
+    		o2CardsWithHighCard.removeAll(o2CardsWithoutHighCard);
+    		
+    		HighCard highcard = new HighCard();
+    		return highcard.compare(o1CardsWithHighCard, o2CardsWithHighCard);
+    	}
     }
 
 	@Override
