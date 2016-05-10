@@ -94,7 +94,7 @@ public class ThisPlayerInfoBox extends VBox {
     @Handler
     public void onPreAction(PlayerPreActionEvent e){
         if (e.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
-        	System.out.println("countdown bar started");
+        	
         	progressBar.startProgressBarTimer();
             fold.setVisible(false);
             lastAction.setVisible(false);
