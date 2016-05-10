@@ -69,11 +69,21 @@ class RoyalFlush implements HandCalculation {
     }
 
     /**
-     * Assumes o1 and o2 are both RoyalFlush.
-     */
+     * Compares two RoyalFlushes.
+	 * If neither of the compared lists actually are RoyalFlush it will return 0.
+	 * This implies that a Straight compared to a Pair using this compare methode
+	 * will result in 0.
+	 * @return int (1, 0, -1).
+	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-        return 0;
+        boolean o1Royal = isHand(o1), o2Royal = isHand(o2);
+        if(o1Royal && !o2Royal)
+        	return 1;
+        else if(o2Royal && !o1Royal)
+        	return -1;
+        else
+        	return 0;
     }
 
 	@Override
