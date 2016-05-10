@@ -53,6 +53,7 @@ public class MainMenu extends BorderPane {
 
 	public void goToSinglePlayer() throws InterruptedException {
 		Game.autostart();
+		Game.getInstance().join();
 		SceneController.setScene(new GameScene());
 	}
 
