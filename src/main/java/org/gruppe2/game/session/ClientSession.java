@@ -10,6 +10,7 @@ import java.util.Base64;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.controller.ClientRoundController;
 import org.gruppe2.game.controller.NetworkClientController;
+import org.gruppe2.game.controller.StatisticsController;
 import org.gruppe2.game.model.*;
 import org.gruppe2.network.NetworkIO;
 
@@ -19,7 +20,6 @@ public class ClientSession extends Session {
         connect(ip);
 
         addModel(new ChatModel());
-        addModel(new StatisticsModel());
     }
     
     public ClientSession(NetworkIO connection) {
@@ -38,6 +38,7 @@ public class ClientSession extends Session {
     public void init() {
         addController(NetworkClientController.class);
         addController(ClientRoundController.class);
+        addController(StatisticsController.class);
     }
 
     @Override
