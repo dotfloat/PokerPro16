@@ -53,9 +53,11 @@ public class RightMenu extends VBox {
 	}
 
 	public void viewLobby(ActionEvent actionEvent) {
-		Modal lobbyModal = new Modal();
+		Lobby.show();
+
+		/*Modal lobbyModal = new Modal();
 		lobbyModal.setContent(new Lobby());
-		lobbyModal.show();
+		lobbyModal.show();*/
 
 		menuAnimation();
 	}
