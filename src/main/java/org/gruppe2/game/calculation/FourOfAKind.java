@@ -25,6 +25,10 @@ class FourOfAKind implements HandCalculation {
         HighCard highCard = new HighCard();
         List<Card> pureFourOfAKindCards = getBestHandCards(cardsCopy);
         
+        // Returns an empty list if this isn't actually a FourOfAKind.
+        if(pureFourOfAKindCards.isEmpty())
+        	return getBestCards;
+        
         cardsCopy.removeAll(pureFourOfAKindCards);
         
         List<Card> highCards = highCard.getBestCards(cardsCopy);
@@ -83,12 +87,31 @@ class FourOfAKind implements HandCalculation {
     }
 
     /**
-	 * Assumes both o1 and o2 are FourOfAKind excluding the Highcard.
+     * Compares two FourOfAKinds.
+	 * If neither of the compared lists actually are FourOfAKind it will return 0.
+	 * This implies that a RoyalFlush compared to a Pair using this compare methode
+	 * will result in 0.
 	 * @return int (1, 0, -1).
 	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-    	return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
+    	List<Card> o1CardsWithoutHighCard = getBestHandCards(o1);
+    	List<Card> o2CardsWithoutHighCard = getBestHandCards(o2);
+    	
+    	int compareFourOfAKindValueFirst = Integer.compare(Generic.calculateFacevalueOfAllCards(o1CardsWithoutHighCard), Generic.calculateFacevalueOfAllCards(o2CardsWithoutHighCard));
+    	
+    	if(compareFourOfAKindValueFirst != 0)
+    		return compareFourOfAKindValueFirst;
+    	else{
+    		List<Card> o1CardsWithHighCard = getBestCards(o1);
+    		List<Card> o2CardsWithHighCard = getBestCards(o2);
+    		
+    		o1CardsWithHighCard.removeAll(o1CardsWithoutHighCard);
+    		o2CardsWithHighCard.removeAll(o2CardsWithoutHighCard);
+    		
+    		HighCard highcard = new HighCard();
+    		return highcard.compare(o1CardsWithHighCard, o2CardsWithHighCard);
+    	}
     }
 
 	@Override
@@ -119,6 +142,10 @@ class FourOfAKind implements HandCalculation {
 				}
 			}
 		}
+		
+		// Returns an empty list if this isn't actually a FourOfAKind.
+		if(listOfCardsInFourOfAKind.size() != 4)
+			listOfCardsInFourOfAKind.clear();
 
 		return listOfCardsInFourOfAKind;
 	}
