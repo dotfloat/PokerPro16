@@ -2,7 +2,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ToggleButton?>
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml"
-         stylesheets="/css/style.css" fx:id="rightMenu">
+         stylesheets="/css/style.css" fx:id="rightMenu" alignment="CENTER_RIGHT">
 
     <ToggleButton fx:id="showMenu" onAction="#showMenu" styleClass="menuButton"
                   style="-fx-background-image: url(/images/ui/chip2.png)"/>
