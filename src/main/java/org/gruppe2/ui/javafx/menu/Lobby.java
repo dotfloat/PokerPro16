@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
 import org.gruppe2.ai.NewDumbAI;
+import org.gruppe2.game.session.Session;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.network.TableEntry;
 import org.gruppe2.ui.UIResources;
@@ -78,6 +79,7 @@ public class Lobby extends BorderPane {
 		
 	}
 	public void createGame(){
+		Game.getInstance().setContext(masterClient.createNewTable());
 		SceneController.setScene(new GameScene());
 	}
 
