@@ -42,6 +42,10 @@ public class StatisticsController extends AbstractController {
 
 	@Handler
 	public void onPlayerJoin(PlayerJoinEvent e) {
+		System.out.println(model);
+		System.out.println(e.getPlayer());
+		System.out.println(e.getPlayer().getUUID());
+
 		if (!model.getPlayerStatistics().containsKey(e.getPlayer().getUUID())) {
 			model.getPlayerStatistics().put(e.getPlayer().getUUID(),
 					new PlayerStatistics());

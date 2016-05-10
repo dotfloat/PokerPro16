@@ -1,5 +1,6 @@
 package org.gruppe2.game.controller;
 
+import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
@@ -19,15 +20,20 @@ public class ClientRoundController extends AbstractController{
     private GameHelper game;
 
     @Handler
-    public void onPlayerAction(PlayerActionQuery event) {
+    public void onBlinds(PlayerPaysBlind event) {
+        updatePlayer(event.getPlayer(), event.getRoundPlayer());
+    }
+
+    @Handler
+    public void onPrePlayerAction(PlayerPreActionEvent event) {
         updatePlayer(event.getPlayer(), event.getRoundPlayer());
     }
 
     @Handler
     public void onPostAction(PlayerPostActionEvent event) {
-        round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
+        handleAction(event.getPlayer(), event.getRoundPlayer(), event.getAction());
 
-        updatePlayer(event.getPlayer(), event.getRoundPlayer());
+        round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
     }
 
     @Handler
@@ -38,7 +44,43 @@ public class ClientRoundController extends AbstractController{
 
     @Handler
     public void onPlayerWin(PlayerWonEvent event) {
+    }
 
+    private void handleAction(Player player, RoundPlayer roundPlayer, Action action) {
+        int raise;
+        if (action instanceof Action.Call) {
+            raise = round.getHighestBet() - roundPlayer.getBet();
+            moveChips(player, roundPlayer, roundPlayer.getBet() + raise, player.getBank() - raise, raise);
+        }
+
+        if (action instanceof Action.AllIn) {
+            raise = player.getBank();
+            moveChips(player, roundPlayer, roundPlayer.getBet() + raise, 0, raise);
+        }
+
+        if (action instanceof Action.Fold) {
+            round.getActivePlayers().remove(roundPlayer);
+        }
+
+        if (action instanceof Action.Raise) {
+            raise = ((Action.Raise) action).getAmount();
+            int chipsToMove = (round.getHighestBet() - roundPlayer.getBet()) + raise;
+            moveChips(player, roundPlayer, round.getHighestBet() + raise, player.getBank() - chipsToMove, chipsToMove);
+        }
+
+        if (action instanceof Action.Blind) {
+            int amount = ((Action.Blind) action).getAmount();
+            moveChips(player, roundPlayer, amount, player.getBank() - amount, amount);
+        }
+
+        if (roundPlayer.getBet() > round.getHighestBet())
+            round.setHighestBet(roundPlayer.getBet());
+    }
+
+    private void moveChips(Player player, RoundPlayer roundPlayer, int playerSetBet, int playerSetBank, int addToTablePot) {
+        roundPlayer.setBet(playerSetBet);
+        player.setBank(playerSetBank);
+        round.addToPot(addToTablePot);
     }
 
     private void updatePlayer(Player p, RoundPlayer rp) {
@@ -51,4 +93,6 @@ public class ClientRoundController extends AbstractController{
         op.get().setBank(p.getBank());
         opr.get().setBet(rp.getBet());
     }
+
+
 }

@@ -144,7 +144,10 @@ public class RoundController extends AbstractController {
         }
 
         if (raiseStory.removeIf(uuid -> player.getUUID().equals(uuid))) {
-            round.setLastRaiserID(raiseStory.get(raiseStory.size()-1));
+            if (raiseStory.size() > 0)
+                round.setLastRaiserID(raiseStory.get(raiseStory.size()-1));
+            else
+                round.setLastRaiserID(null);
         }
 
         if (round.getActivePlayers().indexOf(player) <= round.getCurrent()) {
@@ -168,7 +171,6 @@ public class RoundController extends AbstractController {
         for (int i = game.getButton(); !done; i++) {
             int j = (i + 1) % sortedPlayers.size();
             Player p = sortedPlayers.get(j);
-            System.out.println(j);
             if (p.getBank() > 0)
                 active.add(new RoundPlayer(p.getUUID(), deck.pop(), deck.pop()));
 
