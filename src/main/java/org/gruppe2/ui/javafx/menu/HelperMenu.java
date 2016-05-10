@@ -55,6 +55,8 @@ public class HelperMenu extends VBox {
                 PokerApplication.getRoot().widthProperty().multiply(0.22));
         this.maxHeightProperty().bind(
                 PokerApplication.getRoot().heightProperty().multiply(0.6));
+
+        pickOnBoundsProperty().setValue(false);
     }
 
     public void showMenu() {
@@ -74,6 +76,7 @@ public class HelperMenu extends VBox {
         } else {
             closeMenu.setToX(-entirePane.getWidth());
             closeMenu.play();
+
         }
     }
 }

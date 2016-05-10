@@ -21,11 +21,12 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * Created by Åsmund on 28/04/2016.
+ * Class for rolling text(credits) across the screen
  */
 public class Credits extends StackPane{
     private static ArrayList<Node> nodes;
     private static SequentialTransition sequence;
+
 
     public Credits(){
         nodes  = new ArrayList<Node>();
@@ -58,7 +59,6 @@ public class Credits extends StackPane{
 
         addObjectsToCreditSequence(sequence, nodes);
         sequence.play();
-
     }
 
     private void addObjectsToCreditSequence(SequentialTransition sequence, ArrayList<Node> nodes){
