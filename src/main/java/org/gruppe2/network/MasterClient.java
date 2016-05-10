@@ -216,5 +216,14 @@ public class MasterClient {
         }
     }
 
+	public void search() {
+		 try {
+	            connection.sendMessage("SEARCH"+"\r\n");
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		
+	}
+
 
 }

@@ -3,7 +3,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
-<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby">
 <?import org.gruppe2.ui.javafx.PokerApplication?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: red">
 <fx:define>

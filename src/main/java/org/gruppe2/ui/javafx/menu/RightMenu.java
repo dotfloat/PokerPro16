@@ -53,7 +53,10 @@ public class RightMenu extends VBox {
 	}
 
 	public void viewLobby(ActionEvent actionEvent) {
-		SceneController.setModal(new Modal(new Lobby()));
+		Modal lobbyModal = new Modal();
+		lobbyModal.setContent(new Lobby());
+		lobbyModal.show();
+
 		menuAnimation();
 	}
 
@@ -77,10 +80,12 @@ public class RightMenu extends VBox {
 		TranslateTransition closeMenu = new TranslateTransition(new Duration(
 				300), innerBox);
 		if (innerBox.getTranslateX() != 0) {
+			innerBox.setVisible(true);
 			openMenu.play();
 		} else {
 			closeMenu.setToX(innerBox.getWidth());
 			closeMenu.play();
+			closeMenu.setOnFinished(hide -> innerBox.setVisible(false));
 		}
 	}
 

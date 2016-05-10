@@ -72,11 +72,12 @@ public class HelperMenu extends VBox {
         openMenu.setToX(0);
         TranslateTransition closeMenu = new TranslateTransition(new Duration(300), entirePane);
         if (entirePane.getTranslateX() != 0) {
+            entirePane.setVisible(true);
             openMenu.play();
         } else {
             closeMenu.setToX(-entirePane.getWidth());
             closeMenu.play();
-
+            closeMenu.setOnFinished(hide -> entirePane.setVisible(false));
         }
     }
 }
