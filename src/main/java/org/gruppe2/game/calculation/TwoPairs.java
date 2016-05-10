@@ -68,7 +68,10 @@ class TwoPairs implements HandCalculation {
     }
 
     /**
-	 * Assumes both o1 and o2 are TwoPairs excluding Highcards.
+     * Compares two TwoPairs.
+	 * If neither of the compared lists actually are TwoPair it will return 0.
+	 * This implies that a RoyalFlush compared to a Straight using this compare methode
+	 * will result in 0.
 	 * @return int (1, 0, -1).
 	 */
     @Override
