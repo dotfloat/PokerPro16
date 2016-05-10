@@ -89,7 +89,7 @@ public class MainMenu extends BorderPane {
 	}
 
 	public void goToSettings() {
-		throw new NotImplementedException();
+		SceneController.setModal(new Settings());
 	}
 
 	private void fadeIn() {
