@@ -24,6 +24,8 @@ class Pair implements HandCalculation {
         ArrayList<Card> getBestCards = new ArrayList<>();
         HighCard highCard = new HighCard();
         List<Card> purePairCards = getBestHandCards(cardsCopy);
+        if(purePairCards.isEmpty())
+        	return getBestCards;
         
         cardsCopy.removeAll(purePairCards);
         
@@ -75,12 +77,27 @@ class Pair implements HandCalculation {
     }
 
     /**
-	 * Assumes both o1 and o2 are pairs excluding Highcards.
+     * Compares Pair one with Pair two.
+	 * If neither of the compared lists actually are a Pair it will return 0.
+	 * This implies that a RoyalFlush compared to a Straight using this compare methode
+	 * will result in 0.
 	 * @return int (1, 0, -1).
 	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-        return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
+    	List<Card> o1Pair = getBestHandCards(o1), o2Pair = getBestHandCards(o2);
+    	int comparePairOneWithPairTwo = Integer.compare(Generic.calculateFacevalueOfAllCards(o1Pair), Generic.calculateFacevalueOfAllCards(o2Pair));
+    	
+    	if(comparePairOneWithPairTwo != 0)
+    		return comparePairOneWithPairTwo;
+    	else{
+    		HighCard highcard = new HighCard();
+    		List<Card> o1HighCards = getBestCards(o1), o2HighCards = getBestCards(o2);
+    		o1HighCards.removeAll(o1Pair);
+    		o2HighCards.removeAll(o2Pair);
+    		
+    		return highcard.compare(o1HighCards, o2HighCards);
+    	}
     }
 
 	@Override

@@ -42,12 +42,24 @@ class StraightFlush implements HandCalculation{
     }
 
     /**
-	 * Assumes both o1 and o2 are StraightFlush.
+     * Compares two StraightFlushes.
+	 * If neither of the compared lists actually are StraightFlush it will return 0.
+	 * This implies that a FullHouse compared to a Pair using this compare methode
+	 * will result in 0.
 	 * @return int (1, 0, -1).
 	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-    	return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
+    	List<Card> o1StraightFlush = getBestCards(o1), o2StraightFlush = getBestCards(o2);
+    	
+    	if(!o1StraightFlush.isEmpty() && o2StraightFlush.isEmpty())
+    		return 1;
+    	else if(o1StraightFlush.isEmpty() && !o2StraightFlush.isEmpty())
+    		return -1;
+    	else if(o1StraightFlush.isEmpty() && o2StraightFlush.isEmpty())
+    		return 0;
+    	
+    	return Integer.compare(Generic.calculateFacevalueOfAllCards(o1StraightFlush), Generic.calculateFacevalueOfAllCards(o2StraightFlush));
     }
 
 	@Override
