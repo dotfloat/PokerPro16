@@ -37,7 +37,7 @@ public class PlayerInfoBox extends BorderPane {
 
     Player player;
     
-    CountDownBar countDownBar = new CountDownBar();
+    ProgressBarCountDown countDownBar = new ProgressBarCountDown();
     private ObjectProperty<Font> font = new SimpleObjectProperty<>();
 
     @Helper

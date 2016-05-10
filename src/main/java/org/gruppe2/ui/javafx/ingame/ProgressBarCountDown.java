@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 import org.gruppe2.ui.javafx.SoundPlayer;
 
-public class CountDownBar extends HBox {
+public class ProgressBarCountDown extends HBox {
 	
     ProgressBar progressBar = new ProgressBar(0);
     Timeline timeline;
@@ -17,7 +17,7 @@ public class CountDownBar extends HBox {
     double progressDivisor = 30;
 	private boolean countDownSoundStarted = false;
 
-    public CountDownBar(){
+    public ProgressBarCountDown(){
     	setUpProgressBar();
     }
 	
@@ -25,7 +25,6 @@ public class CountDownBar extends HBox {
 		progressBar.setProgress(0);
 		progressBar.setVisible(false);
         getChildren().add(progressBar);
-        
    }
    
 	public void startProgressBarTimer(){

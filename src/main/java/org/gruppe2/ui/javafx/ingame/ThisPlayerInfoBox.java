@@ -29,7 +29,7 @@ import org.gruppe2.ui.UIResources;
 
 public class ThisPlayerInfoBox extends HBox {
     
-	CountDownBar countDownBar = new CountDownBar();
+	ProgressBarCountDown countDownBar = new ProgressBarCountDown();
 	@Helper
     private GameHelper game;
     @Helper
