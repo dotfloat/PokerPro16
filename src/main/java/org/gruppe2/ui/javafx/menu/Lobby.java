@@ -62,6 +62,7 @@ public class Lobby extends BorderPane {
 	}
 
 	public void search() {
+		masterClient.search();
 	}
 
 	
