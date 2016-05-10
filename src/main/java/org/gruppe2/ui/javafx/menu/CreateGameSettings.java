@@ -35,6 +35,10 @@ public class CreateGameSettings extends VBox {
 
 	}
 
+	@FXML
+	private void cancel() {
+	}
+
 	private boolean valuesAreValid() {
 		if (!tableName.getText().equals("") && !smallBlind.getText().equals("")
 				&& !bigBlind.getText().equals("")
