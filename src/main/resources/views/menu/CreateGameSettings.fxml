@@ -2,7 +2,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby" width="400">
+<?import javafx.scene.control.Button?>
+<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby">
 
 
     <HBox spacing="5">
@@ -15,11 +16,12 @@
             <Label text="Max players: "/>
         </VBox>
         <VBox alignment="CENTER">
-            <TextField fx:id="tableName"/>
-            <TextField fx:id="smallBlind"/>
-            <TextField fx:id="bigBlind"/>
-            <TextField fx:id="startMoney"/>
-            <TextField fx:id="maxPlayers"/>
+            <TextField fx:id="tableName" text="table"/>
+            <TextField fx:id="smallBlind" text="10"/>
+            <TextField fx:id="bigBlind" text="20"/>
+            <TextField fx:id="startMoney" text="100"/>
+            <TextField fx:id="maxPlayers" text="4"/>
+            <Button onAction="#ok" text="OK"/>
         </VBox>
     </HBox>
 </fx:root>

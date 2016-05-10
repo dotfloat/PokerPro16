@@ -1,12 +1,10 @@
 package org.gruppe2.ui.javafx.ingame;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 
 import org.gruppe2.Main;
 import org.gruppe2.game.PlayerStatistics;

@@ -73,16 +73,12 @@ public class Lobby extends BorderPane {
 
 	@FXML
 	private void requestCreateGame() {
-		SceneController.setModal(new Modal(new CreateGameSettings(()->{
-			Game.getInstance().setContext(masterClient.createNewTable());
-		})));
+		SceneController.setModal(new Modal(new CreateGameSettings(masterClient)));
+		
 		
 	}
 	public void createGame(){
-		SceneController.setModal(new Modal(new CreateGameSettings(()->{
-			Game.getInstance().setContext(masterClient.createNewTable());
-			SceneController.setScene(new GameScene());
-		})));
+		SceneController.setScene(new GameScene());
 	}
 
 	
