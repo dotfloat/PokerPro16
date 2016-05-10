@@ -16,8 +16,10 @@ public class CreateGameSettings extends VBox {
     TextField startMoney;
     @FXML
     TextField maxPlayers;
+    Runnable runnable;
 
-    public CreateGameSettings(){
+    public CreateGameSettings(Runnable runnable){
         UIResources.loadFXML(this);
+        this.runnable = runnable;
     }
 }

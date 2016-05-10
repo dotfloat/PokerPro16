@@ -18,10 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.ConfettiOrMoney;
-import org.gruppe2.ui.javafx.PokerApplication;
-import org.gruppe2.ui.javafx.SceneController;
-import org.gruppe2.ui.javafx.SoundPlayer;
+import org.gruppe2.ui.javafx.*;
 
 public class Intro extends StackPane {
 

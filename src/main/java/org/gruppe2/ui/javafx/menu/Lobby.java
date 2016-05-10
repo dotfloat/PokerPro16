@@ -22,6 +22,7 @@ import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.network.TableEntry;
 import org.gruppe2.ui.UIResources;
+import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.Game;
@@ -72,12 +73,16 @@ public class Lobby extends BorderPane {
 
 	@FXML
 	private void requestCreateGame() {
-		masterClient.requestCreateGame();
+		SceneController.setModal(new Modal(new CreateGameSettings(()->{
+			Game.getInstance().setContext(masterClient.createNewTable());
+		})));
 		
 	}
 	public void createGame(){
-		Game.getInstance().setContext(masterClient.createNewTable());
-		SceneController.setScene(new GameScene());
+		SceneController.setModal(new Modal(new CreateGameSettings(()->{
+			Game.getInstance().setContext(masterClient.createNewTable());
+			SceneController.setScene(new GameScene());
+		})));
 	}
 
 	
