@@ -90,7 +90,7 @@ public class Lobby extends BorderPane {
 
 	public void joinGame(){
 		Game.getInstance().setContext(masterClient.joinTable());
-		SceneController.setScene(new GameScene());
+		SceneController.setOnlyThisScene(new GameScene());
 	}
 
 	private void setSize() {
