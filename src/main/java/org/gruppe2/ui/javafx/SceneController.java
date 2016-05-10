@@ -20,19 +20,21 @@ public class SceneController {
         PokerApplication.getRoot().getChildren().set(0, node);
     }
 
-    public static void setModal(Node node) {
+    public static void removeNodal(Node node) {
+        stage.getChildren().remove(node);
+    }
+
+    public static void setOnlyThisScene(Node node) {
+        stage.getChildren().clear();
         stage.getChildren().add(node);
     }
-    public static void removeNodal(Node node){
-    	 stage.getChildren().remove(node);
-    }
-    
-    public static void setFadingModal(Node node){
-    	stage.getChildren().add(node);
-    	Timeline timeline = new Timeline(new KeyFrame(
-    	        Duration.seconds(4),
-    	        ae -> removeNodal(node)));
-    	timeline.play();
+
+    public static void setFadingModal(Node node) {
+        stage.getChildren().add(node);
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(4),
+                ae -> removeNodal(node)));
+        timeline.play();
     }
 
     public static void setTooltip(Node node, double x, double y) {

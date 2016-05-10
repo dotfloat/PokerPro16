@@ -120,7 +120,7 @@ public class NetworkServerController extends AbstractController {
 					clients.remove(i--);
 					break;
 				case "ACTION":
-					System.out.println("server recieved action");
+					
 					uuid = clients.get(i).getPlayerUUID();
 
 					setPlayerActionFromMessage(uuid, args);

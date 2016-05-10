@@ -13,6 +13,8 @@ public class GameBuilder {
     private int bigBlind = 20;
     private int waitTime = 1000;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
+    
+    
 
     public GameBuilder playerRange(int min, int max) {
         this.min = min;

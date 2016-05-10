@@ -152,7 +152,6 @@ public class PlayerInfoBox extends BorderPane {
     public void onPostAction(PlayerPostActionEvent event) {
         if (!event.getPlayer().getUUID().equals(playerUUID))
             return;
-        System.out.println("bot is quiting progressbar");
         countDownBar.stopProgressBar();
         bank.setText(String.valueOf(event.getPlayer().getBank()));
         bet.setText(String.valueOf(event.getRoundPlayer().getBet()));

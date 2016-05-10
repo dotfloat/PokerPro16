@@ -6,6 +6,8 @@ import javafx.scene.layout.VBox;
 
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
+import org.gruppe2.ui.javafx.Modal;
+import org.gruppe2.ui.javafx.SceneController;
 
 public class CreateGameSettings extends VBox {
 	MasterClient masterClient;
@@ -30,9 +32,9 @@ public class CreateGameSettings extends VBox {
 	private void ok() {
 		System.out.println("ok clicked");
 		if (valuesAreValid()) {
-			masterClient.requestCreateGame();
+			masterClient.requestCreateGame(tableName.getText(),smallBlind.getText(),bigBlind.getText(),startMoney.getText(),maxPlayers.getText());
 		}
-
+		SceneController.removeNodal(this);
 	}
 
 	@FXML
@@ -47,5 +49,12 @@ public class CreateGameSettings extends VBox {
 			return true;
 		} else
 			return false;
+	}
+
+	public static void show(MasterClient masterClient) {
+		Modal modal = new Modal();
+		modal.setPercentSize(0.5, 0.5);
+		modal.setContent(new CreateGameSettings(masterClient));
+		modal.show();
 	}
 }

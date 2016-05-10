@@ -31,7 +31,7 @@ public class MasterClient {
     public MasterClient(Lobby lobby) {
         this.lobby = lobby;
         connect(ip);
-        System.out.println(connection);
+        
         if (connection != null) {
             sendFirstHello();
             SetTimerTask();
@@ -70,16 +70,15 @@ public class MasterClient {
 
             if (message == null)
                 return;
-            System.out.println("Client recieved " + message[0]);
+           
 
             switch (message[0]) {
                 case "HELLO":
                     if (message[1].equals("MASTER")) {
-                        System.out.println("You are now connected to master server");
+                        
                     }
                     break;
                 case "TABLE":
-                    System.out.println("table is:" + message[0] + " " + message[1]);
                     createTables(message);
                     lobby.updateTables(tablesInLobby);
                     break;
@@ -91,7 +90,7 @@ public class MasterClient {
                     lobby.joinGame();
                     break;
                 case "NO":
-                    System.out.println("could not join that table");
+                   
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,12 +131,18 @@ public class MasterClient {
 
     /**
      * Asks server if you can create new table
+     * @param string5 
+     * @param string4 
+     * @param string3 
+     * @param string2 
+     * @param string 
      *
      * @param uuid
      */
-    public void requestCreateGame() {
-        try {
-            connection.sendMessage("CREATE\r\n");
+    public void requestCreateGame(String tableName, String small, String big, String startMoney, String maxPlayers) {
+        
+    	try {
+            connection.sendMessage("CREATE;"+tableName+";"+small+";"+big+";"+startMoney+";"+maxPlayers+"\r\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -210,6 +215,15 @@ public class MasterClient {
             return false;
         }
     }
+
+	public void search() {
+		 try {
+	            connection.sendMessage("SEARCH"+"\r\n");
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		
+	}
 
 
 }
