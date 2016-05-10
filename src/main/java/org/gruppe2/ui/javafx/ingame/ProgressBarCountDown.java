@@ -19,6 +19,8 @@ public class ProgressBarCountDown extends HBox {
 	private boolean progressBarRunning = false;
 
     public ProgressBarCountDown(){
+		progressBar.prefWidthProperty().bind(prefWidthProperty());
+
     	setUpProgressBar();
     }
 	

@@ -28,13 +28,14 @@ import org.gruppe2.ui.UIResources;
 
 
 public class ThisPlayerInfoBox extends VBox {
-    
-	ProgressBarCountDown countDownBar = new ProgressBarCountDown();
+
 	@Helper
     private GameHelper game;
     @Helper
     private RoundHelper round;
 
+    @FXML
+    private ProgressBarCountDown progressBar;
     @FXML
     private Label name;
     @FXML
@@ -53,8 +54,6 @@ public class ThisPlayerInfoBox extends VBox {
     public ThisPlayerInfoBox() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
-        countDownBar.setAlignment(Pos.BOTTOM_LEFT);
-        getChildren().add(countDownBar);
     }
 
     @Handler
@@ -96,7 +95,7 @@ public class ThisPlayerInfoBox extends VBox {
     public void onPreAction(PlayerPreActionEvent e){
         if (e.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
         	System.out.println("countdown bar started");
-        	countDownBar.startProgressBarTimer();
+        	progressBar.startProgressBarTimer();
             fold.setVisible(false);
             lastAction.setVisible(false);
             isActive = true;
@@ -114,7 +113,7 @@ public class ThisPlayerInfoBox extends VBox {
         if (!e.getPlayer().getUUID().equals(Game.getPlayerUUID()))
             return;
         
-        countDownBar.stopProgressBar();
+        progressBar.stopProgressBar();
         bank.setText(String.valueOf(e.getPlayer().getBank()));
         bet.setText(String.valueOf(e.getRoundPlayer().getBet()));
 
@@ -129,7 +128,7 @@ public class ThisPlayerInfoBox extends VBox {
     public void onPlayerWon(PlayerWonEvent playerWonEvent){
     	bet.setText("0");
     	bank.setText(String.valueOf(player.getBank()));
-    	countDownBar.stopProgressBar();
+    	progressBar.stopProgressBar();
     }
 
     @FXML
