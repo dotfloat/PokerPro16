@@ -1,17 +1,11 @@
 package org.gruppe2.game.helper;
 
-import org.gruppe2.game.Card;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.PossibleActions;
-import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.*;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.SessionContext;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class RoundHelper {
@@ -163,4 +157,46 @@ public class RoundHelper {
             map.put(id, 0);
         }
     }
+
+    public List<SidePot> calculateSidePots() {
+        List<SidePot> pots = new ArrayList<>();
+        List<RoundPlayer> active = model.getActivePlayers();
+
+        ArrayList<Integer> betList = new ArrayList<>();
+        boolean done = false;
+        int previous = 0;
+        while (!done){
+            int lowestBet = Integer.MAX_VALUE;
+            for (RoundPlayer p : active) {
+                if (p.getBet() < lowestBet && p.getBet() > previous)
+                    lowestBet = p.getBet();
+            }
+
+            betList.add(lowestBet);
+            previous = lowestBet;
+
+            done = lowestBet == model.getHighestBet();
+        }
+
+        for (int i = 0; i < betList.size(); i++) {
+            int bet = betList.get(i);
+            int pot;
+
+            List<UUID> players = new ArrayList<>();
+
+            for (RoundPlayer p : active) {
+                if (p.getBet() >=  bet)
+                    players.add(p.getUUID());
+            }
+
+            if (i > 0)
+                bet -= betList.get(i-1);
+            pot = bet * players.size();
+
+            pots.add(new SidePot(players, pot));
+        }
+
+        return pots;
+    }
+
 }

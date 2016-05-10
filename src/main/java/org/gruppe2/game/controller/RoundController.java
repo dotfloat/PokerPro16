@@ -352,6 +352,7 @@ public class RoundController extends AbstractController {
         Player winningPlayer = op.get();
         winningPlayer.setBank(winningPlayer.getBank() + round.getPot());
         round.setPot(0);
+
         addEvent(new PlayerWonEvent(winningPlayer));
 
         logger.writeToFile();
