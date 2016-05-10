@@ -77,7 +77,7 @@ public class RoundController extends AbstractController {
                 player = op.get();
                 roundPlayer = opr.get();
 
-                addEvent(new PlayerPreActionEvent(player));
+                addEvent(new PlayerPreActionEvent(player, roundPlayer));
 
                 if (player.getBank() > 0) {
                     addEvent(new PlayerActionQuery(player, roundPlayer));
