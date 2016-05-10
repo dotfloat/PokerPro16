@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import org.gruppe2.Main;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
@@ -24,6 +25,7 @@ public class CreateGameSettings extends VBox {
 	public CreateGameSettings(MasterClient masterClient) {
 		UIResources.loadFXML(this);
 		this.masterClient = masterClient;
+        setDefaultSettings();
 
 	}
 
@@ -54,4 +56,12 @@ public class CreateGameSettings extends VBox {
 		modal.setContent(new CreateGameSettings(masterClient));
 		modal.show();
 	}
+
+    public void setDefaultSettings() {
+        tableName.setText(Main.getProperty("tableName"));
+        smallBlind.setText(Main.getProperty("smallBlind"));
+        bigBlind.setText(Main.getProperty("bigBlind"));
+        startMoney.setText(Main.getProperty("startMoney"));
+        maxPlayers.setText(Main.getProperty("maxPlayers"));
+    }
 }
