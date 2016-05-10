@@ -117,10 +117,10 @@ public class FullHouseTest{
 			commCardsCompare.add(new Card(3, Card.Suit.CLUBS));
 			commCardsCompare.add(new Card(3, Card.Suit.CLUBS));
 
-			commCards.add(new Card(random.nextInt(12) + 3, Card.Suit.CLUBS));
-			commCards.add(new Card(random.nextInt(12) + 3, Card.Suit.CLUBS));
-			commCardsCompare.add(new Card(random.nextInt(12) + 3, Card.Suit.CLUBS));
-			commCardsCompare.add(new Card(random.nextInt(12) + 3, Card.Suit.CLUBS));
+			commCards.add(new Card(random.nextInt(11) + 4, Card.Suit.CLUBS));
+			commCards.add(new Card(random.nextInt(11) + 4, Card.Suit.CLUBS));
+			commCardsCompare.add(new Card(random.nextInt(11) + 4, Card.Suit.CLUBS));
+			commCardsCompare.add(new Card(random.nextInt(11) + 4, Card.Suit.CLUBS));
 
 			assertEquals(true, fullHouse.compare(commCards, commCardsCompare) == 1);
 		}

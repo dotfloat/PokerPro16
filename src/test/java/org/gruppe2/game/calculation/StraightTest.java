@@ -117,7 +117,7 @@ public class StraightTest {
 		commCardsCompare.add(new Card(10, Card.Suit.CLUBS));
 		commCardsCompare.add(new Card(12, Card.Suit.CLUBS));
 		
-		commCardsCompare.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
+		commCardsCompare.add(new Card(random.nextInt(7)+7,Card.Suit.DIAMONDS));
 
 		assertEquals(true,
 				straight.compare(commCards, commCardsCompare) == 1);
