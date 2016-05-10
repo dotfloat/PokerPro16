@@ -1,0 +1,27 @@
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
+
+    <HBox>
+        <Label text="Name"/>
+        <TextField fx:id="tableName"/>
+    </HBox>
+    <HBox>
+        <Label text="Small blind: "/>
+        <TextField fx:id="smallBlind"/>
+    </HBox>
+    <HBox>
+        <Label text="Big blind"/>
+        <TextField fx:id="bigBlind"/>
+    </HBox>
+    <HBox>
+        <Label text="Start money: "/>
+        <TextField fx:id="startMoney"/>
+    </HBox>
+    <HBox>
+        <Label text="Max players: "/>
+        <TextField fx:id="maxPlayers"/>
+    </HBox>
+</fx:root>
