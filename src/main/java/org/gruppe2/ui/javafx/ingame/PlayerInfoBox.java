@@ -171,6 +171,7 @@ public class PlayerInfoBox extends BorderPane {
     	bet.setText("0");
     	if(player != null)
     		bank.setText(String.valueOf(player.getBank()));
+    	countDownBar.stopProgressBar();
     }
 
     public boolean isPlayerActive() {

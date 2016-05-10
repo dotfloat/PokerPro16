@@ -98,6 +98,8 @@ public class NetworkServerController extends AbstractController {
 					getContext().message("addPlayer",
 							clients.get(i).getPlayerUUID(), args[3], args[2]);
 					break;
+				case "KICK":
+					kickPlayer(args[1]);
 				case "DISCONNECT":
 					uuid = clients.get(i).getPlayerUUID();
 					Optional<Player> player = gameHelper.findPlayerByUUID(uuid);
@@ -131,6 +133,10 @@ public class NetworkServerController extends AbstractController {
 				clients.remove(i--);
 			}
 		}
+	}
+
+	private void kickPlayer(String uuid) {
+		getContext().message("kickPlayer", uuid);
 	}
 
 	private void setPlayerActionFromMessage(UUID uuid, String[] args) {

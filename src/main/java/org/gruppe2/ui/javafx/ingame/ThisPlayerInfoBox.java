@@ -127,6 +127,7 @@ public class ThisPlayerInfoBox extends VBox {
     public void onPlayerWon(PlayerWonEvent playerWonEvent){
     	bet.setText("0");
     	bank.setText(String.valueOf(player.getBank()));
+    	countDownBar.stopProgressBar();
     }
 
     @FXML

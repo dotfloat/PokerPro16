@@ -16,6 +16,7 @@ public class ProgressBarCountDown extends HBox {
     Timeline progressBarTimeLine;
     double progressDivisor = 30;
 	private boolean countDownSoundStarted = false;
+	private boolean progressBarRunning = false;
 
     public ProgressBarCountDown(){
     	setUpProgressBar();
@@ -28,6 +29,7 @@ public class ProgressBarCountDown extends HBox {
    }
    
 	public void startProgressBarTimer(){
+	progressBarRunning = true;
    	timeline = new Timeline(new KeyFrame(
    	        Duration.seconds(30),
    	        ae -> System.out.println("fold now! bitch!")));
@@ -51,13 +53,15 @@ public class ProgressBarCountDown extends HBox {
    }
    
    public void stopProgressBar(){
-	SoundPlayer.stopCountDownTimerMusic();
-	progressBar.setProgress(0);
-	countDownSoundStarted = false;
-   	progressBar.setVisible(false);
-   	if(timeline.getStatus().equals(Status.RUNNING))
-   		timeline.stop();
-   	if(progressBarTimeLine.getStatus().equals(Status.RUNNING))
-   		progressBarTimeLine.stop();
+	if(progressBarRunning){
+		SoundPlayer.stopCountDownTimerMusic();
+		progressBar.setProgress(0);
+		countDownSoundStarted = false;
+	   	progressBar.setVisible(false);
+	   	if(timeline.getStatus().equals(Status.RUNNING))
+	   		timeline.stop();
+	   	if(progressBarTimeLine.getStatus().equals(Status.RUNNING))
+	   		progressBarTimeLine.stop();
+	   }
    }
 }
