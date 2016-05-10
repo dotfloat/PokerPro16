@@ -36,6 +36,10 @@ public class CreateGameSettings extends VBox {
 		SceneController.removeNodal(this);
 	}
 
+	@FXML
+	private void cancel() {
+	}
+
 	private boolean valuesAreValid() {
 		if (!tableName.getText().equals("") && !smallBlind.getText().equals("")
 				&& !bigBlind.getText().equals("")

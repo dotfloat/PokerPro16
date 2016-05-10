@@ -6,10 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.gruppe2.ui.javafx.ingame.CommunityCards?>
-<?import org.gruppe2.ui.javafx.ingame.Pot?>
 <?import org.gruppe2.ui.javafx.ingame.ThisPlayerInfoBox?>
-<?import javafx.stage.Screen?>
-
 <?import org.gruppe2.ui.javafx.PokerApplication?>
 <fx:root type="Pane" xmlns:fx="http://javafx.com/fxml"
          prefWidth="${root.width}"

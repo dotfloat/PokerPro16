@@ -4,24 +4,43 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" styleClass="lobby">
+<?import org.gruppe2.ui.javafx.PokerApplication?>
+<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: red">
+<fx:define>
+    <PokerApplication fx:factory="getRoot" fx:id="root"/>
+</fx:define>
 
+    <VBox spacing="5">
 
-    <HBox spacing="5">
+        <HBox alignment="CENTER">
+            <Label text="Name: "/>
+            <TextField fx:id="tableName" width="${root*0.5}"/>
+        </HBox>
 
-        <VBox alignment="CENTER">
-            <Label text="Name"/>
+        <HBox alignment="CENTER">
             <Label text="Small blind: "/>
+            <TextField fx:id="smallBlind"/>
+        </HBox>
+
+        <HBox  alignment="CENTER">
             <Label text="Big blind"/>
+            <TextField fx:id="bigBlind"/>
+        </HBox>
+
+        <HBox alignment="CENTER">
             <Label text="Start money: "/>
+            <TextField fx:id="startMoney"/>
+        </HBox>
+
+        <HBox  alignment="CENTER">
             <Label text="Max players: "/>
-        </VBox>
-        <VBox alignment="CENTER">
-            <TextField fx:id="tableName" text="table"/>
-            <TextField fx:id="smallBlind" text="10"/>
-            <TextField fx:id="bigBlind" text="20"/>
-            <TextField fx:id="startMoney" text="100"/>
-            <TextField fx:id="maxPlayers" text="4"/>
+            <TextField fx:id="maxPlayers"/>
+        </HBox>
+
+        <HBox alignment="CENTER">
             <Button onAction="#ok" text="OK"/>
-        </VBox>
-    </HBox>
+            <Button onAction="#cancel" text="CANCEL"/>
+        </HBox>
+
+    </VBox>
 </fx:root>
