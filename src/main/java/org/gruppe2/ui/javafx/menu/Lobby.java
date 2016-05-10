@@ -67,8 +67,8 @@ public class Lobby extends BorderPane {
 	
 
 	public void friendBox() {
-		lobbyTiles.getChildren()
-				.add(new Label("Displaying table with friends"));
+//		lobbyTiles.getChildren()
+//				.add(new Label("Displaying table with friends"));
 		// TODO display tables with friends in
 	}
 
@@ -80,7 +80,7 @@ public class Lobby extends BorderPane {
 	}
 	public void createGame(){
 		Game.getInstance().setContext(masterClient.createNewTable());
-		SceneController.setScene(new GameScene());
+		SceneController.setOnlyThisScene(new GameScene());
 	}
 
 	

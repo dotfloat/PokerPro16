@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
+import org.gruppe2.ui.javafx.SceneController;
 
 public class CreateGameSettings extends VBox {
 	MasterClient masterClient;
@@ -30,9 +31,9 @@ public class CreateGameSettings extends VBox {
 	private void ok() {
 		System.out.println("ok clicked");
 		if (valuesAreValid()) {
-			masterClient.requestCreateGame();
+			masterClient.requestCreateGame(tableName.getText(),smallBlind.getText(),bigBlind.getText(),startMoney.getText(),maxPlayers.getText());
 		}
-
+		SceneController.removeNodal(this);
 	}
 
 	private boolean valuesAreValid() {

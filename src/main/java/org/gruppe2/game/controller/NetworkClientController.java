@@ -83,7 +83,7 @@ public class NetworkClientController extends AbstractController {
         if (actionQuery != null && actionQuery.isDone()) {
             Action action = actionQuery.get();
 
-            System.out.println(action.toNetworkString());
+            
             sendMessage(String.format("ACTION;%s\r\n", action.toNetworkString()));
             actionQuery = null;
         }

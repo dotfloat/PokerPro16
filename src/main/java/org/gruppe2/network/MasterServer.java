@@ -93,22 +93,24 @@ public class MasterServer {
 
                         break;
                     case "CREATE":
+                    	
                         clients.get(i).sendMessage("CREATED\r\n");
-
-                        SessionContext context = new GameBuilder().start();
-
+                        SessionContext context = createNewGame(args);
+                        
                         context.waitReady();
                         Thread.sleep(100);
                         context.message("addClient", clients.get(i));
 
                         activeTables.add(new WeakReference<>(context));
                         clients.remove(i--);
-
+                        break;
+                    case "SEARCH":
+                    	clients.get(i).sendMessage(createTableString() + "\r\n");
                         break;
                     case "BYE":
                         clients.remove(i--);
                         break;
-
+                   
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -122,7 +124,25 @@ public class MasterServer {
         activeTables.removeIf(ref -> ref.get() == null);
     }
 
-    private boolean canJoinTable(String tableUUID) {
+    private SessionContext createNewGame(String[] args) {
+		// TODO add this ? String tableName = args[1];
+		int small = Integer.valueOf(args[2]);
+		int big = Integer.valueOf(args[3]);
+		int startMoney = Integer.valueOf(args[4]);
+		int maxPlayers = Integer.valueOf(args[5]);
+		
+		SessionContext context = new GameBuilder()
+				.playerRange(0,maxPlayers)
+				.blinds(small, big)
+				.buyIn(startMoney)
+				.start();
+
+        return context;
+        
+		
+	}
+
+	private boolean canJoinTable(String tableUUID) {
         Optional<SessionContext> table = findTableByUUID(tableUUID);
         if (!table.isPresent())
             return false;

@@ -26,6 +26,13 @@ public class SceneController {
     public static void removeNodal(Node node){
     	 stage.getChildren().remove(node);
     }
+    public static void setOnlyThisScene(Node node){
+     for(int i=0;i<stage.getChildren().size();i++){
+    	 stage.getChildren().remove(stage.getChildren().get(i--));
+     }
+    	 
+   	 stage.getChildren().add(node);
+   }
     
     public static void setFadingModal(Node node){
     	stage.getChildren().add(node);

@@ -76,7 +76,7 @@ public class NetworkIO {
 
         outputBuffer.write(message.getBytes());
 
-        System.out.printf("Sent Message: [%s]\n", message.replace("\r\n", ""));
+//        System.out.printf("Sent Message: [%s]\n", message.replace("\r\n", ""));
     }
 
     /**
@@ -112,7 +112,7 @@ public class NetworkIO {
         inputBuffer.reset();
         inputBuffer.write(bytes, crlf + 2, bytes.length - (crlf + 2));
 
-        System.out.printf("Received Message: [%s]\n", message);
+        
 
         if (message.equals(pingStr)) {
             sendPong();
@@ -128,7 +128,7 @@ public class NetworkIO {
         if (outputFormat != Format.OBJECT)
             throw new RuntimeException("Wrong output format");
 
-        int wrote = 0;
+       
 
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
@@ -144,7 +144,7 @@ public class NetworkIO {
         outputBuffer.write(lengthBuffer.array());
         outputBuffer.write(bytes);
 
-        System.out.printf("Sent Object: [%s] (size: %d)\n", object.getClass(), bytes.length + 4);
+//        System.out.printf("Sent Object: [%s] (size: %d)\n", object.getClass(), bytes.length + 4);
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {
@@ -176,7 +176,7 @@ public class NetworkIO {
 
         Object object = objectInputStream.readObject();
 
-        System.out.printf("Received Object: [%s]\n", object.getClass());
+//        System.out.printf("Received Object: [%s]\n", object.getClass());
 
         if (object instanceof Ping) {
             sendPong();
