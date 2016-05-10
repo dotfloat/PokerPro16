@@ -91,8 +91,11 @@ public class Game {
             return;
 
         instance.context.quit();
-        instance.sessionTimer.cancel();
-        instance.sessionTimer = null;
+
+        if (instance.sessionTimer != null) {
+            instance.sessionTimer.cancel();
+            instance.sessionTimer = null;
+        }
 
         try {
             Thread.sleep(100);

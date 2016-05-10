@@ -100,6 +100,8 @@ public class ThisPlayerInfoBox extends VBox {
             fold.setVisible(false);
             lastAction.setVisible(false);
             isActive = true;
+            bank.setText(String.valueOf(e.getPlayer().getBank()));
+            bet.setText(String.valueOf(e.getRoundPlayer().getBet()));
             setActive(isActive);
         } else {
             isActive = false;

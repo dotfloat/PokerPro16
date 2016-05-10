@@ -1,15 +1,18 @@
 package org.gruppe2.network;
 
 import java.io.IOException;
+import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
 
 /**
@@ -18,7 +21,7 @@ import org.gruppe2.game.session.SessionContext;
  * @author htj063
  */
 public class MasterServer {
-    ArrayList<SessionContext> activeTables = new ArrayList<>();
+    ArrayList<WeakReference<SessionContext>> activeTables = new ArrayList<>();
     ServerSocketChannel serverSocket;
     private ArrayList<NetworkIO> clients = new ArrayList<>();
 
@@ -98,7 +101,7 @@ public class MasterServer {
                         Thread.sleep(100);
                         context.message("addClient", clients.get(i));
 
-                        activeTables.add(context);
+                        activeTables.add(new WeakReference<>(context));
                         clients.remove(i--);
 
                         break;
@@ -115,54 +118,43 @@ public class MasterServer {
                 e.printStackTrace();
             }
         }
+
+        activeTables.removeIf(ref -> ref.get() == null);
     }
 
     private boolean canJoinTable(String tableUUID) {
-        int tableNumber = getTableNumberFromUUID(tableUUID);
-        if (tableNumber == -1) {
+        Optional<SessionContext> table = findTableByUUID(tableUUID);
+        if (!table.isPresent())
             return false;
-        }
 
-        if (activeTables.size() >= tableNumber) {
-            int maxPlayers = activeTables.get(tableNumber)
-                    .getModel(GameModel.class).getMaxPlayers();
-            int currentPlayers = (int) activeTables.get(tableNumber)
-                    .getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count();
-            if (currentPlayers < maxPlayers) {
-                return true;
-            }
-        }
-        return false;
+        int maxPlayers = table.get().getModel(GameModel.class).getMaxPlayers();
+        int currentPlayers = (int) table.get().getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count();
+
+        return currentPlayers < maxPlayers;
     }
 
-    private int getTableNumberFromUUID(String tableUUID) {
-        int index = 0;
-        for (SessionContext table : activeTables) {
-            UUID uuid = table.getModel(GameModel.class).getUUID();
-            if (uuid.toString().equals(tableUUID)) {
-                return index;
-            }
-            index++;
-        }
-        return -1;
+    private Optional<SessionContext> findTableByUUID(String tableUUID) {
+        return activeTables.stream()
+                .map(Reference::get)
+                .filter(ref -> ref != null)
+                .filter(table -> table.getModel(GameModel.class).getUUID().equals(tableUUID))
+                .findFirst();
     }
 
-    private void connectClientToTable(NetworkIO client,
-                                      String tableUUID) {
-        int tableNumber = getTableNumberFromUUID(tableUUID);
-
-        activeTables.get(tableNumber).message("addClient", client);
+    private void connectClientToTable(NetworkIO client, String tableUUID) {
+        findTableByUUID(tableUUID).ifPresent(table -> table.message("addClient", client));
     }
 
-    public void removeTableFromList(SessionContext leavingTable) {
-        System.out.println("removed table from list");
-        activeTables.remove(leavingTable);
-    }
-
-    public String createTableString() {
+    private String createTableString() {
         String tableString = "";
         int tableNumber = 0;
-        for (SessionContext table : activeTables) {
+
+        for (WeakReference<SessionContext> tableRef : activeTables) {
+            SessionContext table = tableRef.get();
+
+            if (table == null)
+                continue;
+
             if (tableNumber == 0)
                 tableString = tableString.concat("TABLE;");
             else
@@ -182,8 +174,7 @@ public class MasterServer {
 
             tableNumber++;
         }
-//		System.out.println("Server tableString is: " + tableString
-//				+ "number of tables: " + activeTables.size());
+
         return tableString;
     }
 

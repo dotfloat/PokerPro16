@@ -8,6 +8,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Base64;
 
 import org.gruppe2.game.Player;
+import org.gruppe2.game.controller.ClientRoundController;
 import org.gruppe2.game.controller.NetworkClientController;
 import org.gruppe2.game.model.*;
 import org.gruppe2.network.NetworkIO;
@@ -36,6 +37,7 @@ public class ClientSession extends Session {
     @Override
     public void init() {
         addController(NetworkClientController.class);
+        addController(ClientRoundController.class);
     }
 
     @Override
