@@ -66,7 +66,7 @@ public class RoundController extends AbstractController {
                 return;
             }
 
-            // Go to next player and do shit
+            // Go to next player and do actions
             if (player == null) {
                 Optional<Player> op = game.findPlayerByUUID(round.getCurrentUUID());
                 Optional<RoundPlayer> opr = round.findPlayerByUUID(round.getCurrentUUID());

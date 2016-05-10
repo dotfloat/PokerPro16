@@ -12,6 +12,7 @@ import org.gruppe2.game.session.ClientSession;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
+import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.Game;
@@ -75,9 +76,9 @@ public class MainMenu extends BorderPane {
 	public void goToLobby() {
 		
 		if(MasterClient.localMasterServerIsUp())
-			SceneController.setScene(new Lobby());
+			SceneController.setModal(new Modal(new Lobby()));
 		else if(MasterClient.onlineMasterServerIsUp())
-			SceneController.setScene(new Lobby());
+			SceneController.setModal(new Modal(new Lobby()));
 		else
 			System.out.println("no master server is up");
 	}

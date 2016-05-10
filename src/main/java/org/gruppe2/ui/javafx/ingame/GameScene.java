@@ -41,6 +41,7 @@ public class GameScene extends Pane {
 
     public GameScene() {
     	SoundPlayer.stopIntroMusic();
+    	
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
         setKeyListener();

@@ -14,11 +14,11 @@ import javafx.scene.paint.Color;
 
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
-import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerJoinEvent;
 import org.gruppe2.game.event.PlayerLeaveEvent;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -110,6 +110,7 @@ public class ThisPlayerInfoBox extends HBox {
     public void onPostAction(PlayerPostActionEvent e){
         if (!e.getPlayer().getUUID().equals(Game.getPlayerUUID()))
             return;
+        
         countDownBar.stopProgressBar();
         bank.setText(String.valueOf(e.getPlayer().getBank()));
         bet.setText(String.valueOf(e.getRoundPlayer().getBet()));
@@ -120,6 +121,11 @@ public class ThisPlayerInfoBox extends HBox {
             lastAction.setText(e.getAction().toString());
             lastAction.setVisible(true);
         }
+    }
+    @Handler
+    public void onPlayerWon(PlayerWonEvent playerWonEvent){
+    	bet.setText("0");
+    	bank.setText(String.valueOf(player.getBank()));
     }
 
     @FXML

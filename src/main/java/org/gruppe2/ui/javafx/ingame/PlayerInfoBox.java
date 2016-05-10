@@ -22,6 +22,7 @@ import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -162,6 +163,12 @@ public class PlayerInfoBox extends BorderPane {
             lastAction.setText(event.getAction().toString());
             lastAction.setVisible(true);
         }
+    }
+    
+    @Handler
+    public void onPlayerWon(PlayerWonEvent playerWonEvent){
+    	bet.setText("0");
+    	bank.setText(String.valueOf(player.getBank()));
     }
 
     public boolean isPlayerActive() {

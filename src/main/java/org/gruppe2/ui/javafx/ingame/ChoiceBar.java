@@ -81,20 +81,24 @@ public class ChoiceBar extends StackPane {
         if (actionQuery != null) {
             UUID uuid = Game.getPlayerUUID();
             Player player = gameHelper.findPlayerByUUID(uuid).get();
+            int myBank = player.getBank();
+            int heighestBet = roundHelper.getModel().getHighestBet();
             
             PossibleActions possibleActions = roundHelper
                     .getPlayerOptions(uuid);
-
+            
             int amount = (int) slider.getValue() - possibleActions.getCallAmount();
-
-            System.out.println("Bank: " + player.getBank());
+            
 
             if (amount == 0) {
                 if (possibleActions.canCall()) {
                     actionQuery.set(new Action.Call());
                 } else if (possibleActions.canCheck()) {
                     actionQuery.set(new Action.Check());
+                } else if(heighestBet > myBank){ //Split pot all in!
+                	actionQuery.set(new Action.AllIn());
                 } else {
+                	System.out.println("call amount was: "+possibleActions.getCallAmount()+"highest bet was: "+roundHelper.getModel().getHighestBet()+"\nmy bank was"+myBank);
                     throw new RuntimeException();
                 }
             } else if (amount == player.getBank()) {
@@ -118,15 +122,17 @@ public class ChoiceBar extends StackPane {
     }
 
     /**
-     * If you raise all you have, change text of raise button to ALL IN
+     * Decide what the bet buttons text each round should be.
      *
      * @param slider
      * @return
      */
     private String checkMaxBid(Slider slider) {
         PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
-
-        if (slider.getValue() == slider.getMax())
+        int heighestBet = roundHelper.getModel().getHighestBet();
+        int myBank = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getBank();
+        
+        if (slider.getValue() == slider.getMax() || (heighestBet > myBank))
             btnBet.setText("All in");
         else if (slider.getValue() > pa.getCallAmount())
             btnBet.setText("Raise");
