@@ -105,9 +105,13 @@ public abstract class Session implements Runnable {
     public void run() {
         try {
             addMessage("quit", args -> {
-                state = RunState.STOPPED;
-                addEvent(new QuitEvent());
-                return true;
+                if (state != RunState.STOPPED) {
+                    state = RunState.STOPPED;
+                    addEvent(new QuitEvent());
+                    return true;
+                } else {
+                    return false;
+                }
             });
 
             init();

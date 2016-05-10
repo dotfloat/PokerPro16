@@ -2,6 +2,7 @@ package org.gruppe2.game.session;
 
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.event.EventHandler;
+import org.gruppe2.game.event.QuitEvent;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -59,6 +60,9 @@ public class ConcurrentEventQueue {
         Event event;
 
         while ((event = eventQueue.poll()) != null) {
+            if (event instanceof QuitEvent)
+                eventQueue.clear();
+
             List<EventHandler<Event>> list = handlerMap.get(event.getClass());
 
             if (genericHandler != null)
