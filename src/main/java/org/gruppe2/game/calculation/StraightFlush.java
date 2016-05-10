@@ -47,7 +47,16 @@ class StraightFlush implements HandCalculation{
 	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
-    	return Integer.compare(Generic.calculateFacevalueOfAllCards(o1), Generic.calculateFacevalueOfAllCards(o2));
+    	List<Card> o1StraightFlush = getBestCards(o1), o2StraightFlush = getBestCards(o2);
+    	
+    	if(!o1StraightFlush.isEmpty() && o2StraightFlush.isEmpty())
+    		return 1;
+    	else if(o1StraightFlush.isEmpty() && !o2StraightFlush.isEmpty())
+    		return -1;
+    	else if(o1StraightFlush.isEmpty() && o2StraightFlush.isEmpty())
+    		return 0;
+    	
+    	return Integer.compare(Generic.calculateFacevalueOfAllCards(o1StraightFlush), Generic.calculateFacevalueOfAllCards(o2StraightFlush));
     }
 
 	@Override
