@@ -4,7 +4,8 @@
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml"
          stylesheets="/css/style.css" fx:id="rightMenu">
 
-    <ToggleButton fx:id="showMenu" onAction="#showMenu" styleClass="menuButton"/>
+    <ToggleButton fx:id="showMenu" onAction="#showMenu" styleClass="menuButton"
+                  style="-fx-background-image: url(/images/ui/chip2.png)"/>
     <VBox fx:id="innerBox" styleClass="rightMenu">
         <Button fx:id="viewStatistics" text="View statistics" onAction="#viewStatistics"/>
         <Button fx:id="viewLobby" text="View lobby" onAction="#viewLobby"/>

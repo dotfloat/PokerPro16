@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.StackPane?>
 
 <?import org.gruppe2.ui.javafx.ConfettiOrMoney?>
-<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml" onMouseClicked="#goToMenu">
+<fx:root type="javafx.scene.layout.StackPane" xmlns:fx="http://javafx.com/fxml" onMouseClicked="#goToMenu" onKeyPressed="#proceed">
 
     <BorderPane>
         <top>
-            <StackPane alignment="CENTER" style="-fx-padding: 30px,0,0,0" onKeyPressed="#proceed">
+            <StackPane alignment="CENTER" style="-fx-padding: 30px,0,0,0">
                 <ImageView fx:id="logo" preserveRatio="true">
                     <Image url="/images/ui/pokerWhite.png"/>
                 </ImageView>
@@ -18,7 +18,7 @@
         </top>
 
         <center>
-            <Label fx:id="clickToContinue" text="Click to continue"/>
+            <Label fx:id="clickToContinue" text="Clickerino to continuero"/>
         </center>
     </BorderPane>
     <ConfettiOrMoney size="50" isConfetti="false"/>

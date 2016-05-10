@@ -59,8 +59,6 @@ public class Intro extends StackPane {
 
 	@FXML
 	public void proceed(KeyEvent event) {
-		if (event.getCode() == KeyCode.ENTER)
-			System.out.println("hola");
 		SceneController.setScene(new MainMenu());
 	}
 

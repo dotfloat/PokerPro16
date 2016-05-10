@@ -78,7 +78,6 @@ public class GameScene extends Pane {
         getChildren().add(new ConfettiOrMoney(100, true));
         String text = event.getPlayer().getName() + " won the Round!";
         Label label = new Label(text);
-        label.fontProperty().setValue(new Font(30));
         SceneController.setFadingModal(label);
         SoundPlayer.playVictoryMusic();
     }
