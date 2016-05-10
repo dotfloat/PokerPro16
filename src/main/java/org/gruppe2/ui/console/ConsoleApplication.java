@@ -27,7 +27,7 @@ public class ConsoleApplication implements Runnable {
     RoundHelper roundHelper;
 
     private void init() {
-        GameBuilder gameBuilder = new GameBuilder().botPolicy(GameModel.BotPolicy.FILL).waitTime(5);
+        GameBuilder gameBuilder = new GameBuilder().botPolicy(GameModel.BotPolicy.FILL).playerRange(2, 8).waitTime(5);
 
         System.out.println("Welcome to PokerPro16 Console Edition");
 
