@@ -115,6 +115,33 @@ class Straight implements HandCalculation{
     		return 0;
     	
     	HighCard highCard = new HighCard();
+    	boolean o1ace=false;
+    	boolean o1king=false;
+    	Card ace1 = null;
+    	for (Card c : o1Straight){
+    		if (c.getFaceValue()==14){
+    			ace1=c;
+    			o1ace=true;
+    		}
+    		if (c.getFaceValue()==13)
+    			o1king=true;
+    	}
+    	Card ace2 = null;
+    	boolean o2ace=false;
+    	boolean o2king=false;
+    	for (Card c : o2Straight){
+    		if (c.getFaceValue()==14){
+    			ace2=c;
+    			o2ace=true;
+    		}
+    		if (c.getFaceValue()==13)
+    			o2king=true;
+    	}
+    	if (o1ace && !o1king && ace1!=null)
+    		o1Straight.remove(ace1);
+    	if (o2ace && !o2king && ace2!=null)
+    		o2Straight.remove(ace2);
+    	
     	
     	return highCard.compare(o1Straight, o2Straight);
     }
