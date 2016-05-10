@@ -97,9 +97,16 @@ public class RoundController extends AbstractController {
                 if (!(player.getAction().get() instanceof Action.Pass))
                     handleAction(player, roundPlayer, player.getAction().get());
 
-                if (!(player.getAction().get() instanceof Action.Raise)
-                        && ((round.getLastRaiserID() == null && player.getUUID().equals(lastPlayerInRound))
-                        || player.getUUID().equals(round.getLastRaiserID()))) {
+                int playersWithChipsLeft = 0;
+                for (RoundPlayer p : round.getActivePlayers()) {
+                    if (game.findPlayerByUUID(p.getUUID()).get().getBank() > 0)
+                        playersWithChipsLeft++;
+                    if (playersWithChipsLeft > 1)
+                        break;
+                }
+
+                if (playersWithChipsLeft <= 1 || !(player.getAction().get() instanceof Action.Raise) &&
+                        ((round.getLastRaiserID() == null && player.getUUID().equals(lastPlayerInRound)) || player.getUUID().equals(round.getLastRaiserID()))) {
                     player.getAction().reset();
                     player = null;
                     roundPlayer = null;
@@ -173,6 +180,7 @@ public class RoundController extends AbstractController {
             Player p = sortedPlayers.get(j);
             if (p.getBank() > 0)
                 active.add(new RoundPlayer(p.getUUID(), deck.pop(), deck.pop()));
+            else addEvent(new PlayerLeaveEvent(p));
 
             done = j == game.getButton();
         }
@@ -191,6 +199,7 @@ public class RoundController extends AbstractController {
         lastPlayerInRound = round.getLastActivePlayerID();
         round.resetRound();
         round.getCommunityCards().clear();
+        round.setLastRaiserID(null);
     }
 
     private void payBlinds() {
@@ -230,8 +239,10 @@ public class RoundController extends AbstractController {
     }
 
     private void handleAction(Player player, RoundPlayer roundPlayer, Action action) {
-        if (!legalAction(player, roundPlayer, action))
-            throw new IllegalArgumentException(player.getName() + " can't do action: " + action);
+        if (!legalAction(player, roundPlayer, action)) {
+            System.err.println(player.getName() + " can't do action: " + action);
+            player.getAction().set(new Action.Fold());
+        }
 
         logger.recordPlayerAction(player, roundPlayer, action);
 
@@ -287,8 +298,10 @@ public class RoundController extends AbstractController {
             return pa.canCheck();
         else if (action instanceof Action.Raise) {
             int raise = ((Action.Raise) action).getAmount();
-            if (raise < 1 || raise > player.getBank() + roundPlayer.getBet() - round.getHighestBet())
-                throw new IllegalArgumentException(player.getName() + " cant raise with " + ((Action.Raise) action).getAmount());
+            if (raise < 1 || raise > player.getBank() + roundPlayer.getBet() - round.getHighestBet()) {
+                System.err.println(player.getName() + " cant raise with " + ((Action.Raise) action).getAmount());
+                player.getAction().set(new Action.Fold());
+            }
             return pa.canRaise();
         } else if (action instanceof Action.Call)
             return pa.canCall();
