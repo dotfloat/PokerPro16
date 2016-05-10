@@ -32,9 +32,8 @@ public class CardsTest  {
 
     }
 
-    @Test
-    public void InvalidInputCausesNullReturn(){
+    @Test(expected = RuntimeException.class)
+    public void InvalidInputCausesRuntimeException(){
         List<Card> cards = Cards.asList("6D KD 10H");
-        assertEquals(null, cards);
     }
 }

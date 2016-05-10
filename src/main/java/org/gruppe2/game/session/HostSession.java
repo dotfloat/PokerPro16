@@ -2,12 +2,7 @@ package org.gruppe2.game.session;
 
 import java.util.UUID;
 
-import org.gruppe2.game.controller.AIController;
-import org.gruppe2.game.controller.ChatController;
-import org.gruppe2.game.controller.GameController;
-import org.gruppe2.game.controller.NetworkServerController;
-import org.gruppe2.game.controller.RoundController;
-import org.gruppe2.game.controller.StatisticsController;
+import org.gruppe2.game.controller.*;
 import org.gruppe2.game.model.ChatModel;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
@@ -31,6 +26,7 @@ public class HostSession extends Session {
         addController(ChatController.class);
         addController(StatisticsController.class);
         addController(NetworkServerController.class);
+        addController(RecordController.class);
     }
 
     @Override

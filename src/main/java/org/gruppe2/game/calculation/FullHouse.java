@@ -78,7 +78,7 @@ class FullHouse implements HandCalculation {
 		if(compareThreeCards != 0)
 			return compareThreeCards;
 		else{
-			TwoPairs twoPair = new TwoPairs();
+			Pair pair = new Pair();
 			
 			o1Copy.removeAll(bestHouse_1);
 			List<Card> copy_hand_1 = Generic.copyListOfCards(o1Copy);
@@ -86,7 +86,7 @@ class FullHouse implements HandCalculation {
 			o2Copy.removeAll(bestHouse_2);
 			List<Card> copy_hand_2 = Generic.copyListOfCards(o2Copy);
 			
-			return twoPair.compare(copy_hand_1, copy_hand_2);
+			return pair.compare(copy_hand_1, copy_hand_2);
 		}
     }
 

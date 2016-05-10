@@ -22,7 +22,7 @@ public class Game {
 
     private UUID playerUUID = UUID.randomUUID();
     private SessionContext context = null;
-    private Timer sessionTimer = new Timer();
+    private Timer sessionTimer = null;
     private boolean player = false;
 
     private Game() {
@@ -80,6 +80,7 @@ public class Game {
     }
 
     private static void startTimer() {
+    	instance.sessionTimer = new Timer();
         instance.sessionTimer.schedule(new TimerTask() {
             @Override
             public void run() {
