@@ -32,7 +32,7 @@ class RoyalFlush implements HandCalculation {
         return false;
     }
 
-    private static int getHighestAmountOfRoyalCardsInSameSuit(List<Card> cards){
+    private int getHighestAmountOfRoyalCardsInSameSuit(List<Card> cards){
         List<Card> allCards = royalCardFilter(cards);
 
         int highest = 0;
@@ -40,13 +40,13 @@ class RoyalFlush implements HandCalculation {
         HashMap<Card.Suit, Integer> numTypes = Generic.numberOfEachSuit(allCards);
 
         for (int i : numTypes.values())
-            if (i >= cards.size() && i > highest)
+            if (i > highest)
                 highest = i;
 
         return highest;
     }
 
-    private static List<Card> royalCardFilter(List<Card> cards){
+    private List<Card> royalCardFilter(List<Card> cards){
         List<Card> newList = new ArrayList<>();
         for (Card c : cards)
             if (cardIsRoyal(c))
@@ -54,7 +54,7 @@ class RoyalFlush implements HandCalculation {
         return newList;
     }
 
-    private static boolean cardIsRoyal(Card c) {
+    private boolean cardIsRoyal(Card c) {
         return c.getFaceValue() >= 10 && c.getFaceValue() <= 14;
     }
 
