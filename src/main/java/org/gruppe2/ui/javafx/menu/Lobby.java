@@ -138,7 +138,7 @@ public class Lobby extends BorderPane {
 
     public static void show() {
         Modal modal = new Modal();
-        modal.setPercentSize(0.5, 0.5);
+        modal.setPercentSize(0.8, 0.8);
         modal.setContent(new Lobby());
         modal.show();
     }
