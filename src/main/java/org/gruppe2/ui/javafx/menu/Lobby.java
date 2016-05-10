@@ -1,13 +1,11 @@
 package org.gruppe2.ui.javafx.menu;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -18,8 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
-import org.gruppe2.ai.NewDumbAI;
-import org.gruppe2.game.session.Session;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.network.TableEntry;
 import org.gruppe2.ui.UIResources;
@@ -129,10 +125,11 @@ public class Lobby extends BorderPane {
 		if (checkBoxFriends.selectedProperty().get()) {
 			// check for tables with friends on
 		}
-		System.out.println("now updating tables");
 		for(TableEntry table : tablesInLobby){
+			
 			String players = table.getCurrentPlayers()+"/"+table.getMaxPlayers();
 			String name = table.getName().isEmpty() ? table.getUUID().toString() : table.getName();
+			
 			lobbyTiles.getChildren().add(new LobbyTable(players, table.getUUID(), name, this));
 		}
 	}
