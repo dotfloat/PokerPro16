@@ -168,8 +168,9 @@ public class RoundController extends AbstractController {
         for (int i = game.getButton(); !done; i++) {
             int j = (i + 1) % sortedPlayers.size();
             Player p = sortedPlayers.get(j);
+            System.out.println("cards left: "+deck.size());
             if (p.getBank() > 0)
-                active.add(new RoundPlayer(p.getUUID(), deck.pop(), deck.pop()));
+                active.add(new RoundPlayer(p.getUUID(), deck.pop(), deck.pop())); //TODO error given that stack is empty
             done = j == game.getButton();
         }
 

@@ -10,9 +10,11 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -21,13 +23,16 @@ import org.gruppe2.Main;
 import org.gruppe2.ui.javafx.ingame.Game;
 import org.gruppe2.ui.javafx.ingame.GameScene;
 import org.gruppe2.ui.javafx.menu.Intro;
+import org.gruppe2.ui.javafx.menu.MainMenu;
 
 public class PokerApplication extends Application {
     private final static double width = 1280;
     private final static double height = 768;
     private final static double fontSize = 14.0;
     private static StackPane root = new StackPane(); // Setting global root. Will only change scenes.
-
+    public boolean introFinished = false;
+    private boolean gameStarted = false;
+    GameScene game = null;
     private static PokerApplication application;
 
     private ObjectProperty<Font> bigFont = new SimpleObjectProperty<>();
@@ -125,11 +130,32 @@ public class PokerApplication extends Application {
         stage.setMinHeight(480);
         stage.setScene(scene);
         stage.show();
+        setKeyListener(scene);
     }
 
     public static void launch(String []args) {
         Application.launch(PokerApplication.class, args);
     }
+    
+    private void setKeyListener(Scene scene) {
+//    	scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//			
+//
+//			@Override
+//            public void handle(KeyEvent event) {
+//            	System.out.println("key pressed application");
+//            	if(!introFinished){
+//            		System.out.println("switchin to main menu");
+//            		introFinished = true;
+//            		SceneController.setScene(new MainMenu());
+//            		
+//            	}
+//            	else if(gameStarted && game != null)
+//            		game.gameKeyOptions(event);
+//            }
+//        });
+	}
+
 
     private void onSizeChange(double width, double height) {
         double ratio = (double) PokerApplication.width / PokerApplication.height;

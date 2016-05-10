@@ -44,27 +44,20 @@ public class GameScene extends Pane {
     	
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
-        setKeyListener();
+        
         chatBox.toFront();
         
     }
 
-    private void setKeyListener() {
-    	this.setOnKeyPressed(new EventHandler<KeyEvent>() {
-    		
-            @SuppressWarnings("incomplete-switch")
-			@Override
-            public void handle(KeyEvent event) {
-            	System.out.println("key pressed");
-                switch (event.getCode()) {
-                    case UP:    choiceBar.onBetAction(); break;
-                    case DOWN:  choiceBar.onFoldAction(); break;
-                    case LEFT:  choiceBar.decreaseSlider(); break;
-                    case RIGHT: choiceBar.increaseSlider(); break;    
-                }
-            }
-        });
-	}
+    
+    public void gameKeyOptions(KeyEvent event){
+    	switch (event.getCode()) {
+        case UP:    choiceBar.onBetAction(); break;
+        case DOWN:  choiceBar.onFoldAction(); break;
+        case LEFT:  choiceBar.decreaseSlider(); break;
+        case RIGHT: choiceBar.increaseSlider(); break;    
+    }
+    }
 
 	@Handler
     public void onQuit(QuitEvent event) {

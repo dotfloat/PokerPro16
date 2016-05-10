@@ -24,12 +24,7 @@ public class Game {
     private boolean player = false;
 
     private Game() {
-        /*try {
-            playerUUID = UUID.fromString(Main.getProperty("playerUUID"));
-        } catch (Exception e) {
-            playerUUID = UUID.randomUUID();
-            Main.setProperty("playerUUID", playerUUID.toString());
-        }*/
+
     }
 
     public static UUID getPlayerUUID() {

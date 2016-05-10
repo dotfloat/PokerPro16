@@ -54,7 +54,7 @@ public class ThisPlayerInfoBox extends HBox {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
         countDownBar.setAlignment(Pos.BOTTOM_LEFT);
-        //getChildren().add(countDownBar);
+        getChildren().add(countDownBar);
     }
 
     @Handler
@@ -95,6 +95,7 @@ public class ThisPlayerInfoBox extends HBox {
     @Handler
     public void onPreAction(PlayerPreActionEvent e){
         if (e.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
+        	System.out.println("countdown bar started");
         	countDownBar.startProgressBarTimer();
             fold.setVisible(false);
             lastAction.setVisible(false);

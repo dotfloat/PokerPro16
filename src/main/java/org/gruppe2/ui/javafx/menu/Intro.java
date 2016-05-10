@@ -7,6 +7,7 @@ package org.gruppe2.ui.javafx.menu;
 import java.io.IOException;
 
 import javafx.animation.FadeTransition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -36,12 +37,24 @@ public class Intro extends StackPane {
 		logo.fitWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.8));
 		clickToContinueFading(clickToContinue);
+		setKeyListener();
+		this.setFocused(true);
 	}
 
 	public void goToMenu() throws IOException {
 		fadeTransition.stop();
 		ConfettiOrMoney.stopAllAnimations();
 		SceneController.setScene(new MainMenu());
+	}
+	private void setKeyListener() {
+    	this.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+            public void handle(KeyEvent event) {
+            	System.out.println("key pressed");
+            	proceed(event);
+            }
+        });
 	}
 
 	@FXML
