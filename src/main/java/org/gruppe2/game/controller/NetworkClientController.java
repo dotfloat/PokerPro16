@@ -109,6 +109,11 @@ public class NetworkClientController extends AbstractController {
         sendMessage(String.format("SAY:%s\r\n", message));
     }
 
+    @Message
+    public void kickPlayer(UUID playerUUID) {
+        sendMessage(String.format("KICK;%s\r\n", playerUUID));
+    }
+
     @Handler
     public void onQuit(QuitEvent quitEvent) {
         sendMessage("DISCONNECT\r\n");
