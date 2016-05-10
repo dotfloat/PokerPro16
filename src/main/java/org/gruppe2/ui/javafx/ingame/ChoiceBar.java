@@ -83,12 +83,12 @@ public class ChoiceBar extends StackPane {
             Player player = gameHelper.findPlayerByUUID(uuid).get();
             int myBank = player.getBank();
             int heighestBet = roundHelper.getModel().getHighestBet();
-            
+
             PossibleActions possibleActions = roundHelper
                     .getPlayerOptions(uuid);
-            
+
             int amount = (int) slider.getValue() - possibleActions.getCallAmount();
-            
+
 
             if (amount == 0) {
                 if (possibleActions.canCall()) {
@@ -131,8 +131,8 @@ public class ChoiceBar extends StackPane {
         PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
         int heighestBet = roundHelper.getModel().getHighestBet();
         int myBank = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getBank();
-        
-        if (slider.getValue() == slider.getMax() || (heighestBet > myBank))
+
+        if (slider.getValue() == slider.getMax() || pa.canAllIn())
             btnBet.setText("All in");
         else if (slider.getValue() > pa.getCallAmount())
             btnBet.setText("Raise");
@@ -163,12 +163,22 @@ public class ChoiceBar extends StackPane {
 
             btnFold.setDisable(false);
             btnBet.setDisable(false);
-            slider.setDisable(false);
-            sliderValue.setDisable(false);
 
-            slider.setMin(actions.getCallAmount());
-            slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
-            slider.setValue(actions.getCallAmount());
+            if(actions.canRaise()) {
+                slider.setDisable(false);
+                sliderValue.setDisable(false);
+                slider.setMin(actions.getCallAmount());
+                slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
+            }
+
+            if (actions.canCheck())
+                slider.setValue(0);
+            else if (actions.canCall())
+                slider.setValue(actions.getCallAmount());
+            else if (actions.canAllIn())
+                slider.setValue(query.getPlayer().getBank());
+
+            setEvents();
 
             actionQuery = query.getPlayer().getAction();
         }
