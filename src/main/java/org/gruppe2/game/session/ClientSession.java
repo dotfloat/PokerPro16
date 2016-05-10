@@ -20,6 +20,7 @@ public class ClientSession extends Session {
         connect(ip);
 
         addModel(new ChatModel());
+        addModel(new StatisticsModel());
     }
     
     public ClientSession(NetworkIO connection) {
