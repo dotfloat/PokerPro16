@@ -120,7 +120,7 @@ public class PlayerInfoBox extends BorderPane {
     public void hover(){
         Color color = UIResources.getAvatarColor(player.getAvatar());
         setBackground(new Background(new BackgroundFill(color.darker(), new CornerRadii(5), null)));
-
+        
     }
 
     @FXML

@@ -1,6 +1,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 <fx:root type="GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="statistics">
     <Label fx:id="name"
            GridPane.columnIndex="0" GridPane.rowIndex="0"
@@ -32,4 +33,6 @@
 
     <Label text="Total winnings:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
     <Label fx:id="totalWinnings" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+    
+    <Button text="Kick" GridPane.columnIndex="0" GridPane.rowIndex="10" onAction="#kickPlayer" />
 </fx:root>
