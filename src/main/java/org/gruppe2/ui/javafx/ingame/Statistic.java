@@ -1,9 +1,12 @@
 package org.gruppe2.ui.javafx.ingame;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import java.util.UUID;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+
 import org.gruppe2.game.PlayerStatistics;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.model.StatisticsModel;
@@ -11,10 +14,8 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Model;
 import org.gruppe2.ui.UIResources;
 
-import java.util.UUID;
-
 class Statistic extends GridPane {
-
+	UUID uuid;
     @Model
     private StatisticsModel model;
     @Helper
@@ -38,8 +39,11 @@ class Statistic extends GridPane {
     private Label totalBets;
     @FXML
     private Label totalWinnings;
+    @FXML
+    private Button kick;
 
     Statistic(UUID playerUUID) {
+    	uuid = playerUUID;
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
 
@@ -55,5 +59,10 @@ class Statistic extends GridPane {
         timesRaised.setText(String.valueOf(stats.getTimesRaised()));
         totalBets.setText(String.valueOf(stats.getGamesPlayed()));
         totalWinnings.setText(String.valueOf(stats.getGamesPlayed()));
+    }
+    @FXML
+    private void kickPlayer(){
+    	System.out.println("kicking player");
+    	Game.getContext().message("kickPlayer", uuid);
     }
 }
