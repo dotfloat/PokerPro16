@@ -17,7 +17,7 @@ public class BinomialCoefficient {
 			throw new IllegalArgumentException("Values of k and n must be larger than zero");
 		}
 		BigInteger result=BigInteger.valueOf(1);
-		result=Faculty.faculty(n).divide((Faculty.faculty(k).multiply(Faculty.faculty(n-k))));
+		result=Factorial.factorial(n).divide((Factorial.factorial(k).multiply(Factorial.factorial(n-k))));
 		return result;
 		
 	}

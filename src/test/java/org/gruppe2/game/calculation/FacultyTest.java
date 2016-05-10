@@ -14,7 +14,7 @@ public class FacultyTest {
 	public void testIfFacultyOfNIncreasesCorrectlyWithN() {
 		BigInteger prev = BigInteger.valueOf(1);
 		for (int i =2;i<10;i++){
-			BigInteger a = Faculty.faculty(i);	
+			BigInteger a = Factorial.factorial(i);	
 			assertTrue(prev.equals(a.divide(BigInteger.valueOf(i))));
 			prev=a;
 		}
@@ -22,7 +22,7 @@ public class FacultyTest {
 	
 	@Test
 	public void testIfFacultyOfZeroReturnsOne(){
-		assertTrue(Faculty.faculty(0)==BigInteger.ONE);
+		assertTrue(Factorial.factorial(0)==BigInteger.ONE);
 	}
 	
 	@Test

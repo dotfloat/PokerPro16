@@ -2,13 +2,13 @@ package org.gruppe2.game.calculation;
 
 import java.math.BigInteger;
 
-public class Faculty {
+public class Factorial {
 	/**
-	 * Calculates faculty
-	 * @param n - The number to calculate faculty of.
-	 * @return result - Faculty of n as a BigInteger.
+	 * Calculates Factorial
+	 * @param n - The number to calculate factorial of.
+	 * @return result - Factorial of n as a BigInteger.
 	 */
-	public static BigInteger faculty(int n){
+	public static BigInteger factorial(int n){
 		if (n<0){
 			throw new IllegalArgumentException("n must be positive!");
 		}
