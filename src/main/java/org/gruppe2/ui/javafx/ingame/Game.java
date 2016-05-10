@@ -14,6 +14,8 @@ import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.UIResources;
+import org.gruppe2.ui.javafx.SceneController;
+import org.gruppe2.ui.javafx.menu.MainMenu;
 
 public class Game {
     private final static Game instance = new Game();
@@ -105,6 +107,8 @@ public class Game {
         // Process the queue one last time
         instance.context.getEventQueue().process();
         instance.context = null;
+
+        SceneController.setScene(new MainMenu());
     }
 
     public static boolean isPlayer() {

@@ -76,12 +76,11 @@ public class MainMenu extends BorderPane {
 
 	public void goToLobby() {
 		
-		if(MasterClient.localMasterServerIsUp())
-			SceneController.setModal(new Modal(new Lobby()));
-		else if(MasterClient.onlineMasterServerIsUp())
-			SceneController.setModal(new Modal(new Lobby()));
-		else
+		if(MasterClient.localMasterServerIsUp() || MasterClient.onlineMasterServerIsUp()) {
+			Lobby.show();
+		} else {
 			System.out.println("no master server is up");
+		}
 	}
 
 	public void goToStatistics() {
@@ -89,7 +88,7 @@ public class MainMenu extends BorderPane {
 	}
 
 	public void goToSettings() {
-		SceneController.setModal(new Modal(new Settings()));
+		Settings.show();
 	}
 
 	private void fadeIn() {

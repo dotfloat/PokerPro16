@@ -74,10 +74,9 @@ public class Lobby extends BorderPane {
 
 	@FXML
 	private void requestCreateGame() {
-		SceneController.setModal(new Modal(new CreateGameSettings(masterClient)));
-		
-		
+        CreateGameSettings.show(masterClient);
 	}
+
 	public void createGame(){
 		Game.getInstance().setContext(masterClient.createNewTable());
 		SceneController.setOnlyThisScene(new GameScene());
@@ -136,4 +135,11 @@ public class Lobby extends BorderPane {
 			lobbyTiles.getChildren().add(new LobbyTable(players, table.getUUID(), name, this));
 		}
 	}
+
+    public static void show() {
+        Modal modal = new Modal();
+        modal.setPercentSize(0.5, 0.5);
+        modal.setContent(new Lobby());
+        modal.show();
+    }
 }
