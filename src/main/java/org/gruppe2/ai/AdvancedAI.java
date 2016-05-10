@@ -101,6 +101,8 @@ public class AdvancedAI implements AI {
 			if (random <= 30) {
 				if (actions.canCall())
 					return new Action.Call();
+				else if (actions.canCheck())
+					return new Action.Check();
 			} else {
 				if (actions.canRaise()) {
 					int numberOfBigBlinds = actions.getMaxRaise() / gameInfo.getBigBlind();

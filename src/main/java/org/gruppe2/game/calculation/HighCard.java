@@ -51,13 +51,16 @@ public class HighCard implements HandCalculation {
 	}
 
 	/**
-	 * Assumes both o1 and o2 are already sorted!
+	 * Compares two hands with HighCards.
 	 * @return int (1, 0, -1).
 	 */
 	@Override
 	public int compare(List<Card> o1, List<Card> o2) {
-		for (int i = 0; i < o1.size() && i < o2.size(); i++) {
-			int comp = o1.get(i).compareTo(o2.get(i));
+		List<Card> o1Sorted = getBestCards(o1);
+		List<Card> o2Sorted = getBestCards(o2);
+		
+		for (int i = 0; i < o1Sorted.size() && i < o2Sorted.size(); i++) {
+			int comp = o1Sorted.get(i).compareTo(o2Sorted.get(i));
 			if (comp != 0)
 				return comp;
 		}

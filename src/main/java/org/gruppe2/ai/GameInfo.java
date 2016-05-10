@@ -14,7 +14,7 @@ import java.util.List;
 public class GameInfo {
     PossibleActions possibleActions;
     List<Card> communityCards;
-    int bigBlind;
+    private int bigBlind;
     int highestBet;
     List<RoundPlayer> activePlayers;
 

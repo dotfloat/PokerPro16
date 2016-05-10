@@ -13,7 +13,7 @@ import org.gruppe2.game.RoundPlayer;
 import org.junit.Test;
 
 public class AdvancedAITest {
-	public final static int N = 1000;
+	public final static int N = 10000;
 
 	@Test
 	public void aiShouldNeverFoldWhenHeCanCheck() {
@@ -24,20 +24,20 @@ public class AdvancedAITest {
 		List<RoundPlayer> activePlayers = new ArrayList<>();
 		List<Card> communityCards = new ArrayList<>();
 
-		actions.setCheck();
-
-		gameHelper.setActivePlayers(activePlayers);
-		gameHelper.setBigBlind(10);
-		gameHelper.setCommunityCards(communityCards);
-		gameHelper.setHighestBet(0);
-		gameHelper.setPossibleActions(actions);
-
-		for (int i = 0; i < 4; i++)
-			activePlayers.add(new RoundPlayer(null, new Card(r.nextInt(13) + 2,
-					Suit.CLUBS), new Card(r.nextInt(13) + 2, Suit.SPADES)));
-
 		for (int i = 0; i < N; i++) {
-			assertFalse(ai.chooseAction(r.nextDouble(), actions, 100, 0,
+			actions.setCheck();
+
+			gameHelper.setActivePlayers(activePlayers);
+			gameHelper.setBigBlind(r.nextInt(1000));
+			gameHelper.setCommunityCards(communityCards);
+			gameHelper.setHighestBet(r.nextInt(1000));
+			gameHelper.setPossibleActions(actions);
+
+			for (int j = 0; j < 4; j++)
+				activePlayers.add(new RoundPlayer(null, new Card(r.nextInt(13) + 2,
+						Suit.CLUBS), new Card(r.nextInt(13) + 2, Suit.SPADES)));
+
+			assertFalse(ai.chooseAction(r.nextDouble()*r.nextInt(100), actions, r.nextInt(100), r.nextDouble(),
 					gameHelper) instanceof Fold);
 		}
 	}

@@ -97,13 +97,26 @@ class Straight implements HandCalculation{
     }
 
     /**
-     * Assumes o1 and o2 are already sorted and only includes the 5 Straight cards!
-     */
+     * Compares two Straights.
+	 * If neither of the compared lists actually are Straight it will return 0.
+	 * This implies that a FullHouse compared to a Pair using this compare methode
+	 * will result in 0.
+	 * @return int (1, 0, -1).
+	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
+    	List<Card> o1Straight = getBestCards(o1), o2Straight = getBestCards(o2);
+    	
+    	if(!o1Straight.isEmpty() && o2Straight.isEmpty())
+    		return 1;
+    	else if(!o2Straight.isEmpty() && o1Straight.isEmpty())
+    		return -1;
+    	else if(o1Straight.isEmpty() && o2Straight.isEmpty())
+    		return 0;
+    	
     	HighCard highCard = new HighCard();
     	
-    	return highCard.compare(o1, o2);
+    	return highCard.compare(o1Straight, o2Straight);
     }
 
 	@Override
