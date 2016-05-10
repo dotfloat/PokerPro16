@@ -1,10 +1,10 @@
 package org.gruppe2.ui.javafx.menu;
 
+import javafx.scene.layout.VBox;
+
 import org.gruppe2.ui.UIResources;
 
-import javafx.scene.layout.StackPane;
-
-public class Settings extends StackPane {
+public class Settings extends VBox {
 	
 	public Settings(){
 		UIResources.loadFXML(this);
