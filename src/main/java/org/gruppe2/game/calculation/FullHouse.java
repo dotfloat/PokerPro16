@@ -51,10 +51,22 @@ class FullHouse implements HandCalculation {
     }
 
     /**
-     * Assumes o1 and o2 are only includes the 5 FullHouse cards!
-     */
+     * Compares two FullHouses.
+	 * If neither of the compared lists actually are FullHouse it will return 0.
+	 * This implies that a RoyalFlush compared to a Pair using this compare methode
+	 * will result in 0.
+	 * @return int (1, 0, -1).
+	 */
     @Override
     public int compare(List<Card> o1, List<Card> o2) {
+    	boolean o1FullHouse = isHand(o1), o2FullHouse = isHand(o2);
+    	if(o1FullHouse && !o2FullHouse)
+    		return 1;
+    	else if(o2FullHouse && !o1FullHouse)
+    		return -1;
+    	else if(!o1FullHouse && !o2FullHouse)
+    		return 0;
+    	
     	List<Card> o1Copy = Generic.copyListOfCards(o1);
     	List<Card> o2Copy = Generic.copyListOfCards(o2);
     	ThreeOfAKind threeOfAKind = new ThreeOfAKind();
