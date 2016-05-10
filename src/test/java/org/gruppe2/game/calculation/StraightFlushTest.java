@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class StraightFlushTest {
 
 	public final StraightFlush straightFlush = new StraightFlush();
-	public final int N = 10000;
+	public final int N = 1;
 
 	@Test
 	public void canGetStraightFlushReturnsTrueWhenItShould() {
@@ -103,10 +103,13 @@ public class StraightFlushTest {
 		commCards.add(new Card(4, Card.Suit.HEARTS));
 		commCards.add(new Card(5, Card.Suit.HEARTS));
 		commCards.add(new Card(6, Card.Suit.HEARTS));
-		commCards.add(new Card(10, Card.Suit.CLUBS));
+//		commCards.add(new Card(10, Card.Suit.CLUBS));
 		commCards.add(new Card(12, Card.Suit.CLUBS));
 		
-		commCards.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
+		Card randomCard = new Card(5, Card.Suit.DIAMONDS);
+//		Card randomCard = new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS);
+		commCards.add(randomCard);
+		System.out.println(randomCard);
 
 		ArrayList<Card> commCardsCompare = new ArrayList<Card>();
 		commCardsCompare.add(new Card(2, Card.Suit.HEARTS));
@@ -116,11 +119,14 @@ public class StraightFlushTest {
 		commCardsCompare.add(new Card(14, Card.Suit.HEARTS));
 		commCardsCompare.add(new Card(10, Card.Suit.CLUBS));
 		commCardsCompare.add(new Card(12, Card.Suit.CLUBS));
+		commCardsCompare.add(new Card(8, Card.Suit.CLUBS));
 		
-		commCardsCompare.add(new Card(random.nextInt(12)+2,Card.Suit.DIAMONDS));
-
+		int compare = straightFlush.compare(commCards, commCardsCompare);
+		
+		System.out.println(compare);
+		
 		assertEquals(true,
-				straightFlush.compare(commCards, commCardsCompare) == 1);
+				compare == 1);
 		}
 	}
 
