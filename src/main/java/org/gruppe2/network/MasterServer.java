@@ -134,10 +134,12 @@ public class MasterServer {
     }
 
     private Optional<SessionContext> findTableByUUID(String tableUUID) {
+        UUID uuid = UUID.fromString(tableUUID);
+
         return activeTables.stream()
                 .map(Reference::get)
                 .filter(ref -> ref != null)
-                .filter(table -> table.getModel(GameModel.class).getUUID().equals(tableUUID))
+                .filter(table -> table.getModel(GameModel.class).getUUID().equals(uuid))
                 .findFirst();
     }
 

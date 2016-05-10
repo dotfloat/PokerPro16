@@ -165,12 +165,14 @@ public class RoundController extends AbstractController {
         logger = new PokerLog();
 
         boolean done = false;
-        for (int i = 0; i < sortedPlayers.size(); i++) {
-            int j = (i + game.getButton()) % sortedPlayers.size();
+        for (int i = game.getButton(); !done; i++) {
+            int j = (i + 1) % sortedPlayers.size();
             Player p = sortedPlayers.get(j);
-            System.out.println("cards left: "+deck.size());
+            System.out.println(j);
             if (p.getBank() > 0)
                 active.add(new RoundPlayer(p.getUUID(), deck.pop(), deck.pop()));
+
+            done = j == game.getButton();
         }
 
         if (active.size() <= 1) {
@@ -338,7 +340,7 @@ public class RoundController extends AbstractController {
         addEvent(new PlayerWonEvent(winningPlayer));
 
         logger.writeToFile();
-        game.setButton(game.getButton() + 1);
+        game.setButton((game.getButton() + 1) % game.getPlayers().size());
         game.setRoundsCompleted(game.getRoundsCompleted() + 1);
 
         roundStart();
