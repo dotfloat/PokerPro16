@@ -42,7 +42,10 @@ class StraightFlush implements HandCalculation{
     }
 
     /**
-	 * Assumes both o1 and o2 are StraightFlush.
+     * Compares two StraightFlushes.
+	 * If neither of the compared lists actually are StraightFlush it will return 0.
+	 * This implies that a FullHouse compared to a Pair using this compare methode
+	 * will result in 0.
 	 * @return int (1, 0, -1).
 	 */
     @Override
