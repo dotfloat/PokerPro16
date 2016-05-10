@@ -118,6 +118,7 @@ public class PokerApplication extends Application {
     private void setStartScene(Stage stage) {
         if (Main.isAutostart()) {
             Game.autostart();
+            Game.getInstance().join();
             root.getChildren().add(new GameScene());
         } else {
             root.getChildren().add(new Intro());
