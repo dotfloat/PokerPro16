@@ -51,10 +51,11 @@ public class AdvancedAITest {
 		}
 	}
 
+	/*
     @Test
     public void aiPlayTest() {
         ExecutorService exService = Executors.newSingleThreadExecutor();
-        Callable<GameResult> testClient = new TestClient(2,Difficulty.HARD,Difficulty.NORMAL,400,10,20);
+        Callable<GameResult> testClient = new TestClient(2,Difficulty.HARD,Difficulty.EASY,400,10,20);
         Future<GameResult> futureTestClientResults = exService.submit(testClient);
 
         try {
@@ -65,4 +66,5 @@ public class AdvancedAITest {
             e.printStackTrace();
         }
     }
+    */
 }

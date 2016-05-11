@@ -16,8 +16,17 @@ public class GameInfo {
     List<Card> communityCards;
     private int bigBlind;
     int highestBet;
+    int roundNumber;
     List<RoundPlayer> activePlayers;
     Difficulty difficulty;
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
 
     public Difficulty getDifficulty() {
         return difficulty;

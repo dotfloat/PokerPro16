@@ -95,10 +95,12 @@ public class CreateGameSettings extends GridPane {
     }
 
     private void setBotDiff() {
-
+    	botDiff.getItems().add("Random");
+    	botDiff.getItems().add("None");
         botDiff.getItems().add("Easy");
         botDiff.getItems().add("Normal");
         botDiff.getItems().add("Hard");
+        
 
         String botDiffFromFile = Main.getProperty("botDiff");
 

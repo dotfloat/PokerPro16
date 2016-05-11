@@ -30,7 +30,7 @@ public class AdvancedAI implements AI {
 		
 		bank = player.getBank();
 		toRaise = gameInfo.getHighestBet() - roundPlayer.getBet();
-		risk = Math.max(Math.min(toRaise / bank, 0.9), 0.1);
+		risk = Math.max(Math.min(toRaise / bank, 0.7), 0.3);
 		
 		if (roundPlayer.getBet() != 0) {
 			raiseRatio = Math.max(toRaise / roundPlayer.getBet(), 0.5);

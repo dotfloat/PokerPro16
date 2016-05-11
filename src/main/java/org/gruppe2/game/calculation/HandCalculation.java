@@ -29,7 +29,7 @@ interface HandCalculation extends Comparator<List<Card>> {
     List<Card> getBestHandCards(List<Card> cards);
 
     /**
-     * Checks if its possible to get a certain hand when there are < 7 cards
+     * Checks if its possible to get a certain hand when there are &lt; 7 cards
      * @param cards a collection of [5, 7) cards to evaluate
      * @return true if a hand is possible to get, false otherwise
      */
@@ -37,7 +37,6 @@ interface HandCalculation extends Comparator<List<Card>> {
 
     /**
      * Calculates the probability that player p gets a specific hand
-     * @param player The player model for the round
      * @return The probability as a double in the range 0..1
      */
     double probability(List<Card> cards);

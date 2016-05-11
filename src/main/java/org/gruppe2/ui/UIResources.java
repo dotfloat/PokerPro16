@@ -17,6 +17,12 @@ import javafx.scene.paint.Color;
 import org.gruppe2.game.Card;
 import org.gruppe2.ui.javafx.PokerApplication;
 
+/**
+ * A helper class with static methods for finding various resources.
+ *
+ * This differs from {@link org.gruppe2.Resources} in that it is used only by JavaFX stuff,
+ * so that the master server can run on headless servers.
+ */
 public class UIResources {
     private final static String uiPackageString = PokerApplication.class.getPackage().getName();
 
@@ -30,11 +36,12 @@ public class UIResources {
     private static Map<String, Image> emotes = null;
 
     /**
-     * Get the
+     * Get the correct FXML file in /views/ based on the class name
      *
-     * @param node
+     * If the class is org.gruppe2.ui.javafx.menu.Intro, then this will attempt to load /menu/Intro.fxml
+     *
+     * @param node a JavaFX node declared in org.gruppe2.ui.**
      */
-
     public static void loadFXML(Node node) {
         try {
             String path = node.getClass().getName().substring(uiPackageString.length()).replace('.', '/');
@@ -51,24 +58,41 @@ public class UIResources {
         }
     }
 
+    /**
+     * Get a cached avatar image
+     * @param name the name of the avatar
+     * @return Image instance
+     */
     public static Image getAvatar(String name) {
         loadAvatars();
 
         return avatars.getOrDefault(name, defaultAvatar);
     }
 
+    /**
+     * Get the cached colour associated with the avatar image
+     * @param name the name of the avatar
+     * @return Color instance
+     */
     public static Color getAvatarColor(String name) {
         loadAvatars();
 
         return avatarColors.getOrDefault(name, Color.WHITE);
     }
 
+    /**
+     * Get the name array of cached avatars
+     * @return array with names of avatars
+     */
     public static String[] listAvatars() {
         loadAvatars();
 
         return avatars.keySet().toArray(new String[avatars.size()]);
     }
 
+    /**
+     * Load the avatars from .jar if it hasn't been done yet
+     */
     private static void loadAvatars() {
         if (avatars != null)
             return;
@@ -96,12 +120,21 @@ public class UIResources {
         }
     }
 
+    /**
+     * Get a cached card image
+     * @param card a {@link Card} to get
+     * @return cached card Image
+     */
     public static Image getCard(Card card) {
         loadCards();
 
         return cards.get(card.getSuit().ordinal() * 13 + (card.getFaceValue() - 2));
     }
 
+    /**
+     * Get the cached card back Image (ie. the back of the card)
+     * @return cached Image
+     */
     public static Image getCardBack() {
         if (cardBack == null) {
             cardBack = new Image(UIResources.class.getResourceAsStream("/images/cards/card_back.png"));
@@ -110,6 +143,9 @@ public class UIResources {
         return cardBack;
     }
 
+    /**
+     * Load the cards from .jar if it hasn't been done yet
+     */
     private static void loadCards() {
         if (cards != null)
             return;
@@ -127,18 +163,30 @@ public class UIResources {
         }
     }
 
+    /**
+     * Get the name array of cached emotes
+     * @return array with names of emotes
+     */
     public static String[] listEmotes() {
         loadEmotes();
 
         return emotes.keySet().toArray(new String[emotes.size()]);
     }
 
+    /**
+     * Get a cached emote
+     * @param emote the name of the emote to get
+     * @return cached emote Image
+     */
     public static Image getEmote(String emote) {
         loadEmotes();
 
         return emotes.get(emote);
     }
 
+    /**
+     * Load the emotes from .jar if it hasn't been done yet
+     */
     private static void loadEmotes() {
         if (emotes != null)
             return;

@@ -114,19 +114,7 @@ public class MasterClient {
         return entries;
     }
 
-
-    /**
-     * Asks server if you can create new table
-     *
-     * @param minPlayers
-     * @param botDiff
-     * @param string5
-     * @param string4
-     * @param string3
-     * @param string2
-     * @param string
-     * @param uuid
-     */
+    
     public void requestCreateGame(List<String> args) {
         try {
             final String[] message = {"CREATE"};

@@ -26,13 +26,8 @@ public class AIController extends AbstractController {
 		difficulty = gameHelper.getBotDiff();
 
 		switch (difficulty) {
-			case EASY:
+			case RANDOM :
 				ai = new NewDumbAI();
-				break;
-			case NORMAL:
-			case HARD:
-				ai = new AdvancedAI();
-				break;
 			default:
 				ai = new AdvancedAI();
 				break;
@@ -51,6 +46,7 @@ public class AIController extends AbstractController {
         gameInfo.setPossibleActions(roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
         gameInfo.setActivePlayers(roundHelper.getActivePlayers());
         gameInfo.setHighestBet(roundHelper.getHighestBet());
+		gameInfo.setRoundNumber(roundHelper.getRoundNum());
 		gameInfo.setDifficulty(this.difficulty);
 
 		setTask(gameHelper.getWaitTime(), () -> {

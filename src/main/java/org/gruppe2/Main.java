@@ -12,13 +12,18 @@ import org.gruppe2.network.MasterServer;
 import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.javafx.PokerApplication;
 
+/**
+ * Entry point of the program.
+ *
+ * Responsible for reading the program arguments and parsing properties.
+ */
 public class Main {
     public static void setFirstStart(boolean firstStart) {
         Main.firstStart = firstStart;
     }
 
     private enum EntryPoint {
-        CONSOLE, JAVAFX, SERVER,MASTER, NOSOUND
+        CONSOLE, JAVAFX, SERVER, MASTER
     }
 
     private static Properties properties = new Properties();
@@ -45,8 +50,8 @@ public class Main {
             case SERVER:
                 break;
             case MASTER:
-            	System.out.println("starting master server");
-            	new MasterServer();
+                System.out.println("starting master server");
+                new MasterServer();
                 break;
             default:
                 PokerApplication.launch(args);
@@ -54,6 +59,10 @@ public class Main {
         }
     }
 
+    /**
+     * Parse console arguments from main
+     * @param args console arguments
+     */
     private static void parseArgs(String[] args) {
         for (String arg : args) {
             switch (arg.toLowerCase()) {
@@ -67,18 +76,18 @@ public class Main {
                 case "--autostart":
                     autostart = true;
                     break;
-                    
+
                 case "-s":
                 case "--server":
-                	entryPoint = EntryPoint.SERVER;
-                	break;
+                    entryPoint = EntryPoint.SERVER;
+                    break;
                 case "-m":
                 case "--master":
-                	entryPoint = EntryPoint.MASTER;
-                	break;
+                    entryPoint = EntryPoint.MASTER;
+                    break;
                 case "--nosound":
-                	noSound = true;
-                	break;
+                    noSound = true;
+                    break;
 
                 default:
                     System.out.println("Unknown argument: " + arg);
@@ -87,6 +96,11 @@ public class Main {
         }
     }
 
+    /**
+     * Load the properties.
+     *
+     * First from the included default.properties and then the one on disk.
+     */
     private static void loadProperties() {
         try {
             FileInputStream stream = new FileInputStream(Resources.getProperties());
@@ -100,6 +114,9 @@ public class Main {
         }
     }
 
+    /**
+     * Save properties to disk.
+     */
     private static void saveProperties() {
         try {
             FileOutputStream stream = new FileOutputStream(Resources.getProperties());
@@ -112,14 +129,28 @@ public class Main {
         }
     }
 
+    /**
+     * Get a property from the properties map
+     * @param key key
+     * @return string value or null if properties doesn't have the key
+     */
     public static String getProperty(String key) {
         return properties.getProperty(key);
     }
 
+    /**
+     * Set a property from the properties map
+     * @param key key
+     * @param value value
+     */
     public static void setProperty(String key, String value) {
         properties.setProperty(key, value);
     }
 
+    /**
+     * Load the player's statistics.
+     * @return a PlayerStatistics object
+     */
     public static PlayerStatistics loadPlayerStatistics() {
         PlayerStatistics stats = new PlayerStatistics();
 
@@ -139,6 +170,10 @@ public class Main {
         return stats;
     }
 
+    /**
+     * Save the player's statistic to disk
+     * @param stats a PlayerStatistics object
+     */
     public static void savePlayerStatistics(PlayerStatistics stats) {
         for (Field f : PlayerStatistics.class.getDeclaredFields()) {
             try {
@@ -147,20 +182,35 @@ public class Main {
                 int val = ((AtomicInteger) f.get(stats)).get();
 
                 setProperty(f.getName(), String.valueOf(val));
-            } catch(IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    /**
+     * If the game was launched with the --autostart parameter,
+     * start a singleplayer game with default configuration.
+     * @return true if launched with --autostart, false else
+     */
     public static boolean isAutostart() {
         return autostart;
     }
 
+    /**
+     * If the game was launched with the --nosound parameter,
+     * don't play any sounds.
+     * @return true if launched with --nosound, false else
+     */
     public static boolean isNoSound() {
         return noSound;
     }
 
+    /**
+     * If no properties file was found on disk, we assume that it's the
+     * first time the user started the game.
+     * @return true if it's the first start, false else
+     */
     public static boolean isFirstStart() {
         return firstStart;
     }

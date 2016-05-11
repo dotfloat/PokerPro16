@@ -1,11 +1,12 @@
 package org.gruppe2.ai.TestClient;
 
-import org.gruppe2.Main;
 import org.gruppe2.ai.AI;
 import org.gruppe2.ai.AdvancedAI;
 import org.gruppe2.ai.Difficulty;
 import org.gruppe2.ai.GameInfo;
-import org.gruppe2.game.*;
+import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -13,9 +14,7 @@ import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.SessionContext;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 

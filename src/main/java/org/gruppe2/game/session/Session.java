@@ -36,26 +36,27 @@ import org.gruppe2.game.event.QuitEvent;
  * single controller, all other controllers are indistinguishable from views,and can't (well, shouldn't) be
  * accessed directly.
  * <p>
- * <p>
+ * <pre>
  * +--| Session Thread |--+       +--| Thread 1 |--+             M: Messages
  * |                      |       |                |             E: Events
  * |  +-| Controller |-+  |       |  +-| View |-+  |
- * |  |                |<-----M-----<|          |  |
+ * |  |                |&lt;-----M-----&lt;|          |  |
  * |  |                |  |       |  |          |  |
- * |  |                |>-----E----->|          |  |
- * |  +----------------|  |       |  +----------+  |
+ * |  |                |&gt;-----E-----&gt;|          |  |
+ * |  +----------------+  |       |  +----------+  |
  * |         ^  ^         |       |                |
  * |         |  |         |       +----------------+
  * |         M  E         |
  * |         |  |         |       +--| Thread 2 |--+
  * |         v  v         |       |                |
  * |  +-| Controller |-+  |       |  +-| View |-+  |
- * |  |                |<-----M-----<|          |  |
+ * |  |                |&lt;-----M-----&lt;|          |  |
  * |  |                |  |       |  |          |  |
- * |  |                |>-----E----->|          |  |
+ * |  |                |&gt;-----E-----&gt;|          |  |
  * |  +----------------+  |       |  +----------+  |
  * |                      |       |                |
  * +----------------------+       +----------------+
+ * </pre>
  * <p>
  * <p>
  * Every controller lives in the main Session thread, while views run in whichever thread they want. For this to work,
@@ -104,6 +105,9 @@ public abstract class Session implements Runnable {
         return session.getContext().createContext();
     }
 
+    /**
+     * Main Session loop
+     */
     @Override
     public void run() {
         try {
@@ -143,6 +147,12 @@ public abstract class Session implements Runnable {
         }
     }
 
+    /**
+     * Add a task to be executed after some time
+     * @param ms time in milliseconds to wait
+     * @param runnable method to execute
+     * @return a reference to the task object
+     */
     public TimerTask setTask(long ms, Runnable runnable) {
         if (ms <= 0) {
             throw new IllegalArgumentException();
@@ -155,10 +165,17 @@ public abstract class Session implements Runnable {
         return task;
     }
 
+    /**
+     * Cancel a running task created with {@link #setTask(long, Runnable)}
+     * @param task task
+     */
     public void cancelTask(TimerTask task) {
         taskList.remove(task);
     }
 
+    /**
+     * Process tasks created with {@link #setTask(long, Runnable)}
+     */
     private void processTaskList() {
         long curTime = System.currentTimeMillis();
 
@@ -172,6 +189,9 @@ public abstract class Session implements Runnable {
         }
     }
 
+    /**
+     * Go through the message queue and execute
+     */
 	private void processMessageQueue() {
         MessageEntry entry;
         while ((entry = messageQueue.poll()) != null) {

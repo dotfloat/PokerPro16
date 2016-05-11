@@ -93,7 +93,7 @@ public class NetworkIO {
      */
     public String[] readMessage() throws IOException {
         if (inputFormat != Format.STRING)
-            throw new RuntimeException("Wrong input format");
+            return null;
 
         fillBuffer();
 
