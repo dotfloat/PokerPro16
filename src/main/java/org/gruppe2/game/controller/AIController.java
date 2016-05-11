@@ -26,13 +26,8 @@ public class AIController extends AbstractController {
 		difficulty = gameHelper.getBotDiff();
 
 		switch (difficulty) {
-			case EASY:
+			case RANDOM :
 				ai = new NewDumbAI();
-				break;
-			case NORMAL:
-			case HARD:
-				ai = new AdvancedAI();
-				break;
 			default:
 				ai = new AdvancedAI();
 				break;
