@@ -51,6 +51,7 @@ public class AdvancedAITest {
 		}
 	}
 
+    /*
     @Test
     public void aiPlayTest() {
         ExecutorService exService = Executors.newSingleThreadExecutor();
@@ -64,5 +65,5 @@ public class AdvancedAITest {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
