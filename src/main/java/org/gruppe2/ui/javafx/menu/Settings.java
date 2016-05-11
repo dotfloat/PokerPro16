@@ -17,6 +17,7 @@ import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Settings extends VBox {
+	private static Modal modal = null;
 
 	@FXML
 	TextField nameField;
@@ -34,15 +35,16 @@ public class Settings extends VBox {
 	}
 
 	public static void show() {
-		Modal modal = new Modal(true);
+		modal = new Modal(true);
 		modal.setPercentSize(0.5, 0.5);
 		modal.setContent(new Settings());
 		modal.show();
 	}
 
-	public void setName(){
+	public void apply(){
 		if(nameField.getText() != null && !nameField.getText().isEmpty())
 		Main.setProperty("name" ,nameField.getText());
+		modal.close();
 	}
 
 	private void getAvatars(){
