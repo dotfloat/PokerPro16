@@ -51,7 +51,7 @@ public class AIController extends AbstractController {
         gameInfo.setPossibleActions(roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
         gameInfo.setActivePlayers(roundHelper.getActivePlayers());
         gameInfo.setHighestBet(roundHelper.getHighestBet());
-		gameInfo.setRoundNumber(gameInfo.getRoundNumber());
+		gameInfo.setRoundNumber(roundHelper.getRoundNum());
 		gameInfo.setDifficulty(this.difficulty);
 
 		setTask(gameHelper.getWaitTime(), () -> {
