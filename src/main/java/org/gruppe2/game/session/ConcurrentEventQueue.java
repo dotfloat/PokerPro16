@@ -19,7 +19,6 @@ public class ConcurrentEventQueue {
 
     /* Adding handlers only happens on a single thread, so we don't care about thread safety here */
     private final Map<Class<?>, List<EventHandler<Event>>> handlerMap = new HashMap<>();
-    private volatile EventHandler<Event> genericHandler = null;
 
     /**
      * Register a new EventHandler to handle certain events
@@ -39,13 +38,6 @@ public class ConcurrentEventQueue {
     }
 
     /**
-     * Set a generic handler that receives all events
-     */
-    public void setGenericHandler(EventHandler<Event> handler) {
-        genericHandler = handler;
-    }
-
-    /**
      * Add an event to be processed later
      * @param event event to be added
      */
@@ -57,22 +49,24 @@ public class ConcurrentEventQueue {
      * Iterate over new events and send them out to their respective handlers
      */
     public void process() {
+        List<EventHandler<Event>> genericList = handlerMap.get(Event.class);
         Event event;
 
         while ((event = eventQueue.poll()) != null) {
+            List<EventHandler<Event>> list = handlerMap.get(event.getClass());
+
             if (event instanceof QuitEvent)
                 eventQueue.clear();
 
-            List<EventHandler<Event>> list = handlerMap.get(event.getClass());
+            if (genericList != null) {
+                for (EventHandler<Event> handler : genericList)
+                    handle(handler, event);
+            }
 
-            if (genericHandler != null)
-                handle(genericHandler, event);
-
-            if (list == null)
-                continue;
-
-            for (EventHandler<Event> handler : list)
-                handle(handler, event);
+            if (list != null) {
+                for (EventHandler<Event> handler : list)
+                    handle(handler, event);
+            }
         }
     }
 

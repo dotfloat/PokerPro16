@@ -14,6 +14,7 @@ import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.*;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
+import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Message;
 import org.gruppe2.game.session.Query;
@@ -31,13 +32,7 @@ public class NetworkServerController extends AbstractController {
 
 	private Query<Action> action = null;
 
-	@Override
-	public void init() {
-		getContext()
-			.getEventQueue()
-			.setGenericHandler(this::handleEvent);
-	}
-
+	@Handler
 	private void handleEvent(Event e) {
 		if (e instanceof RoundStartEvent) {
 			broadcastObject(gameHelper.getModel());

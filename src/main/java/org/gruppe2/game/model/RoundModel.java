@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class RoundModel implements Serializable {
+    private static final long serialVersionUID = -8619566088099564814L;
     private final List<RoundPlayer> activePlayers = Collections.synchronizedList(new ArrayList<>());
     private final List<Card> communityCards = Collections.synchronizedList(new ArrayList<>());
     private final Map<UUID, Integer> raiseMap = Collections.synchronizedMap(new HashMap<>());
