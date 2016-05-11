@@ -37,22 +37,24 @@ public class NetworkServerController extends AbstractController {
 		if (e instanceof RoundStartEvent) {
 			broadcastObject(gameHelper.getModel());
 			broadcastObject(roundHelper.getModel());
-            broadcastObject(e);
-		}
-		else if (!(e instanceof PlayerActionQuery)) {
 			broadcastObject(e);
-		}
-		else {
+		} else if (!(e instanceof PlayerActionQuery)) {
+			broadcastObject(e);
+		} else {
 			PlayerActionQuery query = (PlayerActionQuery) e;
-			clients.stream().filter(
-					c -> query.getPlayer().getUUID().equals(c.getPlayerUUID()))
-					.findFirst().ifPresent(c -> {
-				try {
-					c.getConnection().sendObject(e);
-					action = ((PlayerActionQuery) e).getPlayer().getAction();
-				} catch (IOException e1) {e1.printStackTrace();
-				}
-			});
+			clients.stream()
+					.filter(c -> query.getPlayer().getUUID()
+							.equals(c.getPlayerUUID()))
+					.findFirst()
+					.ifPresent(
+							c -> {
+								try {
+									c.getConnection().sendObject(e);
+									action = ((PlayerActionQuery) e)
+											.getPlayer().getAction();
+								} catch (IOException e1) {
+								}
+							});
 		}
 	}
 
@@ -68,7 +70,7 @@ public class NetworkServerController extends AbstractController {
 				}
 
 			} catch (IOException e) {
-				e.printStackTrace();
+
 			}
 		}
 
@@ -94,7 +96,8 @@ public class NetworkServerController extends AbstractController {
 							clients.get(i).getPlayerUUID(), args[3], args[2]);
 					break;
 				case "KICK":
-					getContext().message("kickPlayer", UUID.fromString(args[1]));
+					getContext()
+							.message("kickPlayer", UUID.fromString(args[1]));
 				case "DISCONNECT":
 					uuid = clients.get(i).getPlayerUUID();
 					Optional<Player> player = gameHelper.findPlayerByUUID(uuid);
@@ -115,14 +118,15 @@ public class NetworkServerController extends AbstractController {
 					clients.remove(i--);
 					break;
 				case "ACTION":
-					
+
 					uuid = clients.get(i).getPlayerUUID();
 
 					setPlayerActionFromMessage(uuid, args);
 				}
 			} catch (IOException e) {
 				if (clients.get(i).getPlayerUUID() != null) {
-					getContext().message("kickPlayer", clients.get(i).getPlayerUUID());
+					getContext().message("kickPlayer",
+							clients.get(i).getPlayerUUID());
 				}
 
 				clients.remove(i--);
@@ -160,8 +164,7 @@ public class NetworkServerController extends AbstractController {
 			serverSocket = ServerSocketChannel.open();
 			serverSocket.socket().bind(new InetSocketAddress(8888));
 			serverSocket.configureBlocking(false);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ignore) {
 		}
 	}
 
@@ -177,7 +180,7 @@ public class NetworkServerController extends AbstractController {
 			connection.sendObject(gameHelper.getModel());
 			connection.sendObject(roundHelper.getModel());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -187,7 +190,8 @@ public class NetworkServerController extends AbstractController {
 				clients.get(i).getConnection().sendObject(object);
 			} catch (IOException e) {
 				if (clients.get(i).getPlayerUUID() != null) {
-					getContext().message("kickPlayer", clients.get(i).getPlayerUUID());
+					getContext().message("kickPlayer",
+							clients.get(i).getPlayerUUID());
 				}
 				clients.remove(i--);
 			}
