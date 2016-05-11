@@ -84,12 +84,12 @@ public class CreateGameSettings extends GridPane {
 	}
 
 	public void setDefaultSettings() {
-		tableName.setText(Main.getProperty("tableName"));
-		smallBlind.setText(Main.getProperty("smallBlind"));
-		bigBlind.setText(Main.getProperty("bigBlind"));
-		startMoney.setText(Main.getProperty("startMoney"));
-		maxPlayers.setText(Main.getProperty("maxPlayers"));
-		minPlayers.setText(Main.getProperty("minPlayers"));
+		tableName.setPromptText(Main.getProperty("tableName"));
+		smallBlind.setPromptText(Main.getProperty("smallBlind"));
+		bigBlind.setPromptText(Main.getProperty("bigBlind"));
+		startMoney.setPromptText(Main.getProperty("startMoney"));
+		maxPlayers.setPromptText(Main.getProperty("maxPlayers"));
+		minPlayers.setPromptText(Main.getProperty("minPlayers"));
 		setBotDiff();
 
 	}
