@@ -105,6 +105,9 @@ public abstract class Session implements Runnable {
         return session.getContext().createContext();
     }
 
+    /**
+     * Main Session loop
+     */
     @Override
     public void run() {
         try {
@@ -144,6 +147,12 @@ public abstract class Session implements Runnable {
         }
     }
 
+    /**
+     * Add a task to be executed after some time
+     * @param ms time in milliseconds to wait
+     * @param runnable method to execute
+     * @return a reference to the task object
+     */
     public TimerTask setTask(long ms, Runnable runnable) {
         if (ms <= 0) {
             throw new IllegalArgumentException();
@@ -156,10 +165,17 @@ public abstract class Session implements Runnable {
         return task;
     }
 
+    /**
+     * Cancel a running task created with {@link #setTask(long, Runnable)}
+     * @param task task
+     */
     public void cancelTask(TimerTask task) {
         taskList.remove(task);
     }
 
+    /**
+     * Process tasks created with {@link #setTask(long, Runnable)}
+     */
     private void processTaskList() {
         long curTime = System.currentTimeMillis();
 
@@ -173,6 +189,9 @@ public abstract class Session implements Runnable {
         }
     }
 
+    /**
+     * Go through the message queue and execute
+     */
 	private void processMessageQueue() {
         MessageEntry entry;
         while ((entry = messageQueue.poll()) != null) {

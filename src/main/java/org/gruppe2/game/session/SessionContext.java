@@ -7,17 +7,29 @@ import java.lang.reflect.Method;
 
 import org.gruppe2.game.event.Event;
 
+/**
+ * The context to interface with {@link Session}.
+ * This is created for every thread connected to a Session instance.
+ */
 public class SessionContext {
     private final Session session;
 
     private final ConcurrentEventQueue eventQueue = new ConcurrentEventQueue();
 
+    /**
+     * Connect self to a session and add our queue to its {@link SessionEventQueue}
+     * @param session a reference to a running {@link Session} instance
+     */
     SessionContext(Session session) {
         this.session = session;
 
         session.getEventQueue().addQueue(eventQueue);
     }
 
+    /**
+     * Get this context's event queue
+     * @return event queue
+     */
     public ConcurrentEventQueue getEventQueue() {
         return eventQueue;
     }
@@ -35,10 +47,16 @@ public class SessionContext {
         return session.sendMessage(name, args);
     }
 
+    /**
+     * Send a message to Session to quit
+     */
     public void quit() {
         message("quit");
     }
 
+    /**
+     * Wait for the session to start.
+     */
     public void waitReady() {
         while (!session.isReady()) {
             try {
