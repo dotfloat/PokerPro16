@@ -10,10 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -32,7 +29,7 @@ import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ToolTip;
 
-public class PlayerInfoBox extends BorderPane {
+public class PlayerInfoBox extends VBox {
     private UUID playerUUID = null;
 
     Player player;

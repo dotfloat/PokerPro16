@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import org.gruppe2.ui.javafx.ingame.ProgressBarCountDown?>
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml" styleClass="pane" fx:id="this" spacing="12"
-         alignment="CENTER" style="-fx-background-color: black" onMouseMoved="#hover" onMouseExited="#noHover">
+         alignment="CENTER" onMouseMoved="#hover" onMouseExited="#noHover">
 
     <fx:define>
         <PokerApplication fx:factory="getApplication" fx:id="app"/>
