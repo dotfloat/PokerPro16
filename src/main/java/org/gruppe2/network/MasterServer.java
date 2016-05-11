@@ -13,7 +13,6 @@ import java.util.UUID;
 import org.gruppe2.ai.Difficulty;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
 
 /**

@@ -53,7 +53,7 @@ public class Resources {
         while (dir.hasNext()) {
             avatars.add(dir.next());
         }
-
+        dir.close();
         return avatars.toArray(new String[avatars.size()]);
     }
 

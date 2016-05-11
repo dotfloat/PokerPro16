@@ -1,9 +1,9 @@
 package org.gruppe2.game;
 
-import org.gruppe2.game.session.Query;
-
 import java.io.Serializable;
 import java.util.UUID;
+
+import org.gruppe2.game.session.Query;
 
 public class Player implements Serializable {
     /**

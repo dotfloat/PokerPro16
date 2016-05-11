@@ -1,14 +1,17 @@
 package org.gruppe2.game.session;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.gruppe2.game.controller.Controller;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.event.QuitEvent;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Session is PokerPro16's MVC framework for game logic. I couldn't come up with a better name, so whenever I use the

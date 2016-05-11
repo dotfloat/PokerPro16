@@ -1,10 +1,15 @@
 package org.gruppe2.game.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.game.RoundPlayer;
-
-import java.io.Serializable;
-import java.util.*;
 
 public class RoundModel implements Serializable {
     private static final long serialVersionUID = -8619566088099564814L;

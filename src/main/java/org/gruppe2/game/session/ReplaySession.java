@@ -1,19 +1,18 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.Resources;
-import org.gruppe2.game.Player;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+
 import org.gruppe2.game.controller.ClientRoundController;
-import org.gruppe2.game.controller.NetworkClientController;
 import org.gruppe2.game.controller.ReplayController;
 import org.gruppe2.game.controller.StatisticsController;
-import org.gruppe2.game.model.*;
-import org.gruppe2.network.NetworkIO;
-
-import java.io.*;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
-import java.util.Base64;
+import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.ReplayModel;
+import org.gruppe2.game.model.RoundModel;
+import org.gruppe2.game.model.StatisticsModel;
 
 public class ReplaySession extends Session {
 

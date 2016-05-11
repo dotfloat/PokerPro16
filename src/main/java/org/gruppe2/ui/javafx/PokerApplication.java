@@ -10,11 +10,9 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -23,7 +21,6 @@ import org.gruppe2.Main;
 import org.gruppe2.ui.javafx.ingame.Game;
 import org.gruppe2.ui.javafx.ingame.GameScene;
 import org.gruppe2.ui.javafx.menu.Intro;
-import org.gruppe2.ui.javafx.menu.MainMenu;
 
 public class PokerApplication extends Application {
     private final static double width = 1280;
@@ -31,8 +28,7 @@ public class PokerApplication extends Application {
     private final static double fontSize = 14.0;
     private static StackPane root = new StackPane(); // Setting global root. Will only change scenes.
     public boolean introFinished = false;
-    private boolean gameStarted = false;
-    GameScene game = null;
+    
     private static PokerApplication application;
 
     private ObjectProperty<Font> bigFont = new SimpleObjectProperty<>();

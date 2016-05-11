@@ -8,10 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 /**
- * Created by kjors on 06.04.2016.
- * <p>
- * Changes scene in PokerApplication main root BorderPane #url = URL to
- * fxml-file
+ * Changes the scene to be shown in the stage, there are multiple ways to show a scene, as modal window or window covering entire screen.
+ *
  */
 public class SceneController {
     public static StackPane stage = PokerApplication.getRoot();

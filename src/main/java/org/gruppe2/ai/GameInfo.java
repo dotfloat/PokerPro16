@@ -1,10 +1,10 @@
 package org.gruppe2.ai;
 
+import java.util.List;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.RoundPlayer;
-
-import java.util.List;
 
 /**
  * POJO that contains the information AI needs to make decisions.

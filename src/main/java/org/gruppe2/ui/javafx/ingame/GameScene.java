@@ -53,7 +53,8 @@ public class GameScene extends Pane {
     }
 
     
-    public void gameKeyOptions(KeyEvent event){
+    @SuppressWarnings("incomplete-switch")
+	public void gameKeyOptions(KeyEvent event){
     	switch (event.getCode()) {
         case UP:    choiceBar.onBetAction(); break;
         case DOWN:  choiceBar.onFoldAction(); break;

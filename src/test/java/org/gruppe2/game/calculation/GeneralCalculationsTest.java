@@ -1,11 +1,11 @@
 package org.gruppe2.game.calculation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 
 import org.gruppe2.game.Card;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 /**
  * Created by �smund on 11/04/2016.

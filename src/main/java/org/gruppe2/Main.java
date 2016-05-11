@@ -42,15 +42,14 @@ public class Main {
             case CONSOLE:
                 new ConsoleApplication().run();
                 break;
-
-            case JAVAFX:
-                PokerApplication.launch(args);
-                break;
             case SERVER:
                 break;
             case MASTER:
             	System.out.println("starting master server");
             	new MasterServer();
+                break;
+            default:
+                PokerApplication.launch(args);
                 break;
         }
     }

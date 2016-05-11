@@ -82,7 +82,8 @@ public class ChoiceBar extends StackPane {
             UUID uuid = Game.getPlayerUUID();
             Player player = gameHelper.findPlayerByUUID(uuid).get();
             int myBank = player.getBank();
-            int heighestBet = roundHelper.getModel().getHighestBet();
+            @SuppressWarnings("unused")
+			int heighestBet = roundHelper.getModel().getHighestBet();
 
             PossibleActions possibleActions = roundHelper
                     .getPlayerOptions(uuid);
@@ -129,8 +130,10 @@ public class ChoiceBar extends StackPane {
      */
     private String checkMaxBid(Slider slider) {
         PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
-        int heighestBet = roundHelper.getModel().getHighestBet();
-        int myBank = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getBank();
+        @SuppressWarnings("unused")
+		int heighestBet = roundHelper.getModel().getHighestBet();
+        @SuppressWarnings("unused")
+		int myBank = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getBank();
 
         if (slider.getValue() == slider.getMax() || pa.canAllIn())
             btnBet.setText("All in");

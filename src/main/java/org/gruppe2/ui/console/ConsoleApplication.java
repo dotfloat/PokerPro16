@@ -1,20 +1,32 @@
 package org.gruppe2.ui.console;
 
+import java.util.Scanner;
+import java.util.UUID;
+
 import org.gruppe2.Main;
-import org.gruppe2.game.*;
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.Action;
+import org.gruppe2.game.Card;
+import org.gruppe2.game.GameBuilder;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.event.CommunityCardsEvent;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.PlayerPaysBlind;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
+import org.gruppe2.game.event.QuitEvent;
+import org.gruppe2.game.event.RoundEndEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-import org.gruppe2.game.session.Query;
 import org.gruppe2.game.session.SessionContext;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Scanner;
-import java.util.UUID;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ConsoleApplication implements Runnable {
     private SessionContext context;
@@ -110,6 +122,8 @@ public class ConsoleApplication implements Runnable {
                 System.out.println("Unknown command");
                 break;
         }
+        in.close();
+        ls.close();
     }
 
     @Handler

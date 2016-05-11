@@ -1,10 +1,13 @@
 package org.gruppe2.ui.javafx.menu;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -12,13 +15,8 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
-import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.PokerApplication;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
+import org.gruppe2.ui.UIResources;
 
 /**
  * Class for rolling text(credits) across the screen

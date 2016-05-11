@@ -1,12 +1,12 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.event.Event;
-
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.gruppe2.game.event.Event;
 
 /**
  *
