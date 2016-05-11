@@ -68,10 +68,7 @@ public class Settings extends VBox {
 		if(highlitedPane!= null) {
 			highlitedPane.setStyle("");
 		}
-		pane.setStyle("-fx-effect: dropshadow(three-pass-box, #ffffff, 10, 0, 0, 0)");
-
-
-
+		pane.setStyle("-fx-effect: dropshadow(gaussian, #0099ff, 5, 2, 0, 0);");
 		highlitedPane = pane;
 	}
 }

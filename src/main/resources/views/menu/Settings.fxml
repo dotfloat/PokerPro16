@@ -1,16 +1,5 @@
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import org.gruppe2.ui.javafx.ToolTip?>
-<?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import org.gruppe2.ui.javafx.PokerApplication?>
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml" alignment="CENTER">
 	<fx:define>
@@ -26,7 +15,7 @@
 			<Label text="Select an avatar:"/>
 		</HBox>
 		<ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true">
-			<TilePane fx:id="avatarTiles" hgap="${root.width*0.005}" vgap="${root.height*0.005}">
+			<TilePane fx:id="avatarTiles" hgap="${root.width*0.007}" vgap="${root.height*0.007}">
 			</TilePane>
 		</ScrollPane>
 	</VBox>

@@ -272,6 +272,7 @@
 .table:pressed {
     -fx-effect: innershadow(gaussian, #007acc, 3, 2, 0, 0);
 }
+
 .progress-bar > .track {
     -fx-text-box-border: black;
     -fx-control-inner-background: red;
