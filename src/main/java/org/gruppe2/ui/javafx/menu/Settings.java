@@ -26,7 +26,7 @@ public class Settings extends VBox {
 	}
 
 	public static void show() {
-		Modal modal = new Modal();
+		Modal modal = new Modal(true);
 		modal.setPercentSize(0.5, 0.5);
 		modal.setContent(new Settings());
 		modal.show();

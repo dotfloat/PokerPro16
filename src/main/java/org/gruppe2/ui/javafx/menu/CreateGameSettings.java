@@ -76,7 +76,7 @@ public class CreateGameSettings extends VBox {
 	}
 
 	public static void show(MasterClient masterClient) {
-		Modal modal = new Modal();
+		Modal modal = new Modal(true);
 		modal.setPercentSize(0.5, 0.5);
 		modal.setContent(new CreateGameSettings(masterClient));
 		modal.show();

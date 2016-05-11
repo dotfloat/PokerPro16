@@ -26,8 +26,9 @@ public class Modal {
 
     private Label title;
     private Button closeButton;
-
-    public Modal() {
+    
+    public Modal(boolean canClose) {
+    	
         parent = new Pane();
         borderPane = new BorderPane();
 
@@ -44,14 +45,16 @@ public class Modal {
         ImageView closeImage = new ImageView(getClass().getResource("/images/ui/folded.png").toExternalForm());
         closeImage.setPreserveRatio(true);
         closeImage.fitHeightProperty().bind(PokerApplication.getApplication().widthScaleProperty().multiply(18));
-
-        closeButton = new Button();
-        closeButton.setGraphic(closeImage);
-        closeButton.setOnAction(this::onCloseButtonAction);
-        HBox.setHgrow(closeButton, Priority.NEVER);
+        if(canClose){
+	        closeButton = new Button();
+	        closeButton.setGraphic(closeImage);
+	        closeButton.setOnAction(this::onCloseButtonAction);
+	        HBox.setHgrow(closeButton, Priority.NEVER);
+	        titleBar.getChildren().add(closeButton);
+        }
 
         titleBar.getChildren().add(titlePane);
-        titleBar.getChildren().add(closeButton);
+        
 
         borderPane.setTop(titleBar);
         borderPane.setStyle("-fx-background-color: blue; -fx-background-radius: 15px");
@@ -62,6 +65,7 @@ public class Modal {
         parent.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 150%, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 50%)");
         parent.getChildren().add(borderPane);
     }
+   
 
     public void setPercentSize(double x, double y) {
         borderPane.prefWidthProperty().bind(parent.widthProperty().multiply(x));
@@ -94,8 +98,8 @@ public class Modal {
             close();
     }
 
-    public static void messageBox(String title, String message) {
-        Modal modal = new Modal();
+    public static void messageBox(String title, String message, boolean canClose) {
+        Modal modal = new Modal(canClose);
         modal.setPercentSize(0.3, 0.1);
         modal.setTitle(title);
         modal.setContent(new Label(message));
