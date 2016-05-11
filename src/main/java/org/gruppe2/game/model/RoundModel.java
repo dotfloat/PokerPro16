@@ -113,5 +113,6 @@ public class RoundModel implements Serializable {
         highestBet = object.highestBet;
         roundNumber = object.roundNumber;
         lastRaiserID = object.lastRaiserID;
+        playersWithChipsLeft = object.playersWithChipsLeft;
     }
 }
