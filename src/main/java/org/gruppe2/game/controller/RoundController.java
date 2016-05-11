@@ -180,7 +180,7 @@ public class RoundController extends AbstractController {
             int j = (i + 1) % sortedPlayers.size();
             Player p = sortedPlayers.get(j);
             if (p.getBank() > 0)
-                active.add(new RoundPlayer(p.getUUID(), deck.pop(), deck.pop()));
+                active.add(new RoundPlayer(p.getUUID(), deck.pop(), deck.pop(), p.getName()));
             else addEvent(new PlayerLeaveEvent(p));
 
             done = j == game.getButton();
@@ -371,8 +371,8 @@ public class RoundController extends AbstractController {
 
                 sidePots.remove(highestBetPot);
             }
-
-            List<RoundPlayer> winners = showdown.getWinnersOfRound(round.getActivePlayers(), round.getCommunityCards());
+          
+            List<RoundPlayer> winners = showdown.getWinnersOfRound(round.getActivePlayers(), round.getCommunityCards(), true);
             List<List<UUID>> potWinners = new ArrayList<>();
             Map<UUID, Integer> winnerTotals = new HashMap<>();
 
@@ -399,7 +399,7 @@ public class RoundController extends AbstractController {
                     for (UUID id : sidePots.get(potsDone).getPlayers()) {
                         players.add(round.findPlayerByUUID(id).get());
                     }
-                    winners = showdown.getWinnersOfRound(players, round.getCommunityCards());
+                    winners = showdown.getWinnersOfRound(players, round.getCommunityCards(), false);
                 }
             }
 
