@@ -14,14 +14,13 @@
          visible="false" onMouseMoved="#hover" onMouseExited="#noHover">
 
     <fx:define>
-        <PokerApplication fx:factory="getApplication" fx:id="app"/>
         <PokerApplication fx:factory="getRoot" fx:id="root"/>
     </fx:define>
 
     <ProgressBarCountDown fx:id="progressBar" visible="true" style="-fx-background-color: transparent"
                           prefWidth="${this.width}"/>
 
-    <HBox alignment="CENTER" spacing="${root.width*0.02}">
+    <HBox alignment="CENTER" spacing="${root.width*0.01}">
         <StackPane fx:id="imagePane" alignment="CENTER" maxHeight="${this.maxHeight}">
             <ImageView fx:id="avatar" preserveRatio="true" fitHeight="${this.maxHeight}"/>
             <ImageView fx:id="fold" preserveRatio="true" fitHeight="${this.maxHeight}" visible="false">

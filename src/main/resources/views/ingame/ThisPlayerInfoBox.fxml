@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import org.gruppe2.ui.javafx.ingame.ProgressBarCountDown?>
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml" styleClass="pane" fx:id="this" spacing="12"
-         alignment="CENTER" onMouseMoved="#hover" onMouseExited="#noHover">
+         alignment="CENTER" onMouseMoved="#hover" onMouseExited="#noHover" minWidth="${root.width*0.3}">
 
     <fx:define>
         <PokerApplication fx:factory="getApplication" fx:id="app"/>
         <PokerApplication fx:factory="getRoot" fx:id="root"/>
     </fx:define>
 
-    <ProgressBarCountDown fx:id="progressBar" visible="true" style="-fx-background-color: transparent" prefWidth="${this.prefWidth*0.8}"/>
+    <ProgressBarCountDown fx:id="progressBar" visible="true" style="-fx-background-color: transparent" prefWidth="${this.prefWidth*1.3}"/>
 
     <HBox alignment="CENTER" spacing="${root.width*0.02}">
 

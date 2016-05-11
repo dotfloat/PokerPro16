@@ -11,16 +11,17 @@
 
     <fx:define>
         <PokerApplication fx:factory="getApplication" fx:id="app"/>
+        <PokerApplication fx:factory="getRoot" fx:id="root"/>
     </fx:define>
 
     <HBox fx:id="spectatorBar" styleClass="hbox">
         <Button fx:id="btnJoin" font="${app.bigFont}" prefHeight="${this.prefHeight}" text="JOIN" onAction="#onJoinAction" />
     </HBox>
 
-    <HBox fx:id="playerBar" styleClass="hbox" spacing="${app.scale}" prefWidth="${this.prefWidth}" visible="false">
+    <HBox fx:id="playerBar" styleClass="hbox" spacing="${root.width*0.04}" prefWidth="${this.prefWidth}" visible="false">
         <Button fx:id="btnFold" font="${app.bigFont}" text="FOLD" id="button" onAction="#onFoldAction"
                 disable="true"/>
-        <Slider fx:id="slider" prefHeight="${this.prefHeight}" id="slider" disable="true"/>
+        <Slider fx:id="slider" prefHeight="${this.prefHeight}" prefWidth="${root.width*0.3}" id="slider" disable="true"/>
         <Label fx:id="sliderValue" font="${app.bigFont}" prefHeight="${this.prefHeight}" text="0 CHIPS" id="label"
                disable="true"/>
         <Button fx:id="btnBet" font="${app.bigFont}" prefHeight="${this.prefHeight}" text="BET" id="button"

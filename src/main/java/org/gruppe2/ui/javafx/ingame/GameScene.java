@@ -45,7 +45,9 @@ public class GameScene extends Pane {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
         
+        choiceBar.toFront();
         chatBox.toFront();
+        playerCards.toFront();
         playerCards.setPlayerUUID(Game.getPlayerUUID());
     }
 
