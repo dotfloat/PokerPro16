@@ -4,7 +4,8 @@ public enum Difficulty {
     EASY("Easy"),
     NORMAL("Normal"),
     HARD("Hard"), 
-    RANDOM("Random");
+    RANDOM("Random"),
+    NONE("None");
 
     private final String name;
 

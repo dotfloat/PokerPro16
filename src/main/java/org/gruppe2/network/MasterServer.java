@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.gruppe2.ai.Difficulty;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.GameModel.BotPolicy;
 import org.gruppe2.game.session.SessionContext;
 
 /**
@@ -127,12 +128,33 @@ public class MasterServer {
         int startMoney = Integer.valueOf(args[4]);
         int maxPlayers = Integer.valueOf(args[5]);
         int minPlayers = Integer.valueOf(args[6]);
-        String botDiff = args[7];
+        
+        BotPolicy botPolicy = BotPolicy.FILL;
+        Difficulty botDiff = Difficulty.NORMAL;
+        
+        switch (args[7]) {
+        case "Easy":
+        	botDiff = Difficulty.EASY;
+        	break;
+	    case "Hard":
+	    	botDiff = Difficulty.EASY;
+	    	break;
+	    case "Random":
+	    	botDiff = Difficulty.RANDOM;
+	    	break;
+	    case "None":
+	    	botPolicy = BotPolicy.NONE;
+	    	botDiff = Difficulty.NONE;
+	    	break;
+	    }
+        
+        
         SessionContext context = new GameBuilder()
                 .playerRange(minPlayers, maxPlayers)
                 .blinds(small, big)
                 .buyIn(startMoney)
-                .botDiff(Difficulty.valueOf(botDiff.toUpperCase()))
+                .botDiff(botDiff)
+                .botPolicy(botPolicy)
                 .start();
 
         return context;
