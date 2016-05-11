@@ -1,56 +1,36 @@
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.GridPane?>
 <?import org.gruppe2.ui.javafx.PokerApplication?>
-<?import javafx.scene.control.ComboBox?>
-<fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: red">
-<fx:define>
-    <PokerApplication fx:factory="getRoot" fx:id="root"/>
-</fx:define>
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" fx:id="this"
+         vgap="${root.width*0.007}" hgap="${root.width*0.02}" alignment="CENTER">
 
-    <VBox spacing="5">
+    <fx:define>
+        <PokerApplication fx:factory="getRoot" fx:id="root"/>
+    </fx:define>
 
-        <HBox alignment="CENTER">
-            <Label text="Name: "/>
-            <TextField fx:id="tableName" width="${root*0.5}"/>
-        </HBox>
 
-        <HBox alignment="CENTER">
-            <Label text="Small blind: "/>
-            <TextField fx:id="smallBlind"/>
-        </HBox>
+    <Label text="Name: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <TextField fx:id="tableName" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-        <HBox  alignment="CENTER">
-            <Label text="Big blind"/>
-            <TextField fx:id="bigBlind"/>
-        </HBox>
+    <Label text="Small blind: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="smallBlind" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <HBox alignment="CENTER">
-            <Label text="Start money: "/>
-            <TextField fx:id="startMoney"/>
-        </HBox>
-        
-         <HBox  alignment="CENTER">
-            <Label text="Min players: "/>
-            <TextField fx:id="minPlayers"/>
-        </HBox>
+    <Label text="Big blind" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField fx:id="bigBlind" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <HBox  alignment="CENTER">
-            <Label text="Max players: "/>
-            <TextField fx:id="maxPlayers"/>
-        </HBox>
-        
-        <HBox alignment="CENTER">
-        	<Label text="Bot difficulty"/>
-        	<ComboBox fx:id="botDiff"/> 
-		</HBox>
+    <Label text="Start money: " GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="startMoney" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-        <HBox alignment="CENTER">
-            <Button onAction="#ok" text="OK"/>
-            <Button onAction="#cancel" text="CANCEL"/>
-        </HBox>
-        
-    </VBox>
+    <Label text="Min players: " GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <TextField fx:id="minPlayers" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <Label text="Max players: " GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <TextField fx:id="maxPlayers" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <Label text="Bot difficulty" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <ComboBox fx:id="botDiff" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+    <Button onAction="#ok" text="OK" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+    <Button onAction="#cancel" text="CANCEL" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
 </fx:root>

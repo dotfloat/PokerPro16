@@ -287,4 +287,25 @@
     -fx-border-color: black;
 }
 
+.combo-box .list-cell {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: white;
 
+}
+.combo-box .list-cell:hover {
+    -fx-text-fill: #0099ff;
+}
+
+.combo-box-base {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 0px;
+}
+
+.combo-box-base:hover {
+    -fx-effect: dropshadow(three-pass-box, #0099ff, 10, 0, 0, 0);
+}
+
+.combo-box .list-view{
+    -fx-background-color: #0099ff;
+}

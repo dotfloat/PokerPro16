@@ -57,7 +57,7 @@ public class Modal {
         
 
         borderPane.setTop(titleBar);
-        borderPane.setStyle("-fx-background-color: blue; -fx-background-radius: 15px");
+        borderPane.setStyle("-fx-background-color: black; -fx-background-radius: 15px");
         borderPane.layoutXProperty().bind(parent.widthProperty().divide(2).subtract(borderPane.widthProperty().divide(2)));
         borderPane.layoutYProperty().bind(parent.heightProperty().divide(2).subtract(borderPane.heightProperty().divide(2)));
 
