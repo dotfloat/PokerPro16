@@ -10,7 +10,7 @@
     <BorderPane>
         <top>
             <StackPane alignment="CENTER" style="-fx-padding: 30px,0,0,0">
-                <ImageView fx:id="logo" preserveRatio="true">
+                <ImageView fx:id="logo" preserveRatio="true" style="-fx-border-radius: 5px; -fx-border-color: red">
                     <Image url="/images/ui/pokerWhite.png"/>
                 </ImageView>
             </StackPane>

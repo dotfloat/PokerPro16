@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import org.gruppe2.Resources;
@@ -18,7 +19,7 @@ import org.gruppe2.ui.javafx.ingame.GameScene;
 
 import java.io.File;
 
-public class Replay extends VBox {
+public class Replay extends GridPane {
 
     @FXML
     private ComboBox<String> replays;
@@ -51,7 +52,7 @@ public class Replay extends VBox {
 
     public static void show() {
         Modal modal = new Modal(true);
-        modal.setPercentSize(0.8, 0.8);
+        modal.setPercentSize(0.4, 0.4);
         modal.setContent(new Replay());
         modal.setTitle("Replay");
         modal.show();

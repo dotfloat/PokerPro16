@@ -88,7 +88,8 @@
 }
 
 .root {
-    -fx-background-color: black;
+    -fx-background-image: url("/images/ui/background.png");
+    -fx-background-repeat: repeat;
 }
 .rightMenu {
     -fx-background-color: black;
@@ -272,6 +273,7 @@
 .table:pressed {
     -fx-effect: innershadow(gaussian, #007acc, 3, 2, 0, 0);
 }
+
 .progress-bar > .track {
     -fx-text-box-border: black;
     -fx-control-inner-background: red;
