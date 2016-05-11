@@ -88,7 +88,8 @@
 }
 
 .root {
-    -fx-background-color: black;
+    -fx-background-image: url("/images/ui/background.png");
+    -fx-background-repeat: repeat;
 }
 .rightMenu {
     -fx-background-color: black;
