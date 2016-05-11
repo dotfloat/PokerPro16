@@ -5,11 +5,16 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.*;
+
+import org.gruppe2.ai.TestClient.GameResult;
+import org.gruppe2.ai.TestClient.TestClient;
 import org.gruppe2.game.Action.Fold;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Card.Suit;
 import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.ui.console.ConsoleApplication;
 import org.junit.Test;
 
 public class AdvancedAITest {
@@ -41,4 +46,19 @@ public class AdvancedAITest {
 					gameHelper) instanceof Fold);
 		}
 	}
+
+    @Test
+    public void aiPlayTest() {
+        ExecutorService exService = Executors.newSingleThreadExecutor();
+        Callable<GameResult> testClient = new TestClient(3,Difficulty.HARD,Difficulty.NORMAL,400,10,20);
+        Future<GameResult> futureTestClientResults = exService.submit(testClient);
+
+        try {
+            System.out.println("Played: "+futureTestClientResults.get().getRoundsPlayed() + " Won: "+futureTestClientResults.get().getRoundsWon());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 }
