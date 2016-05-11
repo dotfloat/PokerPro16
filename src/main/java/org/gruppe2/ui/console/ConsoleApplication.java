@@ -43,10 +43,6 @@ public class ConsoleApplication implements Runnable {
 
         System.out.println("Welcome to PokerPro16 Console Edition");
 
-        if (!Main.isAutostart()) {
-            throw new NotImplementedException();
-        }
-
         playerUUID = UUID.randomUUID();
 
         context = gameBuilder.start();
