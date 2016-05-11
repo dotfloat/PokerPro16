@@ -104,7 +104,7 @@ public class ChoiceBar extends StackPane {
                     throw new RuntimeException();
                 }
             }
-            else {
+            else if(possibleActions.canRaise()) {
                 actionQuery.set(new Action.Raise(amount));
             }
 
