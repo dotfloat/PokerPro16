@@ -32,8 +32,6 @@ public class ClientRoundController extends AbstractController{
     @Handler
     public void onPostAction(PlayerPostActionEvent event) {
         handleAction(event.getPlayer(), event.getRoundPlayer(), event.getAction());
-
-        round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
     }
 
     @Handler

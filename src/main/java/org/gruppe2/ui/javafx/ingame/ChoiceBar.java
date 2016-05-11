@@ -87,24 +87,24 @@ public class ChoiceBar extends StackPane {
             PossibleActions possibleActions = roundHelper
                     .getPlayerOptions(uuid);
 
-            int amount = (int) slider.getValue() - possibleActions.getCallAmount();
+            int amount = ((int) slider.getValue()) - possibleActions.getCallAmount();
 
-
-            if (amount == 0) {
+            if(possibleActions.canAllIn()) {
+                actionQuery.set(new Action.AllIn());
+            }
+            else if (amount == 0) {
                 if (possibleActions.canCall()) {
                     actionQuery.set(new Action.Call());
-                } else if (possibleActions.canCheck()) {
+                }
+                else if (possibleActions.canCheck()) {
                     actionQuery.set(new Action.Check());
-                } else if(heighestBet > myBank){ //Split pot all in!
-                	actionQuery.set(new Action.AllIn());
-                } else {
+                }
+                else {
                 	System.out.println("call amount was: "+possibleActions.getCallAmount()+"highest bet was: "+roundHelper.getModel().getHighestBet()+"\nmy bank was"+myBank);
                     throw new RuntimeException();
                 }
-            } else if (amount == player.getBank()) {
-                System.out.println("Accualy all in");
-                actionQuery.set(new Action.AllIn());
-            } else {
+            }
+            else {
                 actionQuery.set(new Action.Raise(amount));
             }
 
