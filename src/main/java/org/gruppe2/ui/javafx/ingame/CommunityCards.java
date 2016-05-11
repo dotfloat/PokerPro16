@@ -49,7 +49,7 @@ public class CommunityCards extends HBox {
     }
 
     /**
-     * Guess we only need to reset images in {@link #onRoundEnd(RoundEndEvent)}.
+     * Guess we only need to reset images in onRoundStart
      */
     @Handler
     public void onRoundStart(RoundStartEvent event) {

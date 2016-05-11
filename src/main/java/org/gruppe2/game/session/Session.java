@@ -36,26 +36,27 @@ import org.gruppe2.game.event.QuitEvent;
  * single controller, all other controllers are indistinguishable from views,and can't (well, shouldn't) be
  * accessed directly.
  * <p>
- * <p>
+ * <pre>
  * +--| Session Thread |--+       +--| Thread 1 |--+             M: Messages
  * |                      |       |                |             E: Events
  * |  +-| Controller |-+  |       |  +-| View |-+  |
- * |  |                |<-----M-----<|          |  |
+ * |  |                |&lt;-----M-----&lt;|          |  |
  * |  |                |  |       |  |          |  |
- * |  |                |>-----E----->|          |  |
- * |  +----------------|  |       |  +----------+  |
+ * |  |                |&gt;-----E-----&gt;|          |  |
+ * |  +----------------+  |       |  +----------+  |
  * |         ^  ^         |       |                |
  * |         |  |         |       +----------------+
  * |         M  E         |
  * |         |  |         |       +--| Thread 2 |--+
  * |         v  v         |       |                |
  * |  +-| Controller |-+  |       |  +-| View |-+  |
- * |  |                |<-----M-----<|          |  |
+ * |  |                |&lt;-----M-----&lt;|          |  |
  * |  |                |  |       |  |          |  |
- * |  |                |>-----E----->|          |  |
+ * |  |                |&gt;-----E-----&gt;|          |  |
  * |  +----------------+  |       |  +----------+  |
  * |                      |       |                |
  * +----------------------+       +----------------+
+ * </pre>
  * <p>
  * <p>
  * Every controller lives in the main Session thread, while views run in whichever thread they want. For this to work,
