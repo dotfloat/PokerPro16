@@ -12,7 +12,10 @@ import javafx.scene.layout.VBox;
 import org.gruppe2.game.Card;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
-
+/**
+ * Used to get either name or the image view of a card
+ *
+ */
 public class DifferentHandView extends VBox {
     @FXML private Label handName;
     @FXML private HBox cards;
