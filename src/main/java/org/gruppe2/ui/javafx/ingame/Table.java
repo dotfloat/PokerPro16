@@ -34,7 +34,7 @@ public class Table extends Pane {
     private final double ratio = 2464.0 / 1368.0;
     private final double logicalWidth = 308;
     private final double logicalHeight = 171;
-    private final double tableScale = 0.6;
+    private final double tableScale = 0.7;
 
     private ObjectProperty<Font> font = new SimpleObjectProperty<>();
 
@@ -44,6 +44,7 @@ public class Table extends Pane {
     private DoubleProperty fitHeight = new SimpleDoubleProperty();
 
     private List<PlayerInfoBox> players = new ArrayList<>();
+    private List<PlayerCards> playerCards = new ArrayList<>();
     private Label pot = new Label();
 
     public Table() {
@@ -114,6 +115,7 @@ public class Table extends Pane {
             return;
 
         players.get(i).setPlayerUUID(event.getPlayer().getUUID());
+        playerCards.get(i).setPlayerUUID(event.getPlayer().getUUID());
     }
 
     @Handler
@@ -128,6 +130,7 @@ public class Table extends Pane {
             return;
 
         players.get(i).setPlayerUUID(null);
+        playerCards.get(i).setPlayerUUID(null);
     }
 
     @Handler
@@ -181,6 +184,9 @@ public class Table extends Pane {
         players.forEach(p -> getChildren().remove(p));
         players.clear();
 
+        playerCards.forEach(p -> getChildren().remove(p));
+        playerCards.clear();
+
         int n = game.getModel().getMaxPlayers();
 
         if (player.isPresent())
@@ -194,6 +200,14 @@ public class Table extends Pane {
             setPositionAroundTable(p, p.widthProperty(), p.heightProperty(), (i + 1.0) / (n + 1.0), 1.2);
             getChildren().add(p);
             players.add(p);
+
+            PlayerCards c = new PlayerCards();
+            c.maxHeightProperty().bind(scale.multiply(20));
+            c.maxWidthProperty().bind(scale.multiply(20));
+            double angle = setPositionAroundTable(c, c.widthProperty(), c.heightProperty(), (i + 1.0) / (n + 1.0), 0.6);
+            c.setRotate(angle * 180.0 / Math.PI + 180);
+            getChildren().add(c);
+            playerCards.add(c);
         }
 
         game.getPlayers().forEach(p -> {
@@ -203,6 +217,7 @@ public class Table extends Pane {
                 return;
 
             players.get(pos).setPlayerUUID(p.getUUID());
+            playerCards.get(pos).setPlayerUUID(p.getUUID());
         });
     }
 
@@ -214,7 +229,7 @@ public class Table extends Pane {
         return scale.multiply(tableScale * y).add(heightProperty().divide(2)).subtract(height.divide(2));
     }
 
-    private void setPositionAroundTable(Node node, ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height, double x, double dist) {
+    private double setPositionAroundTable(Node node, ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height, double x, double dist) {
         final double rectWidth = (logicalWidth - logicalHeight);
         final double rectHeight = logicalHeight;
         final double theta = Math.PI;
@@ -227,20 +242,26 @@ public class Table extends Pane {
         double position = x * circumference;
 
         if (position < arcLength) {
-            double angle = (position / arcLength) * theta - theta;
+            double angle = (position / arcLength) * theta + Math.PI / 2.0;
 
-            node.layoutXProperty().bind(translateX(width, Math.sin(angle) * dist - rectWidth / 2.0));
-            node.layoutYProperty().bind(translateY(height, -Math.cos(angle) * dist));
+            node.layoutXProperty().bind(translateX(width, Math.cos(angle) * dist - rectWidth / 2.0));
+            node.layoutYProperty().bind(translateY(height, Math.sin(angle) * dist));
+
+            return angle + Math.PI / 2.0;
         } else if (position > rectWidth + arcLength) {
-            double angle = (position - rectWidth) / arcLength * theta - theta;
+            double angle = (position - rectWidth) / arcLength * theta + Math.PI / 2.0;
 
-            node.layoutXProperty().bind(translateX(width, Math.sin(angle) * dist + rectWidth / 2.0));
-            node.layoutYProperty().bind(translateY(height, -Math.cos(angle) * dist));
+            node.layoutXProperty().bind(translateX(width, Math.cos(angle) * dist + rectWidth / 2.0));
+            node.layoutYProperty().bind(translateY(height, Math.sin(angle) * dist));
+
+            return angle + Math.PI / 2.0;
         } else {
             double offsetX = position - arcLength;
 
             node.layoutXProperty().bind(translateX(width, offsetX - rectWidth / 2.0));
             node.layoutYProperty().bind(translateY(height, -dist));
+
+            return 0.0;
         }
     }
 }

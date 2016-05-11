@@ -2,6 +2,7 @@ package org.gruppe2.ui.javafx.menu;
 
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -9,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import org.gruppe2.game.session.ClientSession;
+import org.gruppe2.game.session.ReplaySession;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
@@ -24,95 +26,98 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  *
  */
 public class MainMenu extends BorderPane {
-	@FXML
-	private ImageView logo;
-	@FXML
-	private Button online;
-	@FXML
-	private Button singlePlayer;
-	@FXML
-	private Button viewStatistics;
-	@FXML
-	private Button settings;
-	@FXML
-	private Button testClient;
-	@FXML
-	private Button testServer;
-	@FXML
-	private Button replay;
-	@FXML
-	private VBox vBox;
+    @FXML
+    private ImageView logo;
+    @FXML
+    private Button online;
+    @FXML
+    private Button singlePlayer;
+    @FXML
+    private Button viewStatistics;
+    @FXML
+    private Button settings;
+    @FXML
+    private Button testClient;
+    @FXML
+    private Button testServer;
+    @FXML
+    private Button replay;
+    @FXML
+    private VBox vBox;
 
-	public MainMenu() {
-		UIResources.loadFXML(this);
-		logo.fitWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.8));
-		vBox.maxWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.3));
+    public MainMenu() {
+        UIResources.loadFXML(this);
+        logo.fitWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.8));
+        vBox.maxWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.3));
 
-		setButtonSize();
-		fadeIn();
+        setButtonSize();
+        fadeIn();
 
-	}
+    }
 
-	public void goToSinglePlayer() throws InterruptedException {
-		Game.autostart();
-		Game.getInstance().join();
-		SceneController.setScene(new GameScene());
-	}
+    public void goToSinglePlayer() throws InterruptedException {
+        Game.autostart();
+        Game.getInstance().join();
+        SceneController.setScene(new GameScene());
+    }
 
-	public void goToTestServer() {
-		Game.autostart();
-		Game.getContext().waitReady();
-		Game.message("listen");
-		SceneController.setScene(new GameScene());
-	}
+    public void goToTestServer() {
+        Game.autostart();
+        Game.getContext().waitReady();
+        Game.message("listen");
+        SceneController.setScene(new GameScene());
+    }
 
-	public void goToTestClient() {
-		Game.getInstance().setContext(Session.start(ClientSession.class, "localhost"));
-		Game.getContext().waitReady();
-		SceneController.setScene(new GameScene());
-	}
+    public void goToTestClient() {
+        Game.getInstance().setContext(Session.start(ClientSession.class, "localhost"));
+        Game.getContext().waitReady();
+        SceneController.setScene(new GameScene());
+    }
 
-	public void createNetWorkTable() {
-		SceneController.setScene(new GameScene());
-	}
+    public void createNetWorkTable() {
+        SceneController.setScene(new GameScene());
+    }
 
-	public void goToLobby() {
-		
-		if(MasterClient.localMasterServerIsUp() || MasterClient.onlineMasterServerIsUp()) {
-			Lobby.show();
-		} else {
-			System.out.println("no master server is up");
-		}
-	}
+    public void goToLobby() {
 
-	public void goToStatistics() {
-		throw new NotImplementedException();
-	}
+        if (MasterClient.localMasterServerIsUp() || MasterClient.onlineMasterServerIsUp()) {
+            Lobby.show();
+        } else {
+            System.out.println("no master server is up");
+        }
+    }
 
-	public void goToSettings() {
-		Settings.show();
-	}
-	public void goToReplay() {
-		Replay.show();
-	}
+    public void goToStatistics() {
+        throw new NotImplementedException();
+    }
 
-	private void fadeIn() {
-		FadeTransition fadeTransition = new FadeTransition(
-				Duration.millis(800), vBox);
-		fadeTransition.setFromValue(0.0);
-		fadeTransition.setToValue(1.0);
-		fadeTransition.play();
-	}
+    public void goToSettings() {
+        Settings.show();
+    }
 
-	private void setButtonSize() {
-		online.setMaxWidth(Double.MAX_VALUE);
-		singlePlayer.setMaxWidth(Double.MAX_VALUE);
-		viewStatistics.setMaxWidth(Double.MAX_VALUE);
-		settings.setMaxWidth(Double.MAX_VALUE);
-		testClient.setMaxWidth(Double.MAX_VALUE);
-		testServer.setMaxWidth(Double.MAX_VALUE);
-		replay.setMaxWidth(Double.MAX_VALUE);
-	}
+    public void goToReplay() {
+        Game.getInstance().setContext(Session.start(ReplaySession.class));
+        SceneController.setScene(new GameScene());
+        //Replay.show();
+    }
+
+    private void fadeIn() {
+        FadeTransition fadeTransition = new FadeTransition(
+                Duration.millis(800), vBox);
+        fadeTransition.setFromValue(0.0);
+        fadeTransition.setToValue(1.0);
+        fadeTransition.play();
+    }
+
+    private void setButtonSize() {
+        online.setMaxWidth(Double.MAX_VALUE);
+        singlePlayer.setMaxWidth(Double.MAX_VALUE);
+        viewStatistics.setMaxWidth(Double.MAX_VALUE);
+        settings.setMaxWidth(Double.MAX_VALUE);
+        testClient.setMaxWidth(Double.MAX_VALUE);
+        testServer.setMaxWidth(Double.MAX_VALUE);
+        replay.setMaxWidth(Double.MAX_VALUE);
+    }
 }

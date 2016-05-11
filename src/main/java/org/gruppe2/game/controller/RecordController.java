@@ -2,16 +2,19 @@ package org.gruppe2.game.controller;
 
 import org.gruppe2.Resources;
 import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.QuitEvent;
+import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Handler;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 
 public class RecordController extends AbstractController {
     private OutputStream stream = null;
 
-    private static class Wait implements Serializable {
+    public static class Wait implements Serializable {
         private static final long serialVersionUID = -8263959860922386464L;
 
         private final long time;
@@ -51,7 +54,23 @@ public class RecordController extends AbstractController {
             lastEventTime = System.currentTimeMillis();
         }
 
+        if (event instanceof RoundStartEvent) {
+            writeObject(getModel(GameModel.class));
+            writeObject(getModel(RoundModel.class));
+        }
         writeObject(event);
+    }
+
+    @Handler
+    private void onQuit(QuitEvent event) {
+        if (stream == null)
+            return;
+
+        try {
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void writeObject(Object object) {
@@ -62,7 +81,6 @@ public class RecordController extends AbstractController {
 
             byte[] bytes = byteArrayOutputStream.toByteArray();
 
-            stream.write(bytes.length);
             stream.write(bytes);
         } catch (IOException e) {
             e.printStackTrace();

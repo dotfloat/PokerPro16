@@ -36,6 +36,8 @@ public class GameScene extends Pane {
     private ChoiceBar choiceBar;
     @FXML
     private ChatBox chatBox;
+    @FXML
+    private PlayerCards playerCards;
 
     public GameScene() {
     	SoundPlayer.stopIntroMusic();
@@ -44,7 +46,7 @@ public class GameScene extends Pane {
         Game.setAnnotated(this);
         
         chatBox.toFront();
-        
+        playerCards.setPlayerUUID(Game.getPlayerUUID());
     }
 
     

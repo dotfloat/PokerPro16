@@ -1,6 +1,7 @@
 package org.gruppe2.ui.javafx.ingame;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -15,7 +16,7 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
 
 public class PlayerCards extends Pane {
-   
+    private UUID playerUUID;
 
     @Helper
     private RoundHelper roundHelper;
@@ -32,16 +33,31 @@ public class PlayerCards extends Pane {
 
     @Handler
     public void onRoundStart(RoundStartEvent event) {
-        Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(Game.getPlayerUUID());
+        if (playerUUID == null)
+            return;
+
+        Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
 
         setVisible(roundPlayer.isPresent());
 
         if (!roundPlayer.isPresent())
             return;
 
-        Card[] cards = roundPlayer.get().getCards();
+        if (!Game.getPlayerUUID().equals(playerUUID) && Game.isPlayer()) {
+            playerCard1.setImage(UIResources.getCardBack());
+            playerCard2.setImage(UIResources.getCardBack());
+        } else {
+            Card[] cards = roundPlayer.get().getCards();
 
-        playerCard1.setImage(UIResources.getCard(cards[0]));
-        playerCard2.setImage(UIResources.getCard(cards[1]));
+            playerCard1.setImage(UIResources.getCard(cards[0]));
+            playerCard2.setImage(UIResources.getCard(cards[1]));
+        }
+    }
+
+    public void setPlayerUUID(UUID playerUUID) {
+        this.playerUUID = playerUUID;
+
+        if (playerUUID == null)
+            setVisible(false);
     }
 }
