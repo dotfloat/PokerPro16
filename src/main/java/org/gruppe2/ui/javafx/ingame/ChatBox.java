@@ -97,17 +97,22 @@ public class ChatBox extends VBox {
 
         switch (command) {
             case "/besthand":
-               List<Card> cards = new ArrayList<Card>();
-               cards.addAll(roundHelper.getCommunityCards());
-               Card[] playerCards = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getCards();
-               
-               for(int i=0;i<playerCards.length;i++){
-            	   cards.add(playerCards[i]);
-               }
-               
-                Hand hand =  Generic.getBestHandForPlayer(cards);
-                String answer = hand.toString();
-                addLine("Possible best hand is: "+answer);
+
+                if(roundHelper.findPlayerByUUID(Game.getPlayerUUID()).isPresent()) {
+                    List<Card> cards = new ArrayList<Card>();
+                    cards.addAll(roundHelper.getCommunityCards());
+                    Card[] playerCards = roundHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getCards();
+
+                    for (int i = 0; i < playerCards.length; i++) {
+                        cards.add(playerCards[i]);
+                    }
+
+                    Hand hand = Generic.getBestHandForPlayer(cards);
+                    String answer = hand.toString();
+                    addLine("Possible best hand is: " + answer);
+                } else {
+                    addLine("Player has no hand.");
+                }
                 return true;
             case "/log":
                 addLine(command + "is epic");
