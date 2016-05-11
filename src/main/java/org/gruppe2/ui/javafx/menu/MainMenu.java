@@ -85,12 +85,7 @@ public class MainMenu extends BorderPane {
     }
 
     public void goToLobby() {
-
-        if (MasterClient.localMasterServerIsUp() || MasterClient.onlineMasterServerIsUp()) {
-            Lobby.show();
-        } else {
-            System.out.println("no master server is up");
-        }
+        Lobby.show();
     }
 
     public void goToStatistics() {

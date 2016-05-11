@@ -1,9 +1,9 @@
 package org.gruppe2.ui.javafx.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
+import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.network.TableEntry;
 import org.gruppe2.ui.UIResources;
@@ -51,20 +52,64 @@ public class Lobby extends BorderPane {
     @FXML
     private Pane tile;
 
+    private Timer timer = new Timer();
+
+    private static Modal modal = null;
+
     public Lobby() {
-        masterClient = new MasterClient(this);
         UIResources.loadFXML(this);
         setSize();
 
+        try {
+            masterClient = new MasterClient();
+            masterClient.setOnError(this::quit);
+            masterClient.setOnJoinGame(this::joinGame);
+            masterClient.setOnRefresh(this::updateTables);
+
+            Lobby _this = this;
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(_this::update);
+                }
+            }, 50, 50);
+        } catch (IOException e) {
+            Modal.messageBox("Lobby", "Couldn't find any servers", true);
+            quit();
+        }
     }
 
+    private void quit() {
+        timer.cancel();
+        modal.close();
+        modal = null;
+    }
+
+    private void joinGame(SessionContext context) {
+        quit();
+        Game.getInstance().setContext(context);
+        SceneController.setOnlyThisScene(new GameScene());
+    }
+
+    private void update() {
+        try {
+            masterClient.update();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void refresh() {
         while (lobbyTiles.getChildren().size() > 1)
             lobbyTiles.getChildren().remove(1);
 
-        masterClient.search();
+        try {
+            masterClient.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
 
     public void friendBox() {
 //		lobbyTiles.getChildren()
@@ -77,19 +122,12 @@ public class Lobby extends BorderPane {
         CreateGameSettings.show(masterClient);
     }
 
-    public void createGame() {
-        Game.getInstance().setContext(masterClient.createNewTable());
-        SceneController.setOnlyThisScene(new GameScene());
-    }
-
-
     public void requestJoinGame(UUID uuid) {
-        masterClient.requestJoinTable(uuid);
-    }
-
-    public void joinGame() {
-        Game.getInstance().setContext(masterClient.joinTable());
-        SceneController.setOnlyThisScene(new GameScene());
+        try {
+            masterClient.requestJoinTable(uuid);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setSize() {
@@ -140,7 +178,7 @@ public class Lobby extends BorderPane {
     }
 
     public static void show() {
-        Modal modal = new Modal(true);
+        modal = new Modal(true);
         modal.setPercentSize(0.8, 0.8);
         modal.setContent(new Lobby());
         modal.show();

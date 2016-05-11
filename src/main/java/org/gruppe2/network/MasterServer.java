@@ -138,7 +138,7 @@ public class MasterServer {
 				.playerRange(minPlayers,maxPlayers)
 				.blinds(small, big)
 				.buyIn(startMoney)
-				.botDiff(Difficulty.valueOf(botDiff))
+				.botDiff(Difficulty.valueOf(botDiff.toUpperCase()))
 				.start();
 
         return context;

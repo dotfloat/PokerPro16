@@ -3,18 +3,13 @@ package org.gruppe2.network;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
-
-import javafx.application.Platform;
+import java.util.*;
+import java.util.function.Consumer;
 
 import org.gruppe2.Main;
 import org.gruppe2.game.session.ClientSession;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.ui.javafx.menu.Lobby;
 
 /**
  * Class for client handling in lobby, controll is given to ClientController when the game starts
@@ -22,89 +17,82 @@ import org.gruppe2.ui.javafx.menu.Lobby;
  * @author htj063
  */
 public class MasterClient {
-    private final static String ip = "localhost";
-
     private NetworkIO connection;
-    private ArrayList<TableEntry> tablesInLobby = new ArrayList<>();
-    private Lobby lobby;
-    private Timer sessionTimer = new Timer();
 
-    public MasterClient(Lobby lobby) {
-        this.lobby = lobby;
-        connect(ip);
-        
-        if (connection != null) {
-            sendFirstHello();
-            SetTimerTask();
-        }
-    }
+    private Consumer<SessionContext> onJoinGame = null;
+    private Consumer<List<TableEntry>> onRefresh = null;
+    private Runnable onError = null;
 
-    private void SetTimerTask() {
-        MasterClient THIS = this;
-        sessionTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(THIS::update);
-            }
-        }, 0, 50);
-    }
-
-    private void connect(String ip) {
+    public MasterClient() throws IOException {
         try {
-            SocketChannel channel = SocketChannel.open(new InetSocketAddress(
-                    ip, 8888));
-            connection = new NetworkIO(channel);
-
-            channel.configureBlocking(false);
-
-            connection.setInputFormat(NetworkIO.Format.STRING);
-            connection.setOutputFormat(NetworkIO.Format.STRING);
-
+            connect("localhost");
         } catch (IOException e) {
-            System.out.println("Couldn't connect to master server at " + ip);
+            connect(Main.getProperty("master"));
+        }
+
+        connection.sendMessage("HELLO\r\n");
+    }
+
+    private void connect(String ip) throws IOException {
+        SocketChannel channel = SocketChannel.open(new InetSocketAddress(
+                ip, 8888));
+        connection = new NetworkIO(channel);
+
+        channel.configureBlocking(false);
+
+        connection.setInputFormat(NetworkIO.Format.STRING);
+        connection.setOutputFormat(NetworkIO.Format.STRING);
+    }
+
+    public void update() throws IOException {
+        String[] message = connection.readMessage();
+
+        if (message == null)
+            return;
+
+        switch (message[0]) {
+            case "HELLO":
+                if (message[1].equals("MASTER")) {
+
+                } else {
+                    if (onError != null)
+                        onError.run();
+                }
+                break;
+
+            case "TABLE":
+                if (onRefresh == null)
+                    break;
+
+                onRefresh.accept(parseTables(message));
+                break;
+
+            case "CREATED":
+            case "JOINED":
+                if (onJoinGame == null)
+                    break;
+
+                onJoinGame.accept(Session.start(ClientSession.class, connection));
+                break;
+
+            case "NO":
+                if (onError == null)
+                    break;
+
+                onError.run();
+                break;
         }
     }
 
-    public void update() {
-        try {
-            String[] message = connection.readMessage();
-
-            if (message == null)
-                return;
-           
-
-            switch (message[0]) {
-                case "HELLO":
-                    if (message[1].equals("MASTER")) {
-                        
-                    }
-                    break;
-                case "TABLE":
-                    tablesInLobby.clear();
-                    createTables(message);
-                    lobby.updateTables(tablesInLobby);
-                    break;
-                case "CREATED":
-                    lobby.createGame();
-
-                    break;
-                case "JOINED":
-                    lobby.joinGame();
-                    break;
-                case "NO":
-                   
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createTables(String[] message) {
+    private List<TableEntry> parseTables(String[] message) {
         int i = 0;
         UUID uuid = null;
         String name = null;
         int currentPlayers = -1;
         int maxPlayers = -1;
+
+        List<TableEntry> entries = new ArrayList<>();
+
         for (String messagePart : message) {
 
             if (i % 5 == 1) {
@@ -115,11 +103,13 @@ public class MasterClient {
                 currentPlayers = Integer.valueOf(messagePart);
             } else if (i % 5 == 4) {
                 maxPlayers = Integer.valueOf(messagePart);
-                tablesInLobby.add(new TableEntry(uuid, name, currentPlayers, maxPlayers));
+                entries.add(new TableEntry(uuid, name, currentPlayers, maxPlayers));
             }
 
             i++;
         }
+
+        return entries;
     }
 
     private void sendFirstHello() {
@@ -133,34 +123,23 @@ public class MasterClient {
 
     /**
      * Asks server if you can create new table
-     * @param minPlayers 
-     * @param botDiff 
-     * @param string5 
-     * @param string4 
-     * @param string3 
-     * @param string2 
-     * @param string 
      *
+     * @param minPlayers
+     * @param botDiff
+     * @param string5
+     * @param string4
+     * @param string3
+     * @param string2
+     * @param string
      * @param uuid
      */
     public void requestCreateGame(String tableName, String small, String big, String startMoney, String maxPlayers, String minPlayers, String botDiff) {
-        
-    	try {
-            connection.sendMessage("CREATE;"+tableName+";"+small+";"+big+";"+startMoney+";"+maxPlayers+";"+minPlayers+";"+"\r\n");
+
+        try {
+            connection.sendMessage("CREATE;" + tableName + ";" + small + ";" + big + ";" + startMoney + ";" + maxPlayers + ";" + minPlayers + ";" + botDiff + "\r\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Joins table that was asked to be created
-     *
-     * @return
-     */
-    public SessionContext createNewTable() {
-        sessionTimer.cancel();
-
-        return Session.start(ClientSession.class, connection);
     }
 
     /**
@@ -168,66 +147,35 @@ public class MasterClient {
      *
      * @param uuid
      */
-    public void requestJoinTable(UUID uuid) {
-        try {
-            connection.sendMessage("JOIN TABLE;" + uuid + "\r\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void requestJoinTable(UUID uuid) throws IOException {
+        connection.sendMessage("JOIN TABLE;" + uuid + "\r\n");
     }
 
-    /**
-     * Joins table that was asked to be joined
-     *
-     * @return
-     */
-    public SessionContext joinTable() {
-        sessionTimer.cancel();
-
-        return Session.start(ClientSession.class, connection);
+    public void refresh() throws IOException {
+        connection.sendMessage("SEARCH" + "\r\n");
     }
 
-    /**
-     * Test if server is up, so we dont need to start lobby if it is not.
-     * creates a client, and instantly remove it, to check
-     *
-     * @return
-     */
-    public static boolean localMasterServerIsUp() {
-        try {
-            SocketChannel channel = SocketChannel.open(new InetSocketAddress(
-                    ip, 8888));
-            NetworkIO testConnection = new NetworkIO(channel);
-            testConnection.sendMessage("BYE\r\n");
-            return true;
-
-        } catch (IOException e) {
-            return false;
-        }
+    public Consumer<SessionContext> getOnJoinGame() {
+        return onJoinGame;
     }
 
-    public static boolean onlineMasterServerIsUp() {
-        try {
-            String ip = Main.getProperty("master");
-            SocketChannel channel = SocketChannel.open(new InetSocketAddress(
-                    ip, 8888));
-            NetworkIO testConnection = new NetworkIO(channel);
-            testConnection.sendMessage("BYE\r\n");
-            return true;
-
-        } catch (IOException e) {
-            return false;
-        }
+    public void setOnJoinGame(Consumer<SessionContext> onJoinGame) {
+        this.onJoinGame = onJoinGame;
     }
 
-	public void search() {
-		 try {
-	            connection.sendMessage("SEARCH"+"\r\n");
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		
-	}
+    public Consumer<List<TableEntry>> getOnRefresh() {
+        return onRefresh;
+    }
 
+    public void setOnRefresh(Consumer<List<TableEntry>> onRefresh) {
+        this.onRefresh = onRefresh;
+    }
 
+    public Runnable getOnError() {
+        return onError;
+    }
+
+    public void setOnError(Runnable onError) {
+        this.onError = onError;
+    }
 }
