@@ -86,7 +86,7 @@ public class Modal {
 
     public static void messageBox(String title, String message) {
         Modal modal = new Modal();
-        modal.setPercentSize(0.3, 0.2);
+        modal.setPercentSize(0.3, 0.1);
         modal.setTitle(title);
         modal.setContent(new Label(message));
         modal.show();

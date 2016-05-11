@@ -18,6 +18,7 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Model;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.ConfettiOrMoney;
+import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.SoundPlayer;
 
@@ -66,6 +67,8 @@ public class GameScene extends Pane {
         if (stats != null) {
             Main.savePlayerStatistics(stats);
         }
+
+        Modal.messageBox("Left table", event.getReason());
     }
 
     @FXML
