@@ -23,16 +23,16 @@ public class Replay extends VBox {
 	}
 	
 	private void loadReplaysToComboBox() {
+		
 		ObservableList<String> options = 
 			    FXCollections.observableArrayList(
 			        "Replay 1",
 			        "Replay 2",
 			        "Replay 3"
 			    );
-
-		ComboBox<String> combo = new ComboBox<String>(options);
-		replays = combo;
-		getChildren().add(combo);
+		replays.getItems().addAll(options);
+		
+	
 	}
 
 	@FXML
