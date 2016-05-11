@@ -37,7 +37,7 @@ public class AdvancedAITest {
 				activePlayers.add(new RoundPlayer(null, new Card(r.nextInt(13) + 2,
 						Suit.CLUBS), new Card(r.nextInt(13) + 2, Suit.SPADES)));
 
-			assertFalse(ai.chooseAction(r.nextDouble()*r.nextInt(100), actions, r.nextInt(100), r.nextDouble(),
+			assertFalse(ai.chooseAction(r.nextDouble()*r.nextInt(100), 0, 0, actions, r.nextInt(100), r.nextDouble(),
 					gameHelper) instanceof Fold);
 		}
 	}
