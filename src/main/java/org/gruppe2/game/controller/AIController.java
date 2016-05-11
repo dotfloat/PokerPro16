@@ -25,7 +25,7 @@ public class AIController extends AbstractController {
 			case EASY:
 				ai = new NewDumbAI();
 				break;
-			case MEDIUM:
+			case NORMAL:
 			case HARD:
 				ai = new AdvancedAI();
 				break;
@@ -47,7 +47,6 @@ public class AIController extends AbstractController {
         gameInfo.setPossibleActions(roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
         gameInfo.setActivePlayers(roundHelper.getActivePlayers());
         gameInfo.setHighestBet(roundHelper.getHighestBet());
-		gameInfo.setDifficulty(this.difficulty);
 
 		setTask(gameHelper.getWaitTime(), () -> {
 			ai.doAction(query.getPlayer(),

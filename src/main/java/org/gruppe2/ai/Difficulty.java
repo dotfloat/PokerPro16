@@ -2,7 +2,7 @@ package org.gruppe2.ai;
 
 public enum Difficulty {
     EASY("Easy"),
-    MEDIUM("Medium"),
+    NORMAL("Normal"),
     HARD("Hard");
 
     private final String name;
