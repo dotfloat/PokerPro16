@@ -12,6 +12,7 @@ public class GameBuilder {
     private int smallBlind = 10;
     private int bigBlind = 20;
     private int waitTime = 1000;
+    private String botDiff = "Easy";
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
     
     
@@ -36,6 +37,10 @@ public class GameBuilder {
 
         return this;
     }
+    public GameBuilder botDiff(String botDiff){
+        this.botDiff = botDiff;
+        return this;
+    }
 
     public GameBuilder botPolicy (GameModel.BotPolicy policy) {
         botPolicy = policy;
@@ -50,6 +55,6 @@ public class GameBuilder {
     }
 
     public SessionContext start() {
-        return Session.start(HostSession.class, min, max, buyIn, botPolicy, smallBlind, bigBlind, waitTime);
+        return Session.start(HostSession.class, min, max, buyIn, botPolicy, smallBlind, bigBlind, waitTime,botDiff);
     }
 }

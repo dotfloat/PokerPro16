@@ -133,6 +133,7 @@ public class MasterClient {
     /**
      * Asks server if you can create new table
      * @param minPlayers 
+     * @param botDiff 
      * @param string5 
      * @param string4 
      * @param string3 
@@ -141,10 +142,10 @@ public class MasterClient {
      *
      * @param uuid
      */
-    public void requestCreateGame(String tableName, String small, String big, String startMoney, String maxPlayers, String minPlayers) {
+    public void requestCreateGame(String tableName, String small, String big, String startMoney, String maxPlayers, String minPlayers, String botDiff) {
         
     	try {
-            connection.sendMessage("CREATE;"+tableName+";"+small+";"+big+";"+startMoney+";"+maxPlayers+";"+minPlayers+"\r\n");
+            connection.sendMessage("CREATE;"+tableName+";"+small+";"+big+";"+startMoney+";"+maxPlayers+";"+minPlayers+";"+"\r\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

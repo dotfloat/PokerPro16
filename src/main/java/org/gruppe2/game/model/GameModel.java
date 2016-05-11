@@ -28,7 +28,7 @@ public class GameModel implements Serializable {
     private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
     private final int buyIn;
     private final BotPolicy botPolicy;
-
+    private final String botDiff;
     private volatile String name = null;
     private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
@@ -37,7 +37,7 @@ public class GameModel implements Serializable {
     private volatile int waitTime;
     private volatile int roundsCompleted = 0;
 
-    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind, int waitTime) {
+    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind, int waitTime, String botDiff) {
         this.uuid = uuid;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
@@ -46,6 +46,7 @@ public class GameModel implements Serializable {
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;
         this.waitTime = waitTime;
+        this.botDiff = botDiff;
     }
 
     public UUID getUUID() {
@@ -106,6 +107,9 @@ public class GameModel implements Serializable {
 
     public int getRoundsCompleted() {
         return roundsCompleted;
+    }
+    public String getBotDiff() {
+        return botDiff;
     }
 
     public void setRoundsCompleted(int roundsCompleted) {
