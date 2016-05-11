@@ -81,7 +81,7 @@ public class UIResources {
                 avatars.put(name, image);
 
                 PixelReader pixelReader = image.getPixelReader();
-                Color color = pixelReader.getColor(2,2);
+                Color color = pixelReader.getColor(2, 2);
                 avatarColors.put(name, color);
             }
         } catch (NullPointerException e) {
@@ -109,10 +109,10 @@ public class UIResources {
 
         cards = new ArrayList<>();
 
-        char[] suitChars = { 'c', 'd', 'h', 's' };
+        char[] suitChars = {'c', 'd', 'h', 's'};
 
-        for (int face = 2; face <= 14; face++) {
-            for (int suit = 0; suit < 4; suit++) {
+        for (int suit = 0; suit < 4; suit++) {
+            for (int face = 2; face <= 14; face++) {
                 String path = String.format("/images/cards/%c%02d.png", suitChars[suit], face);
 
                 cards.add(new Image(UIResources.class.getResourceAsStream(path)));
