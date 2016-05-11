@@ -43,6 +43,7 @@ public class RoundController extends AbstractController {
     private PokerLog logger = null;
     private ArrayList<UUID> raiseStory = new ArrayList<>();
     private TimerTask autoFold = null;
+    private boolean endRound = false;
 
     @Override
     public void update() {
@@ -98,15 +99,7 @@ public class RoundController extends AbstractController {
                 if (!(player.getAction().get() instanceof Action.Pass))
                     handleAction(player, roundPlayer, player.getAction().get());
 
-                int playersWithChipsLeft = 0;
-                for (RoundPlayer p : round.getActivePlayers()) {
-                    if (game.findPlayerByUUID(p.getUUID()).get().getBank() > 0)
-                        playersWithChipsLeft++;
-                    if (playersWithChipsLeft > 1)
-                        break;
-                }
-
-                if (playersWithChipsLeft <= 1 || !(player.getAction().get() instanceof Action.Raise) &&
+                if (endRound || !(player.getAction().get() instanceof Action.Raise) &&
                         ((round.getLastRaiserID() == null && player.getUUID().equals(lastPlayerInRound)) || player.getUUID().equals(round.getLastRaiserID()))) {
                     player.getAction().reset();
                     player = null;
@@ -114,6 +107,7 @@ public class RoundController extends AbstractController {
                     nextRound();
                 } else {
                     round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
+                    endRound = round.getPlayersWithChipsLeft() <= 1;
                     player.getAction().reset();
                     player = null;
                     roundPlayer = null;
@@ -201,6 +195,7 @@ public class RoundController extends AbstractController {
         round.resetRound();
         round.getCommunityCards().clear();
         round.setLastRaiserID(null);
+        round.setPlayersWithChipsLeft(active.size());
     }
 
     private void payBlinds() {
@@ -256,6 +251,7 @@ public class RoundController extends AbstractController {
         if (action instanceof Action.AllIn) {
             raise = player.getBank();
             moveChips(player, roundPlayer, roundPlayer.getBet() + raise, 0, raise);
+            round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Fold) {
@@ -270,6 +266,9 @@ public class RoundController extends AbstractController {
             round.setLastRaiserID(player.getUUID());
             round.playerRaise(player.getUUID());
             raiseStory.add(player.getUUID());
+
+            if (raise == player.getBank() + roundPlayer.getBet() - round.getHighestBet())
+                round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Blind) {
@@ -321,6 +320,7 @@ public class RoundController extends AbstractController {
             lastPlayerInRound = round.getLastActivePlayerID();
             round.resetRaiseMap();
             round.setCurrent(0);
+            endRound = false;
 
             if (round.getRoundNum() == 1) {
                 for (int i = 0; i < 3; i++)
@@ -332,11 +332,13 @@ public class RoundController extends AbstractController {
 
             logger.incrementRound(round.getCommunityCards());
 
-            try {
-                //Wait for gui
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (round.getCommunityCards().size() > 0) {
+                try {
+                    //Wait for gui
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -436,6 +438,12 @@ public class RoundController extends AbstractController {
         logger.writeToFile();
         game.setButton((game.getButton() + 1) % game.getPlayers().size());
         game.setRoundsCompleted(game.getRoundsCompleted() + 1);
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         roundStart();
     }
