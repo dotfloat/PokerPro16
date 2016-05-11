@@ -1,10 +1,6 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.Main;
-import org.gruppe2.ai.AI;
-import org.gruppe2.ai.AdvancedAI;
-import org.gruppe2.ai.GameInfo;
-import org.gruppe2.ai.NewDumbAI;
+import org.gruppe2.ai.*;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -12,7 +8,7 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 
 public class AIController extends AbstractController {
-	private AI ai = new AdvancedAI();
+	private AI ai;
 
 	@Helper
 	private GameHelper gameHelper;
@@ -20,14 +16,25 @@ public class AIController extends AbstractController {
 	@Helper
 	private RoundHelper roundHelper;
 
+	@Override
+	public void init() {
+		Difficulty difficulty = gameHelper.getBotDiff();
+
+		switch (difficulty) {
+			case EASY:
+				ai = new NewDumbAI();
+				break;
+			case MEDIUM:
+				ai = new AdvancedAI();
+				break;
+			default:
+				ai = new AdvancedAI();
+				break;
+		}
+	}
 
 	@Handler
 	public void onAction(PlayerActionQuery query) {
-		//Use dumb AI for difficulty easy
-		if(Main.getProperty("botDiff").equals("Easy")) {
-			ai = new NewDumbAI();
-		}
-
 		if (!query.getPlayer().isBot())
 			return;
 
