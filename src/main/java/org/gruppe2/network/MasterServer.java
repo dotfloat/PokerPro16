@@ -122,7 +122,7 @@ public class MasterServer {
     }
 
     private SessionContext createNewGame(String[] args) {
-        // TODO add this ? String tableName = args[1];
+        String tableName = args[1];
         int small = Integer.valueOf(args[2]);
         int big = Integer.valueOf(args[3]);
         int startMoney = Integer.valueOf(args[4]);

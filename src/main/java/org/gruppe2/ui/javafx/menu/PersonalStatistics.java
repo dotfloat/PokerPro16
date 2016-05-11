@@ -18,6 +18,8 @@ class PersonalStatistics extends GridPane {
     @FXML
     private Label gamesLost;
     @FXML
+    private Label gamesFolded;
+    @FXML
     private Label timesCalled;
     @FXML
     private Label timesChecked;
@@ -36,12 +38,14 @@ class PersonalStatistics extends GridPane {
         
         gamesPlayed.setText(Main.getProperty("gamesPlayed"));
         gamesWon.setText(Main.getProperty("gamesWon"));
-        gamesLost.setText(Main.getProperty("gamesList"));
+        gamesLost.setText(Main.getProperty("gamesLost"));
         timesCalled.setText(Main.getProperty("timesCalled"));
         timesChecked.setText(Main.getProperty("timesChecked"));
         timesRaised.setText(Main.getProperty("timesRaised"));
+        gamesFolded.setText(Main.getProperty("timesFolded"));
         totalBets.setText(Main.getProperty("totalBets"));
         totalWinnings.setText(Main.getProperty("totalWinnings"));
+        
     }
     public static void show() {
 		Modal modal = new Modal(true);
