@@ -65,10 +65,7 @@ public class CommunityCards extends HBox {
         communityCardsFlip(cards);
     }
 
-    @Handler
-    public void onRoundEnd(RoundEndEvent event) {
-        resetImages();
-    }
+    
 
     private void resetImages() {
         for (int i=0;i<imageViews.size();i++){
