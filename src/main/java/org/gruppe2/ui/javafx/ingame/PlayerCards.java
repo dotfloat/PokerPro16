@@ -11,6 +11,7 @@ import org.gruppe2.game.Card;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.event.RoundStartEvent;
+import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
@@ -21,6 +22,8 @@ public class PlayerCards extends Pane {
 
     @Helper
     private RoundHelper roundHelper;
+    @Helper
+    private GameHelper gameHelper;
 
     @FXML
     private ImageView playerCard1;
@@ -44,7 +47,7 @@ public class PlayerCards extends Pane {
         if (!roundPlayer.isPresent())
             return;
 
-        if (!Game.getPlayerUUID().equals(playerUUID) && Game.isPlayer()) {
+        if (!Game.getPlayerUUID().equals(playerUUID) && gameHelper.findPlayerByUUID(Game.getPlayerUUID()).isPresent()) {
             playerCard1.setImage(UIResources.getCardBack());
             playerCard2.setImage(UIResources.getCardBack());
         } else {

@@ -50,7 +50,7 @@ public class RecordController extends AbstractController {
 
         if (lastEventTime < 0) {
             lastEventTime = System.currentTimeMillis();
-        } else {
+        } else if (System.currentTimeMillis() - lastEventTime > 100) {
             writeObject(new Wait(System.currentTimeMillis() - lastEventTime));
             lastEventTime = System.currentTimeMillis();
         }
