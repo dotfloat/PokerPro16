@@ -14,7 +14,7 @@
         <PokerApplication fx:factory="getRoot" fx:id="root"/>
     </fx:define>
 
-    <ProgressBarCountDown fx:id="progressBar" visible="true" style="-fx-background-color: transparent" prefWidth="${this.prefWidth}"/>
+    <ProgressBarCountDown fx:id="progressBar" visible="true" style="-fx-background-color: transparent" prefWidth="${this.prefWidth*0.8}"/>
 
     <HBox alignment="CENTER" spacing="${root.width*0.02}">
 
