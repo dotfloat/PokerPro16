@@ -13,7 +13,7 @@ public class GameBuilder {
     private int smallBlind = 10;
     private int bigBlind = 20;
     private int waitTime = 1000;
-    private Difficulty botDiff = Difficulty.MEDIUM;
+    private Difficulty botDiff = Difficulty.NORMAL;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
     
     
