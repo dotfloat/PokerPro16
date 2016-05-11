@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 
 import org.gruppe2.Main;
 import org.gruppe2.game.PlayerStatistics;
+import org.gruppe2.game.event.PlayerLeaveEvent;
 import org.gruppe2.game.event.PlayerWonEvent;
 import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.helper.GameHelper;
@@ -88,5 +89,11 @@ public class GameScene extends Pane {
         Label label = new Label(text);
         SceneController.setFadingModal(label);
         SoundPlayer.playVictoryMusic();
+    }
+
+    @Handler
+    public void onPlayerLeave(PlayerLeaveEvent event) {
+        if (event.getPlayer().getUUID().equals(Game.getPlayerUUID()))
+            Game.getContext().message("quit", "You've been kicked");
     }
 }

@@ -179,8 +179,6 @@ public class ChoiceBar extends StackPane {
             slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
         }
 
-        System.out.println("Player can: " + actions.toString());
-
         if (actions.canCheck())
             slider.setValue(0);
         else if (actions.canCall())
