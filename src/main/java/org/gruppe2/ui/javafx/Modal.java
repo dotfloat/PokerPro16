@@ -45,6 +45,8 @@ public class Modal {
         ImageView closeImage = new ImageView(getClass().getResource("/images/ui/folded.png").toExternalForm());
         closeImage.setPreserveRatio(true);
         closeImage.fitHeightProperty().bind(PokerApplication.getApplication().widthScaleProperty().multiply(18));
+        titleBar.getChildren().add(titlePane);
+        
         if(canClose){
 	        closeButton = new Button();
 	        closeButton.setGraphic(closeImage);
@@ -53,7 +55,7 @@ public class Modal {
 	        titleBar.getChildren().add(closeButton);
         }
 
-        titleBar.getChildren().add(titlePane);
+       
         
 
         borderPane.setTop(titleBar);
