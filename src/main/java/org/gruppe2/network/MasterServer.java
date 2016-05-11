@@ -83,21 +83,16 @@ public class MasterServer {
                         clients.get(i).sendMessage(createTableString() + "\r\n");
                         break;
                     case "JOIN TABLE":
-
-                        if (canJoinTable(args[1])) {
-                            clients.get(i)
-                                    .sendMessage("JOINED;" + args[1] + "\r\n");
-                            connectClientToTable(clients.get(i), args[1]);
-                            clients.remove(i--);
-                        } else
-                            clients.get(i).sendMessage("NO\r\n");
-
+                        clients.get(i)
+                                .sendMessage("JOINED;" + args[1] + "\r\n");
+                        connectClientToTable(clients.get(i), args[1]);
+                        clients.remove(i--);
                         break;
                     case "CREATE":
-                    	
+
                         clients.get(i).sendMessage("CREATED\r\n");
                         SessionContext context = createNewGame(args);
-                        
+
                         context.waitReady();
                         Thread.sleep(100);
                         context.message("addClient", clients.get(i));
@@ -106,13 +101,13 @@ public class MasterServer {
                         clients.remove(i--);
                         break;
                     case "SEARCH":
-                    	System.out.println("server recieved search");
-                    	clients.get(i).sendMessage(createTableString() + "\r\n");
+                        System.out.println("server recieved search");
+                        clients.get(i).sendMessage(createTableString() + "\r\n");
                         break;
                     case "BYE":
                         clients.remove(i--);
                         break;
-                   
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -127,34 +122,23 @@ public class MasterServer {
     }
 
     private SessionContext createNewGame(String[] args) {
-		// TODO add this ? String tableName = args[1];
-		int small = Integer.valueOf(args[2]);
-		int big = Integer.valueOf(args[3]);
-		int startMoney = Integer.valueOf(args[4]);
-		int maxPlayers = Integer.valueOf(args[5]);
-		int minPlayers = Integer.valueOf(args[6]);
-		String botDiff = args[7];
-		SessionContext context = new GameBuilder()
-				.playerRange(minPlayers,maxPlayers)
-				.blinds(small, big)
-				.buyIn(startMoney)
-				.botDiff(Difficulty.valueOf(botDiff.toUpperCase()))
-				.start();
+        // TODO add this ? String tableName = args[1];
+        int small = Integer.valueOf(args[2]);
+        int big = Integer.valueOf(args[3]);
+        int startMoney = Integer.valueOf(args[4]);
+        int maxPlayers = Integer.valueOf(args[5]);
+        int minPlayers = Integer.valueOf(args[6]);
+        String botDiff = args[7];
+        SessionContext context = new GameBuilder()
+                .playerRange(minPlayers, maxPlayers)
+                .blinds(small, big)
+                .buyIn(startMoney)
+                .botDiff(Difficulty.valueOf(botDiff.toUpperCase()))
+                .start();
 
         return context;
-        
-		
-	}
 
-	private boolean canJoinTable(String tableUUID) {
-        Optional<SessionContext> table = findTableByUUID(tableUUID);
-        if (!table.isPresent())
-            return false;
 
-        int maxPlayers = table.get().getModel(GameModel.class).getMaxPlayers();
-        int currentPlayers = (int) table.get().getModel(GameModel.class).getPlayers().stream().filter(p -> !p.isBot()).count();
-
-        return currentPlayers < maxPlayers;
     }
 
     private Optional<SessionContext> findTableByUUID(String tableUUID) {
