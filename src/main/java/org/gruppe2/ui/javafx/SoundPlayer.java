@@ -1,5 +1,7 @@
 package org.gruppe2.ui.javafx;
 
+import org.gruppe2.Main;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -76,15 +78,20 @@ public class SoundPlayer {
 	
 
 	public static MediaPlayer playSound(String musicFile) {
-		try {
-			Media sound = new Media(musicFile);
-			MediaPlayer mediaPlayer = new MediaPlayer(sound);
-			mediaPlayer.play();
-			return mediaPlayer;
-		} catch (RuntimeException e) {
-			System.err.println(e.getMessage());
-			return null;
+		if(!Main.noSound){
+			try {
+				
+					Media sound = new Media(musicFile);
+					MediaPlayer mediaPlayer = new MediaPlayer(sound);
+					mediaPlayer.play();
+					return mediaPlayer;
+				
+			} catch (RuntimeException e) {
+				System.err.println(e.getMessage());
+				return null;
+			}
 		}
+		return null;
 	}
 
 	private static void fadeOutOnEnd(MediaPlayer mediaPlayer, int delayTime) {

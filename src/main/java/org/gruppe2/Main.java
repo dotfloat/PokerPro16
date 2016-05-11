@@ -14,12 +14,13 @@ import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Main {
     private enum EntryPoint {
-        CONSOLE, JAVAFX, SERVER,MASTER
+        CONSOLE, JAVAFX, SERVER,MASTER, NOSOUND
     }
 
     private static Properties properties = new Properties();
     private static EntryPoint entryPoint = EntryPoint.JAVAFX;
     private static boolean autostart = false;
+    public static boolean noSound = false;
 
     public static void main(String[] args) {
         parseArgs(args);
@@ -70,6 +71,9 @@ public class Main {
                 case "-m":
                 case "--master":
                 	entryPoint = EntryPoint.MASTER;
+                	break;
+                case "--nosound":
+                	noSound = true;
                 	break;
 
                 default:
