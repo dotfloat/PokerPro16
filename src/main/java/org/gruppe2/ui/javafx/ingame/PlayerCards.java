@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 
 import org.gruppe2.game.Card;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -52,6 +53,28 @@ public class PlayerCards extends Pane {
             playerCard1.setImage(UIResources.getCard(cards[0]));
             playerCard2.setImage(UIResources.getCard(cards[1]));
         }
+    }
+
+    /**
+     * Show cards at the end of the round, aka showdown.
+     * @param event
+     */
+    @Handler
+    public void onRoundEnd(RoundEndEvent event) {
+        if (playerUUID == null)
+            return;
+
+        Optional<RoundPlayer> roundPlayer = roundHelper.findPlayerByUUID(playerUUID);
+
+        setVisible(roundPlayer.isPresent());
+
+        if (!roundPlayer.isPresent())
+            return;
+
+        Card[] cards = roundPlayer.get().getCards();
+
+        playerCard1.setImage(UIResources.getCard(cards[0]));
+        playerCard2.setImage(UIResources.getCard(cards[1]));
     }
 
     public void setPlayerUUID(UUID playerUUID) {
