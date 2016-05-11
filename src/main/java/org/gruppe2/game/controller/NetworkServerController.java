@@ -53,6 +53,8 @@ public class NetworkServerController extends AbstractController {
 					.ifPresent(
 							c -> {
 								try {
+									c.getConnection().sendObject(gameHelper.getModel());
+									c.getConnection().sendObject(roundHelper.getModel());
 									c.getConnection().sendObject(e);
 									action = ((PlayerActionQuery) e)
 											.getPlayer().getAction();

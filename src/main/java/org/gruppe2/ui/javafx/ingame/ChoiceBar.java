@@ -15,6 +15,7 @@ import org.gruppe2.game.Player;
 import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
@@ -63,9 +64,12 @@ public class ChoiceBar extends StackPane {
     public void setEvents() {
         slider.valueProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    sliderValue.textProperty().setValue(checkMaxBid(slider));
+                    updateSliderValue();
                 });
+    }
 
+    public void updateSliderValue() {
+        sliderValue.textProperty().setValue(checkMaxBid());
     }
 
     @FXML
@@ -83,29 +87,25 @@ public class ChoiceBar extends StackPane {
             Player player = gameHelper.findPlayerByUUID(uuid).get();
             int myBank = player.getBank();
             @SuppressWarnings("unused")
-			int heighestBet = roundHelper.getModel().getHighestBet();
+            int heighestBet = roundHelper.getModel().getHighestBet();
 
             PossibleActions possibleActions = roundHelper
                     .getPlayerOptions(uuid);
 
             int amount = ((int) slider.getValue()) - possibleActions.getCallAmount();
 
-            if(possibleActions.canAllIn()) {
+            if (possibleActions.canAllIn()) {
                 actionQuery.set(new Action.AllIn());
-            }
-            else if (amount == 0) {
+            } else if (amount == 0) {
                 if (possibleActions.canCall()) {
                     actionQuery.set(new Action.Call());
-                }
-                else if (possibleActions.canCheck()) {
+                } else if (possibleActions.canCheck()) {
                     actionQuery.set(new Action.Check());
-                }
-                else {
-                	System.out.println("call amount was: "+possibleActions.getCallAmount()+"highest bet was: "+roundHelper.getModel().getHighestBet()+"\nmy bank was"+myBank);
+                } else {
+                    System.out.println("call amount was: " + possibleActions.getCallAmount() + "highest bet was: " + roundHelper.getModel().getHighestBet() + "\nmy bank was" + myBank);
                     throw new RuntimeException();
                 }
-            }
-            else if(possibleActions.canRaise()) {
+            } else if (possibleActions.canRaise()) {
                 actionQuery.set(new Action.Raise(amount));
             }
 
@@ -128,12 +128,12 @@ public class ChoiceBar extends StackPane {
      * @param slider
      * @return
      */
-    private String checkMaxBid(Slider slider) {
+    private String checkMaxBid() {
         PossibleActions pa = roundHelper.getPlayerOptions(Game.getPlayerUUID());
         @SuppressWarnings("unused")
-		int heighestBet = roundHelper.getModel().getHighestBet();
+        int heighestBet = roundHelper.getModel().getHighestBet();
         @SuppressWarnings("unused")
-		int myBank = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getBank();
+        int myBank = gameHelper.findPlayerByUUID(Game.getPlayerUUID()).get().getBank();
 
         if (slider.getValue() == slider.getMax() || pa.canAllIn())
             btnBet.setText("All in");
@@ -155,35 +155,41 @@ public class ChoiceBar extends StackPane {
     }
 
     @Handler
+    public void onPlayerPostAction(PlayerPostActionEvent event) {
+        btnFold.setDisable(true);
+        btnBet.setDisable(true);
+        slider.setDisable(true);
+        sliderValue.setDisable(true);
+    }
+
+    @Handler
     public void onActionQuery(PlayerActionQuery query) {
-        if (!query.getPlayer().getUUID().equals(Game.getPlayerUUID())) {
-            btnFold.setDisable(true);
-            btnBet.setDisable(true);
-            slider.setDisable(true);
-            sliderValue.setDisable(true);
-        } else {
-            PossibleActions actions = roundHelper.getPlayerOptions(Game.getPlayerUUID());
+        if (!query.getPlayer().getUUID().equals(Game.getPlayerUUID()))
+            return;
 
-            btnFold.setDisable(false);
-            btnBet.setDisable(false);
+        PossibleActions actions = roundHelper.getPlayerOptions(Game.getPlayerUUID());
 
-            if(actions.canRaise()) {
-                slider.setDisable(false);
-                sliderValue.setDisable(false);
-                slider.setMin(actions.getCallAmount());
-                slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
-            }
+        btnFold.setDisable(false);
+        btnBet.setDisable(false);
 
-            if (actions.canCheck())
-                slider.setValue(0);
-            else if (actions.canCall())
-                slider.setValue(actions.getCallAmount());
-            else if (actions.canAllIn())
-                slider.setValue(query.getPlayer().getBank());
-
-            setEvents();
-
-            actionQuery = query.getPlayer().getAction();
+        if (actions.canRaise()) {
+            slider.setDisable(false);
+            sliderValue.setDisable(false);
+            slider.setMin(actions.getCallAmount());
+            slider.setMax(actions.getMaxRaise() + actions.getCallAmount());
         }
+
+        System.out.println("Player can: " + actions.toString());
+
+        if (actions.canCheck())
+            slider.setValue(0);
+        else if (actions.canCall())
+            slider.setValue(actions.getCallAmount());
+        else if (actions.canAllIn())
+            slider.setValue(query.getPlayer().getBank());
+
+        actionQuery = query.getPlayer().getAction();
+
+        updateSliderValue();
     }
 }
