@@ -21,6 +21,8 @@ public class CreateGameSettings extends VBox {
 	TextField startMoney;
 	@FXML
 	TextField maxPlayers;
+	@FXML
+	TextField minPlayers;
 
 	public CreateGameSettings(MasterClient masterClient) {
 		UIResources.loadFXML(this);
@@ -32,8 +34,19 @@ public class CreateGameSettings extends VBox {
 	@FXML
 	private void ok() {
 		if (valuesAreValid()) {
-			masterClient.requestCreateGame(tableName.getText(),smallBlind.getText(),bigBlind.getText(),startMoney.getText(),maxPlayers.getText());
+			saveSettings();
+			masterClient.requestCreateGame(tableName.getText(),smallBlind.getText(),bigBlind.getText(),startMoney.getText(),maxPlayers.getText(),minPlayers.getText());
 		}
+	}
+
+	private void saveSettings() {
+		Main.setProperty("tableName", tableName.getText());
+		Main.setProperty("smallBlind", smallBlind.getText());
+		Main.setProperty("bigBlind", bigBlind.getText());
+		Main.setProperty("startMoney", startMoney.getText());
+		Main.setProperty("minPlayers", minPlayers.getText());
+		Main.setProperty("maxPlayers", maxPlayers.getText());
+		
 	}
 
 	@FXML

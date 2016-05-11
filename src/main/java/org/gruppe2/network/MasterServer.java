@@ -131,9 +131,10 @@ public class MasterServer {
 		int big = Integer.valueOf(args[3]);
 		int startMoney = Integer.valueOf(args[4]);
 		int maxPlayers = Integer.valueOf(args[5]);
+		int minPlayers = Integer.valueOf(args[6]);
 		
 		SessionContext context = new GameBuilder()
-				.playerRange(0,maxPlayers)
+				.playerRange(minPlayers,maxPlayers)
 				.blinds(small, big)
 				.buyIn(startMoney)
 				.start();

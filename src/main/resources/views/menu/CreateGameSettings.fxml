@@ -30,6 +30,11 @@
             <Label text="Start money: "/>
             <TextField fx:id="startMoney"/>
         </HBox>
+        
+         <HBox  alignment="CENTER">
+            <Label text="Min players: "/>
+            <TextField fx:id="minPlayers"/>
+        </HBox>
 
         <HBox  alignment="CENTER">
             <Label text="Max players: "/>
