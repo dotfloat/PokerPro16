@@ -28,6 +28,8 @@ public class Settings extends VBox {
 
 	public Settings(){
 		UIResources.loadFXML(this);
+		if(Main.getProperty("name") != null)
+		nameField.setText(Main.getProperty("name"));
 		getAvatars();
 	}
 
@@ -47,12 +49,15 @@ public class Settings extends VBox {
 		String[] avatars = Resources.listAvatars();
 
 		for(String avatar: avatars){
-
 			Pane avatarPane = new Pane();
 			ImageView imageView = new ImageView(UIResources.getAvatar(avatar));
 			imageView.preserveRatioProperty().setValue(true);
 			imageView.fitWidthProperty().bind(PokerApplication.getRoot().widthProperty().multiply(0.05));
 
+			if(avatar.equals(Main.getProperty("avatar"))) {
+				avatarPane.setStyle("-fx-effect: dropshadow(gaussian, #0099ff, 5, 2, 0, 0);");
+				highlitedPane = avatarPane;
+			}
 
 			avatarPane.setOnMouseClicked(frisk -> {Main.setProperty("avatar",avatar);
 				flagTile(avatarPane);
