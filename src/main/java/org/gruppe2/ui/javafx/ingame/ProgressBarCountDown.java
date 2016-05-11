@@ -14,6 +14,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
+import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SoundPlayer;
 
 public class ProgressBarCountDown extends HBox {
@@ -36,6 +37,7 @@ public class ProgressBarCountDown extends HBox {
         countDown.bind(progress.multiply(10).add(1));
         time.setVisible(false);
         time.textProperty().bind(countDown.asString());
+        time.fontProperty().bind(PokerApplication.getApplication().bigFontProperty());
         spacingProperty().setValue(5);
         alignmentProperty().setValue(Pos.CENTER);
         setUpProgressBar();

@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import org.gruppe2.Main;
@@ -13,7 +14,7 @@ import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
 
-public class CreateGameSettings extends VBox {
+public class CreateGameSettings extends GridPane {
 	MasterClient masterClient;
 	@FXML
 	TextField tableName;
