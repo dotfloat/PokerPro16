@@ -5,7 +5,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import com.sun.istack.internal.NotNull;
 import javafx.application.Platform;
 
 import org.gruppe2.Main;
@@ -37,7 +36,7 @@ public class Game {
         return instance.playerUUID;
     }
 
-    public static void setPlayerUUID(@NotNull UUID uuid) {
+    public static void setPlayerUUID(UUID uuid) {
         instance.playerUUID = uuid;
     }
 
