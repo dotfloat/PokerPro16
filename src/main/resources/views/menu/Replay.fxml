@@ -11,7 +11,7 @@
 		<PokerApplication fx:factory="getRoot" fx:id="root"/>
 	</fx:define>
 
-	<Label  text="Choose a game to experience one more time. Hurray!" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.ColumnSpan="1" font="${app.bigFont}"/>
+	<Label  text="Choose a game to replay" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.ColumnSpan="1" font="${app.bigFont}"/>
  	<ComboBox fx:id="replays" GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="Infinity"/>
  	<Button fx:id="start" text="Start" onAction="#startReplay" GridPane.columnIndex="1" GridPane.rowIndex="1" font="${app.bigFont}"/>
  	

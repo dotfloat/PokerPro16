@@ -60,10 +60,12 @@ public class ClientRoundController extends AbstractController{
         if (action instanceof Action.AllIn) {
             raise = player.getBank();
             moveChips(player, roundPlayer, roundPlayer.getBet() + raise, 0, raise);
+            round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Fold) {
             round.getActivePlayers().remove(roundPlayer);
+            round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Raise) {
@@ -72,6 +74,9 @@ public class ClientRoundController extends AbstractController{
             moveChips(player, roundPlayer, round.getHighestBet() + raise, player.getBank() - chipsToMove, chipsToMove);
             round.setLastRaiserID(player.getUUID());
             round.playerRaise(player.getUUID());
+
+            if (raise == player.getBank() + roundPlayer.getBet() - round.getHighestBet())
+                round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Blind) {

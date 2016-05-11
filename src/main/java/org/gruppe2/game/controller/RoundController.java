@@ -258,6 +258,7 @@ public class RoundController extends AbstractController {
         if (action instanceof Action.Fold) {
             round.getActivePlayers().remove(round.getCurrent());
             round.setCurrent(round.getCurrent() - 1);
+            round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Raise) {
