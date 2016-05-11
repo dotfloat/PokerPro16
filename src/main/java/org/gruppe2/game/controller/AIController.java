@@ -9,6 +9,7 @@ import org.gruppe2.game.session.Helper;
 
 public class AIController extends AbstractController {
 	private AI ai;
+	private Difficulty difficulty;
 
 	@Helper
 	private GameHelper gameHelper;
@@ -18,13 +19,14 @@ public class AIController extends AbstractController {
 
 	@Override
 	public void init() {
-		Difficulty difficulty = gameHelper.getBotDiff();
+		difficulty = gameHelper.getBotDiff();
 
 		switch (difficulty) {
 			case EASY:
 				ai = new NewDumbAI();
 				break;
 			case MEDIUM:
+			case HARD:
 				ai = new AdvancedAI();
 				break;
 			default:
@@ -45,6 +47,7 @@ public class AIController extends AbstractController {
         gameInfo.setPossibleActions(roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
         gameInfo.setActivePlayers(roundHelper.getActivePlayers());
         gameInfo.setHighestBet(roundHelper.getHighestBet());
+		gameInfo.setDifficulty(this.difficulty);
 
 		setTask(gameHelper.getWaitTime(), () -> {
 			ai.doAction(query.getPlayer(),
