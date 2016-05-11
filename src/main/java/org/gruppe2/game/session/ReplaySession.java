@@ -17,11 +17,11 @@ import java.util.Base64;
 
 public class ReplaySession extends Session {
 
-    public ReplaySession() {
+    public ReplaySession(String file) {
         try {
             Object object;
 
-            InputStream stream = new FileInputStream(Resources.getUserDir() + "demo.pp16");
+            InputStream stream = new FileInputStream(file);
             addModel(new ReplayModel(stream));
 
             if (!((object = readObject(stream)) instanceof GameModel))

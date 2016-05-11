@@ -10,6 +10,7 @@ import org.gruppe2.game.session.Handler;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 
 public class RecordController extends AbstractController {
     private OutputStream stream = null;
@@ -33,7 +34,7 @@ public class RecordController extends AbstractController {
     @Override
     public void init() {
         try {
-            stream = new FileOutputStream(Resources.getUserDir() + File.separator + "demo.pp16");
+            stream = new FileOutputStream(Resources.getUserDir("replays") + LocalDateTime.now().toString() + ".pp16");
 
             writeObject(getModel(GameModel.class));
             writeObject(getModel(RoundModel.class));
