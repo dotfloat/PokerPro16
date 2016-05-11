@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -31,16 +32,25 @@ public class Modal {
         borderPane = new BorderPane();
 
         HBox titleBar = new HBox(5);
-        titleBar.setAlignment(Pos.CENTER);
+        titleBar.setAlignment(Pos.CENTER_RIGHT);
 
+        StackPane titlePane = new StackPane();
         title = new Label("Modal Window");
         title.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
+        titlePane.getChildren().add(title);
+        titlePane.setAlignment(Pos.CENTER);
+        HBox.setHgrow(titlePane, Priority.ALWAYS);
 
-        closeButton = new Button("X");
+        ImageView closeImage = new ImageView(getClass().getResource("/images/ui/folded.png").toExternalForm());
+        closeImage.setPreserveRatio(true);
+        closeImage.fitHeightProperty().bind(PokerApplication.getApplication().widthScaleProperty().multiply(18));
+
+        closeButton = new Button();
+        closeButton.setGraphic(closeImage);
         closeButton.setOnAction(this::onCloseButtonAction);
-        closeButton.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
+        HBox.setHgrow(closeButton, Priority.NEVER);
 
-        titleBar.getChildren().add(title);
+        titleBar.getChildren().add(titlePane);
         titleBar.getChildren().add(closeButton);
 
         borderPane.setTop(titleBar);
