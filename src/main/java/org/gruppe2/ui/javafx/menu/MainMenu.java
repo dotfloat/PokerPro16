@@ -3,7 +3,6 @@ package org.gruppe2.ui.javafx.menu;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -11,7 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import org.gruppe2.game.session.ClientSession;
-import org.gruppe2.game.session.ReplaySession;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
@@ -20,8 +18,6 @@ import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.Game;
 import org.gruppe2.ui.javafx.ingame.GameScene;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -94,7 +90,7 @@ public class MainMenu extends BorderPane {
     }
 
     public void goToStatistics() {
-        throw new NotImplementedException();
+        PersonalStatistics.show();
     }
 
     public void goToSettings() {
