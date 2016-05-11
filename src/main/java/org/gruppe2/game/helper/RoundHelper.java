@@ -196,6 +196,13 @@ public class RoundHelper {
             pots.add(new SidePot(players, pot));
         }
 
+        int total = 0;
+        for (SidePot sp : pots)
+            total += sp.getPot();
+
+        if (total < model.getPot())
+            pots.get(0).setPot(pots.get(0).getPot() + model.getPot() - total);
+
         return pots;
     }
 

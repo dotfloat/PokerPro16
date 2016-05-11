@@ -9,6 +9,7 @@ import org.gruppe2.game.Player;
 import org.gruppe2.game.PokerLog;
 import org.gruppe2.game.PossibleActions;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.SidePot;
 import org.gruppe2.game.calculation.Showdown;
 import org.gruppe2.game.event.CommunityCardsEvent;
 import org.gruppe2.game.event.PlayerActionQuery;
@@ -330,6 +331,13 @@ public class RoundController extends AbstractController {
             addEvent(new CommunityCardsEvent(new ArrayList<>(round.getCommunityCards())));
 
             logger.incrementRound(round.getCommunityCards());
+
+            try {
+                //Wait for gui
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -337,23 +345,87 @@ public class RoundController extends AbstractController {
         round.setPlaying(false);
         addEvent(new RoundEndEvent());
 
-        Optional<Player> op;
-
         if (round.getActivePlayers().size() == 1) {
-            op = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
+            Optional<Player> op = game.findPlayerByUUID(round.getActivePlayers().get(0).getUUID());
+
+            if (!op.isPresent())
+                throw new NoSuchElementException("Can't find winning player");
+
+            Player winner = op.get();
+            winner.setBank(winner.getBank() + round.getPot());
+            round.setPot(0);
+            addEvent(new PlayerWonEvent(winner));
         }
         else {
-            op = game.findPlayerByUUID(showdown.getWinnersOfRound(round.getActivePlayers(), round.getCommunityCards()).get(0).getUUID());
+            List<SidePot> sidePots = round.calculateSidePots();
+            SidePot highestBetPot = sidePots.get(sidePots.size()-1);
+
+            //Give back chips to highest bidder if he is the only one with the bet
+            if (sidePots.size() > 1 && highestBetPot.getPlayers().size() == 1) {
+                Optional<Player> op = game.findPlayerByUUID(highestBetPot.getPlayers().get(0));
+
+                if (op.isPresent()) {
+                    Player p = op.get();
+                    p.setBank(p.getBank() + highestBetPot.getPot());
+                }
+
+                sidePots.remove(highestBetPot);
+            }
+
+            List<RoundPlayer> winners = showdown.getWinnersOfRound(round.getActivePlayers(), round.getCommunityCards());
+            List<List<UUID>> potWinners = new ArrayList<>();
+            Map<UUID, Integer> winnerTotals = new HashMap<>();
+
+            int potsDone = 0;
+
+            while (potsDone < sidePots.size()) {
+                for (SidePot sp : sidePots) {
+                    List<UUID> canWin = new ArrayList<>();
+                    for (RoundPlayer rp : winners) {
+                        if (sp.getPlayers().contains(rp.getUUID())) {
+                            canWin.add(rp.getUUID());
+                        }
+                    }
+
+                    if (canWin.size() > 0) {
+                        potsDone++;
+                        potWinners.add(canWin);
+                    }
+                    else break;
+                }
+
+                if (potsDone < sidePots.size()) {
+                    List<RoundPlayer> players = new ArrayList<>();
+                    for (UUID id : sidePots.get(potsDone).getPlayers()) {
+                        players.add(round.findPlayerByUUID(id).get());
+                    }
+                    winners = showdown.getWinnersOfRound(players, round.getCommunityCards());
+                }
+            }
+
+            if (potWinners.size() != sidePots.size())
+                throw new IllegalStateException("Not all sidepots have winners. Tell Mikal to fix");
+
+            for (int i = 0; i < potWinners.size(); i++) {
+                for (UUID id : potWinners.get(i))
+                    winnerTotals.put(id, winnerTotals.get(id) + sidePots.get(i).getPot()/potWinners.get(i).size());
+            }
+
+            round.setPot(0);
+            for (UUID id : winnerTotals.keySet()) {
+                Optional<Player> op = game.findPlayerByUUID(id);
+
+                if (!op.isPresent())
+                    throw new NoSuchElementException("Can't find winning player");
+
+                Player winner = op.get();
+                winner.setBank(winner.getBank() + winnerTotals.get(id));
+
+                if (winnerTotals.keySet().size() == 1) {
+                    addEvent(new PlayerWonEvent(winner));
+                }
+            }
         }
-
-        if (!op.isPresent())
-            throw new NoSuchElementException("Can't find winning player");
-
-        Player winningPlayer = op.get();
-        winningPlayer.setBank(winningPlayer.getBank() + round.getPot());
-        round.setPot(0);
-
-        addEvent(new PlayerWonEvent(winningPlayer));
 
         logger.writeToFile();
         game.setButton((game.getButton() + 1) % game.getPlayers().size());

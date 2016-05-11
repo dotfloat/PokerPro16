@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class SidePot {
     private final List<UUID> players;
-    private final int pot;
+    private int pot;
 
     public SidePot(List<UUID> players, int pot) {
         this.players = players;
@@ -18,6 +18,10 @@ public class SidePot {
 
     public int getPot() {
         return pot;
+    }
+
+    public void setPot(int pot) {
+        this.pot = pot;
     }
 
     @Override
