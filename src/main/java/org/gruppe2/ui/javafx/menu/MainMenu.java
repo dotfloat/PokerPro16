@@ -71,7 +71,7 @@ public class MainMenu extends BorderPane {
                 SessionContext context = new GameBuilder()
                         .blinds(Integer.valueOf(list.get(1)), Integer.valueOf(list.get(2)))
                         .buyIn(Integer.valueOf(list.get(3)))
-                        .playerRange(Integer.valueOf(list.get(4)), Integer.valueOf(list.get(5)))
+                        .playerRange(Integer.valueOf(list.get(5)), Integer.valueOf(list.get(4)))
                         .botDiff(Difficulty.valueOf(list.get(6).toUpperCase()))
                         .start();
 
