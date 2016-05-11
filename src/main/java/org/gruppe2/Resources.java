@@ -66,6 +66,7 @@ public class Resources {
         File file = new File(getUserDir() + "properties.cfg");
 
         if (!file.exists()) {
+            Main.setFirstStart(true);
             file.createNewFile();
         }
 

@@ -13,6 +13,10 @@ import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Main {
+    public static void setFirstStart(boolean firstStart) {
+        Main.firstStart = firstStart;
+    }
+
     private enum EntryPoint {
         CONSOLE, JAVAFX, SERVER,MASTER, NOSOUND
     }
@@ -21,6 +25,7 @@ public class Main {
     private static EntryPoint entryPoint = EntryPoint.JAVAFX;
     private static boolean autostart = false;
     private static boolean noSound = false;
+    private static boolean firstStart = false;
 
     public static void main(String[] args) {
         parseArgs(args);
@@ -155,5 +160,9 @@ public class Main {
 
     public static boolean isNoSound() {
         return noSound;
+    }
+
+    public static boolean isFirstStart() {
+        return firstStart;
     }
 }

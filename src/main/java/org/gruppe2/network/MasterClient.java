@@ -133,10 +133,13 @@ public class MasterClient {
      * @param string
      * @param uuid
      */
-    public void requestCreateGame(String tableName, String small, String big, String startMoney, String maxPlayers, String minPlayers, String botDiff) {
-
+    public void requestCreateGame(List<String> args) {
         try {
-            connection.sendMessage("CREATE;" + tableName + ";" + small + ";" + big + ";" + startMoney + ";" + maxPlayers + ";" + minPlayers + ";" + botDiff + "\r\n");
+            final String[] message = {"CREATE"};
+            args.forEach(arg -> message[0] += ";" + arg);
+            message[0] += "\r\n";
+
+            connection.sendMessage(message[0]);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -34,8 +34,8 @@ public class Settings extends VBox {
 		getAvatars();
 	}
 
-	public static void show() {
-		modal = new Modal(true);
+	public static void show(boolean canClose) {
+		modal = new Modal(canClose);
 		modal.setPercentSize(0.5, 0.5);
 		modal.setContent(new Settings());
 		modal.show();

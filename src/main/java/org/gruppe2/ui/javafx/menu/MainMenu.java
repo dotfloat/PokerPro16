@@ -9,8 +9,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import org.gruppe2.Main;
+import org.gruppe2.ai.Difficulty;
+import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.session.ClientSession;
 import org.gruppe2.game.session.Session;
+import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
@@ -52,15 +56,31 @@ public class MainMenu extends BorderPane {
         setButtonSize();
         fadeIn();
 
+        if (Main.isFirstStart()) {
+            Main.setFirstStart(false);
+            Settings.show(false);
+        }
     }
 
     public void goToSinglePlayer() throws InterruptedException {
-    	Modal.messageBox("Loading", "Game is starting...",false);
-    	Platform.runLater(() -> {
-    		Game.autostart();
-    		Game.getInstance().join();
-    		SceneController.setOnlyThisScene(new GameScene());
-    	});
+        CreateGameSettings.show(list -> {
+
+            Modal.messageBox("Loading", "Game is starting...", false);
+            Platform.runLater(() -> {
+
+                SessionContext context = new GameBuilder()
+                        .blinds(Integer.valueOf(list.get(1)), Integer.valueOf(list.get(2)))
+                        .buyIn(Integer.valueOf(list.get(3)))
+                        .playerRange(Integer.valueOf(list.get(4)), Integer.valueOf(list.get(5)))
+                        .botDiff(Difficulty.valueOf(list.get(6).toUpperCase()))
+                        .start();
+
+                context.waitReady();
+                Game.getInstance().setContext(context);
+                Game.getInstance().join();
+                SceneController.setOnlyThisScene(new GameScene());
+            });
+        });
     }
 
     public void goToTestServer() {
@@ -89,7 +109,7 @@ public class MainMenu extends BorderPane {
     }
 
     public void goToSettings() {
-        Settings.show();
+        Settings.show(true);
     }
 
     public void goToReplay() {

@@ -119,7 +119,7 @@ public class Lobby extends BorderPane {
 
     @FXML
     private void requestCreateGame() {
-        CreateGameSettings.show(masterClient);
+        CreateGameSettings.show(masterClient::requestCreateGame);
     }
 
     public void requestJoinGame(UUID uuid) {
