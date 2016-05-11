@@ -112,9 +112,7 @@ public class Lobby extends BorderPane {
     }
 
     public void friendBox() {
-//		lobbyTiles.getChildren()
-//				.add(new Label("Displaying table with friends"));
-        // TODO display tables with friends in
+    	
     }
 
     @FXML
@@ -181,6 +179,7 @@ public class Lobby extends BorderPane {
         modal = new Modal(true);
         modal.setPercentSize(0.8, 0.8);
         modal.setContent(new Lobby());
+        modal.setTitle("Online Lobby");
         modal.show();
     }
 }

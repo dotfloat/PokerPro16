@@ -107,7 +107,7 @@ public class RoundHelper {
             if (getHighestBet() - roundPlayer.get().getBet() != 0)
                 options.setCall(getHighestBet() - roundPlayer.get().getBet());
 
-        if (!player.get().getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3) {
+        if (!player.get().getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3 && model.getPlayersWithChipsLeft() > 1) {
             int maxRaise = player.get().getBank() + roundPlayer.get().getBet() - getHighestBet();
             if (maxRaise > 0)
                 options.setRaise(1, maxRaise);
@@ -206,4 +206,11 @@ public class RoundHelper {
         return pots;
     }
 
+    public void setPlayersWithChipsLeft(int num) {
+        model.setPlayersWithChipsLeft(num);
+    }
+
+    public int getPlayersWithChipsLeft() {
+        return model.getPlayersWithChipsLeft();
+    }
 }

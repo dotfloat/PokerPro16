@@ -17,6 +17,7 @@ public class RoundModel implements Serializable {
     private volatile int pot = 0;
     private volatile int highestBet = 0;
     private volatile int roundNumber = 0;
+    private volatile int playersWithChipsLeft = 0;
     private volatile UUID lastRaiserID = null;
 
     public List<RoundPlayer> getActivePlayers() {
@@ -81,6 +82,14 @@ public class RoundModel implements Serializable {
 
     public Map<UUID, Integer> getRaiseMap() {
         return raiseMap;
+    }
+
+    public int getPlayersWithChipsLeft() {
+        return playersWithChipsLeft;
+    }
+
+    public void setPlayersWithChipsLeft(int playersWithChipsLeft) {
+        this.playersWithChipsLeft = playersWithChipsLeft;
     }
 
     public synchronized void apply(RoundModel object) {

@@ -84,6 +84,7 @@ public class CreateGameSettings extends GridPane {
         Modal modal = new Modal(true);
         modal.setPercentSize(0.5, 0.5);
         modal.setContent(new CreateGameSettings(start));
+        modal.setTitle("Create Game");
         modal.show();
     }
 
@@ -107,15 +108,6 @@ public class CreateGameSettings extends GridPane {
         String botDiffFromFile = Main.getProperty("botDiff");
 
         botDiff.getSelectionModel().select(botDiffFromFile);
-        // if(botDiffFromFile.equals("Easy")){
-        // botDiff.getSelectionModel().select(0);
-        // }
-        // else if(botDiffFromFile.equals("Normal")){
-        // botDiff.getSelectionModel().select(1);
-        // }
-        // else if(botDiffFromFile.equals("Hard")){
-        // botDiff.getSelectionModel().select(2);
-        // }
-
+        
     }
 }
