@@ -17,6 +17,7 @@ public class Replay extends VBox {
 	@FXML
 	private Button start;
 	
+	
 	public Replay(){
 		UIResources.loadFXML(this);
 		loadReplaysToComboBox();
@@ -37,7 +38,10 @@ public class Replay extends VBox {
 
 	@FXML
 	private void startReplay(){
-		
+		if(replays.getSelectionModel().getSelectedIndex() != -1){
+			replays.getItems().get(replays.getSelectionModel().getSelectedIndex());
+			System.out.println("you had pressed something");
+		}
 	}
 	
 	public static void show() {

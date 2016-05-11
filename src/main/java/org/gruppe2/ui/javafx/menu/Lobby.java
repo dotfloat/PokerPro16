@@ -121,6 +121,9 @@ public class Lobby extends BorderPane {
 	
 	public void updateTables(ArrayList<TableEntry> tablesInLobby) {
 		if(tablesInLobby.size() == 0 )return;
+		System.out.println("size of tables: "+tablesInLobby.size());
+		for(int i = 1;i<lobbyTiles.getChildren().size();i++)
+			lobbyTiles.getChildren().remove(i);
 		
 		if (checkBoxFriends.selectedProperty().get()) {
 			// check for tables with friends on
