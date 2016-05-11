@@ -25,6 +25,11 @@ import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 
+/**
+ * The ingame table used to show players, cards, pot etc.
+ * @author htj063
+ *
+ */
 public class Table extends Pane {
     @Helper
     private GameHelper game;

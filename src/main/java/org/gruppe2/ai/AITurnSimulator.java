@@ -1,16 +1,13 @@
 package org.gruppe2.ai;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
 import org.gruppe2.game.Card;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.calculation.Showdown;
-import org.gruppe2.game.helper.RoundHelper;
 
 public class AITurnSimulator {
 	Random random = new Random();

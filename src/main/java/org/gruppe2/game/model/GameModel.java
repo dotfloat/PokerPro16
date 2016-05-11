@@ -1,13 +1,13 @@
 package org.gruppe2.game.model;
 
-import org.gruppe2.ai.Difficulty;
-import org.gruppe2.game.Player;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
+import org.gruppe2.ai.Difficulty;
+import org.gruppe2.game.Player;
 
 public class GameModel implements Serializable {
 

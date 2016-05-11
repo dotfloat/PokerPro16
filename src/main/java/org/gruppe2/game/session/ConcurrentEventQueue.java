@@ -1,15 +1,15 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.event.Event;
-import org.gruppe2.game.event.EventHandler;
-import org.gruppe2.game.event.QuitEvent;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.EventHandler;
+import org.gruppe2.game.event.QuitEvent;
 
 /**
  *

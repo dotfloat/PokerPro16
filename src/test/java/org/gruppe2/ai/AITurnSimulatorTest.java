@@ -1,16 +1,12 @@
 package org.gruppe2.ai;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Card.Suit;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.helper.RoundHelper;
-import org.gruppe2.game.session.ClientSession;
-import org.gruppe2.game.session.Session;
-import org.gruppe2.game.session.SessionContext;
 import org.junit.Test;
 
 public class AITurnSimulatorTest {

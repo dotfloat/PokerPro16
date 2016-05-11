@@ -16,7 +16,11 @@ import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.menu.MainMenu;
-
+/**
+ * Creates an instance of a game, with a context and other variables as UUID for player.
+ * @author htj063
+ *
+ */
 public class Game {
     private final static Game instance = new Game();
 

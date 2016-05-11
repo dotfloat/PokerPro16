@@ -1,6 +1,6 @@
 package org.gruppe2.game.calculation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigInteger;
 

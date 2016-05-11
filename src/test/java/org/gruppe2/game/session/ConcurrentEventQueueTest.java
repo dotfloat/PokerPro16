@@ -1,12 +1,13 @@
 package org.gruppe2.game.session;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.gruppe2.game.event.Event;
-import org.gruppe2.game.event.EventHandler;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class ConcurrentEventQueueTest {
     private ConcurrentEventQueue queue;

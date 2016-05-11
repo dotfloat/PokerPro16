@@ -1,12 +1,11 @@
 package org.gruppe2.ui.javafx.menu;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.io.File;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
 import org.gruppe2.Resources;
 import org.gruppe2.game.session.ReplaySession;
@@ -16,8 +15,6 @@ import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.Game;
 import org.gruppe2.ui.javafx.ingame.GameScene;
-
-import java.io.File;
 
 public class Replay extends GridPane {
 

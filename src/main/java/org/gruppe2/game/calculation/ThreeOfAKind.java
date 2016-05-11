@@ -3,7 +3,6 @@ package org.gruppe2.game.calculation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Hand;

@@ -1,10 +1,11 @@
 package org.gruppe2.ai;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import org.gruppe2.game.Action.Fold;
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Card.Suit;

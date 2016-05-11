@@ -1,6 +1,10 @@
 package org.gruppe2.game.session;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class SimpleFuture<T> implements Future<T> {
     private enum State { WAIT, DONE, CANCELLED }

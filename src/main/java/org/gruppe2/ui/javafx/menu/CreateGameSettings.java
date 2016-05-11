@@ -1,6 +1,5 @@
 package org.gruppe2.ui.javafx.menu;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -9,12 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
 import org.gruppe2.Main;
-import org.gruppe2.Resources;
-import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
 

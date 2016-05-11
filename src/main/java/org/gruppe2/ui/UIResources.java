@@ -1,15 +1,21 @@
 package org.gruppe2.ui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Scanner;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.ui.javafx.PokerApplication;
-
-import java.io.IOException;
-import java.util.*;
 
 public class UIResources {
     private final static String uiPackageString = PokerApplication.class.getPackage().getName();
@@ -84,6 +90,7 @@ public class UIResources {
                 Color color = pixelReader.getColor(2,2);
                 avatarColors.put(name, color);
             }
+            dir.close();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

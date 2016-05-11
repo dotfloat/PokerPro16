@@ -3,7 +3,9 @@ package org.gruppe2.network;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.gruppe2.Main;
@@ -112,14 +114,6 @@ public class MasterClient {
         return entries;
     }
 
-    private void sendFirstHello() {
-        try {
-            connection.sendMessage("HELLO\r\n");
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Asks server if you can create new table

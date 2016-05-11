@@ -12,13 +12,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.*;
+import org.gruppe2.ui.javafx.ConfettiOrMoney;
+import org.gruppe2.ui.javafx.PokerApplication;
+import org.gruppe2.ui.javafx.SceneController;
+import org.gruppe2.ui.javafx.SoundPlayer;
 
 public class Intro extends StackPane {
 

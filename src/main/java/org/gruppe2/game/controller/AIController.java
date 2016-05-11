@@ -1,6 +1,10 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.ai.*;
+import org.gruppe2.ai.AI;
+import org.gruppe2.ai.AdvancedAI;
+import org.gruppe2.ai.Difficulty;
+import org.gruppe2.ai.GameInfo;
+import org.gruppe2.ai.NewDumbAI;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;

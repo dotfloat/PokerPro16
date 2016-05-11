@@ -1,9 +1,11 @@
 package org.gruppe2.ai;
 
-import org.gruppe2.game.*;
-import org.gruppe2.game.Action.Fold;
-
 import java.util.Random;
+
+import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.PossibleActions;
+import org.gruppe2.game.RoundPlayer;
 
 public class AdvancedAI implements AI {
 

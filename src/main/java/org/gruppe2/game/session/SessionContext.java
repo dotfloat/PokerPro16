@@ -1,12 +1,11 @@
 package org.gruppe2.game.session;
 
-import org.gruppe2.game.event.Event;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.concurrent.Future;
+
+import org.gruppe2.game.event.Event;
 
 public class SessionContext {
     private final Session session;
@@ -23,7 +22,8 @@ public class SessionContext {
         return eventQueue;
     }
 
-    public <M> M getModel(Class<M> klass) {
+    @SuppressWarnings("unchecked")
+	public <M> M getModel(Class<M> klass) {
         return (M) session.getModel(klass);
     }
 
@@ -61,7 +61,6 @@ public class SessionContext {
                 continue;
 
             try {
-                Class<?> klass = f.getDeclaringClass();
 
                 f.setAccessible(true);
                 f.set(obj, getModel(f.getType()));

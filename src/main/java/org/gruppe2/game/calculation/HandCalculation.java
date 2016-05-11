@@ -1,6 +1,5 @@
 package org.gruppe2.game.calculation;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 

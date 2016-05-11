@@ -1,14 +1,14 @@
 package org.gruppe2.game.helper;
 
-import org.gruppe2.ai.Difficulty;
-import org.gruppe2.game.Player;
-import org.gruppe2.game.model.GameModel;
-import org.gruppe2.game.session.SessionContext;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
+
+import org.gruppe2.ai.Difficulty;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.session.SessionContext;
 
 public class GameHelper {
     private final GameModel model;

@@ -1,18 +1,19 @@
 package org.gruppe2.game.session;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
-import java.util.Base64;
 
 import org.gruppe2.game.Player;
 import org.gruppe2.game.controller.ClientRoundController;
 import org.gruppe2.game.controller.NetworkClientController;
 import org.gruppe2.game.controller.RecordController;
 import org.gruppe2.game.controller.StatisticsController;
-import org.gruppe2.game.model.*;
+import org.gruppe2.game.model.ChatModel;
+import org.gruppe2.game.model.GameModel;
+import org.gruppe2.game.model.NetworkClientModel;
+import org.gruppe2.game.model.RoundModel;
+import org.gruppe2.game.model.StatisticsModel;
 import org.gruppe2.network.NetworkIO;
 
 public class ClientSession extends Session {
@@ -85,15 +86,5 @@ public class ClientSession extends Session {
         for (Player p : gameModel.getPlayers()) {
             System.out.printf("Player: %s (%d)\n", p.getName(), p.getTablePosition());
         }
-    }
-
-    private Object deserializeModel(String base64Encoded) throws IOException, ClassNotFoundException {
-        byte[] bytes = Base64.getDecoder().decode(base64Encoded);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-
-        Object object = objectInputStream.readObject();
-
-        return object;
     }
 }

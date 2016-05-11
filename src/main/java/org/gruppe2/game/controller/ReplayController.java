@@ -1,6 +1,9 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.Resources;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.Event;
@@ -15,10 +18,7 @@ import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Model;
 
-import javax.annotation.Resource;
-import java.io.*;
 
-@SuppressWarnings("Duplicates")
 public class ReplayController extends AbstractController {
     @Model
     private ReplayModel model;

@@ -3,7 +3,6 @@ package org.gruppe2.ui.javafx.ingame;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -26,7 +25,11 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
 
-
+/**
+ * Creates a box to show information about you.
+ * @author htj063
+ *
+ */
 public class ThisPlayerInfoBox extends VBox {
 
 	@Helper

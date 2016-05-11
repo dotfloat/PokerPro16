@@ -1,5 +1,7 @@
 package org.gruppe2.ui.javafx.ingame;
 
+import java.util.List;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -10,8 +12,6 @@ import javafx.scene.layout.VBox;
 import org.gruppe2.game.Card;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.PokerApplication;
-
-import java.util.List;
 
 public class DifferentHandView extends VBox {
     @FXML private Label handName;

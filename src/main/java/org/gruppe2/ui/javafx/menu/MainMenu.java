@@ -15,7 +15,6 @@ import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.session.ClientSession;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
-import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
