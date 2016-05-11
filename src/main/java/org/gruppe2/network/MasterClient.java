@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javafx.application.Platform;
 
+import org.gruppe2.Main;
 import org.gruppe2.game.session.ClientSession;
 import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
@@ -21,12 +22,12 @@ import org.gruppe2.ui.javafx.menu.Lobby;
  * @author htj063
  */
 public class MasterClient {
+    private final static String ip = "localhost";
 
     private NetworkIO connection;
     private ArrayList<TableEntry> tablesInLobby = new ArrayList<>();
     private Lobby lobby;
-    private static Timer sessionTimer = new Timer();
-    private static String ip = "localhost";
+    private Timer sessionTimer = new Timer();
 
     public MasterClient(Lobby lobby) {
         this.lobby = lobby;
@@ -60,7 +61,7 @@ public class MasterClient {
             connection.setOutputFormat(NetworkIO.Format.STRING);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Couldn't connect to master server at " + ip);
         }
     }
 
@@ -79,7 +80,7 @@ public class MasterClient {
                     }
                     break;
                 case "TABLE":
-                	System.out.println("recieved table");
+                    tablesInLobby.clear();
                     createTables(message);
                     lobby.updateTables(tablesInLobby);
                     break;
@@ -207,7 +208,7 @@ public class MasterClient {
 
     public static boolean onlineMasterServerIsUp() {
         try {
-            ip = "zohar.no";
+            String ip = Main.getProperty("master");
             SocketChannel channel = SocketChannel.open(new InetSocketAddress(
                     ip, 8888));
             NetworkIO testConnection = new NetworkIO(channel);
