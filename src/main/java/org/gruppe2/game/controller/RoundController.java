@@ -332,12 +332,14 @@ public class RoundController extends AbstractController {
 
             logger.incrementRound(round.getCommunityCards());
 
+            /*
             try {
                 //Wait for gui
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            */
         }
     }
 
@@ -379,10 +381,10 @@ public class RoundController extends AbstractController {
             int potsDone = 0;
 
             while (potsDone < sidePots.size()) {
-                for (SidePot sp : sidePots) {
+                for (int i = potsDone; i < sidePots.size(); i++) {
                     List<UUID> canWin = new ArrayList<>();
                     for (RoundPlayer rp : winners) {
-                        if (sp.getPlayers().contains(rp.getUUID())) {
+                        if (sidePots.get(i).getPlayers().contains(rp.getUUID())) {
                             canWin.add(rp.getUUID());
                         }
                     }
@@ -407,8 +409,11 @@ public class RoundController extends AbstractController {
                 throw new IllegalStateException("Not all sidepots have winners. Tell Mikal to fix");
 
             for (int i = 0; i < potWinners.size(); i++) {
-                for (UUID id : potWinners.get(i))
-                    winnerTotals.put(id, winnerTotals.get(id) + sidePots.get(i).getPot()/potWinners.get(i).size());
+                for (UUID id : potWinners.get(i)) {
+                    if (!winnerTotals.keySet().contains(id))
+                        winnerTotals.put(id, 0);
+                    winnerTotals.put(id, winnerTotals.get(id) + sidePots.get(i).getPot() / potWinners.get(i).size());
+                }
             }
 
             round.setPot(0);
