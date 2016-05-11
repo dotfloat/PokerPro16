@@ -76,5 +76,7 @@ public class CreateGameSettings extends VBox {
         bigBlind.setText(Main.getProperty("bigBlind"));
         startMoney.setText(Main.getProperty("startMoney"));
         maxPlayers.setText(Main.getProperty("maxPlayers"));
+        minPlayers.setText(Main.getProperty("minPlayers"));
+        
     }
 }
