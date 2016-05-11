@@ -16,10 +16,8 @@ import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.model.StatisticsModel;
 
 public class HostSession extends Session {
-    
-
-    public HostSession(Integer minPlayers, Integer maxPlayers, Integer buyIn, GameModel.BotPolicy botPolicy, Integer smallBlind, Integer bigBlind, Integer waitTime, Difficulty botDiff) {
-        addModel(new GameModel(UUID.randomUUID(), minPlayers, maxPlayers, buyIn, botPolicy, smallBlind, bigBlind, waitTime, botDiff));
+    public HostSession(String name, Integer minPlayers, Integer maxPlayers, Integer buyIn, GameModel.BotPolicy botPolicy, Integer smallBlind, Integer bigBlind, Integer waitTime, Difficulty botDiff) {
+        addModel(new GameModel(UUID.randomUUID(), name, minPlayers, maxPlayers, buyIn, botPolicy, smallBlind, bigBlind, waitTime, botDiff));
         addModel(new RoundModel());
         addModel(new ChatModel());
         addModel(new StatisticsModel());

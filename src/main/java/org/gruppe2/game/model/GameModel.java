@@ -13,24 +13,16 @@ public class GameModel implements Serializable {
 
     private static final long serialVersionUID = -2147302592353293245L;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public enum BotPolicy { FILL, NONE }
 
     private final UUID uuid;
+    private final String name;
     private final int minPlayers;
     private final int maxPlayers;
     private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
     private final int buyIn;
     private final BotPolicy botPolicy;
     private final Difficulty botDiff;
-    private volatile String name = null;
     private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
     private volatile int smallBlind;
@@ -38,8 +30,9 @@ public class GameModel implements Serializable {
     private volatile int waitTime;
     private volatile int roundsCompleted = 0;
 
-    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind, int waitTime, Difficulty botDiff) {
+    public GameModel(UUID uuid, String name, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind, int waitTime, Difficulty botDiff) {
         this.uuid = uuid;
+        this.name = name;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.buyIn = buyIn;
@@ -52,6 +45,10 @@ public class GameModel implements Serializable {
 
     public UUID getUUID() {
         return uuid;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public List<Player> getPlayers() {
@@ -130,7 +127,6 @@ public class GameModel implements Serializable {
         players.clear();
         players.addAll(object.players);
 
-        name = object.name;
         button = object.button;
         waitingForPlayers = object.waitingForPlayers;
         smallBlind = object.smallBlind;

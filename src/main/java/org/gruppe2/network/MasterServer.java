@@ -89,7 +89,6 @@ public class MasterServer {
                         clients.remove(i--);
                         break;
                     case "CREATE":
-
                         clients.get(i).sendMessage("CREATED\r\n");
                         SessionContext context = createNewGame(args);
 
@@ -148,8 +147,8 @@ public class MasterServer {
 	    	break;
 	    }
         
-        
         SessionContext context = new GameBuilder()
+                .name(tableName)
                 .playerRange(minPlayers, maxPlayers)
                 .blinds(small, big)
                 .buyIn(startMoney)

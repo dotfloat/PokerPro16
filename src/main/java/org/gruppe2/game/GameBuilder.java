@@ -7,6 +7,7 @@ import org.gruppe2.game.session.Session;
 import org.gruppe2.game.session.SessionContext;
 
 public class GameBuilder {
+    private String name = "A Fine Table";
     private int min = 2;
     private int max = 4;
     private int buyIn = 100;
@@ -15,8 +16,12 @@ public class GameBuilder {
     private int waitTime = 1000;
     private Difficulty botDiff = Difficulty.NORMAL;
     private GameModel.BotPolicy botPolicy = GameModel.BotPolicy.FILL;
-    
-    
+
+    public GameBuilder name(String name) {
+        this.name = name;
+
+        return this;
+    }
 
     public GameBuilder playerRange(int min, int max) {
         this.min = min;
@@ -57,6 +62,6 @@ public class GameBuilder {
     }
 
     public SessionContext start() {
-        return Session.start(HostSession.class, min, max, buyIn, botPolicy, smallBlind, bigBlind, waitTime, botDiff);
+        return Session.start(HostSession.class, name, min, max, buyIn, botPolicy, smallBlind, bigBlind, waitTime, botDiff);
     }
 }
