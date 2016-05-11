@@ -82,7 +82,7 @@ class TwoPairs implements HandCalculation {
 		
 		List<Card> bestTwoPair_1 = pair.getBestHandCards(o1Copy);
 		List<Card> bestTwoPair_2 = pair.getBestHandCards(o2Copy);
-		
+
 		int compareBestPair = pair.compare(bestTwoPair_1, bestTwoPair_2);
 		if(compareBestPair != 0) // If they have the same top pair, continue...
 			return compareBestPair;
