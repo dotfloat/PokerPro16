@@ -2,7 +2,6 @@ package org.gruppe2.ui.javafx;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import org.gruppe2.ui.UIResources;

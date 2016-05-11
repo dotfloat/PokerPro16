@@ -1,18 +1,27 @@
 package org.gruppe2.game.controller;
 
+import java.io.IOException;
+import java.util.UUID;
+
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.event.Event;
+import org.gruppe2.game.event.PlayerActionQuery;
+import org.gruppe2.game.event.PlayerJoinEvent;
+import org.gruppe2.game.event.PlayerLeaveEvent;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.QuitEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.NetworkClientModel;
 import org.gruppe2.game.model.RoundModel;
-import org.gruppe2.game.session.*;
-
-import java.io.IOException;
-import java.util.UUID;
+import org.gruppe2.game.session.Handler;
+import org.gruppe2.game.session.Helper;
+import org.gruppe2.game.session.Message;
+import org.gruppe2.game.session.Model;
+import org.gruppe2.game.session.Query;
 
 public class NetworkClientController extends AbstractController {
 

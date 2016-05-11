@@ -18,6 +18,7 @@ import org.gruppe2.ui.javafx.ingame.Game;
 import org.gruppe2.ui.javafx.ingame.GameScene;
 
 import java.io.File;
+import java.util.UUID;
 
 public class Replay extends GridPane {
 
@@ -33,7 +34,7 @@ public class Replay extends GridPane {
         File replayDir = new File(Resources.getUserDir("replays"));
 
         for (File file : replayDir.listFiles()) {
-            replays.getItems().add(file.getName());
+            replays.getItems().add(0, file.getName());
         }
     }
 
@@ -46,6 +47,7 @@ public class Replay extends GridPane {
 
         System.out.println(selected);
 
+        Game.setPlayerUUID(UUID.randomUUID());
         Game.getInstance().setContext(Session.start(ReplaySession.class, Resources.getUserDir("replays") + selected));
         SceneController.setOnlyThisScene(new GameScene());
     }

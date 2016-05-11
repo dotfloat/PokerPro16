@@ -1,16 +1,12 @@
 package org.gruppe2.ai;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Card.Suit;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.helper.RoundHelper;
-import org.gruppe2.game.session.ClientSession;
-import org.gruppe2.game.session.Session;
-import org.gruppe2.game.session.SessionContext;
 import org.junit.Test;
 
 public class AITurnSimulatorTest {
@@ -31,11 +27,12 @@ public class AITurnSimulatorTest {
 	
 	@Test
 	public void higherChanceOfWinningWithLessPlayersTest(){
+		int turns = 20;
 		AITurnSimulator aits = new AITurnSimulator();
 		RoundPlayer rp = new RoundPlayer(null,new Card(5,Suit.CLUBS),new Card(5,Suit.DIAMONDS));
 		ArrayList<Card> communityCards = new ArrayList<Card>();
-		double winChanceWithTwoPlayers = aits.getHandStregth(rp,communityCards, 1000, 1);
-		double winChanceWithEightPlayers = aits.getHandStregth(rp,communityCards, 1000, 7);
+		double winChanceWithTwoPlayers = aits.getHandStregth(rp,communityCards, turns, 1);
+		double winChanceWithEightPlayers = aits.getHandStregth(rp,communityCards, turns, 7);
 		System.out.println(winChanceWithEightPlayers +">"+winChanceWithTwoPlayers);
 		assertTrue(winChanceWithTwoPlayers>winChanceWithEightPlayers);
 	}

@@ -28,7 +28,6 @@ public class HelperMenu extends VBox {
     }
 
     //Create all hands possible
-    @SuppressWarnings("unchecked")
 	private void addAllHands() {
         innerBox.getChildren().addAll(new DifferentHandView("High Card", Cards.asList("AS"), Cards.asList("7H 4C 2S JD")));
         innerBox.getChildren().addAll(new DifferentHandView("One Pair", Cards.asList("AD AC"), Cards.asList("7H 4C 2S")));

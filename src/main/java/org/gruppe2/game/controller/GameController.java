@@ -1,7 +1,10 @@
 package org.gruppe2.game.controller;
 
-import java.util.*;
-import java.util.regex.MatchResult;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,7 +59,8 @@ public class GameController extends AbstractController {
 
     @Message
     public void kickPlayer(UUID uuid) {
-        List<Player> players;
+        @SuppressWarnings("unused")
+		List<Player> players = null;
 
         synchronized (players = game.getPlayers()) {
             Optional<Player> player = game.findPlayerByUUID(uuid);

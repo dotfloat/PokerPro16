@@ -1,9 +1,9 @@
 package org.gruppe2;
 
+import static org.junit.Assert.assertEquals;
+
 import org.gruppe2.game.Card;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 
 public class CardTest {

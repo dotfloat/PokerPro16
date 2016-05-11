@@ -16,14 +16,17 @@ import org.gruppe2.game.session.SessionContext;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.menu.MainMenu;
-
+/**
+ * Creates an instance of a game, with a context and other variables as UUID for player.
+ * @author htj063
+ *
+ */
 public class Game {
     private final static Game instance = new Game();
 
     private UUID playerUUID = UUID.randomUUID();
     private SessionContext context = null;
     private Timer sessionTimer = null;
-    private boolean player = false;
 
     private Game() {
 
@@ -31,6 +34,10 @@ public class Game {
 
     public static UUID getPlayerUUID() {
         return instance.playerUUID;
+    }
+
+    public static void setPlayerUUID(UUID uuid) {
+        instance.playerUUID = uuid;
     }
 
     public static SessionContext getContext() {
@@ -62,9 +69,8 @@ public class Game {
             Main.setProperty("avatar", avatars[random.nextInt(avatars.length)]);
         }
 
-        if ((player = Game.message("addPlayer", Game.getPlayerUUID(), Main.getProperty("name"), Main.getProperty("avatar")).get())) {
-            Game.message("addPlayerStatistics", Game.getPlayerUUID(), Main.loadPlayerStatistics());
-        }
+        Game.message("addPlayer", Game.getPlayerUUID(), Main.getProperty("name"), Main.getProperty("avatar"));
+        Game.message("addPlayerStatistics", Game.getPlayerUUID(), Main.loadPlayerStatistics());
     }
 
     public static void autostart() {
@@ -110,9 +116,5 @@ public class Game {
         instance.context = null;
 
         SceneController.setScene(new MainMenu());
-    }
-
-    public static boolean isPlayer() {
-        return instance.player;
     }
 }

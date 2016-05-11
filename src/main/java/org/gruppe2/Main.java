@@ -13,6 +13,10 @@ import org.gruppe2.ui.console.ConsoleApplication;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Main {
+    public static void setFirstStart(boolean firstStart) {
+        Main.firstStart = firstStart;
+    }
+
     private enum EntryPoint {
         CONSOLE, JAVAFX, SERVER,MASTER, NOSOUND
     }
@@ -20,7 +24,8 @@ public class Main {
     private static Properties properties = new Properties();
     private static EntryPoint entryPoint = EntryPoint.JAVAFX;
     private static boolean autostart = false;
-    public static boolean noSound = false;
+    private static boolean noSound = false;
+    private static boolean firstStart = false;
 
     public static void main(String[] args) {
         parseArgs(args);
@@ -37,15 +42,14 @@ public class Main {
             case CONSOLE:
                 new ConsoleApplication().run();
                 break;
-
-            case JAVAFX:
-                PokerApplication.launch(args);
-                break;
             case SERVER:
                 break;
             case MASTER:
             	System.out.println("starting master server");
             	new MasterServer();
+                break;
+            default:
+                PokerApplication.launch(args);
                 break;
         }
     }
@@ -151,5 +155,13 @@ public class Main {
 
     public static boolean isAutostart() {
         return autostart;
+    }
+
+    public static boolean isNoSound() {
+        return noSound;
+    }
+
+    public static boolean isFirstStart() {
+        return firstStart;
     }
 }

@@ -1,7 +1,5 @@
 package org.gruppe2.ui.javafx.menu;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -9,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
-import javafx.util.Duration;
 import org.gruppe2.Main;
 import org.gruppe2.Resources;
 import org.gruppe2.ui.UIResources;
@@ -17,6 +14,7 @@ import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 
 public class Settings extends VBox {
+	private static Modal modal = null;
 
 	@FXML
 	TextField nameField;
@@ -33,16 +31,18 @@ public class Settings extends VBox {
 		getAvatars();
 	}
 
-	public static void show() {
-		Modal modal = new Modal(true);
+	public static void show(boolean canClose) {
+		modal = new Modal(canClose);
 		modal.setPercentSize(0.5, 0.5);
 		modal.setContent(new Settings());
+		modal.setTitle("Settings: Set name and avatar");
 		modal.show();
 	}
 
-	public void setName(){
+	public void apply(){
 		if(nameField.getText() != null && !nameField.getText().isEmpty())
 		Main.setProperty("name" ,nameField.getText());
+		modal.close();
 	}
 
 	private void getAvatars(){

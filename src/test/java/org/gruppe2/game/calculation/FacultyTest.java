@@ -1,12 +1,10 @@
 package org.gruppe2.game.calculation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigInteger;
 
 import org.junit.Test;
-
-import junit.framework.Assert;
 
 public class FacultyTest {
 

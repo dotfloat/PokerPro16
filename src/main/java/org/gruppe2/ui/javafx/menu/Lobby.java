@@ -1,7 +1,10 @@
 package org.gruppe2.ui.javafx.menu;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -112,14 +115,12 @@ public class Lobby extends BorderPane {
     }
 
     public void friendBox() {
-//		lobbyTiles.getChildren()
-//				.add(new Label("Displaying table with friends"));
-        // TODO display tables with friends in
+    	
     }
 
     @FXML
     private void requestCreateGame() {
-        CreateGameSettings.show(masterClient);
+        CreateGameSettings.show(masterClient::requestCreateGame);
     }
 
     public void requestJoinGame(UUID uuid) {
@@ -181,6 +182,7 @@ public class Lobby extends BorderPane {
         modal = new Modal(true);
         modal.setPercentSize(0.8, 0.8);
         modal.setContent(new Lobby());
+        modal.setTitle("Online Lobby");
         modal.show();
     }
 }

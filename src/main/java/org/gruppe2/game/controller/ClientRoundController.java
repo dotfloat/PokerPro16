@@ -1,15 +1,19 @@
 package org.gruppe2.game.controller;
 
+import java.util.Optional;
+
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
-import org.gruppe2.game.event.*;
+import org.gruppe2.game.event.CommunityCardsEvent;
+import org.gruppe2.game.event.PlayerPaysBlind;
+import org.gruppe2.game.event.PlayerPostActionEvent;
+import org.gruppe2.game.event.PlayerPreActionEvent;
+import org.gruppe2.game.event.PlayerWonEvent;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
-
-import java.util.Optional;
 
 public class ClientRoundController extends AbstractController{
 
@@ -32,8 +36,6 @@ public class ClientRoundController extends AbstractController{
     @Handler
     public void onPostAction(PlayerPostActionEvent event) {
         handleAction(event.getPlayer(), event.getRoundPlayer(), event.getAction());
-
-        round.setCurrent((round.getCurrent() + 1) % round.getActivePlayers().size());
     }
 
     @Handler
@@ -62,10 +64,12 @@ public class ClientRoundController extends AbstractController{
         if (action instanceof Action.AllIn) {
             raise = player.getBank();
             moveChips(player, roundPlayer, roundPlayer.getBet() + raise, 0, raise);
+            round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Fold) {
             round.getActivePlayers().remove(roundPlayer);
+            round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Raise) {
@@ -74,6 +78,9 @@ public class ClientRoundController extends AbstractController{
             moveChips(player, roundPlayer, round.getHighestBet() + raise, player.getBank() - chipsToMove, chipsToMove);
             round.setLastRaiserID(player.getUUID());
             round.playerRaise(player.getUUID());
+
+            if (raise == player.getBank() + roundPlayer.getBet() - round.getHighestBet())
+                round.setPlayersWithChipsLeft(round.getPlayersWithChipsLeft() - 1);
         }
 
         if (action instanceof Action.Blind) {

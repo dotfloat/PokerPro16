@@ -1,12 +1,12 @@
 package org.gruppe2.game.old;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
 
 import org.gruppe2.game.Card;
 import org.gruppe2.game.Cards;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  *

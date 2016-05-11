@@ -1,15 +1,21 @@
 package org.gruppe2.ui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Scanner;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.ui.javafx.PokerApplication;
-
-import java.io.IOException;
-import java.util.*;
 
 public class UIResources {
     private final static String uiPackageString = PokerApplication.class.getPackage().getName();
@@ -38,9 +44,7 @@ public class UIResources {
             fxmlLoader.setRoot(node);
             fxmlLoader.setController(node);
 
-            long time = System.currentTimeMillis();
             fxmlLoader.load();
-            System.out.printf("FXML load %s: %dms\n", node.getClass().getSimpleName(), System.currentTimeMillis() - time);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,9 +87,10 @@ public class UIResources {
                 avatars.put(name, image);
 
                 PixelReader pixelReader = image.getPixelReader();
-                Color color = pixelReader.getColor(2,2);
+                Color color = pixelReader.getColor(2, 2);
                 avatarColors.put(name, color);
             }
+            dir.close();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -111,10 +116,10 @@ public class UIResources {
 
         cards = new ArrayList<>();
 
-        char[] suitChars = { 'c', 'd', 'h', 's' };
+        char[] suitChars = {'c', 'd', 'h', 's'};
 
-        for (int face = 2; face <= 14; face++) {
-            for (int suit = 0; suit < 4; suit++) {
+        for (int suit = 0; suit < 4; suit++) {
+            for (int face = 2; face <= 14; face++) {
                 String path = String.format("/images/cards/%c%02d.png", suitChars[suit], face);
 
                 cards.add(new Image(UIResources.class.getResourceAsStream(path)));

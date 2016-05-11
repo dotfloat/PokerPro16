@@ -1,15 +1,28 @@
 package org.gruppe2.ai;
 
-import org.gruppe2.game.*;
-import org.gruppe2.game.Action.Fold;
-
 import java.util.Random;
+
+import org.gruppe2.game.Action;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.PossibleActions;
+import org.gruppe2.game.RoundPlayer;
 
 public class AdvancedAI implements AI {
 
 	@Override
 	public void doAction(Player player, RoundPlayer roundPlayer, GameInfo gameInfo) {
-		final int iterations = 1;
+		int iterations;
+		switch (gameInfo.difficulty){
+		case EASY :
+			iterations=1;
+		case NORMAL :
+			iterations=20;
+			break;
+		case HARD :
+		default :
+			iterations=1000;
+		
+		}
 		AITurnSimulator turnSim = new AITurnSimulator();
 		PossibleActions possibleActions = gameInfo.getPossibleActions();
 		double bank, handStrength, handStrengthExponential, toRaise, raiseRatio = 1, risk, 

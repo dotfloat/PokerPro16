@@ -2,10 +2,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root type="GridPane" xmlns:fx="http://javafx.com/fxml" styleClass="statistics">
-    <Label fx:id="name"
-           GridPane.columnIndex="0" GridPane.rowIndex="0"
-           GridPane.columnSpan="2" />
+<fx:root type="GridPane" xmlns:fx="http://javafx.com/fxml">
+    
 
     <Label text="Games Played:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
     <Label fx:id="gamesPlayed" GridPane.columnIndex="1" GridPane.rowIndex="1" />

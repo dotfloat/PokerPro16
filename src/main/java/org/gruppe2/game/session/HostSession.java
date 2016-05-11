@@ -3,7 +3,13 @@ package org.gruppe2.game.session;
 import java.util.UUID;
 
 import org.gruppe2.ai.Difficulty;
-import org.gruppe2.game.controller.*;
+import org.gruppe2.game.controller.AIController;
+import org.gruppe2.game.controller.ChatController;
+import org.gruppe2.game.controller.GameController;
+import org.gruppe2.game.controller.NetworkServerController;
+import org.gruppe2.game.controller.RecordController;
+import org.gruppe2.game.controller.RoundController;
+import org.gruppe2.game.controller.StatisticsController;
 import org.gruppe2.game.model.ChatModel;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;

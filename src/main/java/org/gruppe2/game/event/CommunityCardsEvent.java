@@ -1,8 +1,8 @@
 package org.gruppe2.game.event;
 
-import org.gruppe2.game.Card;
-
 import java.util.List;
+
+import org.gruppe2.game.Card;
 
 public class CommunityCardsEvent implements Event {
     /**

@@ -1,6 +1,5 @@
 package org.gruppe2.ai;
 
-import org.junit.Test;
 
 public class AIHandCalculatorTest {
 

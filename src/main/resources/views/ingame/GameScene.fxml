@@ -36,7 +36,7 @@
                        prefWidth="${app.widthScale * 240}"
                        prefHeight="${app.heightScale * 64}"
                        layoutX="${root.width / 2 - playerBox.width / 2}"
-                       layoutY="${root.height - choiceBar.height - playerBox.height*0.95}"/>
+                       layoutY="${root.height - choiceBar.height - playerBox.height*0.97}"/>
 
     <HelperMenu
                 prefWidth="${root.width * 0.2}"/>

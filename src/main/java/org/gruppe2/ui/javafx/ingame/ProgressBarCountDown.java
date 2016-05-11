@@ -19,71 +19,73 @@ import org.gruppe2.ui.javafx.SoundPlayer;
 
 public class ProgressBarCountDown extends HBox {
 
-    ProgressBar progressBar = new ProgressBar(0);
-    Label time = new Label("");
-    Timeline preTimer;
+	ProgressBar progressBar = new ProgressBar(0);
+	Label time = new Label("");
+	Timeline preTimer;
 
-    private final int totalTime = 30;
-    private Integer ropeTime = totalTime/3;
-    private IntegerProperty timeSeconds = new SimpleIntegerProperty(ropeTime);
-    private DoubleProperty progress = new SimpleDoubleProperty(ropeTime/10);
-    private IntegerProperty countDown = new SimpleIntegerProperty();
-    private IntegerProperty waitTime = new SimpleIntegerProperty(totalTime*2);
-    private boolean startProgress = false;
-    private boolean progressBarRunning = false;
+	private final int totalTime = 30;
+	private Integer ropeTime = totalTime / 3;
+	private IntegerProperty timeSeconds = new SimpleIntegerProperty(ropeTime);
+	private DoubleProperty progress = new SimpleDoubleProperty(ropeTime / 10);
+	private IntegerProperty countDown = new SimpleIntegerProperty();
+	private IntegerProperty waitTime = new SimpleIntegerProperty(totalTime * 2);
 
-    public ProgressBarCountDown() {
-        progressBar.prefWidthProperty().bind(prefWidthProperty());
-        countDown.bind(progress.multiply(10).add(1));
-        time.setVisible(false);
-        time.textProperty().bind(countDown.asString());
-        time.fontProperty().bind(PokerApplication.getApplication().bigFontProperty());
-        spacingProperty().setValue(5);
-        alignmentProperty().setValue(Pos.CENTER);
-        setUpProgressBar();
-        try {
-            progressBar.progressProperty().bind(progress.negate().add(1));
-        }
-        catch (Exception e){
+	private boolean progressBarRunning = false;
 
-        }
-        getChildren().add(time);
-    }
+	public ProgressBarCountDown() {
+		progressBar.prefWidthProperty().bind(prefWidthProperty());
+		countDown.bind(progress.multiply(10).add(1));
+		time.setVisible(false);
+		time.textProperty().bind(countDown.asString());
+		time.fontProperty().bind(
+				PokerApplication.getApplication().bigFontProperty());
+		spacingProperty().setValue(5);
+		alignmentProperty().setValue(Pos.CENTER);
+		setUpProgressBar();
+		try {
+			progressBar.progressProperty().bind(progress.negate().add(1));
+		} catch (Exception e) {
 
-    private void setUpProgressBar() {
-        progressBar.setVisible(false);
-        getChildren().add(progressBar);
-    }
+		}
+		getChildren().add(time);
+	}
 
-    public void startProgressBarTimer() {
-        progressBarRunning = true;
-        timeSeconds.set(ropeTime);
+	private void setUpProgressBar() {
+		progressBar.setVisible(false);
+		getChildren().add(progressBar);
+	}
 
-        Timeline rope = new Timeline(new KeyFrame(Duration.seconds(ropeTime), new KeyValue(progress, 0)));
+	public void startProgressBarTimer() {
+		progressBarRunning = true;
+		timeSeconds.set(ropeTime);
 
-        preTimer = new Timeline(new KeyFrame(Duration.seconds(2*totalTime/3), new KeyValue(waitTime, 0)));
-        preTimer.setOnFinished(event -> {
-            rope.playFromStart();
-            initialize();
-        });
-        preTimer.play();
-    }
+		Timeline rope = new Timeline(new KeyFrame(Duration.seconds(ropeTime),
+				new KeyValue(progress, 0)));
 
-    public void initialize() {
-            progressBar.setVisible(true);
-            time.setVisible(true);
-            SoundPlayer.playCountDownTimerMusic();
-    }
+		preTimer = new Timeline(new KeyFrame(
+				Duration.seconds(2 * totalTime / 3), new KeyValue(waitTime, 0)));
+		preTimer.setOnFinished(event -> {
+			rope.playFromStart();
+			initialize();
+		});
+		preTimer.play();
+	}
 
-    public void stopProgressBar() {
-        if (progressBarRunning) {
-            SoundPlayer.stopCountDownTimerMusic();
-            progressBar.setVisible(false);
-            time.setVisible(false);
-            progress.setValue(ropeTime/10);
+	public void initialize() {
+		progressBar.setVisible(true);
+		time.setVisible(true);
+		SoundPlayer.playCountDownTimerMusic();
+	}
 
-            if (preTimer.getStatus().equals(Status.RUNNING))
-                preTimer.stop();
-        }
-    }
+	public void stopProgressBar() {
+		if (progressBarRunning) {
+			SoundPlayer.stopCountDownTimerMusic();
+			progressBar.setVisible(false);
+			time.setVisible(false);
+			progress.setValue(ropeTime / 10);
+
+			if (preTimer.getStatus().equals(Status.RUNNING))
+				preTimer.stop();
+		}
+	}
 }

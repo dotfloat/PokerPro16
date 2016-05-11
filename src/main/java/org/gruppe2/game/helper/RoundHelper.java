@@ -1,12 +1,19 @@
 package org.gruppe2.game.helper;
 
-import org.gruppe2.game.*;
-import org.gruppe2.game.model.GameModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Predicate;
+
+import org.gruppe2.game.Card;
+import org.gruppe2.game.Player;
+import org.gruppe2.game.PossibleActions;
+import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.SidePot;
 import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.SessionContext;
-
-import java.util.*;
-import java.util.function.Predicate;
 
 public class RoundHelper {
     private RoundModel model;
@@ -107,7 +114,7 @@ public class RoundHelper {
             if (getHighestBet() - roundPlayer.get().getBet() != 0)
                 options.setCall(getHighestBet() - roundPlayer.get().getBet());
 
-        if (!player.get().getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3) {
+        if (!player.get().getUUID().equals(getLastRaiserID()) && model.getRaiseMap().get(id) < 3 && model.getPlayersWithChipsLeft() > 1) {
             int maxRaise = player.get().getBank() + roundPlayer.get().getBet() - getHighestBet();
             if (maxRaise > 0)
                 options.setRaise(1, maxRaise);
@@ -206,4 +213,11 @@ public class RoundHelper {
         return pots;
     }
 
+    public void setPlayersWithChipsLeft(int num) {
+        model.setPlayersWithChipsLeft(num);
+    }
+
+    public int getPlayersWithChipsLeft() {
+        return model.getPlayersWithChipsLeft();
+    }
 }

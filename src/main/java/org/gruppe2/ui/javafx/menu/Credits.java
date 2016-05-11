@@ -1,10 +1,13 @@
 package org.gruppe2.ui.javafx.menu;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -12,13 +15,8 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
-import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.PokerApplication;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
+import org.gruppe2.ui.UIResources;
 
 /**
  * Class for rolling text(credits) across the screen
@@ -31,18 +29,18 @@ public class Credits extends StackPane{
     public Credits(){
         nodes  = new ArrayList<Node>();
 
-        nodes.add(new Label("Åsmund"));
-        nodes.add(new Label("Petter"));
-        nodes.add(new Label("Zohar"));
-        nodes.add(new Label("Mikal"));
-        nodes.add(new Label("Cem"));
-        nodes.add(new Label("Andreas"));
-        nodes.add(new Label("Svein"));
-        nodes.add(new Label("Daniel"));
-        nodes.add(new Label("Runar"));
-        nodes.add(new Label("Håkon K"));
-        nodes.add(new Label("Kjetil"));
-        nodes.add(new Label("Håkon T"));
+        nodes.add(new Label("Åsmund Hammer"));
+        nodes.add(new Label("Petter Thorgersen"));
+        nodes.add(new Label("Zohar Malamant"));
+        nodes.add(new Label("Mikal Nausdal"));
+        nodes.add(new Label("Cem S. Pedersen"));
+        nodes.add(new Label("Andreas T. Ommundsen"));
+        nodes.add(new Label("Svein Høgemo"));
+        nodes.add(new Label("Daniel Jensen"));
+        nodes.add(new Label("Runar Serigstad"));
+        nodes.add(new Label("Håkon A.F. Knudsen"));
+        nodes.add(new Label("Kjetil Kjørstad"));
+        nodes.add(new Label("Håkon Tjeldnes"));
 
         long seed = System.nanoTime();
         Collections.shuffle(nodes, new Random(seed));
@@ -91,7 +89,7 @@ public class Credits extends StackPane{
 
     private PathTransition createPathTransition(Path path, Node node){
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(2000));
+        pathTransition.setDuration(Duration.millis(1000));
         pathTransition.setCycleCount(1);
 
         pathTransition.setPath(path);

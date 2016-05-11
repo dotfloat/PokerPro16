@@ -1,5 +1,14 @@
 package org.gruppe2.game.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import org.gruppe2.Resources;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.event.QuitEvent;
@@ -7,10 +16,6 @@ import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Handler;
-
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.time.LocalDateTime;
 
 public class RecordController extends AbstractController {
     private OutputStream stream = null;
@@ -50,7 +55,7 @@ public class RecordController extends AbstractController {
 
         if (lastEventTime < 0) {
             lastEventTime = System.currentTimeMillis();
-        } else {
+        } else if (System.currentTimeMillis() - lastEventTime > 100) {
             writeObject(new Wait(System.currentTimeMillis() - lastEventTime));
             lastEventTime = System.currentTimeMillis();
         }

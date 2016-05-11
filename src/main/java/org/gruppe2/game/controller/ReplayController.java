@@ -1,6 +1,9 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.Resources;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
 import org.gruppe2.game.event.Event;
@@ -15,10 +18,7 @@ import org.gruppe2.game.model.RoundModel;
 import org.gruppe2.game.session.Helper;
 import org.gruppe2.game.session.Model;
 
-import javax.annotation.Resource;
-import java.io.*;
 
-@SuppressWarnings("Duplicates")
 public class ReplayController extends AbstractController {
     @Model
     private ReplayModel model;
@@ -29,18 +29,27 @@ public class ReplayController extends AbstractController {
     @Helper
     private RoundHelper round;
 
+    private boolean waiting = false;
+
     @Override
     public void update() {
+        if (waiting)
+            return;
+
         Object object = readObject(model.getStream());
+
+        if (object == null) {
+            getContext().message("quit", "End of recording");
+            return;
+        }
 
         if (object instanceof RecordController.Wait) {
             RecordController.Wait wait = (RecordController.Wait) object;
 
-            try {
-                Thread.sleep(wait.getTime());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            System.out.println(wait.getTime());
+
+            waiting = true;
+            setTask(wait.getTime(), () -> waiting = false);
         } else if (object instanceof GameModel) {
             game.getModel().apply((GameModel) object);
         } else if (object instanceof RoundModel) {
@@ -82,13 +91,12 @@ public class ReplayController extends AbstractController {
         round.setHighestBet(Math.max(round.getHighestBet(), roundPlayer.getBet()));
     }
 
-    public static Object readObject(InputStream stream) {
+    private static Object readObject(InputStream stream) {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(stream);
 
             return objectInputStream.readObject();
         } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
             return null;
         }
     }

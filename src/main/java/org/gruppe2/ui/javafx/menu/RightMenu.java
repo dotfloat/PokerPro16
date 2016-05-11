@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import org.gruppe2.ui.UIResources;
-import org.gruppe2.ui.javafx.Modal;
 import org.gruppe2.ui.javafx.PokerApplication;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ingame.Game;

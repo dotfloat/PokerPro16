@@ -1,53 +1,52 @@
 package org.gruppe2.ui.javafx.menu;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
 import org.gruppe2.Main;
-import org.gruppe2.Resources;
-import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
 
 public class CreateGameSettings extends GridPane {
-    MasterClient masterClient;
     @FXML
-    TextField tableName;
+    private TextField tableName;
     @FXML
-    TextField smallBlind;
+    private TextField smallBlind;
     @FXML
-    TextField bigBlind;
+    private TextField bigBlind;
     @FXML
-    TextField startMoney;
+    private TextField startMoney;
     @FXML
-    TextField maxPlayers;
+    private TextField maxPlayers;
     @FXML
-    TextField minPlayers;
+    private TextField minPlayers;
     @FXML
-    ComboBox<String> botDiff;
+    private ComboBox<String> botDiff;
 
-    public CreateGameSettings(MasterClient masterClient) {
+    private Consumer<List<String>> start;
+
+    public CreateGameSettings(Consumer<List<String>> start) {
         UIResources.loadFXML(this);
-        this.masterClient = masterClient;
         setDefaultSettings();
 
+        this.start = start;
     }
 
     @FXML
     private void ok() {
         if (valuesAreValid()) {
             saveSettings();
-            masterClient.requestCreateGame(tableName.getText(),
+            start.accept(Arrays.asList(tableName.getText(),
                     smallBlind.getText(), bigBlind.getText(),
                     startMoney.getText(), maxPlayers.getText(),
                     minPlayers.getText(), botDiff.getSelectionModel()
-                            .getSelectedItem()
-            );
+                            .getSelectedItem()));
         }
     }
 
@@ -76,10 +75,11 @@ public class CreateGameSettings extends GridPane {
             return false;
     }
 
-    public static void show(MasterClient masterClient) {
+    public static void show(Consumer<List<String>> start) {
         Modal modal = new Modal(true);
         modal.setPercentSize(0.5, 0.5);
-        modal.setContent(new CreateGameSettings(masterClient));
+        modal.setContent(new CreateGameSettings(start));
+        modal.setTitle("Create Game");
         modal.show();
     }
 
@@ -103,15 +103,6 @@ public class CreateGameSettings extends GridPane {
         String botDiffFromFile = Main.getProperty("botDiff");
 
         botDiff.getSelectionModel().select(botDiffFromFile);
-        // if(botDiffFromFile.equals("Easy")){
-        // botDiff.getSelectionModel().select(0);
-        // }
-        // else if(botDiffFromFile.equals("Normal")){
-        // botDiff.getSelectionModel().select(1);
-        // }
-        // else if(botDiffFromFile.equals("Hard")){
-        // botDiff.getSelectionModel().select(2);
-        // }
-
+        
     }
 }

@@ -1,8 +1,8 @@
 package org.gruppe2.game.event;
 
-import org.gruppe2.game.Player;
-
 import java.util.List;
+
+import org.gruppe2.game.Player;
 
 public class PlayerWonEvent implements Event{
     /**

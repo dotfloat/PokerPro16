@@ -1,10 +1,15 @@
 package org.gruppe2.game.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.gruppe2.game.Card;
 import org.gruppe2.game.RoundPlayer;
-
-import java.io.Serializable;
-import java.util.*;
 
 public class RoundModel implements Serializable {
     private static final long serialVersionUID = -8619566088099564814L;
@@ -17,6 +22,7 @@ public class RoundModel implements Serializable {
     private volatile int pot = 0;
     private volatile int highestBet = 0;
     private volatile int roundNumber = 0;
+    private volatile int playersWithChipsLeft = 0;
     private volatile UUID lastRaiserID = null;
 
     public List<RoundPlayer> getActivePlayers() {
@@ -83,6 +89,14 @@ public class RoundModel implements Serializable {
         return raiseMap;
     }
 
+    public int getPlayersWithChipsLeft() {
+        return playersWithChipsLeft;
+    }
+
+    public void setPlayersWithChipsLeft(int playersWithChipsLeft) {
+        this.playersWithChipsLeft = playersWithChipsLeft;
+    }
+
     public synchronized void apply(RoundModel object) {
         activePlayers.clear();
         activePlayers.addAll(object.activePlayers);
@@ -99,5 +113,6 @@ public class RoundModel implements Serializable {
         highestBet = object.highestBet;
         roundNumber = object.roundNumber;
         lastRaiserID = object.lastRaiserID;
+        playersWithChipsLeft = object.playersWithChipsLeft;
     }
 }

@@ -53,7 +53,7 @@ public class Resources {
         while (dir.hasNext()) {
             avatars.add(dir.next());
         }
-
+        dir.close();
         return avatars.toArray(new String[avatars.size()]);
     }
 
@@ -66,6 +66,7 @@ public class Resources {
         File file = new File(getUserDir() + "properties.cfg");
 
         if (!file.exists()) {
+            Main.setFirstStart(true);
             file.createNewFile();
         }
 

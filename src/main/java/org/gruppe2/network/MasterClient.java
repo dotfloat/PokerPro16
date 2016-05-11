@@ -3,7 +3,9 @@ package org.gruppe2.network;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.gruppe2.Main;
@@ -112,14 +114,6 @@ public class MasterClient {
         return entries;
     }
 
-    private void sendFirstHello() {
-        try {
-            connection.sendMessage("HELLO\r\n");
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Asks server if you can create new table
@@ -133,10 +127,13 @@ public class MasterClient {
      * @param string
      * @param uuid
      */
-    public void requestCreateGame(String tableName, String small, String big, String startMoney, String maxPlayers, String minPlayers, String botDiff) {
-
+    public void requestCreateGame(List<String> args) {
         try {
-            connection.sendMessage("CREATE;" + tableName + ";" + small + ";" + big + ";" + startMoney + ";" + maxPlayers + ";" + minPlayers + ";" + botDiff + "\r\n");
+            final String[] message = {"CREATE"};
+            args.forEach(arg -> message[0] += ";" + arg);
+            message[0] += "\r\n";
+
+            connection.sendMessage(message[0]);
         } catch (IOException e) {
             e.printStackTrace();
         }

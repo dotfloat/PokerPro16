@@ -1,14 +1,12 @@
 package org.gruppe2.game.calculation;
 
-import org.gruppe2.game.Card;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.gruppe2.game.Card;
+import org.junit.Test;
 
 /**
  * Created by Mikal on 11.04.2016.

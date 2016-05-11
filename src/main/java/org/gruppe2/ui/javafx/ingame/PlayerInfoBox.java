@@ -10,7 +10,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -28,7 +31,11 @@ import org.gruppe2.game.session.Helper;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.SceneController;
 import org.gruppe2.ui.javafx.ToolTip;
-
+/**
+ * InfoBoxes used for players that are not you.
+ * @author htj063
+ *
+ */
 public class PlayerInfoBox extends VBox {
     private UUID playerUUID = null;
 
