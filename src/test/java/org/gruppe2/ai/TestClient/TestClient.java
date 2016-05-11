@@ -155,6 +155,8 @@ public class TestClient implements Callable<GameResult> {
             if (event.getPlayers().get(i).getUUID().equals(this.playerUUID))
                 gameResult.setRoundsWon(gameResult.getRoundsWon() + 1);
 
+            //At last round this will be the winner of the game
+            gameResult.setWinnerOfGame(event.getPlayers().get(0));
             System.out.println(event.getPlayers().get(i).getName() + " has won the round");
         }
     }

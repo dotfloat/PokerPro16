@@ -54,11 +54,11 @@ public class AdvancedAITest {
     @Test
     public void aiPlayTest() {
         ExecutorService exService = Executors.newSingleThreadExecutor();
-        Callable<GameResult> testClient = new TestClient(3,Difficulty.HARD,Difficulty.NORMAL,400,10,20);
+        Callable<GameResult> testClient = new TestClient(2,Difficulty.HARD,Difficulty.NORMAL,400,10,20);
         Future<GameResult> futureTestClientResults = exService.submit(testClient);
 
         try {
-            System.out.println("Played: "+futureTestClientResults.get().getRoundsPlayed() + " Won: "+futureTestClientResults.get().getRoundsWon());
+            System.out.println("Played: "+futureTestClientResults.get().getRoundsPlayed() + " Won: "+futureTestClientResults.get().getRoundsWon() + " Winner of game: "+futureTestClientResults.get().getWinnerOfGame().getName());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
