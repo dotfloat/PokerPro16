@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 <?import org.gruppe2.ui.javafx.PokerApplication?>
+<?import javafx.scene.control.ComboBox?>
 <fx:root type="javafx.scene.layout.Pane" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: red">
 <fx:define>
     <PokerApplication fx:factory="getRoot" fx:id="root"/>
@@ -30,16 +31,26 @@
             <Label text="Start money: "/>
             <TextField fx:id="startMoney"/>
         </HBox>
+        
+         <HBox  alignment="CENTER">
+            <Label text="Min players: "/>
+            <TextField fx:id="minPlayers"/>
+        </HBox>
 
         <HBox  alignment="CENTER">
             <Label text="Max players: "/>
             <TextField fx:id="maxPlayers"/>
         </HBox>
+        
+        <HBox alignment="CENTER">
+        	<Label text="Bot difficulty"/>
+        	<ComboBox fx:id="botDiff"/> 
+		</HBox>
 
         <HBox alignment="CENTER">
             <Button onAction="#ok" text="OK"/>
             <Button onAction="#cancel" text="CANCEL"/>
         </HBox>
-
+        
     </VBox>
 </fx:root>

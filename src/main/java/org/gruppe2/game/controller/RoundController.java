@@ -187,7 +187,7 @@ public class RoundController extends AbstractController {
         }
 
         if (active.size() <= 1) {
-            addEvent(new QuitEvent());
+            getContext().message("quit", "Not enough players");
             round.setPlaying(false);
             return;
         }
