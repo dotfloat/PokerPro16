@@ -21,7 +21,7 @@ public class ClientRoundController extends AbstractController{
 
     @Handler
     public void onBlinds(PlayerPaysBlind event) {
-        updatePlayer(event.getPlayer(), event.getRoundPlayer());
+        handleAction(event.getPlayer(), event.getRoundPlayer(), new Action.Blind(event.getBlindAmount()));
     }
 
     @Handler
@@ -44,6 +44,12 @@ public class ClientRoundController extends AbstractController{
 
     @Handler
     public void onPlayerWin(PlayerWonEvent event) {
+        for (int i = 0; i < event.getPlayers().size(); i++) {
+            Optional<Player> op = game.findPlayerByUUID(event.getPlayers().get(i).getUUID());
+
+            if (op.isPresent())
+                op.get().setBank(op.get().getBank() + event.getChips().get(i));
+        }
     }
 
     private void handleAction(Player player, RoundPlayer roundPlayer, Action action) {
@@ -66,6 +72,8 @@ public class ClientRoundController extends AbstractController{
             raise = ((Action.Raise) action).getAmount();
             int chipsToMove = (round.getHighestBet() - roundPlayer.getBet()) + raise;
             moveChips(player, roundPlayer, round.getHighestBet() + raise, player.getBank() - chipsToMove, chipsToMove);
+            round.setLastRaiserID(player.getUUID());
+            round.playerRaise(player.getUUID());
         }
 
         if (action instanceof Action.Blind) {

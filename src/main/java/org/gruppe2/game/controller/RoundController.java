@@ -353,8 +353,8 @@ public class RoundController extends AbstractController {
 
             Player winner = op.get();
             winner.setBank(winner.getBank() + round.getPot());
-            round.setPot(0);
             addEvent(new PlayerWonEvent(new ArrayList<Player>(Collections.singletonList(winner)), new ArrayList<Integer>(Collections.singletonList(round.getPot()))));
+            round.setPot(0);
         }
         else {
             List<SidePot> sidePots = round.calculateSidePots();
