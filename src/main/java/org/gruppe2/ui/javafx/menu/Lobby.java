@@ -34,7 +34,7 @@ public class Lobby extends BorderPane {
 	@FXML
 	private TextField search;
 	@FXML
-	private Button submit;
+	private Button refresh;
 	@FXML
 	private CheckBox checkBoxFriends;
 	@FXML
@@ -57,7 +57,7 @@ public class Lobby extends BorderPane {
 		
 	}
 
-	public void search() {
+	public void refresh() {
 		masterClient.search();
 	}
 
@@ -102,7 +102,7 @@ public class Lobby extends BorderPane {
 				PokerApplication.getRoot().heightProperty().multiply(0.7));
 		search.prefWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.3));
-		submit.prefWidthProperty().bind(
+		refresh.prefWidthProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.1));
 		lobbyTiles.hgapProperty().bind(
 				PokerApplication.getRoot().widthProperty().multiply(0.02));
@@ -115,7 +115,7 @@ public class Lobby extends BorderPane {
 
 	public void keyListener(KeyEvent event) {
 		if (event.getCode() == KeyCode.ENTER)
-			search();
+			refresh();
 	}
 
 	

@@ -79,6 +79,7 @@ public class MasterClient {
                     }
                     break;
                 case "TABLE":
+                	System.out.println("recieved table");
                     createTables(message);
                     lobby.updateTables(tablesInLobby);
                     break;

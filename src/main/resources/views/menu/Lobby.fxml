@@ -10,7 +10,7 @@
         <HBox fx:id="searchBar" alignment="CENTER"
               style="-fx-background-color: black; -fx-alignment: center; -fx-padding: 10px">
             <TextField fx:id="search" promptText="Search here" onKeyPressed="#keyListener"/>
-            <Button text="Search" fx:id="submit" onAction="#search"/>
+            <Button text="Refresh" fx:id="refresh" onAction="#refresh"/>
             <CheckBox fx:id="checkBoxFriends" text="Show only friends" textFill="#0099ff" onAction="#friendBox"/>
         </HBox>
     </top>

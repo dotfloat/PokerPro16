@@ -105,6 +105,7 @@ public class MasterServer {
                         clients.remove(i--);
                         break;
                     case "SEARCH":
+                    	System.out.println("server recieved search");
                     	clients.get(i).sendMessage(createTableString() + "\r\n");
                         break;
                     case "BYE":

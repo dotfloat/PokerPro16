@@ -37,6 +37,10 @@ public class MainMenu extends BorderPane {
 	@FXML
 	private Button testClient;
 	@FXML
+	private Button testServer;
+	@FXML
+	private Button replay;
+	@FXML
 	private VBox vBox;
 
 	public MainMenu() {
@@ -90,6 +94,9 @@ public class MainMenu extends BorderPane {
 	public void goToSettings() {
 		Settings.show();
 	}
+	public void goToReplay() {
+		Replay.show();
+	}
 
 	private void fadeIn() {
 		FadeTransition fadeTransition = new FadeTransition(
@@ -105,5 +112,7 @@ public class MainMenu extends BorderPane {
 		viewStatistics.setMaxWidth(Double.MAX_VALUE);
 		settings.setMaxWidth(Double.MAX_VALUE);
 		testClient.setMaxWidth(Double.MAX_VALUE);
+		testServer.setMaxWidth(Double.MAX_VALUE);
+		replay.setMaxWidth(Double.MAX_VALUE);
 	}
 }
