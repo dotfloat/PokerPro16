@@ -173,7 +173,7 @@ public class ConsoleApplication implements Runnable {
     @Handler
     void onPlayerWon(PlayerWonEvent event) {
         for (int i = 0; i < event.getPlayers().size(); i ++)
-            System.out.println(event.getPlayers().get(i) + " has won " + event.getChips().get(i) + " chips!");
+            System.out.println(event.getPlayers().get(i).getName() + " has won " + event.getChips().get(i) + " chips!");
     }
 
     @Handler

@@ -198,7 +198,7 @@ public class ChatBox extends VBox {
     @Handler
     public void onPlayerWon(PlayerWonEvent event) {
         for (int i = 0; i < event.getPlayers().size(); i ++)
-            addLine(event.getPlayers().get(i) + " has won " + event.getChips().get(i) + " chips! ");
+            addLine(event.getPlayers().get(i).getName() + " has won " + event.getChips().get(i) + " chips! ");
     }
 
     private void addPlayerMessage(Player player, String message) {
