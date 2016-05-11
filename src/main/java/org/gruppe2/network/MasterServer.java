@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.gruppe2.ai.Difficulty;
 import org.gruppe2.game.GameBuilder;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.session.Session;
@@ -132,11 +133,12 @@ public class MasterServer {
 		int startMoney = Integer.valueOf(args[4]);
 		int maxPlayers = Integer.valueOf(args[5]);
 		int minPlayers = Integer.valueOf(args[6]);
-		
+		String botDiff = args[7];
 		SessionContext context = new GameBuilder()
 				.playerRange(minPlayers,maxPlayers)
 				.blinds(small, big)
 				.buyIn(startMoney)
+				.botDiff(Difficulty.valueOf(botDiff))
 				.start();
 
         return context;

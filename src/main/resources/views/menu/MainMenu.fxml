@@ -26,8 +26,9 @@
             <Button fx:id="testServer" text="Network Test Server" onAction="#goToTestServer"/>
             <Button fx:id="testClient" text="Network Test Client" onAction="#goToTestClient"/>
             <Button fx:id="viewStatistics" text="View Statistics" onAction="#goToStatistics"/>
-            <Button fx:id="settings" text="Settings" onAction="#goToSettings"/>
             <Button fx:id="replay" text="Replay" onAction="#goToReplay"/>
+            <Button fx:id="settings" text="Settings" onAction="#goToSettings"/>
+            
         </VBox>
     </center>
     <bottom>

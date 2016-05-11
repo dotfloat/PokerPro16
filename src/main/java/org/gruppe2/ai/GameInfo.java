@@ -17,6 +17,15 @@ public class GameInfo {
     private int bigBlind;
     int highestBet;
     List<RoundPlayer> activePlayers;
+    Difficulty difficulty;
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public int getHighestBet() {
         return highestBet;

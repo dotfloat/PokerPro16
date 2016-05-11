@@ -1,6 +1,7 @@
 package org.gruppe2.ui.javafx.menu;
 
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -58,9 +59,12 @@ public class MainMenu extends BorderPane {
     }
 
     public void goToSinglePlayer() throws InterruptedException {
-        Game.autostart();
-        Game.getInstance().join();
-        SceneController.setScene(new GameScene());
+    	Modal.messageBox("Loading", "Game is starting...",false);
+    	Platform.runLater(() -> {
+    		Game.autostart();
+    		Game.getInstance().join();
+    		SceneController.setOnlyThisScene(new GameScene());
+    	});
     }
 
     public void goToTestServer() {

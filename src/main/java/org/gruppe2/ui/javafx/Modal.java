@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -25,26 +26,38 @@ public class Modal {
 
     private Label title;
     private Button closeButton;
-
-    public Modal() {
+    
+    public Modal(boolean canClose) {
+    	
         parent = new Pane();
         borderPane = new BorderPane();
 
         HBox titleBar = new HBox(5);
-        titleBar.setAlignment(Pos.CENTER);
+        titleBar.setAlignment(Pos.CENTER_RIGHT);
 
+        StackPane titlePane = new StackPane();
         title = new Label("Modal Window");
         title.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
+        titlePane.getChildren().add(title);
+        titlePane.setAlignment(Pos.CENTER);
+        HBox.setHgrow(titlePane, Priority.ALWAYS);
 
-        closeButton = new Button("X");
-        closeButton.setOnAction(this::onCloseButtonAction);
-        closeButton.fontProperty().bind(PokerApplication.getApplication().smallFontProperty());
+        ImageView closeImage = new ImageView(getClass().getResource("/images/ui/folded.png").toExternalForm());
+        closeImage.setPreserveRatio(true);
+        closeImage.fitHeightProperty().bind(PokerApplication.getApplication().widthScaleProperty().multiply(18));
+        if(canClose){
+	        closeButton = new Button();
+	        closeButton.setGraphic(closeImage);
+	        closeButton.setOnAction(this::onCloseButtonAction);
+	        HBox.setHgrow(closeButton, Priority.NEVER);
+	        titleBar.getChildren().add(closeButton);
+        }
 
-        titleBar.getChildren().add(title);
-        titleBar.getChildren().add(closeButton);
+        titleBar.getChildren().add(titlePane);
+        
 
         borderPane.setTop(titleBar);
-        borderPane.setStyle("-fx-background-color: blue; -fx-background-radius: 15px");
+        borderPane.setStyle("-fx-background-color: black; -fx-background-radius: 15px");
         borderPane.layoutXProperty().bind(parent.widthProperty().divide(2).subtract(borderPane.widthProperty().divide(2)));
         borderPane.layoutYProperty().bind(parent.heightProperty().divide(2).subtract(borderPane.heightProperty().divide(2)));
 
@@ -52,6 +65,7 @@ public class Modal {
         parent.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 150%, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 50%)");
         parent.getChildren().add(borderPane);
     }
+   
 
     public void setPercentSize(double x, double y) {
         borderPane.prefWidthProperty().bind(parent.widthProperty().multiply(x));
@@ -84,8 +98,8 @@ public class Modal {
             close();
     }
 
-    public static void messageBox(String title, String message) {
-        Modal modal = new Modal();
+    public static void messageBox(String title, String message, boolean canClose) {
+        Modal modal = new Modal(canClose);
         modal.setPercentSize(0.3, 0.1);
         modal.setTitle(title);
         modal.setContent(new Label(message));

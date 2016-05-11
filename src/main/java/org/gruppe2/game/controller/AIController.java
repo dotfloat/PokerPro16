@@ -1,8 +1,6 @@
 package org.gruppe2.game.controller;
 
-import org.gruppe2.ai.AI;
-import org.gruppe2.ai.AdvancedAI;
-import org.gruppe2.ai.GameInfo;
+import org.gruppe2.ai.*;
 import org.gruppe2.game.event.PlayerActionQuery;
 import org.gruppe2.game.helper.GameHelper;
 import org.gruppe2.game.helper.RoundHelper;
@@ -10,7 +8,8 @@ import org.gruppe2.game.session.Handler;
 import org.gruppe2.game.session.Helper;
 
 public class AIController extends AbstractController {
-	private AI ai = new AdvancedAI();
+	private AI ai;
+	private Difficulty difficulty;
 
 	@Helper
 	private GameHelper gameHelper;
@@ -18,6 +17,23 @@ public class AIController extends AbstractController {
 	@Helper
 	private RoundHelper roundHelper;
 
+	@Override
+	public void init() {
+		difficulty = gameHelper.getBotDiff();
+
+		switch (difficulty) {
+			case EASY:
+				ai = new NewDumbAI();
+				break;
+			case MEDIUM:
+			case HARD:
+				ai = new AdvancedAI();
+				break;
+			default:
+				ai = new AdvancedAI();
+				break;
+		}
+	}
 
 	@Handler
 	public void onAction(PlayerActionQuery query) {
@@ -31,6 +47,7 @@ public class AIController extends AbstractController {
         gameInfo.setPossibleActions(roundHelper.getPlayerOptions(query.getPlayer().getUUID()));
         gameInfo.setActivePlayers(roundHelper.getActivePlayers());
         gameInfo.setHighestBet(roundHelper.getHighestBet());
+		gameInfo.setDifficulty(this.difficulty);
 
 		setTask(gameHelper.getWaitTime(), () -> {
 			ai.doAction(query.getPlayer(),

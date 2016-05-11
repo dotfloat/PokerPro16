@@ -1,6 +1,7 @@
 package org.gruppe2.ui.javafx.menu;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javafx.fxml.FXML;
@@ -30,115 +31,116 @@ import org.gruppe2.ui.javafx.ingame.GameScene;
  */
 
 public class Lobby extends BorderPane {
-	MasterClient masterClient;
-	@FXML
-	private TextField search;
-	@FXML
-	private Button refresh;
-	@FXML
-	private CheckBox checkBoxFriends;
-	@FXML
-	private TilePane lobbyTiles;
-	@FXML
-	private BorderPane lobby = this;
-	@FXML
-	private HBox searchBar;
-	@FXML
-	private ImageView createGame;
-	@FXML
-	private ScrollPane scrollPane;
-	@FXML
-	private Pane tile;
+    MasterClient masterClient;
+    @FXML
+    private TextField search;
+    @FXML
+    private Button refresh;
+    @FXML
+    private CheckBox checkBoxFriends;
+    @FXML
+    private TilePane lobbyTiles;
+    @FXML
+    private BorderPane lobby = this;
+    @FXML
+    private HBox searchBar;
+    @FXML
+    private ImageView createGame;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private Pane tile;
 
-	public Lobby() {
-		masterClient = new MasterClient(this);
-		UIResources.loadFXML(this);
-		setSize();
-		
-	}
+    public Lobby() {
+        masterClient = new MasterClient(this);
+        UIResources.loadFXML(this);
+        setSize();
 
-	public void refresh() {
-		masterClient.search();
-	}
+    }
 
-	
+    public void refresh() {
+        while (lobbyTiles.getChildren().size() > 1)
+            lobbyTiles.getChildren().remove(1);
 
-	public void friendBox() {
+        masterClient.search();
+    }
+
+
+    public void friendBox() {
 //		lobbyTiles.getChildren()
 //				.add(new Label("Displaying table with friends"));
-		// TODO display tables with friends in
-	}
+        // TODO display tables with friends in
+    }
 
-	@FXML
-	private void requestCreateGame() {
+    @FXML
+    private void requestCreateGame() {
         CreateGameSettings.show(masterClient);
-	}
+    }
 
-	public void createGame(){
-		Game.getInstance().setContext(masterClient.createNewTable());
-		SceneController.setOnlyThisScene(new GameScene());
-	}
+    public void createGame() {
+        Game.getInstance().setContext(masterClient.createNewTable());
+        SceneController.setOnlyThisScene(new GameScene());
+    }
 
-	
-	public void requestJoinGame(UUID uuid) {
-		masterClient.requestJoinTable(uuid);
-	}
 
-	public void joinGame(){
-		Game.getInstance().setContext(masterClient.joinTable());
-		SceneController.setOnlyThisScene(new GameScene());
-	}
+    public void requestJoinGame(UUID uuid) {
+        masterClient.requestJoinTable(uuid);
+    }
 
-	private void setSize() {
-		searchBar.spacingProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.03));
-		lobby.maxWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.7));
-		lobby.maxHeightProperty().bind(
-				PokerApplication.getRoot().heightProperty().multiply(0.7));
-		scrollPane.maxWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.7));
-		scrollPane.maxHeightProperty().bind(
-				PokerApplication.getRoot().heightProperty().multiply(0.7));
-		search.prefWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.3));
-		refresh.prefWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.1));
-		lobbyTiles.hgapProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.02));
-		lobbyTiles.vgapProperty().bind(
-				PokerApplication.getRoot().heightProperty().multiply(0.02));
-		createGame.fitWidthProperty().bind(
-				PokerApplication.getRoot().widthProperty().multiply(0.13));
-		createGame.preserveRatioProperty().setValue(true);
-	}
+    public void joinGame() {
+        Game.getInstance().setContext(masterClient.joinTable());
+        SceneController.setOnlyThisScene(new GameScene());
+    }
 
-	public void keyListener(KeyEvent event) {
-		if (event.getCode() == KeyCode.ENTER)
-			refresh();
-	}
+    private void setSize() {
+        searchBar.spacingProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.03));
+        lobby.maxWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.7));
+        lobby.maxHeightProperty().bind(
+                PokerApplication.getRoot().heightProperty().multiply(0.7));
+        scrollPane.maxWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.7));
+        scrollPane.maxHeightProperty().bind(
+                PokerApplication.getRoot().heightProperty().multiply(0.7));
+        search.prefWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.3));
+        refresh.prefWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.1));
+        lobbyTiles.hgapProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.02));
+        lobbyTiles.vgapProperty().bind(
+                PokerApplication.getRoot().heightProperty().multiply(0.02));
+        createGame.fitWidthProperty().bind(
+                PokerApplication.getRoot().widthProperty().multiply(0.13));
+        createGame.preserveRatioProperty().setValue(true);
+    }
 
-	
-	public void updateTables(ArrayList<TableEntry> tablesInLobby) {
-		if(tablesInLobby.size() == 0 )return;
-		System.out.println("size of tables: "+tablesInLobby.size());
-		for(int i = 1;i<lobbyTiles.getChildren().size();i++)
-			lobbyTiles.getChildren().remove(i);
-		
-		if (checkBoxFriends.selectedProperty().get()) {
-			// check for tables with friends on
-		}
-		for(TableEntry table : tablesInLobby){
-			
-			String players = table.getCurrentPlayers()+"/"+table.getMaxPlayers();
-			String name = table.getName().isEmpty() ? table.getUUID().toString() : table.getName();
-			
-			lobbyTiles.getChildren().add(new LobbyTable(players, table.getUUID(), name, this));
-		}
-	}
+    public void keyListener(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER)
+            refresh();
+    }
+
+
+    public void updateTables(List<TableEntry> tablesInLobby) {
+        if (tablesInLobby.size() == 0)
+            return;
+
+        if (checkBoxFriends.selectedProperty().get()) {
+            // check for tables with friends on
+        }
+
+        for (TableEntry table : tablesInLobby) {
+
+            String players = table.getCurrentPlayers() + "/" + table.getMaxPlayers();
+            String name = table.getName().isEmpty() ? table.getUUID().toString() : table.getName();
+
+            lobbyTiles.getChildren().add(new LobbyTable(players, table.getUUID(), name, this));
+        }
+    }
 
     public static void show() {
-        Modal modal = new Modal();
+        Modal modal = new Modal(true);
         modal.setPercentSize(0.8, 0.8);
         modal.setContent(new Lobby());
         modal.show();

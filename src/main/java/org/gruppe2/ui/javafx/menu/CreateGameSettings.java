@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import org.gruppe2.Main;
@@ -13,7 +14,7 @@ import org.gruppe2.network.MasterClient;
 import org.gruppe2.ui.UIResources;
 import org.gruppe2.ui.javafx.Modal;
 
-public class CreateGameSettings extends VBox {
+public class CreateGameSettings extends GridPane {
 	MasterClient masterClient;
 	@FXML
 	TextField tableName;
@@ -33,7 +34,7 @@ public class CreateGameSettings extends VBox {
 	public CreateGameSettings(MasterClient masterClient) {
 		UIResources.loadFXML(this);
 		this.masterClient = masterClient;
-        setDefaultSettings();
+		setDefaultSettings();
 
 	}
 
@@ -41,7 +42,12 @@ public class CreateGameSettings extends VBox {
 	private void ok() {
 		if (valuesAreValid()) {
 			saveSettings();
-			masterClient.requestCreateGame(tableName.getText(),smallBlind.getText(),bigBlind.getText(),startMoney.getText(),maxPlayers.getText(),minPlayers.getText());
+			masterClient.requestCreateGame(tableName.getText(),
+					smallBlind.getText(), bigBlind.getText(),
+					startMoney.getText(), maxPlayers.getText(),
+					minPlayers.getText(),botDiff.getSelectionModel()
+					.getSelectedItem()
+					);
 		}
 	}
 
@@ -52,7 +58,8 @@ public class CreateGameSettings extends VBox {
 		Main.setProperty("startMoney", startMoney.getText());
 		Main.setProperty("minPlayers", minPlayers.getText());
 		Main.setProperty("maxPlayers", maxPlayers.getText());
-		
+		Main.setProperty("botDiff", botDiff.getSelectionModel()
+				.getSelectedItem());
 	}
 
 	@FXML
@@ -70,42 +77,41 @@ public class CreateGameSettings extends VBox {
 	}
 
 	public static void show(MasterClient masterClient) {
-		Modal modal = new Modal();
+		Modal modal = new Modal(true);
 		modal.setPercentSize(0.5, 0.5);
 		modal.setContent(new CreateGameSettings(masterClient));
 		modal.show();
 	}
 
-    public void setDefaultSettings() {
-        tableName.setText(Main.getProperty("tableName"));
-        smallBlind.setText(Main.getProperty("smallBlind"));
-        bigBlind.setText(Main.getProperty("bigBlind"));
-        startMoney.setText(Main.getProperty("startMoney"));
-        maxPlayers.setText(Main.getProperty("maxPlayers"));
-        minPlayers.setText(Main.getProperty("minPlayers"));
-        setBotDiff();
-        
-    }
+	public void setDefaultSettings() {
+		tableName.setText(Main.getProperty("tableName"));
+		smallBlind.setText(Main.getProperty("smallBlind"));
+		bigBlind.setText(Main.getProperty("bigBlind"));
+		startMoney.setText(Main.getProperty("startMoney"));
+		maxPlayers.setText(Main.getProperty("maxPlayers"));
+		minPlayers.setText(Main.getProperty("minPlayers"));
+		setBotDiff();
+
+	}
 
 	private void setBotDiff() {
-		
+
 		botDiff.getItems().add("Easy");
 		botDiff.getItems().add("Normal");
 		botDiff.getItems().add("Hard");
-		
+
 		String botDiffFromFile = Main.getProperty("botDiff");
-		
+
 		botDiff.getSelectionModel().select(botDiffFromFile);
-//		if(botDiffFromFile.equals("Easy")){
-//			botDiff.getSelectionModel().select(0);
-//		}
-//		else if(botDiffFromFile.equals("Normal")){
-//			botDiff.getSelectionModel().select(1);
-//		}
-//		else if(botDiffFromFile.equals("Hard")){
-//			botDiff.getSelectionModel().select(2);
-//		}
-		
-      
+		// if(botDiffFromFile.equals("Easy")){
+		// botDiff.getSelectionModel().select(0);
+		// }
+		// else if(botDiffFromFile.equals("Normal")){
+		// botDiff.getSelectionModel().select(1);
+		// }
+		// else if(botDiffFromFile.equals("Hard")){
+		// botDiff.getSelectionModel().select(2);
+		// }
+
 	}
 }

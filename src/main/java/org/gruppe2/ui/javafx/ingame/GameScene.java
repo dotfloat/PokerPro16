@@ -70,7 +70,7 @@ public class GameScene extends Pane {
             Main.savePlayerStatistics(stats);
         }
 
-        Modal.messageBox("Left table", event.getReason());
+        Modal.messageBox("Left table", event.getReason(),true);
     }
 
     @FXML

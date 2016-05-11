@@ -50,7 +50,7 @@ public class Replay extends VBox {
     }
 
     public static void show() {
-        Modal modal = new Modal();
+        Modal modal = new Modal(true);
         modal.setPercentSize(0.8, 0.8);
         modal.setContent(new Replay());
         modal.setTitle("Replay");

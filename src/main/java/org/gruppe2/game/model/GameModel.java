@@ -1,5 +1,6 @@
 package org.gruppe2.game.model;
 
+import org.gruppe2.ai.Difficulty;
 import org.gruppe2.game.Player;
 
 import java.io.Serializable;
@@ -28,7 +29,7 @@ public class GameModel implements Serializable {
     private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
     private final int buyIn;
     private final BotPolicy botPolicy;
-
+    private final Difficulty botDiff;
     private volatile String name = null;
     private volatile int button = 0;
     private volatile boolean waitingForPlayers = false;
@@ -37,7 +38,7 @@ public class GameModel implements Serializable {
     private volatile int waitTime;
     private volatile int roundsCompleted = 0;
 
-    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind, int waitTime) {
+    public GameModel(UUID uuid, int minPlayers, int maxPlayers, int buyIn, BotPolicy botPolicy, int smallBlind, int bigBlind, int waitTime, Difficulty botDiff) {
         this.uuid = uuid;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
@@ -46,6 +47,7 @@ public class GameModel implements Serializable {
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;
         this.waitTime = waitTime;
+        this.botDiff = botDiff;
     }
 
     public UUID getUUID() {
@@ -118,6 +120,10 @@ public class GameModel implements Serializable {
 
     public void setWaitTime(int waitTime) {
         this.waitTime = waitTime;
+    }
+
+    public Difficulty getBotDiff() {
+        return botDiff;
     }
 
     public void apply(GameModel object) {
