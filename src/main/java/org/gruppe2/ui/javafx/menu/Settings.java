@@ -38,6 +38,7 @@ public class Settings extends VBox {
 		modal = new Modal(canClose);
 		modal.setPercentSize(0.5, 0.5);
 		modal.setContent(new Settings());
+		modal.setTitle("Settings: Set name and avatar");
 		modal.show();
 	}
 

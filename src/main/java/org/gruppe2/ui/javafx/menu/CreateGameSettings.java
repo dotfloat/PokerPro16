@@ -107,15 +107,6 @@ public class CreateGameSettings extends GridPane {
         String botDiffFromFile = Main.getProperty("botDiff");
 
         botDiff.getSelectionModel().select(botDiffFromFile);
-        // if(botDiffFromFile.equals("Easy")){
-        // botDiff.getSelectionModel().select(0);
-        // }
-        // else if(botDiffFromFile.equals("Normal")){
-        // botDiff.getSelectionModel().select(1);
-        // }
-        // else if(botDiffFromFile.equals("Hard")){
-        // botDiff.getSelectionModel().select(2);
-        // }
 
     }
 }
