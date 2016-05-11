@@ -37,6 +37,14 @@ public class Resources {
         return getDefaultUserDir();
     }
 
+    public static String getUserDir(String dir) {
+        String path = getUserDir() + dir + File.separator;
+
+        new File(path).mkdirs();
+
+        return path;
+    }
+
     public static String[] listAvatars() {
         List<String> avatars = new ArrayList<>();
 

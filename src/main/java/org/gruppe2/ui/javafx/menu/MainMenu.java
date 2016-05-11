@@ -98,9 +98,7 @@ public class MainMenu extends BorderPane {
     }
 
     public void goToReplay() {
-        Game.getInstance().setContext(Session.start(ReplaySession.class));
-        SceneController.setScene(new GameScene());
-        //Replay.show();
+        Replay.show();
     }
 
     private void fadeIn() {
