@@ -36,8 +36,9 @@ public class PlayerInfoBox extends BorderPane {
     private UUID playerUUID = null;
 
     Player player;
-    
-    ProgressBarCountDown countDownBar = new ProgressBarCountDown();
+
+    @FXML
+    private ProgressBarCountDown progressBar;
     private ObjectProperty<Font> font = new SimpleObjectProperty<>();
 
     @Helper
@@ -62,7 +63,6 @@ public class PlayerInfoBox extends BorderPane {
     PlayerInfoBox() {
         UIResources.loadFXML(this);
         Game.setAnnotated(this);
-        this.setBottom(countDownBar);
         
     }
 
@@ -137,7 +137,7 @@ public class PlayerInfoBox extends BorderPane {
     @Handler
     public void onPreAction(PlayerPreActionEvent event) {
         if (event.getPlayer().getUUID().equals(playerUUID)) {
-        	countDownBar.startProgressBarTimer();
+        	progressBar.startProgressBarTimer();
             fold.setVisible(false);
             lastAction.setVisible(false);
             isActive = true;
@@ -152,7 +152,7 @@ public class PlayerInfoBox extends BorderPane {
     public void onPostAction(PlayerPostActionEvent event) {
         if (!event.getPlayer().getUUID().equals(playerUUID))
             return;
-        countDownBar.stopProgressBar();
+        progressBar.stopProgressBar();
         bank.setText(String.valueOf(event.getPlayer().getBank()));
         bet.setText(String.valueOf(event.getRoundPlayer().getBet()));
 
@@ -170,7 +170,7 @@ public class PlayerInfoBox extends BorderPane {
     	bet.setText("0");
     	if(player != null)
     		bank.setText(String.valueOf(player.getBank()));
-    	countDownBar.stopProgressBar();
+    	progressBar.stopProgressBar();
     }
 
     public boolean isPlayerActive() {

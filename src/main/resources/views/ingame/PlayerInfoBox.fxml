@@ -6,10 +6,20 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.gruppe2.ui.javafx.PokerApplication?>
+<?import org.gruppe2.ui.javafx.ingame.ProgressBarCountDown?>
 <fx:root type="javafx.scene.layout.BorderPane" fx:id="this" styleClass="pane"
          xmlns:fx="http://javafx.com/fxml"
          onMouseClicked="#viewStatistic"
          visible="false" onMouseMoved="#hover" onMouseExited="#noHover">
+
+    <fx:define>
+        <PokerApplication fx:factory="getApplication" fx:id="app"/>
+        <PokerApplication fx:factory="getRoot" fx:id="root"/>
+    </fx:define>
+    <top>
+        <ProgressBarCountDown fx:id="progressBar" visible="true" style="-fx-background-color: transparent" prefWidth="${this.prefWidth*0.8}"/>
+    </top>
 
     <left>
         <StackPane fx:id="imagePane" alignment="CENTER" maxHeight="${this.maxHeight}">
