@@ -9,7 +9,18 @@ public class AdvancedAI implements AI {
 
 	@Override
 	public void doAction(Player player, RoundPlayer roundPlayer, GameInfo gameInfo) {
-		final int iterations = 1;
+		int iterations;
+		switch (gameInfo.difficulty){
+		case EASY :
+			iterations=1;
+		case NORMAL :
+			iterations=20;
+			break;
+		case HARD :
+		default :
+			iterations=1000;
+		
+		}
 		AITurnSimulator turnSim = new AITurnSimulator();
 		PossibleActions possibleActions = gameInfo.getPossibleActions();
 		double bank, handStrength, handStrengthExponential, toRaise, raiseRatio = 1, risk, 
