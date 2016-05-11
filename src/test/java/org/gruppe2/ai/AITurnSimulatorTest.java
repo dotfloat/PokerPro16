@@ -31,11 +31,12 @@ public class AITurnSimulatorTest {
 	
 	@Test
 	public void higherChanceOfWinningWithLessPlayersTest(){
+		int turns = 20;
 		AITurnSimulator aits = new AITurnSimulator();
 		RoundPlayer rp = new RoundPlayer(null,new Card(5,Suit.CLUBS),new Card(5,Suit.DIAMONDS));
 		ArrayList<Card> communityCards = new ArrayList<Card>();
-		double winChanceWithTwoPlayers = aits.getHandStregth(rp,communityCards, 1000, 1);
-		double winChanceWithEightPlayers = aits.getHandStregth(rp,communityCards, 1000, 7);
+		double winChanceWithTwoPlayers = aits.getHandStregth(rp,communityCards, turns, 1);
+		double winChanceWithEightPlayers = aits.getHandStregth(rp,communityCards, turns, 7);
 		System.out.println(winChanceWithEightPlayers +">"+winChanceWithTwoPlayers);
 		assertTrue(winChanceWithTwoPlayers>winChanceWithEightPlayers);
 	}
