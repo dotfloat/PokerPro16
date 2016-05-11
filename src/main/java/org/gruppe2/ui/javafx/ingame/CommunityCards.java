@@ -18,10 +18,11 @@ import org.gruppe2.game.event.RoundEndEvent;
 import org.gruppe2.game.event.RoundStartEvent;
 import org.gruppe2.game.session.Handler;
 import org.gruppe2.ui.UIResources;
+
 /**
  * Class used to recieve community cards and create animations for them.
- * @author htj063
  *
+ * @author htj063
  */
 public class CommunityCards extends HBox {
     private List<ImageView> imageViews = new ArrayList<>();
@@ -37,7 +38,7 @@ public class CommunityCards extends HBox {
             imageView.fitWidthProperty().bind(maxWidthProperty().divide(5));
             imageView.fitHeightProperty().bind(maxHeightProperty());
             imageView.setSmooth(true);
-            if (i==0) imageView.setVisible(true);
+            if (i == 0) imageView.setVisible(true);
             else imageView.setVisible(false);
 
             imageViews.add(imageView);
@@ -46,7 +47,10 @@ public class CommunityCards extends HBox {
 
         //setVisible(false);
     }
-    /** Guess we only need to reset images in {@link #onRoundEnd(RoundEndEvent)}. */
+
+    /**
+     * Guess we only need to reset images in {@link #onRoundEnd(RoundEndEvent)}.
+     */
     @Handler
     public void onRoundStart(RoundStartEvent event) {
         resetImages();
@@ -54,22 +58,14 @@ public class CommunityCards extends HBox {
 
     @Handler
     public void onCommunityCards(CommunityCardsEvent event) {
-        //resetImages();
-        //setVisible(true);
-
-        /*for (int i = 0; i < event.getCards().size(); i++) {
-            imageViews.get(i).setImage(UIResources.getCard(event.getCards().get(i)));
-        }*/
         List<Card> cards = new ArrayList<>(event.getCards());
-        cards.remove(0);
+
         communityCardsFlip(cards);
     }
 
-    
-
     private void resetImages() {
-        for (int i=0;i<imageViews.size();i++){
-            if (i==0) continue;
+        for (int i = 0; i < imageViews.size(); i++) {
+            if (i == 0) continue;
             imageViews.get(i).setImage(UIResources.getCardBack());
             imageViews.get(i).setVisible(false);
         }
@@ -78,29 +74,28 @@ public class CommunityCards extends HBox {
     private void communityCardsFlip(List<Card> cardList) {
         ArrayList<ImageView> cards = new ArrayList<>();
         for (Card c : cardList) cards.add(new ImageView(UIResources.getCard(c)));
-        if (cards.size() == 3){
+        if (cards.size() == 3) {
             SequentialTransition sequentialTransition = new SequentialTransition();
-            for (int i=0;i<3;i++){
-                sequentialTransition.getChildren().add(flipCommunityCards(getChildren().get(i+1), cards.get(i)));
+            for (int i = 0; i < 3; i++) {
+                sequentialTransition.getChildren().add(flipCommunityCards(getChildren().get(i + 1), cards.get(i)));
             }
             sequentialTransition.play();
             sequentialTransition.setOnFinished(clearNodes -> {
                 sequentialTransition.getChildren().removeAll(sequentialTransition.getChildren());
             });
-        }else if (cards.size() == 4){
+        } else if (cards.size() == 4) {
             SequentialTransition sequentialTransition = new SequentialTransition(flipCommunityCards(getChildren().get(4), cards.get(3)));
             sequentialTransition.play();
             sequentialTransition.setOnFinished(clearNodes -> {
                 sequentialTransition.getChildren().removeAll(sequentialTransition.getChildren());
             });
 
-        }else if (cards.size() == 5){
+        } else if (cards.size() == 5) {
             SequentialTransition sequentialTransition = new SequentialTransition(flipCommunityCards(getChildren().get(5), cards.get(4)));
             sequentialTransition.play();
             sequentialTransition.setOnFinished(clearNodes -> {
                 sequentialTransition.getChildren().removeAll(sequentialTransition.getChildren());
             });
-
         }
     }
 

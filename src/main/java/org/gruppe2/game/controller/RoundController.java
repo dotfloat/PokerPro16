@@ -44,6 +44,7 @@ public class RoundController extends AbstractController {
     private ArrayList<UUID> raiseStory = new ArrayList<>();
     private TimerTask autoFold = null;
     private boolean endRound = false;
+    private boolean waitForNewRound = false;
 
     @Override
     public void update() {
@@ -62,7 +63,7 @@ public class RoundController extends AbstractController {
             }
         }
 
-        if (round.isPlaying()) {
+        if (round.isPlaying() && !waitForNewRound) {
             if (round.getActivePlayers().size() == 1) {
                 roundEnd();
                 return;
@@ -333,12 +334,8 @@ public class RoundController extends AbstractController {
             logger.incrementRound(round.getCommunityCards());
 
             if (round.getCommunityCards().size() > 0) {
-                try {
-                    //Wait for gui
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                waitForNewRound = true;
+                setTask(500, () -> waitForNewRound = false);
             }
         }
     }
@@ -439,13 +436,8 @@ public class RoundController extends AbstractController {
         game.setButton((game.getButton() + 1) % game.getPlayers().size());
         game.setRoundsCompleted(game.getRoundsCompleted() + 1);
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         roundStart();
+        timeToStart = LocalDateTime.now().plusSeconds(10);
     }
 
     private void resetDeck() {
