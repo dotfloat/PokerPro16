@@ -4,6 +4,7 @@ import org.gruppe2.Resources;
 import org.gruppe2.game.event.Event;
 import org.gruppe2.game.model.GameModel;
 import org.gruppe2.game.model.RoundModel;
+import org.gruppe2.game.session.Handler;
 
 import java.io.*;
 
@@ -31,8 +32,6 @@ public class RecordController extends AbstractController {
         try {
             stream = new FileOutputStream(Resources.getUserDir() + File.separator + "demo.pp16");
 
-            getContext().getEventQueue().setGenericHandler(this::onEvent);
-
             writeObject(getModel(GameModel.class));
             writeObject(getModel(RoundModel.class));
         } catch (FileNotFoundException e) {
@@ -40,6 +39,7 @@ public class RecordController extends AbstractController {
         }
     }
 
+    @Handler
     private void onEvent(Event event) {
         if (stream == null)
             return;

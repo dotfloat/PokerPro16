@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public class GameModel implements Serializable {
 
+    private static final long serialVersionUID = -2147302592353293245L;
+
     public String getName() {
         return name;
     }
