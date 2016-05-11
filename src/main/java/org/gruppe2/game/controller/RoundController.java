@@ -378,7 +378,7 @@ public class RoundController extends AbstractController {
 
                 sidePots.remove(highestBetPot);
             }
-
+          
             List<RoundPlayer> winners = showdown.getWinnersOfRound(round.getActivePlayers(), round.getCommunityCards());
             List<List<UUID>> potWinners = new ArrayList<>();
             Map<UUID, Integer> winnerTotals = new HashMap<>();
