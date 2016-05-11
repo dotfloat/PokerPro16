@@ -332,14 +332,12 @@ public class RoundController extends AbstractController {
 
             logger.incrementRound(round.getCommunityCards());
 
-            /*
             try {
                 //Wait for gui
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            */
         }
     }
 
@@ -356,7 +354,7 @@ public class RoundController extends AbstractController {
             Player winner = op.get();
             winner.setBank(winner.getBank() + round.getPot());
             round.setPot(0);
-            addEvent(new PlayerWonEvent(winner));
+            addEvent(new PlayerWonEvent(new ArrayList<Player>(Collections.singletonList(winner)), new ArrayList<Integer>(Collections.singletonList(round.getPot()))));
         }
         else {
             List<SidePot> sidePots = round.calculateSidePots();
@@ -416,6 +414,9 @@ public class RoundController extends AbstractController {
                 }
             }
 
+
+            List<Player> allWinners = new ArrayList<>();
+            List<Integer> chips = new ArrayList<>();
             round.setPot(0);
             for (UUID id : winnerTotals.keySet()) {
                 Optional<Player> op = game.findPlayerByUUID(id);
@@ -424,12 +425,12 @@ public class RoundController extends AbstractController {
                     throw new NoSuchElementException("Can't find winning player");
 
                 Player winner = op.get();
+                allWinners.add(winner);
+                chips.add(winnerTotals.get(id));
                 winner.setBank(winner.getBank() + winnerTotals.get(id));
-
-                if (winnerTotals.keySet().size() == 1) {
-                    addEvent(new PlayerWonEvent(winner));
-                }
             }
+
+            addEvent(new PlayerWonEvent(allWinners, chips));
         }
 
         logger.writeToFile();

@@ -76,7 +76,9 @@ public class GameScene extends Pane {
     @Handler
     public void onPlayerWon(PlayerWonEvent event){
         getChildren().add(new ConfettiOrMoney(100, true));
-        String text = event.getPlayer().getName() + " won the Round!";
+        String text = "";
+        for (int i = 0; i < event.getPlayers().size(); i ++)
+            text += event.getPlayers().get(i) + " has won " + event.getChips().get(i) + " chips! \n";
         Label label = new Label(text);
         SceneController.setFadingModal(label);
         SoundPlayer.playVictoryMusic();
