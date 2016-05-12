@@ -32,7 +32,7 @@ public class Credits extends StackPane{
         nodes.add(new Label("Åsmund Hammer"));
         nodes.add(new Label("Petter Thorgersen"));
         nodes.add(new Label("Zohar Malamant"));
-        nodes.add(new Label("Mikal Nausdal"));
+        nodes.add(new Label("Mikal Naustdal"));
         nodes.add(new Label("Cem S. Pedersen"));
         nodes.add(new Label("Andreas T. Ommundsen"));
         nodes.add(new Label("Svein Høgemo"));
