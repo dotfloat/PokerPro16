@@ -87,11 +87,13 @@ public class ThisPlayerInfoBox extends VBox {
             return;
 
         setVisible(false);
+        progressBar.stopProgressBar();
     }
 
     @Handler
     public void onRoundStart(RoundStartEvent e) {
         fold.setVisible(false);
+        progressBar.stopProgressBar();
     }
 
     @Handler
