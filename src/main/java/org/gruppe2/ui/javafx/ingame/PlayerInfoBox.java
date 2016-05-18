@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import org.gruppe2.game.Action;
 import org.gruppe2.game.Player;
 import org.gruppe2.game.RoundPlayer;
+import org.gruppe2.game.event.PlayerLeaveEvent;
 import org.gruppe2.game.event.PlayerPostActionEvent;
 import org.gruppe2.game.event.PlayerPreActionEvent;
 import org.gruppe2.game.event.PlayerWonEvent;
@@ -175,6 +176,15 @@ public class PlayerInfoBox extends VBox {
     	if(player != null)
     		bank.setText(String.valueOf(player.getBank()));
     	progressBar.stopProgressBar();
+    }
+    
+    @Handler
+    public void onPlayerLeave(PlayerLeaveEvent e) {
+        if (!e.getPlayer().getUUID().equals(playerUUID))
+            return;
+
+        setVisible(false);
+        progressBar.stopProgressBar();
     }
 
     public boolean isPlayerActive() {
